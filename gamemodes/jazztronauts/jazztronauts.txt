@@ -1,0 +1,7 @@
+"jazztronauts"
+{
+	"base"			"base"
+	"title"			"Jazztronauts"
+	"menusystem" 	"1"
+	"maps" 			"jazz_bar"
+}

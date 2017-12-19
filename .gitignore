@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+
+# Allow everything in the jazztronauts/other directory
+!*/
+!/gamemodes/jazztronauts/**
+!/other/**

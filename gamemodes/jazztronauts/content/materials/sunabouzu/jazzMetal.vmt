@@ -1,0 +1,12 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "sunabouzu/jazzMetal_a"
+	"$bumpmap" "sunabouzu/jazzMetal_n"
+	"$surfaceprop" "Metal"
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[ .05 .05 .05 ]"
+	"$normalmapalphaenvmapmask" 1
+	"$envmapcontrast"	.5
+	"$envmapsaturation" .25
+	"%keywords" "jazz"
+}

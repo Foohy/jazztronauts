@@ -1,0 +1,12 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "sunabouzu/jazzWoodFloor02_a"
+	"$bumpmap" "sunabouzu/jazzWoodFloor02_n"
+	"$surfaceprop" "Wood_Solid"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$envmapcontrast" 1
+	"$envmapsaturation" .7
+	"$envmaptint" "[ .72 .72 .72 ]"
+	"%keywords" "jazz"
+}

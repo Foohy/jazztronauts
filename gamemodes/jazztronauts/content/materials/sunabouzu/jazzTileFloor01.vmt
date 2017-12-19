@@ -1,0 +1,12 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "sunabouzu/jazzTileFloor01_a"
+	"$bumpmap" "sunabouzu/jazzTileFloor01_n"
+	"$surfaceprop" "Tile"
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[ 0.5 0.5 0.5 ]"
+	"$envmapcontrast"	.5
+	"$envmapsaturation" .5
+	"$normalmapalphaenvmapmask" 1
+	"%keywords" "jazz"
+}

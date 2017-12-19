@@ -1,6 +1,6 @@
 "jazztronauts"
 {
-	"base"			"base"
+	"base"			"sandbox"
 	"title"			"Jazztronauts"
 	"menusystem" 	"1"
 	"maps" 			"jazz_bar"

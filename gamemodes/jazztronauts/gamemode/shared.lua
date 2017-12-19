@@ -1,5 +1,7 @@
 include( 'player.lua' )
 
+DeriveGamemode("sandbox")
+
 GM.Name     = "Jazztronauts"
 GM.Author   = "Snakefuck Mountain"
 

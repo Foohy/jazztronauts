@@ -12,6 +12,8 @@ function GM:Initialize()
 	self.BaseClass:Initialize()
 
 	RunConsoleCommand("sv_loadingurl", "http://host.foohy.net/public/Documents/Jazz/index.html")
+
+	mapcontrol.SetupMaps()
 end
 
 function GM:InitPostEntity()
@@ -22,6 +24,9 @@ end
 
 function GM:PlayerInitialSpawn( ply )
 	self.BaseClass:PlayerInitialSpawn(ply)
+
+	-- Update the new player with the current map selection state
+	mapcontrol.Refresh(ply)
 end
 
 function GM:PlayerSpawn( ply )

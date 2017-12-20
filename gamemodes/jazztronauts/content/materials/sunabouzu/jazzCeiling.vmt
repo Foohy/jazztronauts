@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "sunabouzu/jazzCeiling_A"
+	"$bumpmap" "sunabouzu/jazzCeiling_N"
+	"$surfaceprop" "plastic"
+	"%keywords" "jazz"
+}

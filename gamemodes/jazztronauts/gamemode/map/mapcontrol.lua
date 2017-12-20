@@ -7,6 +7,10 @@ function GetMap()
 	return curSelected
 end
 
+function IsInHub()
+	return game.GetMap() == "jazz_bar"
+end
+
 
 if SERVER then
 	util.AddNetworkString("jazz_rollmap")
@@ -50,6 +54,7 @@ if SERVER then
 	end
 
 else //CLIENT
+
 	net.Receive("jazz_rollmap", function(len, ply)
 		curSelected = net.ReadString()
 
@@ -58,4 +63,6 @@ else //CLIENT
 		-- Broadcast update
 		hook.Call("JazzMapRandomized", GAMEMODE, curSelected)
 	end )
+
+
 end

@@ -1,3 +1,7 @@
+include( "shared.lua" )
+include( "ui/init.lua" )
+include( "map/mapcontrol.lua" )
+
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_scoreboard.lua" )
 AddCSLuaFile( "player.lua" )
@@ -5,8 +9,6 @@ AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "map/mapcontrol.lua")
 
 AddCSLuaFile( "cl_hud.lua" )
-include( "shared.lua" )
-include("map/mapcontrol.lua")
 
 function GM:Initialize()
 	self.BaseClass:Initialize()

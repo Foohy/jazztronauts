@@ -2,6 +2,7 @@ include( "shared.lua" )
 include( "cl_scoreboard.lua" )
 include( "cl_hud.lua" )
 include( "map/mapcontrol.lua" )
+include( "ui/cl_init.lua" )
 
 GM.HideHUD = {
 	"CHudHealth",

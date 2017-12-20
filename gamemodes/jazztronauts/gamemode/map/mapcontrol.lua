@@ -1,8 +1,8 @@
 
 module( 'mapcontrol', package.seeall )
 
-local curSelected = "gm_construct"
-local mapList = {}
+curSelected = curSelected or "gm_construct"
+mapList = mapList or {}
 function GetMap()
 	return curSelected
 end
@@ -22,6 +22,8 @@ if SERVER then
 	function SetSelectedMap(newMap)
 		if newMap == curSelected then return end
 		curSelected = newMap
+
+		hook.Call("JazzMapRandomized", GAMEMODE, curSelected)
 
 		net.Start("jazz_rollmap")
 			net.WriteString(curSelected)

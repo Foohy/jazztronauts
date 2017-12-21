@@ -19,14 +19,14 @@ function ENT:Initialize()
 
 	-- Hook into map change events
 	if SERVER then
-		hook.Add("JazzMapRandomized", "SpawnBusHook", function(newmap)
-			self:OnMapChanged(newmap)
+		hook.Add("JazzMapRandomized", "SpawnBusHook", function(newmap, wsid)
+			self:OnMapChanged(newmap, wsid)
 		end )
 	end
 end
 
-function ENT:OnMapChanged(newmap)
-	local ang = self:GetAngles() + Angle(0, -90, 0)
+function ENT:OnMapChanged(newmap, wsid)
+	local ang = self:GetAngles()
 
 	local bus = ents.Create( "ent_bus_hub" )
 	local busOff = Vector(self.BusOffset)
@@ -35,6 +35,7 @@ function ENT:OnMapChanged(newmap)
 	bus:SetPos(self:GetPos() + busOff)
 	bus:SetAngles(ang)
 	bus:SetDestination(newmap)
+	bus:SetWorkshopID(wsid)
 	bus:Spawn()
 
 	print(newmap)

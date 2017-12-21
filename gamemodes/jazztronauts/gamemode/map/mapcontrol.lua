@@ -61,7 +61,7 @@ if SERVER then
 	end
 
 	function Launch(mapname)
-		//idk man
+		RunConsoleCommand("changelevel", mapname)
 	end
 
 	-- Build the list of maps given what we've already played and what's installed

@@ -1,0 +1,16 @@
+@include "base.fgd"
+@include "halflife2.fgd"
+
+@PointClass base(Targetname) iconsprite("editor/lua_run.vmt") = jazz_dialog : "Runs Lua Code"
+[
+	spawnflags(flags) =
+	[
+		1  : "SendToAllPlayers"				: 1
+	]
+
+	camera_reference(target_destination) 	: "Camera" : "" : "Reference entity to inform where camera should be placed"
+	script(string)							: "Script" : "" : "Script to run"
+	
+	input Start(void)  : "Starts Dialog"
+	input Cancel(void) : "Cancels Dialog sequence"
+]

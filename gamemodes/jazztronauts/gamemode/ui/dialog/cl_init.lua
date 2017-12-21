@@ -1,5 +1,7 @@
 print("DIALOG CL_INIT")
 
+include("shared.lua")
+
 local ScrW = ScrW
 local ScrH = ScrH
 local draw = draw
@@ -9,14 +11,21 @@ local string = string
 local FrameTime = FrameTime
 local print = print
 local pairs = pairs
+local net = net
+local util = util
+local tostring = tostring
+local LocalPlayer = LocalPlayer
 
 local STATE_IDLE = 0
 local STATE_OPENING = 1
 local STATE_OPENED = 2
 local STATE_PRINTING = 3
-local STATE_CHOOSE = 4
-local STATE_DONECHOOSE = 5
-local STATE_CLOSING = 6
+local STATE_DONEPRINTING = 4
+local STATE_CHOOSE = 5
+local STATE_DONECHOOSE = 6
+local STATE_CLOSING = 7
+local STATE_WAIT = 8
+local STATE_EXEC = 9
 
 local _dialog = {
 	options = {},
@@ -25,12 +34,13 @@ local _dialog = {
 	duration = 1,
 	text = "Hello There",
 	printed = "",
-	caret = 1,
 	open = 0,
-	state = STATE_OPENING,
+	nodeiter = nil,
 }
 
 module("dialog")
+
+Init()
 
 surface.CreateFont( "DialogFont", {
 	font = "Arial", -- Use the font-name which is shown to you by your operating system Font Viewer, not the file name
@@ -56,13 +66,13 @@ local DT = nil
 local Done = nil
 local Time = nil
 
-local function CalcTextRect()
+local function CalcTextRect( str )
 
 	surface.SetFont( DialogFont )
 
 	local bw, bh = 0, 0
 	local sh = 0
-	local lines = string.Explode( "\n", _dialog.text )
+	local lines = string.Explode( "\n", str or _dialog.text )
 	for _, line in pairs(lines) do
 		local w,h = surface.GetTextSize( line )
 		bw = math.max(w, bw)
@@ -76,10 +86,11 @@ local function CalcTextRect()
 
 end
 
-function Start( text, delay, options, character )
+function Start( text, delay )
 
 	_dialog.text = text
-	State( STATE_OPENING, -(delay or 0) )
+	_dialog.printed = ""
+	State( STATE_OPENING, delay )
 
 	CalcTextRect()
 
@@ -87,6 +98,8 @@ function Start( text, delay, options, character )
 end
 
 local function DrawTextArea( width, height )
+
+	if _dialog.open == 0 then return end
 
 	local open = math.sin( _dialog.open * math.pi / 2 )
 	open = math.sqrt(open)
@@ -121,22 +134,37 @@ end
 local edges = {
 	[STATE_OPENING] = function(d) _ = Done() and State( STATE_OPENED ) end,
 	[STATE_OPENED] = function(d) _ = Done() and State( STATE_PRINTING ) end,
-	[STATE_PRINTING] = function(d) _ = Done() and State( string.len(d.text) == string.len(d.printed) and STATE_CHOOSE or STATE_PRINTING ) end,
+	[STATE_PRINTING] = function(d) _ = Done() and State( string.len(d.text) == 0 and STATE_DONEPRINTING or STATE_PRINTING ) end,
 	[STATE_CHOOSE] = function(d) _ = Done() and State( STATE_DONECHOOSE ) end,
 	[STATE_DONECHOOSE] = function(d) State( STATE_CLOSING ) end,
 	[STATE_CLOSING] = function(d) _ = Done() and State( STATE_IDLE ) end,
+	[STATE_WAIT] = function(d) _ = Done() and State( d.nextstate ) end,
+	[STATE_EXEC] = function(d) end,
 }
 
 local inits = {
-	[STATE_OPENING] = function(d) d.rate = 2 d.caret = 1 end,
-	[STATE_OPENED] = function(d) d.rate = 12 end,
+	[STATE_OPENING] = function(d) d.rate = 2 d.printed = "" end,
+	[STATE_OPENED] = function(d) d.rate = 12 d.nodeiter() end,
 	[STATE_PRINTING] = function(d)
 		d.rate = 60
-		d.printed = d.printed .. d.text:sub(d.caret, d.caret)
-		d.caret = d.caret + 1
+		d.printed = d.printed .. d.text[1]
+		d.text = d.text:sub(2,-1)
+	end,
+	[STATE_DONEPRINTING] = function(d)
+		d.nodeiter()
 	end,
 	[STATE_CHOOSE] = function(d) d.rate = 1 end,
 	[STATE_CLOSING] = function(d) d.rate = 2 d.printed = "" end,
+	[STATE_EXEC] = function(d)
+		print("ENTRY EXEC")
+
+		if d.exec == "shake_screen" then
+			util.ScreenShake( LocalPlayer():GetPos(), 8, 8, 1, 5000 )
+			surface.PlaySound( "garrysmod/save_load4.wav" )
+		end
+
+		d.nodeiter()
+	end,
 }
 
 local ticks = {
@@ -153,13 +181,22 @@ Time = function( newtime )
 
 end
 
-State = function( newstate, newtime )
+State = function( newstate, wait )
 
 	if not newstate then return _dialog.state end
 
-	Time( newtime or 0 )
+	if wait then
+		_dialog.state = STATE_WAIT
+		_dialog.rate = 1/wait
+		_dialog.nextstate =  newstate
+		return _dialog
+	end
+
+	Time( 0 )
 	_dialog.state = newstate
 	_ = ( inits[ newstate ] or nop )( _dialog )
+
+	return _dialog
 
 end
 
@@ -189,9 +226,65 @@ function PaintAll()
 
 end
 
+local function ScriptCallback(cmd, data)
+
+	print(tostring(cmd) .. " " .. tostring(data))
+	if cmd == CMD_JUMP then
+		State( STATE_OPENING, 2 )
+		return data
+	end
+	if cmd == CMD_LAYOUT then
+		CalcTextRect( data )
+	end
+	if cmd == CMD_PRINT then
+		_dialog.text = data
+		State( STATE_PRINTING )
+	end
+	if cmd == CMD_NEWLINE then
+		_dialog.text = "\n"
+		State( STATE_PRINTING )
+	end
+	if cmd == CMD_WAIT then
+		State( STATE_PRINTING, .2 )
+	end
+	if cmd == CMD_OPTIONLIST then
+		State( STATE_CLOSING, 2 )
+	end
+	if cmd == CMD_EXIT then
+		State( STATE_CLOSING, 2 )
+	end
+	if cmd == CMD_EXEC then
+		_dialog.exec = data
+		State( STATE_EXEC, .1 )
+	end
+
+end
+
+net.Receive( "dialog_dispatch", function( len, ply )
+
+	local script = util.NetworkIDToString( net.ReadUInt( 16 ) )
+	local camera = nil
+
+	if net.ReadBit() then camera = net.ReadEntity() end
+	if script == nil then script = "<no script>" end
+
+	CalcTextRect("")
+	_dialog.text = ""
+	State( STATE_OPENING )
+
+	_dialog.nodeiter = EnterGraph( script, ScriptCallback )
+	--nodeiter()
+	--nodeiter()
+
+	--Start( , 0 )
+
+end )
+
+/*
 Start(
 [[thanks jeeves did you hear me ask for the sparknotes link
 this is why your search engine is dead jeeves,
 this is why google dropped don't be evil as their motto
 your insistence upon triviasplaining]]
 , 5)
+*/

@@ -1,0 +1,13 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/jazzbooth_A"
+	"$envmapmask" "models/sunabouzu/jazzbooth_s"
+	"$surfaceprop" "carpet"
+	"%keywords" "jazz"
+    	"$envmap" "env_cubemap"
+//	"$basealphaenvmapmask" 1
+	"$envmaptint" .35 .35 .35
+//	"$envmapcontrast" .3 .3 .3
+	"$envmapsaturation" .7
+	"$nodecal" 1
+}

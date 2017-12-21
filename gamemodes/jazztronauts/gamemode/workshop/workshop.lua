@@ -95,7 +95,18 @@ end
 function FetchThumbnail(addon, func)
 	steamworks.Download(addon.previewid, true, function(name)
         if name != nil then
-		    func(AddonMaterial(name))
+			local mat = AddonMaterial(name)
+
+			-- Sometimes it likes to throw you a curveball and not work
+			local baseTex = mat:GetTexture("$basetexture")
+			if baseTex == nil then 
+			
+				-- But just trying it again fixes it....
+				print("preview image invalid, reloading...")
+				mat = AddonMaterial(name)
+			end
+
+		    func(mat)
         end
 	end )
 end

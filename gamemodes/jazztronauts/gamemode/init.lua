@@ -6,6 +6,7 @@ AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_scoreboard.lua" )
 AddCSLuaFile( "player.lua" )
 AddCSLuaFile( "shared.lua" )
+AddCSLuaFile( "workshop/workshop.lua" )
 
 AddCSLuaFile( "cl_hud.lua" )
 

@@ -94,6 +94,8 @@ end
 -- Async fetch the thumbnail for the provided workshop addon
 function FetchThumbnail(addon, func)
 	steamworks.Download(addon.previewid, true, function(name)
-		func(AddonMaterial(name))
+        if name != nil then
+		    func(AddonMaterial(name))
+        end
 	end )
 end

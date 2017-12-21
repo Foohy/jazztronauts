@@ -14,5 +14,6 @@ GM.HideHUD = {
 }
 
 function GM:HUDShouldDraw( name )
-	return !table.HasValue(self.HideHUD, name)
+	
+	return !mapcontrol.IsInHub() or !table.HasValue(self.HideHUD, name)
 end

@@ -19,8 +19,11 @@ function ENT:Initialize()
 
 	-- Hook into map change events
 	if SERVER then
-		hook.Add("JazzMapRandomized", "SpawnBusHook", function(newmap, wsid)
-			self:OnMapChanged(newmap, wsid)
+		hook.Add("JazzMapRandomized", self, function(self, newmap, wsid)
+			if self.LastMap != newmap then -- Hotreload fix
+				self.LastMap = newmap
+				self:OnMapChanged(newmap, wsid)
+			end
 		end )
 	end
 end

@@ -28,6 +28,14 @@ function ENT:Initialize()
 	self:RefreshWorkshopInfo()
 end
 
+
+function ENT:StartLaunchEffects()
+	print("Starting clientside launch")
+	self.IsLaunching = true
+	self.StartLaunchTime = CurTime()
+	LocalPlayer().LaunchingBus = self
+end
+
 function ENT:RefreshWorkshopInfo()
 	if self:GetWorkshopID() == 0 then return end
 
@@ -55,7 +63,6 @@ function ENT:RefreshWorkshopInfo()
 		-- Also try grabbing the thumbnail material
 		workshop.FetchThumbnail(result, function(material)
 			if !self then return end
-
 			self.ThumbnailMat = material
 		end )
 	end )
@@ -128,14 +135,70 @@ function ENT:Draw()
 
 	self:DrawSideInfo()
 	self:DrawRearInfo()
-
 end
 
 function ENT:Think()
-
+	if self.IsLaunching then 
+		local factor = (CurTime() -  self.StartLaunchTime) * 10
+		util.ScreenShake(LocalPlayer():GetPos(), factor, 5, 0.01, 100) 
+	end
 end
 
 function ENT:OnRemove()
-
+	if self.IsLaunching then
+		
+		LocalPlayer():SetDSP(25)
+		LocalPlayer():ScreenFade(SCREENFADE.STAYOUT, Color(0, 0, 0, 255), 0, 5)
+		LocalPlayer():EmitSound("ambient/explosions/exp4.wav", 100, 100)
+	end
 end
 
+hook.Add( "GetMotionBlurValues", "BusLaunchBlur", function( horiz, vert, fwd, rot)
+	local bus = LocalPlayer().LaunchingBus
+	if !IsValid(bus) then return end
+
+	fwd = fwd + (CurTime() - bus.StartLaunchTime) * 0.3
+	return horiz, vert, fwd, rot
+end )
+
+hook.Add( "CalcView", "BusLaunchView", function(ply, pos, angles, fov )
+	local bus = LocalPlayer().LaunchingBus
+	if !IsValid(bus) then return end
+
+	local view = {}
+
+	view.origin = pos
+	view.angles = angles
+	view.fov = fov + (CurTime() - bus.StartLaunchTime) * 20
+
+	return view
+end )
+
+local fadewhite = {
+	[ "$pp_colour_addr" ] = 0,
+	[ "$pp_colour_addg" ] = 0,
+	[ "$pp_colour_addb" ] = 0,
+	[ "$pp_colour_brightness" ] = 0,
+	[ "$pp_colour_contrast" ] = 1,
+	[ "$pp_colour_colour" ] = 1,
+	[ "$pp_colour_mulr" ] = 0,
+	[ "$pp_colour_mulg" ] = 0,
+	[ "$pp_colour_mulb" ] = 0
+}
+
+hook.Add( "RenderScreenspaceEffects", "BusLaunchScreenspaceEffects", function()
+	local bus = LocalPlayer().LaunchingBus
+	if !IsValid(bus) then return end
+
+	local factor = math.max((CurTime() - bus.StartLaunchTime) * 0.2 - 0.2, 0)
+	fadewhite["$pp_colour_brightness"] = factor
+	fadewhite["$pp_colour_colour"] = 1 + factor 
+	DrawColorModify(fadewhite)
+end )
+
+net.Receive("jazz_bus_launcheffects", function(len, ply)
+	local busEnt = net.ReadEntity()
+	if IsValid(busEnt) then
+		busEnt:StartLaunchEffects()
+	end
+end )

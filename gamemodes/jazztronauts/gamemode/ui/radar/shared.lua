@@ -1,0 +1,1 @@
+print("RADAR SHARED")

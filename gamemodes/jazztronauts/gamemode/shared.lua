@@ -1,3 +1,4 @@
+include( "lib/shared.lua")
 include( 'player.lua' )
 
 DeriveGamemode("sandbox")

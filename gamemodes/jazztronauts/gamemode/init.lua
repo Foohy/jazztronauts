@@ -37,7 +37,7 @@ local function PrintMapHistory(ply)
 
 	ply:ChatPrint("Waddup. Here's all the maps we've played (including unfinished):")
 	local maps = progress.GetMapHistory()
-	local mapnames = {}
+
 	if maps then
 		for _, v in pairs(maps) do 
 			local mapstr = v.filename 
@@ -47,10 +47,9 @@ local function PrintMapHistory(ply)
 			else
 				mapstr = mapstr .. " (Finished in " .. string.NiceTime(v.endtime - v.starttime) .. ")"
 			end
-			 
-			table.insert(mapnames, mapstr) 
+			
+			ply:ChatPrint(mapstr)
 		end
-		ply:ChatPrint(table.concat(mapnames, "\n" ))
 	end
 end
 
@@ -71,7 +70,7 @@ function GM:PlayerSpawn( ply )
 
 	local col = ply:GetInfo( "cl_playercolor" )
 	ply:SetPlayerColor( Vector( col ) )
-	ply:SetNotes(6969)
+	ply:SetNotes(6969420)
 
 	PrintMapHistory(ply)
 end

@@ -109,6 +109,20 @@ end
 rmeta.Dock = Dock
 bmeta.Dock = Dock
 
+local function ContainsPoint(self,x,y)
+
+	local minx, miny = self:GetMin()
+	local maxx, maxy = self:GetMax()
+
+	if x < minx or x > maxx then return false end
+	if y < miny or y > maxy then return false end
+	return true
+
+end
+
+rmeta.ContainsPoint = ContainsPoint
+bmeta.ContainsPoint = ContainsPoint
+
 IsRect = function(rect) return getmetatable(rect) == rmeta end
 IsBox = function(box) return getmetatable(box) == bmeta end
 

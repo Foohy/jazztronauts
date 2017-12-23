@@ -3,11 +3,11 @@ include("shared.lua")
 module( "radar", package.seeall )
 
 local settings = {
-	width = 250,
-	height = 250,
-	dock = DOCK_TOP + DOCK_RIGHT,
-	zoom = .1,
-	grid_spacing_multiplier = 4,
+	width = 600,
+	height = 600,
+	dock = DOCK_CENTER, --DOCK_TOP + DOCK_RIGHT,
+	zoom = .05,
+	grid_spacing_multiplier = 16,
 }
 
 local matrix = {
@@ -59,11 +59,11 @@ local function UpdateMatrix(x,y,rotation,scale,offsetx,offsety)
 	matrix[5] = cos * scale
 	matrix[6] = -x * matrix[4] + y * matrix[5] + offsety
 
-	inverse[1] = cos * scale
-	inverse[2] = sin * scale
+	inverse[1] = cos / scale
+	inverse[2] = sin / scale
 	inverse[3] = x - offsetx * inverse[1] - offsety * inverse[2]
-	inverse[4] = -sin * scale
-	inverse[5] = cos * scale
+	inverse[4] = -sin / scale
+	inverse[5] = cos / scale
 	inverse[6] = -y - offsetx * inverse[4] - offsety * inverse[5]
 
 end
@@ -145,6 +145,40 @@ local function PaintPlayers( rect )
 
 end
 
+local function DoATeleport( where )
+	net.Start( "teleportme" )
+	net.WriteVector( where )
+	net.SendToServer()
+end
+
+local show_rtest = false
+local rtest = Vector(0,0,0)
+local tpready = false
+local mat = Material( "sprites/sent_ball" )
+local function Render()
+
+	if show_rtest then
+		render.SetMaterial( mat )
+		render.DrawQuadEasy( rtest, Vector( 1, 0, 0 ), 8, 1024, Color( 255, 255, 255, 200 ), 0 )
+		render.DrawQuadEasy( rtest, Vector( 0, 1, 0 ), 8, 1024, Color( 255, 255, 255, 200 ), 0 )
+		render.DrawQuadEasy( rtest, Vector( -1, 0, 0 ), 8, 1024, Color( 255, 255, 255, 200 ), 0 )
+		render.DrawQuadEasy( rtest, Vector( 0, -1, 0 ), 8, 1024, Color( 255, 255, 255, 200 ), 0 )
+		render.DrawQuadEasy( rtest, Vector( 0, 0, 1 ), 128, 128, Color( 255, 255, 255, 200 ), 0 )
+
+		if input.IsMouseDown( MOUSE_RIGHT ) then
+			if tpready then
+				DoATeleport( rtest )
+				tpready = false
+			end
+		else
+			tpready = true
+		end
+
+	end
+
+end
+hook.Add("PostDrawOpaqueRenderables", "RadarTricks", Render)
+
 function Paint()
 
 	local screen = Rect("screen")
@@ -185,5 +219,23 @@ function Paint()
 	PaintPlayers( sub )
 
 	render.SetScissorRect( 0,0,0,0,false )
+
+
+	local mx, my = gui.MousePos()
+
+	show_rtest = false
+	if sub:ContainsPoint( mx, my ) then
+
+		show_rtest = true
+
+		rtest.x, rtest.y = InvTransform( mx, my )
+		rtest.y = -rtest.y
+		rtest.z = LocalPlayer():GetPos().z + 32
+
+		local hit = util.QuickTrace(rtest, Vector(0,0,1) * 99999, LocalPlayer())
+		hit = util.QuickTrace(hit.HitPos, Vector(0,0,-1) * 99999, LocalPlayer())
+		rtest = hit.HitPos + Vector(0,0,32)
+
+	end
 
 end

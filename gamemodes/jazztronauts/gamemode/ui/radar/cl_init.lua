@@ -3,9 +3,9 @@ include("shared.lua")
 module( "radar", package.seeall )
 
 local settings = {
-	width = 600,
-	height = 600,
-	dock = DOCK_CENTER, --DOCK_TOP + DOCK_RIGHT,
+	width = 200,
+	height = 200,
+	dock = DOCK_TOP + DOCK_RIGHT,
 	zoom = .05,
 	grid_spacing_multiplier = 16,
 }

@@ -92,7 +92,7 @@ function FinishMap(mapname)
 
 	-- Check to make sure the map exists and isn't finished
 	local res = GetMap(mapname)
-	if (res == nil) then return nil end
+	if (res == nil) then print("You must have started \"" .. mapname .. "\" before you can finish it.") return nil end
 	if (tobool(res.completed)) then return res end -- Do nothing, but still return latest map data
 
 	-- Alter table with new finish info

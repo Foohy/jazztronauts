@@ -48,7 +48,7 @@ local function PrintMapHistory(ply)
 	if maps then
 		for _, v in pairs(maps) do 
 			local mapstr = v.filename 
-			print(type(v.completed))
+
 			if tonumber(v.completed) == 0 then 
 				mapstr = mapstr .. " (Started)"
 			else
@@ -63,6 +63,8 @@ end
 function GM:PlayerInitialSpawn( ply )
 	self.BaseClass:PlayerInitialSpawn(ply)
 
+	ply:SetTeam(1) -- We're all on the same team fellas
+
 	-- Update the new player with the current map selection state
 	mapcontrol.Refresh(ply)
 	mapgen.UpdateShardCount(ply)
@@ -70,22 +72,33 @@ function GM:PlayerInitialSpawn( ply )
 end
 
 function GM:PlayerSpawn( ply )
+	local class = mapcontrol.IsInHub() and "player_hub" or "player_explore"
+	player_manager.SetPlayerClass( ply, class)
 
-	self.BaseClass:PlayerSpawn(ply)
+	-- Stop observer mode
+	ply:UnSpectate()
+	ply:SetupHands()
 
-	ply:SetNoCollideWithTeammates(true)
+	player_manager.OnPlayerSpawn( ply )
+	player_manager.RunClass( ply, "Spawn" )
 
-	local col = ply:GetInfo( "cl_playercolor" )
-	ply:SetPlayerColor( Vector( col ) )
+	hook.Call( "PlayerLoadout", GAMEMODE, ply )
+	hook.Call( "PlayerSetModel", GAMEMODE, ply )
+
 	ply:SetNotes(6969420)
-
 	PrintMapHistory(ply)
 end
 
 
 function GM:PlayerNoClip( ply )
-	return true
+	return mapcontrol.IsInHub()
 end
+
+function GM:PlayerShouldTakeDamage(ply, attacker)
+	-- Don't allow pvp damage
+	return not (attacker:IsValid() and attacker:IsPlayer())
+end
+
 
 function GM:BroadcastMessage( message )
 

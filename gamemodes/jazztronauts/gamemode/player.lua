@@ -1,5 +1,6 @@
-local DT_CURRENCY = 0
--- local DT_ 			= 0
+include("player/player_hub.lua")
+include("player/player_explore.lua")
+
 
 -- TODO: Move mechanism to own module
 local itemprice = 100
@@ -70,28 +71,3 @@ end
 function GM:PlayerSpawnNPC( ply, npc_type, equipment )
 	return SpawnItem(ply, model, "npcs")
 end
-
-
-
-// ========== DTVARS ============
-local meta = FindMetaTable( "Player" )
-function meta:SetupDataTables()
-	self:DTVar( "Int", DT_CURRENCY, "Notes" )
-end
-
-
-function meta:GetNotes()
-	return self:GetDTInt( DT_CURRENCY )
-end
-
-function meta:SetNotes( num )
-	self:SetDTInt( DT_CURRENCY, num )
-	return num
-end
-
-function meta:AddNotes( num )
-	self:SetNotes( self:GetNotes() + num )
-	return self:GetNotes()
-end
-// ========== DTVARS ============
-

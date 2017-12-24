@@ -34,6 +34,24 @@ function GM:InitPostEntity()
 
 end
 
+-- If someone picks up a weapon nobody has, spread the love
+local IsGiving = false
+function GM:WeaponEquip(weapon, owner)
+	if !IsValid(weapon) then return end
+
+	-- This hook is called _immediately_ when giving. We don't want to infinitely give people weapons
+	if IsGiving then return end 
+
+	IsGiving = true
+	for _, v in pairs(player.GetAll()) do
+		if v == owner then continue end 
+		if v:HasWeapon(weapon:GetClass()) then continue end
+
+		v:Give(weapon:GetClass())
+	end
+	IsGiving = false
+end
+
 -- Called when somebody has collected a shard
 function GM:CollectShard(shard, ply)
 

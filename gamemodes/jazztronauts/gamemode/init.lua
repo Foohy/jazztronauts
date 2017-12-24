@@ -59,7 +59,7 @@ function GM:PlayerInitialSpawn( ply )
 
 	-- Update the new player with the current map selection state
 	mapcontrol.Refresh(ply)
-
+	mapgen.UpdateShardCount(ply)
 	
 end
 

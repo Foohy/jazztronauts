@@ -39,8 +39,7 @@ local function addCommas( num )
 
 end
 
-hook.Add("HUDPaint", "CurrencyShouldDraw", function()
-
+local function DrawNoteCount()
 	local amt = LocalPlayer() && LocalPlayer():GetNotes() or 0
 	if amt != lastMoneyCount then
 		moneyFillDelay = CurTime() + FillDelay
@@ -106,6 +105,30 @@ hook.Add("HUDPaint", "CurrencyShouldDraw", function()
 			VisualAmount = amt
 		end
 	end
+
+end
+
+local function DrawShardCount()
+	if mapcontrol.IsInHub() then return end
+
+	local left, total = mapgen.GetShardCount()
+	local str = left .. "/" .. total .. " shards remain."
+	local color = Color(143, 0, 255, 100)
+	if left == 0 then 
+		str = "Collected all " .. total .. " shards!"
+		color = HSVToColor(CurTime() * 360, 1, 1)
+	end
+
+	surface.SetFont("NoteFont")
+	local offset = surface.GetTextSize(str) / 2
+	offset = offset + 5
+	draw.WordBox( 5, ScrW() / 2 - offset, 5, str, "NoteFont", color, color_white ) 
+
+end
+
+hook.Add("HUDPaint", "JazzDrawHUD", function()
+	DrawNoteCount()
+	DrawShardCount()
 	
 end )
 

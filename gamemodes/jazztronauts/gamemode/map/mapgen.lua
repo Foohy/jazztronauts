@@ -12,6 +12,8 @@ function GetShards()
 end
 
 if SERVER then 
+    util.AddNetworkString("jazz_shardcollect")
+
     function CollectShard(shardent)
         -- It's gotta be one of our shards ;)
         local res = table.RemoveByValue(SpawnedShards, shardent) != nil
@@ -31,7 +33,20 @@ if SERVER then
             end
         end
 
+        UpdateShardCount()
+
         return res
+    end
+
+    function UpdateShardCount(ply)
+        net.Start("jazz_shardcollect")
+			net.WriteUInt(#SpawnedShards, 16)
+            for _, v in pairs(SpawnedShards) do
+                net.WriteEntity(v)
+            end
+
+			net.WriteUInt(InitialShardCount, 16)
+        if IsValid(ply) then net.Send(ply) else net.Broadcast() end
     end
 
     local function findValidSpawn(ent)
@@ -149,7 +164,27 @@ if SERVER then
         end
 
         InitialShardCount = #SpawnedShards
+        UpdateShardCount()
+        
         print("Generated " .. InitialShardCount .. " shards. Happy hunting!")
     end
+
+else //CLIENT
+    net.Receive("jazz_shardcollect", function(len, ply)
+        SpawnedShards = {}
+		local left = net.ReadUInt(16)
+        for i=1, left do
+            table.insert(SpawnedShards, net.ReadEntity())
+        end
+        local total = net.ReadUInt(16)
+
+        InitialShardCount = total
+
+        print(left .. "/" .. total .. " shards.")
+
+		-- Broadcast update
+		--hook.Call("JazzShardCollected", GAMEMODE, left, total)
+	end )
+
 
 end

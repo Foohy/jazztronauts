@@ -68,6 +68,13 @@ function ENT:RefreshWorkshopInfo()
 	end )
 end
 
+local function ProgressString(p)
+	if p == 1 then return "Started" end
+	if p == 2 then return "Finished" end
+	if p == 3 then return "Prestiged" end
+	return "Not started"
+end
+
 function ENT:DrawSideInfo()
 	local ang = self.Entity:GetAngles()
 	local pos = self.Entity:GetPos() - ang:Forward() * self.BusWidth
@@ -94,7 +101,12 @@ function ENT:DrawSideInfo()
 			draw.SimpleText( self.Title, "SmallHeaderFont", 220, 0, Color(255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 		end
 		draw.SimpleText( self:GetDestination(), "SelectMapFont", 220, 60, Color(255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
-		draw.SimpleText( "WSID: " .. self:GetWorkshopID(), "SmallHeaderFont", 220, 130, Color(255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+
+		if self:GetMapProgress() > 0 then
+			local str = ProgressString(self:GetMapProgress())
+			local col = self:GetMapProgress() == 2 and Color(243, 235, 0, 255) or color_white
+			draw.SimpleText(str, "SmallHeaderFont", 220, 130, col, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+		end
 
 		if self.Description then
 			local w = self.Description:GetWidth()

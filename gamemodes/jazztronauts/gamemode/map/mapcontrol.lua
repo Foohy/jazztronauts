@@ -69,9 +69,10 @@ if SERVER then
 		local maps = file.Find("maps/*.bsp", "WORKSHOP") -- option: WORKSHOP
 		local finished = progress.GetMapHistory(MAPPROGRESS_FINISHED)
 		for _, v in pairs(maps) do
-			if table.HasValue(finished, v) then continue end
+			local map = string.StripExtension(v)
+			if table.HasValue(finished, map) then continue end
 			
-			table.insert(mapList, string.StripExtension(v))
+			table.insert(mapList, map)
 		end
 	end
 

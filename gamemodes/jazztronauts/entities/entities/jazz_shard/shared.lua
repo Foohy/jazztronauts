@@ -6,9 +6,7 @@ ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.Models			= 
 {
-    "models/props_junk/watermelon01_chunk01a.mdl",
-    "models/props_junk/watermelon01_chunk01b.mdl",
-    "models/props_junk/watermelon01_chunk01c.mdl"
+    "models/sunabouzu/jazzshard.mdl",
 }
 
 sound.Add( {
@@ -38,7 +36,7 @@ function ENT:Initialize()
     
 
     if CLIENT then
-        self:SetMaterial("models/wireframe")
+        --self:SetMaterial("models/wireframe")
         self.DrawMatrix = Matrix()
         self.StartOffset = math.random(0, 20)
 

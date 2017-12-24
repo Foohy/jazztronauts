@@ -133,11 +133,12 @@ if SERVER then
         return shard
     end
 
-    function GenerateShards(count)
+    function GenerateShards(count, seed)
         for _, v in pairs(SpawnedShards) do
             if IsValid(v) then v:Remove() end
         end
-
+        seed = seed or math.random(1, 1000)
+        math.randomseed(seed)
         SpawnedShards = {}
 
         -- Go through every _map_ entity, filter bad spots, and go from there

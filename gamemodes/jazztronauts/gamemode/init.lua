@@ -24,12 +24,18 @@ function GM:InitPostEntity()
 		physenv.SetGravity( Vector(0,0,0) )
 	else
 		-- Add current map to list of 'started' maps
-		progress.StartMap(game.GetMap(), math.random(0, 100000))
+		local res = progress.StartMap(game.GetMap(), math.random(0, 100000))
 		
 		-- Later the map gen code should call progress.GetMap() so it can generate
 		-- based on the provided random seed 
-		mapgen.GenerateShards(5)
+		mapgen.GenerateShards(5, tonumber(res.seed))
 	end
+
+end
+
+-- Called when somebody has collected a shard
+function GM:CollectShard(shard, ply)
+
 
 end
 

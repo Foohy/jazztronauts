@@ -17,9 +17,6 @@ if SERVER then
     function CollectShard(shardent)
         -- It's gotta be one of our shards ;)
         local res = table.RemoveByValue(SpawnedShards, shardent) != nil
-        for _, v in pairs(player.GetAll()) do
-            v:ChatPrint(#SpawnedShards .. "/" .. InitialShardCount .. " shards left.")
-        end
 
         -- THEY DID IT!!!!
         -- TODO: Move this logic somewhere else.
@@ -49,56 +46,71 @@ if SERVER then
         if IsValid(ply) then net.Send(ply) else net.Broadcast() end
     end
 
+    local function checkAreaTrace(pos, ang)
+
+        local traces = {}
+        local tdist = 1000000
+        table.insert(traces, util.TraceLine( {
+            start = pos,
+            endpos = pos + ang:Up() * tdist,
+            mask = MASK_SOLID
+        }))
+
+        table.insert(traces, util.TraceLine( {
+            start = pos,
+            endpos = pos + ang:Up() * -tdist,
+            mask = MASK_SOLID
+        }))
+
+        table.insert(traces, util.TraceLine( {
+            start = pos,
+            endpos = pos + ang:Right() * tdist,
+            mask = MASK_SOLID
+        }))
+
+        table.insert(traces, util.TraceLine( {
+            start = pos,
+            endpos = pos + ang:Right() * -tdist,
+            mask = MASK_SOLID
+        }))
+
+        table.insert(traces, util.TraceLine( {
+            start = pos,
+            endpos = pos + ang:Forward() * tdist,
+            mask = MASK_SOLID
+        }))
+
+        table.insert(traces, util.TraceLine( {
+            start = pos,
+            endpos = pos + ang:Forward() * -tdist,
+            mask = MASK_SOLID
+        }))
+
+        local num = 0
+        for _, v in pairs(traces) do num = num + (v.HitSky and 1 or 0) end
+
+        -- If more than 3 cardinal directions are skybox
+        -- this might be some utility entity the player can't reach
+        if num >= 3 then return false end
+
+        -- Ensure there's enough space for a player to grab this from different sides
+        local minBounds = 32
+        local areaUp = (traces[1].Fraction + traces[2].Fraction) * tdist
+        local areaFwd = (traces[3].Fraction + traces[4].Fraction) * tdist
+        local areaRight = (traces[5].Fraction + traces[6].Fraction) * tdist
+        if (areaUp < minBounds or areaFwd < minBounds or areaRight < minBounds) then return false end
+
+        return true
+    end
+
     local function findValidSpawn(ent)
         local pos = ent:GetPos() + Vector(0, 0, 16)
 
         -- If moving the entity that small amount up puts it out of the world -- nah
         if !util.IsInWorld(pos) then return nil end
 
-        -- If more than 3 cardinal directions are skybox
-        -- this might be some utility entity the player can't reach
-        local traces = {}
-        table.insert(traces, util.TraceLine( {
-            start = pos,
-            endpos = pos + ent:GetAngles():Up() * 1000,
-            mask = MASK_SOLID_BRUSHONLY
-        }))
-
-        table.insert(traces, util.TraceLine( {
-            start = pos,
-            endpos = pos + ent:GetAngles():Up() * -1000,
-            mask = MASK_SOLID_BRUSHONLY
-        }))
-
-        table.insert(traces, util.TraceLine( {
-            start = pos,
-            endpos = pos+ ent:GetAngles():Right() * 1000000,
-            mask = MASK_SOLID_BRUSHONLY
-        }))
-
-        table.insert(traces, util.TraceLine( {
-            start = pos,
-            endpos = pos + ent:GetAngles():Right() * -1000000,
-            mask = MASK_SOLID_BRUSHONLY
-        }))
-
-        table.insert(traces, util.TraceLine( {
-            start = pos,
-            endpos = pos + ent:GetAngles():Forward() * 1000000,
-            mask = MASK_SOLID_BRUSHONLY
-        }))
-
-        table.insert(traces, util.TraceLine( {
-            start = pos,
-            endpos = pos + ent:GetAngles():Forward() * -1000000,
-            mask = MASK_SOLID_BRUSHONLY
-        }))
-
-        local num = 0
-        for _, v in pairs(traces) do num = num + (v.HitSky and 1 or 0) end
-
-        -- Disqualify if it hit a suspicious number of skyboxes
-        if num >= 2 then print("Disqualifying ", ent) return nil end
+        -- Check if they're near a suspicious amount of sky
+        if !checkAreaTrace(pos, ent:GetAngles()) then return end
 
         return { pos = pos, ang = ent:GetAngles() }
     end
@@ -179,9 +191,8 @@ else //CLIENT
         end
         local total = net.ReadUInt(16)
 
+        surface.PlaySound("ambient/alarms/warningbell1.wav")
         InitialShardCount = total
-
-        print(left .. "/" .. total .. " shards.")
 
 		-- Broadcast update
 		--hook.Call("JazzShardCollected", GAMEMODE, left, total)

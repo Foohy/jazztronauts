@@ -12,7 +12,7 @@ ENT.ShadowControl.maxangular       = 1000000
 ENT.ShadowControl.maxspeeddamp     = 10000
 ENT.ShadowControl.maxangulardamp   = 1000000
 ENT.ShadowControl.dampfactor       = 1
-ENT.ShadowControl.teleportdistance = 0
+ENT.ShadowControl.teleportdistance = 200
 ENT.ShadowControl.deltatime = deltatime
 
 ENT.TravelTime = 1.5

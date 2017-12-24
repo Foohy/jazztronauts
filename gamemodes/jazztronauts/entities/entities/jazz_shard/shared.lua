@@ -20,6 +20,8 @@ sound.Add( {
 	sound = "ambient/atmosphere/city_beacon_loop1.wav"
 } )
 
+game.AddParticles( "particles/jazztronauts_particles.pcf") 
+PrecacheParticleSystem( "shard_glow" )
 
 function ENT:Initialize()
 
@@ -42,6 +44,8 @@ function ENT:Initialize()
 
         self.IdleSound = CreateSound(self, "jazz_shard_idle") 
         self.IdleSound:Play()
+
+        ParticleEffect( "shard_glow", self:GetPos(), self:GetAngles(), self )
     end
 end
 

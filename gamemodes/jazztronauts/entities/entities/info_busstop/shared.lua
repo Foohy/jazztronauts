@@ -31,7 +31,7 @@ end
 function ENT:OnMapChanged(newmap, wsid)
 	local ang = self:GetAngles()
 
-	local bus = ents.Create( "ent_bus_hub" )
+	local bus = ents.Create( "jazz_bus_hub" )
 	local busOff = Vector(self.BusOffset)
 
 	busOff:Rotate(ang)

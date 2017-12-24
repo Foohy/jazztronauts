@@ -1,4 +1,4 @@
-"VertexlitGeneric"
+"UnlitGeneric"
 {
 	"$basetexture" "models/sunabouzu/jazzShard_shell"
 	"$bumpmap" "models/sunabouzu/flat_normal"

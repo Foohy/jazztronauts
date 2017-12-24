@@ -67,8 +67,10 @@ if SERVER then
 	-- Build the list of maps given what we've already played and what's installed
 	function SetupMaps() 
 		local maps = file.Find("maps/*.bsp", "WORKSHOP") -- option: WORKSHOP
+		local finished = progress.GetMapHistory(MAPPROGRESS_FINISHED)
 		for _, v in pairs(maps) do
-			-- filter
+			if table.HasValue(finished, v) then continue end
+			
 			table.insert(mapList, string.StripExtension(v))
 		end
 	end

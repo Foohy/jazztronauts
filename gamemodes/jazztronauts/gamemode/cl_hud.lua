@@ -5,7 +5,7 @@ local HideDelay = 2 //How many seconds to show the amt after it is done filling 
 local FillDelay = 2 //Number of seconds before the money can begin filling
 local FadeSpeed = 900 //How fast to fade out
 
-local distFromSide = 40
+local distFromSide = 8
 
 //NON-MODIFIABLES
 local bgWidth = 15
@@ -21,7 +21,7 @@ local isFadingOut = false
 surface.CreateFont( "NoteFont",
 {
 	font		= "Impact",
-	size		= 40,
+	size		= ScreenScale(17),
 	weight		= 500
 })
 
@@ -57,21 +57,21 @@ local function DrawNoteCount()
 	end
 
 	surface.SetFont( "NoteFont")
-	bgWidth = surface.GetTextSize( addCommas( VisualAmount ) ) + 15
-	lastWidth = Lerp( FrameTime() * 10, lastWidth, bgWidth )
-	draw.RoundedBox( 4, ScrW() - (distFromSide + lastWidth ), 10, lastWidth, 50, Color( 0, 0, 0, CurAlpha ) )
+	local finalText = addCommas( VisualAmount ) .. " n"
+	bgWidth, bgHeight = surface.GetTextSize( finalText )
+	lastWidth = Lerp( FrameTime() * 10, lastWidth, bgWidth + 15 )
+	draw.RoundedBox( 4, ScrW() - (distFromSide + lastWidth ), 10, lastWidth, bgHeight + 10, Color( 0, 0, 0, CurAlpha ) )
 	
 	//Draw how many money we have
 	local FinalAmountText = {}
-	FinalAmountText["pos"] = { ScrW() - ((lastWidth / 2) + distFromSide), 16 }
+	FinalAmountText["pos"] = { ScrW() - distFromSide - 8, 16 }
 	FinalAmountText["color"] = Color(255, 255, 255, CurAlpha)
-	FinalAmountText["text"] = addCommas( VisualAmount )
+	FinalAmountText["text"] = finalText
 	FinalAmountText["font"] = "NoteFont"
-	FinalAmountText["xalign"] = TEXT_ALIGN_CENTER
+	FinalAmountText["xalign"] = TEXT_ALIGN_RIGHT
 	FinalAmountText["yalign"] = TEXT_ALIGN_TOP
 
 	draw.TextShadow( FinalAmountText, 2, math.Clamp( CurAlpha - 40, 0, 200 ) )
-
 	
 	//Draw the new money text
 	local text = ""
@@ -83,7 +83,7 @@ local function DrawNoteCount()
 	text = text .. tostring( amt - VisualAmount )
 
 	if amt - VisualAmount != 0 then
-		draw.DrawText( text, "HudHintTextLarge", ScrW() - distFromSide , 65, color, TEXT_ALIGN_RIGHT)
+		draw.DrawText( text, "HudHintTextLarge", ScrW() - distFromSide , bgHeight + 20, color, TEXT_ALIGN_RIGHT)
 	end
 
 	if CurTime() > moneyFillDelay then
@@ -112,11 +112,11 @@ local function DrawShardCount()
 	if mapcontrol.IsInHub() then return end
 
 	local left, total = mapgen.GetShardCount()
-	local str = left .. "/" .. total .. " shards remain."
+	local str = (total - left) .. "/" .. total .. " shards collected"
 	local color = Color(143, 0, 255, 100)
 	if left == 0 then 
 		str = "Collected all " .. total .. " shards!"
-		color = HSVToColor(CurTime() * 360, 1, 1)
+		color = HSVToColor(math.fmod(CurTime() * 360, 360), .3, .7)
 	end
 
 	surface.SetFont("NoteFont")
@@ -129,13 +129,20 @@ end
 hook.Add("HUDPaint", "JazzDrawHUD", function()
 	DrawNoteCount()
 	DrawShardCount()
+
+	-- Always show the moneybux in the hub
+	if mapcontrol.IsInHub() then
+		HideTime = math.huge
+	end
 	
 end )
 
 //Show the money count when pressing tab
 hook.Add( "ScoreboardShow", "jazz_scoreboardShow", function()
+	if !mapcontrol.IsInHub() then return end
 	HideTime = math.huge
 end )
 hook.Add("ScoreboardHide", "jazz_scoreboardHide", function()
+	if !mapcontrol.IsInHub() then return end
 	HideTime = CurTime()
 end )

@@ -25,10 +25,11 @@ function GM:InitPostEntity()
 	else
 		-- Add current map to list of 'started' maps
 		local res = progress.StartMap(game.GetMap(), math.random(0, 100000))
-		
-		-- Later the map gen code should call progress.GetMap() so it can generate
-		-- based on the provided random seed 
-		mapgen.GenerateShards(5, tonumber(res.seed))
+
+		-- If we haven't beat the map yet, generate some shards
+		if tonumber(res.completed) == 0 then 
+			mapgen.GenerateShards(5, tonumber(res.seed))
+		else mapgen.InitialShardCount = 5 end -- Gross, but we'll refine later
 	end
 
 end

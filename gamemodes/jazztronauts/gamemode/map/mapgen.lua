@@ -17,9 +17,6 @@ if SERVER then
     function CollectShard(shardent)
         -- It's gotta be one of our shards ;)
         local res = table.RemoveByValue(SpawnedShards, shardent) != nil
-        for _, v in pairs(player.GetAll()) do
-            v:ChatPrint(#SpawnedShards .. "/" .. InitialShardCount .. " shards left.")
-        end
 
         -- THEY DID IT!!!!
         -- TODO: Move this logic somewhere else.
@@ -101,7 +98,6 @@ if SERVER then
         local areaUp = (traces[1].Fraction + traces[2].Fraction) * tdist
         local areaFwd = (traces[3].Fraction + traces[4].Fraction) * tdist
         local areaRight = (traces[5].Fraction + traces[6].Fraction) * tdist
-        print(areaUp, areaFwd, areaRight)
         if (areaUp < minBounds or areaFwd < minBounds or areaRight < minBounds) then return false end
 
         return true
@@ -195,9 +191,8 @@ else //CLIENT
         end
         local total = net.ReadUInt(16)
 
+        surface.PlaySound("ambient/alarms/warningbell1.wav")
         InitialShardCount = total
-
-        print(left .. "/" .. total .. " shards.")
 
 		-- Broadcast update
 		--hook.Call("JazzShardCollected", GAMEMODE, left, total)

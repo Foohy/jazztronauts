@@ -20,9 +20,8 @@ end
 
 function GM:InitPostEntity()
 
-	if mapcontrol.IsInHub() then
-		physenv.SetGravity( Vector(0,0,0) )
-	else
+	if !mapcontrol.IsInHub() then
+
 		-- Add current map to list of 'started' maps
 		local res = progress.StartMap(game.GetMap(), math.random(0, 100000))
 

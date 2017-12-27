@@ -96,23 +96,23 @@ function meta:EnableDepth(bDepth, bSeparate)
 
 end
 
-function meta:EnableFullscreen(b)
+function meta:EnableFullscreen(bFullscreen)
 
-	self.enable_fullscreen = b == true
+	self.enable_fullscreen = bFullscreen == true
 	return self
 
 end
 
-function meta:EnableHDR(b)
+function meta:EnableHDR(bHDR)
 
-	self.enable_hdr = b == true
+	self.enable_hdr = bHDR == true
 	return self
 
 end
 
-function meta:EnableMipmap(b)
+function meta:EnableMipmap(bMipmap)
 
-	self.enable_mip = b == true
+	self.enable_mip = bMipmap == true
 	return self
 
 end
@@ -419,7 +419,7 @@ local function test()
 --local mins, maxs = LocalPlayer():GetHitBoxBounds( 0, 0 )
 --print( mins, maxs )
 
-	local size_test = 64
+	local size_test = 32
 
 	if scene ~= nil then
 
@@ -452,7 +452,7 @@ local function test()
 		surface.DrawTexturedRect( Rect(0,0,size_test,size_test):Unpack() )]]
 
 
-		scene:Render( Rect(0,0,size_test,size_test) )
+		scene:Render( Rect(0,0,size_test,size_test):ScreenScale() )
 
 	end
 

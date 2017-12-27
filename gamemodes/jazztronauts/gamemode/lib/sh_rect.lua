@@ -41,6 +41,8 @@ function bmeta:Inset(m)
 
 end
 
+function rmeta:ScreenScale() self.w = ScreenScale(self.w) self.h = ScreenScale(self.h) return self end
+
 function rmeta:GetCenter() return self.x + self.w / 2, self.y + self.h / 2 end
 function bmeta:GetCenter() return (self.x0 + self.x1) / 2, (self.y0 + self.y1) / 2 end
 

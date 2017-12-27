@@ -25,11 +25,11 @@ ENT.VoidSphereModel = "models/hunter/misc/sphere375x375.mdl"
 ENT.VoidBorderModel = "models/props_debris/plaster_ceiling002a.mdl"
 ENT.VoidRoadModel = "models/props_phx/huge/road_long.mdl"
 
-ENT.VoidMusic = "jazztronauts/music/que_chevere.mp3"
-
 ENT.RTSize = 1024
 ENT.Size = 184
 
+if SERVER then
+lastBusEnts = lastBusEnts or {}
 concommand.Add("jazz_call_bus", function(ply, cmd, args, argstr)
     local eyeTr = ply:GetEyeTrace()
     local pos = eyeTr.HitPos
@@ -72,12 +72,14 @@ concommand.Add("jazz_call_bus", function(ply, cmd, args, argstr)
 
     bus.ExitPortal = exit -- So bus knows when to stop
 
+    -- Remove last ones
+    for _, v in pairs(lastBusEnts) do SafeRemoveEntityDelayed(v, 5) end
     
-    SafeRemoveEntityDelayed(bus, 50)
-    SafeRemoveEntityDelayed(ent, 50)
-    SafeRemoveEntityDelayed(exit, 50)
+    table.insert(lastBusEnts, bus)
+    table.insert(lastBusEnts, ent)
+    table.insert(lastBusEnts, exit)
 end )
-
+end
 function ENT:Initialize()
 
     if SERVER then 
@@ -144,11 +146,6 @@ function ENT:OnRemove()
     if self.IdleSound then
         self.IdleSound:Stop()
         self.IdleSound = nil 
-    end
-
-    if self.PortalMusic then 
-        self.PortalMusic:Stop()
-        self.PortalMusic = nil 
     end
 
     if self.Gibs then
@@ -221,25 +218,15 @@ function ENT:Think()
             self:OnBroken()
         end
 
-    else
-        -- Also do some custom attenuation on the portal music
-        if self.PortalMusic and !self.VoidTime then
-            local d = self:GetPos():Distance(LocalPlayer():EyePos())
-            local vol = math.Clamp(math.Remap(d, 0, 500, 0.2, 0), 0.2)
-
-            self.PortalMusic:ChangeVolume(vol, 0)
-        end
     end
 
     -- This logic is for the exit view only
     if self:GetIsExit() then
         -- Mark the exact time when the client's eyes went into the void
-        if !self.VoidTime then
+        if self.Broken and !self.VoidTime then
             if self:DistanceToVoid(LocalPlayer():EyePos(), true) < 0 then 
-                
                 self.VoidTime = CurTime()
                 //self:GetBus().JazzSpeed = self:GetBus():GetVelocity():Length()
-                surface.PlaySound(self.VoidMusic)
             end
         end
 
@@ -301,9 +288,9 @@ function ENT:DrawInsidePortal()
 
     -- Draw the wiggly wobbly road into the distance
     local scalemat = Matrix()
-    scalemat:Scale(Vector(1, 100, 1))
+    scalemat:Scale(Vector(1, 10, 1))
     self.VoidRoad:EnableMatrix("RenderMultiply", scalemat)
-    self.VoidRoad:SetPos(self:GetPos() + self:GetAngles():Right() * -1200)
+    self.VoidRoad:SetPos(self:GetPos() + self:GetAngles():Right() * -12000)
     self.VoidRoad:SetAngles(self:GetAngles())
     self.VoidRoad:DrawModel()
 
@@ -317,7 +304,7 @@ function ENT:DrawInsidePortal()
     -- Draw a fixed border to make it look like cracks in the wall
     -- TODO: Ask sun for a model that has proper UVs/sizes.
     -- All this code is just to line it up with the border
-    self.VoidBorder:SetPos(center + self:GetAngles():Right() * -5)
+    self.VoidBorder:SetPos(center + self:GetAngles():Right() * -6)
     local borderAng = self:GetAngles()
     borderAng:RotateAroundAxis(borderAng:Forward(), 90)
     borderAng:RotateAroundAxis(borderAng:Up(), 90)
@@ -352,7 +339,22 @@ function ENT:DrawInteriorDoubles()
     self.VoidSphere:DrawModel()
 
     -- Draw bus
-    if IsValid(self:GetBus()) then self:GetBus():DrawModel() end
+    if IsValid(self:GetBus()) then 
+        self:GetBus():DrawModel() 
+        local childs = self:GetBus():GetChildren()
+        for _, v in pairs(childs) do
+            v:DrawModel()
+        end
+    end
+
+    -- Draw players
+    -- NOTE: Usually this is a bad idea, but legitimately every single player should be in the bus
+    for _, ply in pairs(player.GetAll()) do
+        local seat = ply:GetVehicle()
+        if IsValid(seat) and seat:GetParent() == self:GetBus() then 
+            ply:DrawModel()
+        end
+    end
 
     render.SuppressEngineLighting(false)
 end
@@ -420,12 +422,6 @@ function ENT:OnBroken()
     ed2:SetMagnitude(100)
     ed2:SetNormal(self:GetAngles():Right())
 
-    -- Subtle que chevere in the distance
-    self.PortalMusic = CreateSound(self, self.VoidMusic)
-    self.PortalMusic:SetSoundLevel(85)
-    //self.PortalMusic:SetDSP(15)
-    self.PortalMusic:Play()
-
     -- TODO: Glue these to the bus's two front wheels
     util.Effect("ManhackSparks", ed2, true, true)
 
@@ -481,6 +477,7 @@ hook.Add("RenderScene", "JazzBusDrawVoid", function(origin, angles, fov)
 
     -- If the local player's view is past the portal 'plane', ONLY render the jazz dimension
     if bus.ExitPortal:DistanceToVoid(EyePos()) > 0 then
+
         local voffset = bus.ExitPortal:GetJazzVoidView()
         render.Clear(55, 0, 55, 255)
         cam.Start3D(origin + voffset, angles, fov)

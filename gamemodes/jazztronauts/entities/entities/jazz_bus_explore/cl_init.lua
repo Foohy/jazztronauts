@@ -33,3 +33,15 @@ end
 function ENT:OnRemove()
 
 end
+
+net.Receive("jazz_bus_explore_voideffects", function(len, ply)
+	local bus = net.ReadEntity()
+	local startTime = net.ReadFloat()
+
+	local waitTime = math.max(0, startTime - CurTime())
+	timer.Simple(waitTime, function()
+		if bus then 
+			surface.PlaySound(bus.VoidMusicName)
+		end
+	end )
+end )

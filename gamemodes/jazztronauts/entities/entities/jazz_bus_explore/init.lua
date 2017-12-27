@@ -21,6 +21,9 @@ local MOVE_STATIONARY 	= 1
 local MOVE_ARRIVING 	= 2
 local MOVE_LEAVING 		= 3
 
+ENT.BusLeaveDelay = 1
+ENT.BusLeaveAccel = 500
+
 ENT.PrelimSounds = 
 {
 	"ambient/machines/wall_move1.wav",
@@ -30,8 +33,7 @@ ENT.PrelimSounds =
 
 ENT.TravelTime = 1.5
 
-util.AddNetworkString("jazz_bus_arriveeffects")
-
+util.AddNetworkString("jazz_bus_explore_voideffects")
 
 function ENT:Initialize()
 
@@ -47,6 +49,10 @@ function ENT:Initialize()
 		self:AttachSeat(Vector(40, i * 45 - 150, 80), Angle(0, 180, 0))
 		self:AttachSeat(Vector(-40, i * 45 - 150, 80), Angle(0, 180, 0))
 	end
+	
+	-- Setup radio
+	self:AttachRadio(Vector(40, -190, 50), Angle(0, 150, 0))
+
 	local spawnPos = self:GetPos()
 	self.StartPos = spawnPos + self:GetAngles():Right() * -2000 + Vector(0, 0, 40)
 	self.GoalPos = self:GetFront()
@@ -80,7 +86,10 @@ function ENT:CheckLaunch()
 		self:EmitSound( "jazz_bus_idle", 90, 150 )
 		util.ScreenShake(self:GetPos(), 10, 5, 1, 1000)
 
-		timer.Simple(1, function()
+		-- Queue up the void music
+		self:QueueTimedMusic()
+
+		timer.Simple(self.BusLeaveDelay, function()
 			if IsValid(self) then
 				self.IsLaunching = true
 				self:Leave()
@@ -115,6 +124,22 @@ function ENT:Leave()
 	self:GetPhysicsObject():Wake()
 end
 
+function ENT:AttachRadio(pos, ang)
+	pos = self:LocalToWorld(pos)
+	ang = self:LocalToWorldAngles(ang)
+
+	local ent = ents.Create("prop_dynamic")
+	ent:SetModel(self.RadioModel)
+	ent:SetPos(pos)
+	ent:SetAngles(ang)
+	ent:SetParent(self)
+	ent:Spawn()
+	ent:Activate()
+
+	-- Attach a looping audiozone
+	self.RadioMusic = CreateSound(ent, self.RadioMusicName)
+end
+
 function ENT:AttachSeat(pos, ang)
 	pos = self:LocalToWorld(pos)
 	ang = self:LocalToWorldAngles(ang)
@@ -142,6 +167,23 @@ function ENT:GetNumOccupants()
 	end
 
 	return count
+end
+
+-- Predict when we'll blast into the jazz dimension
+-- This is so we can 'preroll' some shnazzy music that blasts into high gear right when it gets going
+function ENT:QueueTimedMusic()
+	local estHitTime = self.BusLeaveDelay
+	local dist = self:GetFront():Distance(self.ExitPortal:GetPos())
+	estHitTime = estHitTime + math.sqrt(2 * dist / self.BusLeaveAccel) -- d = 0.5at^2
+	
+	local startTime = estHitTime - self.VoidMusicPreroll
+
+	self.RadioMusic:FadeOut(startTime)
+
+	net.Start("jazz_bus_explore_voideffects")
+		net.WriteEntity(self)
+		net.WriteFloat(CurTime() + startTime)
+	net.Broadcast()
 end
 
 function ENT:Touch(other)
@@ -192,7 +234,7 @@ end
 function ENT:PhysicsLeaving(phys, deltatime)
 	local t, perc = self:GetProgress()
 	local dist = (self.StartPos - self.GoalPos):Length()
-	local pos = 0.5 * (500) * math.pow(t, 2) -- (1/2)at^2 = position
+	local pos = 0.5 * (self.BusLeaveAccel) * math.pow(t, 2) -- (1/2)at^2 = position
 	local rotAng = 0
 
 	self.ShadowControl.pos = LerpVector(pos/dist, self.StartPos, self.GoalPos)
@@ -219,6 +261,9 @@ function ENT:Think()
 			self:GetPhysicsObject():Sleep()
 			self:GetPhysicsObject():EnableMotion(false)
 			self:SetPos(self.GoalPos)
+			self.MoveState = MOVE_STATIONARY
+
+			self.RadioMusic:Play()
 		end
 	end
 

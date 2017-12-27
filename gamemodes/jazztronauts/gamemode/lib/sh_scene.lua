@@ -5,14 +5,6 @@ include("sh_camera.lua")
 
 Scene = nil
 
-_MODEL_POOL = _MODEL_POOL or {}
-
-for k,v in pairs(_MODEL_POOL) do
-	v:Cleanup()
-end
-
-_MODEL_POOL = {}
-
 module( "scene", package.seeall )
 
 print("SCENE")
@@ -86,25 +78,13 @@ function meta:Init( camera )
 
 end
 
-local function AllocModel( id, model )
+local function AllocEntityNode( id, model )
 
-	local entry = id .. tostring(model)
-	if _MODEL_POOL[entry] ~= nil then
-		return _MODEL_POOL[entry]
-	end
-
-	print("ALLOC: " .. entry)
-
-	local CSEnt = ClientsideModel( model )
+	local CSEnt = ManagedCSEnt( id, model )
 	local node = {}
 
 	CSEnt:SetNoDraw( true )
 	CSEnt:SetLOD( 0 )
-
-	node.Cleanup = function(self)
-		CSEnt:Remove()
-		_MODEL_POOL[entry] = nil
-	end
 
 	node.Get = function(self)
 		return CSEnt
@@ -116,8 +96,6 @@ local function AllocModel( id, model )
 		CSEnt:DrawModel()
 		CSEnt:DisableMatrix( "RenderMultiply" )
 	end
-
-	_MODEL_POOL[entry] = node
 
 	return setmetatable(node, mnode):Init()
 
@@ -136,7 +114,7 @@ function meta:SetBoxLight( iBoxface, r, g, b )
 
 end
 
-function meta:Clear()
+function meta:Clear( bCleanup )
 
 	self.nodes = {}
 	return self
@@ -145,7 +123,7 @@ end
 
 function meta:AddModel( id, model )
 
-	local m = AllocModel( id, model )
+	local m = AllocEntityNode( id, model )
 
 	table.insert( self.nodes, m )
 	return m
@@ -155,7 +133,6 @@ end
 function meta:AddEntity( ent, bOrigin )
 
 	local node = {}
-	node.Cleanup = function(self) end
 	node.Get = function(self)
 		return ent
 	end
@@ -210,14 +187,6 @@ function meta:EnableEngineLighting( bLighting )
 
 	self.enable_engine_lighting = bLighting == true
 	return self
-
-end
-
-function meta:Cleanup()
-
-	for k,v in pairs(self.nodes) do
-		v:Cleanup()
-	end
 
 end
 

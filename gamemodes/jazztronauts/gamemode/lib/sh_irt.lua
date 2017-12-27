@@ -411,6 +411,7 @@ local myRT = New("testRT4",64,64)
 myRT:EnableDepth( true, true )
 
 local material = myRT:GetUnlitMaterial(true,false,false,true)
+local removetime = 10
 
 local function test()
 	--myRT:RenderViewOrtho( Vector(0,0,64), Angle(0,0,0), 1 )
@@ -420,36 +421,46 @@ local function test()
 
 	local size_test = 64
 
-	scene:Clear()
+	if scene ~= nil then
 
-	local inst = scene:AddModel("player", LocalPlayer():GetModel())
+		scene:Clear()
 
-	inst:Get():SetupBones()
-	local head = inst:Get():LookupBone("ValveBiped.Bip01_Head1")
-	if not head then head = inst:Get():LookupBone("ValveBiped.Bip01_Spine2") end
-	if not head then head = inst:Get():LookupBone("ValveBiped.Bip01_Spine1") end
+		local inst = scene:AddModel("player", LocalPlayer():GetModel())
 
-	local mtx = inst:Get():GetBoneMatrix(head)
-	local bonelen = inst:Get():BoneLength(head)
-	inst:Identity()
-	inst:Rotate( Angle(0,CurTime() * 120,0) )
+		inst:Get():SetupBones()
+		local head = inst:Get():LookupBone("ValveBiped.Bip01_Head1")
+		if not head then head = inst:Get():LookupBone("ValveBiped.Bip01_Spine2") end
+		if not head then head = inst:Get():LookupBone("ValveBiped.Bip01_Spine1") end
 
-	camera.pos = mtx:GetTranslation() + Vector(-90,0,bonelen/2)
+		local mtx = inst:Get():GetBoneMatrix(head)
+		local bonelen = inst:Get():BoneLength(head)
+		inst:Identity()
+		inst:Rotate( Angle(0,CurTime() * 120,0) )
 
-	--[[for i=1, inst:Get():GetFlexNum() do
-		local min,max = inst:Get():GetFlexBounds( i )
-		inst:Get():SetFlexWeight(i, math.Rand(min, max) )
+		camera.pos = mtx:GetTranslation() + Vector(-90,0,bonelen/2)
+
+		--[[for i=1, inst:Get():GetFlexNum() do
+			local min,max = inst:Get():GetFlexBounds( i )
+			inst:Get():SetFlexWeight(i, math.Rand(min, max) )
+		end]]
+
+		--[[myRT:Clear( 0,0,0,0,true )
+		myRT:RenderScene( scene )
+
+		surface.SetDrawColor( 255, 255, 255, 255 )
+		surface.SetMaterial( material )
+		surface.DrawTexturedRect( Rect(0,0,size_test,size_test):Unpack() )]]
+
+
+		scene:Render( Rect(0,0,size_test,size_test) )
+
+	end
+
+	--[[removetime = removetime - FrameTime()
+	if removetime <= 0 and scene ~= nil then
+		print("DEREF SCENE")
+		scene = nil
 	end]]
-
-	--[[myRT:Clear( 0,0,0,0,true )
-	myRT:RenderScene( scene )
-
-	surface.SetDrawColor( 255, 255, 255, 255 )
-	surface.SetMaterial( material )
-	surface.DrawTexturedRect( Rect(0,0,size_test,size_test):Unpack() )]]
-
-
-	scene:Render( Rect(0,0,size_test,size_test) )
 
 end
 hook.Add("HUDPaint", "irttest", test)

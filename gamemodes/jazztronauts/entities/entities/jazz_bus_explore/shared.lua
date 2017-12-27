@@ -12,6 +12,12 @@ ENT.Model 			= Model( "models/sunabouzu/jazzbus.mdl" )
 ENT.HalfLength 		= 300
 ENT.JazzSpeed		= 1250 -- How fast to explore the jazz dimension
 
+ENT.RadioMusicName = "jazztronauts/music/que_chevere_radio_loop.wav"
+ENT.RadioModel = "models/props_lab/citizenradio.mdl"
+
+ENT.VoidMusicName = "jazztronauts/music/que_chevere_travel.mp3"
+ENT.VoidMusicPreroll = 2.9 -- how many seconds it takes to get to the chorus
+
 function ENT:SetupDataTables()
 
 end

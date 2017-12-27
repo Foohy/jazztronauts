@@ -187,8 +187,7 @@ function ENT:QueueTimedMusic()
 end
 
 function ENT:Touch(other)
-	local t, perc = self:GetProgress()
-	if perc > 1 then return end 
+	if self.MoveState == MOVE_STATIONARY then return end
 	if !IsValid(other:GetPhysicsObject()) then return end
 	if (other:GetClass() == self:GetClass()) then return end
 	if (other:IsPlayer() and table.HasValue(self.Seats, other:GetVehicle())) then return end

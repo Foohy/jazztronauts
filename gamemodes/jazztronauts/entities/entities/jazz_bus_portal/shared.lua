@@ -22,8 +22,9 @@ ENT.VoidModels = {
 }
 
 ENT.VoidSphereModel = "models/hunter/misc/sphere375x375.mdl"
-ENT.VoidBorderModel = "models/props_debris/plaster_ceiling002a.mdl"
-ENT.VoidRoadModel = "models/props_phx/huge/road_long.mdl"
+ENT.VoidBorderModel = "models/sunabouzu/bus_brokenwall.mdl"
+ENT.VoidRoadModel = "models/sunabouzu/jazzroad.mdl"
+ENT.VoidTunnelModel = "models/sunabouzu/jazztunnel.mdl"
 
 ENT.RTSize = 1024
 ENT.Size = 184
@@ -45,7 +46,7 @@ concommand.Add("jazz_call_bus", function(ply, cmd, args, argstr)
     } )
 
     local pos2 = tr.HitPos
-    local ang2 = tr.HitNormal:Angle()
+    local ang2 = tr.HitNormal:Angle(ang:Up())
     ang2:RotateAroundAxis(ang2:Up(), 90)  
     pos2 = pos2 - ang2:Up() * 184/2
 
@@ -134,6 +135,10 @@ function ENT:Initialize()
         self.VoidRoad = ents.CreateClientProp(self.VoidRoadModel)
         self.VoidRoad:SetModel(self.VoidRoadModel)
         self.VoidRoad:SetNoDraw(true)
+
+        self.VoidTunnel = ents.CreateClientProp(self.VoidTunnelModel)
+        self.VoidTunnel:SetModel(self.VoidTunnelModel)
+        self.VoidTunnel:SetNoDraw(true)
     end
 end
 
@@ -251,14 +256,28 @@ function ENT:SetupVoidLighting()
     render.SetModelLighting(BOX_BOTTOM, 20/255.0, 0, 45/255.0)
 end
 
+function ENT:GetPortalAngles()
+    if IsValid(self:GetBus()) then 
+        local bang = self:GetBus():GetAngles() 
+        if self:GetIsExit() then 
+            bang:RotateAroundAxis(bang:Up(), 180)
+        end
+
+        return bang
+    end
+
+    return self:GetAngles()
+end
+
 function ENT:DrawInsidePortal()
 
     -- Define our own lighting environment for this
     render.SuppressEngineLighting(true)
     self:SetupVoidLighting()
 
-    local center = self:GetPos() + self:GetAngles():Up() * self.Size/2
-    local ang = self:GetAngles()
+    local portalAng = self:GetPortalAngles()
+    local center = self:GetPos() + portalAng:Up() * self.Size/2
+    local ang = Angle(portalAng)
     ang:RotateAroundAxis(ang:Up(), -90)
 
     -- Draw a few random floating props in the void
@@ -267,9 +286,9 @@ function ENT:DrawInsidePortal()
         local randX = util.SharedRandom("prop", -500, 500, i)
         local randY = util.SharedRandom("prop", -500, 500, -i)
 
-        local offset = self:GetAngles():Right() * (-200 + i * -120)
-        offset = offset + self:GetAngles():Up() * randY
-        offset = offset + self:GetAngles():Forward() * randX
+        local offset = portalAng:Right() * (-200 + i * -120)
+        offset = offset + portalAng:Up() * randY
+        offset = offset + portalAng:Forward() * randX
 
         -- Subtle twists and turns, totally arbitrary
         local angOffset = Angle(
@@ -279,20 +298,12 @@ function ENT:DrawInsidePortal()
 
         -- Just go through the list of props, looping back
         local mdl = self.VoidProps[(i % #self.VoidProps) + 1]
-
+        //debugoverlay.Sphere(center + offset, 10, 0, Color( 255, 255, 255 ), true)
         mdl:SetPos(center + offset)
         mdl:SetAngles(ang + angOffset)
         mdl:SetupBones() -- Since we're drawing in multiple locations
         mdl:DrawModel()
     end
-
-    -- Draw the wiggly wobbly road into the distance
-    local scalemat = Matrix()
-    scalemat:Scale(Vector(1, 10, 1))
-    self.VoidRoad:EnableMatrix("RenderMultiply", scalemat)
-    self.VoidRoad:SetPos(self:GetPos() + self:GetAngles():Right() * -12000)
-    self.VoidRoad:SetAngles(self:GetAngles())
-    self.VoidRoad:DrawModel()
 
     -- If we're the exit portal, draw the gibs floating into space
     if self:GetIsExit() then 
@@ -302,21 +313,11 @@ function ENT:DrawInsidePortal()
     end
 
     -- Draw a fixed border to make it look like cracks in the wall
-    -- TODO: Ask sun for a model that has proper UVs/sizes.
-    -- All this code is just to line it up with the border
-    self.VoidBorder:SetPos(center + self:GetAngles():Right() * -6)
-    local borderAng = self:GetAngles()
-    borderAng:RotateAroundAxis(borderAng:Forward(), 90)
-    borderAng:RotateAroundAxis(borderAng:Up(), 90)
-    self.VoidBorder:SetAngles(borderAng)
-    local mat = Matrix()
-
-    mat:SetScale(Vector(.9, 2, 1) * 0.8)
-    self.VoidBorder:EnableMatrix("RenderMultiply", mat)
+    self.VoidBorder:SetPos(self:GetPos())
+    self.VoidBorder:SetAngles(self:GetAngles())
     self.VoidBorder:SetMaterial("!bus_wall_material")
     self.VoidBorder:SetupBones()
     self.VoidBorder:DrawModel()
-    self.VoidBorder:DisableMatrix("RenderMultiply")
 
     render.SuppressEngineLighting(false)
 end
@@ -324,6 +325,8 @@ end
 -- Draws doubles of things that are in the normal world too
 -- (eg. the Bus, seats, other players, etc.)
 function ENT:DrawInteriorDoubles()
+    local portalAng = self:GetPortalAngles()
+
     -- Define our own lighting environment for this
     render.SuppressEngineLighting(true)
     self:SetupVoidLighting()
@@ -332,11 +335,22 @@ function ENT:DrawInteriorDoubles()
     self.VoidSphere:SetPos(EyePos())
     self.VoidSphere:SetModelScale(100)
     self.VoidSphere:SetMaterial("sunabouzu/jazzLake02")
-    self.VoidSphere:DrawModel()
+    //self.VoidSphere:DrawModel()
 
     self.VoidSphere:SetPos(EyePos())
     self.VoidSphere:SetMaterial("sunabouzu/jazzLake01")
-    self.VoidSphere:DrawModel()
+    //self.VoidSphere:DrawModel()
+
+    self.VoidTunnel:SetPos(self:GetPos())
+    self.VoidTunnel:SetAngles(portalAng)
+    self.VoidTunnel:SetModelScale(1)
+    self.VoidTunnel:DrawModel()
+
+    
+    -- Draw the wiggly wobbly road into the distance
+    self.VoidRoad:SetPos(self:GetPos())
+    self.VoidRoad:SetAngles(portalAng)
+    self.VoidRoad:DrawModel()
 
     -- Draw bus
     if IsValid(self:GetBus()) then 
@@ -454,7 +468,7 @@ function ENT:Draw()
         render.ClearBuffersObeyStencil(55, 0, 55, 255, true)
 
         cam.IgnoreZ(true)
-            cam.Start3D()
+            cam.Start3D(nil, nil, nil, nil, nil, nil, nil, 10, 1000000)
                 self:DrawInsidePortal()
                 self:DrawInteriorDoubles()
             cam.End3D()
@@ -476,15 +490,15 @@ hook.Add("RenderScene", "JazzBusDrawVoid", function(origin, angles, fov)
     if !IsValid(bus.ExitPortal) then return end 
 
     -- If the local player's view is past the portal 'plane', ONLY render the jazz dimension
-    if bus.ExitPortal:DistanceToVoid(EyePos()) > 0 then
-
+    if bus.ExitPortal:DistanceToVoid(LocalPlayer():EyePos()) > 0 then
+            
         local voffset = bus.ExitPortal:GetJazzVoidView()
         render.Clear(55, 0, 55, 255)
-        cam.Start3D(origin + voffset, angles, fov)
+        cam.Start3D(origin + voffset, angles, fov, nil, nil, nil, nil, 10, 1000000)
             bus.ExitPortal:DrawInsidePortal()
         cam.End3D()
 
-        cam.Start3D(origin, angles, fov)
+        cam.Start3D(origin, angles, fov, nil, nil, nil, nil, 10, 1000000)
             bus.ExitPortal:DrawInteriorDoubles()
         cam.End3D()
         return true -- Don't bother drawing the world

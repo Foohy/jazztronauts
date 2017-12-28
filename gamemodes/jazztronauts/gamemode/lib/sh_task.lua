@@ -1,0 +1,289 @@
+if SERVER then AddCSLuaFile("sh_task.lua") end
+
+TASK_PRIORITY_DEFAULT = 1
+
+module( "task", package.seeall )
+
+local TASK_TIME_SLICE = 0.008
+local HITCH_THESHOLD = 0.05
+local MAX_TASK_ITERATIONS = 100000
+
+local tasks = {}
+local g_task = nil
+
+local meta = {}
+meta.__index = meta
+
+local function CallTaskHook( task, hook, ... )
+
+	hook = task.hooks[hook]
+	if not hook then return end
+	local b,e = pcall( hook, task, ... )
+	if not b then ErrorNoHalt( e ) end
+
+end
+
+function New(...)
+
+	return setmetatable({}, meta):Init(...)
+
+end
+
+function Yield( ... )
+
+	if g_task ~= nil then
+		local inf = debug.getinfo( 2 )
+		g_task.currentline = inf.currentline
+		coroutine.yield( ... )
+	end
+
+end
+
+function Sleep( seconds, ... )
+
+	if g_task ~= nil then
+		local inf = debug.getinfo( 2 )
+		g_task.currentline = inf.currentline
+		g_task.sleep = SysTime() + seconds
+		coroutine.yield( ... )
+	end
+
+end
+
+function meta:Init( work, priority, ... )
+
+	priority = math.max( priority or TASK_PRIORITY_DEFAULT, 0 )
+	if type(work) ~= "function" then return end
+
+	self.work = work
+	self.starting = true
+	self.params = {...}
+	self.start = SysTime()
+	self.priority = priority
+	self.lastCycle = 0
+	self.sleep = 0
+	self.info = debug.getinfo( self.work )
+	self.co = coroutine.create( self.work )
+	self.hooks = {}
+
+	table.insert( tasks, self )
+	return self.hooks
+
+end
+
+local function IsTaskAsleep( task )
+
+	return task.sleep > SysTime()
+
+end
+
+local function GetPriorityValue( task )
+
+	if IsTaskAsleep( task ) then return -1 end
+	return ( SysTime() - task.lastCycle ) * task.priority
+
+end
+
+local function SortTasks()
+
+	table.sort( tasks, function( a, b )
+
+		return GetPriorityValue( a ) > GetPriorityValue( b )
+
+	end )
+
+end
+
+local function RemoveTask( task )
+
+	if #tasks > 0 and tasks[1] == task then
+		table.remove( tasks, 1 )
+	end
+
+	for k,v in pairs( tasks ) do
+		if v == task then table.remove( tasks, k ) return end
+	end
+
+end
+
+local function ResumeTask( task )
+
+	local dead = false
+	g_task = task
+
+	local result = nil
+	if task.starting then
+		task.starting = false
+		result = { coroutine.resume( task.co, unpack( task.params ) ) }
+	else
+		result = { coroutine.resume( task.co ) }
+	end
+
+	if result then
+		if result[1] == false then
+			table.remove(result, 1)
+			table.insert(result, "\n")
+			ErrorNoHalt( unpack(result) )
+			RemoveTask( task )
+			g_task = nil
+			return
+		end
+		table.remove(result, 1)
+	end
+
+	if coroutine.status( task.co ) == "dead" then
+		local duration = SysTime() - task.start
+		print( ("Task Finished: %0.2fs"):format( duration ) )
+		
+		if result then
+			--print( unpack(result) )
+		end
+		RemoveTask( task )
+		dead = true
+
+		CallTaskHook( task, "OnFinished", duration, unpack( result ) )
+	else
+		if #result > 0 and type( result[1] ) == "string" then
+			CallTaskHook( task, unpack( result) )
+		end
+	end
+
+	g_task = nil
+	return dead
+
+end
+
+local function ProcessTasks()
+
+	if #tasks == 0 then return end
+
+	local start = SysTime()
+
+	local remaining_iterations = MAX_TASK_ITERATIONS
+	local task_died = false
+	local task_slept = false
+	local task_yielded_timeslice = false
+
+	SortTasks()
+
+	local pre_num_tasks = #tasks
+	while remaining_iterations > 0 and #tasks > 0 do
+
+		local task_begin = SysTime()
+
+		local run = tasks[1]
+		if IsTaskAsleep( run ) then 
+			task_slept = true
+		elseif ResumeTask( run ) then
+			task_died = true 
+		end
+
+		local task_end = SysTime()
+		local task_duration = task_end - task_begin
+		run.duration = math.max( run.duration or 0, task_duration )
+		run.lastCycle = task_end
+
+		if task_slept or task_died then
+			break
+		end
+
+		if task_end - start > TASK_TIME_SLICE then
+			task_yielded_timeslice = true
+			break
+		end
+
+		remaining_iterations = remaining_iterations - 1
+
+	end
+
+	if task_died then
+		--print("TASK DIED")
+	elseif task_slept then
+		--print("TASK SLEPT")
+	elseif #tasks == 0 then
+		--print("TASKS EXHAUSTED")
+	elseif remaining_iterations == 0 then
+		--print("ITERATIONS EXHAUSTED")
+	elseif task_yielded_timeslice then
+		--print("TIMESLICE EXHAUSTED")
+	else
+		--print("SOMETHING")
+	end
+
+	local delta = SysTime() - start
+	if delta > HITCH_THESHOLD then
+
+		local ran_tasks = {}
+		for k,v in pairs( tasks ) do
+			if v.duration then
+				table.insert( ran_tasks, v )
+			end
+		end
+
+		table.sort( ran_tasks, function(a,b) return a.duration > b.duration end )
+
+		local msg = ""
+		msg = msg .. ("HITCHED: %0.3fs\n"):format( delta )
+
+		for k,v in pairs(ran_tasks) do
+			msg = msg .. (" %0.3fs %s : %i\n"):format( v.duration, v.info.source, v.currentline or 0 )
+			if v.duration > HITCH_THESHOLD then
+				msg = msg .. "  (Recommended: Call 'Yield' more often to release timeslice to engine)\n"
+			end
+		end
+
+		print( msg )
+	end
+
+end
+hook.Add("Think", "ProcessTasks", ProcessTasks)
+
+--[[
+if CLIENT then
+
+	local function myTask( test )
+
+		print( tostring(test) )
+		for i=1, 30 do
+			local x = 5
+			for j=1, 10000000 do
+				x = x + 5
+				x = x - 5
+				x = x * 2
+				x = x / 2
+				if j % 10000 == 1 then Yield() end
+			end
+			Yield()
+
+			print(i, x)
+		end
+
+		return string.upper( tostring(test) )
+
+	end
+
+	New( myTask, 1, "hi there" )
+
+	for i=1, 10 do
+		local function smallTask()
+			local x = 0
+			for i=1, 1000 do
+				x = x + 1
+				if x == 100 then Yield("fuck", x) end
+			end
+
+			print(x)
+		end
+
+		local t = New( smallTask, 1 )
+		function t:OnFinished( duration )
+			print( "FINISHED THE TASK: " .. duration )
+		end
+
+		function t:fuck( x )
+			print( "JUST TO PRINT: " .. x )
+		end
+	end
+
+end
+]]

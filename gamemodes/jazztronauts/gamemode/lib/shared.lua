@@ -1,4 +1,5 @@
 include("sh_gc.lua")
+include("sh_task.lua")
 include("sh_matrix.lua")
 include("sh_quat.lua")
 include("sh_geomutils.lua")

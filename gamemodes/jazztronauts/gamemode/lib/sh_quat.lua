@@ -1,6 +1,5 @@
 if SERVER then AddCSLuaFile("sh_quat.lua") end
 
-
 local quat = {}
 
 function IsQuat( v )

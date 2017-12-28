@@ -3,8 +3,8 @@ include("shared.lua")
 module( "radar", package.seeall )
 
 local settings = {
-	width = 200,
-	height = 200,
+	width = 80,
+	height = 80,
 	dock = DOCK_TOP + DOCK_RIGHT,
 	zoom = .05,
 	grid_spacing_multiplier = 16,
@@ -184,6 +184,7 @@ function Paint()
 	local screen = Rect("screen")
 	local sub = Rect( 0, 0, settings.width, settings.height )
 
+	sub:ScreenScale()
 	sub:Inset(-12)
 	sub:Dock( screen, settings.dock )
 	sub:Inset(8)

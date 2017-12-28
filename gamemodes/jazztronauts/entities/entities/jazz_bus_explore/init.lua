@@ -135,6 +135,7 @@ function ENT:AttachRadio(pos, ang)
 	ent:SetParent(self)
 	ent:Spawn()
 	ent:Activate()
+	self.Radio = ent
 
 	-- Attach a looping audiozone
 	self.RadioMusic = CreateSound(ent, self.RadioMusicName)
@@ -278,4 +279,11 @@ function ENT:OnRemove()
 	self:StopSound("jazz_bus_accelerate")
 	self:StopSound("jazz_bus_accelerate2")
 	self:StopSound("jazz_bus_idle")
+
+	for _, v in pairs(self.Seats) do
+		if IsValid(v) then v:Remove() end
+	end
+
+	self.RadioMusic:Stop()
+	if IsValid(self.Radio) then self.Radio:Remove() end
 end

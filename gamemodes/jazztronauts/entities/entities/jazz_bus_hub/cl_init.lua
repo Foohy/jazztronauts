@@ -41,7 +41,7 @@ function ENT:RefreshWorkshopInfo()
 
 	-- First download information about the given workshopid
 	steamworks.FileInfo( self:GetWorkshopID(), function( result ) 
-		if !self then return end
+		if !self or !result then return end
 
 		self.Title = result.title
 

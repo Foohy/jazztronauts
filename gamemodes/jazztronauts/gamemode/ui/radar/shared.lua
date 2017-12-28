@@ -1,1 +1,1 @@
-print("RADAR SHARED")
+if true then return end

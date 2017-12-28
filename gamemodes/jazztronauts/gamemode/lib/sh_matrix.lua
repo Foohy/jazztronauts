@@ -110,5 +110,3 @@ function meta:Transform( other, w )
 	return other
 
 end
-
-print(Vector(0,0,0,1))

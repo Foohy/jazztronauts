@@ -1,5 +1,3 @@
-print("DIALOG CL_INIT")
-
 include("shared.lua")
 
 local ScrW = ScrW

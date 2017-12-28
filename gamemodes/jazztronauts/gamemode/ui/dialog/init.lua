@@ -3,8 +3,6 @@ include("shared.lua")
 AddCSLuaFile( "shared.lua")
 AddCSLuaFile( "cl_init.lua")
 
-print("DIALOG INIT")
-
 local print = print
 local util = util
 local net = net

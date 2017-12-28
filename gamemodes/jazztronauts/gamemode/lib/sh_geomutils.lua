@@ -1,7 +1,5 @@
 if SERVER then AddCSLuaFile("sh_geomutils.lua") end
 
-print("GEOM UTILS")
-
 function AABBToSphere( mins, maxs )
 
 	local center = (mins + maxs) / 2

@@ -484,22 +484,28 @@ function ENT:Draw()
 
 end
 
-hook.Add("RenderScene", "JazzBusDrawVoid", function(origin, angles, fov)
+local function GetExitPortal()
     local bus = IsValid(LocalPlayer():GetVehicle()) and LocalPlayer():GetVehicle():GetParent() or nil
-    if !IsValid(bus) or !bus:GetClass() == "jazz_bus_explore" then return end 
-    if !IsValid(bus.ExitPortal) then return end 
+    if !IsValid(bus) or !bus:GetClass() == "jazz_bus_explore" then return nil end 
 
+    return bus.ExitPortal
+end
+
+hook.Add("RenderScene", "JazzBusDrawVoid", function(origin, angles, fov)
+    local exitPortal = GetExitPortal()
+    if !IsValid(exitPortal) then return end
+    
     -- If the local player's view is past the portal 'plane', ONLY render the jazz dimension
-    if bus.ExitPortal:DistanceToVoid(LocalPlayer():EyePos()) > 0 then
+    if exitPortal:DistanceToVoid(LocalPlayer():EyePos()) > 0 then
             
-        local voffset = bus.ExitPortal:GetJazzVoidView()
+        local voffset = exitPortal:GetJazzVoidView()
         render.Clear(55, 0, 55, 255)
         cam.Start3D(origin + voffset, angles, fov, nil, nil, nil, nil, 10, 1000000)
-            bus.ExitPortal:DrawInsidePortal()
+            exitPortal:DrawInsidePortal()
         cam.End3D()
 
         cam.Start3D(origin, angles, fov, nil, nil, nil, nil, 10, 1000000)
-            bus.ExitPortal:DrawInteriorDoubles()
+            exitPortal:DrawInteriorDoubles()
         cam.End3D()
         return true -- Don't bother drawing the world
     end

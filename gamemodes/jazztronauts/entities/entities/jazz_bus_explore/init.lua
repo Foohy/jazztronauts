@@ -135,6 +135,7 @@ function ENT:AttachRadio(pos, ang)
 	ent:SetParent(self)
 	ent:Spawn()
 	ent:Activate()
+	self.Radio = ent
 
 	-- Attach a looping audiozone
 	self.RadioMusic = CreateSound(ent, self.RadioMusicName)
@@ -187,8 +188,7 @@ function ENT:QueueTimedMusic()
 end
 
 function ENT:Touch(other)
-	local t, perc = self:GetProgress()
-	if perc > 1 then return end 
+	if self.MoveState == MOVE_STATIONARY then return end
 	if !IsValid(other:GetPhysicsObject()) then return end
 	if (other:GetClass() == self:GetClass()) then return end
 	if (other:IsPlayer() and table.HasValue(self.Seats, other:GetVehicle())) then return end
@@ -279,4 +279,11 @@ function ENT:OnRemove()
 	self:StopSound("jazz_bus_accelerate")
 	self:StopSound("jazz_bus_accelerate2")
 	self:StopSound("jazz_bus_idle")
+
+	for _, v in pairs(self.Seats) do
+		if IsValid(v) then v:Remove() end
+	end
+
+	self.RadioMusic:Stop()
+	if IsValid(self.Radio) then self.Radio:Remove() end
 end

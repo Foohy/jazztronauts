@@ -1,4 +1,6 @@
 include("sh_gc.lua")
+include("sh_matrix.lua")
+include("sh_quat.lua")
 include("sh_geomutils.lua")
 include("sh_rect.lua")
 include("sh_camera.lua")

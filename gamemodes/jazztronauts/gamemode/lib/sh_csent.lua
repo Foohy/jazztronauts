@@ -48,7 +48,7 @@ end
 
 AllocCSEntity = function( id, model )
 
-	local entry = id .. tostring(model)
+	local entry = tostring(id) .. tostring(model)
 	if _ENTITY_POOL[entry] ~= nil then
 		_ENTITY_REF_COUNTERS[entry] = _ENTITY_REF_COUNTERS[entry] + 1
 		return _ENTITY_POOL[entry]

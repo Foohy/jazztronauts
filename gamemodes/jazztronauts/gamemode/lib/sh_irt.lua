@@ -450,7 +450,7 @@ local function test()
 		surface.DrawTexturedRect( Rect(0,0,size_test,size_test):Unpack() )]]
 
 
-		scene:Render( Rect(0,0,size_test,size_test):ScreenScale() )
+		--scene:Render( Rect(0,0,size_test,size_test):ScreenScale() )
 
 	end
 

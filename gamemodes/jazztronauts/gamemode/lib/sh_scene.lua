@@ -175,6 +175,7 @@ function meta:Render( ... )
 		--cam.PopModelMatrix()
 	end
 
+	render.ResetModelLighting( 1,1,1 )
 	render.SuppressEngineLighting(false)
 
 	self.camera:End3D()

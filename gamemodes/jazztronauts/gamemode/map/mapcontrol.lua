@@ -76,6 +76,58 @@ if SERVER then
 		end
 	end
 
+	-- Spawn the exit bus's enterance portal at the specified position/angle.
+	-- Note this spawns three entities, the enterance, the bus, and the exit
+	lastBusEnts = lastBusEnts or {}
+	function SpawnExitBus(pos, ang)
+		local spawnpos = pos
+		local spawnang = Angle(ang)
+		spawnang:RotateAroundAxis(spawnang:Up(), 90)  
+		spawnpos = spawnpos - spawnang:Up() * 184/2
+	
+		-- Do a trace forward to where the bus will exit
+		local tr = util.TraceLine( {
+			start = pos,
+			endpos = pos + ang:Forward() * 100000,
+			mask = MASK_SOLID_BRUSHONLY
+		} )
+
+		local pos2 = tr.HitPos
+		local ang2 = tr.HitNormal:Angle(spawnang:Up())
+		ang2:RotateAroundAxis(ang2:Up(), 90)  
+		pos2 = pos2 - ang2:Up() * 184/2
+
+		local bus = ents.Create("jazz_bus_explore")
+		bus:SetPos(spawnpos)
+		bus:SetAngles(spawnang)
+		bus:Spawn()
+		bus:Activate()
+
+		local ent = ents.Create("jazz_bus_portal")
+		ent:SetPos(spawnpos)
+		ent:SetAngles(spawnang)
+		ent:SetBus(bus)
+		ent:Spawn()
+		ent:Activate()
+
+		local exit = ents.Create("jazz_bus_portal")
+		exit:SetPos(pos2)
+		exit:SetAngles(ang2)
+		exit:SetBus(bus)
+		exit:SetIsExit(true)
+		exit:Spawn()
+		exit:Activate()
+
+		bus.ExitPortal = exit -- So bus knows when to stop
+
+		-- Remove last ones
+		for _, v in pairs(lastBusEnts) do SafeRemoveEntityDelayed(v, 5) end
+		
+		table.insert(lastBusEnts, bus)
+		table.insert(lastBusEnts, ent)
+		table.insert(lastBusEnts, exit)
+	end
+
 else //CLIENT
 
 	net.Receive("jazz_rollmap", function(len, ply)

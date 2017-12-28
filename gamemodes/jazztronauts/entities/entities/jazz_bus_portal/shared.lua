@@ -35,52 +35,11 @@ concommand.Add("jazz_call_bus", function(ply, cmd, args, argstr)
     local eyeTr = ply:GetEyeTrace()
     local pos = eyeTr.HitPos
     local ang = eyeTr.HitNormal:Angle()
-    ang:RotateAroundAxis(ang:Up(), 90)  
-    pos = pos - ang:Up() * 184/2
-   
-    -- Do a trace forward to where the bus will exit
-    local tr = util.TraceLine( {
-        start = eyeTr.HitPos,
-        endpos = eyeTr.HitPos + eyeTr.HitNormal * 100000,
-        mask = MASK_SOLID_BRUSHONLY
-    } )
-
-    local pos2 = tr.HitPos
-    local ang2 = tr.HitNormal:Angle(ang:Up())
-    ang2:RotateAroundAxis(ang2:Up(), 90)  
-    pos2 = pos2 - ang2:Up() * 184/2
-
-    local bus = ents.Create("jazz_bus_explore")
-    bus:SetPos(pos)
-	bus:SetAngles(ang)
-    bus:Spawn()
-    bus:Activate()
-
-    local ent = ents.Create("jazz_bus_portal")
-	ent:SetPos(pos)
-	ent:SetAngles(ang)
-    ent:SetBus(bus)
-	ent:Spawn()
-	ent:Activate()
-
-    local exit = ents.Create("jazz_bus_portal")
-	exit:SetPos(pos2)
-	exit:SetAngles(ang2)
-    exit:SetBus(bus)
-    exit:SetIsExit(true)
-	exit:Spawn()
-	exit:Activate()
-
-    bus.ExitPortal = exit -- So bus knows when to stop
-
-    -- Remove last ones
-    for _, v in pairs(lastBusEnts) do SafeRemoveEntityDelayed(v, 5) end
     
-    table.insert(lastBusEnts, bus)
-    table.insert(lastBusEnts, ent)
-    table.insert(lastBusEnts, exit)
+    mapcontrol.SpawnExitBus(pos, ang)
 end )
 end
+
 function ENT:Initialize()
 
     if SERVER then 

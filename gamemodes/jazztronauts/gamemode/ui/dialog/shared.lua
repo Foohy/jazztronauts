@@ -1,5 +1,3 @@
-print("SHARED")
-
 local util = util
 local file = file
 local string = string
@@ -193,7 +191,7 @@ function LinkRecursive(entrygraph, script, entry)
 	for _, cmd in ipairs(entry) do
 		if cmd.cmd == CMD_JUMP then
 			if not entrygraph[cmd.data] then cmd.data = script.name .. "." .. cmd.data end
-			print(tostring(cmd.data) .. " : " .. tostring(entrygraph[cmd.data]) )
+			--print(tostring(cmd.data) .. " : " .. tostring(entrygraph[cmd.data]) )
 			cmd.data = entrygraph[cmd.data]
 		end
 
@@ -209,7 +207,7 @@ end
 function LinkScripts(scripts)
 
 	g_graph = {}
-	print("LINK SCRIPTS")
+	--print("LINK SCRIPTS")
 
 	for _, script in pairs(scripts) do
 
@@ -254,7 +252,7 @@ function LinkScripts(scripts)
 end
 
 function LoadScript(name, filename)
-	print("Load", name, filename)
+	--print("Load", name, filename)
 
 	local data = file.Open( filename, "r", "THIRDPARTY" )
 	local lines = {}
@@ -278,7 +276,7 @@ end
 
 function LoadScripts()
 
-	print("Loading scripts...")
+	--print("Loading scripts...")
 	local scripts, _ = file.Find( "data/scripts/*", "THIRDPARTY" )
 	local compiled = {}
 

@@ -1,5 +1,4 @@
 if SERVER then AddCSLuaFile("sh_gc.lua") end
-if SERVER then return end
 
 local meta = getmetatable( DamageInfo() )
 local hijack = {}

@@ -7,8 +7,6 @@ Scene = nil
 
 module( "scene", package.seeall )
 
-print("SCENE")
-
 local mnode = {}
 mnode.__index = mnode
 

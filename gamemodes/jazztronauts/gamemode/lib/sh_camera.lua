@@ -6,8 +6,6 @@ IsCamera = nil
 
 module( "camera", package.seeall )
 
-print("CAMERA")
-
 local meta = {}
 meta.__index = meta
 

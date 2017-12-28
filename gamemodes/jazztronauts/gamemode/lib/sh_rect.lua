@@ -1,7 +1,5 @@
 if SERVER then AddCSLuaFile("sh_rect.lua") end
 
-print("RECTLIB")
-
 Rect = nil
 Box = nil
 IsBox = nil

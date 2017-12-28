@@ -6,8 +6,6 @@ include("sh_scene.lua")
 
 IRT = nil
 
-print("SHIRT")
-
 module( "irt", package.seeall )
 
 local TEXTUREFLAGS_POINTSAMPLE			= 0x1
@@ -311,7 +309,7 @@ function meta:GetUnlitMaterial(...)
 	params["$basetexture"] = self:GetIDString()
 
 	local material = CreateMaterial( idstr, "UnlitGeneric", params )
-	print(material)
+	--print(material)
 
 	g_cachemap[idstr] = material
 	return material

@@ -18,8 +18,15 @@ local function CallTaskHook( task, hook, ... )
 
 	hook = task.hooks[hook]
 	if not hook then return end
-	local b,e = pcall( hook, task, ... )
-	if not b then ErrorNoHalt( e ) end
+	local res = { pcall( hook, task, ... ) }
+	local b = res[1]
+	table.remove( res, 1 )
+
+	if not b then 
+		ErrorNoHalt( unpack( res ) )
+	else
+		task.queuedparams = res
+	end
 
 end
 
@@ -34,7 +41,7 @@ function Yield( ... )
 	if g_task ~= nil then
 		local inf = debug.getinfo( 2 )
 		g_task.currentline = inf.currentline
-		coroutine.yield( ... )
+		return coroutine.yield( ... )
 	end
 
 end
@@ -45,7 +52,7 @@ function Sleep( seconds, ... )
 		local inf = debug.getinfo( 2 )
 		g_task.currentline = inf.currentline
 		g_task.sleep = SysTime() + seconds
-		coroutine.yield( ... )
+		return coroutine.yield( ... )
 	end
 
 end
@@ -106,6 +113,7 @@ local function RemoveTask( task )
 
 end
 
+local _noparams = {}
 local function ResumeTask( task )
 
 	local dead = false
@@ -116,7 +124,8 @@ local function ResumeTask( task )
 		task.starting = false
 		result = { coroutine.resume( task.co, unpack( task.params ) ) }
 	else
-		result = { coroutine.resume( task.co ) }
+		result = { coroutine.resume( task.co, unpack( task.queuedparams or _noparams ) ) }
+		task.queuedparams = nil
 	end
 
 	if result then
@@ -238,10 +247,9 @@ local function ProcessTasks()
 end
 hook.Add("Think", "ProcessTasks", ProcessTasks)
 
---[[
 if CLIENT then
 
-	local function myTask( test )
+	--[[local function myTask( test )
 
 		print( tostring(test) )
 		for i=1, 30 do
@@ -262,28 +270,26 @@ if CLIENT then
 
 	end
 
-	New( myTask, 1, "hi there" )
+	New( myTask, 1, "hi there" )]]
 
-	for i=1, 10 do
-		local function smallTask()
-			local x = 0
-			for i=1, 1000 do
-				x = x + 1
-				if x == 100 then Yield("fuck", x) end
-			end
-
-			print(x)
+	--[[local function smallTask()
+		local x = 0
+		for i=1, 1000 do
+			x = x + 1
+			if x == 100 then print( Sleep(1, "fuck", x) ) end
 		end
 
-		local t = New( smallTask, 1 )
-		function t:OnFinished( duration )
-			print( "FINISHED THE TASK: " .. duration )
-		end
-
-		function t:fuck( x )
-			print( "JUST TO PRINT: " .. x )
-		end
+		print(x)
 	end
 
+	local t = New( smallTask, 1 )
+	function t:OnFinished( duration )
+		print( "FINISHED THE TASK: " .. duration )
+	end
+
+	function t:fuck( x )
+		print( "JUST TO PRINT: " .. x )
+		return "HI FROM YIELD"
+	end]]
+
 end
-]]

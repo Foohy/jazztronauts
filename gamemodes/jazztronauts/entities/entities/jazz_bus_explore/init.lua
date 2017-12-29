@@ -180,6 +180,7 @@ function ENT:QueueTimedMusic()
 	estHitTime = estHitTime + math.sqrt(2 * dist / self.BusLeaveAccel) -- d = 0.5at^2
 	
 	local startTime = estHitTime - self.VoidMusicPreroll
+	self.ChangelevelTime = CurTime() + estHitTime + self.VoidMusicFadeEnd
 
 	self.RadioMusic:FadeOut(startTime)
 
@@ -273,6 +274,13 @@ function ENT:Think()
 		if self.ExitPortal:DistanceToVoid(self:GetRear()) > 0 then 
 			self.MoveState = MOVE_STATIONARY
 			self.GoalPos = self:GetPos()
+		end
+	end
+
+	-- Changelevel at the end
+	if self.ChangelevelTime and CurTime() > self.ChangelevelTime then 
+		if self:GetNumOccupants() >= player.GetCount() then 
+			mapcontrol.Launch(mapcontrol.GetHubMap())
 		end
 	end
 end

@@ -8,9 +8,12 @@ function GetMap()
 end
 
 function IsInHub()
-	return game.GetMap() == "jazz_bar"
+	return game.GetMap() == GetHubMap()
 end
 
+function GetHubMap()
+	return "jazz_bar"
+end
 
 if SERVER then
 	util.AddNetworkString("jazz_rollmap")

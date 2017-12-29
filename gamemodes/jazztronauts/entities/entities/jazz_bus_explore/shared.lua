@@ -10,7 +10,7 @@ ENT.AdminSpawnable 	= false
 
 ENT.Model 			= Model( "models/sunabouzu/jazzbus.mdl" )
 ENT.HalfLength 		= 300
-ENT.JazzSpeed		= 1250 -- How fast to explore the jazz dimension
+ENT.JazzSpeed		= 800 -- How fast to explore the jazz dimension
 
 ENT.RadioMusicName = "jazztronauts/music/que_chevere_radio_loop.wav"
 ENT.RadioModel = "models/props_lab/citizenradio.mdl"

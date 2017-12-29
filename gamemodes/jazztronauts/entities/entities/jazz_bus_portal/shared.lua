@@ -26,8 +26,16 @@ ENT.VoidBorderModel = "models/sunabouzu/bus_brokenwall.mdl"
 ENT.VoidRoadModel = "models/sunabouzu/jazzroad.mdl"
 ENT.VoidTunnelModel = "models/sunabouzu/jazztunnel.mdl"
 
+ENT.BackgroundHumSound = "ambient/levels/citadel/zapper_ambient_loop1.wav"
+
 ENT.RTSize = 1024
 ENT.Size = 184
+
+local zbumpMat = Matrix()
+zbumpMat:Translate(Vector(0, -1, 184/2))
+zbumpMat:Scale(Vector(1, 1, 1) * .9)
+zbumpMat:Translate(Vector(0, 0, -184/2))
+ENT.ZBump = zbumpMat
 
 if SERVER then
 lastBusEnts = lastBusEnts or {}
@@ -50,6 +58,8 @@ function ENT:Initialize()
 
     end
 
+    self:DrawShadow(false)
+
     if CLIENT then
         ParticleEffect( "shard_glow", self:GetPos(), self:GetAngles(), self )
 
@@ -66,7 +76,7 @@ function ENT:Initialize()
             gib:Spawn()
             gib:PhysicsInit(SOLID_VPHYSICS)
             gib:SetSolid(SOLID_VPHYSICS)
-            gib:SetCollisionGroup(self:GetIsExit() and COLLISION_GROUP_WEAPON or COLLISION_GROUP_WORLD)
+            gib:SetCollisionGroup(self:GetIsExit() and COLLISION_GROUP_IN_VEHICLE or COLLISION_GROUP_WORLD)
             gib:SetNoDraw(true)
             gib:GetPhysicsObject():SetMass(500)
 
@@ -98,6 +108,8 @@ function ENT:Initialize()
         self.VoidTunnel = ents.CreateClientProp(self.VoidTunnelModel)
         self.VoidTunnel:SetModel(self.VoidTunnelModel)
         self.VoidTunnel:SetNoDraw(true)
+
+        self.BackgroundHum = CreateSound(self, self.BackgroundHumSound)
     end
 end
 
@@ -107,9 +119,9 @@ function ENT:SetupDataTables()
 end
 
 function ENT:OnRemove()
-    if self.IdleSound then
-        self.IdleSound:Stop()
-        self.IdleSound = nil 
+    if self.BackgroundHum then
+        self.BackgroundHum:Stop()
+        self.BackgroundHum = nil 
     end
 
     if self.Gibs then
@@ -142,7 +154,7 @@ function ENT:StoreSurfaceMaterial()
     self.WallTexture = GetRenderTargetEx(rtname, self.RTSize, self.RTSize, 
         RT_SIZE_OFFSCREEN, MATERIAL_RT_DEPTH_SEPARATE, 
         bit.bor(TEXTUREFLAGS_RENDERTARGET,TEXTUREFLAGS_ANISOTROPIC), 
-        0, IMAGE_FORMAT_DEFAULT)
+        CREATERENDERTARGETFLAGS_AUTOMIPMAP, IMAGE_FORMAT_DEFAULT)
 
     -- Note we just keep reusing "bus_wall_material". If we wanted multiple buses at the same time,
     -- then we'll need a unique name for each material. But not yet.
@@ -168,6 +180,8 @@ function ENT:StoreSurfaceMaterial()
             orthotop = -pos,
             orthobottom = pos,
             ortho = true,
+            bloomtone = false,
+            dopostprocess = false,
         } )
 
     render.PopRenderTarget()
@@ -200,6 +214,11 @@ function ENT:Think()
             self:GetBus().ExitPortal = self
         end
     end
+
+    -- Insert into the local list of portals to render this frame
+    local ply = LocalPlayer()
+    ply.ActiveBusPortals = ply.ActiveBusPortals or {}
+    table.insert(ply.ActiveBusPortals, self)
 end
 
 function ENT:UpdateCustomTexture()
@@ -207,12 +226,20 @@ function ENT:UpdateCustomTexture()
 end
 
 function ENT:SetupVoidLighting()
+    
     render.SetModelLighting(BOX_FRONT, 100/255.0, 0, 244/255.0)
     render.SetModelLighting(BOX_BACK, 150/255.0, 0, 234/255.0)
     render.SetModelLighting(BOX_LEFT, 40/255.0, 0, 144/255.0)
     render.SetModelLighting(BOX_RIGHT, 100/255.0, 0, 244/255.0)
     render.SetModelLighting(BOX_TOP, 255/255.0, 1, 255/255.0)
     render.SetModelLighting(BOX_BOTTOM, 20/255.0, 0, 45/255.0)
+
+    local fogOffset = EyePos():Distance(self:GetPos())
+    render.FogMode(MATERIAL_FOG_LINEAR)
+    render.FogStart(100 + fogOffset)
+    render.FogEnd(20000 + fogOffset)
+    render.FogMaxDensity(.35)
+    render.FogColor(180, 169, 224)
 end
 
 function ENT:GetPortalAngles()
@@ -232,6 +259,7 @@ function ENT:DrawInsidePortal()
 
     -- Define our own lighting environment for this
     render.SuppressEngineLighting(true)
+
     self:SetupVoidLighting()
 
     local portalAng = self:GetPortalAngles()
@@ -272,11 +300,14 @@ function ENT:DrawInsidePortal()
     end
 
     -- Draw a fixed border to make it look like cracks in the wall
+    -- Disable fog for this, we want it to be seamless
+    render.FogMode(MATERIAL_FOG_NONE)
     self.VoidBorder:SetPos(self:GetPos())
     self.VoidBorder:SetAngles(self:GetAngles())
     self.VoidBorder:SetMaterial("!bus_wall_material")
     self.VoidBorder:SetupBones()
     self.VoidBorder:DrawModel()
+    render.FogMode(MATERIAL_FOG_LINEAR)
 
     render.SuppressEngineLighting(false)
 end
@@ -291,24 +322,31 @@ function ENT:DrawInteriorDoubles()
     self:SetupVoidLighting()
 
     -- Draw background
-    self.VoidSphere:SetPos(EyePos())
-    self.VoidSphere:SetModelScale(100)
-    self.VoidSphere:SetMaterial("sunabouzu/jazzLake02")
-    //self.VoidSphere:DrawModel()
-
-    self.VoidSphere:SetPos(EyePos())
-    self.VoidSphere:SetMaterial("sunabouzu/jazzLake01")
-    //self.VoidSphere:DrawModel()
+    render.FogMode(MATERIAL_FOG_NONE) -- Disable fog so we can get those deep colors
 
     self.VoidTunnel:SetPos(self:GetPos())
     self.VoidTunnel:SetAngles(portalAng)
-    self.VoidTunnel:SetModelScale(1)
+    self.VoidTunnel:SetupBones()
+    self.VoidTunnel:SetModelScale(0.34)
+
+    -- First draw with default material but darkened
+    render.SetColorModulation(55/255.0, 55/255.0, 55/255.0)
+    self.VoidTunnel:SetMaterial("")
+    self.VoidTunnel:DrawModel()
+    render.SetColorModulation(1, 1, 1)
+    
+    -- Now two more times with each of sun's groovy additive jazz materials
+    self.VoidTunnel:SetMaterial("sunabouzu/jazzLake01")
+    self.VoidTunnel:DrawModel()
+    self.VoidTunnel:SetMaterial("sunabouzu/jazzLake02")
     self.VoidTunnel:DrawModel()
 
+    render.FogMode(MATERIAL_FOG_LINEAR)
     
     -- Draw the wiggly wobbly road into the distance
     self.VoidRoad:SetPos(self:GetPos())
     self.VoidRoad:SetAngles(portalAng)
+    self.VoidRoad:SetupBones()
     self.VoidRoad:DrawModel()
 
     -- Draw bus
@@ -398,16 +436,19 @@ function ENT:OnBroken()
     -- TODO: Glue these to the bus's two front wheels
     util.Effect("ManhackSparks", ed2, true, true)
 
+    self.BackgroundHum:SetSoundLevel(60)
+    self.BackgroundHum:Play()
+
     -- Start rendering the portal view
     self.RenderView = true
 end
 
-function ENT:Draw()
+function ENT:DrawPortal()
     if !self.RenderView then return end
 
     -- Don't bother rendering if the eyes are behind the plane anyway
     if self:DistanceToVoid(EyePos(), true) < 0 then return end
-
+    self.DrawingPortal = true
     self:UpdateCustomTexture()
 
     render.SetStencilEnable(true)
@@ -420,18 +461,19 @@ function ENT:Draw()
         render.SetStencilCompareFunction(STENCIL_ALWAYS)
         render.SetStencilPassOperation(STENCIL_REPLACE)
 
+        -- Push this slightly outward to prevent z fighting with the surface
+        self:EnableMatrix("RenderMultiply", self.ZBump)
         self:DrawModel()
+        self:DisableMatrix("RenderMultiply")
 
         -- Second, draw the interior
         render.SetStencilCompareFunction(STENCIL_EQUAL)
         render.ClearBuffersObeyStencil(55, 0, 55, 255, true)
 
-        cam.IgnoreZ(true)
-            cam.Start3D(nil, nil, nil, nil, nil, nil, nil, 10, 1000000)
-                self:DrawInsidePortal()
-                self:DrawInteriorDoubles()
-            cam.End3D()
-        cam.IgnoreZ(false)
+        cam.Start3D(EyePos(), EyeAngles())
+            self:DrawInsidePortal()
+            self:DrawInteriorDoubles()
+        cam.End3D()
 
         -- Draw into the depth buffer for the interior to prevent
         -- Props from going through
@@ -440,8 +482,33 @@ function ENT:Draw()
         render.OverrideColorWriteEnable(false, false)
 
     render.SetStencilEnable(false)
-
+    self.DrawingPortal = false
 end
+
+function ENT:Draw()
+    if !self.RenderView then return end
+    if !self.DrawingPortal then return end
+    self:DrawModel()
+end
+
+
+hook.Add("PostRender", "JazzClearExteriorVoidList", function()
+    local portals = LocalPlayer().ActiveBusPortals
+    if !portals then return end
+
+    table.Empty(portals)
+end )
+hook.Add("PostDrawOpaqueRenderables", "JazzBusDrawExteriorVoid", function(depth, sky)
+    local portals = LocalPlayer().ActiveBusPortals
+    if !portals then return end
+
+    for _, v in pairs(portals) do
+        if IsValid(v) and v.DrawPortal then     
+            v:DrawPortal()
+        end
+    end
+
+end )
 
 local function GetExitPortal()
     local bus = IsValid(LocalPlayer():GetVehicle()) and LocalPlayer():GetVehicle():GetParent() or nil

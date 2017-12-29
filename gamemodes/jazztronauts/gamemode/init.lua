@@ -107,11 +107,6 @@ function GM:PlayerSpawn( ply )
 	PrintMapHistory(ply)
 end
 
-
-function GM:PlayerNoClip( ply )
-	return mapcontrol.IsInHub()
-end
-
 function GM:PlayerShouldTakeDamage(ply, attacker)
 	-- Don't allow pvp damage
 	return not (attacker:IsValid() and attacker:IsPlayer())

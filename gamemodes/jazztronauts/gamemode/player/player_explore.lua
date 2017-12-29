@@ -59,7 +59,8 @@ function PLAYER:Loadout()
 	
 	--self.Player:Give( "gmod_tool" )
 	self.Player:Give( "gmod_camera" )
-	-- self.Player:Give( "weapon_physgun" )
+	self.Player:Give( "weapon_physgun" )
+	self.Player:Give( "weapon_buscaller" )
 
     self.Player:SwitchToDefaultWeapon()
 end

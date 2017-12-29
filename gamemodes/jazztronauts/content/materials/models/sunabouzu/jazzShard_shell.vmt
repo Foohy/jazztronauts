@@ -1,11 +1,11 @@
-"UnlitGeneric"
+"VertexlitGeneric"
 {
 	"$basetexture" "models/sunabouzu/jazzShard_shell"
 	"$bumpmap" "models/sunabouzu/flat_normal"
 	"$nodecal" 1
 	$phong 1
-        $phongexponent 40
-        $phongboost .20
+        $phongexponent 4
+        $phongboost .2
         $phongtint "[1 1 1]"
         $halflambert 0
         $phongfresnelranges "[.4 .1 1]"

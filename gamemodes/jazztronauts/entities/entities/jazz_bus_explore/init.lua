@@ -42,6 +42,7 @@ function ENT:Initialize()
 	self:SetMoveType( MOVETYPE_VPHYSICS )
 	self:SetSolid( SOLID_VPHYSICS )
 	self:SetTrigger(true) -- So we get 'touch' callbacks that fuck shit up
+	self:SetNoDraw(true)
 
 
 	-- Setup seat offsets
@@ -105,6 +106,7 @@ function ENT:Arrive()
 		phys:EnableMotion( true )
 		phys:Wake()
 	end
+	self:SetNoDraw(false)
 
 	self.StartTime = CurTime()
 	self.MoveState = MOVE_ARRIVING

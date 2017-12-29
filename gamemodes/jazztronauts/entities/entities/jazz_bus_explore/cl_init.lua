@@ -44,4 +44,12 @@ net.Receive("jazz_bus_explore_voideffects", function(len, ply)
 			surface.PlaySound(bus.VoidMusicName)
 		end
 	end )
+	
+	local fadeWaitTime = waitTime + bus.VoidMusicFadeStart
+	timer.Simple(fadeWaitTime, function()
+		if bus and LocalPlayer():InVehicle() then 
+			local fadelength = bus.VoidMusicFadeEnd - bus.VoidMusicFadeStart
+			LocalPlayer():ScreenFade(SCREENFADE.OUT, color_white, fadelength, 10)
+		end
+	end)
 end )

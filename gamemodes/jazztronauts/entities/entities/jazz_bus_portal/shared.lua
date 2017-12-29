@@ -492,11 +492,30 @@ function ENT:Draw()
 end
 
 
+local function GetExitPortal()
+    local bus = IsValid(LocalPlayer():GetVehicle()) and LocalPlayer():GetVehicle():GetParent() or nil
+    if !IsValid(bus) or !bus:GetClass() == "jazz_bus_explore" then return nil end 
+
+    return bus.ExitPortal
+end
+
+local function IsInExitPortal()
+    local exitPortal = GetExitPortal()
+    if !IsValid(exitPortal) then return false end
+    
+    -- If the local player's view is past the portal 'plane', ONLY render the jazz dimension
+    return exitPortal:DistanceToVoid(LocalPlayer():EyePos()) > 0
+end
+
+-- PostRender and PostDrawOpaqueRenderables are what draws the stencil portal in the world
+local drewThisFrame = false
 hook.Add("PostRender", "JazzClearExteriorVoidList", function()
     local portals = LocalPlayer().ActiveBusPortals
     if !portals then return end
 
     table.Empty(portals)
+
+    drewThisFrame = false -- Reset so we only draw once per frame
 end )
 hook.Add("PostDrawOpaqueRenderables", "JazzBusDrawExteriorVoid", function(depth, sky)
     local portals = LocalPlayer().ActiveBusPortals
@@ -507,23 +526,33 @@ hook.Add("PostDrawOpaqueRenderables", "JazzBusDrawExteriorVoid", function(depth,
             v:DrawPortal()
         end
     end
-
 end )
 
-local function GetExitPortal()
-    local bus = IsValid(LocalPlayer():GetVehicle()) and LocalPlayer():GetVehicle():GetParent() or nil
-    if !IsValid(bus) or !bus:GetClass() == "jazz_bus_explore" then return nil end 
+-- Override PreDraw*Renderables to not draw _anything_ if we're inside the portal
+hook.Add("PreDrawOpaqueRenderables", "JazzHaltWorldRender", function(depth, sky)
+    if IsInExitPortal() and drewThisFrame then return true end 
+end )
+hook.Add("PreDrawTranslucentRenderables", "JazzHaltWorldRender", function()
+    if IsInExitPortal() then return true end 
+end )
 
-    return bus.ExitPortal
-end
+-- Totally overrwrite the world with the custom void world
+-- PostDrawOpaqueRenderables can be called many times per frame, but we're hijacking it and only
+-- need it called once, so 'drewThisFrame' keeps track of that
+hook.Add("PostDrawOpaqueRenderables", "JazzDrawPortalWorld", function(depth, sky)
+    if drewThisFrame then return end 
+    drewThisFrame = true
 
-hook.Add("RenderScene", "JazzBusDrawVoid", function(origin, angles, fov)
     local exitPortal = GetExitPortal()
     if !IsValid(exitPortal) then return end
     
     -- If the local player's view is past the portal 'plane', ONLY render the jazz dimension
-    if exitPortal:DistanceToVoid(LocalPlayer():EyePos()) > 0 then
-            
+    local origin = EyePos()
+    local angles = EyeAngles()
+
+    if exitPortal:DistanceToVoid(origin) > 0 then
+        render.Clear(0, 0, 0, 0, true, true) -- Dump anything that was rendered
+
         local voffset = exitPortal:GetJazzVoidView()
         render.Clear(55, 0, 55, 255)
         cam.Start3D(origin + voffset, angles, fov, nil, nil, nil, nil, 10, 1000000)
@@ -533,6 +562,5 @@ hook.Add("RenderScene", "JazzBusDrawVoid", function(origin, angles, fov)
         cam.Start3D(origin, angles, fov, nil, nil, nil, nil, 10, 1000000)
             exitPortal:DrawInteriorDoubles()
         cam.End3D()
-        return true -- Don't bother drawing the world
     end
 end )

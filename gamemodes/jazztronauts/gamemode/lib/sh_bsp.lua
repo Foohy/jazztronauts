@@ -452,14 +452,14 @@ function meta:GetName()
 
 end
 
-local cache = {}
+_BSP_CACHE = _BSP_CACHE or {}
 function Get( filename, path )
 
 	local fpath = filename .. tostring(path)
-	if cache[fpath] then return cache[fpath] end
+	if _BSP_CACHE[fpath] then return _BSP_CACHE[fpath] end
 
 	local new = setmetatable({}, meta):Init( filename, path )
-	cache[fpath] = new
+	_BSP_CACHE[fpath] = new
 	return new
 
 end

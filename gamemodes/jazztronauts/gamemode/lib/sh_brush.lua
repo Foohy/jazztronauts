@@ -3,8 +3,10 @@ if SERVER then AddCSLuaFile("sh_brush.lua") end
 module( "brush", package.seeall )
 
 brush_planeside_epsilon = 0.2
+SIDE_CROSS = -2
 SIDE_FRONT = 1
 SIDE_BACK = 2
+SIDE_ON = 3
 
 local meta = {}
 meta.__index = meta
@@ -16,7 +18,6 @@ function meta:Init( plane, winding )
 
 	self.plane = plane
 	self.winding = winding
-	self.contents = 0
 	self.bevel = false
 	return self
 
@@ -24,9 +25,8 @@ end
 
 function meta:Copy()
 
-	local s = Side( Plane( self.plane.normal, self.plane.dist ) )
+	local s = Side( self.plane )--Plane( self.plane.normal, self.plane.dist ) )
 	s.winding = self.winding:Copy()
-	s.contents = self.contents
 	s.bevel = self.bevel
 	return s
 
@@ -50,6 +50,7 @@ function meta:Init()
 	self.max = Vector()
 	self.side = 0
 	self.testside = 0
+	self.contents = 0
 
 	ResetBoundingBox( self.min, self.max )
 
@@ -63,6 +64,7 @@ function meta:Copy()
 	for _, side in pairs(self.sides) do
 		b:Add( side:Copy() )
 	end
+	b.contents = self.contents
 	return b
 
 end
@@ -103,7 +105,7 @@ function meta:CreateWindings()
 
 	self:CalcBounds()
 
-	print(#self.sides, self.min, self.max)
+	--print(#self.sides, self.min, self.max)
 
 	return self
 
@@ -120,6 +122,34 @@ function meta:CalcBounds()
 			end
 		end
 	end
+
+end
+
+function meta:PlaneSide(plane)
+
+	local front = false
+	local back = false
+
+	for i, side in pairs(self.sides) do
+		local w = side.winding
+		if w ~= nil then
+			for _, point in pairs(w.points) do
+				local d = point:Dot( plane.normal ) - plane.dist
+				if d > brush_planeside_epsilon then 
+					if back then return SIDE_CROSS end
+					front = true
+				end
+				if d < -brush_planeside_epsilon then
+					if front then return SIDE_CROSS end
+					back = true
+				end
+			end
+		end
+	end
+	
+	if back then return SIDE_BACK end
+	if front then return SIDE_FRONT end
+	return SIDE_ON
 
 end
 
@@ -182,6 +212,9 @@ function meta:Split(plane)
 
 	local back = Brush()
 	local front = Brush()
+
+	back.contents = self.contents
+	front.contents = self.contents
 
 	for _, side in pairs(self.sides) do
 		local w = side.winding

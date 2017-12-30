@@ -252,7 +252,7 @@ function meta:Plane()
 
 	local plane = {}
 
-	if #self.points < 2 then error("Winding:Plane - no points to test") end
+	if #self.points < 2 then return Plane(0,0,0,0) end
 
 	local a,b = nil,nil
 	for i=1, #self.points do
@@ -262,11 +262,11 @@ function meta:Plane()
 	end
 	if a == nil or b == nil then error("Winding:Plane - bad vectors dawg") end
 
-	plane.normal = b:Cross(a)
-	plane.normal:Normalize()
-	plane.dist = self.points[1]:Dot( plane.normal )
+	local normal = b:Cross(a)
+	normal:Normalize()
+	local dist = self.points[1]:Dot( normal )
 
-	return plane
+	return Plane( normal, dist )
 
 end
 
@@ -284,6 +284,7 @@ function meta:PlaneSide(plane)
 			back = true
 
 		else
+		--elseif d > winding_epsilon then
 
 			if back then return SIDE_CROSS end
 			front = true
@@ -518,16 +519,19 @@ function meta:Merge(other, planenormal)
 
 end
 
-function meta:Render(col, depth, lightmap)
+local invcolor = 1/255
+function meta:Render(col, depth, offset)
+
+	self.rplane = self.rplane or self:Plane()
 
 	if self.mesh then
 		if col then
-			render.SetColorModulation( col.r, col.g, col.b )
+			render.SetColorModulation( col.r * invcolor, col.g * invcolor, col.b * invcolor )
 		end
 
 		render.SetLightingOrigin( self.cache_center )
 		render.SetMaterial( self.material )
-		if lightmap ~= nil then render.SetLightmapTexture( lightmap ) end
+		--if lightmap ~= nil then render.SetLightmapTexture( lightmap ) end
 		self.mesh:Draw()
 		return
 	end
@@ -536,6 +540,12 @@ function meta:Render(col, depth, lightmap)
 
 		local p1 = self.points[i]
 		local p2 = self.points[ (i % #self.points) + 1 ]
+
+		if offset then
+			p1 = p1 - self.rplane.normal * offset
+			p2 = p2 - self.rplane.normal * offset
+		end
+
 		render.DrawLine( p1, p2, col or Color(20,100,255), depth )
 	end
 
@@ -583,11 +593,12 @@ function meta:CreateMesh(id, material, texmatrix, lmmatrix, width, height )
 			u,v = lmmatrix:GetUV(p)
 		end
 
-		local light = render.ComputeLighting( p, normal )
+		--local light = render.ComputeLighting( p, normal )
 
 		mesh.TexCoord( 1, u, v )
 		mesh.Normal( normal )
-		mesh.Color( light.x*255, light.y*255, light.z*255, 255 )
+		--mesh.Color( light.x*255, light.y*255, light.z*255, 255 )
+		mesh.Color( 255, 255, 255, 100 )
 		mesh.AdvanceVertex()
 	end
 
@@ -598,8 +609,8 @@ function meta:CreateMesh(id, material, texmatrix, lmmatrix, width, height )
 	mesh.Begin( self.mesh:Get(), MATERIAL_TRIANGLES, #self.points - 2 )
 	for i=2, #self.points-1 do
 		emitPointVert(self.points[1], normal)
-		emitPointVert(self.points[i], normal)
 		emitPointVert(self.points[i+1], normal)
+		emitPointVert(self.points[i], normal)
 	end
 	mesh.End()
 

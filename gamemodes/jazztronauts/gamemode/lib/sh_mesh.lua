@@ -71,8 +71,8 @@ FreeMesh = function( mesh )
 		if v == mesh then
 			if _MESH_REF_COUNTERS[k] == 1 then
 				print("***FREED CLIENTSIDE MESH: " .. tostring(v) .. "***")
-				v:Destroy()
 				table.remove( _MESH_POOL, k )
+				v:Destroy()
 			else
 				_MESH_REF_COUNTERS[k] = _MESH_REF_COUNTERS[k] - 1
 			end

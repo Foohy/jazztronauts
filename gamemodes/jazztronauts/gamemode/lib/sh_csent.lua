@@ -22,10 +22,10 @@ for k, v in pairs( FindMetaTable("Entity") ) do
 
 end
 
-function ManagedCSEnt( id, model )
+function ManagedCSEnt( id, model, ragdoll )
 
 	local ent = {}
-	ent.Instance = AllocCSEntity( id, model )
+	ent.Instance = AllocCSEntity( id, model, ragdoll )
 	ent.GC = GCHandler( FreeCSEntity, rawget(ent, "Instance") )
 	ent.Get = function( self )
 		return rawget(self, "Instance")
@@ -46,15 +46,20 @@ function ManagedCSEnt( id, model )
 
 end
 
-AllocCSEntity = function( id, model )
+AllocCSEntity = function( id, model, ragdoll )
 
-	local entry = tostring(id) .. tostring(model)
+	local entry = tostring(id) .. tostring(model) .. tostring(ragdoll)
 	if _ENTITY_POOL[entry] ~= nil then
 		_ENTITY_REF_COUNTERS[entry] = _ENTITY_REF_COUNTERS[entry] + 1
 		return _ENTITY_POOL[entry]
 	end
 
-	local CSEnt = ClientsideModel( model )
+	local CSEnt = nil
+	if not ragdoll then
+		CSEnt = ClientsideModel( model )
+	else
+		CSEnt = ClientsideRagdoll( model )
+	end
 
 	_ENTITY_POOL[entry] = CSEnt
 	_ENTITY_REF_COUNTERS[entry] = 1

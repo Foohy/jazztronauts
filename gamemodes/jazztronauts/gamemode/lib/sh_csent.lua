@@ -2,13 +2,13 @@ if SERVER then AddCSLuaFile("sh_csent.lua") end
 if SERVER then return end
 
 _ENTITY_POOL = _ENTITY_POOL or {}
-_ENTITY_REF_COUNTERS = {}
+_ENTITY_REF_COUNTERS = _ENTITY_REF_COUNTERS or {}
 
-for k,v in pairs(_ENTITY_POOL) do
+--[[for k,v in pairs(_ENTITY_POOL) do
 	v:Remove()
 end
 
-_ENTITY_POOL = {}
+_ENTITY_POOL = {}]]
 
 local WrappedEntityMeta = {}
 local AllocCSEntity = nil
@@ -70,7 +70,7 @@ FreeCSEntity = function( csent )
 			if _ENTITY_REF_COUNTERS[k] == 1 then
 				print("***FREED CLIENTSIDE ENTITY: " .. tostring(v:GetModel()) .. "***")
 				v:Remove()
-				table.remove( _ENTITY_POOL, k )
+				_ENTITY_POOL[k] = nil
 			else
 				_ENTITY_REF_COUNTERS[k] = _ENTITY_REF_COUNTERS[k] - 1
 			end

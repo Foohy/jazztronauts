@@ -1,12 +1,12 @@
 if SERVER then AddCSLuaFile("sh_gc.lua") end
 
 local meta = getmetatable( DamageInfo() )
-local hijack = {}
+_GC_HANDLER_HIJACK = _GC_HANDLER_HIJACK or {}
 
 function meta.__gc( self )
-	if hijack[tostring(self)] then
-		pcall( hijack[tostring(self)] )
-		hijack[tostring(self)] = nil
+	if _GC_HANDLER_HIJACK[tostring(self)] then
+		pcall( _GC_HANDLER_HIJACK[tostring(self)] )
+		_GC_HANDLER_HIJACK[tostring(self)] = nil
 	end
 end
 
@@ -16,7 +16,7 @@ function GCHandler(func, ...)
 	local data = DamageInfo()
 	local params = {...}
 
-	hijack[tostring(data)] = function() func( unpack(params) ) end
+	_GC_HANDLER_HIJACK[tostring(data)] = function() func( unpack(params) ) end
 	return data
 
 end

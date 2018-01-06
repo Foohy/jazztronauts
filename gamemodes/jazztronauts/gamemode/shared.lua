@@ -10,7 +10,7 @@ team.SetUp( 1, "Jazztronauts", Color( 255, 128, 0, 255 ) )
 
 
 function GM:PlayerNoClip(ply)
-	return mapcontrol.IsInHub() or true
+	return mapcontrol.IsInHub() //or true
 end
 
 function GM:PhysgunPickup(ply, ent)

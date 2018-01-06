@@ -1,0 +1,14 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/jazzDinnerTable_a"
+	"$envmapmask" "models/sunabouzu/jazzDinnerTable_s"
+	"%keywords" "jazz"
+	"$nocull" 1
+	"$nodecal" 1
+	$selfillum 1
+    	"$envmap" "env_cubemap"
+//	"$basealphaenvmapmask" 1
+	"$envmaptint" .5 .5 .5
+//	"$envmapcontrast" .3 .3 .3
+	"$envmapsaturation" .7
+}

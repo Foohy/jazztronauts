@@ -23,7 +23,7 @@ SWEP.Secondary.Ammo 		= "none"
 
 SWEP.Spawnable 				= true
 SWEP.RequestInfo			= {}
-SWEP.KillsPeople			= false
+SWEP.KillsPeople			= true
 
 function SWEP:Initialize()
 	self:SetWeaponHoldType( self.HoldType )	
@@ -61,6 +61,7 @@ function SWEP:AcceptEntity( ent )
 	--Accept only this kinda stuff
 	if ent == nil then return false end
 	if ent:GetClass() == "prop_physics" then return true end
+	if ent:GetClass() == "prop_physics_multiplayer" then return true end
 	if ent:GetClass() == "prop_dynamic" then return true end
 	if ent:GetClass() == "prop_ragdoll" then return true end
 	if ent:IsNPC() then return true end

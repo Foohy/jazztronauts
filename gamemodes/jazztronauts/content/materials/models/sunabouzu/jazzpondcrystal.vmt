@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/sunabouzu/lake_clutter"
+	"$nodecal" 1
+	$selfillum 1
+}

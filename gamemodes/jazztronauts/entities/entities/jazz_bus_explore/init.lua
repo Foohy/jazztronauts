@@ -279,9 +279,9 @@ function ENT:Think()
 
 	-- Changelevel at the end
 	if self.ChangelevelTime and CurTime() > self.ChangelevelTime then 
-		if self:GetNumOccupants() >= player.GetCount() then 
+		--if self:GetNumOccupants() >= player.GetCount() then 
 			mapcontrol.Launch(mapcontrol.GetHubMap())
-		end
+		--end
 	end
 end
 

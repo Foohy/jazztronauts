@@ -59,7 +59,7 @@ function PLAYER:Loadout()
 	
 	--self.Player:Give( "gmod_tool" )
 	self.Player:Give( "gmod_camera" )
-	self.Player:Give( "weapon_fphysgun" )
+	self.Player:Give( "weapon_luaphysgun" )
 	self.Player:Give( "weapon_buscaller" )
 	self.Player:Give( "weapon_propsnatcher" )
 

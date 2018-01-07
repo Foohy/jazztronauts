@@ -518,7 +518,7 @@ function SWEP:MovePlayers()
 			--collisiongroup = COLLISION_GROUP_DEBRIS,
 		} )
 
-		if v:GetGroundEntity() == self.holding then
+		if v:GetGroundEntity() == self.holding or self.holding == tr.Entity then
 		--if v:GetGroundEntity() == self.holding then
 			--print("PUSH: " .. v:Nick())
 			--v:SetVelocity( push / 2 )
@@ -529,7 +529,7 @@ function SWEP:MovePlayers()
 				print("clearlast")
 			end
 
-			local newpos = deltamtx * (v.lastpos or v:GetPos())
+			local newpos = deltamtx * v:GetPos()
 			print("PUSH: " .. tostring(v.lastpos))
 			v:SetPos( newpos )
 			v.lastpos = newpos
@@ -555,7 +555,7 @@ function SWEP:Think()
 	if not IsValid(self.holdingPhys) then self:Drop() return end
 	if not self.holdingPhys:IsMotionEnabled() then self:Drop() return end
 
-	--self:MovePlayers()
+	self:MovePlayers()
 
 	--self.prevmatrix:Concat( self.nextmatrix )
 	--print( tostring( deltamtx ) )

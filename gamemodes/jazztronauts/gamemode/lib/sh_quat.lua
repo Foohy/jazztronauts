@@ -237,13 +237,12 @@ function quat:Slerp( other, t, dst )
 end
 
 local _iangles = Angle(0,0,0)
-local _invangle = math.pi / 180
 
 function quat:FromAngles(angles)
 
-	_iangles.p = angles.p * inv
-	_iangles.y = angles.y * inv
-	_iangles.r = angles.r * inv
+	_iangles.p = angles.p * DEG_2_RAD
+	_iangles.y = angles.y * DEG_2_RAD
+	_iangles.r = angles.r * DEG_2_RAD
 
 	angles = _iangles
 
@@ -333,7 +332,7 @@ local _staticRDST = Quaternion()
 
 function quat:RotateAroundAxis(axis, angle)
 
-	local q = _staticR1:FromAxis( axis, angle * _invangle )
+	local q = _staticR1:FromAxis( axis, angle * DEG_2_RAD )
 	q = self:Mult(q, _staticRDST)
 
 	self.x = q.x
@@ -366,7 +365,7 @@ function quat:ToAngles()
 		_tempVRight, 
 		_tempVUp)
 
-	return VectorsToAngles(_tempVForward, _tempVRight, _tempVUp)
+	return BasisToAngles(_tempVForward, _tempVRight, _tempVUp)
 
 end
 
@@ -435,6 +434,6 @@ function GetAngleDifference(a, b, q)
 		q.w = _staticQ3.w
 	end
 
-	return VectorsToAngles(_staticQ3:ToVectors())
+	return BasisToAngles(_staticQ3:ToVectors())
 
 end

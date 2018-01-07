@@ -39,7 +39,7 @@ local ClawsClose = Sound( "weapons/physcannon/physcannon_claws_close.wav" )
 local Launch = Sound( "weapons/physcannon/superphys_launch1.wav" )
 
 function calcSplineFromTable(values, dt, v)
-	return zmath.CatmullRomSpline(
+	return spline.CatmullRomSpline(
 		values[1], 
 		values[2], 
 		values[3], 
@@ -135,10 +135,17 @@ function SWEP:Animate()
 	end
 end
 
+function SWEP:PhysPunt( phys )
+
+	phys:ApplyForceCenter( self:GetOwner():EyeAngles():Forward() * 2000 * self:GetPowerFactor() * phys:GetMass() )
+	sound.Play( Launch, self:GetPos(), 100, 100, 1.0 )
+
+end
+
 function SWEP:PrimaryAttack()
 
-
 	if not self:GetNWBool("bHoldingProp") then
+
 		self.nextAttack = self.nextAttack or 0
 		local tr = self:GetOwner():GetEyeTrace()
 		if IsValid(tr.Entity) and self.nextAttack < CurTime() then
@@ -147,8 +154,7 @@ function SWEP:PrimaryAttack()
 
 			if IsValid(tr.Entity:GetPhysicsObject()) then
 				--if tr.Entity:GetPhysicsObject():IsMotionEnabled() == false then return end
-				tr.Entity:GetPhysicsObject():SetVelocity(self:GetOwner():EyeAngles():Forward() * 2000)
-				sound.Play( Launch, self:GetPos(), 100, 100, 1.0 )
+				self:PhysPunt( tr.Entity:GetPhysicsObject() )
 
 			end
 
@@ -157,20 +163,19 @@ function SWEP:PrimaryAttack()
 				effectdata:SetStart( self.Owner:GetShootPos() )
 				effectdata:SetAttachment( 1 )
 				effectdata:SetEntity( self.Weapon )
-			util.Effect( "fphysgun_tracer", effectdata )
+			util.Effect( "luaphysgun_tracer", effectdata )
 
 			self.nextAttack = CurTime() + 0.5
 
 			self:Animate()
 		end
-		return 
+		return
+
 	end
 
 	if SERVER then
-		self.holdingPhys:SetVelocity(self:GetOwner():EyeAngles():Forward() * 2000)
+		self:PhysPunt( self.holdingPhys )
 		self:Drop()
-
-		sound.Play( Launch, self:GetPos(), 100, 100, 1.0 )
 	end
 	self:Animate()
 
@@ -201,7 +206,14 @@ function SWEP:GetPlayerState()
 	}
 end
 
+function SWEP:GetPowerFactor()
+
+	return 1 --.01
+
+end
+
 function SWEP:Pickup()
+
 	if CLIENT then return end
 
 	local tr = util.TraceLine( util.GetPlayerTrace( self:GetOwner() ) )
@@ -222,11 +234,11 @@ function SWEP:Pickup()
 
 	if ent._heldByPhysgun then return end
 
-	self.holding = tr.Entity
+	self.holding = ent
 	self.holdingPhys = phys
 	self.holdingPivot = tr.HitPos
 
-	self.propRotate = zmath.Quaternion():FromAngles(self.holdingPhys:GetAngles())
+	self.propRotate = Quaternion():FromAngles(self.holdingPhys:GetAngles())
 
 	self.propState = self:GetPhysState(self.holdingPhys)
 	self.playerState = self:GetPlayerState()
@@ -234,7 +246,7 @@ function SWEP:Pickup()
 	self.initPropState = self:GetPhysState(self.holdingPhys)
 	self.initPlayerState = self:GetPlayerState()
 
-	self.holdingPhys:SetDamping( 30, 30 )
+	self.holdingPhys:SetDamping( 30 * self:GetPowerFactor(), 30 * self:GetPowerFactor() )
 	self.holdingPhys:EnableGravity( true )
 
 	self.holdDist = self.holdingPivot:Distance(self.playerState.pos)
@@ -243,7 +255,7 @@ function SWEP:Pickup()
 	self.maxHoldDist = math.max(self.minHoldDist, 350)
 	--self.holdDist = self.holding:BoundingRadius() + 100
 
-	self.entPlane = zmath.Plane():FromEntity(self.holding)
+	self.entPlane = Space():FromEntity(self.holding)
 	self.entPivot = self.entPlane:WorldToLocal(self.holdingPivot) * -1
 	self.entCollisionGroup = self.holding:GetCollisionGroup()
 
@@ -273,31 +285,35 @@ end
 
 function SWEP:Drop()
 
-	if not self.holding then return end
+	if self.holding == nil then return end
 
-	self.holding:SetCollisionGroup( self.prevcollisiongroup )
+	local washolding = self.holding
+	self.holding = nil
+
+	sound.Play( ClawsClose, self:GetPos(), 100, 100, 1.0 )
+	sound.Play( DropSound, self:GetPos(), 100, 100, 1.0 )
 
 	self.snapRotate = nil
 	self:SetNWBool("bHoldingProp", false)
 	self:SetNWEntity("HoldingProp", nil)
-
-	if self.holding and IsValid(self.holding) and IsValid(self.holdingPhys) then 
-		self.holdingPhys:SetDamping( self.initPropState.dLinear, self.initPropState.dAngular ) 
-		self.holdingPhys:EnableGravity( self.initPropState.dGravity )
-		self.holding:SetCollisionGroup(self.entCollisionGroup)
-		GAMEMODE:GravGunOnDropped(self:GetOwner(), self.holding)
-	end
-
-	self.holding._heldByPhysgun = false
-	self.holding = nil
 
 	if self.holdPatch then 
 		--self.holdPatch:ChangePitch(10, 1)
 		self.holdPatch:Stop() 
 	end
 
-	sound.Play( ClawsClose, self:GetPos(), 100, 100, 1.0 )
-	sound.Play( DropSound, self:GetPos(), 100, 100, 1.0 )	
+	if not IsValid(washolding) then return end
+
+	washolding:SetCollisionGroup( self.prevcollisiongroup )
+
+	if washolding and IsValid(washolding) and IsValid(self.holdingPhys) then 
+		self.holdingPhys:SetDamping( self.initPropState.dLinear, self.initPropState.dAngular ) 
+		self.holdingPhys:EnableGravity( self.initPropState.dGravity )
+		washolding:SetCollisionGroup(self.entCollisionGroup)
+		GAMEMODE:GravGunOnDropped(self:GetOwner(), washolding)
+	end
+
+	washolding._heldByPhysgun = false
 
 end
 
@@ -323,6 +339,7 @@ if SERVER then
 
 	for i=1, #axisVectors do table.insert(axisVectors, axisVectors[i] * -1) end
 	for i=1, #axisVectors do
+
 		for j=i+1, #axisVectors do
 			local a = axisVectors[i]
 			local b = axisVectors[j]
@@ -335,6 +352,7 @@ if SERVER then
 				table.insert(orthVectors, {b,a,b:Cross(a)})
 			end
 		end
+
 	end
 
 	local function qvec(v) return string.format("%0.2f, %0.2f, %0.2f", v.x, v.y, v.z) end
@@ -345,11 +363,12 @@ if SERVER then
 
 		local a,b,c = unpack(orthVectors[i])
 		--print(qvec(a) .. " | " .. qvec(b) .. " | " .. qvec(c))
-		table.insert(snapQuats, zmath.Quaternion():FromVectors(a,b,c))
+		table.insert(snapQuats, Quaternion():FromVectors(a,b,c))
 
 	end
 
 	function closestSnapVector(quat)
+
 		local closest = 360
 		local snap = nil
 		for i=1, #snapQuats do
@@ -360,6 +379,7 @@ if SERVER then
 			end
 		end
 		return snap
+
 	end
 
 	function SWEP:UpdateControls(plState)
@@ -385,10 +405,10 @@ if SERVER then
 
 		plState.ang = self.playerState.ang
 
-		local q = zmath.Quaternion():FromAxis(self.playerState.right, rotY / 57.3)
+		local q = Quaternion():FromAxis(self.playerState.right, rotY / 57.3)
 		self.propRotate = q:Mult(self.propRotate)
 
-		local q = zmath.Quaternion():FromAxis(Vector(0,0,1), rotX / 57.3)
+		local q = Quaternion():FromAxis(Vector(0,0,1), rotX / 57.3)
 		self.propRotate = q:Mult(self.propRotate)
 
 		if self:GetOwner():KeyDown(IN_SPEED) then
@@ -418,7 +438,6 @@ end
 
 function SWEP:CalcView(ply, pos, angles, fov)
 
-
 	if self:GetNWBool("bHoldingProp") and ply:KeyDown(IN_USE) then
 		self._lockViewAngle = self._lockViewAngle or angles
 		ply:SetEyeAngles(self._lockViewAngle)
@@ -428,13 +447,11 @@ function SWEP:CalcView(ply, pos, angles, fov)
 	end
 
 	return pos, angles, fov
-end
 
-function SWEP:ShouldDropOnDie()
-	return false
 end
 
 function SWEP:CalcViewModelView( wep, vm, ang, pos )
+
 	if self:GetNWBool("bHoldingProp") and self:GetOwner():KeyDown(IN_USE) then
 		ang = wep:GetOwner():EyeAngles()
 		pos = wep:GetOwner():EyePos()
@@ -493,6 +510,7 @@ function SWEP:CalcViewModelView( wep, vm, ang, pos )
 	end
 
 	return pos, ang
+
 end
 
 function SWEP:MovePlayers()
@@ -526,11 +544,11 @@ function SWEP:MovePlayers()
 			if v.lastpostime == nil or v.lastpostime < CurTime() - .1 then
 				v.lastpostime = nil
 				v.lastpos = nil
-				print("clearlast")
+				--print("clearlast")
 			end
 
 			local newpos = deltamtx * v:GetPos()
-			print("PUSH: " .. tostring(v.lastpos))
+			--print("PUSH: " .. tostring(v.lastpos))
 			v:SetPos( newpos )
 			v.lastpos = newpos
 			v.lastpostime = CurTime()
@@ -538,7 +556,7 @@ function SWEP:MovePlayers()
 			--print(newpos)	
 			--v:SetParent( self.holding )
 		else
-			print("NOT GROUND")
+			--print("NOT GROUND")
 		end
 	end
 
@@ -555,10 +573,10 @@ function SWEP:Think()
 	if not IsValid(self.holdingPhys) then self:Drop() return end
 	if not self.holdingPhys:IsMotionEnabled() then self:Drop() return end
 
-	self:MovePlayers()
+	local squared_power_factor = self:GetPowerFactor()
+	squared_power_factor = squared_power_factor * squared_power_factor
 
-	--self.prevmatrix:Concat( self.nextmatrix )
-	--print( tostring( deltamtx ) )
+	self:MovePlayers()
 
 	local newPlayerState = self:GetPlayerState()
 
@@ -568,19 +586,19 @@ function SWEP:Think()
 	local prevAngle = self.playerState.ang
 	local currAngle = newPlayerState.ang
 
-	local qAngle = zmath.Quaternion():FromAngles(currAngle)
+	local qAngle = Quaternion():FromAngles(currAngle)
 	local forward, right, up = qAngle:ToVectors()
 
-	local dQuat = zmath.Quaternion()
-	local propDiff = zmath.GetAngleDifference(self.holdingPhys:GetAngles(), self.propState.ang)
-	local plDiff = zmath.GetAngleDifference(self.playerState.ang, newPlayerState.ang, dQuat)
+	local dQuat = Quaternion()
+	local propDiff = GetAngleDifference(self.holdingPhys:GetAngles(), self.propState.ang)
+	local plDiff = GetAngleDifference(self.playerState.ang, newPlayerState.ang, dQuat)
 
-	local currentLocalSpace = zmath.Plane():SetAngles(self.propState.ang)
+	local currentLocalSpace = Space():SetAngles(self.propState.ang)
 	currentLocalSpace:SetPos(self.propState.pos)
 
 	if self.snapRotate then
 		local snapAngles = self.snapRotate:ToAngles()
-		propDiff = zmath.GetAngleDifference(self.holdingPhys:GetAngles(), snapAngles)
+		propDiff = GetAngleDifference(self.holdingPhys:GetAngles(), snapAngles)
 		currentLocalSpace:SetAngles(snapAngles)
 	end
 
@@ -592,7 +610,8 @@ function SWEP:Think()
 	local push = (grabOffset - self.holdingPhys:GetPos())
 
 	self.holdingPhys:Wake()
-	self.holdingPhys:AddVelocity(push * 14)
+	--self.holdingPhys:AddVelocity(push * 14 * self:GetPowerFactor())
+	self.holdingPhys:ApplyForceCenter( push * 14 * self.holdingPhys:GetMass() * squared_power_factor)
 
 
 	local rAxis = Vector(propDiff.r, propDiff.p, propDiff.y)
@@ -600,25 +619,25 @@ function SWEP:Think()
 
 	if math.abs(rAxis:Length()) > 0.001 and math.abs(rAngle) > 0.001 then
 
-		self.holdingPhys:AddAngleVelocity(rAxis * rAngle)
+		self.holdingPhys:AddAngleVelocity(rAxis * rAngle * squared_power_factor)
 
 	end
 
 	local deltaP = self.playerState.ang.p - newPlayerState.ang.p
 	local deltaY = self.playerState.ang.y - newPlayerState.ang.y
 
-	local q = zmath.Quaternion():FromAxis(self.playerState.right, deltaP / 57.3)
+	local q = Quaternion():FromAxis(self.playerState.right, deltaP / 57.3)
 	self.propRotate = q:Mult(self.propRotate)
 
-	local q = zmath.Quaternion():FromAxis(Vector(0,0,1), -deltaY / 57.3)
+	local q = Quaternion():FromAxis(Vector(0,0,1), -deltaY / 57.3)
 	self.propRotate = q:Mult(self.propRotate)
 
-	local physQuat = zmath.Quaternion():FromAngles(self.holdingPhys:GetAngles())
+	local physQuat = Quaternion():FromAngles(self.holdingPhys:GetAngles())
 	local propIntrusionDifference = self.propRotate:AngleDiff( physQuat )
 	
-
 	self.propState.ang = self.propRotate:ToAngles()
 	self.playerState = newPlayerState
+
 end
 
 function SWEP:SecondaryAttack()
@@ -632,21 +651,28 @@ function SWEP:SecondaryAttack()
 end
 
 function SWEP:OnDrop()
+
 	self:Drop()
+
 end
 
 function SWEP:OnRemove()
+
 	self:Drop()
+
 end
 
 function SWEP:Holster()
+
 	self:Drop()
 	return true
+
 end
 
 function SWEP:ShouldDropOnDie() return false end
 
 local function lpColor(ent, index, lp, gp)
+
 	local pos = ent:GetPos() + ent:OBBCenter()
 	local normal = (pos - gp):GetNormal()
 	local dot = normal:Dot(LocalPlayer():EyeAngles():Forward())
@@ -655,6 +681,7 @@ local function lpColor(ent, index, lp, gp)
 	if dot < 0 then absDot = 0 end
 
 	return Color(255 * absDot,100 * absDot,200 * math.Clamp(math.abs(dot) + 0.4,0,1))
+
 end
 
 if CLIENT then
@@ -662,7 +689,8 @@ if CLIENT then
 	local MatFlare = Material("effects/blueflare1")
 
 	local function renderGrabEffect(ent, pivot, srcPos)
-		local currentLocalSpace = zmath.Plane():SetAngles(ent:GetAngles())
+
+		local currentLocalSpace = Space():SetAngles(ent:GetAngles())
 		currentLocalSpace:SetPos(ent:GetPos())
 
 		local color = nil
@@ -696,13 +724,13 @@ if CLIENT then
 		local grabColors = {}
 		local grabPoints = {}
 
-		zgfx.renderBeam(srcPos, grabOffset, Color(0,0,0), color or Color(255,100,255), 35)
+		gfx.renderBeam(srcPos, grabOffset, Color(0,0,0), color or Color(255,100,255), 35)
 
 		for i=1, #localPoints do
 			local gp = ent:LocalToWorld(localPoints[i])
 			grabColors[i] = color or lpColor(ent, i, localPoints[i], gp)
 			grabPoints[i] = gp
-			zgfx.renderBeam(srcPos, gp, Color(50,25,50), Color(0,0,0), 6)
+			gfx.renderBeam(srcPos, gp, Color(50,25,50), Color(0,0,0), 6)
 		end
 
 		render.SetMaterial( MatFlare )
@@ -716,15 +744,17 @@ if CLIENT then
 			local j = i + 5
 			if i == 4 then n = 1 end
 			if i == 4 then j = 5 end
-			zgfx.renderBeam(grabPoints[i], grabPoints[n], grabColors[i], grabColors[n], 20)
-			zgfx.renderBeam(grabPoints[i], grabPoints[p], grabColors[i], grabColors[p], 20)
-			zgfx.renderBeam(grabPoints[p], grabPoints[j], grabColors[p], grabColors[j], 20)
+			gfx.renderBeam(grabPoints[i], grabPoints[n], grabColors[i], grabColors[n], 20)
+			gfx.renderBeam(grabPoints[i], grabPoints[p], grabColors[i], grabColors[p], 20)
+			gfx.renderBeam(grabPoints[p], grabPoints[j], grabColors[p], grabColors[j], 20)
 		end
 
-		zgfx.renderBox(grabOffset, Vector(-4,-4,-4), Vector(4,4,4), color or Color(255,100,255) )
+		gfx.renderBox(grabOffset, Vector(-4,-4,-4), Vector(4,4,4), color or Color(255,100,255) )
+
 	end
 
 	local function renderVMFx(weapon, vm, pos)
+
 		local brt = weapon.prongs
 
 		if weapon.animPuntPos then
@@ -757,10 +787,11 @@ if CLIENT then
 			render.DrawSprite( pins[i], size, size, col )
 		end
 
-		zgfx.renderBeam(pins[1], pins[2], col, col, 80 - brt * 70)
-		zgfx.renderBeam(pins[1], pins[3], col, col, 80 - brt * 70)
-		zgfx.renderBeam(pins[4], pins[6], col, col, 80 - brt * 70)
-		zgfx.renderBeam(pins[4], pins[5], col, col, 80 - brt * 70)
+		gfx.renderBeam(pins[1], pins[2], col, col, 80 - brt * 70)
+		gfx.renderBeam(pins[1], pins[3], col, col, 80 - brt * 70)
+		gfx.renderBeam(pins[4], pins[6], col, col, 80 - brt * 70)
+		gfx.renderBeam(pins[4], pins[5], col, col, 80 - brt * 70)
+
 	end
 
 	hook.Add("PostDrawTranslucentRenderables", "fphysgun_fx", function()
@@ -771,7 +802,7 @@ if CLIENT then
 			if ply == LocalPlayer() then
 				local vm = LocalPlayer():GetViewModel()
 				
-				if IsValid(weapon) and IsValid(vm) and weapon:GetClass() == "weapon_fphysgun" then
+				if IsValid(weapon) and IsValid(vm) and weapon:GetClass() == "weapon_luaphysgun" then
 					local attach = vm:GetAttachment(1)
 
 					local pos, ang = attach.Pos, attach.Ang

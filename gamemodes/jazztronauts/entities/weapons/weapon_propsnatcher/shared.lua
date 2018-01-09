@@ -1,6 +1,7 @@
 if SERVER then
 	AddCSLuaFile()
 	util.AddNetworkString("remove_prop_scene")
+	util.AddNetworkString("remove_client_send_trace")
 end
 
 SWEP.PrintName 		 		= "Prop Snatcher"
@@ -60,13 +61,69 @@ function SWEP:AcceptEntity( ent )
 
 	--Accept only this kinda stuff
 	if ent == nil then return false end
+	if not ent:IsValid() then return false end
 	if ent:GetClass() == "prop_physics" then return true end
 	if ent:GetClass() == "prop_physics_multiplayer" then return true end
 	if ent:GetClass() == "prop_dynamic" then return true end
 	if ent:GetClass() == "prop_ragdoll" then return true end
 	if ent:IsNPC() then return true end
+	if ent:IsPlayer() and ent:Alive() then return true end
 	print("FILTERED-OUT: " .. tostring(ent))
 	return false
+
+end
+
+function SWEP:RemoveEntity( ent )
+
+	if self:AcceptEntity( ent ) and not ent.doing_removal then
+
+		--Don't allow edge-case double-removal
+		ent.doing_removal = true
+
+		local phys = ent:GetPhysicsObject()
+
+		--Send to the net
+		net.Start("remove_prop_scene")
+		net.WriteUInt( 1, 8 )
+		net.WriteEntity( ent )
+		net.WriteFloat( CurTime() )
+		net.WriteVector( phys:IsValid() and phys:GetVelocity() or Vector(0,0,0) )
+		net.WriteVector( phys:IsValid() and phys:GetAngleVelocity() or Vector(0,0,0) )
+		net.Send( player.GetAll() )
+
+		GAMEMODE:CollectProp( ent, self:GetOwner() )
+
+		--After a very short time, remove the thing from the server
+		timer.Simple(.02, function()
+			if ( ent:IsPlayer() or ent:IsNPC() ) and self.KillsPeople then
+				if not string.find( ent:GetClass(), "strider" ) then
+					if ent:IsPlayer() then
+						ent:KillSilent()
+					else
+						ent:TakeDamage(10000, self.Owner, self)
+					end
+				else
+					ent:TakeDamage(2, self.Owner, self)
+				end
+			end
+
+			if not ent:IsPlayer() then
+				ent:Remove()
+			else
+				ent.doing_removal = false
+			end
+			
+		end )
+
+		if not ent:IsPlayer() then
+			--Disable physics as much as possible
+			if phys:IsValid() then
+				phys:EnableCollisions(false)
+				phys:EnableMotion(false)
+			end
+		end
+
+	end
 
 end
 
@@ -82,42 +139,27 @@ function SWEP:TraceToRemove()
 		filter = self:GetOwner(),
 	} )
 
-	if self:AcceptEntity( tr.Entity ) and not tr.Entity.doing_removal then
-
-		--Don't allow edge-case double-removal
-		tr.Entity.doing_removal = true
-
-		local phys = tr.Entity:GetPhysicsObject()
-
-		--Send to the net
-		net.Start("remove_prop_scene")
-		net.WriteUInt( 1, 8 )
-		net.WriteEntity( tr.Entity )
-		net.WriteFloat( CurTime() )
-		net.WriteVector( phys:IsValid() and phys:GetVelocity() or Vector(0,0,0) )
-		net.WriteVector( phys:IsValid() and phys:GetAngleVelocity() or Vector(0,0,0) )
-		net.Send( player.GetAll() )
-
-		--After a very short time, remove the thing from the server
-		timer.Simple(.02, function()
-			if tr.Entity:IsNPC() and self.KillsPeople then
-				if not string.find( tr.Entity:GetClass(), "strider" ) then
-					tr.Entity:TakeDamage(10000, self.Owner, self)
-				else
-					tr.Entity:TakeDamage(2, self.Owner, self)
-				end
-			end
-			tr.Entity:Remove()
-		end )
-
-		--Disable physics as much as possible
-		if phys:IsValid() then
-			phys:EnableCollisions(false)
-			phys:EnableMotion(false)
+	if SERVER then
+		self:RemoveEntity( tr.Entity )
+	else
+		if self:AcceptEntity( tr.Entity ) then
+			net.Start( "remove_client_send_trace" )
+			net.WriteEntity( self )
+			net.WriteEntity( tr.Entity )
+			net.SendToServer()
 		end
-
 	end
 
+end
+
+if SERVER then
+	net.Receive("remove_client_send_trace", function(len, pl)
+
+		local swep = net.ReadEntity()
+		local remove = net.ReadEntity()
+		swep:RemoveEntity( remove )
+
+	end)
 end
 
 function SWEP:PrimaryAttack()
@@ -127,6 +169,7 @@ function SWEP:PrimaryAttack()
 
 	if SERVER then
 		self.Owner:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
+	else
 		self:TraceToRemove()
 	end
 

@@ -214,5 +214,5 @@ net.Receive("jazz_bus_launcheffects", function(len, ply)
 		busEnt:StartLaunchEffects()
 	end
 
-	transitionOut(2.5)
+	--transitionOut(2.5)
 end )

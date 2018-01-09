@@ -37,9 +37,9 @@ timer.Simple(3,function()
 	transitionIn()
 end)]]
 
---if not mapcontrol.IsInHub() then
-	transitionIn(1)
---end
+if mapcontrol.IsInHub() then
+	transitionIn(2)
+end
 
 hook.Add("PostRenderVGUI", "transitions", function()
 

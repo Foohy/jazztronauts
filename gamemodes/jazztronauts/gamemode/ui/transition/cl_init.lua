@@ -10,26 +10,38 @@ local starttime = CurTime()
 local transitioning = 0
 local rate = .75
 
-function transitionOut()
-	surface.PlaySound( "jazztronauts/slide.wav" )
+function transitionOut(delay)
+	if delay ~= nil then
+		timer.Simple( delay, function() surface.PlaySound( "jazztronauts/slide.wav" ) end )
+	else
+		surface.PlaySound( "jazztronauts/slide.wav" )
+	end
 	transitioning = -1
-	starttime = CurTime()
+	starttime = CurTime() + (delay or 0)
 end
 
-function transitionIn()
-	surface.PlaySound( "jazztronauts/slide_reverse.wav" )
+function transitionIn(delay)
+	if delay ~= nil then
+		timer.Simple( delay, function() surface.PlaySound( "jazztronauts/slide_reverse.wav" ) end )
+	else
+		surface.PlaySound( "jazztronauts/slide_reverse.wav" )
+	end
 	transitioning = 1
-	starttime = CurTime()
+	starttime = CurTime() + (delay or 0)
 end
 
-timer.Simple(1,function()
+--[[timer.Simple(1,function()
 	transitionOut()
 end)
 timer.Simple(3,function()
 	transitionIn()
-end)
+end)]]
 
-hook.Add("HUDPaint", "transitions", function()
+--if not mapcontrol.IsInHub() then
+	transitionIn(1)
+--end
+
+hook.Add("PostRenderVGUI", "transitions", function()
 
 	local amount = ( CurTime() - starttime ) * rate
 
@@ -53,6 +65,7 @@ hook.Add("HUDPaint", "transitions", function()
 		end
 	end
 
+	amount = math.max(amount, 0)
 	amount = amount * amount
 
 	local display = Rect("screen")

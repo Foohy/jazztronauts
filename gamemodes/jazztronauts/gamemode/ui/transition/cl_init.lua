@@ -30,6 +30,9 @@ function transitionIn(delay)
 	starttime = CurTime() + (delay or 0)
 end
 
+concommand.Add("txin", function() transitionIn() end )
+concommand.Add("txout", function() transitionOut() end )
+
 --[[timer.Simple(1,function()
 	transitionOut()
 end)

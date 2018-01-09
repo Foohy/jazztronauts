@@ -57,6 +57,13 @@ function GM:CollectShard(shard, ply)
 
 end
 
+-- Called when prop is snatched from the level
+function GM:CollectProp(prop, ply)
+	print("COLLECTED: " .. tostring(prop and prop:GetModel() or "<entity>"))
+
+	propfeed.notify( prop, ply )
+end
+
 -- TODO: Just for debugging for now
 local function PrintMapHistory(ply)
 

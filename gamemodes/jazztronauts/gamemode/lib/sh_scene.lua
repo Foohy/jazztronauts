@@ -13,6 +13,16 @@ mnode.__index = mnode
 local meta = {}
 meta.__index = meta
 
+for k, v in pairs( FindMetaTable("Entity") ) do
+
+	if not string.find(k, "__") then
+		mnode[k] = function(self, ...)
+			return v( rawget(rawget(self, "__csent"), "Instance"), ...)
+		end
+	end
+
+end
+
 function mnode:Init()
 
 	self.transform = Matrix()
@@ -76,14 +86,15 @@ function meta:Init( camera )
 
 end
 
-local function AllocEntityNode( id, model )
+local function AllocEntityNode( id, model, ragdoll )
 
-	local CSEnt = ManagedCSEnt( id, model )
+	local CSEnt = ManagedCSEnt( id, model, ragdoll )
 	local node = {}
 
 	CSEnt:SetNoDraw( true )
 	CSEnt:SetLOD( 0 )
 
+	node.__csent = CSEnt
 	node.Get = function(self)
 		return CSEnt
 	end
@@ -119,9 +130,9 @@ function meta:Clear( bCleanup )
 
 end
 
-function meta:AddModel( id, model )
+function meta:AddModel( id, model, ragdoll )
 
-	local m = AllocEntityNode( id, model )
+	local m = AllocEntityNode( id, model, ragdoll )
 
 	table.insert( self.nodes, m )
 	return m

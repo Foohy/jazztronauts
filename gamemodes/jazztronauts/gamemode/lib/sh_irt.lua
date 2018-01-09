@@ -425,12 +425,12 @@ local function test()
 
 		local inst = scene:AddModel("player", LocalPlayer():GetModel())
 
-		inst:Get():SetupBones()
-		local head = inst:Get():LookupBone("ValveBiped.Bip01_Head1")
-		if not head then head = inst:Get():LookupBone("ValveBiped.Bip01_Spine2") end
-		if not head then head = inst:Get():LookupBone("ValveBiped.Bip01_Spine1") end
+		inst:SetupBones()
+		local head = inst:LookupBone("ValveBiped.Bip01_Head1")
+		if not head then head = inst:LookupBone("ValveBiped.Bip01_Spine2") end
+		if not head then head = inst:LookupBone("ValveBiped.Bip01_Spine1") end
 
-		local mtx = inst:Get():GetBoneMatrix(head)
+		local mtx = inst:GetBoneMatrix(head)
 		local bonelen = inst:Get():BoneLength(head)
 		inst:Identity()
 		inst:Rotate( Angle(0,CurTime() * 120,0) )

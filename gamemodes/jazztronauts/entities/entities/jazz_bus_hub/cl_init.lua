@@ -213,4 +213,6 @@ net.Receive("jazz_bus_launcheffects", function(len, ply)
 	if IsValid(busEnt) then
 		busEnt:StartLaunchEffects()
 	end
+
+	transitionOut(2.5)
 end )

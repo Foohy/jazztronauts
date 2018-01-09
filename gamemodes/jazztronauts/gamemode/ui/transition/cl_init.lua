@@ -8,7 +8,7 @@ local horse = CreateMaterial( "horse2", "UnlitGeneric",
 
 local starttime = CurTime()
 local transitioning = 0
-local rate = .5
+local rate = .75
 
 function transitionOut()
 	surface.PlaySound( "jazztronauts/slide.wav" )
@@ -17,11 +17,17 @@ function transitionOut()
 end
 
 function transitionIn()
+	surface.PlaySound( "jazztronauts/slide_reverse.wav" )
 	transitioning = 1
 	starttime = CurTime()
 end
 
-transitionOut()
+timer.Simple(1,function()
+	transitionOut()
+end)
+timer.Simple(3,function()
+	transitionIn()
+end)
 
 hook.Add("HUDPaint", "transitions", function()
 

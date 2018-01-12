@@ -27,11 +27,21 @@ local function ensureTables()
 		-- # notes
 		-- ????
 	end
+
+	if !sql.TableExists("jazz_propdata") then
+		Msg("Creating 'jazz_propdata' table...\n")
+
+		sql.Query([[CREATE TABLE jazz_propdata (
+			propname VARCHAR(128) NOT NULL PRIMARY KEY,
+			collected INT UNSIGNED NOT NULL DEFAULT 1
+		)]])
+	end
 end
 
 function Reset()
 	sql.Query("DROP TABLE IF EXISTS jazz_maphistory")
 	sql.Query("DROP TABLE IF EXISTS jazz_playerdata")
+	sql.Query("DROP TABLE IF EXISTS jazz_propdata")
 end
 
 function Query(cmd)
@@ -105,4 +115,51 @@ function FinishMap(mapname)
 	if Query(altr) != false then
 		return GetMap(mapname)
 	end
+end
+
+-- Get the collected count of a specific model
+function GetPropCount(model)
+	local altr = "SELECT collected FROM jazz_propdata "
+		.. string.format("WHERE propname='%s'", model)
+
+	local res = Query(altr)
+	if type(res) == "table" then return tonumber(res[1].collected) end
+	return 0
+end
+
+-- Get the collected count of all props
+function GetPropCounts()
+	local altr = "SELECT * FROM jazz_propdata"
+
+	local res = Query(altr)
+
+	if type(res) == "table" then 
+		for i=1, #res do
+			-- Convert to number
+			res[i].collected = tonumber(res[i].collected)
+
+			-- Allow key lookup
+			res[res[i].propname] = res[i]
+			res[i] = nil
+		end
+		return res
+	end
+
+	return {}
+end
+
+-- Increment the global count of a specific prop
+function AddProp(model)
+	if not model or #model == 0 then return nil end
+
+	local altr = "UPDATE jazz_propdata SET collected = collected + 1 " ..
+		string.format("WHERE propname='%s'", model)
+	local insert = "INSERT OR IGNORE INTO jazz_propdata (propname, collected) "
+		.. string.format("VALUES ('%s', %d)", model, 1)
+
+	-- Try an update, then an insert
+	if Query(altr) == false then return nil end
+	if Query(insert) == false then return nil end 
+	
+	return GetPropCount(model)
 end

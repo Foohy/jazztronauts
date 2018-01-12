@@ -22,7 +22,7 @@ surface.CreateFont( "CountFont", {
 local feed = {}
 
 local nextPropModel = 0
-local function AddPropToFeed( model, skin, ply )
+local function AddPropToFeed( model, skin, ply, cnt )
 
 	local camera = Camera( Vector(-200,0,0), Angle(0,0,0), 8 )
 	local scene = Scene( camera )
@@ -62,7 +62,7 @@ local function AddPropToFeed( model, skin, ply )
 		duration = 5,
 		model = model,
 		skin = skin,
-		count = { [ply] = 1 },
+		count = { [ply] = cnt },
 	})
 
 end
@@ -80,18 +80,17 @@ end
 net.Receive("propcollect", function()
 	local model = net.ReadString()
 	local skin = net.ReadUInt( 16 )
+	local count = net.ReadUInt( 16 )
 	local ply = net.ReadEntity()
-
-	print("OK!!!!!!!")
 
 	local exist = FindEntry( model, skin )
 	if exist then
 		exist.time = CurTime()
-		exist.count[ply] = (exist.count[ply] or 0) + 1
+		exist.count[ply] = count
 		return
 	end
 
-	AddPropToFeed(model, skin, ply)
+	AddPropToFeed(model, skin, ply, count)
 end)
 
 function Paint()

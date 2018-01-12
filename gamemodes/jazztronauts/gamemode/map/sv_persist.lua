@@ -52,6 +52,7 @@ function Reset()
 	sql.Query("DROP TABLE IF EXISTS jazz_maphistory")
 	sql.Query("DROP TABLE IF EXISTS jazz_playerdata")
 	sql.Query("DROP TABLE IF EXISTS jazz_propdata")
+	sql.Query("DROP TABLE IF EXISTS jazz_hubprops")
 end
 
 function Query(cmd)

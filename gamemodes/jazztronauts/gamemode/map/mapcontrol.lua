@@ -73,7 +73,7 @@ if SERVER then
 		local finished = progress.GetMapHistory(MAPPROGRESS_FINISHED)
 		for _, v in pairs(maps) do
 			local map = string.StripExtension(v)
-			if table.HasValue(finished, map) then continue end
+			if finished and table.HasValue(finished, map) then continue end
 			
 			table.insert(mapList, map)
 		end

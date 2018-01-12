@@ -4,7 +4,7 @@ ENT.Type = "point"
 ENT.DisableDuplicator = true
 
 function ENT:Initialize()
-	self:VomitNewProps()
+	//self:VomitNewProps()
 end
 
 function ENT:KeyValue( key, value )

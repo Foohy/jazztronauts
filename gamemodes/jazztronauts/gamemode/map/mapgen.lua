@@ -11,12 +11,29 @@ function GetShards()
     return SpawnedShards 
 end
 
+function CanSnatch(ent)
+
+	--Accept only this kinda stuff
+	if ent == nil then return false end
+	if not ent:IsValid() then return false end
+    if not IsValid(ent:GetPhysicsObject()) then return false end
+	if ent:GetClass() == "prop_physics" then return true end
+	if ent:GetClass() == "prop_physics_multiplayer" then return true end
+	if ent:GetClass() == "prop_dynamic" then return true end
+	if ent:GetClass() == "prop_ragdoll" then return true end
+	if ent:IsNPC() then return true end
+	if ent:IsPlayer() and ent:Alive() then return true end
+
+    return false
+end
+
 if SERVER then 
     util.AddNetworkString("jazz_shardcollect")
 
     function CollectShard(shardent)
         -- It's gotta be one of our shards ;)
         local res = table.RemoveByValue(SpawnedShards, shardent) != nil
+        if not res then return false end
 
         -- THEY DID IT!!!!
         -- TODO: Move this logic somewhere else.
@@ -33,6 +50,15 @@ if SERVER then
         UpdateShardCount()
 
         return res
+    end
+
+    function CollectProp(ply, ent)
+        if !CanSnatch(ent) then return end
+
+        local worth = ent.JazzWorth or 1
+        if IsValid(ply) then
+            ply:SetNotes(ply:GetNotes() + worth)
+        end
     end
 
     function UpdateShardCount(ply)
@@ -143,6 +169,31 @@ if SERVER then
         shard:Activate()
 
         return shard
+    end
+
+    function CalculatePropValues(mapWorth)
+        local props = ents.GetAll()
+        local counts = {}
+        local function getKey(ent) return ent:GetClass() .. "_" .. (ent:GetModel() or "") end
+
+        for _, v in pairs(props) do
+            if not CanSnatch(v) then continue end
+
+            local k = getKey(v)
+            counts[k] = counts[k] or 0
+            counts[k] = counts[k] + 1
+        end
+
+        PrintTable(counts)
+
+        for _, v in pairs(props) do
+            local count = counts[getKey(v)]
+            if not count then continue end
+
+            local worth = (mapWorth / table.Count(counts)) / count
+            v.JazzWorth = worth
+        end
+        
     end
 
     function GenerateShards(count, seed)

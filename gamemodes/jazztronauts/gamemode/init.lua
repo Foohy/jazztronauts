@@ -28,6 +28,7 @@ function GM:InitPostEntity()
 		-- If we haven't beat the map yet, generate some shards
 		if tonumber(res.completed) == 0 then 
 			mapgen.GenerateShards(5, tonumber(res.seed))
+			mapgen.CalculatePropValues(10000)
 		else mapgen.InitialShardCount = 5 end -- Gross, but we'll refine later
 	end
 
@@ -60,7 +61,7 @@ end
 -- Called when prop is snatched from the level
 function GM:CollectProp(prop, ply)
 	print("COLLECTED: " .. tostring(prop and prop:GetModel() or "<entity>"))
-
+	mapgen.CollectProp(ply, prop)
 	propfeed.notify( prop, ply )
 end
 

@@ -58,19 +58,7 @@ function SWEP:Think() end
 function SWEP:OnRemove() end
 
 function SWEP:AcceptEntity( ent )
-
-	--Accept only this kinda stuff
-	if ent == nil then return false end
-	if not ent:IsValid() then return false end
-	if ent:GetClass() == "prop_physics" then return true end
-	if ent:GetClass() == "prop_physics_multiplayer" then return true end
-	if ent:GetClass() == "prop_dynamic" then return true end
-	if ent:GetClass() == "prop_ragdoll" then return true end
-	if ent:IsNPC() then return true end
-	if ent:IsPlayer() and ent:Alive() then return true end
-	print("FILTERED-OUT: " .. tostring(ent))
-	return false
-
+	return mapgen.CanSnatch(ent)
 end
 
 function SWEP:RemoveEntity( ent )
@@ -169,7 +157,8 @@ function SWEP:PrimaryAttack()
 
 	if SERVER then
 		self.Owner:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
-	else
+	end
+	if CLIENT or game.SinglePlayer() then
 		self:TraceToRemove()
 	end
 

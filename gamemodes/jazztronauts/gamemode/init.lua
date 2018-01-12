@@ -20,8 +20,9 @@ end
 
 function GM:InitPostEntity()
 
-	if !mapcontrol.IsInHub() then
-
+	if mapcontrol.IsInHub() then
+		mapgen.LoadHubProps()
+	else
 		-- Add current map to list of 'started' maps
 		local res = progress.StartMap(game.GetMap(), math.random(0, 100000))
 
@@ -32,6 +33,12 @@ function GM:InitPostEntity()
 		else mapgen.InitialShardCount = 5 end -- Gross, but we'll refine later
 	end
 
+end
+
+function GM:ShutDown()
+	if mapcontrol.IsInHub() then 
+		mapgen.SaveHubProps()
+	end
 end
 
 -- If someone picks up a weapon nobody has, spread the love

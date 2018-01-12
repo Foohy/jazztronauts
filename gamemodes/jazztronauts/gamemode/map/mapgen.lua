@@ -233,6 +233,35 @@ if SERVER then
         print("Generated " .. InitialShardCount .. " shards. Happy hunting!")
     end
 
+    function LoadHubProps()
+        local hubdata = progress.LoadHubPropData()
+        for _, v in pairs(hubdata) do
+            mapgen.SpawnHubProp(v.model, v.transform.pos, v.transform.ang)
+        end
+    end
+
+    function SaveHubProps()
+        local props = {}
+        for _, v in pairs(ents.GetAll()) do
+            if v.JazzHubSpawned then table.insert(props, v) end
+        end
+
+        progress.SaveHubPropData(props)
+    end
+
+    function SpawnHubProp(model, pos, ang)
+        local ent = ents.Create("prop_physics")
+        ent:SetModel(model)
+        ent:SetPos(pos)
+        ent:SetAngles(ang)
+        ent:Spawn()
+        ent:Activate()
+        ent:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
+        ent.JazzHubSpawned = true
+
+        return ent
+    end
+
 else //CLIENT
     net.Receive("jazz_shardcollect", function(len, ply)
         SpawnedShards = {}

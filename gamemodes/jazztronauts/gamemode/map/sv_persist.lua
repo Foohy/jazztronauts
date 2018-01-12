@@ -36,6 +36,16 @@ local function ensureTables()
 			collected INT UNSIGNED NOT NULL DEFAULT 1
 		)]])
 	end
+
+	if !sql.TableExists("jazz_hubprops") then
+		Msg("Creating 'jazz_hubprops' table...\n")
+
+		sql.Query([[CREATE TABLE jazz_hubprops (
+			id INTEGER PRIMARY KEY,
+			model VARCHAR(128) NOT NULL,
+			transform BLOB NOT NULL
+		)]])
+	end
 end
 
 function Reset()
@@ -162,4 +172,49 @@ function AddProp(model)
 	if Query(insert) == false then return nil end 
 	
 	return GetPropCount(model)
+end
+
+
+local function loadTransform(blob)
+	local vals = string.Split(blob, ":")
+	return { pos = Vector(vals[1]), ang = Angle(vals[2]) }
+end
+local function saveTransform(ent)
+	local pos, ang = ent:GetPos(), ent:GetAngles()
+	return string.format("%f %f %f:%f %f %f", pos.x, pos.y, pos.z, ang.p, ang.y, ang.r)
+end
+local function getSQLSaveData(ent)
+	-- Sue me
+	return string.format("('%s', '%s')", ent:GetModel(), saveTransform(ent))
+end
+function SaveHubPropData(props)
+
+	-- Delete existing prop data
+	local del = "DELETE FROM jazz_hubprops"
+	Query(del)
+
+	-- Add new prop data
+	local propvals = {}
+	for _, v in pairs(props) do
+		table.insert(propvals, getSQLSaveData(v))
+	end
+
+	local insert = "INSERT INTO jazz_hubprops (model, transform)"
+		.. string.format(" VALUES %s", table.concat(propvals, ", "))
+	print(insert)
+	-- Finally insert
+	return Query(insert) != false
+end
+
+function LoadHubPropData()
+	local query = "SELECT * FROM jazz_hubprops"
+	local res = Query(query)
+	if type(res) != "table" then return {} end
+
+	-- Fixup transform to non-blob form
+	for i=1, #res do
+		res[i].transform = loadTransform(res[i].transform)
+	end
+
+	return res
 end

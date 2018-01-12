@@ -4,8 +4,8 @@
 	"$bumpmap" "sunabouzu/jazzBrickWall02_N"
 	"$surfaceprop" "Brick"
         "$detail" "sunabouzu/jazzNoise"
-	"$detailscale" "6.283"
-	"$detailblendfactor" .5
+	"$detailscale" "6"
+	"$detailblendfactor" .6
 	"$detailblendmode" 0
 	$normalmapalphaenvmapmask 1
 //	"$envmap" "env_cubemap"

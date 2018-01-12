@@ -1,0 +1,7 @@
+"Sky"
+{
+$nofog 1
+$ignorez 1
+$basetexture	"skybox/jazz_skyup"
+$hdrcompressedtexture	"skybox/jazz_sky_hdrup"
+}	

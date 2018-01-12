@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$translucent" 1
+	"$basetexture" "sunabouzu\packin\portal_lightgradient"
+	"$decal" 1
+//	"$selfillum" 1
+	"%keywords" "portal"
+//	"$decalscale" .25
+}

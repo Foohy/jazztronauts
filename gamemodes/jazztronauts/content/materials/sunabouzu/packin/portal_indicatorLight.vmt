@@ -1,0 +1,18 @@
+ "LightMappedGeneric"
+ {
+  "$baseTexture" "sunabouzu\packin\portal_indicator_lights"
+  "$surfaceprop" "glass"
+  "$selfillum" 1
+  "%keywords" "portal"
+  "$decal" 1
+
+  "Proxies" 
+  { 
+   "ToggleTexture"
+   {
+    "toggleTextureVar" "$baseTexture"
+    "toggleTextureFrameNumVar" "$frame"
+    "toggleTextureShouldWrap" "0"
+   } 	
+  } 
+ }

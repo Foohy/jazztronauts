@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "sunabouzu/packin/portal_concrete_ceiling_a"
+	"$bumpmap" "sunabouzu/packin/portal_concrete_n"
+	"$surfaceprop" "Concrete"
+	"%keywords" "jazz"
+}

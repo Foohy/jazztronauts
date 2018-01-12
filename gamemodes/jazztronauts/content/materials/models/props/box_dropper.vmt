@@ -1,0 +1,5 @@
+"vertexlitgeneric"
+{
+	"$baseTexture" "models\props/box_dropper"
+        "$selfillum" 1
+}

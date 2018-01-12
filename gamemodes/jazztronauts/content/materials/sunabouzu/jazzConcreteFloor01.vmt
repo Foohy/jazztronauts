@@ -8,7 +8,7 @@
 	"$detailblendfactor" .6
 	"$detailblendmode" 0
 	"$envmap" "env_cubemap"
-	"$envmaptint" "[ .5 .5 .5 ]"
+	"$envmaptint" "[ .07 .07 .07 ]"
 	"$normalmapalphaenvmapmask" 1
 	"%keywords" "jazz"
 }

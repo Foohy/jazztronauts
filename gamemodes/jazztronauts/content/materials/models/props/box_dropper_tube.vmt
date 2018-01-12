@@ -1,0 +1,21 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\props/box_dropper_tube"
+
+	"$additive" 1
+	"$envmap" "env_cubemap"
+  	"$alphaenvmapmask" "1"
+	"$bumpmap" "models\props\box_dropper_tube_normal"
+
+	"$envmaptint" "[.20 .30 .35]"
+	"$translucent" 1
+	"$nocull" "1"
+
+//	"$phong" "1"
+	"$phongexponenttexture" "models\props\box_dropper_tube_exponent"
+	"$phongexponent" "1"	
+	"$phongboost" "1"	
+//	"$lightwarptexture" "models\props\box_dropper_tube_lightwarp"
+	"$phongfresnelranges"	"[1 2 5]"
+
+}

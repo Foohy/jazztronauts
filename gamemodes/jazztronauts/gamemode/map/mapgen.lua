@@ -57,7 +57,7 @@ if SERVER then
 
         local worth = ent.JazzWorth or 1
         if IsValid(ply) then
-            ply:SetNotes(ply:GetNotes() + worth)
+            ply:ChangeNotes(worth)
         end
     end
 

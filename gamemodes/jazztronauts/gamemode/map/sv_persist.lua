@@ -20,12 +20,12 @@ local function ensureTables()
 	end
 
 	if !sql.TableExists("jazz_playerdata") then
-		-- Msg("Creating 'jazz_playerdata' table...\n")
+		Msg("Creating 'jazz_playerdata' table...\n")
 
-		-- store:
-		-- steamid (pk)
-		-- # notes
-		-- ????
+		sql.Query([[CREATE TABLE jazz_playerdata (
+			steamid BIGINT NOT NULL PRIMARY KEY,
+			notes INT UNSIGNED NOT NULL DEFAULT 0 CHECK (notes >= 0)
+		)]])
 	end
 
 	if !sql.TableExists("jazz_propdata") then
@@ -63,6 +63,10 @@ function Query(cmd)
 		return sql.Query(cmd)
 	end
 end
+
+---------------------------------
+------ MAP COMPLETION INFO ------
+---------------------------------
 
 function GetMap(mapname)
 	local chkstr = "SELECT * FROM jazz_maphistory WHERE " ..
@@ -128,6 +132,10 @@ function FinishMap(mapname)
 	end
 end
 
+-------------------------------
+------ GLOBAL PROP COUNT ------
+-------------------------------
+
 -- Get the collected count of a specific model
 function GetPropCount(model)
 	local altr = "SELECT collected FROM jazz_propdata "
@@ -175,6 +183,50 @@ function AddProp(model)
 	return GetPropCount(model)
 end
 
+-------------------------
+------ PLAYER DATA ------
+-------------------------
+
+-- Change the player's note count, works for positive and negative values
+-- Negative values that put the player under 0 will fail the constraint and return false
+function ChangeNotes(ply, delta)
+	if !IsValid(ply) then return false end
+	local id = ply:SteamID64() or "0"
+	local deltaStr = delta >= 0 and "+ " .. delta or tostring(delta)
+
+	local update = "UPDATE jazz_playerdata "
+		.. string.format("SET notes = notes %s ", deltaStr)
+		.. string.format(" WHERE steamid='%s'", id)
+
+	local insert = "INSERT OR IGNORE INTO jazz_playerdata(steamid) "
+		.. string.format("VALUES ('%s')", id)
+
+	-- Try an update first, then insert
+	if Query(update) == false then return false end
+	if Query(insert) == false then return false end
+
+	return true
+end
+
+-- Retrieve the note count of a specific player
+function GetNotes(ply)
+	if !IsValid(ply) then return -1 end
+	local id = ply:SteamID64() or "0"
+
+	local sel = "SELECT notes FROM jazz_playerdata "
+		.. string.format("WHERE steamid='%s'", id)
+
+	local res = Query(sel)
+	if type(res) == "table" then 
+		return tonumber(res[1].notes) 
+	end
+
+	return 0
+end
+
+--------------------------------------
+------ HUB PROP POSITION SAVING ------
+--------------------------------------
 
 local function loadTransform(blob)
 	local vals = string.Split(blob, ":")

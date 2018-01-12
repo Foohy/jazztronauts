@@ -5,12 +5,7 @@ include("player/player_explore.lua")
 -- TODO: Move mechanism to own module
 local itemprice = 100
 local function SpawnItem(ply, model, type)
-	if ply:GetNotes() < itemprice then
-		return false
-	end
-
-	ply:SetNotes(ply:GetNotes() - itemprice)
-	return true
+    return ply:ChangeNotes(-itemprice)
 end
 
 

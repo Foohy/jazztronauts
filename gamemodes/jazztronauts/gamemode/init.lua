@@ -121,8 +121,10 @@ function GM:PlayerSpawn( ply )
 	hook.Call( "PlayerLoadout", GAMEMODE, ply )
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
 
-	ply:SetNotes(6969420)
 	PrintMapHistory(ply)
+		
+	-- Setup note count
+	ply:SetNotes(progress.GetNotes(ply))
 end
 
 function GM:PlayerShouldTakeDamage(ply, attacker)

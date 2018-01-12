@@ -40,6 +40,17 @@ function PLAYER:Loadout()
 
 end
 
+local meta = FindMetaTable("Player")
+function meta:ChangeNotes(delta) 
+    if progress.ChangeNotes(self, delta) then 
+        self:SetNotes(progress.GetNotes(self))
+        print(progress.GetNotes(self))
+        return true 
+    end
+
+    return false
+end
+
 -- Turns out TeammateNoCollide is really funky. Zombies can't attack you (among other oddities)
 -- So just manually check collision here for players
 hook.Add("ShouldCollide", "PlayerNoCollide", function(ent1, ent2)

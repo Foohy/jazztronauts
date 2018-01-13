@@ -16,7 +16,7 @@ function CanSnatch(ent)
 	--Accept only this kinda stuff
 	if ent == nil then return false end
 	if not ent:IsValid() then return false end
-    if not IsValid(ent:GetPhysicsObject()) then return false end
+    if SERVER and not IsValid(ent:GetPhysicsObject()) then return false end
 	if ent:GetClass() == "prop_physics" then return true end
 	if ent:GetClass() == "prop_physics_multiplayer" then return true end
 	if ent:GetClass() == "prop_dynamic" then return true end

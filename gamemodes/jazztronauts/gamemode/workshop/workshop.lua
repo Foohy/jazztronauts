@@ -98,7 +98,7 @@ function FetchThumbnail(addon, func)
 			local mat = AddonMaterial(name)
 
 			-- Sometimes it likes to throw you a curveball and not work
-			local baseTex = mat:GetTexture("$basetexture")
+			local baseTex = mat and mat:GetTexture("$basetexture") or nil
 			if baseTex == nil then 
 			
 				-- But just trying it again fixes it....

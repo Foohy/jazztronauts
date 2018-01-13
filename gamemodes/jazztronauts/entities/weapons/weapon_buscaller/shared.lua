@@ -194,7 +194,7 @@ end
 -- Hook into when the player stops holding ATTACK to turn off their persistent beam
 hook.Add("KeyRelease", "JazzMarkerStopBeam", function(ply, key)
 	local wep = ply:GetWeapon("weapon_buscaller")
-	if key == IN_ATTACK and IsValid(wep) then
+	if key == IN_ATTACK and IsValid(wep) and wep.PrimaryDettack then
 		wep:PrimaryDettack()
 	end
 end )

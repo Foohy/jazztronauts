@@ -1,4 +1,7 @@
 ENT.Type = "point"
+ENT.DisableDuplicator = true
+ENT.VomitMusicFile = "jazztronauts/music/trash_chute_music_loop.wav"
+ENT.MusicDelay = 3.5
 
 util.AddNetworkString("jazz_vomiter_gib")
 
@@ -27,9 +30,33 @@ function ENT:KeyValue( key, value )
 end
 
 function ENT:Think()
-	for i=1, 1 do
-		self:VomitProp()
+	if !self.StartAt or CurTime() < self.StartAt then return end 
+
+	for i=1, 2 do
+		if not self:VomitProp() then 
+			self:StopMusic(1)
+			self.SpawnQueue = nil
+			break 
+		end
 	end
+end
+
+function ENT:StopMusic(fadeTime)
+	if self.VomitMusic then 
+		if not fadeTime or fadeTime <= 0 then
+			self.VomitMusic:Stop()
+			self.VomitMusic = nil 
+		else
+			self.VomitMusic:FadeOut(fadeTime)
+		end
+	end
+end
+
+function ENT:StartMusic()
+	self:StopMusic()
+	self.VomitMusic = CreateSound(self, self.VomitMusicFile)
+	self.VomitMusic:SetSoundLevel(80)
+	self.VomitMusic:Play()
 end
 
 function ENT:VomitNewProps()
@@ -47,6 +74,9 @@ function ENT:VomitNewProps()
 			self:DecrementProp(mdl)
 		end
 	end
+
+	self.StartAt = CurTime() + self.MusicDelay
+	self:StartMusic()
 end
 
 function ENT:DecrementProp(model)
@@ -70,17 +100,19 @@ function ENT:SpawnRandomGibs(pos, ang)
 end
 
 function ENT:VomitProp()
-	if not self.SpawnQueue then return end
+	if not self.SpawnQueue then return false end
 
 	local prop = table.Random(self.SpawnQueue)
-	if not prop then return end
+	if not prop then return false end
 
 	local ent = mapgen.SpawnHubProp(prop.propname, 
 		self:GetPos() + self:GetAngles():Up() * 100, 
 		self:GetAngles()
 	)
-
-	ent:GetPhysicsObject():SetVelocity(self.VomitVelocity)
+	
+	if IsValid(ent:GetPhysicsObject()) then
+		ent:GetPhysicsObject():SetVelocity(self.VomitVelocity)
+	end
 
 	-- If certain amount of props already exist, spawn gibs instead
 	if prop.total - prop.collected >= maxpropsconvar:GetInt() then
@@ -98,6 +130,8 @@ function ENT:VomitProp()
 
 	-- Decrement
 	self:DecrementProp(prop.propname)
+
+	return true
 end
 
 function ENT:AcceptInput( name, activator, caller, data )

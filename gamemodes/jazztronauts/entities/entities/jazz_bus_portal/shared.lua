@@ -509,6 +509,7 @@ end
 
 -- PostRender and PostDrawOpaqueRenderables are what draws the stencil portal in the world
 local drewThisFrame = false
+local isRendering3DSky = false
 hook.Add("PostRender", "JazzClearExteriorVoidList", function()
     local portals = LocalPlayer().ActiveBusPortals
     if !portals then return end
@@ -536,11 +537,19 @@ hook.Add("PreDrawTranslucentRenderables", "JazzHaltWorldRender", function()
     if IsInExitPortal() then return true end 
 end )
 
+hook.Add("PreDrawSkyBox", "JazzHaltSkyRender", function()
+    isRendering3DSky = true
+end)
+hook.Add("PostDrawSkyBox", "JazzHaltSkyRender", function()
+    isRendering3DSky = false
+end)
+
 -- Totally overrwrite the world with the custom void world
 -- PostDrawOpaqueRenderables can be called many times per frame, but we're hijacking it and only
 -- need it called once, so 'drewThisFrame' keeps track of that
 hook.Add("PostDrawOpaqueRenderables", "JazzDrawPortalWorld", function(depth, sky)
-    if drewThisFrame then return end 
+    
+    if drewThisFrame or isRendering3DSky then return end 
     drewThisFrame = true
 
     local exitPortal = GetExitPortal()

@@ -81,6 +81,8 @@ function SWEP:ViewModelDrawn(viewmodel)
 end
 
 function SWEP:IsBeamActive()
+	if self.Owner:GetActiveWeapon() != self then return false end
+
 	if CLIENT and LocalPlayer() == self.Owner then 
 		return self.Owner:KeyDown(IN_ATTACK)
 	end
@@ -165,11 +167,12 @@ function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end
 
 	self.Owner:ViewPunch( Angle( -1, 0, 0 ) )
-	if !IsFirstTimePredicted() then return end
 
-	if SERVER then
-		self.Owner:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
-		self:CreateOrUpdateBusMarker()
+	if IsFirstTimePredicted() then 
+		if SERVER then
+			self.Owner:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
+			self:CreateOrUpdateBusMarker()
+		end
 	end
 
 	self:ShootEffects()
@@ -177,7 +180,7 @@ end
 
 -- The opposite of Attack is Dettack. It's when they stop attacking.
 function SWEP:PrimaryDettack()
-	if !SERVER or !IsFirstTimePredicted() then return end
+	if !IsFirstTimePredicted() then return end
 
 	if IsValid(self:GetBusMarker()) then
 		self:GetBusMarker():RemovePlayer(self.Owner)
@@ -188,6 +191,10 @@ end
 
 function SWEP:Holster(wep)
 	self:PrimaryDettack()
+
+	if self.BeamHum then
+		self.BeamHum:Stop()
+	end
 	return true
 end
 

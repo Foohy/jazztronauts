@@ -18,6 +18,8 @@ function ENT:Initialize()
 	if IsValid(phys) then
 		phys:SetMaterial("gmod_silent")
 	end
+
+	self:ResetSequence(self:LookupSequence("idle"))
 end
 
 function ENT:Use(activator, caller)

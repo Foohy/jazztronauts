@@ -240,7 +240,7 @@ if SERVER then
     function LoadHubProps()
         local hubdata = progress.LoadHubPropData()
         for _, v in pairs(hubdata) do
-            mapgen.SpawnHubProp(v.model, v.transform.pos, v.transform.ang)
+            mapgen.SpawnHubProp(v.model, v.transform.pos, v.transform.ang, v.toy == "1")
         end
     end
 
@@ -253,8 +253,9 @@ if SERVER then
         progress.SaveHubPropData(props)
     end
 
-    function SpawnHubProp(model, pos, ang)
-        local ent = ents.Create("prop_physics")
+    function SpawnHubProp(model, pos, ang, inSphere)
+        local etype = inSphere and "jazz_prop_sphere" or "prop_physics"
+        local ent = ents.Create(etype)
         ent:SetModel(model)
         ent:SetPos(pos)
         ent:SetAngles(ang)

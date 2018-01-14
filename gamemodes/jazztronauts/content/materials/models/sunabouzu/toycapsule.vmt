@@ -1,0 +1,28 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/toycapsule_a"
+	"$bumpmap" "models/sunabouzu/flat_normal"
+	"$lightwarptexture" "materials/sunabouzu/lightwarp"
+	"$surfaceprop" "plastic"
+	//"$additive" 1
+	$translucent 1
+	//$alpha .3
+	//$selfillum 1
+
+	$phong 1
+	$PhongExponent 20
+	$phongBoost 25
+	$phongFresnelRanges "[0 1 .9]"
+
+    	"$envmap" "env_cubemap"
+	"$envmaptint" .5 .5 .5
+
+	$rimlight "1"
+	$rimlightexponent "50"
+	$rimlightboost "30"
+
+
+	//"$nocull" 1
+	"$nodecal" 1
+	$halflambert 1
+}

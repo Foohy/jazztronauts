@@ -124,8 +124,10 @@ function ENT:OnRemove()
 end
 
 function ENT:Draw()
-        self.SphereModel:DrawModel()
-    self:DrawModel()
     self:UpdateMeshes()
+    self.SphereModel:DrawModel()
+    render.SuppressEngineLighting(true)
+    self:DrawModel()
+    render.SuppressEngineLighting(false)
 
 end

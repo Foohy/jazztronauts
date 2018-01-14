@@ -19,6 +19,7 @@ local maxpropsconvar = CreateConVar("jazz_trash_max_props", "2", FCVAR_ARCHIVE,
 	"The maximum number of props per model to spawn from the trash chute before just spawning gibs" )
 
 ENT.VomitVelocity = Vector(0, 0, -200)
+ENT.MaxPipeSize = 50
 function ENT:Initialize()
 	//self:VomitNewProps()
 end
@@ -99,20 +100,17 @@ function ENT:SpawnRandomGibs(pos, ang)
 	e2:Remove()
 end
 
+function ENT:IsTooBig(ent)
+	return ent:BoundingRadius() > self.MaxPipeSize
+end
+
 function ENT:VomitProp()
 	if not self.SpawnQueue then return false end
 
 	local prop = table.Random(self.SpawnQueue)
 	if not prop then return false end
-
-	local ent = mapgen.SpawnHubProp(prop.propname, 
-		self:GetPos() + self:GetAngles():Up() * 100, 
-		self:GetAngles()
-	)
-	
-	if IsValid(ent:GetPhysicsObject()) then
-		ent:GetPhysicsObject():SetVelocity(self.VomitVelocity)
-	end
+	local pos, ang = self:GetPos() + self:GetAngles():Up() * 100, self:GetAngles()
+	local ent = mapgen.SpawnHubProp(prop.propname, pos, ang)
 
 	-- If certain amount of props already exist, spawn gibs instead
 	if prop.total - prop.collected >= maxpropsconvar:GetInt() then
@@ -126,6 +124,15 @@ function ENT:VomitProp()
 		end
 
 		ent:Remove()
+	elseif self:IsTooBig(ent) then 
+		ent:Remove()
+
+		-- Recreate as a sphere capsule
+		ent = mapgen.SpawnHubProp(prop.propname, pos, ang, true)
+	end
+	
+	if IsValid(ent) and IsValid(ent:GetPhysicsObject()) then
+		ent:GetPhysicsObject():SetVelocity(self.VomitVelocity)
 	end
 
 	-- Decrement

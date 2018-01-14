@@ -23,7 +23,7 @@ function CanSnatch(ent)
 	if ent:GetClass() == "prop_dynamic" then return true end
 	if ent:GetClass() == "prop_ragdoll" then return true end
     if string.find(ent:GetClass(), "prop_vehicle") ~= nil then return true end
-    if string.find(ent:GetClass(), "jazz") ~= nil then return true end
+    if string.find(ent:GetClass(), "jazz_bus_") ~= nil then return true end
     if string.find(ent:GetClass(), "item_") ~= nil then return true end
 	if ent:IsNPC() then return true end
 	if ent:IsPlayer() and ent:Alive() then return true end

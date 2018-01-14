@@ -3,10 +3,12 @@
 	"$basetexture" "models/sunabouzu/toycapsule_a"
 	"$bumpmap" "models/sunabouzu/flat_normal"
 	"$surfaceprop" "plastic"
-	"$additive" 1
+	//"$additive" 1
+	$translucent 1
+	//$alpha .3
 
     	"$envmap" "env_cubemap"
-	"$envmaptint" .9 .9 .9
+	"$envmaptint" .1 .1 .1
 	"$envmapcontrast" .4
 	"$envmapsaturation" .75
 
@@ -15,7 +17,7 @@
 	$rimlightboost "4"
 
 
-	"$nocull" 1
+	//"$nocull" 1
 	"$nodecal" 1
 	$halflambert 1
 }

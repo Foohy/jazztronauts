@@ -216,7 +216,10 @@ function SWEP:Pickup()
 
 	if CLIENT then return end
 
-	local tr = util.TraceLine( util.GetPlayerTrace( self:GetOwner() ) )
+	local trace = util.GetPlayerTrace( self:GetOwner() )
+	trace.mask = bit.bor( CONTENTS_SOLID, CONTENTS_MOVEABLE, CONTENTS_MONSTER, CONTENTS_WINDOW, CONTENTS_DEBRIS, CONTENTS_GRATE, CONTENTS_AUX )
+	
+	local tr = util.TraceLine( trace )
 	local ent = tr.Entity
 
 	if not tr.HitNonWorld then return end
@@ -230,7 +233,15 @@ function SWEP:Pickup()
 	local phys = ent:GetPhysicsObject()
 
 	if not phys or not phys:IsValid() then return end
-	if phys:IsMotionEnabled() == false then return end
+	if phys:IsMotionEnabled() == false then
+		if ent.was_held_before then
+			phys:EnableMotion(true)
+		else
+			return
+		end
+	end
+
+	ent.was_held_before = true
 
 	if ent._heldByPhysgun then return end
 
@@ -666,6 +677,18 @@ function SWEP:Holster()
 
 	self:Drop()
 	return true
+
+end
+
+function SWEP:Reload()
+
+	if CLIENT then return end
+
+	local prop = self.holding
+	if prop then
+		self.holdingPhys:EnableMotion(false)
+		self:Drop()
+	end
 
 end
 

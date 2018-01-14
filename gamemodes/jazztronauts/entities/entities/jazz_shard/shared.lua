@@ -21,13 +21,18 @@ sound.Add( {
 game.AddParticles( "particles/jazztronauts_particles.pcf") 
 PrecacheParticleSystem( "shard_glow" )
 
+ENT.TriggerRadius = 16
+
 function ENT:Initialize()
 
     if SERVER then 
+        local maxs = Vector(1,1,1) * self.TriggerRadius
+
         self:SetModel( table.Random(self.Models))
-        self:PhysicsInitSphere( 16 )
+        self:PhysicsInitSphere( self.TriggerRadius )
         self:SetMoveType(MOVETYPE_NONE)
         self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+        self:SetCollisionBounds(-maxs, maxs)
 
         self:SetTrigger(true)
         self:PhysWake()

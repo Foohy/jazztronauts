@@ -17,10 +17,14 @@ function CanSnatch(ent)
 	if ent == nil then return false end
 	if not ent:IsValid() then return false end
     if SERVER and not IsValid(ent:GetPhysicsObject()) then return false end
+
 	if ent:GetClass() == "prop_physics" then return true end
 	if ent:GetClass() == "prop_physics_multiplayer" then return true end
 	if ent:GetClass() == "prop_dynamic" then return true end
 	if ent:GetClass() == "prop_ragdoll" then return true end
+    if string.find(ent:GetClass(), "prop_vehicle") ~= nil then return true end
+    if string.find(ent:GetClass(), "jazz") ~= nil then return true end
+    if string.find(ent:GetClass(), "item_") ~= nil then return true end
 	if ent:IsNPC() then return true end
 	if ent:IsPlayer() and ent:Alive() then return true end
 

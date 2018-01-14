@@ -20,5 +20,6 @@ include("sh_bsp.lua")
 include("sh_csg.lua")
 include("sh_tree.lua")
 include("sh_aas.lua")
+include("sh_flood.lua")
 
 if SERVER then AddCSLuaFile("shared.lua") end

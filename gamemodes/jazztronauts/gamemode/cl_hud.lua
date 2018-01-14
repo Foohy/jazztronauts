@@ -12,7 +12,7 @@ local bgWidth = 15
 local lastWidth = 1
 local CurAlpha = 200
 local VisualAmount = 0
-local HideTime = 0
+local HideTime = mapcontrol.IsInHub() and math.huge or 0
 local moneyFillDelay = 0 //Delay before the money begin filling into the main dude
 local moneyFillVelocity = 1 //Amount of money to fill per frame. Adjusted based on how many money to fill
 local lastMoneyCount = 0
@@ -139,10 +139,9 @@ end )
 
 //Show the money count when pressing tab
 hook.Add( "ScoreboardShow", "jazz_scoreboardShow", function()
-	if !mapcontrol.IsInHub() then return end
 	HideTime = math.huge
 end )
 hook.Add("ScoreboardHide", "jazz_scoreboardHide", function()
-	if !mapcontrol.IsInHub() then return end
+	if mapcontrol.IsInHub() then return end
 	HideTime = CurTime()
 end )

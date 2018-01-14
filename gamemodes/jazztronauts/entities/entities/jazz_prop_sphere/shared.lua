@@ -16,6 +16,7 @@ function ENT:Initialize()
     if SERVER then 
         self:EnableCustomCollisions(true)
         self:PhysicsInitSphere(outerRadius, "glass")
+        self:GetPhysicsObject():SetMass(50)
 
         if not self:GetModel() then
             self:SetModel(testModel)
@@ -39,6 +40,10 @@ function ENT:Initialize()
         //ParticleEffect( "shard_glow", self:GetPos(), self:GetAngles(), self )
         self:SetupModel()
     end
+end
+
+function ENT:OnTakeDamage(dmginfo)
+    self:TakePhysicsDamage( dmginfo )
 end
 
 function ENT:SetupDataTables()

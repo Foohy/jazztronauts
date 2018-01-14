@@ -70,8 +70,6 @@ function GM:CollectProp(prop, ply)
 	print("COLLECTED: " .. tostring(prop and prop:GetModel() or "<entity>"))
 	mapgen.CollectProp(ply, prop)
 	local newCount = progress.AddProp(prop:GetModel())
-
-	PrintTable(progress.GetPropCounts())
 	propfeed.notify( prop, ply, newCount )
 end
 

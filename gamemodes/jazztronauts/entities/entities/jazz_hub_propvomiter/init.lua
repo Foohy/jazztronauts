@@ -1,6 +1,7 @@
 ENT.Type = "point"
 ENT.DisableDuplicator = true
-ENT.VomitMusicFile = "jazztronauts/music/trash_chute_music_loop.wav"
+ENT.VomitMusicFile = Sound("jazztronauts/music/trash_chute_music_loop.wav")
+ENT.VomitEmptyFile = Sound("jazztronauts/music/trash_chute_music_empty.wav")
 ENT.MusicDelay = 3.5
 
 util.AddNetworkString("jazz_vomiter_gib")
@@ -47,44 +48,56 @@ function ENT:StopMusic(fadeTime)
 		if not fadeTime or fadeTime <= 0 then
 			self.VomitMusic:Stop()
 			self.VomitMusic = nil 
-		else
+		elseif not self.WasEmpty then
 			self.VomitMusic:FadeOut(fadeTime)
 		end
 	end
 end
 
-function ENT:StartMusic()
+function ENT:StartMusic(empty)
 	self:StopMusic()
-	self.VomitMusic = CreateSound(self, self.VomitMusicFile)
+
+	local f = empty and self.VomitEmptyFile or self.VomitMusicFile
+	self.VomitMusic = CreateSound(self, f)
 	self.VomitMusic:SetSoundLevel(80)
 	self.VomitMusic:Play()
+	self.WasEmpty = empty
 end
 
 function ENT:VomitNewProps()
-	self.SpawnQueue = progress.GetPropCounts()
+	local counts = progress.GetPropCounts()
+	progress.ClearRecentProps()
 
 	-- Store original use counts
-	for _, v in pairs(self.SpawnQueue) do 
-		v.total = v.collected
+	self.SpawnQueue = {}
+	for k, v in pairs(counts) do 
+		local spawnCount = math.min((v.recent or 0) + maxpropsconvar:GetInt(), v.collected)
+		//print(k, spawnCount, v.collected)
+		self.SpawnQueue[k] = 
+		{
+			propname = v.propname,
+			total = v.collected,
+			left = spawnCount
+		}
 	end
 
 	-- Ignore already-spawned props
 	for _, v in pairs(ents.GetAll()) do
 		local mdl = v:GetModel()
-		if v.JazzHubSpawned then
+		if IsValid(v) and v.JazzHubSpawned then
 			self:DecrementProp(mdl)
 		end
 	end
 
 	self.StartAt = CurTime() + self.MusicDelay
-	self:StartMusic()
+	self:StartMusic(table.Count(self.SpawnQueue) == 0)
 end
 
 function ENT:DecrementProp(model)
 	if not self.SpawnQueue or not self.SpawnQueue[model] then return end
 
-	local newCount = self.SpawnQueue[model].collected - 1
-	self.SpawnQueue[model].collected = newCount
+	local newCount = self.SpawnQueue[model].left - 1
+	self.SpawnQueue[model].left = newCount
 	
 	if newCount <= 0 then 
 		self.SpawnQueue[model] = nil
@@ -113,7 +126,7 @@ function ENT:VomitProp()
 	local ent = mapgen.SpawnHubProp(prop.propname, pos, ang)
 
 	-- If certain amount of props already exist, spawn gibs instead
-	if prop.total - prop.collected >= maxpropsconvar:GetInt() then
+	if prop.total - prop.left >= maxpropsconvar:GetInt() then
 
 		if ent:Health() > 0 then
 			ent:PrecacheGibs()
@@ -143,10 +156,7 @@ end
 
 function ENT:AcceptInput( name, activator, caller, data )
 
-	print( "EV: " .. name )
-
 	if name == "Vomit" then self:VomitNewProps( ) return true end
 
 	return false
-
 end

@@ -71,12 +71,12 @@ function ENT:VomitNewProps()
 	-- Store original use counts
 	self.SpawnQueue = {}
 	for k, v in pairs(counts) do 
+
 		local spawnCount = math.min((v.recent or 0) + maxpropsconvar:GetInt(), v.collected)
-		//print(k, spawnCount, v.collected)
 		self.SpawnQueue[k] = 
 		{
 			propname = v.propname,
-			total = v.collected,
+			total = spawnCount,
 			left = spawnCount
 		}
 	end

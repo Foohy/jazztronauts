@@ -100,8 +100,8 @@ function ENT:SpawnRandomGibs(pos, ang)
 	e2:Remove()
 end
 
-function ENT:IsTooBig(ent)
-	return ent:BoundingRadius() > self.MaxPipeSize
+function ENT:ShouldToy(ent)
+	return ent:BoundingRadius() > self.MaxPipeSize or util.IsValidRagdoll(ent:GetModel())
 end
 
 function ENT:VomitProp()
@@ -124,7 +124,7 @@ function ENT:VomitProp()
 		end
 
 		ent:Remove()
-	elseif self:IsTooBig(ent) then 
+	elseif self:ShouldToy(ent) then 
 		ent:Remove()
 
 		-- Recreate as a sphere capsule

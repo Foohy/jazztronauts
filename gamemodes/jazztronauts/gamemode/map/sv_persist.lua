@@ -43,7 +43,8 @@ local function ensureTables()
 		sql.Query([[CREATE TABLE jazz_hubprops (
 			id INTEGER PRIMARY KEY,
 			model VARCHAR(128) NOT NULL,
-			transform BLOB NOT NULL
+			transform BLOB NOT NULL,
+			toy BOOL NOT NULL DEFAULT 0
 		)]])
 	end
 end
@@ -237,8 +238,8 @@ local function saveTransform(ent)
 	return string.format("%f %f %f:%f %f %f", pos.x, pos.y, pos.z, ang.p, ang.y, ang.r)
 end
 local function getSQLSaveData(ent)
-	-- Sue me
-	return string.format("('%s', '%s')", ent:GetModel(), saveTransform(ent))
+	local isToy = ent:GetClass() == "jazz_prop_sphere" and 1 or 0
+	return string.format("('%s', '%s', %d)", ent:GetModel(), saveTransform(ent), isToy)
 end
 function SaveHubPropData(props)
 
@@ -252,7 +253,7 @@ function SaveHubPropData(props)
 		table.insert(propvals, getSQLSaveData(v))
 	end
 
-	local insert = "INSERT INTO jazz_hubprops (model, transform)"
+	local insert = "INSERT INTO jazz_hubprops (model, transform, toy)"
 		.. string.format(" VALUES %s", table.concat(propvals, ", "))
 	print(insert)
 	-- Finally insert

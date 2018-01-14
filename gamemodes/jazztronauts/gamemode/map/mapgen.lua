@@ -236,7 +236,7 @@ if SERVER then
     function LoadHubProps()
         local hubdata = progress.LoadHubPropData()
         for _, v in pairs(hubdata) do
-            mapgen.SpawnHubProp(v.model, v.transform.pos, v.transform.ang)
+            mapgen.SpawnHubProp(v.model, v.transform.pos, v.transform.ang, v.toy == "1")
         end
     end
 

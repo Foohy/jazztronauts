@@ -27,7 +27,9 @@ end
 
 function ENT:KeyValue( key, value )
 
-	print( "KV: " .. key .. " => " .. tostring(value) .. " [" .. type(value) .. "]" )
+	if key == "OnVomitEnd" then
+		self:StoreOutput(key, value)
+	end
 
 end
 
@@ -38,6 +40,7 @@ function ENT:Think()
 		if not self:VomitProp() then 
 			self:StopMusic(1)
 			self.SpawnQueue = nil
+			self:TriggerOutput("OnVomitEnd", self)
 			break 
 		end
 	end

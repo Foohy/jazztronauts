@@ -36,33 +36,19 @@ if SERVER then
 
     function CollectShard(shardent)
         -- It's gotta be one of our shards ;)
-        local res = table.RemoveByValue(SpawnedShards, shardent) != nil
-        if not res then return false end
-
-        -- THEY DID IT!!!!
-        -- TODO: Move this logic somewhere else.
-        if #SpawnedShards == 0 && InitialShardCount != 0 then 
-            local res = progress.FinishMap(game.GetMap())
-            if res then
-                for _, v in pairs(player.GetAll()) do
-                    v:ChatPrint("You collected all " .. InitialShardCount .. " shards! It only took you " 
-                        .. string.NiceTime(res.endtime - res.starttime))
-                end
-            end
-        end
-
+        local res = table.RemoveByValue(SpawnedShards, shardent) != false
+        if not res then return nil, nil end
+        print(table.Count(SpawnedShards))
         UpdateShardCount()
 
-        return res
+        return #SpawnedShards, InitialShardCount
     end
 
     function CollectProp(ply, ent)
-        if !CanSnatch(ent) then return end
+        if !CanSnatch(ent) then return nil end
 
         local worth = ent.JazzWorth or 1
-        if IsValid(ply) then
-            ply:ChangeNotes(worth)
-        end
+        return worth
     end
 
     function UpdateShardCount(ply)

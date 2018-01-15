@@ -63,7 +63,7 @@ function ENT:Touch(ply)
     if CLIENT or self.Collected or !IsValid(ply) or !ply:IsPlayer() then return end
 
     self.Collected = true
-    mapgen.CollectShard(self)
+    GAMEMODE:CollectShard( self, ply )
 
     local expl = ents.Create( "env_explosion" )
 	expl:SetPos(self:GetPos())

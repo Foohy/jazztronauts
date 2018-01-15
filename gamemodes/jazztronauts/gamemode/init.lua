@@ -61,14 +61,35 @@ end
 
 -- Called when somebody has collected a shard
 function GM:CollectShard(shard, ply)
+	local left, total = mapgen.CollectShard(shard)
+	if not left then return false end
 
+	-- Congrats
+	ply:ChangeNotes(1000)
+	
+	-- THEY DID IT!!!! Everyone gets a piece of the pie
+	-- TODO: Move this logic somewhere else.
+	if left == 0 && total != 0 then 
+		local res = progress.FinishMap(game.GetMap())
+		if res then
+			for _, v in pairs(player.GetAll()) do
+				ply:ChangeNotes(2000)
 
+				v:ChatPrint("You collected all " .. total .. " shards! It only took you " 
+					.. string.NiceTime(res.endtime - res.starttime))
+			end
+		end
+	end
 end
 
 -- Called when prop is snatched from the level
 function GM:CollectProp(prop, ply)
 	print("COLLECTED: " .. tostring(prop and prop:GetModel() or "<entity>"))
-	mapgen.CollectProp(ply, prop)
+	local worth = mapgen.CollectProp(ply, prop)
+	if worth and IsValid(ply) then
+        ply:ChangeNotes(worth)
+    end
+
 	local newCount = progress.AddProp(prop:GetModel())
 	propfeed.notify( prop, ply, newCount )
 end

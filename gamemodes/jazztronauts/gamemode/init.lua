@@ -1,6 +1,7 @@
 include( "shared.lua" )
 include( "ui/init.lua" )
 include( "map/init.lua" )
+include( "missions/init.lua")
 
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_scoreboard.lua" )
@@ -90,8 +91,12 @@ function GM:CollectProp(prop, ply)
         ply:ChangeNotes(worth)
     end
 
+	-- Collect the prop to the poop chute
 	local newCount = progress.AddProp(prop:GetModel())
 	propfeed.notify( prop, ply, newCount )
+
+	-- Also maybe collect the prop for player missions
+	missions.AddMissionProp(ply, prop:GetModel())
 end
 
 -- TODO: Just for debugging for now
@@ -123,6 +128,9 @@ function GM:PlayerInitialSpawn( ply )
 	-- Update the new player with the current map selection state
 	mapcontrol.Refresh(ply)
 	mapgen.UpdateShardCount(ply)
+
+	-- Update them with their active missions
+	missions.UpdatePlayerMissionInfo(ply)
 	
 end
 

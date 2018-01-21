@@ -100,13 +100,18 @@ function SWEP:IsAttacking()
 
 end
 
-function SWEP:Holster(wep)
+function SWEP:StopAttacking()
 
 	if self.IsAttackHeld then 
 		self:StopAttack()
 		self.IsAttackHeld = false
-	end
+	end	
 
+end
+
+function SWEP:Holster(wep)
+
+	self:StopAttacking()
 	self:Cleanup()
 
 	return true
@@ -115,11 +120,7 @@ end
 
 function SWEP:OnRemove()
 
-	if self.IsAttackHeld then 
-		self:StopAttack()
-		self.IsAttackHeld = false
-	end
-
+	self:StopAttacking()
 	self:Cleanup()
 
 end

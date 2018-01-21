@@ -1,69 +1,48 @@
+include("../lib/sh_sql.lua")
+
 module( "progress", package.seeall )
 
 MAPPROGRESS_STARTED = 0
 MAPPROGRESS_FINISHED = 1
 MAPPROGRESS_PRESTIGED = 2
 
--- Make sure the corresponding tables exist
-local function ensureTables()
-	if !sql.TableExists("jazz_maphistory") then
-		Msg("Creating 'jazz_maphistory' table...\n")
+jsql.Register("jazz_maphistory", 
+[[
+	id INTEGER PRIMARY KEY,
+	filename VARCHAR(128) UNIQUE NOT NULL,
+	seed INTEGER NOT NULL DEFAULT 0,
+	completed BOOL NOT NULL DEFAULT 0,
+	starttime NUMERIC NOT NULL DEFAULT 0,
+	endtime NUMERIC NOT NULL DEFAULT 0
+]])
 
-		sql.Query([[CREATE TABLE jazz_maphistory (
-			id INTEGER PRIMARY KEY,
-			filename VARCHAR(128) UNIQUE NOT NULL,
-			seed INTEGER NOT NULL DEFAULT 0,
-			completed BOOL NOT NULL DEFAULT 0,
-			starttime NUMERIC NOT NULL DEFAULT 0,
-			endtime NUMERIC NOT NULL DEFAULT 0
-		)]])
-	end
+jsql.Register("jazz_playerdata", 
+[[
+	steamid BIGINT NOT NULL PRIMARY KEY,
+	notes INT UNSIGNED NOT NULL DEFAULT 0 CHECK (notes >= 0)
+]])
 
-	if !sql.TableExists("jazz_playerdata") then
-		Msg("Creating 'jazz_playerdata' table...\n")
+jsql.Register("jazz_propdata", 
+[[
+	propname VARCHAR(128) NOT NULL PRIMARY KEY,
+	collected INT UNSIGNED NOT NULL DEFAULT 1,
+	recent INT UNSIGNED NOT NULL DEFAULT 1
+]])
 
-		sql.Query([[CREATE TABLE jazz_playerdata (
-			steamid BIGINT NOT NULL PRIMARY KEY,
-			notes INT UNSIGNED NOT NULL DEFAULT 0 CHECK (notes >= 0)
-		)]])
-	end
-
-	if !sql.TableExists("jazz_propdata") then
-		Msg("Creating 'jazz_propdata' table...\n")
-
-		sql.Query([[CREATE TABLE jazz_propdata (
-			propname VARCHAR(128) NOT NULL PRIMARY KEY,
-			collected INT UNSIGNED NOT NULL DEFAULT 1,
-			recent INT UNSIGNED NOT NULL DEFAULT 1
-		)]])
-	end
-
-	if !sql.TableExists("jazz_hubprops") then
-		Msg("Creating 'jazz_hubprops' table...\n")
-
-		sql.Query([[CREATE TABLE jazz_hubprops (
-			id INTEGER PRIMARY KEY,
-			model VARCHAR(128) NOT NULL,
-			transform BLOB NOT NULL,
-			toy BOOL NOT NULL DEFAULT 0
-		)]])
-	end
-end
+jsql.Register("jazz_hubprops", 
+[[
+	id INTEGER PRIMARY KEY,
+	model VARCHAR(128) NOT NULL,
+	transform BLOB NOT NULL,
+	toy BOOL NOT NULL DEFAULT 0
+]])
 
 function Reset()
-	sql.Query("DROP TABLE IF EXISTS jazz_maphistory")
-	sql.Query("DROP TABLE IF EXISTS jazz_playerdata")
-	sql.Query("DROP TABLE IF EXISTS jazz_propdata")
-	sql.Query("DROP TABLE IF EXISTS jazz_hubprops")
+	jsql.Reset()
 end
 
 function Query(cmd)
-
-	ensureTables()
-
-	if cmd then 
-		return sql.Query(cmd)
-	end
+	return jsql.Query(cmd)
 end
 
 ---------------------------------

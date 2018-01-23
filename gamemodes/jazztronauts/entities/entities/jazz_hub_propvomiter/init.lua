@@ -75,7 +75,15 @@ function ENT:VomitNewProps()
 	self.SpawnQueue = {}
 	for k, v in pairs(counts) do 
 
+		-- Spawn the recenly collected ones + however many that were removed from the map erroneously
 		local spawnCount = math.min((v.recent or 0) + maxpropsconvar:GetInt(), v.collected)
+
+		-- For error models, spawn ONLY recent ones (they'll just be gibs)
+		if not util.IsValidModel(k) then
+			if v.recent <= 0 then continue end -- No recent ones, no spawning
+			spawnCount = v.recent
+		end
+		
 		self.SpawnQueue[k] = 
 		{
 			propname = v.propname,
@@ -125,21 +133,26 @@ function ENT:VomitProp()
 
 	local prop = table.Random(self.SpawnQueue)
 	if not prop then return false end
+
+	local validModel = util.IsValidModel(prop.propname)
 	local pos, ang = self:GetPos() + self:GetAngles():Up() * 100, self:GetAngles()
-	local ent = mapgen.SpawnHubProp(prop.propname, pos, ang)
+	local ent = validModel and mapgen.SpawnHubProp(prop.propname, pos, ang) or nil
 
 	-- If certain amount of props already exist, spawn gibs instead
-	if prop.total - prop.left >= maxpropsconvar:GetInt() then
+	-- (Or if the model doesn't exist in the first place)
+	if !IsValid(ent) or prop.total - prop.left >= maxpropsconvar:GetInt() then
 
-		if ent:Health() > 0 then
+		if IsValid(ent) and ent:Health() > 0 then
 			ent:PrecacheGibs()
 			ent:GibBreakClient(self.VomitVelocity)
 		else 
 			-- Spawn some placeholder gibs, this prop doesnt normally break
-			self:SpawnRandomGibs(ent:GetPos(), ent:GetAngles())
+			self:SpawnRandomGibs(pos, ang)
 		end
 
-		ent:Remove()
+		if IsValid(ent) then
+			ent:Remove()
+		end
 	elseif self:ShouldToy(ent) then 
 		ent:Remove()
 

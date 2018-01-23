@@ -1,6 +1,7 @@
-module( "missions", package.seeall )
+AddCSLuaFile("missions.lua")
+AddCSLuaFile("missionlist.lua")
 
-include("sql.lua")
+module( "missions", package.seeall )
 
 MissionList = {}
 

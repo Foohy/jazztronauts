@@ -32,6 +32,18 @@ function Transform3D(vec)
 
 end
 
+function Transform3DV(vec, out)
+
+	local x,y = Transform(vec.x, -vec.y)
+	if out then
+		out.x = x
+		out.y = y
+		out.z = 0
+	end
+	return out or Vector(x,y,0)
+
+end
+
 function InvTransform(x,y)
 
 	return x * inverse[1] + y * inverse[2] + inverse[3], x * inverse[4] + y * inverse[5] + inverse[6]
@@ -100,6 +112,250 @@ local function DrawGrid(rect, spacing, numbers)
 		end
 
 	end
+
+end
+
+local heat = {}
+local heat_tilesize = 2048
+local heat_stepsize = 256
+local heat_key_width = 65536
+local heat_key_width2 = heat_key_width * 2
+
+local function HeatKey(pos)
+
+	local kx = math.Round(pos.x / heat_stepsize)
+	local ky = math.Round(pos.y / heat_stepsize) * heat_key_width
+
+	return kx + ky
+
+end
+
+local function AddHeat(pos, add)
+
+	local k = HeatKey(pos)
+	heat[k] = math.min( (heat[k] or 0) + add, 1 )
+
+end
+
+--5x5 convolution blur kernel
+local function ConvolvedHeatSample( k )
+
+	local cv = .7
+	local cv2 = .707 * .7
+	local h0 = ( heat[ k ] or 0 ) * 16
+	local h1 = ( heat[ k - 1 ] or 0 ) * 8
+	local h2 = ( heat[ k + 1 ] or 0 ) * 8
+	local h3 = ( heat[ k - heat_key_width ] or 0 ) * 8
+	local h4 = ( heat[ k + heat_key_width ] or 0 ) * 8
+	local h5 = ( heat[ k - heat_key_width - 1 ] or 0 ) * 4
+	local h6 = ( heat[ k - heat_key_width + 1 ] or 0 ) * 4
+	local h7 = ( heat[ k + heat_key_width - 1 ] or 0 ) * 4
+	local h8 = ( heat[ k + heat_key_width + 1 ] or 0 ) * 4
+	local h9 = ( heat[ k - 2 ] or 0 ) * 2
+	local h10 = ( heat[ k + 2 ] or 0 ) * 2
+	local h11 = ( heat[ k - heat_key_width2 ] or 0 ) * 2
+	local h12 = ( heat[ k + heat_key_width2 ] or 0 ) * 2
+	local h13 = ( heat[ k - heat_key_width - 2 ] or 0 )
+	local h14 = ( heat[ k - heat_key_width + 2 ] or 0 )
+	local h15 = ( heat[ k + heat_key_width - 2 ] or 0 )
+	local h16 = ( heat[ k + heat_key_width + 2 ] or 0 )
+	local h17 = ( heat[ k - heat_key_width2 - 1 ] or 0 )
+	local h18 = ( heat[ k - heat_key_width2 + 1 ] or 0 )
+	local h19 = ( heat[ k + heat_key_width2 - 1 ] or 0 )
+	local h20 = ( heat[ k + heat_key_width2 + 1 ] or 0 )
+	
+	local r0 = h0+h1+h2+h3+h4
+	local r1 = h5+h6+h7+h8+h9
+	local r2 = h10+h11+h12+h13+h14
+	local r3 = h15+h16+h17+h18+h19
+
+	return (r0+r1+r2+r3+h20) * 0.0125
+
+end
+
+local function SampleColor(pos)
+
+	local k = HeatKey(pos)
+	local sum = ConvolvedHeatSample(k)
+	--local sum = heat[ k ] or 0
+
+	local c = HSVToColor( sum * sum * 40, 1, math.min( sum*2, 1 ) )
+
+	return c.r, c.g, c.b,255
+
+end
+
+local _cvec = {}
+local function CVec(id, x,y,z)
+
+	local v = _cvec[id] or Vector(0,0,0)
+	v.x = x or 0
+	v.y = y or 0
+	v.z = z or 0
+	_cvec[id] = v
+	return v
+
+end
+
+local mat = Material( "color" )
+--local mat = Material( "editor/wireframe" )
+local function DrawHeatTile(x, y)
+
+	local size = heat_tilesize
+	local step = heat_stepsize
+	local strips = size / step
+	local startx = x
+	local starty = y
+	local endx = startx + size
+	local endy = starty + size
+
+	render.SetMaterial( mat )
+
+	for y = starty, endy, step do
+
+		if y == endy then break end
+
+		mesh.Begin(MATERIAL_TRIANGLE_STRIP, (strips+1) * 4)
+
+		for x = startx, endx, step do
+
+			if x == endx then break end
+
+			local wv0 = CVec(1, x,y,0)
+			local wv1 = CVec(2, x,y+step,0)
+			local wv2 = CVec(3, x+step,y,0)
+			local wv3 = CVec(4, x+step,y+step,0)
+
+			local v0 = Transform3DV( wv0, CVec(5) )
+			local v1 = Transform3DV( wv1, CVec(6) )
+			local v2 = Transform3DV( wv2, CVec(7) )
+			local v3 = Transform3DV( wv3, CVec(8) )
+
+			local b,e = pcall( function()
+
+				mesh.Position( v0 )
+				mesh.Color( SampleColor(wv0) )
+				mesh.AdvanceVertex()
+				mesh.Position( v1 )
+				mesh.Color( SampleColor(wv1) )
+				mesh.AdvanceVertex()
+				mesh.Position( v2 )
+				mesh.Color( SampleColor(wv2) )
+				mesh.AdvanceVertex()
+				mesh.Position( v3 )
+				mesh.Color( SampleColor(wv3) )
+				mesh.AdvanceVertex()
+
+			end)
+			if not b then print(e) end
+
+		end
+
+		mesh.End()
+
+	end
+
+end
+
+local function DrawHeatMap()
+
+	local pos = LocalPlayer():GetPos()
+	local cx = math.floor( pos.x / heat_tilesize ) * heat_tilesize
+	local cy = math.floor( pos.y / heat_tilesize ) * heat_tilesize
+
+	for y = -1, 1 do
+		for x = -1, 1 do
+			DrawHeatTile(cx + x * heat_tilesize,cy + y * heat_tilesize)
+		end
+	end
+
+	--[[surface.SetDrawColor( 255,255,255,100 )
+	for k,v in pairs( history ) do
+
+		if v.point then
+			local x,y = Transform3D( v.point )
+			surface.DrawRect( Rect(Box( x,y,x,y ):Inset(-3)):Unpack() )
+		else
+			local x0,y0 = Transform3D( v.v0 )
+			local x1,y1 = Transform3D( v.v1 )
+			surface.DrawLine(x0,y0,x1,y1)
+		end
+
+	end]]
+
+end
+
+local function NearestFindPosKey(pos, maxdist)
+
+	maxdist = maxdist or 999999
+
+	local dsqr = maxdist * maxdist
+	local key = nil
+	for i=#history, 1, -1 do
+		local v = history[i]
+		local cmp = nil
+		if v.point then
+			cmp = (v.point - pos):LengthSqr()
+		else
+			cmp = math.min( (v.v0 - pos):LengthSqr(), (v.v1 - pos):LengthSqr() )
+		end
+		if cmp < dsqr then
+			dsqr = cmp
+			key = i
+		end
+	end
+	return key
+
+end
+
+local function HistoryPos(pos)
+
+	local k = NearestFindPosKey(pos, 512)
+	if k then
+		local v = history[k]
+		if not v.v0 then v.v0 = v.point v.v1 = v.point v.point = nil end
+		local dir = v.v1 - v.v0
+		local pv1 = Vector(v.v1)
+
+		v.v1 = pos
+
+		local break_off = false
+		if dir:Dot(dir) > 0 then
+			local newdir = (v.v1 - pv1)
+			dir.z = 0
+			newdir.z = 0
+
+			dir:Normalize()
+			newdir:Normalize()
+
+			local adif = dir:Dot(newdir)
+			if adif < math.cos( 25 * DEG_2_RAD ) then
+				break_off = true
+			end
+		end
+
+		local lensqr = (v.v0 - v.v1):LengthSqr()
+		if break_off then --lensqr > 262144 or 
+			print("ADD: " .. #history)
+			table.insert( history, {point = pos} )
+		end
+		return 
+	end
+
+	table.insert( history, {point = pos} )
+
+end
+
+local function UpdateHistory()
+
+	local ft = FrameTime()
+	for k,v in pairs(player.GetAll()) do
+		AddHeat( v:GetPos(), .25 * ft )
+	end
+
+	--[[for k,v in pairs(player.GetAll()) do
+		HistoryPos( v:GetPos() )
+	end]]
 
 end
 
@@ -184,6 +440,8 @@ function Paint()
 	local screen = Rect("screen")
 	local sub = Rect( 0, 0, settings.width, settings.height )
 
+	UpdateHistory()
+
 	sub:ScreenScale()
 	sub:Inset(-12)
 	sub:Dock( screen, settings.dock )
@@ -206,6 +464,8 @@ function Paint()
 	surface.DrawRect( sub:Unpack() )
 
 	render.SetScissorRect( Box(sub):Unpack(true) )
+
+	DrawHeatMap()
 
 	surface.SetDrawColor( 20,180,20,20 )
 	DrawGrid( sub, 32 * settings.grid_spacing_multiplier )

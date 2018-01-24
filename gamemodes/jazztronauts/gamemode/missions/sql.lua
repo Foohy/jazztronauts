@@ -28,6 +28,7 @@ function GetMissionHistory(ply)
         for _, v in pairs(res) do
             v.completed = tonumber(v.completed) != 0
             v.missionid = tonumber(v.missionid)
+            v.progress = tonumber(v.progress)
             resmap[v.missionid] = v
         end
 
@@ -47,6 +48,7 @@ function GetMission(ply, missionid)
     local res = jsql.Query(sel)
 	if type(res) == "table" then 
         res[1].completed = tonumber(res[1].completed) != 0
+        res[1].missionid = tonumber(res[1].missionid)
         res[1].progress = tonumber(res[1].progress)
         return res[1]
     end 

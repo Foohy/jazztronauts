@@ -1,0 +1,3 @@
+begin:
+    thanks for doing my grocery shopping
+    &exit

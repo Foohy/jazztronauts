@@ -29,7 +29,7 @@ SWEP.Secondary.Ammo 		= "none"
 
 SWEP.Spawnable 				= true
 SWEP.RequestInfo			= {}
-SWEP.TeleportDistance		= 256
+SWEP.TeleportDistance		= 5120000
 
 function SWEP:Initialize()
 
@@ -434,7 +434,7 @@ function SWEP:Think()
 	self.hitpos = self.hitpos or Vector(0,0,0)
 
 	local dt = ( CurTime() - self.lasttime )
-	local speedrate = 200 --750
+	local speedrate = 3850 --750
 	local openrate = 4
 	local topspeed = 2000
 

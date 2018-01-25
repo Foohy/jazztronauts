@@ -8,6 +8,7 @@ AddCSLuaFile( "cl_scoreboard.lua" )
 AddCSLuaFile( "player.lua" )
 AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "workshop/workshop.lua" )
+AddCSLuaFile( "missions/cl_init.lua" )
 
 AddCSLuaFile( "cl_hud.lua" )
 
@@ -96,7 +97,9 @@ function GM:CollectProp(prop, ply)
 	propfeed.notify( prop, ply, newCount )
 
 	-- Also maybe collect the prop for player missions
-	missions.AddMissionProp(ply, prop:GetModel())
+	for _, v in pairs(player.GetAll()) do
+		missions.AddMissionProp(v, prop:GetModel())
+	end
 end
 
 -- TODO: Just for debugging for now

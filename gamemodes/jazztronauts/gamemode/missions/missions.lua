@@ -1,6 +1,7 @@
-module( "missions", package.seeall )
+AddCSLuaFile("missions.lua")
+AddCSLuaFile("missionlist.lua")
 
-include("sql.lua")
+module( "missions", package.seeall )
 
 MissionList = {}
 
@@ -14,7 +15,7 @@ function AddMission(id, mdata)
         error("Mission id ".. id .. " already exists in mission table.")
         return 
     end
-
+    mdata.missionid = id
     MissionList[id] = mdata
 end
 
@@ -39,14 +40,26 @@ local function isAvailable(mission, history)
     return true
 end
 
+local function isReadyToTurnIn(mdata)
+    local minfo = GetMissionInfo(mdata.missionid)
+        
+    -- They must have started the mission and not already completed it
+    if not mdata or mdata.completed then return false end
+
+    -- They gotta collect ALL of the props
+    if mdata.progress < minfo.Count then return false end 
+
+    return true
+end
+
 -- Retrieve a list of missions the player has available to start
-function GetAvailableMissions(ply, npcid)
-    local hist = GetMissionHistory(ply)
+function GetAvailableMissions(ply, npcid, h)
+    local hist = h or GetMissionHistory(ply)
     local available = table.Copy(MissionList)
 
-    -- Remove completed missions
+    -- Remove accepted/completed missions
     for k, v in pairs(hist) do
-        if v.completed then available[k] = nil end
+        available[k] = nil
     end
 
     -- Remove missions we don't qualify for
@@ -60,14 +73,28 @@ function GetAvailableMissions(ply, npcid)
 end
 
 -- Retrieve a list of missions the player is currently in progress
-function GetActiveMissions(ply)
-    local hist = GetMissionHistory(ply)
+function GetActiveMissions(ply, h, excludeReady)
+    local hist = h or GetMissionHistory(ply)
     local active = {}
 
     for k, v in pairs(hist) do
-        if not v.completed then 
+        local ready = isReadyToTurnIn(v)
+        if not v.completed and (not ready or not excludeReady) then 
             active[k] = v
         end
+    end
+
+    return active
+end
+
+-- Retrieve a list of missions the player is ready to turn in
+function GetReadyMissions(ply, npcid, h)
+    local hist = h or GetMissionHistory(ply)
+    local active = {}
+    for k, v in pairs(hist) do
+        if isReadyToTurnIn(v) then
+            active[k] = v
+        end 
     end
 
     return active
@@ -107,12 +134,7 @@ if SERVER then
         local minfo = GetMissionInfo(mid)
         local active = GetMission(ply, mid)
         
-        -- They must have started the mission and not already completed it
-        if not active or active.completed then return false end
-
-        -- They gotta collect ALL of the props
-        if active.progress < minfo.Count then return false end 
-
+        if not isReadyToTurnIn(active, minfo) then return false end
         if not _completeMission(ply, mid) then return false end
 
         UpdatePlayerMissionInfo(ply)
@@ -169,9 +191,40 @@ if SERVER then
         net.Send(ply)
     end
 
+    -- Receive requests from players to try to start/finish missions
+    net.Receive("jazz_missionupdate", function(len, ply)
+        local mid = net.ReadUInt(8)
+        local tryFinish = net.ReadBit() == 1
+
+        if not mapcontrol.IsInHub() then 
+            print(ply:GetNick(), "tried to do mission stuff outside of the hub. ")
+            return
+        end
+
+        if tryFinish then 
+            missions.CompleteMission(ply, mid)
+        else
+            missions.StartMission(ply, mid)
+        end
+    end )
+
 elseif CLIENT then 
     Active = Active or {}
     Finished = Finished or {}
+
+    function TryStartMission(mid)
+        net.Start("jazz_missionupdate")
+            net.WriteUInt(mid, 8)
+            net.WriteBit(false)
+        net.SendToServer()
+    end
+
+    function TryFinishMission(mid)
+        net.Start("jazz_missionupdate")
+            net.WriteUInt(mid, 8)
+            net.WriteBit(true)
+        net.SendToServer()
+    end
 
     net.Receive("jazz_missionupdate", function(len, ply)
 

@@ -27,7 +27,9 @@ end
 
 hook.Add("HUDPaint", "JazzDrawMissions", function()
 	for k, v in pairs(missions.MissionList) do
-		DrawMission(k, 5, ScrH() - (80 + k * 60))
+		if missions.Active[k] then
+			DrawMission(k, 5, ScrH() - (80 + k * 60))
+		end
 	end
 	
 end )

@@ -26,7 +26,7 @@ function CanSnatch(ent)
     if string.find(ent:GetClass(), "jazz_bus_") ~= nil then return true end
     if string.find(ent:GetClass(), "item_") ~= nil then return true end
 	if ent:IsNPC() then return true end
-	if ent:IsPlayer() and ent:Alive() then return true end
+	//if ent:IsPlayer() and ent:Alive() then return true end -- you lost your privileges
 
     return false
 end

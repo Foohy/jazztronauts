@@ -12,7 +12,10 @@ local pairs = pairs
 local net = net
 local util = util
 local tostring = tostring
+local tonumber = tonumber
 local LocalPlayer = LocalPlayer
+
+local missions = missions
 
 local STATE_IDLE = 0
 local STATE_OPENING = 1
@@ -159,6 +162,12 @@ local inits = {
 		if d.exec == "shake_screen" then
 			util.ScreenShake( LocalPlayer():GetPos(), 8, 8, 1, 5000 )
 			surface.PlaySound( "garrysmod/save_load4.wav" )
+		elseif string.find(d.exec, "grant_") == 1 then
+			local mid = tonumber(string.Split(d.exec, "_")[2])
+			missions.TryStartMission(mid)
+		elseif string.find(d.exec, "finish_") == 1 then
+			local mid = tonumber(string.Split(d.exec, "_")[2])
+			missions.TryFinishMission(mid)
 		end
 
 		d.nodeiter()

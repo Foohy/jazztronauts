@@ -1,0 +1,37 @@
+accept:
+    alright new plan roll with me here
+    what do people need more than anything in the world? %%%%%
+    love? %%%%%
+    money? %%%%%
+    passion?
+    &clearlyincorrectanswer
+#    player:
+#    &clearlyincorrectanswer:
+#        Love
+        
+#    &clearlyincorrectanswer:
+#        Money
+
+#    &clearlyincorrectanswer:
+#        Passion
+
+#    &clearlyincorrectanswer:
+#        Free Cable
+
+clearlyincorrectanswer:
+    wrong.
+    %%%%%
+    furniture.
+    %%%%%
+    give me furniture
+    *grant_1
+    &exit
+
+idle:
+	just give me some chairs I need to sit down
+    &exit
+
+turnin:
+	DELICIOUS CHAIRS
+    *finish_1
+    &exit

@@ -1,0 +1,17 @@
+accept:
+    pssst %%%%%%%%%%
+    pssssssst hey kid %%%
+	heard you like trash. %%%%%
+    give me trash. 
+    *grant_0
+    &exit
+
+idle:
+	i said give me some trash you fuck. 
+    &exit
+
+turnin:
+	I AM THE TRASH CAT
+    I EAT GARBAGE
+    *finish_0
+    &exit

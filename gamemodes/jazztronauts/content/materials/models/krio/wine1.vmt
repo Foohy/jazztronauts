@@ -1,0 +1,24 @@
+"VertexLitGeneric"
+{
+// File Created by Wall Worm ( http://dev.wallworm.com )
+	// Get Wall Worm Pro to remove this comment ( https://wallworm.com/store/index.php?route=product/product&product_id=54 )
+
+// BEGIN Textures
+	$lightwarptexture "models/krio/weapon_lightwarp"
+	$basetexture "models/krio/wine1"
+// END Textures
+
+
+
+// BEGIN Phong
+	"$phong" 1
+	"$phongboost" "20.0"
+	"$phongexponent" "60"
+	"$phongfresnelranges" "[0.25 0.5 1.0]"
+	"$rimlight" 1
+	"$rimexponent" "2"
+	"$rimboost" "1"
+// END Phong
+
+
+}

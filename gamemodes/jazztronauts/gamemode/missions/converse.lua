@@ -52,12 +52,10 @@ local function getFirst(...)
     local args = {...}
     for k, v in ipairs(args) do
         for _, m in SortedPairs(v) do 
-            PrintTable(v)
-            print(m)
             return m, k - 1 
         end
     end
-    print("nothin'")
+
     return nil
 end
 

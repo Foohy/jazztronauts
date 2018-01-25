@@ -127,6 +127,19 @@ if SERVER then
         return addedProp
     end
 
+    -- Manually increment a specific mission id's progress
+    function AddMissionProgress(ply, mid)
+        local minfo = GetMissionInfo(mid)
+        if not IsValid(ply) or not minfo then return false end
+
+        local added = _addMissionProgress(ply, mid)
+        if added then 
+            UpdatePlayerMissionInfo(ply)
+        end
+
+        return added
+    end
+
     -- Try to complete a mission if requirements are met
     function CompleteMission(ply, mid)
         if not IsValid(ply) then return false end

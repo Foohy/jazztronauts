@@ -32,3 +32,21 @@
 	input Unlock(void) : "Unlock the door"
 	input Lock(void) : "Lock the door"
 ]
+
+@PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter : "Prop Poop Chute"
+[
+	output OnVomitEnd(void) : "Fires when props are finished vomiting"
+
+	input Vomit(void)  : "Begin vomiting props"
+]
+
+@PointClass base(Targetname, Origin, Angles) studioprop() = jazz_cat : "Jazz Cat"
+[
+    npcid(choices) : "Cat Character" : "1" =
+    [
+        1 : "Bartender" 
+        2 : "Singer" 
+        3 : "Pianist" 
+		4 : "Chello"
+    ]
+]

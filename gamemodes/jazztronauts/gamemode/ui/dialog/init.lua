@@ -14,12 +14,13 @@ util.AddNetworkString( "dialog_dispatch" )
 Init()
 
 function Dispatch( script, targets, camera )
-
+	local scriptid = util.NetworkStringToID( script )
+	if scriptid == 0 then return false end
 
 	print("SV_Dispatch: '" .. script .. "'")
 
 	net.Start( "dialog_dispatch" )
-	net.WriteUInt( util.NetworkStringToID( script ), 16 )
+	net.WriteUInt( scriptid, 16 )
 
 	if camera ~= nil then
 		net.WriteBit( true )
@@ -30,4 +31,5 @@ function Dispatch( script, targets, camera )
 
 	net.Send( targets )
 
+	return true
 end

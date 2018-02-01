@@ -1,10 +1,17 @@
 module( "converse", package.seeall )
 ResetConvos()
 
-AddMission(0, "mission0.accept", MISSION_AVAILABLE)
-AddMission(0, "mission0.idle", MISSION_ACCEPTED)
-AddMission(0, "mission0.turnin", MISSION_COMPLETED)
+local function addMissionAuto(mid)
+    local missionfile = "mission" .. mid
+    AddMission(mid, missionfile .. ".accept", MISSION_AVAILABLE)
+    AddMission(mid, missionfile .. ".idle", MISSION_ACCEPTED)
+    AddMission(mid, missionfile .. ".turnin", MISSION_COMPLETED)
+end
 
-AddMission(1, "mission1.accept", MISSION_AVAILABLE)
-AddMission(1, "mission1.idle", MISSION_ACCEPTED)
-AddMission(1, "mission1.turnin", MISSION_COMPLETED)
+-- Automatically add mission conversations
+for k, v in pairs(missions.MissionList) do
+    addMissionAuto(k)
+end
+
+-- Add in manual, conditional conversations
+-- Add(id, script, conditionFunc, isRepeat)

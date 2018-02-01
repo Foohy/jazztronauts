@@ -25,11 +25,19 @@ local function DrawMission(mid, x, y)
 	end
 end
 
+local ShowFinishedMissions = false
 hook.Add("HUDPaint", "JazzDrawMissions", function()
+
 	for k, v in pairs(missions.MissionList) do
-		if missions.Active[k] then
+		if missions.Active[k] or (ShowFinishedMissions and missions.Finished[k]) then
 			DrawMission(k, 5, ScrH() - (80 + k * 60))
 		end
 	end
-	
+end )
+
+hook.Add( "ScoreboardShow", "jazz_showFinishedMissions", function()
+	ShowFinishedMissions = true
+end )
+hook.Add("ScoreboardHide", "jazz_hideFinishedMissions", function()
+	ShowFinishedMissions = false
 end )

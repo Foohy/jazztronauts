@@ -35,7 +35,7 @@ end
 function ENT:Use(activator, caller)
     if IsValid(caller) and caller:IsPlayer() then 
         local script = converse.GetMissionScript(caller, self.NPCID)
-        script = script or "idle.begin"
+        script = dialog.IsValid(script) and script or "idle.begin"
         dialog.Dispatch(script, caller)
     end
 end

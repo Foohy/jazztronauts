@@ -12,7 +12,6 @@ include( "cl_hud.lua" )
 GM.HideHUD = {
 	"CHudHealth",
 	"CHudBattery",
-	"CHudCrosshair",
 	"CHudAmmo",
 	"CHudSecondaryAmmo",
 }

@@ -22,3 +22,13 @@ function GM:PhysgunPickup(ply, ent)
 
     return self.BaseClass:PhysgunPickup(ply, ent)
 end 
+
+function GM:CanProperty(ply, prop, ent)
+    if prop == "persist" then return false end
+
+    return self.BaseClass:CanProperty(ply, prop, ent)
+end
+
+function GM:CanDrive(ply, ent)
+    return mapcontrol.IsInHub()
+end

@@ -18,7 +18,7 @@ ENT.RadioModel = "models/props_lab/citizenradio.mdl"
 ENT.VoidMusicName = "jazztronauts/music/que_chevere_travel_fade.mp3"
 ENT.VoidMusicPreroll = 2.9 -- how many seconds it takes to get to the chorus
 ENT.VoidMusicFadeStart = 12.0
-ENT.VoidMusicFadeEnd   = 25.0
+ENT.VoidMusicFadeEnd   = 22.0
 
 function ENT:SetupDataTables()
 

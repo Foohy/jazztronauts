@@ -1,0 +1,28 @@
+<title>HI MOM!</title>
+<link rel="stylesheet" href="style.css"> 
+<div class="marquee">
+    <h1>WELCOME TO JAZZTRONAUTS!!!!!!!!!!!!!!!!!</h1>
+</div>
+<center>
+    <h1>YOU'RE LOADING: <div id="mapname">SOMETHING</div></h1>
+    <br/>
+    <h1><span id="remain">9</span>/<span id="total">11</span> files left.</h1>
+</center>
+<!-- Don't forget you tell your friends!!! -->
+
+<script>
+window.GameDetails = function ( servername, serverurl, mapname, maxplayers, steamid, gamemode )
+{
+    document.getElementById("mapname").innerHTML = mapname
+}
+
+window.SetFilesTotal = function( total ) 
+{
+    document.getElementById("total").innerHTML = total
+}
+
+window.SetFilesNeeded = function ( needed ) 
+{
+    document.getElementById("remain").innerHTML = needed
+}
+</script>

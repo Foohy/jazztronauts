@@ -1,0 +1,46 @@
+body {
+    background-image: url("bg.jpg");
+}
+h1 {
+    color: #FFFFFF;
+}
+ 
+/* thanks https://www.quackit.com/css/codes/marquees/ */
+.marquee {
+ height: 50px;	
+ overflow: hidden;
+ position: relative;
+}
+.marquee h1 {
+ position: absolute;
+ width: 100%;
+ height: 100%;
+ margin: 0;
+ line-height: 50px;
+ text-align: left;
+ /* Apply animation to this element */	
+ -moz-animation: marquee 5s linear infinite alternate;
+ -webkit-animation: marquee 5s linear infinite alternate;
+ animation: marquee 5s linear infinite alternate;
+}
+/* Move it (define the animation) */
+@-moz-keyframes marquee {
+ 0%   { -moz-transform: translateX(70%); }
+ 100% { -moz-transform: translateX(0%); }
+}
+@-webkit-keyframes marquee {
+ 0%   { -webkit-transform: translateX(70%); }
+ 100% { -webkit-transform: translateX(0%); }
+}
+@keyframes marquee {
+ 0%   { 
+ -moz-transform: translateX(70%); /* Firefox bug fix */
+ -webkit-transform: translateX(70%); /* Firefox bug fix */
+ transform: translateX(70%); 		
+ }
+ 100% { 
+ -moz-transform: translateX(0%); /* Firefox bug fix */
+ -webkit-transform: translateX(0%); /* Firefox bug fix */
+ transform: translateX(0%); 
+ }
+}

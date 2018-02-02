@@ -6,6 +6,7 @@ ENT.RenderGroup = RENDERGROUP_OPAQUE
 
 ENT.Model = "models/krio/jazzcat1.mdl"
 ENT.NPCID = 0 -- TODO
+ENT.IdleAnim = "standerino"
 ENT.AutomaticFrameAdvance = true
 
 function ENT:Initialize()
@@ -19,8 +20,7 @@ function ENT:Initialize()
 
         self:SetUseType(SIMPLE_USE)
 
-        self:ResetSequence(self:LookupSequence("jig2"))
-        self:SetPlaybackRate(1.0)
+        self:SetIdleAnim(self.IdleAnim)
     end
 
     if CLIENT then
@@ -30,6 +30,19 @@ end
 
 function ENT:Think()
 
+end
+
+function ENT:KeyValue( key, value )
+	if key == "idleanim" then
+		self:StoreOutput(key, value)
+	end
+end
+
+function ENT:SetIdleAnim(anim)
+    self.IdleAnim = anim 
+
+    self:ResetSequence(self:LookupSequence(self.IdleAnim))
+    self:SetPlaybackRate(1.0)
 end
 
 function ENT:Use(activator, caller)

@@ -40,7 +40,7 @@
 	input Vomit(void)  : "Begin vomiting props"
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop() = jazz_cat : "Jazz Cat"
+@PointClass base(Targetname, Origin, Angles) studioprop("models/krio/jazzcat1.mdl") = jazz_cat : "Jazz Cat"
 [
     npcid(choices) : "Cat Character" : "1" =
     [
@@ -49,4 +49,6 @@
         3 : "Pianist" 
 		4 : "Chello"
     ]
+
+	idleanim(string) : "Idle Animation" : : "Overrides the default idle animation"
 ]

@@ -140,8 +140,6 @@ end
 --5x5 convolution blur kernel
 local function ConvolvedHeatSample( k )
 
-	local cv = .7
-	local cv2 = .707 * .7
 	local h0 = ( heat[ k ] or 0 ) * 16
 	local h1 = ( heat[ k - 1 ] or 0 ) * 8
 	local h2 = ( heat[ k + 1 ] or 0 ) * 8
@@ -465,7 +463,7 @@ function Paint()
 
 	render.SetScissorRect( Box(sub):Unpack(true) )
 
-	DrawHeatMap()
+	--DrawHeatMap()
 
 	surface.SetDrawColor( 20,180,20,20 )
 	DrawGrid( sub, 32 * settings.grid_spacing_multiplier )

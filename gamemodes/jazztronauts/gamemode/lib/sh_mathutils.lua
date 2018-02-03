@@ -132,3 +132,17 @@ function CubicHermite(p0, p1, m0, m1, t)
 
 	return (2*tC - 3*tS + 1)*p0 + (tC - 2*tS + t)*m0 + (-2*tC + 3*tS)*p1 + (tC - tS)*m1
 end
+
+--Lerp colors
+function LerpColor(c0, c1, f, out)
+	out = out or Color(0,0,0,0)
+	out.r = c0.r + (c1.r - c0.r) * f
+	out.g = c0.g + (c1.g - c0.g) * f
+	out.b = c0.b + (c1.b - c0.b) * f
+	out.a = c0.a + (c1.a - c0.a) * f
+	return out
+end
+
+function MulAlpha(color, a)
+	return Color(color.r, color.g, color.b, color.a * a)
+end

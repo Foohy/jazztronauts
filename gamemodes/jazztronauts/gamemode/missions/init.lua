@@ -14,7 +14,7 @@ concommand.Add("jazz_missions_add", function(ply, cmd, args, argstr)
 end )
 
 concommand.Add("jazz_missions_reset_all", function(ply, cmd, args, argstr)
-    if IsValid(ply) and ply:IsAdmin() then
+    if not IsValid(ply) or ply:IsAdmin() then
         jsql.Reset("jazz_active_missions")
 
         for _, v in pairs(player.GetAll()) do

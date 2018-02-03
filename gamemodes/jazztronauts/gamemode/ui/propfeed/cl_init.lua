@@ -1,6 +1,24 @@
 
 module( "propfeed", package.seeall )
 
+local function strip_mdl(prop)
+
+	if string.find(prop, ".mdl") then
+		return string.sub(prop, 0, -5)
+	end
+	return prop
+
+end
+
+local function nice_prop_name(prop)
+
+	prop = strip_mdl( prop )
+	local found = string.find(prop, "/[^/]*$")
+	if not found then return prop end
+	return string.sub(prop, found + 1, -1)
+
+end
+
 surface.CreateFont( "PropFeed_Name", {
 	font = "KG Shake it Off Chunky",
 	extended = false,
@@ -140,7 +158,7 @@ local function DrawPropEntry(item,x,y, dt, wanted, custom)
 
 	wanted = wanted or item.wanted
 	custom = custom or item.custom
-	local name = "prop_name"
+	local name = item.nice_name --"prop_name"
 	local elapsed = item.elapsed
 	local local_elapsed = CurTime() - item.time
 	local dtx = 1 - dt
@@ -293,7 +311,7 @@ surface.CreateFont( "CountFont", {
 local feed = {}
 
 local nextPropModel = 0
-local function AddPropToFeed( model, skin, ply, cnt )
+local function AddPropToFeed( model, skin, worth, ply, cnt )
 
 	local camera = Camera( Vector(-200,0,0), Angle(0,0,0), 8 )
 	local scene = Scene( camera )
@@ -336,9 +354,10 @@ local function AddPropToFeed( model, skin, ply, cnt )
 		skin = skin,
 		ply = ply,
 		count = 1,
-		worth = math.random(1,10) * 100,
+		worth = worth,
 		wanted = math.random(1,10) == 5,
 		custom = math.random(1,10) == 5,
+		nice_name = nice_prop_name( model ),
 	})
 
 	if feed[#feed].custom then feed[#feed].wanted = false end
@@ -360,6 +379,7 @@ net.Receive("propcollect", function()
 	local model = net.ReadString()
 	local skin = net.ReadUInt( 16 )
 	local count = net.ReadUInt( 16 )
+	local worth = net.ReadUInt( 32 )
 	local ply = net.ReadEntity()
 
 	local exist = FindEntry( ply, model, skin )
@@ -369,7 +389,7 @@ net.Receive("propcollect", function()
 		return
 	end
 
-	AddPropToFeed(model, skin, ply, count)
+	AddPropToFeed(model, skin, worth, ply, count)
 end)
 
 function Paint()

@@ -1,0 +1,57 @@
+accept:
+    okay so I’ve got my moonshine, %%
+    i’ve got my Thinkin’ Fumes, %%
+    that’s basically my entire hierarchy of needs met
+    &a2
+a2:
+    its time to self-actualize by chugging random bottles given to me by strangers
+    &a3
+a3:
+    y’see most people’s bodies are temples;%%%
+    evolutionary pressure has transformed mine into an autoclave
+    in a desperate attempt to survive
+    &a4
+a4:
+    this allows %(and requires)% me to pursue novel forms of intoxication
+    in ways that would ordinarily be considered particularly overengineered suicide attempts
+    &a5
+a5:
+    the problem is trying to figure out a way to synthesize those experiences 
+    outside of the laboratory of my nightmare funhouse biology in forms
+    that don’t have an LD50 that makes a single nanogram
+    per kilogram error capable of detonating elephants, %%%
+    but we’ll get to that
+    &a6
+a6:
+    for now %%I’m gonna need a shit-ton of random chemicals.%
+    buckets, %% jugs, %%bottles, %%mysterious glowing cubes, %%whatever.%%%
+    ten of ‘em should be a good start
+    *grant_3
+    &exit
+
+idle:
+    listen when I said give me anything %
+    I meant give me anything %%%%and yet here you are %
+    with a distinct lack of thing
+    &i2
+i2:
+    step up your game
+    &exit
+
+turnin:
+    excellent this should do for uh
+    &t1
+t1:
+    i mean realistically speaking about an hour or two
+    &t2
+t2:
+    but look it’s the thought that counts
+    &t3
+t3:
+    here, take this for your trouble
+    *finish_3
+    &t4
+t4:
+    in the meantime %i’m gonna do a kegstand of whatever’s in this 
+    one and see if i can’t find all those colors only mantis shrimp can see
+    &exit

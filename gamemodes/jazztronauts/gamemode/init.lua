@@ -15,7 +15,7 @@ AddCSLuaFile( "cl_hud.lua" )
 function GM:Initialize()
 	self.BaseClass:Initialize()
 
-	RunConsoleCommand("sv_loadingurl", "http://host.foohy.net/public/Documents/Jazz/index.html")
+	RunConsoleCommand("sv_loadingurl", "https://foohy.github.io/jazztronauts/")
 
 	mapcontrol.SetupMaps()
 end

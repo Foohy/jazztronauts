@@ -15,9 +15,11 @@ package:
   stage: pack
   script: 
     - 7z a build ./gamemodes
+    - 7z a -tzip build ./gamemodes
 
 update:
   stage: copy
   script:
     - today=`date '+%Y_%m_%d__%H_%M_%S'`
     - cp -f build.7z /var/www/html/download/jazztronauts/jazztronauts$today.7z
+    - cp -f build.zip /var/www/html/download/jazztronauts/jazztronauts$today.zip

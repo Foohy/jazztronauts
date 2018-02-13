@@ -184,7 +184,7 @@ local function DrawPropEntry(item,x,y, dt, wanted, custom)
 	local a = CacheGradient( "stage0", Rect(0,0,200,35):ScreenScale(), -45 + math.sin(CurTime() * 4) * 20, stops, -math.fmod(scroll * 400, 400), nil )
 	local b = CacheGradient( "stage1", Rect(0,0,200,35):ScreenScale(), -45 + math.cos(CurTime() * 4) * 20, stops, math.fmod(scroll * 400, 400) - 400, a )
 
-	rect.h = rect.h * (1 - (math.max(dt, .8) - .8) * 5)
+	rect.h = rect.h * (1 - (math.max(dt, .9) - .9) * 10)
 
 	if wanted then
 		LinearGradient( rect, 0, alpha_stops, 0, b )
@@ -197,8 +197,8 @@ local function DrawPropEntry(item,x,y, dt, wanted, custom)
 	local text_alpha = 1
 
 	
-	if local_elapsed > item.duration - 1.2 then
-		text_alpha = math.max( 1 - (local_elapsed - (item.duration - 1.2 ) ) * 5, 0 )
+	if local_elapsed > item.duration - .6 then
+		text_alpha = math.max( 1 - (local_elapsed - (item.duration - .6 ) ) * 5, 0 )
 	end
 
 	local tx = x + left_align
@@ -385,7 +385,20 @@ net.Receive("propcollect", function()
 	local exist = FindEntry( ply, model, skin )
 	if exist then
 		exist.time = CurTime()
+		exist.duration = 7
 		exist.count = exist.count + 1
+
+		local from = table.KeyFromValue( feed, exist )
+		table.remove( feed, from )
+
+		for i=#feed, 1, -1 do
+			if feed[i].count <= exist.count then
+				table.insert( feed, i+1, exist )
+				return
+			end
+		end
+		table.insert( feed, 1, exist )
+
 		return
 	end
 

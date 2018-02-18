@@ -1,26 +1,43 @@
+AddCSLuaFile("cl_init.lua")
+
+util.AddNetworkString("jazz_propvom_effect")
+
+ENT.VomitVelocity = Vector(0, 0, -200)
+ENT.MaxPipeSize = 50
+ENT.ConstipateOdds = 0 -- The odds to do the constipated thing (0 is always, 50 is 1/50)
+ENT.ConstipateCount = 100 -- How many props to spawn at once
+
 ENT.Type = "point"
 ENT.DisableDuplicator = true
 ENT.VomitMusicFile = Sound("jazztronauts/music/trash_chute_music_loop.wav")
 ENT.VomitEmptyFile = Sound("jazztronauts/music/trash_chute_music_empty.wav")
 ENT.MusicDelay = 3.5
-
-util.AddNetworkString("jazz_vomiter_gib")
+ENT.ConstipateDelay = 10.5
 
 local randomGibProps = 
 {
-	"models/props_interiors/Furniture_Vanity01a.mdl",
-	"models/props_interiors/Furniture_Desk01a.mdl",
-	"models/props_junk/wood_crate001a_damaged.mdl",
-	"models/props_junk/wood_pallet001a.mdl",
-	"models/props_c17/FurnitureTable001a.mdl"
+	Model("models/props_interiors/Furniture_Vanity01a.mdl"),
+	Model("models/props_interiors/Furniture_Desk01a.mdl"),
+	Model("models/props_junk/wood_crate001a_damaged.mdl"),
+	Model("models/props_junk/wood_pallet001a.mdl"),
+	Model("models/props_c17/FurnitureTable001a.mdl")
 }
 
--- How many props to spawn before just throwing broken prop gibs instead
-local maxpropsconvar = CreateConVar("jazz_trash_max_props", "2", FCVAR_ARCHIVE, 
-	"The maximum number of props per model to spawn from the trash chute before just spawning gibs" )
+local groanSounds = 
+{
+	"ambient/materials/metal_stress1.wav",
+	"ambient/materials/metal_stress2.wav",
+	"ambient/materials/metal_stress3.wav",
+	"ambient/materials/metal_stress4.wav",
+	"ambient/materials/metal_stress5.wav"
+}
 
-ENT.VomitVelocity = Vector(0, 0, -200)
-ENT.MaxPipeSize = 50
+local bowelMovementSounds = 
+{
+	"ambient/machines/thumper_shutdown1.wav",
+	"ambient/machines/floodgate_move_short1.wav"
+}
+
 function ENT:Initialize()
 	//self:VomitNewProps()
 end
@@ -33,16 +50,23 @@ function ENT:KeyValue( key, value )
 
 end
 
-function ENT:Think()
-	if !self.StartAt or CurTime() < self.StartAt then return end 
+function ENT:VomitMultiple(count)
 
-	for i=1, 2 do
+	for i=1, count do
 		if not self:VomitProp() then 
 			self:StopMusic(1)
 			self.SpawnQueue = nil
 			self:TriggerOutput("OnVomitEnd", self)
 			break 
 		end
+	end
+end
+
+function ENT:Think()
+	if !self.StartAt or CurTime() < self.StartAt then return end 
+
+	if not self.Constipated then
+		self:VomitMultiple(1)
 	end
 end
 
@@ -67,51 +91,89 @@ function ENT:StartMusic(empty)
 	self.WasEmpty = empty
 end
 
-function ENT:VomitNewProps()
-	local counts = progress.GetPropCounts()
-	progress.ClearRecentProps()
+function ENT:VomitNewProps(ply)
+	if not IsValid(ply) then 
+		self:TriggerOutput("OnVomitEnd", self)
+		return 
+	end
+	self.CurrentUser = ply -- TODO: Store steamid, not player reference
+
+	local counts = progress.GetPlayerPropCounts(ply, true)
+	progress.ClearPlayerRecentProps(ply)
 
 	-- Store original use counts
-	self.SpawnQueue = {}
-	for k, v in pairs(counts) do 
+	self.SpawnQueue = counts
 
-		-- Spawn the recenly collected ones + however many that were removed from the map erroneously
-		local spawnCount = math.min((v.recent or 0) + maxpropsconvar:GetInt(), v.collected)
-
-		-- For error models, spawn ONLY recent ones (they'll just be gibs)
-		if not util.IsValidModel(k) then
-			if v.recent <= 0 then continue end -- No recent ones, no spawning
-			spawnCount = v.recent
-		end
-		
-		self.SpawnQueue[k] = 
-		{
-			propname = v.propname,
-			total = spawnCount,
-			left = spawnCount
-		}
+	-- Store the index on each keyvalue pair to make it easier to lookup later
+	for k, v in pairs(self.SpawnQueue) do
+		v.Index = k
 	end
 
-	-- Ignore already-spawned props
-	for _, v in pairs(ents.GetAll()) do
-		local mdl = v:GetModel()
-		if IsValid(v) and v.JazzHubSpawned then
-			self:DecrementProp(mdl)
-		end
+	-- Random chance for the pipe to be constipated
+	local empty = table.Count(self.SpawnQueue) == 0
+	self.Constipated = not empty and math.random(0, self.ConstipateOdds) == 0
+
+	if self.Constipated then
+		self:DoConstipatedEffects()
 	end
 
+	-- Start the music and away we go
 	self.StartAt = CurTime() + self.MusicDelay
-	self:StartMusic(table.Count(self.SpawnQueue) == 0)
+	self:StartMusic(empty)
 end
 
-function ENT:DecrementProp(model)
-	if not self.SpawnQueue or not self.SpawnQueue[model] then return end
+function ENT:DoConstipatedEffects()
+	local pos, ang = self:GetPos() + self:GetAngles():Up() * 100, self:GetAngles()
 
-	local newCount = self.SpawnQueue[model].left - 1
-	self.SpawnQueue[model].left = newCount
+	-- Delay for initial groan sound
+	timer.Simple(self.MusicDelay, function()
+		self:EmitSound("ambient/materials/creaking.wav", 85, 100)
+		self:EmitSound("ambient/materials/metal_groan.wav", 85, 90)
+		--self:StopMusic(0.5) -- Actually it's funnier if the music keeps going
+		self:SpawnRandomGibs(pos, ang)
+	end )
+
+	-- Spark delay, dribble of poopy
+	timer.Simple(self.MusicDelay + 4.5, function()
+		self:SpawnRandomGibs(pos, ang)
+		self:EmitSound(table.Random(groanSounds), 85)
+
+		util.ScreenShake(self:GetPos(), 2, 5, 3.0, 10000)
+
+		local ed = EffectData()
+		ed:SetOrigin(pos)
+		ed:SetScale(1)
+		ed:SetRadius(4096)
+		ed:SetMagnitude(5)
+		util.Effect("ElectricSpark", ed)
+	end )
+
+	-- One more long groan....
+	timer.Simple(self.MusicDelay + 7.5, function()
+		self:EmitSound(table.Random(bowelMovementSounds), 85)
+		self:SpawnRandomGibs(pos, ang)
+		util.ScreenShake(self:GetPos(), 5, 0.5, 5.5, 10000)
+	end )
+
+	-- Destroy the anus
+	timer.Simple(self.MusicDelay + self.ConstipateDelay, function()
+		self:EmitSound("physics/metal/metal_large_debris2.wav", 85)
+		util.ScreenShake(self:GetPos(), 25, 0.5, 5.5, 10000)
+		self:VomitMultiple(self.ConstipateCount)
+		self.Constipated = false -- If they somehow had more props, trickle the rest out
+	end )
+end
+
+function ENT:Decrement(idx)
+	if not self.SpawnQueue or not self.SpawnQueue[idx] then return end
+
+	-- Decrement the count by one
+	local newCount = self.SpawnQueue[idx].recent - 1
+	self.SpawnQueue[idx].recent = newCount
 	
+	-- If that puts it below zero, nil out entry
 	if newCount <= 0 then 
-		self.SpawnQueue[model] = nil
+		self.SpawnQueue[idx] = nil
 	end
 end
 
@@ -124,6 +186,18 @@ function ENT:SpawnRandomGibs(pos, ang)
 	e2:Remove()
 end
 
+function ENT:SpawnPropEffect(propinfo, pos)
+	local filter = RecipientFilter()
+	filter:AddPVS(self:GetPos())
+	
+    util.PrecacheModel(propinfo.propname)
+
+	net.Start("jazz_propvom_effect")
+		net.WriteVector(pos)
+		net.WriteString(propinfo.propname)
+	net.Send(filter)
+end
+
 function ENT:ShouldToy(ent)
 	return ent:BoundingRadius() > self.MaxPipeSize or util.IsValidRagdoll(ent:GetModel())
 end
@@ -134,45 +208,25 @@ function ENT:VomitProp()
 	local prop = table.Random(self.SpawnQueue)
 	if not prop then return false end
 
-	local validModel = util.IsValidModel(prop.propname)
+	local worth = prop.worth
 	local pos, ang = self:GetPos() + self:GetAngles():Up() * 100, self:GetAngles()
-	local ent = validModel and mapgen.SpawnHubProp(prop.propname, pos, ang) or nil
 
-	-- If certain amount of props already exist, spawn gibs instead
-	-- (Or if the model doesn't exist in the first place)
-	if !IsValid(ent) or prop.total - prop.left >= maxpropsconvar:GetInt() then
-
-		if IsValid(ent) and ent:Health() > 0 then
-			ent:PrecacheGibs()
-			ent:GibBreakClient(self.VomitVelocity)
-		else 
-			-- Spawn some placeholder gibs, this prop doesnt normally break
-			self:SpawnRandomGibs(pos, ang)
-		end
-
-		if IsValid(ent) then
-			ent:Remove()
-		end
-	elseif self:ShouldToy(ent) then 
-		ent:Remove()
-
-		-- Recreate as a sphere capsule
-		ent = mapgen.SpawnHubProp(prop.propname, pos, ang, true)
-	end
+	-- Spawn some placeholder gibs, this prop doesnt normally break
+	self:SpawnRandomGibs(pos, ang)
+	self.CurrentUser:ChangeNotes(worth)
+	self:SpawnPropEffect(prop, pos)
 	
-	if IsValid(ent) and IsValid(ent:GetPhysicsObject()) then
-		ent:GetPhysicsObject():SetVelocity(self.VomitVelocity)
-	end
-
 	-- Decrement
-	self:DecrementProp(prop.propname)
+	self:Decrement(prop.Index)
 
 	return true
 end
 
 function ENT:AcceptInput( name, activator, caller, data )
-
-	if name == "Vomit" then self:VomitNewProps( ) return true end
+	if name == "Vomit" and self.SpawnQueue == nil then 
+		self:VomitNewProps(activator) 
+		return true 
+	end
 
 	return false
 end

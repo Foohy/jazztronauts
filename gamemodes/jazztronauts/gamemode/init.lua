@@ -23,7 +23,7 @@ end
 function GM:InitPostEntity()
 
 	if mapcontrol.IsInHub() then
-		mapgen.LoadHubProps()
+		--mapgen.LoadHubProps()
 	else
 		-- Add current map to list of 'started' maps
 		local res = progress.StartMap(game.GetMap(), math.random(0, 100000))
@@ -39,7 +39,7 @@ end
 
 function GM:ShutDown()
 	if mapcontrol.IsInHub() then 
-		mapgen.SaveHubProps()
+		--mapgen.SaveHubProps()
 	end
 end
 
@@ -89,7 +89,8 @@ function GM:CollectProp(prop, ply)
 	print("COLLECTED: " .. tostring(prop and prop:GetModel() or "<entity>"))
 	local worth = mapgen.CollectProp(ply, prop)
 	if worth and IsValid(ply) then
-        ply:ChangeNotes(worth)
+        --ply:ChangeNotes(worth)
+		-- Moved to prop vomiter
     end
 
 	-- Collect the prop to the poop chute

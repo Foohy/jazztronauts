@@ -94,8 +94,10 @@ function GM:CollectProp(prop, ply)
     end
 
 	-- Collect the prop to the poop chute
-	local newCount = progress.AddProp(prop:GetModel())
-	propfeed.notify( prop, ply, newCount )
+	if worth and worth > 0 then --TODO: Check if worth > 1 not 0
+		local newCount = progress.AddProp(ply, prop:GetModel(), worth)
+		propfeed.notify( prop, ply, newCount, worth)
+	end
 
 	-- Also maybe collect the prop for player missions
 	for _, v in pairs(player.GetAll()) do

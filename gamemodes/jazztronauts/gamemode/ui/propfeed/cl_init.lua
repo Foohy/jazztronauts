@@ -1,6 +1,9 @@
 
 module( "propfeed", package.seeall )
 
+//How long an entry with no updates will stay up
+StayDuration = 4
+
 local function strip_mdl(prop)
 
 	if string.find(prop, ".mdl") then
@@ -349,7 +352,7 @@ local function AddPropToFeed( model, skin, worth, ply, cnt )
 		scene = scene,
 		time = CurTime(),
 		first_time = CurTime(),
-		duration = 5,
+		duration = StayDuration,
 		model = model,
 		skin = skin,
 		ply = ply,

@@ -2,7 +2,7 @@
 
 //MODIFIABLES
 local HideDelay = 2 //How many seconds to show the amt after it is done filling the counter?
-local FillDelay = 2 //Number of seconds before the money can begin filling
+local FillDelay = propfeed.StayDuration //Number of seconds before the money can begin filling
 local FadeSpeed = 900 //How fast to fade out
 
 local distFromSide = 8

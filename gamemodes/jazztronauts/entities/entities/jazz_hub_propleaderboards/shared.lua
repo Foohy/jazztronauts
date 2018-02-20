@@ -1,116 +1,150 @@
 -- Board that displays currently selected maps
 AddCSLuaFile()
 
+include("jazzboards.lua")
+
 ENT.Type = "anim"
 ENT.Base = "base_anim"
-ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
-ENT.Model			= "models/Combine_Helicopter/helicopter_bomb01.mdl"
+ENT.RenderGroup = RENDERGROUP_OPAQUE
+ENT.Editable = true
+ENT.Model = "models/Combine_Helicopter/helicopter_bomb01.mdl"
 
 ENT.ScreenHeight = 640
-ENT.ScreenWidth = ENT.ScreenHeight * 1.80
-ENT.ScreenScale = .2
-
-if SERVER then
-	util.AddNetworkString("jazz_vomiter_leaderboards")
-end
+ENT.ScreenWidth = ENT.ScreenHeight * 1.30
+ENT.ScreenScale = .1
 
 function ENT:Initialize()
 	self:SetModel( self.Model )
 	self:DrawShadow( false )
 
 	if CLIENT then
-		self:SetRenderBoundsWS( Vector(0,0,0), Vector(self.ScreenWidth, self.ScreenWidth, self.ScreenHeight))
+		//self:SetRenderBoundsWS( Vector(0,0,0), Vector(self.ScreenWidth, self.ScreenWidth, self.ScreenHeight))
+		self:RebuildPanel()
+		self.LastLeaderboardID = self:GetLeaderboardID()
+
+		-- Hook into when leaderboards change
+		hook.Add("JazzLeaderboardsUpdated", self, function(self, id)
+			if self:GetLeaderboardID() == id then 
+				self:RebuildPanel()
+			end
+		end) 
 	end
 
 	if SERVER then 
-		self:UpdateLeaderboards()
+		self:PhysicsInit(SOLID_VPHYSICS)
+		self:SetMoveType(MOVETYPE_NONE)
+		self:SetLeaderboardID(1)
 	end
 end
 
-function ENT:UpdateLeaderboards()
-	local counts = progress.GetPropCounts()
-	local all = {}
-
-	for _, v in pairs(counts) do
-		all[v.steamid] = (all[v.steamid] or 0) + v.total
-	end
-
-	local num = math.min(table.Count(all), 3)
-	net.Start("jazz_vomiter_leaderboards")
-		net.WriteUInt(num, 8)
-
-		for k, v in SortedPairsByValue(all, true) do
-			net.WriteString(k)
-			net.WriteUInt(v, 32)
-			
-			num = num - 1 
-			if num == 0 then break end
-		end
-	net.Broadcast()
+function ENT:SetupDataTables()
+    self:NetworkVar("Int", 0, "LeaderboardID", { KeyName = "leaderboardid", Edit = { type = "Int", min = 1, max = 4 } })
 end
 
 if SERVER then return end
-JazzPlayerLeaderboard = JazzPlayerLeaderboard or {}
-surface.CreateFont( "SmallHeaderFont", {
+
+surface.CreateFont( "JazzLeaderboardEntryFont", {
 	font      = "Impact",
-	size      = 48,
+	size      = 60,
 	weight    = 700,
 	antialias = true
 })
 
-surface.CreateFont( "SelectMapFont", {
+surface.CreateFont( "JazzLeaderboardTitleFont", {
 	font      = "Impact",
 	size      = 100,
 	weight    = 700,
 	antialias = true
 })
 
-function ENT:drawPlayer(name, count, offset)
-	draw.SimpleText(name, "SmallHeaderFont", 0, offset, Color(255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
-	draw.SimpleText(count, "SmallHeaderFont", self.ScreenWidth, offset, Color(255,255,255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER )
+function ENT:AddPlayerPanel(id, name, count)
+	local panel = vgui.Create("DPanel")
+	panel:SetPaintBackground(false)
+	
+	local avatar = vgui.Create("AvatarImage", panel)
+	avatar:SetSize(128, 128)
+	avatar:SetSteamID(id)
+	avatar:Dock(LEFT)
+
+	local nameLabel = vgui.Create("DLabel", panel)
+	nameLabel:SetText(name)
+	nameLabel:SetFont("JazzLeaderboardEntryFont")
+	nameLabel:DockMargin(10, 0, 0, 0)
+	nameLabel:Dock(FILL)
+
+	local countLabel = vgui.Create("DLabel", panel)
+	countLabel:SetText(count .. " props")
+	countLabel:SetFont("JazzLeaderboardEntryFont")
+	countLabel:SetContentAlignment(6)
+	countLabel:Dock(FILL)
+
+	panel:InvalidateLayout()
+	panel:SizeToChildren(true, true)
+
+	return panel
 end
 
-function ENT:DrawTranslucent()
+function ENT:RebuildPanel()
+	if IsValid(self.Panel) then
+		self.Panel:Remove()
+	end
+	
+	local id = self:GetLeaderboardID()
+	if not jazzboards.Leaderboards[id] then
+		return 
+	end
+
+	local lst = vgui.Create("DListLayout")
+	lst:SetSize(self.ScreenWidth, 200)
+	lst:SetPaintedManually(true)
+
+	local titleLabel = vgui.Create("DLabel", lst)
+	titleLabel:SetText(jazzboards.Boards[id].title)
+	titleLabel:SetFont("JazzLeaderboardTitleFont")
+	titleLabel:SetContentAlignment(8)
+	titleLabel:DockMargin(0, 0, 0, 80.0)
+
+	for k, v in ipairs(jazzboards.Leaderboards[id]) do
+		lst:Add(self:AddPlayerPanel(v.steamid, v.name, v.count))
+	end
+
+	lst:InvalidateLayout(true)
+	lst:SizeToChildren(true, true)
+
+	self.Panel = lst
+end
+
+function ENT:OnRemove()
+	if IsValid(self.Panel) then
+		self.Panel:Remove()
+	end
+end
+
+function ENT:Think()
+	-- Regenerate if our ID changed
+	-- Thanks for still not having a hook on the client for this, gmod
+	if self.LastLeaderboardID != self:GetLeaderboardID() then
+		self.LastLeaderboardID = self:GetLeaderboardID()
+
+		self:RebuildPanel()
+	end
+end
+
+function ENT:Draw()
+	if not IsValid(self.Panel) then return end 
+
 	local ang = self:GetAngles()
 	local pos = self:GetPos() + ang:Right() * 0.01
-	
+
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 90 )
-
-
-	render.DrawLine( pos, pos + 8 * ang:Forward(), Color( 255, 0, 0 ), true )
-	render.DrawLine( pos, pos + 8 * -ang:Right(), Color( 0, 255, 0 ), true )
-	render.DrawLine( pos, pos + 8 * ang:Up(), Color( 0, 0, 255 ), true )
 
 	pos = pos - ang:Forward() * self.ScreenScale * self.ScreenWidth / 2
 	pos = pos - ang:Right() * self.ScreenScale * self.ScreenHeight / 2
 
 	cam.Start3D2D(pos, ang, self.ScreenScale)
-		local offset = 0
-		for k, v in SortedPairsByMemberValue(JazzPlayerLeaderboard, "count", true) do
-
-			self:drawPlayer(v.name, v.count, offset * 40)
-			offset = offset + 1
-		end
+		self.Panel:PaintManual()
 	cam.End3D2D()
 
-	self:DrawModel()
+	--self:DrawModel()
 end
-
-net.Receive("jazz_vomiter_leaderboards", function(len, ply)
-    local num = net.ReadUInt(8)
-	JazzPlayerLeaderboard = {}
-	for i=1, num do
-		local plyID = net.ReadString()
-		local num = net.ReadUInt(32)
-
-		JazzPlayerLeaderboard[plyID] = {}
-		JazzPlayerLeaderboard[plyID].count = num
-		steamworks.RequestPlayerInfo(plyID, function(name)
-			print(plyID, name)
-			if JazzPlayerLeaderboard[plyID] then
-				JazzPlayerLeaderboard[plyID].name = name
-			end
-		end )
-	end
-end )

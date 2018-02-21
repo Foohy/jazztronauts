@@ -4,7 +4,7 @@ util.AddNetworkString("jazz_propvom_effect")
 
 ENT.VomitVelocity = Vector(0, 0, -200)
 ENT.MaxPipeSize = 50
-ENT.ConstipateOdds = 0 -- The odds to do the constipated thing (0 is always, 50 is 1/50)
+ENT.ConstipateOdds = 50 -- The odds to do the constipated thing (0 is always, 50 is 1/50)
 ENT.ConstipateCount = 100 -- How many props to spawn at once
 
 ENT.Type = "point"
@@ -64,10 +64,13 @@ end
 
 function ENT:Think()
 	if !self.StartAt or CurTime() < self.StartAt then return end 
+	if not self.SpawnQueue then return end
 
 	if not self.Constipated then
 		self:VomitMultiple(1)
 	end
+
+	jazzboards.UpdateLeaderboards(self.CurrentUser, -self.TotalCount)
 end
 
 function ENT:StopMusic(fadeTime)
@@ -105,8 +108,15 @@ function ENT:VomitNewProps(ply)
 	self.SpawnQueue = counts
 
 	-- Store the index on each keyvalue pair to make it easier to lookup later
+	self.TotalCount = 0
 	for k, v in pairs(self.SpawnQueue) do
 		v.Index = k
+		self.TotalCount = self.TotalCount + v.recent
+	end
+	
+	-- Add this as a 'session' prop for leaderboards
+	if IsValid(self.CurrentUser) then
+		jazzboards.AddSessionProps(self.CurrentUser:SteamID64(), self.TotalCount)
 	end
 
 	-- Random chance for the pipe to be constipated
@@ -161,6 +171,8 @@ function ENT:DoConstipatedEffects()
 		util.ScreenShake(self:GetPos(), 25, 0.5, 5.5, 10000)
 		self:VomitMultiple(self.ConstipateCount)
 		self.Constipated = false -- If they somehow had more props, trickle the rest out
+
+		jazzboards.UpdateLeaderboards(self.CurrentUser, -self.TotalCount)
 	end )
 end
 
@@ -170,7 +182,8 @@ function ENT:Decrement(idx)
 	-- Decrement the count by one
 	local newCount = self.SpawnQueue[idx].recent - 1
 	self.SpawnQueue[idx].recent = newCount
-	
+	self.TotalCount = self.TotalCount - 1
+
 	-- If that puts it below zero, nil out entry
 	if newCount <= 0 then 
 		self.SpawnQueue[idx] = nil

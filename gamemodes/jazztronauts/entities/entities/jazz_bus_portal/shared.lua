@@ -508,16 +508,13 @@ local function IsInExitPortal()
 end
 
 -- PostRender and PostDrawOpaqueRenderables are what draws the stencil portal in the world
-local drewThisFrame = false
-local isRendering3DSky = false
 hook.Add("PostRender", "JazzClearExteriorVoidList", function()
     local portals = LocalPlayer().ActiveBusPortals
     if !portals then return end
 
     table.Empty(portals)
-
-    drewThisFrame = false -- Reset so we only draw once per frame
 end )
+
 hook.Add("PostDrawOpaqueRenderables", "JazzBusDrawExteriorVoid", function(depth, sky)
     local portals = LocalPlayer().ActiveBusPortals
     if !portals then return end
@@ -531,30 +528,20 @@ end )
 
 -- Override PreDraw*Renderables to not draw _anything_ if we're inside the portal
 hook.Add("PreDrawOpaqueRenderables", "JazzHaltWorldRender", function(depth, sky)
-    if IsInExitPortal() and drewThisFrame then return true end 
+    if IsInExitPortal() then return true end 
 end )
 hook.Add("PreDrawTranslucentRenderables", "JazzHaltWorldRender", function()
     if IsInExitPortal() then return true end 
 end )
-
 hook.Add("PreDrawSkyBox", "JazzHaltSkyRender", function()
-    isRendering3DSky = true
-end)
-hook.Add("PostDrawSkyBox", "JazzHaltSkyRender", function()
-    isRendering3DSky = false
+    if IsInExitPortal() then return true end
 end)
 
 -- Totally overrwrite the world with the custom void world
--- PostDrawOpaqueRenderables can be called many times per frame, but we're hijacking it and only
--- need it called once, so 'drewThisFrame' keeps track of that
-hook.Add("PostDrawOpaqueRenderables", "JazzDrawPortalWorld", function(depth, sky)
-    
-    if drewThisFrame or isRendering3DSky then return end 
-    drewThisFrame = true
-
+hook.Add("PreDrawEffects", "JazzDrawPortalWorld", function()
     local exitPortal = GetExitPortal()
     if !IsValid(exitPortal) then return end
-    
+
     -- If the local player's view is past the portal 'plane', ONLY render the jazz dimension
     local origin = EyePos()
     local angles = EyeAngles()
@@ -563,7 +550,7 @@ hook.Add("PostDrawOpaqueRenderables", "JazzDrawPortalWorld", function(depth, sky
         render.Clear(0, 0, 0, 0, true, true) -- Dump anything that was rendered
 
         local voffset = exitPortal:GetJazzVoidView()
-        render.Clear(55, 0, 55, 255)
+
         cam.Start3D(origin + voffset, angles, fov, nil, nil, nil, nil, 10, 1000000)
             exitPortal:DrawInsidePortal()
         cam.End3D()

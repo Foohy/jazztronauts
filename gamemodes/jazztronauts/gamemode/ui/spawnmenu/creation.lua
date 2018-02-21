@@ -32,9 +32,13 @@ function PANEL:Populate()
 	end
 	child:Dock(FILL)
 
-	local pnl = vgui.Create( "ToolMenu" )
+	local pnl = vgui.Create( "DPanel" )
 
 	self:AddSheet( "Tools", pnl, "icon16/exclamation.png", nil, nil, "Select tools" )
+
+	local pnl = vgui.Create( "DPanel" )
+
+	self:AddSheet( "Weapons", pnl, "icon16/exclamation.png", nil, nil, "Guns" )
 
 	local pnl = vgui.Create( "CreationMenu" )
 

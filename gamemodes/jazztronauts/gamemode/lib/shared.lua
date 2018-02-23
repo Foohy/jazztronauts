@@ -15,6 +15,7 @@ include("sh_irt.lua")
 include("sh_gfx.lua")
 include("sh_gradient.lua")
 include("sh_download.lua")
+include("sh_unlocks.lua")
 
 include("sh_poly.lua")
 include("sh_brush.lua")

@@ -52,3 +52,13 @@
 
 	idleanim(string) : "Idle Animation" : : "Overrides the default idle animation"
 ]
+
+@PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propleaderboard : "Prop Leaderboard"
+[
+	leaderboardid(choices) : "Leaderboard Type" : "1" =
+    [
+        1 : "All Time" 
+        2 : "Redeemed Current Map" 
+        3 : "Total Unredeemed" 
+    ]
+]

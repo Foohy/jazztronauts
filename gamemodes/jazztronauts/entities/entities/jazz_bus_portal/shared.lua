@@ -547,10 +547,10 @@ hook.Add("PreDrawEffects", "JazzDrawPortalWorld", function()
     local angles = EyeAngles()
 
     if exitPortal:DistanceToVoid(origin) > 0 then
-        render.Clear(0, 0, 0, 0, true, true) -- Dump anything that was rendered
-
+        
         local voffset = exitPortal:GetJazzVoidView()
 
+        render.Clear(55, 0, 55, 255, true, true) -- Dump anything that was rendered
         cam.Start3D(origin + voffset, angles, fov, nil, nil, nil, nil, 10, 1000000)
             exitPortal:DrawInsidePortal()
         cam.End3D()

@@ -3,7 +3,8 @@ if SERVER then
 end
 
 SWEP.PrintName 		 		= "Portable Bus Stop"
-SWEP.Slot		 	 		= 0
+SWEP.Slot		 	 		= 5
+SWEP.Category				= "Jazztronauts"
 
 SWEP.ViewModel		 		= "models/weapons/v_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"

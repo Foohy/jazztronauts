@@ -25,6 +25,8 @@ function ENT:Initialize()
 				self:OnMapChanged(newmap, wsid)
 			end
 		end )
+
+		self:SetUseType(SIMPLE_USE)
 	end
 end
 
@@ -42,8 +44,14 @@ function ENT:OnMapChanged(newmap, wsid)
 	bus:SetWorkshopID(wsid)
 	bus:SetMapProgress(mapQuery and tonumber(mapQuery.completed) + 1 or 0)
 	bus:Spawn()
+end
 
-	print(newmap)
+function ENT:Use(activator, caller)
+	-- Creating an entity directly from an ENT:Use() hook here apparently sets its position to NaN
+	-- It's a bold move, but I'll fight fire with fire
+	timer.Simple(0, function()
+    	mapcontrol.RollMap()
+	end )
 end
 
 if SERVER then return end

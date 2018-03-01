@@ -4,6 +4,7 @@ AddCSLuaFile()
 
 SWEP.Author			= "Zak"
 SWEP.Instructions	= "Lua Physics Gun"
+SWEP.Category		= "Jazztronauts"
 
 SWEP.Spawnable			= true
 SWEP.AdminOnly			= false

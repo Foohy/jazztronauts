@@ -5,6 +5,7 @@ end
 SWEP.Base 					= "weapon_basehold"
 SWEP.PrintName 		 		= "Gun"
 SWEP.Slot		 	 		= 0
+SWEP.Category				= "Jazztronauts"
 
 SWEP.ViewModel		 		= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
@@ -203,12 +204,13 @@ function SWEP:TraceFragments( start, endpos )
 	local primary = util.TraceLine( {
 		start = start,
 		endpos = endpos,
-		--mask = MASK_SOLID,
+		mask = MASK_PLAYERSOLID_BRUSHONLY,
 		--collisiongroup = COLLISION_GROUP_WEAPON
 		filter = self.Owner,
 	} )
 
 	local remaining = length * (1 - primary.Fraction)
+	debugoverlay.Sphere(primary.HitPos, 10, 0)
 	if primary.Hit and remaining > 0 then
 
 		normal = -primary.HitNormal
@@ -216,36 +218,46 @@ function SWEP:TraceFragments( start, endpos )
 		table.insert(fragments, { start = start, endpos = primary.HitPos, tr = primary } )
 		local secondary = util.TraceLine( {
 			start = primary.HitPos + normal * 2,
+			mask = MASK_PLAYERSOLID_BRUSHONLY,
 			endpos = primary.HitPos + normal * remaining,
 		} )
 
 		if secondary.StartSolid then
-
+			
 			local secondary_end = primary.HitPos + normal * remaining * secondary.FractionLeftSolid
+			debugoverlay.Sphere(secondary_end, 15, 0, Color(0, 0, 255), true)
 
 			table.insert(fragments, { start = primary.HitPos, endpos = secondary_end, tr = secondary } )
 			remaining = remaining * (1 - secondary.FractionLeftSolid)
 
 			if remaining == 0 then return fragments end
-
-			local tertiary = util.TraceLine( {
+			local mins, maxs = self.Owner:GetCollisionBounds()
+			local tertiary = util.TraceHull( {
 				start = secondary_end + normal * 2,
 				endpos = secondary_end + normal * remaining,
-				--mask = MASK_SOLID,
+				mask = MASK_PLAYERSOLID,
 				--collisiongroup = COLLISION_GROUP_WEAPON
 				filter = self.Owner,
+				mins = mins,
+				maxs = maxs,
 			} )
-
+			debugoverlay.SweptBox(tertiary.StartPos, tertiary.HitPos, mins, maxs, Angle(0,0,0), 0.1)
+			debugoverlay.Sphere(tertiary.HitPos, 15, 0.1, Color(255, 0, 0), true)
 			if bit.band( util.PointContents( tertiary.HitPos ), CONTENTS_SOLID ) == 0 then
 
-				local mins, maxs = self.Owner:GetCollisionBounds()
+				
 				local backtrace = util.TraceHull( {
 					start = tertiary.HitPos,
-					endpos = tertiary.HitPos - normal * remaining,
+					endpos = secondary_end + normal * 2,
+					mask = MASK_PLAYERSOLID,
 					mins = mins,
 					maxs = maxs,
 				} )
 
+				debugoverlay.SweptBox(tertiary.HitPos, backtrace.HitPos, mins, maxs, Angle(0,0,0), 0.1, Color(255, 255, 0))
+				debugoverlay.Sphere(backtrace.HitPos, 15, 0.11, Color(0, 255, 255), true)
+				debugoverlay.Sphere(backtrace.StartPos, 15, 0.11, Color(255, 55, 155), true)
+				print(backtrace.Hit)
 				if self:TestPlayerLocation( backtrace.HitPos ) then
 
 					table.insert(fragments, { start = secondary_end, endpos = backtrace.HitPos, tr = tertiary } )

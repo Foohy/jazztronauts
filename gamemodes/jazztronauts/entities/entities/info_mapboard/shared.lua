@@ -22,14 +22,14 @@ end
 if SERVER then return end
 
 surface.CreateFont( "SmallHeaderFont", {
-	font      = "Impact",
+	font      = "KG Shake it Off Chunky",
 	size      = 48,
 	weight    = 700,
 	antialias = true
 })
 
 surface.CreateFont( "SelectMapFont", {
-	font      = "Impact",
+	font      = "KG Shake it Off Chunky",
 	size      = 100,
 	weight    = 700,
 	antialias = true

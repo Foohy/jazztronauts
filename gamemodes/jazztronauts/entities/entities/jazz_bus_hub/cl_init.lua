@@ -10,14 +10,14 @@ ENT.BusWidth = 70
 ENT.BusLength = 248
 
 surface.CreateFont( "SteamCommentFont", {
-	font      = "Adine Kirnberg",
-	size      = 80,
+	font      = "KG Shake it Off Chunky",
+	size      = 70,
 	weight    = 700,
 	antialias = true
 })
 
 surface.CreateFont( "SteamAuthorFont", {
-	font      = "Adine Kirnberg",
+	font      = "Dancing Script",
 	size      = 65,
 	weight    = 700,
 	antialias = true
@@ -36,12 +36,24 @@ function ENT:StartLaunchEffects()
 	LocalPlayer().LaunchingBus = self
 end
 
+-- Shared version of table.Random
+function ENT:TableSharedRandom(tbl, seedOffset )
+	local seed = self:GetCreationTime() + (seedOffset or 0)
+	local rand = util.SharedRandom("busRand", 1, table.Count(tbl), seed)
+	rand = math.Round(rand)
+	local i = 1
+	for k, v in pairs(tbl) do
+		if (i == rand) then return v, k end
+		i = i + 1
+	end
+end
+
 function ENT:RefreshWorkshopInfo()
 	if self:GetWorkshopID() == 0 then return end
 
 	-- First download information about the given workshopid
 	steamworks.FileInfo( self:GetWorkshopID(), function( result ) 
-		if !self or !result then return end
+		if !IsValid(self) or !result then return end
 
 		self.Title = result.title
 
@@ -49,15 +61,17 @@ function ENT:RefreshWorkshopInfo()
 		workshop.FetchComments(result, function(comments) 
 			if !self then return end
 
-			local function parseComment(cmt) return markup.Parse(
-				"<font=SteamCommentFont>" .. cmt.message .. "</font>\n " 
-				.."<font=SteamAuthorFont> -" .. cmt.author .. "</font>",
-				1700) 
+			local function parseComment(cmt, width) 
+				if not cmt then return end
+				return markup.Parse(
+					"<font=SteamCommentFont>" .. cmt.message .. "</font>\n " 
+					.."<font=SteamAuthorFont> -" .. cmt.author .. "</font>",
+				width) 
 			end
 
 			-- Select 2 random comments for the side and back of the bus
-			self.Description = parseComment(table.Random(comments))
-			self.BackBusComment = parseComment(table.Random(comments))
+			self.Description = parseComment(self:TableSharedRandom(comments), 1700)
+			self.BackBusComment = parseComment(self:TableSharedRandom(comments, 1), 1400)
 		end )
 
 		-- Also try grabbing the thumbnail material

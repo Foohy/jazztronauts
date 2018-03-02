@@ -1,5 +1,7 @@
 -- Board that displays currently selected maps
 AddCSLuaFile()
+AddCSLuaFile("sh_honk.lua")
+include("sh_honk.lua")
 
 ENT.Type = "anim"
 ENT.Base = "base_anim"

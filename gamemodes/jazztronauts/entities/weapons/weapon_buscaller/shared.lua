@@ -183,7 +183,7 @@ end
 function SWEP:PrimaryDettack()
 	if !IsFirstTimePredicted() then return end
 
-	if IsValid(self:GetBusMarker()) then
+	if SERVER and IsValid(self:GetBusMarker()) then
 		self:GetBusMarker():RemovePlayer(self.Owner)
 	end
 	

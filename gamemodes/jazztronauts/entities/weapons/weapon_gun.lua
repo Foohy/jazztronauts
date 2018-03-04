@@ -29,9 +29,9 @@ SWEP.Secondary.DefaultClip 	= -1
 SWEP.Secondary.Ammo 		= "none"
 
 
-local DefaultTeleportDistance 	= 512
+local DefaultTeleportDistance 	= 256
 local DefaultProngCount			= 2
-local DefaultSpeed				= 750
+local DefaultSpeed				= 300
 
 SWEP.Spawnable 				= true
 SWEP.RequestInfo			= {}
@@ -41,11 +41,11 @@ SWEP.SpeedRate				= DefaultSpeed
 
 
 -- List this weapon in the store
-local storeStan = jstore.Register("weapon_gun", 20000, { name = "Stan", cat = "tools" })
+local storeStan = jstore.Register("weapon_gun", 10000, { name = "Stan", cat = "tools" })
 
 -- Create 3 items to be purchased one after the other that control range
-local storeRange = jstore.RegisterSeries("stan_range", "Stan - Range", 10000, "upgrades", storeStan, 3)
-local storeSpeed = jstore.RegisterSeries("stan_speed", "Stan - Speed", 10000, "upgrades", storeStan, 3)
+local storeRange = jstore.RegisterSeries("stan_range", "Stan - Range", 2000, "upgrades", storeStan, 3)
+local storeSpeed = jstore.RegisterSeries("stan_speed", "Stan - Speed", 1000, "upgrades", storeStan, 3)
 
 function SWEP:Initialize()
 
@@ -440,8 +440,8 @@ function SWEP:CalcView( ply, pos, ang, fov )
 	local view = {}
 
 	local diff = 180 - fov
-	fov = fov - math.pow(self.glow,4) * diff
-
+	fov = math.max(fov - math.pow(self.glow,4) * diff, 0)
+	
 	return pos, ang, fov
 end
 

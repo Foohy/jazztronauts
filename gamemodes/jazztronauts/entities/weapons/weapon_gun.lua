@@ -28,9 +28,24 @@ SWEP.Secondary.ClipSize		= -1
 SWEP.Secondary.DefaultClip 	= -1
 SWEP.Secondary.Ammo 		= "none"
 
+
+local DefaultTeleportDistance 	= 512
+local DefaultProngCount			= 2
+local DefaultSpeed				= 750
+
 SWEP.Spawnable 				= true
 SWEP.RequestInfo			= {}
-SWEP.TeleportDistance		= 5120000
+SWEP.TeleportDistance		= DefaultTeleportDistance
+SWEP.ProngCount 			= DefaultProngCount
+SWEP.SpeedRate				= DefaultSpeed
+
+
+-- List this weapon in the store
+local storeStan = jstore.Register("weapon_gun", 20000, { name = "Stan", cat = "tools" })
+
+-- Create 3 items to be purchased one after the other that control range
+local storeRange = jstore.RegisterSeries("stan_range", "Stan - Range", 10000, "upgrades", storeStan, 3)
+local storeSpeed = jstore.RegisterSeries("stan_speed", "Stan - Speed", 10000, "upgrades", storeStan, 3)
 
 function SWEP:Initialize()
 
@@ -47,8 +62,30 @@ function SWEP:Initialize()
 	self.Hum = CreateSound(self, "ambient/machines/machine6.wav")
 	self.BeamLoop1 = CreateSound(self, "ambient/machines/machine_whine1.wav")
 
-	print("INIT")
 
+	hook.Add( "OnUnlocked", self, function( self, list_name, key, ply ) 
+		local baseKey = jstore.GetSeriesBase(key)
+		if ply == self.Owner and storeRange == baseKey or storeSpeed == baseKey then
+			self:SetUpgrades()
+		end
+	end )
+
+	-- self.Owner is null during initialize......
+	timer.Simple(0, function()
+		self:SetUpgrades()
+	end)
+end
+
+-- Query and apply current upgrade settings to this weapon
+function SWEP:SetUpgrades()
+	local rangeLevel = jstore.GetSeries(self.Owner, storeRange)
+	self.TeleportDistance = DefaultTeleportDistance + math.pow(rangeLevel, 2) * 1000
+
+	local speedLevel = jstore.GetSeries(self.Owner, storeSpeed)
+	self.SpeedRate = DefaultSpeed + speedLevel * 1000
+
+	-- # of skulls == # of upgrades
+	self.ProngCount = DefaultProngCount + rangeLevel + speedLevel
 end
 
 function SWEP:SetupDataTables()
@@ -115,10 +152,9 @@ function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
 	mtx:SetTranslation( pos )
 
 	local r = self.offset + CurTime() * 15
-	local count = 5
-	for i=1, count do
+	for i=1, self.ProngCount do
 
-		self:AddProng( i, mtx, r + i * (360/count) )
+		self:AddProng( i, mtx, r + i * (360/self.ProngCount) )
 
 	end
 
@@ -257,7 +293,7 @@ function SWEP:TraceFragments( start, endpos )
 				debugoverlay.SweptBox(tertiary.HitPos, backtrace.HitPos, mins, maxs, Angle(0,0,0), 0.1, Color(255, 255, 0))
 				debugoverlay.Sphere(backtrace.HitPos, 15, 0.11, Color(0, 255, 255), true)
 				debugoverlay.Sphere(backtrace.StartPos, 15, 0.11, Color(255, 55, 155), true)
-				print(backtrace.Hit)
+
 				if self:TestPlayerLocation( backtrace.HitPos ) then
 
 					table.insert(fragments, { start = secondary_end, endpos = backtrace.HitPos, tr = tertiary } )
@@ -437,7 +473,6 @@ function SWEP:Teleport()
 end
 
 function SWEP:Think() 
-
 	self.speed = self.speed or 0
 	self.offset = self.offset or 0
 	self.open = self.open or 0
@@ -446,7 +481,7 @@ function SWEP:Think()
 	self.hitpos = self.hitpos or Vector(0,0,0)
 
 	local dt = ( CurTime() - self.lasttime )
-	local speedrate = 3850 --750
+	local speedrate = self.SpeedRate --3850 --750
 	local openrate = 4
 	local topspeed = 2000
 

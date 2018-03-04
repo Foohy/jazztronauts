@@ -4,5 +4,6 @@ include("transition/init.lua")
 include("propfeed/init.lua")
 include("missions/init.lua")
 include("spawnmenu/init.lua")
+include("store/init.lua")
 
 AddCSLuaFile( "cl_init.lua")

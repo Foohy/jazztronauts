@@ -4,6 +4,7 @@ include( "missions/cl_init.lua" )
 include( "map/cl_init.lua")
 include( "ui/cl_init.lua" )
 include( "workshop/workshop.lua" )
+include( "store/cl_init.lua" )
 
 
 include( "cl_scoreboard.lua" )

@@ -2,6 +2,7 @@ include( "shared.lua" )
 include( "ui/init.lua" )
 include( "map/init.lua" )
 include( "missions/init.lua")
+include( "store/init.lua" )
 
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_scoreboard.lua" )

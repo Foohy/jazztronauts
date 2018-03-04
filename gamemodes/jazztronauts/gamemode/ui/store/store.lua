@@ -58,3 +58,8 @@ function JazzOpenStore()
     layout:SizeToChildren(true, true)
 
 end
+
+-- #TODO: Actually hook this up
+concommand.Add("jazz_open_store", function(ply, cmd, args)
+    JazzOpenStore()
+end )

@@ -2,6 +2,7 @@ include( "shared.lua" )
 include( "ui/init.lua" )
 include( "map/init.lua" )
 include( "missions/init.lua")
+include( "store/init.lua" )
 
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_scoreboard.lua" )
@@ -15,7 +16,8 @@ AddCSLuaFile( "cl_hud.lua" )
 function GM:Initialize()
 	self.BaseClass:Initialize()
 
-	RunConsoleCommand("sv_loadingurl", "https://foohy.github.io/jazztronauts/")
+	RunConsoleCommand("sv_loadingurl", "host.foohy.net/public/Documents/Jazz/")
+	RunConsoleCommand("mp_falldamage", "1")
 
 	mapcontrol.SetupMaps()
 end

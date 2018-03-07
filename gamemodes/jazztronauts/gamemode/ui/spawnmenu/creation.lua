@@ -7,30 +7,47 @@ function PANEL:Init()
 
 end
 
+function PANEL:AddUnlockedProp( model )
+
+	local icon = spawnmenu.CreateContentIcon( "model", self.content, 
+		{ 
+			model = model, 
+			wide = 128, 
+			tall = 128 
+		} )
+
+	icon.OpenMenu = function() end
+	--local icon = vgui.Create("ContentIcon")
+	--[[icon:SetName("Large Dildo")
+	icon.DoClick = function()
+		surface.PlaySound( "ui/buttonclickrelease.wav" )
+	end]]
+	self.content:Add( icon )
+
+end
+
 function PANEL:Populate()
 
 	local pnl = vgui.Create( "Panel" )
 
 	self:AddSheet( "Props", pnl, "icon16/exclamation.png", nil, nil, "Spawn your props" )
 
-	local child = vgui.Create( "ContentContainer", pnl )
-	for i=1, 100 do
-		local icon = spawnmenu.CreateContentIcon( "model", child, 
-			{ 
-				model = "models/props_c17/chair02a.mdl", 
-				wide = 128, 
-				tall = 128 
-			} )
+	if unlocks.IsValid( "props" ) then
 
-		icon.OpenMenu = function() end
-		--local icon = vgui.Create("ContentIcon")
-		--[[icon:SetName("Large Dildo")
-		icon.DoClick = function()
-			surface.PlaySound( "ui/buttonclickrelease.wav" )
-		end]]
-		child:Add( icon )
+		for _, prop in pairs( unlocks.GetAll( "props" ) ) do
+			self:AddUnlockedProp( prop )
+		end
+
 	end
-	child:Dock(FILL)
+
+	self.content = vgui.Create( "ContentContainer", pnl )
+	self.content:Dock( FILL )
+
+	hook.Add("OnUnlocked", "creation_panel_unlock", function( list, key )
+		if list == "props" then
+			self:AddUnlockedProp( key )
+		end
+	end)
 
 	local pnl = vgui.Create( "DPanel" )
 

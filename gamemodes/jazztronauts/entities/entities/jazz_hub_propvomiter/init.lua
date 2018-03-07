@@ -14,6 +14,9 @@ ENT.VomitEmptyFile = Sound("jazztronauts/music/trash_chute_music_empty.wav")
 ENT.MusicDelay = 3.5
 ENT.ConstipateDelay = 10.5
 
+local propr_unlock_list = "props"
+unlocks.Register(propr_unlock_list)
+
 local randomGibProps = 
 {
 	Model("models/props_interiors/Furniture_Vanity01a.mdl"),
@@ -223,6 +226,8 @@ function ENT:VomitProp()
 
 	local worth = prop.worth
 	local pos, ang = self:GetPos() + self:GetAngles():Up() * 100, self:GetAngles()
+
+	unlocks.Unlock( propr_unlock_list, self.CurrentUser, prop.propname )
 
 	-- Spawn some placeholder gibs, this prop doesnt normally break
 	self:SpawnRandomGibs(pos, ang)

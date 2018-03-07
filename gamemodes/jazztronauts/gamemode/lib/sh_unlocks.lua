@@ -7,13 +7,34 @@ module( "unlocks", package.seeall )
 
 local unlock_lists = {}
 
+function IsValid( list_name )
+
+	return unlock_lists[list_name] ~= nil
+
+end
+
+function Clear( list_name )
+
+	if SERVER then
+
+		--FUCK
+		--local table_name = "unlocklist_" .. list_name
+		--sql.Query( "DROP TABLE " .. table_name )
+
+	end
+
+end
+
 function Register( list_name )
 
-	if unlock_lists[list_name] then return end
+	if unlock_lists[list_name] ~= nil then return end
 
 	if CLIENT then 
 
-		unlock_lists[list_name] = {}
+		unlock_lists[list_name] = {
+			keys = {},
+			values = {},
+		}
 
 	else
 
@@ -41,7 +62,8 @@ function IsUnlocked( list_name, ply, key )
 
 	if CLIENT then
 
-		return unlock_lists[list_name][key] or false
+		if unlock_lists[list_name] == nil then return false end
+		return unlock_lists[list_name]["keys"][key] or false
 
 	else
 
@@ -72,7 +94,12 @@ function Unlock( list_name, ply, key )
 
 	if CLIENT then
 
-		unlock_lists[list_name][key] = true
+		--print("UNLOCKED: " .. "[" .. list_name .. "] " .. key)
+
+		local list = unlock_lists[list_name]
+		list["keys"][key] = true
+		table.insert( list["values"], key )
+
 		hook.Call( "OnUnlocked", nil, list_name, key, ply )
 		return true
 
@@ -101,6 +128,12 @@ function Unlock( list_name, ply, key )
 end
 
 function GetAll( list_name, ply )
+
+	if CLIENT then
+
+		return unlock_lists[list_name]["values"]
+
+	end
 
 	local steam_id = ply:SteamID64()
 	local result = sql.Query( ("SELECT * FROM %s WHERE steamid = '%s'"):format( 
@@ -180,6 +213,12 @@ download.Register( "download_unlocks", function( cb, dl )
 		if cb == DL_FINISHED then
 
 			local list_name, strings = DecodeList( dl:GetData() )
+
+			if not unlock_lists[list_name] then
+	
+				Register( list_name )
+	
+			end
 
 			for _, key in pairs( strings ) do
 

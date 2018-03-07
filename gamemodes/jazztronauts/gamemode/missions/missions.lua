@@ -4,6 +4,7 @@ AddCSLuaFile("missionlist.lua")
 module( "missions", package.seeall )
 
 MissionList = {}
+NPCList = {}
 
 function AddMission(id, mdata)
     if not id or not mdata then
@@ -17,6 +18,19 @@ function AddMission(id, mdata)
     end
     mdata.missionid = id
     MissionList[id] = mdata
+end
+
+function AddNPC(strname, prettyname)
+    local idx = table.insert(NPCList, 
+    {
+        name = strname,
+        prettyname = prettyname
+    })
+    _G[strname] = idx
+end
+
+function GetNPCName(id)
+    return NPCList[id] and NPCList[id].prettyname or "Invalid"
 end
 
 function GetMissionInfo(id)

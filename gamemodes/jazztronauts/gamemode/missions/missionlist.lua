@@ -2,12 +2,11 @@ module( "missions", package.seeall )
 
 ResetMissions()
 
-NPC_INVALID = 0
-NPC_CAT_BAR = 1
-NPC_CAT_SING = 2
-NPC_CAT_PIANO = 3
-NPC_CAT_CHELLO = 4
 NPC_COMPUTER = 666
+AddNPC("NPC_CAT_BAR", "Bartender")
+AddNPC("NPC_CAT_SING", "Singer")
+AddNPC("NPC_CAT_PIANO", "Piano Man")
+AddNPC("NPC_CAT_CELLO", "Cellist")
 
 AddMission(0, {
     -- User-friendly instructions for what the player should collect
@@ -26,7 +25,7 @@ AddMission(0, {
     Count = 15,
 
     -- ID of the NPC that offers this mission
-    NPCId = NPC_CAT_CHELLO,
+    NPCId = NPC_CAT_CELLO,
 
     -- List of all missions that needs to have been completed before this one becomes available
     -- Leave empty to be available immediately
@@ -50,7 +49,7 @@ AddMission(1, {
     Count = 10,
 
     -- ID of the NPC that offers this mission
-    NPCId = NPC_CAT_CHELLO,
+    NPCId = NPC_CAT_CELLO,
 
     -- List of all missions that needs to have been completed before this one becomes available
     Prerequisites = { 0 }
@@ -72,7 +71,7 @@ AddMission(2, {
     Count = 5,
 
     -- ID of the NPC that offers this mission
-    NPCId = NPC_CAT_CHELLO,
+    NPCId = NPC_CAT_CELLO,
 
     -- List of all missions that needs to have been completed before this one becomes available
     Prerequisites = { 1 }
@@ -87,7 +86,7 @@ AddMission(3, {
         mdl == "models/props_junk/glassjug01.mdl"
     end,
     Count = 10,
-    NPCId = NPC_CAT_CHELLO,
+    NPCId = NPC_CAT_CELLO,
     Prerequisites = { 2 }
 })
 
@@ -99,7 +98,7 @@ AddMission(4, {
         mdl == "models/kleiner_monitor.mdl"
     end,
     Count = 1,
-    NPCId = NPC_CAT_CHELLO,
+    NPCId = NPC_CAT_CELLO,
     Prerequisites = { 3 }
 })
 
@@ -109,6 +108,6 @@ AddMission(5, {
         return mdl == "models/props_lab/cactus.mdl"
     end,
     Count = 1,
-    NPCId = NPC_CAT_CHELLO,
+    NPCId = NPC_CAT_CELLO,
     Prerequisites = { 4 }
 })

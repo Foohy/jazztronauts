@@ -4,6 +4,9 @@
 -- Background jazzy tile
 local bgmat = Material("materials/ui/jazz_grid.png", "noclamp")
 
+-- Background for the layout panel
+local bgPanelColor = Color(73, 24, 71)
+
 -- Text color states for the button
 local textColor = Color(69, 25, 74)
 local textColorDisabled = Color(25, 25, 25)
@@ -15,6 +18,12 @@ local bgDisabledColor = Color(132, 112, 76)
 local bgPressedColor = Color(117, 75, 02)
 local bgPurchased = Color(189, 217, 102)
 
+-- Width of the upgrade item gradient
+local upGradWidth = ScreenScale(10)
+local bgUpgradeColor = Color(17, 17, 17)
+local bgUpgradeColorHighlight = Color(88, 88, 88)
+local bgUpgradeColorPurchased = Color(105, 143, 85)
+
 -- The color of the rounded bright border on the button
 local borderColor = Color(227, 210, 167)
 
@@ -24,15 +33,28 @@ surface.CreateFont( "JazzStoreName", {
 	weight    = 700,
 	antialias = true
 })
+surface.CreateFont( "JazzUpgradeName", {
+	font      = "KG Shake it Off Chunky",
+	size      = ScreenScale(12),
+	weight    = 500,
+	antialias = true
+})
 surface.CreateFont( "JazzStoreDescription", {
 	font      = "KG Shake it Off Chunky",
-	size      = ScreenScale(7),
-	weight    = 700,
+	size      = ScreenScale(8),
+	weight    = 500,
 	antialias = true
+})
+surface.CreateFont( "JazzUpgradePrice", {
+	font      = "KG Shake it Off Chunky",
+	size      = ScreenScale(9),
+	weight    = 500,
+	antialias = true,
+    strikethrough = true
 })
 
 -- Adds a new styled button, hooked up for purchasin'
-local function AddButton(parent, item)
+local function addButton(parent, item)
     local btn = vgui.Create( "DButton" )
     btn:SetText("")	
     btn:SetIcon("icon16/lock.png")
@@ -129,17 +151,183 @@ local function AddButton(parent, item)
     return btn
 end
 
-function JazzOpenStore()
+local function createHeader(category, item, first)
+    local label = vgui.Create("DLabel")
+    label:SetText(" " .. category)
+    label:SetFont("JazzStoreName")
+    label:SetColor(textColor)
+    label:SetAutoStretchVertical(true)
+    label:SizeToChildren(false, true)
+    label:DockMargin(0, first and 0 or ScreenScale(7), 0, 0)
+
+    function label:Paint(w, h)
+        local thick = ScreenScale(1.25)
+        draw.RoundedBox(5, 0, 0, w, h, borderColor)
+        draw.RoundedBox(5, thick, thick, w - thick*2, h - thick*2, bgColor)
+    end
+
+    return label
+end
+
+local alpha_stops = {
+	{-1, ColorAlpha(color_white, 0) },
+	{ 1, ColorAlpha(color_white, 255) },
+}
+CacheGradient( "upgrade_item_left", Rect(0, 0, 3, 1), 0, alpha_stops, 0 )
+CacheGradient( "upgrade_item_right", Rect(0, 0, 3, 1), 180, alpha_stops, 0 )
+local function createListButton(parent, item)
+    local vmargin = ScreenScale(1)
+    local hmargin = ScreenScale(11)
+
+    local btn = vgui.Create( "DButton" )
+    btn:SetText("   " .. item.name) -- please no bully
+    btn:SetFont("JazzUpgradeName")
+    btn:SetColor(bgColor)
+    btn:SetContentAlignment(4)
+    btn:DockMargin(hmargin, vmargin, hmargin, vmargin)
+    btn:SetAutoStretchVertical(true)
+    btn:SizeToChildren(false, true)
+    btn.SetBackgroundColor = function(self, col) self.BGColor = col end
+
+    function btn:Paint(w, h)
+        -- Left gradient
+        local rect = Rect(0, 0, upGradWidth, h)
+        LinearGradientCached( "upgrade_item_left", rect, self.BGColor)
+
+        -- Solid background
+        surface.SetDrawColor(self.BGColor or bgUpgradeColor)
+        surface.DrawRect(upGradWidth, 0, w - upGradWidth * 2, h)
+
+        -- Right gradient
+        local rect = Rect(w - upGradWidth, 0, upGradWidth, h)
+        LinearGradientCached( "upgrade_item_right", rect, self.BGColor)
+    end
+
+    function btn:UpdateColours(skin)
+        local purchCol = self.Purchased and bgUpgradeColorPurchased or bgDisabledColor
+        if ( !self:IsEnabled() )                    then self:SetButtonStyle(textColorDisabled, purchCol) return end
+        if ( self:IsDown() || self.m_bSelected )	then self:SetButtonStyle(bgColor, bgPressedColor) return end
+        if ( self.Hovered )							then self:SetButtonStyle(bgColor, bgUpgradeColorHighlight) return end
+
+        self:SetButtonStyle(bgColor, bgUpgradeColor) 
+    end 
+
+    -- Add price information to right side
+    local priceDock = ScreenScale(1)
+    local price = vgui.Create("DLabel", btn)
+    price:SetText(" $" .. string.Comma(item.price) .. " ")
+    price:SetFont("JazzUpgradePrice")
+    price:SetColor(textColor)
+    price:SetContentAlignment(5)
+    price:SetAutoStretchVertical(true)
+    price:SizeToContentsX()
+    price:DockMargin(0, priceDock, upGradWidth, priceDock)
+    price:Dock(RIGHT)
+
+    -- Allow large prices but enforce a min width
+    function price:PerformLayout()
+        local minWidth = ScreenScale(40)
+        if self:GetWide() < minWidth then self:SetWidth(minWidth) end
+    end
+
+    function price:Paint(w, h)
+        draw.RoundedBox(5, 0, 0, w, h, Color(116, 192, 74))
+    end
+
+        
+    btn.SetButtonStyle = function(self, textColor, bgColor)
+        btn:SetTextColor(textColor)
+        btn:SetBackgroundColor(bgColor)
+    end
+   
+    -- Set the state of the button given store unlock status
+    function btn:RefreshState()
+
+        -- Already purchased
+        if unlocks.IsUnlocked("store", LocalPlayer(), item.unlock) then
+            self:SetEnabled(false)
+            price:Hide()
+            self.Purchased = true
+            
+        -- Locked, can't be purchased yet
+        elseif not jstore.IsAvailable(LocalPlayer(), item.unlock) then
+            self:SetEnabled(false)
+
+            if item.requires then
+                self:SetTooltip("Requires " .. item.requires)
+            end
+
+        -- Ready to buy
+        else
+            self:SetEnabled(true)
+        end
+    end
+
+    -- Purchase
+    function btn:DoClick()
+        surface.PlaySound("ambient/materials/smallwire_pluck3.wav")
+        jstore.PurchaseItem(item.unlock, function(success)
+            if IsValid(self) then parent:RefreshButtons() end
+        end )
+    end
+
+    return btn
+end
+
+local function getHeaderName(item)
+    -- Category overrides everything
+    if item.cat then return item.cat end
+
+    -- If no category specified, try to get an unlock this item requires
+    local reqs = jstore.GetRequirements(item)
+    local baseitem = #reqs > 0 and jstore.GetItem(reqs[1]) -- Grab top level requirement
+    if baseitem then 
+        return baseitem.name 
+    end
+
+    return nil
+end
+
+local function createCategoryButton(parent, item)
+    if not parent.Categories then parent.Categories = {} end
+
+    -- #TODO: This probably doesn't handle enough cases. 
+    -- This requires every upgrade requires a base item/unlock.
+    local category = getHeaderName(item)
+    if not category then
+        print("WARNING: Upgrade without a category/unlock item: ", item.name)
+        return
+    end
+
+    -- Create the category if it doesn't exist
+    local layout = parent.Categories[category]
+    if not layout then
+        layout = vgui.Create( "DListLayout", parent )
+        
+        -- Create the header
+        local header = createHeader(category, item, table.Count(parent.Categories) == 0)
+        layout:Add(header)
+
+        parent.Categories[category] = layout
+    end
+
+    -- Add the button to purchase the item itself
+    local btn = createListButton(parent, item)
+    layout:Add(btn)
+
+    return btn
+end
+
+local function createStoreFrame(title)
     local frame = vgui.Create( "DFrame" )
     frame:SetSize( ScreenScale(300), ScreenScale(200) )
     frame:Center()
-    frame:SetTitle( "Store!!!!!!!" )
+    frame:SetTitle(title )
     frame:SetVisible( true )
     frame:SetDraggable( true )
     frame:ShowCloseButton( true )
     frame:SetSizable(true)
     frame:MakePopup()
-
 
     -- Override background paint
     function frame:Paint(w, h)
@@ -151,7 +339,7 @@ function JazzOpenStore()
         surface.SetMaterial(bgmat)
         surface.DrawTexturedRectUV(0, 0, w, h, offset, offset, w / mw + offset, h / mh + offset)
     end
-
+ 
     -- Make sure it can scroll
     local pad = ScreenScale(2)  
     local framepad = ScreenScale(5)
@@ -161,22 +349,29 @@ function JazzOpenStore()
     
     -- Place each button in a vertical list
     local layout = vgui.Create( "DListLayout", scroll )
-    layout:SetBackgroundColor(Color(69, 25, 74))
+    layout:SetBackgroundColor(bgPanelColor)
     layout:SetDrawBackground(true)
     layout:DockPadding(pad, pad, pad, pad)
     layout:DockMargin(0, 0, pad, 0)
     layout:Dock(FILL)
+  
+    -- Utility function to refresh the state of all buttons when a store change happens 
     layout.Buttons = {}
-
-    -- Utility function to refresh the state of all buttons when a store change happens
-    layout.RefreshButtons = function()
-        for _, v in pairs(layout.Buttons) do v:RefreshState() end
+    function layout:RefreshButtons()
+        for _, v in pairs(self.Buttons) do v:RefreshState() end
     end
+
+    return frame, layout, scroll
+end
+
+function JazzOpenStore()
+    local frame, layout = createStoreFrame("Tools")
 
     -- Create a button for each store item
     for k, v in pairs(jstore.GetItems()) do
-        local btn = AddButton(layout, v)
-        
+        if v.type == "upgrade" then continue end
+        local btn = addButton(layout, v)
+
         btn:RefreshState()
         layout:Add(btn)
         table.insert(layout.Buttons, btn)
@@ -185,6 +380,20 @@ function JazzOpenStore()
     layout:InvalidateLayout(true)
     layout:SizeToChildren(true, true)
 
+end
+
+function JazzOpenUpgradeStore()
+    local frame, layout = createStoreFrame("Upgrades")
+
+    -- Create a button for each store item
+    -- Sort the items by number of requirements
+    for k, v in SortedPairsByMemberValue(jstore.GetItems(), "numreqs") do
+        if v.type != "upgrade" then continue end
+        local btn = createCategoryButton(layout, v)
+        
+        btn:RefreshState()
+        table.insert(layout.Buttons, btn)
+    end
 end
 
 -- #TODO: Actually hook this up

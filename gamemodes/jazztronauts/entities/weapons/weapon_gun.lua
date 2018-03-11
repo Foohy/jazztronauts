@@ -41,11 +41,19 @@ SWEP.SpeedRate				= DefaultSpeed
 
 
 -- List this weapon in the store
-local storeStan = jstore.Register("weapon_gun", 10000, { name = "Stan", cat = "tools" })
+local storeStan = jstore.Register("weapon_gun", 10000, { name = "Stan", type = "tool" })
 
 -- Create 3 items to be purchased one after the other that control range
-local storeRange = jstore.RegisterSeries("stan_range", "Stan - Range", 2000, "upgrades", storeStan, 3)
-local storeSpeed = jstore.RegisterSeries("stan_speed", "Stan - Speed", 1000, "upgrades", storeStan, 3)
+local storeRange = jstore.RegisterSeries("stan_range", 2000, 3, { 
+	name = "Range", 
+	requires = storeStan, 
+	type = "upgrade"
+})
+local storeSpeed = jstore.RegisterSeries("stan_speed", 1000, 3, { 
+	name = "Speed", 
+	requires = storeStan, 
+	type = "upgrade"
+})
 
 function SWEP:Initialize()
 

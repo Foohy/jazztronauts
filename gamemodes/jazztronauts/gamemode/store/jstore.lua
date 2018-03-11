@@ -5,8 +5,9 @@ module( "jstore", package.seeall )
 /* properties layout = 
 {
     price = 100,
-    cat = "upgrades",
+    type = "upgrade", -- only 'upgrade' and 'tool'?
     name = "Stan Upgrade",
+    [cat = "Stan"] -- determines header/groups for 'upgrade' item types
     [requires = "stan"] -- unlock that must be purchased before this one is available
 }
 */
@@ -21,6 +22,11 @@ function Register(unlockName, price, props)
     props.price = price
     props.unlock = unlockName -- For completeness
 
+    -- Calc the # of requisite items needed
+    -- Later on we'll sort by this
+    local parent = GetItem(props.requires)
+    props.numreqs = parent and parent.numreqs + 1 or 0
+
     Items[unlockName] = props
 
     return unlockName
@@ -29,22 +35,27 @@ end
 -- Register a 'series' of purchases. These are unlocks that directly have the previous
 -- Unlock as a prerequisite. Useful for similar upgrades that keep affecting the same property
 -- eg. "Stan Range Upgrade I", "Stan Range Upgrade II", "Stan Range Upgrade III"
-function RegisterSeries(baseUnlockName, basePrettyName, basePrice, category, req, count)
+function RegisterSeries(baseUnlockName, basePrice, count, props)
     if not Series then Series = {} end
     Series[baseUnlockName] = {}
 
+    local req = props.requires
+    local name = props.name or baseUnlockName
+
     for i=1, count do
         local unlock = baseUnlockName .. i
-        local props = { 
-            name = basePrettyName .. " - " .. i,
-            category = category,
+        local itemprops = { 
+            name = name .. " - " .. i,
             requires = req,
             level = i,
             baseseries = baseUnlockName
         }
+        local newprops = table.Copy(props)
+        table.Merge(newprops, itemprops)
+        PrintTable(itemprops)
 
         -- Add a new unique item and store in repeats table for fast lookup
-        req = Register(unlock, basePrice, props)
+        req = Register(unlock, basePrice, newprops)
         table.insert(Series[baseUnlockName], req)
     end
 
@@ -69,18 +80,37 @@ function GetSeries(ply, unlockName)
     return 0
 end
 
+-- Get a list of all registered 'series' type items
+function GetSeriesList()
+    return Series or {}
+end
+
 -- Get the 'base' name for a repeating item, given one of the series
 function GetSeriesBase(unlockName)
     local itm = GetItem(unlockName)
-    print(itm, unlockName)
+
     return itm and itm.baseseries or nil
+end
+
+-- Get a list of requirements to unlock a specific item
+-- Names are sorted from earliest requirement to last
+-- If you have cycles you deserve to crash
+function GetRequirements(item)
+    local reqs = {}
+    
+    local parent = GetItem(item.requires)
+    while parent do
+        table.insert(reqs, parent.unlock)
+
+        parent = GetItem(parent.requires)
+    end
+    PrintTable(reqs)
+    return table.Reverse(reqs)  
 end
 
 -- Get a list of all registered store items
 function GetItems()
-    if not Items then return {} end
-
-    return Items 
+    return Items or {}
 end
 
 -- Get information about a specific item by name
@@ -202,3 +232,28 @@ if CLIENT then
         runCallbacks(item, success)
     end )
 end
+
+-- Test extra unlocks
+jstore.RegisterSeries("jump_height", 1000, 3, { 
+	name = "Jump Height", 
+	cat = "Player Modifications", 
+	type = "upgrade"
+})
+
+local snatch1 = jstore.Register("snatch1", 10000, { 
+    name = "Auto Aim", 
+    cat = "Prop Snatcher", 
+    type = "upgrade" 
+})
+local snatch2 = jstore.Register("snatch2", 50000, { 
+    name = "Auto-Auto Aim", 
+    cat = "Prop Snatcher", 
+    requires = snatch1,
+    type = "upgrade" 
+})
+local snatch3 = jstore.Register("snatch3", 1000000, { 
+    name = "Ultimate Aim", 
+    cat = "Prop Snatcher", 
+    requires = snatch2,
+    type = "upgrade" 
+})

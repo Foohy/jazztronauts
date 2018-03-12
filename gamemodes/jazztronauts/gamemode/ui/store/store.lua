@@ -24,6 +24,9 @@ local bgUpgradeColor = Color(17, 17, 17)
 local bgUpgradeColorHighlight = Color(88, 88, 88)
 local bgUpgradeColorPurchased = Color(105, 143, 85)
 
+local bgUpgradePriceColor = Color(116, 192, 74)
+local bgUpgradePriceDisabledColor = Color(20, 65, 58)
+
 -- The color of the rounded bright border on the button
 local borderColor = Color(227, 210, 167)
 
@@ -205,11 +208,11 @@ local function createListButton(parent, item)
 
     function btn:UpdateColours(skin)
         local purchCol = self.Purchased and bgUpgradeColorPurchased or bgDisabledColor
-        if ( !self:IsEnabled() )                    then self:SetButtonStyle(textColorDisabled, purchCol) return end
-        if ( self:IsDown() || self.m_bSelected )	then self:SetButtonStyle(bgColor, bgPressedColor) return end
-        if ( self.Hovered )							then self:SetButtonStyle(bgColor, bgUpgradeColorHighlight) return end
+        if ( !self:IsEnabled() )                    then self:SetButtonStyle(textColorDisabled, purchCol, bgUpgradePriceDisabledColor) return end
+        if ( self:IsDown() || self.m_bSelected )	then self:SetButtonStyle(bgColor, bgPressedColor, bgUpgradePriceColor) return end
+        if ( self.Hovered )							then self:SetButtonStyle(bgColor, bgUpgradeColorHighlight, bgUpgradePriceColor) return end
 
-        self:SetButtonStyle(bgColor, bgUpgradeColor) 
+        self:SetButtonStyle(bgColor, bgUpgradeColor, bgUpgradePriceColor) 
     end 
 
     -- Add price information to right side
@@ -223,6 +226,7 @@ local function createListButton(parent, item)
     price:SizeToContentsX()
     price:DockMargin(0, priceDock, upGradWidth, priceDock)
     price:Dock(RIGHT)
+    price.SetBackgroundColor = function(self, col) self.BGColor = col end
 
     -- Allow large prices but enforce a min width
     function price:PerformLayout()
@@ -231,13 +235,14 @@ local function createListButton(parent, item)
     end
 
     function price:Paint(w, h)
-        draw.RoundedBox(5, 0, 0, w, h, Color(116, 192, 74))
+        draw.RoundedBox(5, 0, 0, w, h, self.BGColor or bgUpgradePriceColor)
     end
 
         
-    btn.SetButtonStyle = function(self, textColor, bgColor)
+    btn.SetButtonStyle = function(self, textColor, bgColor, bgPriceCol)
         btn:SetTextColor(textColor)
         btn:SetBackgroundColor(bgColor)
+        price:SetBackgroundColor(bgPriceCol)
     end
    
     -- Set the state of the button given store unlock status

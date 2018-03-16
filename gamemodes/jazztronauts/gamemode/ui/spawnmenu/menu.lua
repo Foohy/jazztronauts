@@ -116,7 +116,7 @@ local function CreateJazzMenu()
 end
 
 hook.Add( "OnGamemodeLoaded", "CreateJazzMenu", CreateJazzMenu )
-CreateJazzMenu()
+--CreateJazzMenu()
 
 function GM:OnSpawnMenuOpen()
 

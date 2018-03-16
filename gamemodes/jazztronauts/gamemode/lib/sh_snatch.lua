@@ -114,7 +114,7 @@ end
 
 if SERVER then
 
-	SV_HandleEntityDestruction = function( ent, kill, delay )
+	SV_HandleEntityDestruction = function( ent, owner, kill, delay )
 
 		timer.Simple(delay or .02, function()
 
@@ -124,17 +124,19 @@ if SERVER then
 					if ent:IsPlayer() then
 						ent:KillSilent()
 					else
-						ent:TakeDamage(10000, self.Owner, self)
+						ent:TakeDamage(10000, owner, self)
 					end
 				else
-					ent:TakeDamage(2, self.Owner, self)
+					ent:TakeDamage(2, owner, self)
 				end
 
 			end
 
 			if not ent:IsPlayer() then
+				print("REMOVED: " .. tostring( ent ))
 				ent:Remove()
 			else
+				print("I GUESS WE DIDN'T REMOVE: " .. tostring( ent ))
 				ent.doing_removal = false
 			end
 			

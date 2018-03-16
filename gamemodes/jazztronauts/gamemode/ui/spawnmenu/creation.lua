@@ -28,7 +28,7 @@ end
 
 function PANEL:Populate()
 
-	local pnl = vgui.Create( "Panel" )
+	local pnl = vgui.Create( "Panel", self )
 
 	self:AddSheet( "Props", pnl, "icon16/exclamation.png", nil, nil, "Spawn your props" )
 

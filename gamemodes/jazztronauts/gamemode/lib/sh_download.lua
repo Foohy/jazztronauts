@@ -121,11 +121,14 @@ function Start( name, data, ply, chunk_size )
 	local thread = threads[ply]
 	if thread.active ~= nil or thread.waiting_for_init then
 
+		--If a download is currently active, or the player hasn't connected yet, table the download for later
 		print("QUEUED DOWNLOAD: " .. tostring(ply) .. " " .. name)
 		table.insert( download_queue[ply], download )
+		print( coroutine.status( thread.co ) )
 
 	else
 
+		--No active downloads, immediately start this download
 		print("SEND DOWNLOAD: " .. tostring(ply) .. " " .. name)
 		coroutine.resume( thread.co, download )
 		print( coroutine.status( thread.co ) )
@@ -163,6 +166,11 @@ local function PlayerThread( ply, thread )
 		if not IsValid(ply) or not ply:IsPlayer() then 
 			print("Player not valid, probably disconnected")
 			break 
+		end
+
+		if download_queue[ply] == nil then
+			print("OOPS, Yeah lost the download_queue for player: " .. tostring(ply))
+			break
 		end
 
 		print("THREAD READY: " .. tostring(ply))
@@ -222,6 +230,7 @@ local function PlayerThread( ply, thread )
 
 		end
 
+		thread.ttl = -1
 		thread.active = nil
 
 	end
@@ -429,7 +438,7 @@ if CLIENT then
 
 			task.Sleep( 2 )
 
-			local k = 1
+			--[[local k = 1
 			while k ~= #data do
 				local f = k / #data
 				local c = f * (1-f) * 4
@@ -437,7 +446,7 @@ if CLIENT then
 				print( data[k] )
 				k = k + 1
 				task.Sleep( 1 / s )
-			end
+			end]]
 
 		end )
 

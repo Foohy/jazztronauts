@@ -59,14 +59,20 @@ function SWEP:Think() end
 function SWEP:OnRemove() end
 
 function SWEP:AcceptEntity( ent )
-	return mapgen.CanSnatch(ent)
+	if not mapgen.CanSnatch(ent) then
+		print("NO! YOU CAN'T SNATCH THAT: " .. tostring(ent) .. " : " .. (ent:IsNPC() and "NPC" or "NOT NPC"))
+		return false
+	else
+		print("YEAH YOU CAN SNATCH THAT: " .. tostring(ent))
+		return true
+	end
 end
 
 function SWEP:RemoveEntity( ent )
 
 	if self:AcceptEntity( ent ) and not ent.doing_removal then
 
-		snatch.New():StartProp( ent, self.KillsPeople )
+		snatch.New():StartProp( ent, self:GetOwner(), self.KillsPeople )
 		GAMEMODE:CollectProp( ent, self:GetOwner() )
 
 	end

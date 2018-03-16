@@ -5,7 +5,7 @@ end
 
 module( "unlocks", package.seeall )
 
-local unlock_lists = {}
+unlock_lists = unlock_lists or {}
 
 function IsValid( list_name )
 
@@ -246,6 +246,9 @@ function DownloadToPlayer( list_name, ply )
 
 	local data = EncodeList( list_name, ply )
 	if #data > 0 then
+
+		print("QUEUED DOWNLOAD FOR LIST: " .. list_name .. " TO PLAYER " .. tostring( ply ) )
+
 		local dl = download.Start( "download_unlocks", data, ply, 1024 )
 		if dl then
 			dl.list_name = list_name
@@ -268,6 +271,22 @@ end )
 hook.Add( "OnUnlocked", "unlock_test", function( list_name, key, ply ) 
 
 	print( ("  UNLOCKED[ %s ] => %s (for %s)" ):format( list_name, key, tostring(ply) ) )
+
+end )
+
+concommand.Add( "jazz_download_unlocks_to_players", function( ply )
+
+	if ply:IsAdmin() then
+
+		for _, pl in pairs( player.GetAll() ) do
+
+			for list_name, _ in pairs( unlock_lists ) do
+				DownloadToPlayer( list_name, pl )
+			end
+
+		end
+
+	end
 
 end )
 

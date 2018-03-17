@@ -11,8 +11,9 @@ ENT.Type = "point"
 ENT.DisableDuplicator = true
 ENT.VomitMusicFile = Sound("jazztronauts/music/trash_chute_music_loop.wav")
 ENT.VomitEmptyFile = Sound("jazztronauts/music/trash_chute_music_empty.wav")
-ENT.MusicDelay = 3.5
-ENT.ConstipateDelay = 10.5
+ENT.StartDelay = 0 -- Delay before anything at all happens
+ENT.MusicDelay = 3.5 -- Delay to let the music play before props begin to fall
+ENT.ConstipateDelay = 10.5 -- Delay when the tube is constipated
 
 local propr_unlock_list = "props"
 unlocks.Register(propr_unlock_list)
@@ -41,16 +42,22 @@ local bowelMovementSounds =
 	"ambient/machines/floodgate_move_short1.wav"
 }
 
+local outputs = 
+{
+	"OnVomitEnd",
+	"OnVomitStart",
+	"OnVomitStartEmpty"
+}
+
 function ENT:Initialize()
 	//self:VomitNewProps()
 end
 
 function ENT:KeyValue( key, value )
 
-	if key == "OnVomitEnd" then
+	if table.HasValue(outputs, key) then
 		self:StoreOutput(key, value)
 	end
-
 end
 
 function ENT:VomitMultiple(count)
@@ -102,6 +109,8 @@ function ENT:VomitNewProps(ply)
 		self:TriggerOutput("OnVomitEnd", self)
 		return 
 	end
+	
+
 	self.CurrentUser = ply -- TODO: Store steamid, not player reference
 
 	local counts = progress.GetPlayerPropCounts(ply, true)
@@ -130,9 +139,14 @@ function ENT:VomitNewProps(ply)
 		self:DoConstipatedEffects()
 	end
 
+	-- Fire outputs
+	self:TriggerOutput(empty and "OnVomitStartEmpty" or "OnVomitStart", self)
+
 	-- Start the music and away we go
-	self.StartAt = CurTime() + self.MusicDelay
-	self:StartMusic(empty)
+	self.StartAt = CurTime() + self.MusicDelay + self.StartDelay
+	timer.Simple(self.StartDelay, function()
+		self:StartMusic(empty)
+	end )
 end
 
 function ENT:DoConstipatedEffects()

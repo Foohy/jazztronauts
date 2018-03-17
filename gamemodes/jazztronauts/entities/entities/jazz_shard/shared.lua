@@ -15,7 +15,15 @@ sound.Add( {
 	volume = 1.0,
 	level = 80,
 	pitch = { 95, 110 },
-	sound = "ambient/atmosphere/city_beacon_loop1.wav"
+	sound = "jazztronauts/shard_hum_mono.wav"
+} )
+sound.Add( {
+	name = "jazz_shard_idle_near",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 65,
+	pitch = { 95, 110 },
+	sound = "jazztronauts/shard_hum.wav"
 } )
 
 game.AddParticles( "particles/jazztronauts_particles.pcf") 
@@ -48,6 +56,9 @@ function ENT:Initialize()
         self.IdleSound = CreateSound(self, "jazz_shard_idle") 
         self.IdleSound:Play()
 
+        self.IdleSoundNear = CreateSound(self, "jazz_shard_idle_near") 
+        self.IdleSoundNear:Play()
+
         ParticleEffect( "shard_glow", self:GetPos(), self:GetAngles(), self )
     end
 end
@@ -76,6 +87,11 @@ function ENT:OnRemove()
     if self.IdleSound then
         self.IdleSound:Stop()
         self.IdleSound = nil 
+    end
+
+    if self.IdleSoundNear then
+        self.IdleSoundNear:Stop()
+        self.IdleSoundNear = nil
     end
 end
 

@@ -123,11 +123,24 @@ if SERVER then
         return true
     end
 
+    -- Return true if the value has any matching flags
+    local function maskAny(val, ...)
+        local args = {...}
+        for k, v in pairs(args) do
+            if bit.band(val, v) == v then return true end
+        end
+
+        return false
+    end
+
     local function findValidSpawn(ent)
         local pos = ent:GetPos() + Vector(0, 0, 16)
 
         -- If moving the entity that small amount up puts it out of the world -- nah
         if !util.IsInWorld(pos) then return nil end
+
+        -- If the point is inside something solid -- also nah
+        if maskAny(util.PointContents(pos), CONTENTS_PLAYERCLIP, CONTENTS_SOLID) then return end
 
         -- Check if they're near a suspicious amount of sky
         if !checkAreaTrace(pos, ent:GetAngles()) then return end

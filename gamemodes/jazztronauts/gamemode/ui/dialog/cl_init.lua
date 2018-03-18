@@ -18,8 +18,6 @@ local unpack = unpack
 local coroutine = coroutine
 local ErrorNoHalt = ErrorNoHalt
 
-local missions = missions
-
 local STATE_IDLE = 0
 local STATE_OPENING = 1
 local STATE_OPENED = 2

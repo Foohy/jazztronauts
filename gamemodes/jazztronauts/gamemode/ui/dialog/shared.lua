@@ -57,7 +57,8 @@ local function ParseLine(script, line)
 
 		-- this is your punishment, zak
 		if inExec then
-			if ch == '*' then emit(TOK_TEXT) tok = "" inExec = false
+			if ch == '\\' then tok = tok .. nx i = i + 1 -- allow escaping
+			elseif ch == '*' then emit(TOK_TEXT) tok = "" inExec = false
 			else tok = tok .. ch end
 		else
 			if ch == '\\' then tok = tok .. nx i = i + 1

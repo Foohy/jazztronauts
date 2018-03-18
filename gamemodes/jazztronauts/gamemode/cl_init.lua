@@ -1,8 +1,8 @@
 include( "shared.lua" )
 
-include( "missions/cl_init.lua" )
 include( "map/cl_init.lua")
 include( "ui/cl_init.lua" )
+include( "missions/cl_init.lua" )
 include( "workshop/workshop.lua" )
 include( "store/cl_init.lua" )
 include( "snatch/cl_init.lua" )

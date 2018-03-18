@@ -31,7 +31,7 @@ a5:
     my stash of the Good Shit is getting dangerously low. %
     go get me like, 15 exploding barrels. %%%
     trust me i’m a professional it’ll be fine
-    *grant_0
+    *start 0
     &exit
 
 idle:
@@ -51,7 +51,7 @@ turnin:
     &t2
 t2:
     here’s your cut. %%
-    *finish_0
+    *finish 0
     &t3
 t3:
     i suggest you find somewhere else to be for the next few hours %

@@ -19,7 +19,6 @@ end
 
 function ENT:ToProgressMask(mapname)
 	local col, total = progress.GetMapShardCount(mapname)
-	print(col, total)
 	if not total or total == 0 then return 0 end
 
 	return bit.bor(bit.lshift(total, 16), col)

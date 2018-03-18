@@ -14,6 +14,7 @@ local util = util
 local tostring = tostring
 local tonumber = tonumber
 local LocalPlayer = LocalPlayer
+local unpack = unpack
 
 local missions = missions
 
@@ -95,7 +96,13 @@ function Start( text, delay )
 
 	CalcTextRect()
 
+end
 
+-- Register a new function that can be executed within a script
+function RegisterFunc(name, func)
+	if not g_funcs then g_funcs = {} end
+
+	g_funcs[name] = func;
 end
 
 local function DrawTextArea( width, height )
@@ -157,18 +164,15 @@ local inits = {
 	[STATE_CHOOSE] = function(d) d.rate = 1 end,
 	[STATE_CLOSING] = function(d) d.rate = 2 d.printed = "" end,
 	[STATE_EXEC] = function(d)
-		print("ENTRY EXEC")
-
-		if d.exec == "shake_screen" then
-			util.ScreenShake( LocalPlayer():GetPos(), 8, 8, 1, 5000 )
-			surface.PlaySound( "garrysmod/save_load4.wav" )
-		elseif string.find(d.exec, "grant_") == 1 then
-			local mid = tonumber(string.Split(d.exec, "_")[2])
-			missions.TryStartMission(mid)
-		elseif string.find(d.exec, "finish_") == 1 then
-			local mid = tonumber(string.Split(d.exec, "_")[2])
-			missions.TryFinishMission(mid)
+		local cmds = string.Split(d.exec, " ")
+		local func = cmds[1]
+		local res = ""
+		if g_funcs[func] then
+			res = g_funcs[func](unpack(cmds, 2))
+			res = res and tostring(res) or ""
 		end
+
+		d.printed = d.printed .. res .. "\n"
 
 		d.nodeiter()
 	end,
@@ -285,6 +289,13 @@ net.Receive( "dialog_dispatch", function( len, ply )
 
 	--Start( , 0 )
 
+end )
+
+RegisterFunc("shake", function()
+	util.ScreenShake( LocalPlayer():GetPos(), 8, 8, 1, 5000 )
+	surface.PlaySound( "garrysmod/save_load4.wav" )
+
+	return "SHAKES YOUR SCREEN"
 end )
 
 /*

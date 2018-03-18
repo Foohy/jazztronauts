@@ -37,6 +37,6 @@ response1:
 
 response2:
 	I'll go%.%.%.% check my \*bank account\* now.
-	*shake_screen
+	*shake
 	As you were.
 	&exit

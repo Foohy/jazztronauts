@@ -33,7 +33,7 @@ a7:
     completely unrelatedly %%
     I need about five cans of paint %
     so if you could bring those by the next time you’re here that’d be swell
-    *grant_2
+    *start 2
     &exit
 
 idle:
@@ -51,7 +51,7 @@ turnin:
     oh shit the paint, %% nice, %% now I can continue my project
     &t1
 t1:
-    *finish_2
+    *finish 2
     [cat pops the lid and huffs deeply before starting to play the cello]
     &t2
 t2:

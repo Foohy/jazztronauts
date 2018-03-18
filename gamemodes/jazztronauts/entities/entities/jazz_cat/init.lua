@@ -43,7 +43,6 @@ function ENT:Use(activator, caller)
     if self.NPCID == missions.NPC_CAT_BAR then
         local opt = self:GetSelectedOption(caller, self.BarChoices)
         self.BarChoices[opt].func(self, caller)
-        //caller:ConCommand("jazz_open_store")
     else
         self:StartChat(caller)
     end

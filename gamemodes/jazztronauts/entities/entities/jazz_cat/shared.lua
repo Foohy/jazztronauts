@@ -21,5 +21,5 @@ function ENT:StartChat(ply)
     local script = converse.GetMissionScript(ply, self.NPCID)
     script = dialog.IsValid(script) and script or "idle.begin"
 
-    dialog.Dispatch(script, ply)
+    dialog.Dispatch(script, ply, self)
 end

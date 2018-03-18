@@ -15,6 +15,8 @@ local tostring = tostring
 local tonumber = tonumber
 local LocalPlayer = LocalPlayer
 local unpack = unpack
+local coroutine = coroutine
+local ErrorNoHalt = ErrorNoHalt
 
 local missions = missions
 
@@ -147,7 +149,7 @@ local edges = {
 	[STATE_DONECHOOSE] = function(d) State( STATE_CLOSING ) end,
 	[STATE_CLOSING] = function(d) _ = Done() and State( STATE_IDLE ) end,
 	[STATE_WAIT] = function(d) _ = Done() and State( d.nextstate ) end,
-	[STATE_EXEC] = function(d) end,
+	[STATE_EXEC] = function(d) _ = Done() and State( STATE_EXEC ) end,
 }
 
 local inits = {
@@ -167,14 +169,32 @@ local inits = {
 		local cmds = string.Split(d.exec, " ")
 		local func = cmds[1]
 		local res = ""
-		if g_funcs[func] then
-			res = g_funcs[func](unpack(cmds, 2))
-			res = res and tostring(res) or ""
+
+		-- If no coroutine is running, create a new one for the specified function
+		if not d.coroutine and g_funcs[func] then
+			d.coroutine = coroutine.create(g_funcs[func])
+		elseif not g_funcs[func] then ErrorNoHalt("Invalid dialog function \"" .. func .. "\"") end
+
+		-- Start/resume the coroutine
+		if d.coroutine then
+
+			-- Resume the coroutine for this iteration
+			local succ, ret = coroutine.resume(d.coroutine, d, unpack(cmds, 2))
+			if not succ then ErrorNoHalt("DIALOG FUNCTION " .. func .. " ERRORED: ", res) end
+			res = ret and tostring(ret) or ""
+	
+			-- Append function result
+			d.printed = d.printed .. res
+
+			-- If the coroutine is dead, move onto the next node
+			if coroutine.status(d.coroutine) == "dead" then
+				d.coroutine = nil
+				d.nodeiter()
+			end
+		else -- Nothing running, probably invalid function. Just skip ahead
+			d.nodeiter()
 		end
 
-		d.printed = d.printed .. res .. "\n"
-
-		d.nodeiter()
 	end,
 }
 
@@ -233,7 +253,7 @@ function PaintAll()
 
 	Update( FrameTime() )
 
-	DrawTextArea( 600, 200 )
+	DrawTextArea( 850, 200 )
 
 end
 
@@ -271,16 +291,28 @@ local function ScriptCallback(cmd, data)
 
 end
 
+function GetFocus()
+	return _dialog.focus
+end
+
+function GetCamera()
+	return _dialog.camera
+end
+
 net.Receive( "dialog_dispatch", function( len, ply )
 
 	local script = util.NetworkIDToString( net.ReadUInt( 16 ) )
 	local camera = nil
-
+	local focus = nil
+	
+	if net.ReadBit() then focus = net.ReadEntity() end
 	if net.ReadBit() then camera = net.ReadEntity() end
 	if script == nil then script = "<no script>" end
 
 	CalcTextRect("")
 	_dialog.text = ""
+	_dialog.camera = camera
+	_dialog.focus = focus
 	State( STATE_OPENING )
 
 	_dialog.nodeiter = EnterGraph( script, ScriptCallback )
@@ -295,7 +327,7 @@ RegisterFunc("shake", function()
 	util.ScreenShake( LocalPlayer():GetPos(), 8, 8, 1, 5000 )
 	surface.PlaySound( "garrysmod/save_load4.wav" )
 
-	return "SHAKES YOUR SCREEN"
+	return "*SHAKES YOUR SCREEN* OwO\n"
 end )
 
 /*

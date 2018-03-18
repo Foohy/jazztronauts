@@ -323,7 +323,7 @@ function GetGraph()
 end
 
 function IsValid(node)
-	return node and g_graph[node] or g_graph[node .. ".begin"]
+	return node and (g_graph[node] or g_graph[node .. ".begin"])
 end
 
 function EnterGraph( node, callback )

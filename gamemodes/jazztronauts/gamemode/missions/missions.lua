@@ -66,6 +66,19 @@ local function isReadyToTurnIn(mdata)
     return true
 end
 
+local function filterNPCID(missions, npcid)
+    if not npcid then return missions end
+
+    for k, v in pairs(missions) do
+        local minfo = v.NPCId and v or MissionList[v.missionid]
+        if minfo.NPCId != npcid then 
+            missions[k] = nil 
+        end
+    end
+
+    return missions
+end
+
 -- Retrieve a list of missions the player has available to start
 function GetAvailableMissions(ply, npcid, h)
     local hist = h or GetMissionHistory(ply)
@@ -83,20 +96,27 @@ function GetAvailableMissions(ply, npcid, h)
         end
     end
 
+    -- Filter missions from other npcids (if requested)
+    available = filterNPCID(available, npcid)
+
     return available
 end
 
 -- Retrieve a list of missions the player is currently in progress
-function GetActiveMissions(ply, h, excludeReady)
+function GetActiveMissions(ply, npcid, h, excludeReady)
     local hist = h or GetMissionHistory(ply)
     local active = {}
 
+    -- Insert every mission that is in progress (or ready to turn in)
     for k, v in pairs(hist) do
         local ready = isReadyToTurnIn(v)
         if not v.completed and (not ready or not excludeReady) then 
             active[k] = v
         end
     end
+    
+    -- Filter missions from other npcids (if requested)
+    active = filterNPCID(active, npcid)
 
     return active
 end
@@ -105,11 +125,16 @@ end
 function GetReadyMissions(ply, npcid, h)
     local hist = h or GetMissionHistory(ply)
     local active = {}
+ 
+    -- Insert every mission that is ready to turn in
     for k, v in pairs(hist) do
         if isReadyToTurnIn(v) then
             active[k] = v
         end 
     end
+
+    -- Filter missions from other npcids (if requested)
+    active = filterNPCID(active, npcid)
 
     return active
 end

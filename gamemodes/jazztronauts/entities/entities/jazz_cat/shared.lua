@@ -17,9 +17,14 @@ function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "NPCID")
 end
 
+function ENT:GetIdleScript()
+    local npcidle = "idle.begin" .. self.NPCID
+    return dialog.IsValid(npcidle) and npcidle or "idle.begin"
+end
+
 function ENT:StartChat(ply)
     local script = converse.GetMissionScript(ply, self.NPCID)
-    script = dialog.IsValid(script) and script or "idle.begin"
+    script = dialog.IsValid(script) and script or self:GetIdleScript()
 
     dialog.Dispatch(script, ply, self)
 end

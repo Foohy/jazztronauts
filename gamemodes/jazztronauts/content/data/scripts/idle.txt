@@ -1,3 +1,11 @@
 begin:
+    Waddup. nobody wrote this yet.
+    &exit
+
+begin1:
+    Nice of you to stop by.
+    &exit
+
+begin4:
     thanks for doing my grocery shopping
     &exit

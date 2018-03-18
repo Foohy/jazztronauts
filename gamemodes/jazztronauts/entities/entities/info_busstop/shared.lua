@@ -34,17 +34,13 @@ end
 
 function ENT:OnMapChanged(newmap, wsid)
 	local ang = self:GetAngles()
-
 	local bus = ents.Create( "jazz_bus_hub" )
 	local busOff = Vector(self.BusOffset)
-	local mapQuery = progress.GetMap(newmap)
 
 	busOff:Rotate(ang)
 	bus:SetPos(self:GetPos() + busOff)
 	bus:SetAngles(ang)
-	bus:SetDestination(newmap)
-	bus:SetWorkshopID(wsid)
-	bus:SetMapProgress(mapQuery and tonumber(mapQuery.completed) + 1 or 0)
+	bus:SetMap(newmap, wsid)
 	bus:Spawn()
 end
 

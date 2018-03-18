@@ -82,11 +82,12 @@ function ENT:RefreshWorkshopInfo()
 	end )
 end
 
-local function ProgressString(p)
-	if p == 1 then return "Started" end
-	if p == 2 then return "Finished" end
-	if p == 3 then return "Prestiged" end
-	return "Not started"
+local function ProgressString(col, total)
+	if col == total then 
+		return "Collected all " .. total .. " shards!" 
+	end
+
+	return col .. "/" .. total .. " shards"
 end
 
 function ENT:DrawSideInfo()
@@ -117,8 +118,9 @@ function ENT:DrawSideInfo()
 		draw.SimpleText( self:GetDestination(), "SelectMapFont", 220, 60, Color(255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 
 		if self:GetMapProgress() > 0 then
-			local str = ProgressString(self:GetMapProgress())
-			local col = self:GetMapProgress() == 2 and Color(243, 235, 0, 255) or color_white
+			local coll, total = self:FromProgressMask(self:GetMapProgress())
+			local str = ProgressString(coll, total)
+			local col = coll == total and Color(243, 235, 0, 255) or color_white
 			draw.SimpleText(str, "SmallHeaderFont", 220, 130, col, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 		end
 

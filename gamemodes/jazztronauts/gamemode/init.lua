@@ -29,13 +29,31 @@ function GM:InitPostEntity()
 		--mapgen.LoadHubProps()
 	else
 		-- Add current map to list of 'started' maps
-		local res = progress.StartMap(game.GetMap(), math.random(0, 100000))
+		local map = progress.GetMap(game.GetMap())
 
-		-- If we haven't beat the map yet, generate some shards
-		if tonumber(res.completed) == 0 then 
-			mapgen.GenerateShards(5, tonumber(res.seed))
-			mapgen.CalculatePropValues(10000)
-		else mapgen.InitialShardCount = 5 end -- Gross, but we'll refine later
+		-- If the map doesn't exist, try to generate as many shards as we can
+		-- Then store that as the map's worth
+		if not map then	
+			print("Brand new map")
+			local shardworth = mapgen.CalculateShardCount()
+			local seed = math.random(0, 100000)
+			shardworth = mapgen.GenerateShards(shardworth, seed) -- Not guaranteed to make all shards
+
+			map = progress.StartMap(game.GetMap(), seed, shardworth)
+		-- Else, spawn shards, but only the ones that haven't been collected
+		else
+			local shards = progress.GetMapShards(game.GetMap())
+			local generated = mapgen.GenerateShards(#shards, tonumber(map.seed), shards)
+
+			if #shards > generated then
+				print("WARNING: Generated less shards than we have data for. Did the map change?")
+				-- Probably mark those extra shards as collected I guess?
+			end
+			
+		end
+
+		-- Calculate worth of each map-spawned prop
+		mapgen.CalculatePropValues(10000)
 	end
 
 end
@@ -66,25 +84,11 @@ end
 
 -- Called when somebody has collected a shard
 function GM:CollectShard(shard, ply)
-	local left, total = mapgen.CollectShard(shard)
+	local left, total = mapgen.CollectShard(ply, shard)
 	if not left then return false end
 
 	-- Congrats
 	ply:ChangeNotes(1000)
-	
-	-- THEY DID IT!!!! Everyone gets a piece of the pie
-	-- TODO: Move this logic somewhere else.
-	if left == 0 && total != 0 then 
-		local res = progress.FinishMap(game.GetMap())
-		if res then
-			for _, v in pairs(player.GetAll()) do
-				ply:ChangeNotes(2000)
-
-				v:ChatPrint("You collected all " .. total .. " shards! It only took you " 
-					.. string.NiceTime(res.endtime - res.starttime))
-			end
-		end
-	end
 end
 
 -- Called when prop is snatched from the level
@@ -117,12 +121,7 @@ local function PrintMapHistory(ply)
 	if maps then
 		for _, v in pairs(maps) do 
 			local mapstr = v.filename 
-
-			if tonumber(v.completed) == 0 then 
-				mapstr = mapstr .. " (Started)"
-			else
-				mapstr = mapstr .. " (Finished in " .. string.NiceTime(v.endtime - v.starttime) .. ")"
-			end
+			mapstr = mapstr .. " (Started " .. string.NiceTime(os.time() - v.starttime) .. " ago)"
 			
 			ply:ChatPrint(mapstr)
 		end

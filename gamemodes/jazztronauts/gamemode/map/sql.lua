@@ -2,18 +2,22 @@ include("../lib/sh_sql.lua")
 
 module( "progress", package.seeall )
 
-MAPPROGRESS_STARTED = 0
-MAPPROGRESS_FINISHED = 1
-MAPPROGRESS_PRESTIGED = 2
-
 jsql.Register("jazz_maphistory", 
 [[
 	id INTEGER PRIMARY KEY,
 	filename VARCHAR(128) UNIQUE NOT NULL,
 	seed INTEGER NOT NULL DEFAULT 0,
-	completed BOOL NOT NULL DEFAULT 0,
-	starttime NUMERIC NOT NULL DEFAULT 0,
-	endtime NUMERIC NOT NULL DEFAULT 0
+	starttime NUMERIC NOT NULL DEFAULT 0
+]])
+
+jsql.Register("jazz_mapshards", 
+[[
+	id INTEGER NOT NULL,
+	mapid INTEGER NOT NULL,
+	collected BOOL NOT NULL DEFAULT 0,
+	collect_player BIGINT,
+	PRIMARY KEY(id, mapid),
+	FOREIGN KEY(mapid) REFERENCES jazz_maphistory(id) ON DELETE CASCADE
 ]])
 
 jsql.Register("jazz_playerdata", 
@@ -62,17 +66,16 @@ function GetMap(mapname)
 	if type(res) == "table" then return res[1] end
 end
 
-function GetMapHistory(finishlvl)
-	finishlvl = finishlvl or MAPPROGRESS_STARTED
-
-	local chkstr = "SELECT * FROM jazz_maphistory WHERE " ..
-		string.format("completed>=%d", finishlvl)
-
+-- Get a list of maps that have been started or completed
+function GetMapHistory()
+	-- #TODO: Filter based on completion
+	local chkstr = "SELECT * FROM jazz_maphistory"
+	
 	return Query(chkstr)
 end
 
 -- Start playing a new, previously unplayed map
-function StartMap(mapname, seed)
+function StartMap(mapname, seed, shardcount)
 	mapname = string.lower(mapname)
 
 	-- Check if we've already played (or attempted to play) this map
@@ -90,30 +93,68 @@ function StartMap(mapname, seed)
 			string.format("%s)", os.time())
 
 		-- Returns false on failure, and nil on success
-		if Query(insrt) != false then
-			return GetMap(mapname)
+		if Query(insrt) == false then return nil end
+
+		local map = GetMap(mapname)
+		local shardvals = {}
+		for i=1, shardcount do
+			table.insert(shardvals, "(" .. i .. ", " ..map.id .. ")")
 		end
+		local insrt_shard = "INSERT INTO jazz_mapshards (id, mapid) VALUES " ..
+			table.concat(shardvals, ",")
+
+		-- Create the table of shard values 
+		if Query(insrt_shard) != false then
+			return map
+		end
+	end
+end
+
+-- Get a list of shards that were created for this map
+function GetMapShards(mapname)
+	mapname = string.lower(mapname)
+	local chkstr = "SELECT * FROM jazz_maphistory " ..
+		"INNER JOIN jazz_mapshards ON jazz_maphistory.id = jazz_mapshards.mapid " ..
+		"WHERE " .. string.format("filename='%s' ", mapname) ..
+		"ORDER BY jazz_mapshards.id ASC"
+
+	return Query(chkstr) or {}
+end
+
+-- Get the amount of collected/possible shards
+function GetMapShardCount(mapname)
+	mapname = mapname and string.lower(mapname) or nil
+
+	local chkstr = "SELECT SUM(collected) as collected, COUNT(*) as total FROM jazz_maphistory " ..
+		"INNER JOIN jazz_mapshards ON jazz_maphistory.id = jazz_mapshards.mapid " ..
+		(mapname and "WHERE " .. string.format("filename='%s' ", mapname) or "") ..
+		"ORDER BY jazz_mapshards.id ASC"
+	
+	local res = Query(chkstr)
+	if type(res) == "table" then
+		return tonumber(res[1].collected) or 0, tonumber(res[1].total) or 0
 	end
 end
 
 -- Mark a map as finished
 -- If the map hasn't been started, or was already finished, this will do nothing
-function FinishMap(mapname)
+function CollectShard(mapname, shardid, ply)
+	mapname = string.lower(mapname)
+	local pid = IsValid(ply) and ply:SteamID64() or "0"
 
 	-- Check to make sure the map exists and isn't finished
 	local res = GetMap(mapname)
-	if (res == nil) then print("You must have started \"" .. mapname .. "\" before you can finish it.") return nil end
-	if (tobool(res.completed)) then return res end -- Do nothing, but still return latest map data
+	if (res == nil) then print("You must have started \"" .. mapname .. "\" before you can collect shards from it.") return nil end
 
 	-- Alter table with new finish info
-	local altr = "UPDATE jazz_maphistory SET " ..
-			string.format("completed='%s', ", MAPPROGRESS_FINISHED) ..
-			string.format("endtime='%s' WHERE ", os.time()) ..
-			string.format("id=%d AND ", res.id) ..
-			string.format("filename='%s'", mapname)
+	local altr = "UPDATE jazz_mapshards SET " ..
+			string.format("collected='%d', ", 1) ..
+			string.format("collect_player='%d' ", pid) ..
+			string.format("WHERE mapid='%s' ", res.id) ..
+			string.format("AND id='%d'", shardid)
 
 	if Query(altr) != false then
-		return GetMap(mapname)
+		return GetMapShards(mapname)
 	end
 end
 

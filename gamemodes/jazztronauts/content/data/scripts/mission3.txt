@@ -26,7 +26,7 @@ a6:
     for now %%I’m gonna need a shit-ton of random chemicals.%
     buckets, %% jugs, %%bottles, %%mysterious glowing cubes, %%whatever.%%%
     ten of ‘em should be a good start
-    *start 3
+    *start 3*
     &exit
 
 idle:
@@ -49,7 +49,7 @@ t2:
     &t3
 t3:
     here, take this for your trouble
-    *finish 3
+    *finish 3*
     &t4
 t4:
     in the meantime %i’m gonna do a kegstand of whatever’s in this 

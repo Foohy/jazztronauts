@@ -38,7 +38,9 @@ function SWEP:Initialize()
 	-- It's not canon, but it's kind of nice to be able to do this
 	if CLIENT then
 		hook.Add("Think", self, function(self)
-			if LocalPlayer() != self.Owner then self:Think() end
+			if IsValid(self.Owner) and LocalPlayer() != self.Owner then 
+				self:Think() 
+			end
 		end )
 	end
 end

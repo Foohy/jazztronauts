@@ -4,7 +4,7 @@ SpawnedShards = SpawnedShards or {}
 InitialShardCount = InitialShardCount or 0
 
 function GetShardCount()
-	return #SpawnedShards, InitialShardCount
+	return table.Count(SpawnedShards), InitialShardCount
 end
 
 function GetShards()
@@ -38,11 +38,13 @@ end
 if SERVER then 
     util.AddNetworkString("jazz_shardcollect")
 
-    function CollectShard(shardent)
+    function CollectShard(ply, shardent)
+
         -- It's gotta be one of our shards ;)
-        local res = table.RemoveByValue(SpawnedShards, shardent) != false
+        local res = table.RemoveByValue(SpawnedShards, shardent, ply)
         if not res then return nil, nil end
-        print(table.Count(SpawnedShards))
+
+        progress.CollectShard(game.GetMap(), shardent.ShardID, ply)
         UpdateShardCount()
 
         return #SpawnedShards, InitialShardCount
@@ -123,11 +125,24 @@ if SERVER then
         return true
     end
 
+    -- Return true if the value has any matching flags
+    local function maskAny(val, ...)
+        local args = {...}
+        for k, v in pairs(args) do
+            if bit.band(val, v) == v then return true end
+        end
+
+        return false
+    end
+
     local function findValidSpawn(ent)
         local pos = ent:GetPos() + Vector(0, 0, 16)
 
         -- If moving the entity that small amount up puts it out of the world -- nah
         if !util.IsInWorld(pos) then return nil end
+
+        -- If the point is inside something solid -- also nah
+        if maskAny(util.PointContents(pos), CONTENTS_PLAYERCLIP, CONTENTS_SOLID) then return end
 
         -- Check if they're near a suspicious amount of sky
         if !checkAreaTrace(pos, ent:GetAngles()) then return end
@@ -147,22 +162,29 @@ if SERVER then
         local tr = util.TraceLine( {
             start = ent:GetPos(),
             endpos = sky:GetPos(),
-            mask = MASK_SOLID_BRUSHONLY
+            mask = CONTENTS_SOLID
         } )
-
+        
         return !tr.Hit
     end
 
-    local function spawnShard(transform)
+    local function spawnShard(transform, id)
         if transform == nil then return nil end
 
         local shard = ents.Create( "jazz_shard" )
 	    shard:SetPos(transform.pos)
 	    shard:SetAngles(transform.ang)
+        
+        shard.ShardID = id
         shard:Spawn()
         shard:Activate()
 
         return shard
+    end
+    
+    -- Calculate the size of this map and how many shards it's worth
+    function CalculateShardCount()
+        return 8 -- #TODO
     end
 
     function CalculatePropValues(mapWorth)
@@ -190,7 +212,7 @@ if SERVER then
         
     end
 
-    function GenerateShards(count, seed)
+    function GenerateShards(count, seed, shardtbl)
         for _, v in pairs(SpawnedShards) do
             if IsValid(v) then v:Remove() end
         end
@@ -211,20 +233,27 @@ if SERVER then
         end
 
         -- Select count random spawns and go
-        for _, v in RandomPairs(validSpawns) do
+        local n = 0
+        for k, v in RandomPairs(validSpawns) do      
             count = count - 1
             if count < 0 then break end
-
-            local shard = spawnShard(v)
-            if IsValid(shard) then 
-                table.insert(SpawnedShards, shard) 
+            n = n + 1
+            
+            -- Create a new shard only if it hasn't been collected
+            local shard = nil
+            if not shardtbl or not tobool(shardtbl[n].collected) then 
+                shard = spawnShard(v, n)
             end
+
+            table.insert(SpawnedShards, shard) 
+
         end
 
-        InitialShardCount = #SpawnedShards
+        InitialShardCount = n
         UpdateShardCount()
         
         print("Generated " .. InitialShardCount .. " shards. Happy hunting!")
+        return InitialShardCount
     end
 
     function LoadHubProps()

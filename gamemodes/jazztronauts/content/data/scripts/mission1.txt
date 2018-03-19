@@ -19,7 +19,7 @@ a3:
 a4:
     i’ve got basically everything on hand % 
     but i’ll need ten beer bottles and two gas cans to finish the recipe
-    *grant_1
+    *start 1*
     &a5
 a5:
     i figure less gas this time is probably 
@@ -44,5 +44,5 @@ t1:
     &t2
 t2:
     go get yourself something nice with this
-    *finish_1
+    *finish 1*
     &exit

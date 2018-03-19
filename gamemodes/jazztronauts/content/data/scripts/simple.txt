@@ -4,7 +4,7 @@ begin:
 
 response:
 	I'll go%.%.%.% check my \*bank account\* now.
-	*shake_screen
+	*shake*
 	%%%%%
 	As you were.
 	&exit

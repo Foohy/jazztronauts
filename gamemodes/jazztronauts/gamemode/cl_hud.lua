@@ -18,12 +18,19 @@ local moneyFillVelocity = 1 //Amount of money to fill per frame. Adjusted based 
 local lastMoneyCount = 0
 local isFadingOut = false
 
-surface.CreateFont( "NoteFont",
+surface.CreateFont( "JazzNote",
 {
-	font		= "Impact",
-	size		= ScreenScale(17),
+	font		= "KG Shake it Off Chunky",
+	size		= ScreenScale(20),
+	weight		= 1500
+})
+surface.CreateFont( "JazzNoteFill",
+{
+	font		= "KG Shake it Off Chunky",
+	size		= ScreenScale(10),
 	weight		= 500
 })
+
 
 local function addCommas( num )
 	local result = ""
@@ -42,7 +49,11 @@ end
 local function DrawNoteCount()
 	local amt = LocalPlayer() && LocalPlayer():GetNotes() or 0
 	if amt != lastMoneyCount then
-		moneyFillDelay = CurTime() + FillDelay
+		-- Only delay if earning money
+		if amt > lastMoneyCount then
+			moneyFillDelay = CurTime() + FillDelay
+		end
+
 		lastMoneyCount = amt
 	end
 	if amt != VisualAmount then
@@ -56,8 +67,8 @@ local function DrawNoteCount()
 		CurAlpha = 200
 	end
 
-	surface.SetFont( "NoteFont")
-	local finalText = addCommas( VisualAmount ) .. " n"
+	surface.SetFont( "JazzNote")
+	local finalText = "$" .. addCommas( VisualAmount ) .. " n"
 	bgWidth, bgHeight = surface.GetTextSize( finalText )
 	lastWidth = Lerp( FrameTime() * 10, lastWidth, bgWidth + 15 )
 	draw.RoundedBox( 4, ScrW() - (distFromSide + lastWidth ), 10, lastWidth, bgHeight + 10, Color( 0, 0, 0, CurAlpha ) )
@@ -67,7 +78,7 @@ local function DrawNoteCount()
 	FinalAmountText["pos"] = { ScrW() - distFromSide - 8, 16 }
 	FinalAmountText["color"] = Color(255, 255, 255, CurAlpha)
 	FinalAmountText["text"] = finalText
-	FinalAmountText["font"] = "NoteFont"
+	FinalAmountText["font"] = "JazzNote"
 	FinalAmountText["xalign"] = TEXT_ALIGN_RIGHT
 	FinalAmountText["yalign"] = TEXT_ALIGN_TOP
 
@@ -83,7 +94,7 @@ local function DrawNoteCount()
 	text = text .. tostring( amt - VisualAmount )
 
 	if amt - VisualAmount != 0 then
-		draw.DrawText( text, "HudHintTextLarge", ScrW() - distFromSide , bgHeight + 20, color, TEXT_ALIGN_RIGHT)
+		draw.DrawText( text, "JazzNoteFill", ScrW() - distFromSide , bgHeight + 20, color, TEXT_ALIGN_RIGHT)
 	end
 
 	if CurTime() > moneyFillDelay then
@@ -119,10 +130,10 @@ local function DrawShardCount()
 		color = HSVToColor(math.fmod(CurTime() * 360, 360), .3, .7)
 	end
 
-	surface.SetFont("NoteFont")
+	surface.SetFont("JazzNote")
 	local offset = surface.GetTextSize(str) / 2
 	offset = offset + 5
-	draw.WordBox( 5, ScrW() / 2 - offset, 5, str, "NoteFont", color, color_white ) 
+	draw.WordBox( 5, ScrW() / 2 - offset, 5, str, "JazzNote", color, color_white ) 
 
 end
 

@@ -66,10 +66,9 @@ function GetMissionScript(ply, npcid)
     -- Choose which mission id is most important for us to talk about
     local ready = missions.GetReadyMissions(ply, npcid, hist)
     local avail = missions.GetAvailableMissions(ply, npcid, hist)
-    local active = missions.GetActiveMissions(ply, hist)
+    local active = missions.GetActiveMissions(ply, npcid, hist)
 
     local mdata, cond = getFirst(ready, avail, active)
-
 
     local mid = type(mdata) == "table" and mdata.missionid or mdata
     if not mid or not MissionConvos[mid] or not MissionConvos[mid][cond] then

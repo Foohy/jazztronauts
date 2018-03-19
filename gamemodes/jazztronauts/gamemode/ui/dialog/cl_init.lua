@@ -14,8 +14,9 @@ local util = util
 local tostring = tostring
 local tonumber = tonumber
 local LocalPlayer = LocalPlayer
-
-local missions = missions
+local unpack = unpack
+local coroutine = coroutine
+local ErrorNoHalt = ErrorNoHalt
 
 local STATE_IDLE = 0
 local STATE_OPENING = 1
@@ -95,7 +96,13 @@ function Start( text, delay )
 
 	CalcTextRect()
 
+end
 
+-- Register a new function that can be executed within a script
+function RegisterFunc(name, func)
+	if not g_funcs then g_funcs = {} end
+
+	g_funcs[name] = func;
 end
 
 local function DrawTextArea( width, height )
@@ -140,7 +147,7 @@ local edges = {
 	[STATE_DONECHOOSE] = function(d) State( STATE_CLOSING ) end,
 	[STATE_CLOSING] = function(d) _ = Done() and State( STATE_IDLE ) end,
 	[STATE_WAIT] = function(d) _ = Done() and State( d.nextstate ) end,
-	[STATE_EXEC] = function(d) end,
+	[STATE_EXEC] = function(d) _ = Done() and State( STATE_EXEC ) end,
 }
 
 local inits = {
@@ -157,20 +164,35 @@ local inits = {
 	[STATE_CHOOSE] = function(d) d.rate = 1 end,
 	[STATE_CLOSING] = function(d) d.rate = 2 d.printed = "" end,
 	[STATE_EXEC] = function(d)
-		print("ENTRY EXEC")
+		local cmds = string.Split(d.exec, " ")
+		local func = cmds[1]
+		local res = ""
 
-		if d.exec == "shake_screen" then
-			util.ScreenShake( LocalPlayer():GetPos(), 8, 8, 1, 5000 )
-			surface.PlaySound( "garrysmod/save_load4.wav" )
-		elseif string.find(d.exec, "grant_") == 1 then
-			local mid = tonumber(string.Split(d.exec, "_")[2])
-			missions.TryStartMission(mid)
-		elseif string.find(d.exec, "finish_") == 1 then
-			local mid = tonumber(string.Split(d.exec, "_")[2])
-			missions.TryFinishMission(mid)
+		-- If no coroutine is running, create a new one for the specified function
+		if not d.coroutine and g_funcs[func] then
+			d.coroutine = coroutine.create(g_funcs[func])
+		elseif not g_funcs[func] then ErrorNoHalt("Invalid dialog function \"" .. func .. "\"") end
+
+		-- Start/resume the coroutine
+		if d.coroutine then
+
+			-- Resume the coroutine for this iteration
+			local succ, ret = coroutine.resume(d.coroutine, d, unpack(cmds, 2))
+			if not succ then ErrorNoHalt("DIALOG FUNCTION " .. func .. " ERRORED: ", res) end
+			res = ret and tostring(ret) or ""
+	
+			-- Append function result
+			d.printed = d.printed .. res
+
+			-- If the coroutine is dead, move onto the next node
+			if coroutine.status(d.coroutine) == "dead" then
+				d.coroutine = nil
+				d.nodeiter()
+			end
+		else -- Nothing running, probably invalid function. Just skip ahead
+			d.nodeiter()
 		end
 
-		d.nodeiter()
 	end,
 }
 
@@ -229,7 +251,7 @@ function PaintAll()
 
 	Update( FrameTime() )
 
-	DrawTextArea( 600, 200 )
+	DrawTextArea( 850, 200 )
 
 end
 
@@ -267,16 +289,28 @@ local function ScriptCallback(cmd, data)
 
 end
 
+function GetFocus()
+	return _dialog.focus
+end
+
+function GetCamera()
+	return _dialog.camera
+end
+
 net.Receive( "dialog_dispatch", function( len, ply )
 
 	local script = util.NetworkIDToString( net.ReadUInt( 16 ) )
 	local camera = nil
-
+	local focus = nil
+	
+	if net.ReadBit() then focus = net.ReadEntity() end
 	if net.ReadBit() then camera = net.ReadEntity() end
 	if script == nil then script = "<no script>" end
 
 	CalcTextRect("")
 	_dialog.text = ""
+	_dialog.camera = camera
+	_dialog.focus = focus
 	State( STATE_OPENING )
 
 	_dialog.nodeiter = EnterGraph( script, ScriptCallback )

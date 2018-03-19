@@ -141,9 +141,8 @@ function SWEP:PrimaryAttack()
 	--Standard stuff
 	if !self:CanPrimaryAttack() then return end
 
-	if SERVER then
-		self.Owner:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
-	end
+	self:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
+	
 	if CLIENT or game.SinglePlayer() then
 		self:TraceToRemove()
 	end

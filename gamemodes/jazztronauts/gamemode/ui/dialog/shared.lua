@@ -50,16 +50,25 @@ local function ParseLine(script, line)
 		table.insert(script.tokens, {tok = tok, type = type}) tok = "" 
 	end
 	local i = 1
+	local inExec = false
 	repeat
 		local ch = line[i]
 		local nx = line[i+1] or ' '
-		if ch == '\\' then tok = tok .. nx i = i + 1
-		elseif ch == '&' then emit(TOK_TEXT) tok = "&" emit(TOK_JUMP)
-		elseif ch == '%' then emit(TOK_TEXT) tok = "%" emit(TOK_WAIT)
-		elseif ch == '*' then emit(TOK_TEXT) tok = "*" emit(TOK_FIRE)
-		elseif ch == ':' then emit(TOK_TEXT) tok = ":" emit(TOK_ENTRY)
-		elseif ch == '=' then emit(TOK_TEXT) tok = "=" emit(TOK_EQUAL)
-		else tok = tok .. ch end
+
+		-- this is your punishment, zak
+		if inExec then
+			if ch == '\\' then tok = tok .. nx i = i + 1 -- allow escaping
+			elseif ch == '*' then emit(TOK_TEXT) tok = "" inExec = false
+			else tok = tok .. ch end
+		else
+			if ch == '\\' then tok = tok .. nx i = i + 1
+			elseif ch == '&' then emit(TOK_TEXT) tok = "&" emit(TOK_JUMP)
+			elseif ch == '%' then emit(TOK_TEXT) tok = "%" emit(TOK_WAIT)
+			elseif ch == ':' then emit(TOK_TEXT) tok = ":" emit(TOK_ENTRY)
+			elseif ch == '=' then emit(TOK_TEXT) tok = "=" emit(TOK_EQUAL)
+			elseif ch == '*' then emit(TOK_TEXT) tok = "*" emit(TOK_FIRE) inExec = true
+			else tok = tok .. ch end
+		end
 		i = i + 1
 	until i > #line
 	if #tok > 0 then emit(TOK_TEXT) end
@@ -323,7 +332,7 @@ function GetGraph()
 end
 
 function IsValid(node)
-	return node and g_graph[node] or g_graph[node .. ".begin"]
+	return node and (g_graph[node] or g_graph[node .. ".begin"])
 end
 
 function EnterGraph( node, callback )

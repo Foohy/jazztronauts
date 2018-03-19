@@ -321,13 +321,6 @@ net.Receive( "dialog_dispatch", function( len, ply )
 
 end )
 
-RegisterFunc("shake", function()
-	util.ScreenShake( LocalPlayer():GetPos(), 8, 8, 1, 5000 )
-	surface.PlaySound( "garrysmod/save_load4.wav" )
-
-	return "*SHAKES YOUR SCREEN* OwO\n"
-end )
-
 /*
 Start(
 [[thanks jeeves did you hear me ask for the sparknotes link

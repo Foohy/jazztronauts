@@ -59,6 +59,30 @@ function meta:SetMode( mode )
 
 end
 
+function TakeItAll()
+
+	if map:IsLoading() then print("STILL LOADING") return end
+
+	local t = 0.1
+
+	for k,v in pairs( map:GetBrushes() ) do
+
+		v:CreateWindings()
+
+		local center = (v.min + v.max) / 2
+
+		timer.Simple( t, function()
+
+			New():StartWorld( center, player.GetAll()[1] )
+
+		end)
+
+		t = t + .1
+
+	end
+
+end
+
 function meta:StartWorld( position, owner )
 
 	if not SERVER then return end
@@ -75,8 +99,9 @@ function meta:StartWorld( position, owner )
 
 	for k,v in pairs( map:GetBrushes() ) do
 
-		if v:ContainsPoint( position ) then
+		if v:ContainsPoint( position ) and not removed_brushes[v] then
 			hit_brush = k
+			break
 		end
 
 	end
@@ -144,7 +169,7 @@ function meta:RunWorld( brush_id )
 	actual.mesh = test_mesh
 	actual:SetPos( brush.center - EyeAngles():Forward() * 5 )
 	--actual:PhysicsInitConvex( convex )
-	--actual:PhysicsInit( SOLID_VPHYSICS )
+	actual:PhysicsInit( SOLID_VPHYSICS )
 	--actual:SetSolid( SOLID_VPHYSICS )
 	--actual:SetMoveType( MOVETYPE_VPHYSICS )
 	actual:SetRenderBounds( brush.min - brush.center, brush.max - brush.center )

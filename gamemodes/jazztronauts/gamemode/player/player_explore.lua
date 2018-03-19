@@ -62,7 +62,7 @@ function PLAYER:Loadout()
 	self.Player:Give( "weapon_luaphysgun" )
 	self.Player:Give( "weapon_buscaller" )
 	self.Player:Give( "weapon_propsnatcher" )
-	self.Player:Give( "weapon_gun" )
+	self.Player:Give( "weapon_stan" )
 
     self.Player:SwitchToDefaultWeapon()
 end

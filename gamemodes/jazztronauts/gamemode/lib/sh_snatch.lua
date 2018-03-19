@@ -98,8 +98,8 @@ function meta:StartWorld( position, owner )
 	local hit_brush = nil
 
 	for k,v in pairs( map:GetBrushes() ) do
-
-		if v:ContainsPoint( position ) and not removed_brushes[v] then
+		if bit.band(v.contents, CONTENTS_SOLID) != CONTENTS_SOLID then continue end
+		if v:ContainsPoint( position ) and not removed_brushes[k] then
 			hit_brush = k
 			break
 		end

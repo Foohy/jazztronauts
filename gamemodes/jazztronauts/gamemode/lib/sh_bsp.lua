@@ -486,6 +486,7 @@ function meta:_ConvertBrushes()
 		for _, origside in pairs( origbrush.sides ) do
 			local side = brush.Side( origside.plane.back )
 			side.texinfo = origside.texinfo
+			side.bevel = origside.bevel != 0
 			newbrush:Add( side )
 		end
 

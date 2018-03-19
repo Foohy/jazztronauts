@@ -520,11 +520,11 @@ function meta:Merge(other, planenormal)
 end
 
 local invcolor = 1/255
-function meta:Render(col, depth, offset)
+function meta:Render(col, depth, offset, wire)
 
 	self.rplane = self.rplane or self:Plane()
 
-	if self.mesh then
+	if self.mesh and not wire then
 		if col then
 			render.SetColorModulation( col.r * invcolor, col.g * invcolor, col.b * invcolor )
 		end
@@ -568,10 +568,7 @@ local function makeMaterial( texture )
 
 end
 
-
-local default_mesh_material = Material( "editor/wireframe" )
-function meta:CreateMesh(id, material, texmatrix, lmmatrix, width, height )
-
+function meta:EmitMesh(texmatrix, lmmatrix, width, height )
 	local meshverts = {}
 	width = width or 1
 	height = height or 1
@@ -602,19 +599,25 @@ function meta:CreateMesh(id, material, texmatrix, lmmatrix, width, height )
 		mesh.AdvanceVertex()
 	end
 
-	self.mesh = ManagedMesh( id, material )
-
 	local normal = self:Plane().normal
 
-	mesh.Begin( self.mesh:Get(), MATERIAL_TRIANGLES, #self.points - 2 )
+	
 	for i=2, #self.points-1 do
 		emitPointVert(self.points[1], normal)
 		emitPointVert(self.points[i+1], normal)
 		emitPointVert(self.points[i], normal)
 	end
+
+end
+
+local default_mesh_material = Material( "editor/wireframe" )
+function meta:CreateMesh(id, material, texmatrix, lmmatrix, width, height )
+	self.mesh = ManagedMesh( id, material )
+
+	mesh.Begin( self.mesh:Get(), MATERIAL_TRIANGLES, #self.points - 2 )
+		self:EmitMesh( texmatrix, lmmatrix, width, height)
 	mesh.End()
 
-	self.mesh:BuildFromTriangles( meshverts )
 	self.material = material
 	self.cache_center = self:Center()
 

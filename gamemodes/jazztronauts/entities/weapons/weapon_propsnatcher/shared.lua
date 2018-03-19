@@ -79,6 +79,12 @@ function SWEP:RemoveEntity( ent )
 
 end
 
+function SWEP:RemoveWorld( position )
+
+	snatch.New():StartWorld( position, self:GetOwner() )
+
+end
+
 --Reach out and touch something
 function SWEP:TraceToRemove()
 
@@ -94,8 +100,15 @@ function SWEP:TraceToRemove()
 	if SERVER then
 		self:RemoveEntity( tr.Entity )
 	else
-		if self:AcceptEntity( tr.Entity ) then
+		if not tr.HitNonWorld then
 			net.Start( "remove_client_send_trace" )
+			net.WriteBit(0)
+			net.WriteEntity( self )
+			net.WriteVector( tr.HitPos )
+			net.SendToServer()
+		elseif self:AcceptEntity( tr.Entity ) then
+			net.Start( "remove_client_send_trace" )
+			net.WriteBit(1)
 			net.WriteEntity( self )
 			net.WriteEntity( tr.Entity )
 			net.SendToServer()
@@ -107,9 +120,18 @@ end
 if SERVER then
 	net.Receive("remove_client_send_trace", function(len, pl)
 
+		local world = net.ReadBit() == 0
 		local swep = net.ReadEntity()
-		local remove = net.ReadEntity()
-		swep:RemoveEntity( remove )
+
+		if world then
+
+			swep:RemoveWorld( net.ReadVector() )
+
+		else
+
+			swep:RemoveEntity( net.ReadEntity() )
+
+		end
 
 	end)
 end

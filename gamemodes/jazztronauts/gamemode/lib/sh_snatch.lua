@@ -2,10 +2,13 @@ if SERVER then
 
 	AddCSLuaFile()
 	util.AddNetworkString("remove_prop_scene")
+	util.PrecacheModel( "models/hunter/blocks/cube025x025x025.mdl" )
 
 end
 
 module( "snatch", package.seeall )
+
+removed_brushes = {} --removed_brushes or {}
 
 local SV_SendPropSceneToClients = nil
 local SV_HandleEntityDestruction = nil
@@ -15,6 +18,27 @@ local CL_CopyRagdollPose = nil
 
 local meta = {}
 meta.__index = meta
+
+local map = bsp.GetCurrent()
+
+print("NOW WE LOAD LUMPS")
+
+if SERVER then
+
+	map:LoadLumps({
+		bsp.LUMP_BRUSHES,
+	})
+
+else
+
+	map:LoadLumps({
+		bsp.LUMP_BRUSHES,
+		bsp.LUMP_FACES,
+		bsp.LUMP_TEXINFO,
+	})
+
+end
+
 
 function meta:Init( data )
 
@@ -35,19 +59,141 @@ function meta:SetMode( mode )
 
 end
 
-function meta:StartProp( prop, kill, delay )
+function meta:StartWorld( position, owner )
+
+	if not SERVER then return end
+
+	self.real = Entity(0)
+	self.owner = owner
+	self.position = position
+	self.is_prop = false
+	self.is_world = true
+
+	if map:IsLoading() then print("STILL LOADING") return end
+
+	local hit_brush = nil
+
+	for k,v in pairs( map:GetBrushes() ) do
+
+		if v:ContainsPoint( position ) then
+			hit_brush = k
+		end
+
+	end
+
+	if not hit_brush or removed_brushes[hit_brush] == true then return end
+	removed_brushes[hit_brush] = true
+
+	self.brush = hit_brush
+
+	print("***SNATCH BRUSH: " .. hit_brush .. " ***")
+	SV_SendPropSceneToClients( self )
+
+end
+
+next_brush_mesh_id = next_brush_mesh_id or 0
+function meta:RunWorld( brush_id )
+
+	if map:IsLoading() then print("STILL LOADING") return end
+
+	local brush_list = map:GetBrushes()
+	local brush = brush_list[brush_id]
+
+	if not brush then
+		ErrorNoHalt( "Brush not found: " .. tostring( brush_id ))
+		return
+	end
+
+	local convex = {}
+
+	brush:CreateWindings()
+
+	brush.center = (brush.min + brush.max) / 2
+	local to_center = -brush.center
+
+	print("TRANSLATE: " .. tostring( to_center ) )
+
+	for _, side in pairs( brush.sides ) do
+
+		side.winding:Move( to_center )
+
+		local texinfo = side.texinfo
+		local texdata = texinfo.texdata
+		local material = Material( texdata.material )
+
+		print( texdata.material )
+
+		next_brush_mesh_id = next_brush_mesh_id + 1
+		side.winding:CreateMesh( "brushpoly_" .. next_brush_mesh_id, material, texinfo.st, nil, texdata.width, texdata.height )
+
+		for _, point in pairs( side.winding.points ) do
+
+			table.insert( convex, point )
+
+		end
+
+	end
+
+	table.insert( removed_brushes, brush )
+
+	print("WINDINGS READY, CREATE BRUSH PROXY")
+
+	local entity = ManagedCSEnt( "brushproxy_" .. brush_id, "models/hunter/blocks/cube025x025x025.mdl", false )
+	local actual = entity:Get()
+
+	actual.mesh = test_mesh
+	actual:SetPos( brush.center - EyeAngles():Forward() * 5 )
+	--actual:PhysicsInitConvex( convex )
+	--actual:PhysicsInit( SOLID_VPHYSICS )
+	--actual:SetSolid( SOLID_VPHYSICS )
+	--actual:SetMoveType( MOVETYPE_VPHYSICS )
+	actual:SetRenderBounds( brush.min - brush.center, brush.max - brush.center )
+	actual:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
+	--actual:SetModelScale( 0 )
+	--actual:GetPhysicsObject():Wake()
+	--actual:GetPhysicsObject():AddVelocity( Vector(0,0,100) )
+	actual.brush = brush
+	actual.RenderOverride = function( self )
+
+		if self.hide then return end
+
+		actual:DrawModel()
+
+		local mtx = Matrix()
+		mtx:SetTranslation( actual:GetPos() )
+		mtx:SetAngles( actual:GetAngles() )
+
+		cam.PushModelMatrix( mtx )
+		self.brush:Render()
+		cam.PopModelMatrix()
+
+	end
+
+	self.handle = entity
+	self.fake = actual
+	self.real = actual
+
+	print("PROXY READY, SNATCH IT")
+
+	hook.Call( "HandlePropSnatch", GAMEMODE, self )
+
+end
+
+function meta:StartProp( prop, owner, kill, delay )
 
 	if not SERVER then return end
 
 	self.real = prop
+	self.owner = owner
 
 	if not IsValid( self.real ) then return false end
 	if self.real.doing_removal then return false end
 
+	self.position = self.real:GetPos()
 	self.real.doing_removal = true
 
 	SV_SendPropSceneToClients( self )
-	SV_HandleEntityDestruction( self.real, kill, delay )
+	SV_HandleEntityDestruction( self.real, owner, kill, delay )
 
 	return true
 
@@ -161,15 +307,31 @@ if SERVER then
 	SV_SendPropSceneToClients = function( scene, ply )
 
 		local ent = scene:GetRealEntity()
-		local phys = ent:GetPhysicsObject()
+		local phys = nil
+
+		if not scene.is_world then
+			phys = ent:GetPhysicsObject()
+		end
 
 		--Send prop info to client
 		net.Start( "remove_prop_scene" )
 		net.WriteUInt( scene.mode or 1, 8 )
-		net.WriteEntity( ent )
+		net.WriteBit( scene.is_world and 1 or 0 )
 		net.WriteFloat( scene.time )
-		net.WriteVector( phys:IsValid() and phys:GetVelocity() or Vector(0,0,0) )
-		net.WriteVector( phys:IsValid() and phys:GetAngleVelocity() or Vector(0,0,0) )
+
+		if not scene.is_world then
+
+			net.WriteEntity( ent )
+			net.WriteVector( phys:IsValid() and phys:GetVelocity() or Vector(0,0,0) )
+			net.WriteVector( phys:IsValid() and phys:GetAngleVelocity() or Vector(0,0,0) )
+
+		else
+
+			net.WriteVector( scene.position )
+			net.WriteInt( scene.brush, 32 )
+
+		end
+	
 		net.Send( ply or player.GetAll() )
 
 	end
@@ -264,24 +426,91 @@ elseif CLIENT then
 
 		--Read the net
 		local mode = net.ReadUInt( 8 )
-		local ent = net.ReadEntity()
+		local is_world = net.ReadBit() == 1
 		local time = net.ReadFloat()
-		local vel = net.ReadVector()
-		local avel = net.ReadVector()
 
-		--Entity needs to exist
-		if not ent:IsValid() then return end
+		if not is_world then
 
-		--Run scene on client
-		New( {
-			mode = mode,
-			time = time,
-			vel = vel,
-			avel = avel,			
-		} ):RunProp( ent )
+			local ent = net.ReadEntity()
+			local vel = net.ReadVector()
+			local avel = net.ReadVector()
+
+			--Entity needs to exist
+			if not ent:IsValid() then return end
+
+			--Run scene on client
+			New( {
+				mode = mode,
+				time = time,
+				vel = vel,
+				avel = avel,			
+			} ):RunProp( ent )
+
+		else
+
+			local pos = net.ReadVector()
+			local brush = net.ReadInt( 32 )
+
+			New( {
+				mode = mode,
+				time = time,
+				pos = pos,
+			} ):RunWorld( brush )
+
+		end
 
 	end
 		
 	net.Receive("remove_prop_scene", CL_RecvPropSceneFromServer)
 
 end
+
+local void_mat = Material("color/color")
+
+hook.Add( "PostDrawTranslucentRenderables", "snatch_void", function() 
+
+	render.SetStencilFailOperation( STENCILOPERATION_KEEP )
+	render.SetStencilPassOperation( STENCILOPERATION_REPLACE )
+	render.SetStencilZFailOperation( STENCILOPERATION_KEEP )
+	render.SetStencilWriteMask( 0xFF )
+	render.SetStencilTestMask( 0xFF )
+	render.SetStencilEnable(true)
+	render.ClearStencil()
+
+	render.SetStencilReferenceValue( 1 )
+	render.SetStencilCompareFunction( STENCILCOMPARISONFUNCTION_ALWAYS )
+	render.OverrideColorWriteEnable( true, true )
+
+	local mtx = Matrix()
+
+	for _, v in pairs( removed_brushes ) do
+
+		mtx:SetTranslation( v.center - EyeAngles():Forward() )
+
+		cam.PushModelMatrix( mtx )
+		v:Render()
+		cam.PopModelMatrix()
+
+	end
+
+	render.OverrideColorWriteEnable( false, false )
+	render.SetStencilReferenceValue( 1 )
+	render.SetStencilCompareFunction( STENCILCOMPARISONFUNCTION_EQUAL )
+
+	render.SetColorMaterial()
+
+	cam.Start2D()
+
+	local b,e = pcall( function()
+		surface.SetMaterial(void_mat)
+		surface.SetDrawColor( Color(0,80,120,255) )
+		surface.DrawRect(0,0,ScrW(),ScrH())
+	end)
+
+	if not b then print(e) end
+
+	cam.End2D()
+
+	render.SetStencilEnable(false) 
+
+end )

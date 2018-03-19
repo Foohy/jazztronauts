@@ -297,7 +297,7 @@ function meta:LumpElementSize( lump )
 
 end
 
-function meta:LumpIter( out, lump, func, reader, ... )
+function meta:_LumpIter( out, lump, func, reader, ... )
 
 	local t = {}
 	local size = self:LumpElementSize( lump )
@@ -316,103 +316,193 @@ function meta:LumpIter( out, lump, func, reader, ... )
 
 end
 
-function meta:LoadHeader( reader )
+function meta:_Lock( id )
+
+	self._locks = self._locks or {}
+
+	while self._locks[id] == true do
+		task.Yield("resource_locked")
+	end
+
+	self._locks[id] = true
+
+end
+
+function meta:_Unlock( id )
+
+	self._locks = self._locks or {}
+	self._locks[id] = false
+
+end
+
+function meta:_LoadHeader( reader )
 
 	if self.header then return self.header end
+
 	reader = reader or Reader( self )
 	self.header = reader:Header()
 
 end
 
-function meta:LoadPlanes( reader )
+function meta:_LoadPlanes( reader )
 
-	if self.planes then return self.planes end
-	reader = reader or Reader( self )
-	self:LumpIter( "planes", LUMP_PLANES, reader.Plane, reader )
+	self:_Lock( LUMP_PLANES )
 
-end
+		if self.planes then self:_Unlock( LUMP_PLANES ) return self.planes end
 
-function meta:LoadVerts( reader )
+		reader = reader or Reader( self )
+		self:_LumpIter( "planes", LUMP_PLANES, reader.Plane, reader )
 
-	if self.verts then return self.verts end
-	reader = reader or Reader( self )
-	self:LumpIter( "verts", LUMP_VERTEXES, reader.Vector, reader )
+	self:_Unlock( LUMP_PLANES )
 
 end
 
-function meta:LoadTextureInfo( reader )
+function meta:_LoadVerts( reader )
 
-	if self.texinfo then return self.texinfo end
-	reader = reader or Reader( self )
+	self:_Lock( LUMP_VERTEXES )
 
-	local size = self:SeekLump( reader, LUMP_TEXDATA_STRING_DATA )
-	local names = reader:TextureStringTable( size )
-	self:LumpIter( "texdata", LUMP_TEXDATA, reader.TexData, reader, names, function(name) return name end )
-	self:LumpIter( "texinfo", LUMP_TEXINFO, reader.TexInfo, reader, self.texdata )
-	self.texdata = nil
+		if self.verts then self:_Unlock( LUMP_VERTEXES ) return self.verts end
 
-	if self.brushsides then
-		for _,v in pairs(self.brushsides) do
-			if type( v.texinfo ) == "number" then
-				v.texinfo = self.texinfo[ v.texinfo + 1 ]
+		reader = reader or Reader( self )
+		self:_LumpIter( "verts", LUMP_VERTEXES, reader.Vector, reader )
+
+	self:_Unlock( LUMP_VERTEXES )
+
+end
+
+function meta:_LoadTextureInfo( reader )
+
+	self:_Lock( LUMP_TEXINFO )
+
+		if self.texinfo then self:_Unlock( LUMP_TEXINFO ) return self.texinfo end
+
+		reader = reader or Reader( self )
+
+		self:_LoadBrushSides( reader )
+
+		local size = self:SeekLump( reader, LUMP_TEXDATA_STRING_DATA )
+		local names = reader:TextureStringTable( size )
+		self:_LumpIter( "texdata", LUMP_TEXDATA, reader.TexData, reader, names, function(name) return name end )
+		self:_LumpIter( "texinfo", LUMP_TEXINFO, reader.TexInfo, reader, self.texdata )
+		self.texdata = nil
+
+		if self.brushsides then
+			for _,v in pairs(self.brushsides) do
+				if type( v.texinfo ) == "number" then
+					v.texinfo = self.texinfo[ v.texinfo + 1 ]
+				end
+				task.Yield()
 			end
-			task.Yield()
 		end
+
+	self:_Unlock( LUMP_TEXINFO )
+
+end
+
+function meta:_LoadBrushSides( reader )
+
+	self:_Lock( LUMP_BRUSHSIDES )
+
+		if self.brushsides then self:_Unlock( LUMP_BRUSHSIDES ) return self.brushsides end
+
+		reader = reader or Reader( self )
+
+		self:_LoadPlanes( reader )
+		self:_LumpIter( "brushsides", LUMP_BRUSHSIDES, reader.BrushSide, reader, self.planes, self.texinfo )
+
+	self:_Unlock( LUMP_BRUSHSIDES )
+
+end
+
+function meta:_LoadBrushes( reader )
+
+	self:_Lock( LUMP_BRUSHES )
+
+		if self.brushes then self:_Unlock( LUMP_BRUSHES ) return self.brushes end
+
+		reader = reader or Reader( self )
+
+		self:_LoadBrushSides( reader )
+		self:_LumpIter( "brushes", LUMP_BRUSHES, reader.Brush, reader, self.brushsides )
+
+	self:_Unlock( LUMP_BRUSHES )
+
+end
+
+function meta:_LoadEdges( reader )
+
+	self:_Lock( LUMP_EDGES )
+
+		if self.edges then self:_Unlock( LUMP_EDGES ) return self.edges end
+
+		reader = reader or Reader( self )
+
+		self:_LoadVerts( reader )
+		self:_LumpIter( "edges", LUMP_EDGES, reader.Edge, reader, self.verts )
+
+	self:_Unlock( LUMP_EDGES )
+
+end
+
+function meta:_LoadSurfEdges( reader )
+
+	self:_Lock( LUMP_SURFEDGES )
+
+		if self.surfedges then self:_Unlock( LUMP_SURFEDGES ) return self.surfedges end
+
+		reader = reader or Reader( self )
+
+		self:_LoadEdges( reader )
+		self:_LumpIter( "surfedges", LUMP_SURFEDGES, reader.SurfEdge, reader, self.edges )
+
+	self:_Unlock( LUMP_SURFEDGES )
+
+end
+
+function meta:_LoadFaces( reader )
+
+	self:_Lock( LUMP_FACES )
+
+		if self.faces then self:_Unlock( LUMP_FACES ) return self.faces end
+
+		reader = reader or Reader( self )
+
+		self:_LoadPlanes( reader )
+		self:_LoadSurfEdges( reader )
+		self:_LumpIter( "faces", LUMP_FACES, reader.Face, reader, self.planes, self.surfedges )
+
+	self:_Unlock( LUMP_FACES )
+
+end
+
+function meta:_ConvertBrushes()
+
+	self.converted_brushes = {}
+	for k, origbrush in pairs( self.brushes ) do
+
+		local newbrush = brush.Brush()
+		newbrush.contents = origbrush.contents
+
+		for _, origside in pairs( origbrush.sides ) do
+			local side = brush.Side( origside.plane.back )
+			side.texinfo = origside.texinfo
+			newbrush:Add( side )
+		end
+
+		newbrush.center = (newbrush.min + newbrush.max) / 2
+		table.insert( self.converted_brushes, newbrush )
+
+		task.Yield()
+
 	end
 
 end
 
-function meta:LoadBrushSides( reader )
+function meta:GetBrushes()
 
-	if self.brushsides then return self.brushsides end
-	reader = reader or Reader( self )
-
-	self:LoadPlanes( reader )
-	self:LumpIter( "brushsides", LUMP_BRUSHSIDES, reader.BrushSide, reader, self.planes, self.texinfo )
+	return self.converted_brushes
 
 end
-
-function meta:LoadBrushes( reader )
-
-	if self.brushes then return self.brushes end
-	reader = reader or Reader( self )
-
-	self:LoadBrushSides( reader )
-	self:LumpIter( "brushes", LUMP_BRUSHES, reader.Brush, reader, self.brushsides )
-
-end
-
-function meta:LoadEdges( reader )
-
-	if self.edges then return self.edges end
-	reader = reader or Reader( self )
-
-	self:LoadVerts( reader )
-	self:LumpIter( "edges", LUMP_EDGES, reader.Edge, reader, self.verts )
-
-end
-
-function meta:LoadSurfEdges( reader )
-
-	if self.surfedges then return self.surfedges end
-	reader = reader or Reader( self )
-
-	self:LoadEdges( reader )
-	self:LumpIter( "surfedges", LUMP_SURFEDGES, reader.SurfEdge, reader, self.edges )
-
-end
-
-function meta:LoadFaces( reader )
-
-	if self.surfedges then return self.surfedges end
-	reader = reader or Reader( self )
-
-	self:LoadPlanes( reader )
-	self:LoadSurfEdges( reader )
-	self:LumpIter( "faces", LUMP_FACES, reader.Face, reader, self.planes, self.surfedges )
-
-end
-
 
 function meta:Init( filename, path )
 
@@ -434,7 +524,7 @@ function meta:Init( filename, path )
 	self.models = nil
 
 	--Just make sure it's loaded ok?
-	self:LoadHeader()
+	self:_LoadHeader()
 
 	return self
 
@@ -452,15 +542,73 @@ function meta:GetName()
 
 end
 
+function meta:Load( lump )
+
+	if lump == LUMP_PLANES then return self:_LoadPlanes() end
+	if lump == LUMP_VERTEXES then return self:_LoadVerts() end
+	if lump == LUMP_TEXINFO then return self:_LoadTextureInfo() end
+	if lump == LUMP_BRUSHSIDES then return self:_LoadBrushSides() end
+	if lump == LUMP_BRUSHES then return self:_LoadBrushes() end
+	if lump == LUMP_EDGES then return self:_LoadEdges() end
+	if lump == LUMP_SURFEDGES then return self:_LoadSurfEdges() end
+	if lump == LUMP_FACES then return self:_LoadFaces() end
+
+	ErrorNoHalt("UNKNOWN LUMP: " .. tostring(lump))
+
+end
+
+function meta:IsLoading()
+
+	return self.loaders > 0
+
+end
+
+function meta:LoadLumps( lumps, cb_finished )
+
+	if lumps == nil or #lumps == 0 then print("NO LUMPS TO LOAD") return end
+
+	print("LOAD " .. #lumps .. " LUMPS")
+
+	local function load()
+
+		self.loaders = self.loaders + 1
+
+		print("Loading: " .. self:GetName())
+		for _, l in pairs( lumps ) do
+			self:Load( l )
+		end
+
+		print("Converting Brushes")
+		self:_ConvertBrushes()
+		print("Done")
+
+		self.loaders = math.max( self.loaders - 1, 0 )
+		if type(cb_finished) == "function" then cb_finished() end
+
+	end
+
+	local t = task.New( load, 1 )
+	function t:chunk( name, count ) Msg("LOADING: " .. string.upper(name) .. " : " .. count ) end
+	function t:progress() Msg(".") end
+	function t:chunkdone( name, count, tab ) Msg("DONE\n") end
+
+end
+
 _BSP_CACHE = _BSP_CACHE or {}
 function Get( filename, path )
 
 	local fpath = filename .. tostring(path)
 	if _BSP_CACHE[fpath] then return _BSP_CACHE[fpath] end
 
-	local new = setmetatable({}, meta):Init( filename, path )
+	local new = setmetatable({ loaders = 0 }, meta):Init( filename, path )
 	_BSP_CACHE[fpath] = new
 	return new
+
+end
+
+function GetCurrent()
+
+	return Get( "maps/" .. game.GetMap() .. ".bsp" )
 
 end
 
@@ -468,12 +616,12 @@ if SERVER then return end
 
 local bsp = Get( "maps/" .. game.GetMap() .. ".bsp" )
 
-local function load()
+--[[local function load()
 
 	print("Loading: " .. bsp:GetName())
-	bsp:LoadTextureInfo()
-	bsp:LoadBrushes()
-	bsp:LoadFaces()
+	bsp:_LoadTextureInfo()
+	bsp:_LoadBrushes()
+	bsp:_LoadFaces()
 
 end
 
@@ -488,4 +636,4 @@ end
 
 function t:chunkdone( name, count, tab )
 	Msg("DONE\n")
-end
+end]]

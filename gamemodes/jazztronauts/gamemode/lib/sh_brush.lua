@@ -69,6 +69,23 @@ function meta:Copy()
 
 end
 
+function meta:ContainsPoint(point)
+
+	local n = 0
+	for _, side in pairs(self.sides) do
+
+		local plane = side.plane.back
+		local d = plane.normal:Dot( point ) - plane.dist
+		if d < brush_planeside_epsilon then
+			n = n + 1
+		end
+
+	end
+
+	return n == #self.sides
+
+end
+
 function meta:Add(side)
 
 	table.insert(self.sides, side)

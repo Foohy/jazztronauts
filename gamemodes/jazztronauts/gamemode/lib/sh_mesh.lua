@@ -2,13 +2,13 @@ if SERVER then AddCSLuaFile("sh_mesh.lua") end
 if SERVER then return end
 
 _MESH_POOL = _MESH_POOL or {}
-_MESH_REF_COUNTERS = {}
+_MESH_REF_COUNTERS = _MESH_REF_COUNTERS or {}
 
-for k,v in pairs(_MESH_POOL) do
+--[[for k,v in pairs(_MESH_POOL) do
 	v:Destroy()
 end
 
-_MESH_POOL = {}
+_MESH_POOL = {}]]
 
 local WrappedMeshMeta = {}
 local AllocMesh = nil

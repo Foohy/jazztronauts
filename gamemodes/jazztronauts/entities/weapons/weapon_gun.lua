@@ -38,6 +38,7 @@ SWEP.RequestInfo			= {}
 SWEP.TeleportDistance		= DefaultTeleportDistance
 SWEP.ProngCount 			= DefaultProngCount
 SWEP.SpeedRate				= DefaultSpeed
+SWEP.TopSpeed 				= 2000
 
 
 -- List this weapon in the store
@@ -97,7 +98,7 @@ function SWEP:SetUpgrades()
 end
 
 function SWEP:SetupDataTables()
-	--Might use this later, who the fuck knows
+	self.BaseClass.SetupDataTables( self )
 end
 
 function SWEP:Deploy()
@@ -474,10 +475,26 @@ function SWEP:Teleport()
 		self.Owner:SetPos( fragments[3].endpos )
 	end
 
-	if CLIENT then
+	if CLIENT and self:IsCarriedByLocalPlayer() then
 		LocalPlayer():ScreenFade(SCREENFADE.IN, Color(255, 0, 0, 128), 1, 0)
 	end
 
+end
+
+function SWEP:DoLight()
+	if SERVER then return end
+
+	local dlight = DynamicLight(self:EntIndex())
+	if dlight then
+		dlight.pos = self:GetPos()
+
+		dlight.r = (self.speed / self.TopSpeed) * 255
+		dlight.g = 0
+		dlight.b = 0
+		dlight.brightness = 4
+		dlight.Size = 128
+		dlight.DieTime = CurTime() + 1
+	end
 end
 
 function SWEP:Think() 
@@ -491,7 +508,7 @@ function SWEP:Think()
 	local dt = ( CurTime() - self.lasttime )
 	local speedrate = self.SpeedRate --3850 --750
 	local openrate = 4
-	local topspeed = 2000
+	local topspeed = self.TopSpeed
 
 	if not self:IsAttacking() then
 		speedrate = 750
@@ -499,11 +516,15 @@ function SWEP:Think()
 
 	if dt == 0 then return end
 
+	if self.speed > 0 then
+		self:DoLight()
+	end
+
 	if self:IsAttacking() then
 
 		if CLIENT and self.open == 0 then
 
-			self.Owner:EmitSound( Sound( "npc/roller/blade_out.wav" ), 50, 130 )
+			self.Owner:EmitSound( Sound( "npc/roller/blade_out.wav" ), 80, 130 )
 
 		end
 
@@ -590,6 +611,7 @@ function SWEP:Think()
 end
 
 function SWEP:CanTeleport()
+	if CLIENT and not self:IsCarriedByLocalPlayer() then return true end
 
 	local distance = self.TeleportDistance
 	local viewdir = self.Owner:GetAimVector()

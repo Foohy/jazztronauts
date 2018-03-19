@@ -34,11 +34,19 @@ function SWEP:Initialize()
 	self:SetWeaponHoldType( self.HoldType )
 	self.IsAttackHeld = false
 
+	-- Call the think function for other clients too
+	-- It's not canon, but it's kind of nice to be able to do this
+	if CLIENT then
+		hook.Add("Think", self, function(self)
+			if LocalPlayer() != self.Owner then self:Think() end
+		end )
+	end
 end
 
 function SWEP:SetupDataTables()
 
---	self:NetworkVar("Bool", 0, "Attacking")
+	 -- Used for networking to other players only
+	self:NetworkVar("Bool", 31, "IsAttacking")
 --	self:NetworkVar("Float", 0, "AttackStart")
 
 end
@@ -81,6 +89,7 @@ function SWEP:PrimaryAttack()
 
 		self.IsAttackHeld = true
 		self:StartAttack()
+		self:SetIsAttacking(true)
 
 	end
 
@@ -95,9 +104,11 @@ function SWEP:StopAttack()
 end
 
 function SWEP:IsAttacking()
-
-	return self.IsAttackHeld
-
+	if SERVER or (self.Owner == LocalPlayer() and not game.SinglePlayer()) then
+		return self.IsAttackHeld
+	else 
+		return self.GetIsAttacking and self:GetIsAttacking() 
+	end
 end
 
 function SWEP:StopAttacking()
@@ -105,6 +116,7 @@ function SWEP:StopAttacking()
 	if self.IsAttackHeld then 
 		self:StopAttack()
 		self.IsAttackHeld = false
+		self:SetIsAttacking(false)
 	end	
 
 end
@@ -142,11 +154,11 @@ function SWEP:CanSecondaryAttack() return false end
 hook.Add("KeyRelease", "ReleaseTriggerOnGunsWhatCanBeHeldDown", function(ply, key)
 
 	local wep = ply:GetActiveWeapon()
-	if key == IN_ATTACK and IsValid( wep ) and wep.StopAttack then
+	if key == IN_ATTACK and IsValid( wep ) and wep.StopAttacking then
 
 		if wep.IsAttackHeld then
 
-			wep:StopAttack()
+			wep:StopAttacking()
 			wep.IsAttackHeld = false
 
 

@@ -162,9 +162,9 @@ if SERVER then
         local tr = util.TraceLine( {
             start = ent:GetPos(),
             endpos = sky:GetPos(),
-            mask = MASK_SOLID_BRUSHONLY
+            mask = CONTENTS_SOLID
         } )
-
+        
         return !tr.Hit
     end
 

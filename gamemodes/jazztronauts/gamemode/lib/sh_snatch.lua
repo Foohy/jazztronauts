@@ -7,8 +7,25 @@ if SERVER then
 end
 
 module( "snatch", package.seeall )
+local void_mat = nil
+if CLIENT then
+	local refractParams = {
+		//["$basetexture"] = "_rt_FullFrameFB",
+		["$normalmap"] = "glass/reflectiveglass002_normal", //concrete/concretefloor001a_normal, "effects/fisheyelense_normal", "glass/reflectiveglass002_normal"
+		["$refracttint"] = "[1 0.99 1]",
+		["$additive"] = 0,
+		["$vertexcolor"] = 1,
+		["$vertexalpha"] = 0,
+		["$refractamount"] = 0.301,
+		["$model"] = 1,
+	}
+	local refract = CreateMaterial("RefractBrushModel" .. CurTime(), "Refract", refractParams)
+	void_mat = refract
+end
 
-removed_brushes = {} --removed_brushes or {}
+removed_brushes = removed_brushes or {}
+map_mesh = map_mesh or nil
+tricount = tricount or 0
 
 local SV_SendPropSceneToClients = nil
 local SV_HandleEntityDestruction = nil
@@ -116,30 +133,66 @@ function meta:StartWorld( position, owner )
 
 end
 
+local idx = 0
+function meta:UpdateVoidMesh()
+	map_mesh = ManagedMesh( "propsnatcher_voidmesh" .. CurTime() .. "_" .. idx, void_mat)
+	idx = idx + 1
+	mesh.Begin( map_mesh:Get(), MATERIAL_TRIANGLES, tricount )
+
+	for _, brush in ipairs(removed_brushes) do
+		local to_brush = brush.center
+
+		for _, side in pairs( brush.sides ) do
+			if not side.winding then continue end
+
+			local texinfo = side.texinfo
+			local texdata = texinfo.texdata
+			side.winding:Move( to_brush )
+			side.winding:EmitMesh(texinfo.st, texinfo.lst, texdata.width, texdata.height )
+			side.winding:Move( -to_brush )
+		end
+	end
+
+	mesh.End()
+end
+
 next_brush_mesh_id = next_brush_mesh_id or 0
 function meta:RunWorld( brush_id )
 
 	if map:IsLoading() then print("STILL LOADING") return end
 
 	local brush_list = map:GetBrushes()
-	local brush = brush_list[brush_id]
+	local brush = brush_list[brush_id]:Copy()
 
 	if not brush then
 		ErrorNoHalt( "Brush not found: " .. tostring( brush_id ))
 		return
 	end
 
+	-- extrude out from sides (TWEAK!!)
+	local extrude = -1
+	for k, side in pairs( brush.sides ) do
+		side.plane.dist = side.plane.dist + extrude
+	end
+
 	local convex = {}
 
 	brush:CreateWindings()
 
+	-- Keep track of the total number of triangles in the mesh
+	for k, side in pairs( brush.sides ) do
+		if not side.winding then continue end
+		tricount = tricount + #side.winding.points - 1
+	end
+
 	brush.center = (brush.min + brush.max) / 2
 	local to_center = -brush.center
+
 
 	print("TRANSLATE: " .. tostring( to_center ) )
 
 	for _, side in pairs( brush.sides ) do
-
+		if not side.winding then continue end
 		side.winding:Move( to_center )
 
 		local texinfo = side.texinfo
@@ -149,7 +202,7 @@ function meta:RunWorld( brush_id )
 		print( texdata.material )
 
 		next_brush_mesh_id = next_brush_mesh_id + 1
-		side.winding:CreateMesh( "brushpoly_" .. next_brush_mesh_id, material, texinfo.st, nil, texdata.width, texdata.height )
+		side.winding:CreateMesh( "brushpoly_" .. next_brush_mesh_id, material, texinfo.st, texinfo.lst, texdata.width, texdata.height )
 
 		for _, point in pairs( side.winding.points ) do
 
@@ -160,6 +213,9 @@ function meta:RunWorld( brush_id )
 	end
 
 	table.insert( removed_brushes, brush )
+	
+	-- Update the mesh that encompasses all of the void geometry
+	self:UpdateVoidMesh()
 
 	print("WINDINGS READY, CREATE BRUSH PROXY")
 
@@ -169,7 +225,7 @@ function meta:RunWorld( brush_id )
 	actual.mesh = test_mesh
 	actual:SetPos( brush.center - EyeAngles():Forward() * 5 )
 	--actual:PhysicsInitConvex( convex )
-	actual:PhysicsInit( SOLID_VPHYSICS )
+	--actual:PhysicsInit( SOLID_VPHYSICS )
 	--actual:SetSolid( SOLID_VPHYSICS )
 	--actual:SetMoveType( MOVETYPE_VPHYSICS )
 	actual:SetRenderBounds( brush.min - brush.center, brush.max - brush.center )
@@ -490,10 +546,66 @@ elseif CLIENT then
 
 end
 
-local void_mat = Material("color/color")
+local mat2 = Material("editor/wireframe")
+local mat3 = Material("brick/brick_model") //glass/reflectiveglass002
+
+local offset = 0
+local maxlinecount = 25
+local nextgrouptime = 0
+local groupFadeTime = 0.25
+local function renderBrushLines()
+	if #removed_brushes == 0 then return end
+
+	if RealTime() > nextgrouptime then 
+		nextgrouptime = RealTime() + groupFadeTime
+
+		offset = (offset + maxlinecount) % #removed_brushes
+	end
+
+	local mtx = Matrix()
+	local p = (nextgrouptime - RealTime()) / groupFadeTime
+
+	for i=1, math.min(maxlinecount, #removed_brushes) do
+		local curidx = ((offset + i - 1) % #removed_brushes) + 1
+		local v = removed_brushes[curidx]
+
+		mtx:SetTranslation( v.center )
+
+		cam.PushModelMatrix( mtx )
+		v:Render(HSVToColor((CurTime() * 50 + curidx * 1) % 360, 1, p), true, nil, true)
+		cam.PopModelMatrix()
+	end
+end
+
+hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky) 
+	if sky then return end
+	if map_mesh then
+		//render.UpdateScreenEffectTexture()
+		render.SetMaterial(void_mat)
+		render.SuppressEngineLighting(true)
+		map_mesh:Get():Draw()
+		render.SuppressEngineLighting(false)
+
+		renderBrushLines()
+	end
+end )
+hook.Add( "PostDrawTranslucentRenderables", "snatch_void_test", function() 
+if map_mesh then
+	render.SuppressEngineLighting(true)
+	render.SetMaterial(mat3)
+	//map_mesh:Get():Draw()
+	render.SuppressEngineLighting(false)
+end
+end )
+
+hook.Add( "PreDrawEffects", "snatch_void_lines", function()
+	//It's faster to render the lines here, but the colors don't 'mix' into the feedback loop
+	//we'll get there when we get there
+	//renderBrushLines()
+end)
 
 hook.Add( "PostDrawTranslucentRenderables", "snatch_void", function() 
-
+	if true then return end -- Disabled just for now, we'll experiment more later
 	render.SetStencilFailOperation( STENCILOPERATION_KEEP )
 	render.SetStencilPassOperation( STENCILOPERATION_REPLACE )
 	render.SetStencilZFailOperation( STENCILOPERATION_KEEP )
@@ -507,15 +619,9 @@ hook.Add( "PostDrawTranslucentRenderables", "snatch_void", function()
 	render.OverrideColorWriteEnable( true, true )
 
 	local mtx = Matrix()
-
-	for _, v in pairs( removed_brushes ) do
-
-		mtx:SetTranslation( v.center - EyeAngles():Forward() )
-
-		cam.PushModelMatrix( mtx )
-		v:Render()
-		cam.PopModelMatrix()
-
+	
+	if map_mesh then
+		//map_mesh:Get():Draw()
 	end
 
 	render.OverrideColorWriteEnable( false, false )

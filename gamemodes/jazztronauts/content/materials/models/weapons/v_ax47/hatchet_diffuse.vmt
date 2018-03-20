@@ -1,0 +1,17 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/weapons/v_ax47/Hatchet_Diffuse"
+	"$bumpmap" "models/weapons/v_ax47/Hatchet_Normal"
+	 "$envmap" "env_cubemap"
+	 "$envmaptint" "[.1 .1 .1]"
+   	 "$envmapsaturation" .5
+  	  "$model" 1
+
+   	 "$phong" "1"
+   	 "$phongexponent" "10"
+   	 "$phongboost"    "1"
+   	 "$phongfresnelranges"    "[2 4 1]"
+
+}
+
+

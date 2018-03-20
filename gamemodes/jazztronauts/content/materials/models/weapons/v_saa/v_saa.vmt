@@ -1,0 +1,37 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/weapons/v_saa/v_saa"
+	"$bumpmap" "models/weapons/v_saa/v_saa_normal"
+	"$phong" "1"
+	"$phongboost" "2"
+	"$phongexponent" 10
+//	"$BasemapAlphaPhongMask" "1"
+	"$normalmapalphaphongmask" "7"
+	"$phongexponenttexture"	"models/weapons/v_saa/v_saa_normal"
+//	"$phongalbedotint" "1"								
+	"$phongfresnelranges"	"[.1 5 1]"
+
+//	$envmap env_cubemap
+//	$envmaptint "[.01 .01 .01]"
+//	"$envmapcontrast" 1
+//	"$envmapsaturation" .1
+
+	// Blood effects
+	$detail "models/blood.vtf"
+	$detailscale "1.8"
+	$detailblendfactor .001
+	$detailblendmode 0
+	$detailAmount 0
+	Proxies
+	{
+		WeaponBlood
+		{
+			resultVar $detailAmount
+		}
+		Equals
+		{
+			srcVar1 $detailAmount
+			resultVar $detailblendfactor			
+		}
+	}
+}

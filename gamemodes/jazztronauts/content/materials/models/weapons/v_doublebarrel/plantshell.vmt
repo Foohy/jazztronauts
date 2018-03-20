@@ -1,0 +1,10 @@
+"VertexlitGeneric"
+{
+	$basetexture "models/weapons/v_doublebarrel/v_plantshell"
+	$bumpmap "models/weapons/v_doublebarrel/v_plantshell_n"
+	
+	$phong "1"
+	$phongexponenttexture	"models/weapons/v_doublebarrel/v_plantshell_e"
+	$phongboost				1
+	$phongfresnelranges		"[0 0.5 1]"
+}

@@ -1,0 +1,34 @@
+"vertexlitgeneric"
+{
+	// Original shader: VertexLitTexture
+	"$basetexture" "models/Weapons/V_hand/v_hand_sheet"
+	"$bumpmap" "models/Weapons/V_hand/v_hand_sheet_normal"
+	//"$envmap" "env_cubemap"
+	//"$envmaptint" "[ .64 .64 .64 ]"
+	//"$normalmapalphaenvmapmask" 1
+
+// -- From here down is new stuff which will only be applied if $phong is set to 1 --
+	"$phong" "1"
+	"$phongexponent" "25"
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[.2 0.4 1]"
+
+	// Blood effects
+	$detail "models/blood.vtf"
+	$detailscale "1.8"
+	$detailblendfactor .001
+	$detailblendmode 0
+	$detailAmount 0
+	Proxies
+	{
+		WeaponBlood
+		{
+			resultVar $detailAmount
+		}
+		Equals
+		{
+			srcVar1 $detailAmount
+			resultVar $detailblendfactor			
+		}
+	}
+}

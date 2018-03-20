@@ -7,19 +7,21 @@ if SERVER then
 end
 
 module( "snatch", package.seeall )
-local void_mat = nil
+void_mat = void_mat or nil
 if CLIENT then
 	local refractParams = {
 		//["$basetexture"] = "_rt_FullFrameFB",
-		["$normalmap"] = "glass/reflectiveglass002_normal", //concrete/concretefloor001a_normal, "effects/fisheyelense_normal", "glass/reflectiveglass002_normal"
-		["$refracttint"] = "[1 0.99 1]",
+		["$basetexture"] = "concrete/concretefloor001a",
+		["$normalmap"] = "sunabouzu/JazzShell_dudv",
+		//["$normalmap"] = "sunabouzu/jazzSpecks_n", //concrete/concretefloor001a_normal, "effects/fisheyelense_normal", "glass/reflectiveglass002_normal"
+		["$refracttint"] = "[1 1 1]",
 		["$additive"] = 0,
 		["$vertexcolor"] = 1,
 		["$vertexalpha"] = 0,
-		["$refractamount"] = 0.301,
+		["$refractamount"] = 0.03,
 		["$model"] = 1,
 	}
-	local refract = CreateMaterial("RefractBrushModel" .. CurTime(), "Refract", refractParams)
+	local refract = CreateMaterial("RefractBrushModel", "Refract", refractParams)
 	void_mat = refract
 end
 
@@ -546,9 +548,97 @@ elseif CLIENT then
 
 end
 
-local mat2 = Material("editor/wireframe")
-local mat3 = Material("brick/brick_model") //glass/reflectiveglass002
+if SERVER then return end -- cool guy zone, kep out
 
+local surfaceMaterial = Material("sunabouzu/JazzShell") //glass/reflectiveglass002 brick/brick_model
+local sizeX = ScrW() -- Size of the void rendertarget. Expose scale?
+local sizeY = ScrH()
+local rt = irt.New("jazz_snatch_voidbg", sizeX, sizeY)
+
+//rt:SetAlphaBits( 8 )
+rt:EnableDepth( false, false )
+local rtTex = rt:GetTarget()
+
+-- Render the entire void scene
+local propProximityFade = 200
+local function renderVoid()
+
+	local oldW, oldH = ScrW(), ScrH()
+	render.Clear( 0,0,0,0 )
+	render.SetViewPort( 0, 0, sizeX, sizeY )
+
+	local eyePos = LocalPlayer():EyePos()
+	cam.Start3D(eyePos, LocalPlayer():EyeAngles(), nil, 0, 0, sizeX, sizeY)
+		cam.IgnoreZ(false)
+		render.SuppressEngineLighting(true)
+
+		local skull = ManagedCSEnt("jazz_snatchvoid_skull", "models/krio/jazzcat1.mdl")
+		skull:SetNoDraw(true)
+		skull:SetModelScale(4)
+
+		for i=1, 25 do
+			local range = 4000.0
+			local offX = util.SharedRandom("x", 0, range, i)
+			local offY = util.SharedRandom("y", 0, range, i)
+			local offZ = util.SharedRandom("z", -range/2, range/2, i)
+
+			-- Create a "treadmill" so they don't move until they get far away, then wrap around
+			local modX = ((eyePos.x + offX) % range)
+			local modY = ((eyePos.y + offY) % range)
+			local pX = eyePos.x - modX + range/2
+			local pY = eyePos.y - modY + range/2
+
+			skull:SetPos(Vector(pX, pY, eyePos.z + math.sin(CurTime()) + offZ))
+			
+			-- Face the player
+			local ang = (skull:GetPos() - eyePos):Angle()
+			skull:SetAngles(ang)
+			skull:SetupBones()
+
+			-- Calculate the 'distance' from the center by where they are in the offset
+			local dX = math.sin((modX / range) * math.pi)
+			local dY = math.sin((modY / range) * math.pi)
+
+			-- Fade out if it's super close
+			local distX = math.abs(modX - range/2) / propProximityFade
+			local distY = math.abs(modY - range/2) / propProximityFade
+			local distZ = offZ / propProximityFade
+
+			local distFade = math.max(0, 2.0 - math.sqrt(distX^2 + distY^2 + distZ^2))
+			local alpha = math.min(dX, dY) - distFade
+			render.SetBlend(alpha)
+			skull:DrawModel()
+	
+		end
+
+		render.SetBlend(1) -- Finished, reset blend
+
+		local tunnel = ManagedCSEnt("jazz_snatchvoid_tunnel", "models/props/jazz_dome.mdl")
+		tunnel:SetNoDraw(true)
+		tunnel:SetPos(eyePos)
+
+		-- Draw the background with like a million different materials because
+		-- fuck it they're all additive and look pretty
+		tunnel:SetMaterial("sunabouzu/JazzLake01")
+		tunnel:DrawModel()
+
+		tunnel:SetMaterial("sunabouzu/JazzSwirl01")
+		tunnel:DrawModel()
+
+		tunnel:SetMaterial("sunabouzu/JazzSwirl02")
+		tunnel:DrawModel()
+
+		tunnel:SetMaterial("sunabouzu/JazzSwirl03")
+		tunnel:DrawModel()
+
+
+		render.SuppressEngineLighting(false)
+	cam.End3D()
+
+	render.SetViewPort( 0, 0, oldW, oldH )
+end
+
+-- Render the brush lines, keeping performant by only rendering a few at a time over the span of many frames
 local offset = 0
 local maxlinecount = 25
 local nextgrouptime = 0
@@ -577,71 +667,45 @@ local function renderBrushLines()
 	end
 end
 
+-- Draw the spooky jazz world to its own texture
+hook.Add("PreRender", "snatch_void_inside", function()
+	rt:Render(renderVoid)
+
+	-- Also make sure this is always set
+	if void_mat:GetTexture("$basetexture"):GetName() != rtTex:GetName() then
+		print("Setting void basetexture")
+		void_mat:SetTexture("$basetexture", rtTex)
+	end
+end )
+
+-- Render the inside of the jazz void with the default void material
+-- This void material has a rendertarget basetexture we update each frame
 hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky) 
-	if sky then return end
 	if map_mesh then
 		//render.UpdateScreenEffectTexture()
 		render.SetMaterial(void_mat)
 		render.SuppressEngineLighting(true)
+
 		map_mesh:Get():Draw()
+
 		render.SuppressEngineLighting(false)
 
-		renderBrushLines()
+		//renderBrushLines()
 	end
 end )
-hook.Add( "PostDrawTranslucentRenderables", "snatch_void_test", function() 
-if map_mesh then
-	render.SuppressEngineLighting(true)
-	render.SetMaterial(mat3)
-	//map_mesh:Get():Draw()
-	render.SuppressEngineLighting(false)
-end
+
+-- Render an additional transparent overlay to give it a bit more depth/surface
+hook.Add( "PostDrawTranslucentRenderables", "snatch_void_surface", function() 
+	if map_mesh then
+		render.SetMaterial(surfaceMaterial)
+		render.SuppressEngineLighting(true)
+
+		map_mesh:Get():Draw()
+
+		render.SuppressEngineLighting(false)
+	end
 end )
 
 hook.Add( "PreDrawEffects", "snatch_void_lines", function()
-	//It's faster to render the lines here, but the colors don't 'mix' into the feedback loop
-	//we'll get there when we get there
 	//renderBrushLines()
 end)
-
-hook.Add( "PostDrawTranslucentRenderables", "snatch_void", function() 
-	if true then return end -- Disabled just for now, we'll experiment more later
-	render.SetStencilFailOperation( STENCILOPERATION_KEEP )
-	render.SetStencilPassOperation( STENCILOPERATION_REPLACE )
-	render.SetStencilZFailOperation( STENCILOPERATION_KEEP )
-	render.SetStencilWriteMask( 0xFF )
-	render.SetStencilTestMask( 0xFF )
-	render.SetStencilEnable(true)
-	render.ClearStencil()
-
-	render.SetStencilReferenceValue( 1 )
-	render.SetStencilCompareFunction( STENCILCOMPARISONFUNCTION_ALWAYS )
-	render.OverrideColorWriteEnable( true, true )
-
-	local mtx = Matrix()
-	
-	if map_mesh then
-		//map_mesh:Get():Draw()
-	end
-
-	render.OverrideColorWriteEnable( false, false )
-	render.SetStencilReferenceValue( 1 )
-	render.SetStencilCompareFunction( STENCILCOMPARISONFUNCTION_EQUAL )
-
-	render.SetColorMaterial()
-
-	cam.Start2D()
-
-	local b,e = pcall( function()
-		surface.SetMaterial(void_mat)
-		surface.SetDrawColor( Color(0,80,120,255) )
-		surface.DrawRect(0,0,ScrW(),ScrH())
-	end)
-
-	if not b then print(e) end
-
-	cam.End2D()
-
-	render.SetStencilEnable(false) 
-
-end )

@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/weapons/v_gameboy/v_gameboy"
+	"$bumpmap" "models/weapons/v_gameboy/v_gameboy_normal"
+}

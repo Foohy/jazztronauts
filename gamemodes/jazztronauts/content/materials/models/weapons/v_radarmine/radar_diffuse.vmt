@@ -1,0 +1,35 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/weapons/v_radarmine/radar_diffuse"
+	"$bumpmap" "models/weapons/v_radarmine/radar_normal"
+	 "$envmap" "env_cubemap"
+	 "$envmaptint" "[.04 .04 .04]"
+   	 "$envmapsaturation" .5
+  	  "$model" 1
+
+   	 "$phong" "1"
+   	 "$phongexponent" "20"
+   	 "$phongboost"    "1"
+   	 "$phongfresnelranges"    "[2 4 1]"
+
+
+	// Blood effects
+	$detail "models/blood.vtf"
+	$detailscale "1.8"
+	$detailblendfactor .001
+	$detailblendmode 0
+	$detailAmount 0
+	Proxies
+	{
+		WeaponBlood
+		{
+			resultVar $detailAmount
+		}
+		Equals
+		{
+			srcVar1 $detailAmount
+			resultVar $detailblendfactor			
+		}
+	}
+}
+

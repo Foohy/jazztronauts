@@ -1,0 +1,35 @@
+"VertexLitGeneric"
+{
+     "$basetexture" "models\weapons\v_rpg\rpg7_d.vtf"
+     "$bumpmap" "models\weapons\v_rpg\rpg7_n_s.vtf"
+
+     "$phong" 1
+     "$phongexponent" "18"
+     "$phongboost" "3.5"
+     "$phongfresnelranges" "[1.0 1.2 1.5]"
+
+     "$envmaptint" "[0.08 0.09 0.1]"
+     "$normalmapalphaenvmapmask" 1
+
+//     "$rimlight" "1"
+//     "$rimlightexponent" "50"
+//     "$rimlightboost" "2.0"
+	// Blood effects
+	$detail "models/blood.vtf"
+	$detailscale "1.8"
+	$detailblendfactor .001
+	$detailblendmode 0
+	$detailAmount 0
+	Proxies
+	{
+		WeaponBlood
+		{
+			resultVar $detailAmount
+		}
+		Equals
+		{
+			srcVar1 $detailAmount
+			resultVar $detailblendfactor			
+		}
+	}
+}

@@ -1,0 +1,14 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/weapons/v_hologun/v_holo_diffuse"
+	"$bumpmap" "models/weapons/v_hologun/v_holo_normals"
+	 "$envmap" "env_cubemap"
+	 "$envmaptint" "[.05 .05 .05]"
+   	 "$envmapsaturation" .5
+  	  "$model" 1
+
+   	 "$phong" "1"
+   	 "$phongexponent" "10"
+   	 "$phongboost"    "1"
+   	 "$phongfresnelranges"    "[2 4 1]"
+}

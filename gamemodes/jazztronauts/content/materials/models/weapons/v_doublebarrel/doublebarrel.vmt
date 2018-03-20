@@ -1,0 +1,29 @@
+"VertexlitGeneric"
+{
+	$basetexture "models/weapons/v_doublebarrel/v_doublebarrel"
+	$bumpmap "models/weapons/v_doublebarrel/v_doublebarrel_n"
+	
+	$phong "1"
+	$phongexponenttexture	"models/weapons/v_doublebarrel/v_doublebarrel_e"
+	$phongboost				1
+	$phongfresnelranges		"[0 0.5 1]"
+	
+	// Blood effects
+	$detail "models/blood.vtf"
+	$detailscale "1.8"
+	$detailblendfactor .001
+	$detailblendmode 0
+	$detailAmount 0
+	Proxies
+	{
+		WeaponBlood
+		{
+			resultVar $detailAmount
+		}
+		Equals
+		{
+			srcVar1 $detailAmount
+			resultVar $detailblendfactor			
+		}
+	}
+}

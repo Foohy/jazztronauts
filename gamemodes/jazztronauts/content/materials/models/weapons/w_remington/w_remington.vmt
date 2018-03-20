@@ -1,0 +1,40 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/weapons/v_remington/remington870_diffuse"
+	"$bumpmap" "dev/flat_normal"
+$phong 1
+$phongboost 3
+$phongexponent "15"
+//$phongexponenttexture "models\weapons\v_remington/remington870_exp"
+
+$phongfresnelranges "[.1 .5 1]"
+//$phongfresnelranges "[.2 .4 1]"
+$basemapalphaphongmask 1
+$envmap env_cubemap
+$envmapfresnel 1
+$envmaptint "[.03 .03 .03]"
+$envmapFresnelMinMaxExp "[.1 .5 1]"
+//$halflambert 1
+$phongalbedotint 1
+$nocull 1
+	
+	// Blood effects
+	$detail "models/blood.vtf"
+	$detailscale "1.8"
+	$detailblendfactor .001
+	$detailblendmode 0
+	$detailAmount 0
+	Proxies
+	{
+		WeaponBlood
+		{
+			resultVar $detailAmount
+		}
+		Equals
+		{
+			srcVar1 $detailAmount
+			resultVar $detailblendfactor			
+		}
+	}
+}
+

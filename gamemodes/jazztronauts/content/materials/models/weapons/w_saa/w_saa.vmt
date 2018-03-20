@@ -1,0 +1,19 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/weapons/v_saa/v_saa"
+	"$bumpmap" "models/weapons/v_saa/v_saa_normal"
+	"$phong" "1"
+	"$phongboost" "0.1"
+	"$phongexponent" 10
+	"$normalmapalphaphongmask" "7"
+	"$phongexponenttexture"	"models/weapons/v_saa/v_saa_normal"		
+	"$phongfresnelranges"	"[.1 5 1]"
+	
+
+	$detail "models/blood.vtf"
+	$detailscale "2"
+	$detailblendfactor 1
+	$detailblendmode 0
+	$detailAmount 0
+
+}

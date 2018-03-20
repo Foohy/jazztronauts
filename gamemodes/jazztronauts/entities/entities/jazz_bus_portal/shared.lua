@@ -259,8 +259,18 @@ function ENT:GetPortalAngles()
 end
 
 function ENT:OnPortalRendered()
+    render.SetBlend(self:GetFadeAmount())
+    
     self:DrawInsidePortal()
     self:DrawInteriorDoubles()
+
+    render.SetBlend(1)
+end
+
+-- Get the opacity for everything in the void
+-- Let's us fade in non-abruptly
+function ENT:GetFadeAmount()
+    return math.min(1, (CurTime() - self:GetCreationTime()) / 2)
 end
 
 function ENT:DrawInsidePortal()
@@ -349,8 +359,7 @@ function ENT:DrawInteriorDoubles()
     //self.VoidTunnel:DrawModel()
 
     -- Blend in so it doesn't all of a sudden pop into the jazz void
-    local blendIn = math.min(1, (CurTime() - self:GetCreationTime()) / 2)
-    render.SetBlend(blendIn)
+
     self.VoidTunnel:SetMaterial("sunabouzu/jazzLake02")
     self.VoidTunnel:DrawModel()
 
@@ -361,7 +370,7 @@ function ENT:DrawInteriorDoubles()
     self.VoidRoad:SetAngles(portalAng)
     self.VoidRoad:SetupBones()
     self.VoidRoad:DrawModel()
-    render.SetBlend(1.0)
+
 
     -- Draw bus
     if IsValid(self:GetBus()) then 

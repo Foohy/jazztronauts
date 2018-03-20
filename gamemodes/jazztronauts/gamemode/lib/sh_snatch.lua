@@ -135,6 +135,10 @@ function meta:StartWorld( position, owner )
 
 end
 
+local function emptySide(side)
+	return side.texinfo.texdata.material == "TOOLS/TOOLSNODRAW"
+end
+
 local idx = 0
 function meta:UpdateVoidMesh()
 	map_mesh = ManagedMesh( "propsnatcher_voidmesh" .. CurTime() .. "_" .. idx, void_mat)
@@ -146,6 +150,7 @@ function meta:UpdateVoidMesh()
 
 		for _, side in pairs( brush.sides ) do
 			if not side.winding then continue end
+			if emptySide(side) then continue end
 
 			local texinfo = side.texinfo
 			local texdata = texinfo.texdata
@@ -174,6 +179,7 @@ function meta:RunWorld( brush_id )
 	-- extrude out from sides (TWEAK!!)
 	local extrude = -1
 	for k, side in pairs( brush.sides ) do
+		//if emptySide(side) then continue end
 		side.plane.dist = side.plane.dist + extrude
 	end
 
@@ -184,6 +190,8 @@ function meta:RunWorld( brush_id )
 	-- Keep track of the total number of triangles in the mesh
 	for k, side in pairs( brush.sides ) do
 		if not side.winding then continue end
+		if emptySide(side) then continue end
+
 		tricount = tricount + #side.winding.points - 1
 	end
 

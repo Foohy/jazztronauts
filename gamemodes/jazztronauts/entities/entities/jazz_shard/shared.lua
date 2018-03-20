@@ -12,7 +12,7 @@ ENT.Models			=
 sound.Add( {
 	name = "jazz_shard_idle",
 	channel = CHAN_STATIC,
-	volume = 1.0,
+	volume = 0.75,
 	level = 80,
 	pitch = { 95, 110 },
 	sound = "jazztronauts/shard_hum_mono.wav"
@@ -20,7 +20,7 @@ sound.Add( {
 sound.Add( {
 	name = "jazz_shard_idle_near",
 	channel = CHAN_STATIC,
-	volume = 1.0,
+	volume = 0.75,
 	level = 65,
 	pitch = { 95, 110 },
 	sound = "jazztronauts/shard_hum.wav"
@@ -60,6 +60,7 @@ function ENT:Initialize()
         self.IdleSoundNear:Play()
 
         ParticleEffect( "shard_glow", self:GetPos(), self:GetAngles(), self )
+        hook.Add("JazzDrawVoid", self, self.OnPortalRendered)
     end
 end
 
@@ -111,6 +112,10 @@ function ENT:Think()
     util.Effect( "TeslaHitboxes", ed, true, true )
 
     self:SetNextClientThink(CurTime() + math.random(0.1, 0.2))
+end
+
+function ENT:OnPortalRendered()
+    self:DrawModel()
 end
 
 function ENT:Draw()

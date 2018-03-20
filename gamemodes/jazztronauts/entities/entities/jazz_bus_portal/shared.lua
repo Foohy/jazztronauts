@@ -32,7 +32,7 @@ ENT.RTSize = 1024
 ENT.Size = 184
 
 local zbumpMat = Matrix()
-zbumpMat:Translate(Vector(0, -1, 184/2))
+zbumpMat:Translate(Vector(0, -2, 184/2))
 zbumpMat:Scale(Vector(1, 1, 1) * .9)
 zbumpMat:Translate(Vector(0, 0, -184/2))
 ENT.ZBump = zbumpMat
@@ -110,6 +110,9 @@ function ENT:Initialize()
         self.VoidTunnel:SetNoDraw(true)
 
         self.BackgroundHum = CreateSound(self, self.BackgroundHumSound)
+
+        -- Hook into when the void renders so we can insert our props into it
+        hook.Add("JazzDrawVoid", self, self.OnPortalRendered)
     end
 end
 
@@ -255,6 +258,11 @@ function ENT:GetPortalAngles()
     return self:GetAngles()
 end
 
+function ENT:OnPortalRendered()
+    self:DrawInsidePortal()
+    self:DrawInteriorDoubles()
+end
+
 function ENT:DrawInsidePortal()
 
     -- Define our own lighting environment for this
@@ -268,6 +276,7 @@ function ENT:DrawInsidePortal()
     ang:RotateAroundAxis(ang:Up(), -90)
 
     -- Draw a few random floating props in the void
+    /*
     for i = 1, 10 do
         -- Lifehack: SharedRandom is a nice stateless random function
         local randX = util.SharedRandom("prop", -500, 500, i)
@@ -290,10 +299,10 @@ function ENT:DrawInsidePortal()
         mdl:SetAngles(ang + angOffset)
         mdl:SetupBones() -- Since we're drawing in multiple locations
         mdl:DrawModel()
-    end
+    end*/
 
     -- If we're the exit portal, draw the gibs floating into space
-    if self:GetIsExit() then 
+    if self:GetIsExit() and self.Broken then 
         for _, gib in pairs(self.Gibs) do
             gib:DrawModel()
         end
@@ -332,12 +341,16 @@ function ENT:DrawInteriorDoubles()
     -- First draw with default material but darkened
     render.SetColorModulation(55/255.0, 55/255.0, 55/255.0)
     self.VoidTunnel:SetMaterial("")
-    self.VoidTunnel:DrawModel()
+    //self.VoidTunnel:DrawModel()
     render.SetColorModulation(1, 1, 1)
     
     -- Now two more times with each of sun's groovy additive jazz materials
-    self.VoidTunnel:SetMaterial("sunabouzu/jazzLake01")
-    self.VoidTunnel:DrawModel()
+    //self.VoidTunnel:SetMaterial("sunabouzu/jazzLake01")
+    //self.VoidTunnel:DrawModel()
+
+    -- Blend in so it doesn't all of a sudden pop into the jazz void
+    local blendIn = math.min(1, (CurTime() - self:GetCreationTime()) / 2)
+    render.SetBlend(blendIn)
     self.VoidTunnel:SetMaterial("sunabouzu/jazzLake02")
     self.VoidTunnel:DrawModel()
 
@@ -348,6 +361,7 @@ function ENT:DrawInteriorDoubles()
     self.VoidRoad:SetAngles(portalAng)
     self.VoidRoad:SetupBones()
     self.VoidRoad:DrawModel()
+    render.SetBlend(1.0)
 
     -- Draw bus
     if IsValid(self:GetBus()) then 
@@ -358,12 +372,14 @@ function ENT:DrawInteriorDoubles()
         end
     end
 
-    -- Draw players
+    -- Draw players (only applies if exiting)
     -- NOTE: Usually this is a bad idea, but legitimately every single player should be in the bus
-    for _, ply in pairs(player.GetAll()) do
-        local seat = ply:GetVehicle()
-        if IsValid(seat) and seat:GetParent() == self:GetBus() then 
-            ply:DrawModel()
+    if self:GetIsExit() then
+        for _, ply in pairs(player.GetAll()) do
+            local seat = ply:GetVehicle()
+            if IsValid(seat) and seat:GetParent() == self:GetBus() then 
+                ply:DrawModel()
+            end
         end
     end
 
@@ -470,10 +486,10 @@ function ENT:DrawPortal()
         render.SetStencilCompareFunction(STENCIL_EQUAL)
         render.ClearBuffersObeyStencil(55, 0, 55, 255, true)
 
-        cam.Start3D(EyePos(), EyeAngles())
-            self:DrawInsidePortal()
-            self:DrawInteriorDoubles()
-        cam.End3D()
+        cam.Start2D()
+            render.DrawTextureToScreen(snatch.GetVoidTexture())
+        cam.End2D()
+        
 
         -- Draw into the depth buffer for the interior to prevent
         -- Props from going through
@@ -550,13 +566,11 @@ hook.Add("PreDrawEffects", "JazzDrawPortalWorld", function()
         
         local voffset = exitPortal:GetJazzVoidView()
 
-        render.Clear(55, 0, 55, 255, true, true) -- Dump anything that was rendered
-        cam.Start3D(origin + voffset, angles, fov, nil, nil, nil, nil, 10, 1000000)
-            exitPortal:DrawInsidePortal()
-        cam.End3D()
+        snatch.UpdateVoidTexture(origin, angles)
 
-        cam.Start3D(origin, angles, fov, nil, nil, nil, nil, 10, 1000000)
-            exitPortal:DrawInteriorDoubles()
-        cam.End3D()
+        render.Clear(55, 0, 55, 255, true, true) -- Dump anything that was rendered
+        cam.Start2D()
+            render.DrawTextureToScreen(snatch.GetVoidTexture())
+        cam.End2D()
     end
 end )

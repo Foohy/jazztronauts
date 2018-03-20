@@ -8,8 +8,8 @@ local TASK_TIME_SLICE = 0.008
 local HITCH_THESHOLD = 0.05
 local MAX_TASK_ITERATIONS = 100000
 
-local tasks = {}
-local g_task = nil
+tasks = tasks or {}
+g_task = g_task or nil
 
 local meta = {}
 meta.__index = meta

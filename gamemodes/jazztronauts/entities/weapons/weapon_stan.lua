@@ -107,10 +107,7 @@ function SWEP:Deploy()
 
 end
 
-function SWEP:StartAttack()
-
-	self.BaseClass.StartAttack( self )
-
+function SWEP:StartPrimaryAttack()
 
 	if CLIENT then
 
@@ -128,7 +125,7 @@ function SWEP:StartAttack()
 
 end
 
-function SWEP:StopAttack()
+function SWEP:StopPrimaryAttack()
 
 	print("Stopping attack")
 
@@ -513,7 +510,7 @@ function SWEP:Think()
 	local openrate = 4
 	local topspeed = self.TopSpeed
 
-	if not self:IsAttacking() then
+	if not self:IsPrimaryAttacking() then
 		speedrate = 750
 	end
 
@@ -523,7 +520,7 @@ function SWEP:Think()
 		self:DoLight()
 	end
 
-	if self:IsAttacking() then
+	if self:IsPrimaryAttacking() then
 		if CLIENT and self.open == 0 then
 
 			self:EmitSound( Sound( "npc/roller/blade_out.wav" ), 80, 130 )
@@ -546,13 +543,13 @@ function SWEP:Think()
 			if self.speed == topspeed then
 				--if CLIENT then self.BeamLoop1:Play() end
 				self:Teleport()
-				self:StopAttacking()
+				self:StopPrimaryAttacking()
 			end
 
 		end
 
 		if not self:CanTeleport() then
-			self:StopAttacking()
+			self:StopPrimaryAttacking()
 		end
 
 	else

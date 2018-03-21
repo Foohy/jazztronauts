@@ -154,7 +154,7 @@ function SWEP:TraceToRemove(stealWorld)
 	} )
 
 	if SERVER then
-		if stealWorld then
+		if not stealWorld then
 			self:RemoveEntity( tr.Entity )
 		end
 	else

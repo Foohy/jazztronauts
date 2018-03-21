@@ -239,21 +239,3 @@ jstore.RegisterSeries("jump_height", 1000, 3, {
 	cat = "Player Modifications", 
 	type = "upgrade"
 })
-
-local snatch1 = jstore.Register("snatch1", 10000, { 
-    name = "Auto Aim", 
-    cat = "Prop Snatcher", 
-    type = "upgrade" 
-})
-local snatch2 = jstore.Register("snatch2", 50000, { 
-    name = "Auto-Auto Aim", 
-    cat = "Prop Snatcher", 
-    requires = snatch1,
-    type = "upgrade" 
-})
-local snatch3 = jstore.Register("snatch3", 1000000, { 
-    name = "Ultimate Aim", 
-    cat = "Prop Snatcher", 
-    requires = snatch2,
-    type = "upgrade" 
-})

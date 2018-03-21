@@ -4,6 +4,7 @@ if SERVER then
 	util.AddNetworkString("remove_client_send_trace")
 end
 
+SWEP.Base 					= "weapon_basehold"
 SWEP.PrintName 		 		= "Prop Snatcher"
 SWEP.Slot		 	 		= 0
 SWEP.Category				= "Jazztronauts"
@@ -27,9 +28,59 @@ SWEP.Spawnable 				= true
 SWEP.RequestInfo			= {}
 SWEP.KillsPeople			= true
 
+
+local snatch1 = jstore.Register("snatch1", 10000, { 
+    name = "Auto Aim", 
+    cat = "Prop Snatcher", 
+	desc = "Automatically aim to target props within the on-screen capture radius.",
+    type = "upgrade" 
+})
+local snatch2 = jstore.Register("snatch2", 50000, { 
+    name = "Auto-Auto Aim", 
+    cat = "Prop Snatcher", 
+	desc = "Hold down left click to automate picking up many props at a time.",
+    requires = snatch1,
+    type = "upgrade" 
+})
+local snatch3 = jstore.Register("snatch3", 1000000, { 
+    name = "Ultimate Aim", 
+    cat = "Prop Snatcher", 
+	desc = "No matter where you aim, you're picking something up.",
+    requires = snatch2,
+    type = "upgrade" 
+})
+
 function SWEP:Initialize()
+	self.BaseClass.Initialize( self )
+
 	self:SetWeaponHoldType( self.HoldType )	
+
+	-- Hook into unlock callbacks
+	hook.Add( "OnUnlocked", self, function( self, list_name, key, ply ) 
+		if ply == self.Owner and string.find(key, "snatch") then
+			self:SetUpgrades()
+		end
+	end )
+
+	-- self.Owner is null during initialize......
+	timer.Simple(0, function()
+		self:SetUpgrades()
+	end)
 end
+
+-- Query and apply current upgrade settings to this weapon
+function SWEP:SetUpgrades()
+
+	-- Tier I - Aim in cone upgrade
+	--self.EnableConeOrSomething = unlocks.IsUnlocked("store", self.Owner, snatch1)
+
+	-- Tier II - Automatic fire upgrade
+	self.Primary.Automatic = unlocks.IsUnlocked("store", self.Owner, snatch2)
+
+	-- Tier III - World stealing
+	self.CanStealWorld = unlocks.IsUnlocked("store", self.Owner, snatch3)
+end
+
 
 function SWEP:SetupDataTables()
 	--Might use this later, who the fuck knows
@@ -38,6 +89,7 @@ end
 function SWEP:Deploy()
 	return true
 end
+function SWEP:CanSecondaryAttack() return self.CanStealWorld end
 
 function SWEP:DrawWorldModel()
 
@@ -68,6 +120,10 @@ function SWEP:AcceptEntity( ent )
 	end
 end
 
+function SWEP:GetEntitySize(ent)
+	return ent:GetMass() / 100
+end
+
 function SWEP:RemoveEntity( ent )
 
 	if self:AcceptEntity( ent ) and not ent.doing_removal then
@@ -86,7 +142,7 @@ function SWEP:RemoveWorld( position )
 end
 
 --Reach out and touch something
-function SWEP:TraceToRemove()
+function SWEP:TraceToRemove(stealWorld)
 
 	local pos = self.Owner:GetShootPos()
 	local dir = self.Owner:GetAimVector()
@@ -98,15 +154,17 @@ function SWEP:TraceToRemove()
 	} )
 
 	if SERVER then
-		self:RemoveEntity( tr.Entity )
+		if stealWorld then
+			self:RemoveEntity( tr.Entity )
+		end
 	else
-		if not tr.HitNonWorld then
+		if not tr.HitNonWorld and stealWorld then
 			net.Start( "remove_client_send_trace" )
 			net.WriteBit(0)
 			net.WriteEntity( self )
 			net.WriteVector( tr.HitPos )
 			net.SendToServer()
-		elseif self:AcceptEntity( tr.Entity ) then
+		elseif self:AcceptEntity( tr.Entity ) and not stealWorld then
 			net.Start( "remove_client_send_trace" )
 			net.WriteBit(1)
 			net.WriteEntity( self )
@@ -140,7 +198,7 @@ function SWEP:PrimaryAttack()
 
 	--Standard stuff
 	if !self:CanPrimaryAttack() then return end
-
+	self:SetNextPrimaryFire(CurTime() + 0.1)
 	self:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
 	
 	if CLIENT or game.SinglePlayer() then
@@ -149,6 +207,19 @@ function SWEP:PrimaryAttack()
 
 	self:ShootEffects()
 
+end
+
+function SWEP:SecondaryAttack()
+	print(self.CanStealWorld, self:CanSecondaryAttack())
+	if !self:CanSecondaryAttack() then return end
+	self:SetNextSecondaryFire(CurTime() + 0.5)
+	self:EmitSound( self.Primary.Sound, 50, math.random( 50, 60 ) )
+	
+	if CLIENT or game.SinglePlayer() then
+		self:TraceToRemove(true)
+	end
+
+	self:ShootEffects()
 end
 
 function SWEP:Holster(wep) return true end
@@ -160,9 +231,3 @@ function SWEP:ShootEffects()
 	self.Owner:SetAnimation( PLAYER_ATTACK1 )
 
 end
-
-function SWEP:Reload() return false end
-function SWEP:CanPrimaryAttack() return true end
-function SWEP:CanSecondaryAttack() return false end
-function SWEP:CanSecondaryAttack() return false end
-function SWEP:Reload() return false end

@@ -33,8 +33,11 @@ if CLIENT then
 end
 
 removed_brushes = removed_brushes or {}
-map_mesh = map_mesh or nil
-tricount = tricount or 0
+
+-- Voidmesh stuff
+max_map_verts = 4096
+map_meshes = map_meshes or {}
+current_mesh = current_mesh or { num = 1, mesh = nil, vertices = {} }
 
 local SV_SendPropSceneToClients = nil
 local SV_HandleEntityDestruction = nil
@@ -147,27 +150,35 @@ local function emptySide(side)
 end
 
 local idx = 0
-function meta:UpdateVoidMesh()
-	map_mesh = ManagedMesh( "propsnatcher_voidmesh" .. CurTime() .. "_" .. idx, void_mat)
+function meta:AppendBrushToMapMesh(brush)
+	
+	-- Update the current mesh
+	current_mesh.mesh = ManagedMesh( "propsnatcher_voidmesh" .. CurTime() .. "_" .. idx, void_mat)
 	idx = idx + 1
-	mesh.Begin( map_mesh:Get(), MATERIAL_TRIANGLES, tricount )
 
-	for _, brush in ipairs(removed_brushes) do
-		local to_brush = brush.center
+	-- Add vertices for every side
+	local to_brush = brush.center
+	for _, side in pairs(brush.sides) do
+		if not side.winding or emptySide(side) then continue end
 
-		for _, side in pairs( brush.sides ) do
-			if not side.winding then continue end
-			if emptySide(side) then continue end
+		local texinfo = side.texinfo
+		local texdata = texinfo.texdata
+		side.winding:Move( to_brush )
+		side.winding:EmitMesh(texinfo.st, texinfo.lst, texdata.width, texdata.height, current_mesh.vertices)
+		side.winding:Move( -to_brush )
 
-			local texinfo = side.texinfo
-			local texdata = texinfo.texdata
-			side.winding:Move( to_brush )
-			side.winding:EmitMesh(texinfo.st, texinfo.lst, texdata.width, texdata.height )
-			side.winding:Move( -to_brush )
-		end
 	end
 
-	mesh.End()
+	-- Update with all of the meshes
+	current_mesh.mesh:BuildFromTriangles(current_mesh.vertices)
+	map_meshes[current_mesh.num] = current_mesh.mesh
+
+	-- Enforce a soft limit. If the mesh is now over the vert limit, spill over into a new mesh next time
+	if #current_mesh.vertices > max_map_verts then
+		print("Finished mesh: ", current_mesh.num, " (", #current_mesh.vertices, " vertices)")
+		current_mesh.num = current_mesh.num + 1
+		current_mesh.vertices = {}
+	end
 end
 
 next_brush_mesh_id = next_brush_mesh_id or 0
@@ -194,17 +205,8 @@ function meta:RunWorld( brush_id )
 
 	brush:CreateWindings()
 
-	-- Keep track of the total number of triangles in the mesh
-	for k, side in pairs( brush.sides ) do
-		if not side.winding then continue end
-		if emptySide(side) then continue end
-
-		tricount = tricount + #side.winding.points - 1
-	end
-
 	brush.center = (brush.min + brush.max) / 2
 	local to_center = -brush.center
-
 
 	print("TRANSLATE: " .. tostring( to_center ) )
 
@@ -232,7 +234,7 @@ function meta:RunWorld( brush_id )
 	table.insert( removed_brushes, brush )
 	
 	-- Update the mesh that encompasses all of the void geometry
-	self:UpdateVoidMesh()
+	self:AppendBrushToMapMesh(brush)
 
 	print("WINDINGS READY, CREATE BRUSH PROXY")
 
@@ -738,34 +740,41 @@ end )
 -- Render the inside of the jazz void with the default void material
 -- This void material has a rendertarget basetexture we update each frame
 hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky) 
-	if map_mesh then
-		-- Re-render this for every new scene if not drawing once
-		if not convar_drawonce:GetBool() then
-			UpdateVoidTexture(EyePos(), EyeAngles(), nil)
-		end
-
-		//render.UpdateScreenEffectTexture()
-		render.SetMaterial(void_mat)
-		render.SuppressEngineLighting(true)
-
-		map_mesh:Get():Draw()
-
-		render.SuppressEngineLighting(false)
-
-		//renderBrushLines()
+	
+	-- Re-render this for every new scene if not drawing once
+	if not convar_drawonce:GetBool() then
+		UpdateVoidTexture(EyePos(), EyeAngles(), nil)
 	end
+
+	//render.UpdateScreenEffectTexture()
+	render.SetMaterial(void_mat)
+	render.SuppressEngineLighting(true)
+
+	-- Draw all map meshes
+	for _, v in pairs(map_meshes) do
+		v:Get():Draw()
+	end
+
+	render.SuppressEngineLighting(false)
+
+	//renderBrushLines()
+
 end )
 
 -- Render an additional transparent overlay to give it a bit more depth/surface
 hook.Add( "PostDrawTranslucentRenderables", "snatch_void_surface", function() 
-	if map_mesh then
-		render.SetMaterial(surfaceMaterial)
-		render.SuppressEngineLighting(true)
 
-		map_mesh:Get():Draw()
+	render.SetMaterial(surfaceMaterial)
+	render.SuppressEngineLighting(true)
 
-		render.SuppressEngineLighting(false)
+	-- Draw all map meshes
+	for _, v in pairs(map_meshes) do
+		v:Get():Draw()
 	end
+
+
+	render.SuppressEngineLighting(false)
+
 end )
 
 hook.Add( "PreDrawEffects", "snatch_void_lines", function()

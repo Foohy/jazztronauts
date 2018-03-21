@@ -568,13 +568,12 @@ local function makeMaterial( texture )
 
 end
 
-function meta:EmitMesh(texmatrix, lmmatrix, width, height )
-	local meshverts = {}
+function meta:EmitMesh(texmatrix, lmmatrix, width, height, meshVerts )
 	width = width or 1
 	height = height or 1
 	material = material or default_mesh_material
 
-	local function emitPointVert(p, normal)
+	local function emitPointVert(p, normal, verts)
 		local u,v = 0,0
 		if texmatrix ~= nil then
 			u,v = texmatrix:GetUV(p)
@@ -582,21 +581,26 @@ function meta:EmitMesh(texmatrix, lmmatrix, width, height )
 			v = v / height
 		end
 
-		mesh.Position( p )
-		mesh.TexCoord( 0, u, v )
+		-- Optionally insert into a specified vertex table if they wanna do something spiffy
+		if meshVerts then
+			table.insert(meshVerts, {pos = p, u = u, v = v, normal = normal})
+		else
+			mesh.Position( p )
+			mesh.TexCoord( 0, u, v )
 
 
-		if lmmatrix ~= nil then
-			u,v = lmmatrix:GetUV(p)
+			if lmmatrix ~= nil then
+				u,v = lmmatrix:GetUV(p)
+			end
+
+			--local light = render.ComputeLighting( p, normal )
+
+			mesh.TexCoord( 1, u, v )
+			mesh.Normal( normal )
+			--mesh.Color( light.x*255, light.y*255, light.z*255, 255 )
+			mesh.Color( 255, 255, 255, 100 )
+			mesh.AdvanceVertex()
 		end
-
-		--local light = render.ComputeLighting( p, normal )
-
-		mesh.TexCoord( 1, u, v )
-		mesh.Normal( normal )
-		--mesh.Color( light.x*255, light.y*255, light.z*255, 255 )
-		mesh.Color( 255, 255, 255, 100 )
-		mesh.AdvanceVertex()
 	end
 
 	local normal = self:Plane().normal

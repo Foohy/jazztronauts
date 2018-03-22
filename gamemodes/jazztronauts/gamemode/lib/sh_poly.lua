@@ -520,6 +520,15 @@ function meta:Merge(other, planenormal)
 end
 
 local invcolor = 1/255
+local lightmapTex = nil
+
+-- Generate a single half-lit lightmap for now
+if CLIENT then
+	local lightmaprt = irt.New("jazz_snatch_lightmaptex", 64, 64)
+	lightmapTex = lightmaprt:GetTarget()
+	lightmaprt:Render(function() render.Clear(12, 12, 12, 255) end )
+end
+
 function meta:Render(col, depth, offset, wire)
 
 	self.rplane = self.rplane or self:Plane()
@@ -528,11 +537,13 @@ function meta:Render(col, depth, offset, wire)
 		if col then
 			render.SetColorModulation( col.r * invcolor, col.g * invcolor, col.b * invcolor )
 		end
-
+		render.SetLightmapTexture(lightmapTex)
 		render.SetLightingOrigin( self.cache_center )
 		render.SetMaterial( self.material )
+
 		--if lightmap ~= nil then render.SetLightmapTexture( lightmap ) end
 		self.mesh:Draw()
+
 		return
 	end
 

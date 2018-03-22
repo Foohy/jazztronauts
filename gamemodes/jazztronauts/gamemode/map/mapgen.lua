@@ -16,10 +16,11 @@ function CanSnatch(ent)
 	--Accept only this kinda stuff
 	if ent == nil then return false end
 	if not ent:IsValid() then return false end
-    if ent:IsNPC() then return true end
+    if ent:IsNPC() then return true end  
     if ent:GetClass() == "npc_antlion_grub" then return true end
     if ent:GetClass() == "npc_grenade_frag" then return true end
 
+    if CLIENT and ent:IsWeapon() and ent:IsCarriedByLocalPlayer() then return false end
     if SERVER and not IsValid(ent:GetPhysicsObject()) then return false end
 
 	if ent:GetClass() == "prop_physics" then return true end

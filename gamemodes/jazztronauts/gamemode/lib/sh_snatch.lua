@@ -573,7 +573,7 @@ local sizeY = ScrH()
 local rt = irt.New("jazz_snatch_voidbg", sizeX, sizeY)
 
 //rt:SetAlphaBits( 8 )
-rt:EnableDepth( true, false )
+rt:EnableDepth( true, true )
 local rtTex = rt:GetTarget()
 
 function GetVoidTexture()

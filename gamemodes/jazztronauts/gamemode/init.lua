@@ -53,7 +53,7 @@ function GM:InitPostEntity()
 		end
 
 		-- Calculate worth of each map-spawned prop
-		mapgen.CalculatePropValues(10000)
+		mapgen.CalculatePropValues(30000)
 	end
 
 end

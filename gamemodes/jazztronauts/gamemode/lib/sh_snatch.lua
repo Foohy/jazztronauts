@@ -24,7 +24,7 @@ if CLIENT then
 		["$bluramount"] = 2,
 		["$model"] = 1,
 	}
-	local refract = CreateMaterial("RefractBrushModel" .. CurTime(), "Refract", refractParams)
+	local refract = CreateMaterial("RefractBrushModel" .. FrameNumber(), "Refract", refractParams)
 	void_mat = refract
 
 	-- Performance convars
@@ -582,6 +582,10 @@ function GetVoidTexture()
 	return rt:GetTarget()
 end
 
+function GetVoidOverlay()
+	return void_mat, surfaceMaterial
+end
+
 local function SharedRandomVec(seed)
 	return Vector(
 		util.SharedRandom("x", 0, 1, seed),
@@ -757,25 +761,16 @@ hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 		v:Get():Draw()
 	end
 
-	render.SuppressEngineLighting(false)
-
-	//renderBrushLines()
-
-end )
-
--- Render an additional transparent overlay to give it a bit more depth/surface
-hook.Add( "PostDrawTranslucentRenderables", "snatch_void_surface", function() 
-
+	-- Draw again with overlay
 	render.SetMaterial(surfaceMaterial)
-	render.SuppressEngineLighting(true)
 
-	-- Draw all map meshes
 	for _, v in pairs(map_meshes) do
 		v:Get():Draw()
 	end
 
-
 	render.SuppressEngineLighting(false)
+
+	//renderBrushLines()
 
 end )
 

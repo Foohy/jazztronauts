@@ -79,8 +79,7 @@ function ENT:Initialize()
             gib:SetCollisionGroup(self:GetIsExit() and COLLISION_GROUP_IN_VEHICLE or COLLISION_GROUP_WORLD)
             gib:SetNoDraw(true)
             gib:GetPhysicsObject():SetMass(500)
-
-            gib:SetMaterial("!bus_wall_material")
+            gib:SetMaterial(self.WallMaterial, true)
             table.insert(self.Gibs, gib)
         end
 
@@ -112,7 +111,7 @@ function ENT:Initialize()
         self.BackgroundHum = CreateSound(self, self.BackgroundHumSound)
 
         -- Hook into when the void renders so we can insert our props into it
-        hook.Add("JazzDrawVoid", self, self.OnPortalRendered)
+        hook.Add("JazzDrawVoid", self, function(self) self:OnPortalRendered() end)
     end
 end
 
@@ -145,31 +144,44 @@ end
 
 if SERVER then return end
 
-TEXTUREFLAGS_ANISOTROPIC = 16
-TEXTUREFLAGS_RENDERTARGET = 32768
-
 -- Render the wall we're right next to so we can break it
 function ENT:StoreSurfaceMaterial()
 
+    -- If the surface material is already a special material, set ourselves to it
+    local tr = util.QuickTrace(self:GetPos() + self:GetAngles():Up() * self.Size / 2, self:GetAngles():Right() * -10, self)
+    if tr.HitWorld then
+
+        -- Lookup to see if this brushid has been taken
+        local isVoided = false -- nerd furry
+        for k, v in pairs(snatch.removed_brushes) do
+            if v:ContainsPoint(tr.HitPos) then
+                isVoided = true
+                break
+            end
+        end
+
+        -- If it has, then set our whole border material to it
+        -- (since the underlying texture is this one anyway)
+        if isVoided then
+            self.WallMaterial = "!" .. snatch.GetVoidOverlay():GetName()
+            self.IsOnVoidWall = true
+            return
+        end
+    end
+
     -- Create (or retrieve) the render target
-    local rtname = "bus_wall_rt"
-    if self:GetIsExit() then rtname = rtname .. "_exit" end
-    self.WallTexture = GetRenderTargetEx(rtname, self.RTSize, self.RTSize, 
-        RT_SIZE_OFFSCREEN, MATERIAL_RT_DEPTH_SEPARATE, 
-        bit.bor(TEXTUREFLAGS_RENDERTARGET,TEXTUREFLAGS_ANISOTROPIC), 
-        CREATERENDERTARGETFLAGS_AUTOMIPMAP, IMAGE_FORMAT_DEFAULT)
+    local matname = "bus_wall" .. (self:GetIsExit() and "_exit" or "")
+    local voidrt = irt.New(matname, self.RTSize, self.RTSize)
+    voidrt:EnableDepth(true, true)
+    voidrt:EnableMipmap(true)
+    voidrt:EnableAnisotropy(true)
+    voidrt:Render(function() 
+        -- Setup virtual camera location to be centered
+        local pos = self.Size / 2
+        local viewang = self:GetAngles()
+        viewang:RotateAroundAxis(viewang:Up(), 90)
 
-    -- Note we just keep reusing "bus_wall_material". If we wanted multiple buses at the same time,
-    -- then we'll need a unique name for each material. But not yet.
-    self.WallMaterial = CreateMaterial("bus_wall_material", "UnlitGeneric", { ["$nocull"] = 1})
-    self.WallMaterial:SetTexture("$basetexture", self.WallTexture)
-
-    -- Bam, just like that, render the wall to the texture
-    local pos = self.Size / 2
-    local viewang = self:GetAngles()
-    viewang:RotateAroundAxis(viewang:Up(), 90)
-    render.PushRenderTarget(self.WallTexture)
-
+        -- Render away
         render.RenderView( {
             origin = self:GetPos() + viewang:Forward() * -5 + viewang:Up() * pos,
             angles = viewang,
@@ -186,8 +198,14 @@ function ENT:StoreSurfaceMaterial()
             bloomtone = false,
             dopostprocess = false,
         } )
+    end )
+    
+    -- Note we just keep reusing "bus_wall_material". If we wanted multiple buses at the same time,
+    -- then we'll need a unique name for each material. But not yet.
+    local wallMaterial = CreateMaterial(matname, "UnlitGeneric", { ["$nocull"] = 1})
+    wallMaterial:SetTexture("$basetexture", voidrt:GetTarget())
+    self.WallMaterial = "!" .. wallMaterial:GetName()
 
-    render.PopRenderTarget()
 end
 
 function ENT:Think()
@@ -224,10 +242,6 @@ function ENT:Think()
     table.insert(ply.ActiveBusPortals, self)
 end
 
-function ENT:UpdateCustomTexture()
-    self.WallMaterial:SetTexture("$basetexture", self.WallTexture)
-end
-
 function ENT:SetupVoidLighting()
     
     render.SetModelLighting(BOX_FRONT, 100/255.0, 0, 244/255.0)
@@ -261,8 +275,8 @@ end
 function ENT:OnPortalRendered()
     render.SetBlend(self:GetFadeAmount())
     
-    self:DrawInsidePortal()
     self:DrawInteriorDoubles()
+    self:DrawInsidePortal()
 
     render.SetBlend(1)
 end
@@ -320,13 +334,24 @@ function ENT:DrawInsidePortal()
 
     -- Draw a fixed border to make it look like cracks in the wall
     -- Disable fog for this, we want it to be seamless
-    render.FogMode(MATERIAL_FOG_NONE)
-    self.VoidBorder:SetPos(self:GetPos())
-    self.VoidBorder:SetAngles(self:GetAngles())
-    self.VoidBorder:SetMaterial("!bus_wall_material")
-    self.VoidBorder:SetupBones()
-    self.VoidBorder:DrawModel()
-    render.FogMode(MATERIAL_FOG_LINEAR)
+    if self.Broken then
+        render.OverrideDepthEnable(true, true)
+        render.FogMode(MATERIAL_FOG_NONE)
+        self.VoidBorder:SetPos(self:GetPos())
+        self.VoidBorder:SetAngles(self:GetAngles())
+        self.VoidBorder:SetMaterial(self.WallMaterial)
+        self.VoidBorder:SetupBones()
+        self.VoidBorder:DrawModel()
+
+        -- Additional overlay pass
+        if self.IsOnVoidWall then
+            local _, overlay = snatch.GetVoidOverlay()
+            self.VoidBorder:SetMaterial(overlay:GetName())
+            self.VoidBorder:DrawModel()
+        end
+        render.FogMode(MATERIAL_FOG_LINEAR)
+        render.OverrideDepthEnable(false)
+    end
 
     render.SuppressEngineLighting(false)
 end
@@ -474,7 +499,6 @@ function ENT:DrawPortal()
     -- Don't bother rendering if the eyes are behind the plane anyway
     if self:DistanceToVoid(EyePos(), true) < 0 then return end
     self.DrawingPortal = true
-    self:UpdateCustomTexture()
 
     render.SetStencilEnable(true)
         render.SetStencilWriteMask(255)

@@ -106,7 +106,7 @@ function TakeItAll()
 
 		end)
 
-		t = t + .1
+		t = t + .04
 
 	end
 
@@ -250,7 +250,7 @@ function meta:RunWorld( brush_id )
 	--actual:SetMoveType( MOVETYPE_VPHYSICS )
 	actual:SetRenderBounds( brush.min - brush.center, brush.max - brush.center )
 	actual:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
-	--actual:SetModelScale( 0 )
+	actual:SetModelScale( 0 )
 	--actual:GetPhysicsObject():Wake()
 	--actual:GetPhysicsObject():AddVelocity( Vector(0,0,100) )
 	actual.brush = brush
@@ -258,7 +258,7 @@ function meta:RunWorld( brush_id )
 
 		if self.hide then return end
 
-		actual:DrawModel()
+		//actual:DrawModel()
 
 		local mtx = Matrix()
 		mtx:SetTranslation( actual:GetPos() )

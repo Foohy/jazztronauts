@@ -139,6 +139,7 @@ function meta:StartWorld( position, owner )
 	removed_brushes[hit_brush] = true
 
 	self.brush = hit_brush
+	self:SetMode(2)
 
 	print("***SNATCH BRUSH: " .. hit_brush .. " ***")
 	SV_SendPropSceneToClients( self )
@@ -291,6 +292,7 @@ function meta:StartProp( prop, owner, kill, delay )
 
 	self.position = self.real:GetPos()
 	self.real.doing_removal = true
+	self:SetMode(1)
 
 	SV_SendPropSceneToClients( self )
 	SV_HandleEntityDestruction( self.real, owner, kill, delay )

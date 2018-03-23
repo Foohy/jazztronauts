@@ -159,7 +159,7 @@ local function DrawScene( scene )
 end
 
 --Physics stuff has to happen in here
-function TickScene( scene )
+local function TickScene( scene )
 
 	--Where the guy wants to be
 	local guytargetpos = scene:GetEntity():GetPos() + scene.koffset

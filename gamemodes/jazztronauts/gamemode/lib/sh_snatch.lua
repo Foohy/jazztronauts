@@ -743,9 +743,21 @@ hook.Add("RenderScene", "snatch_void_inside", function(origin, angles, fov)
 	end
 end )
 
+-- Keep track of if we're currently rendering 3D sky so we don't draw extra
+-- The 'sky' arg in PostDrawOpaqueRenderables returns true on maps without a skybox, 
+-- so we keep track of it ourselves
+local isInSky = false
+hook.Add("PreDrawSkyBox", "JazzDisableSkyDraw", function()
+	isInSky = true
+end )
+hook.Add("PostDrawSkyBox", "JazzDisableSkyDraw", function()
+	isInSky = false
+end)
+
 -- Render the inside of the jazz void with the default void material
 -- This void material has a rendertarget basetexture we update each frame
 hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky) 
+	if isInSky then return end
 	
 	-- Re-render this for every new scene if not drawing once
 	if not convar_drawonce:GetBool() then

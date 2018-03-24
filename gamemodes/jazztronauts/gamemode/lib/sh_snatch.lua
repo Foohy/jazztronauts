@@ -24,7 +24,7 @@ if CLIENT then
 		["$bluramount"] = 2,
 		["$model"] = 1,
 	}
-	local refract = CreateMaterial("RefractBrushModel" .. CurTime(), "Refract", refractParams)
+	local refract = CreateMaterial("RefractBrushModel" .. FrameNumber(), "Refract", refractParams)
 	void_mat = refract
 
 	-- Performance convars
@@ -106,7 +106,7 @@ function TakeItAll()
 
 		end)
 
-		t = t + .1
+		t = t + .04
 
 	end
 
@@ -139,6 +139,7 @@ function meta:StartWorld( position, owner )
 	removed_brushes[hit_brush] = true
 
 	self.brush = hit_brush
+	self:SetMode(2)
 
 	print("***SNATCH BRUSH: " .. hit_brush .. " ***")
 	SV_SendPropSceneToClients( self )
@@ -249,7 +250,7 @@ function meta:RunWorld( brush_id )
 	--actual:SetMoveType( MOVETYPE_VPHYSICS )
 	actual:SetRenderBounds( brush.min - brush.center, brush.max - brush.center )
 	actual:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
-	--actual:SetModelScale( 0 )
+	actual:SetModelScale( 0 )
 	--actual:GetPhysicsObject():Wake()
 	--actual:GetPhysicsObject():AddVelocity( Vector(0,0,100) )
 	actual.brush = brush
@@ -257,7 +258,7 @@ function meta:RunWorld( brush_id )
 
 		if self.hide then return end
 
-		actual:DrawModel()
+		//actual:DrawModel()
 
 		local mtx = Matrix()
 		mtx:SetTranslation( actual:GetPos() )
@@ -291,6 +292,7 @@ function meta:StartProp( prop, owner, kill, delay )
 
 	self.position = self.real:GetPos()
 	self.real.doing_removal = true
+	self:SetMode(1)
 
 	SV_SendPropSceneToClients( self )
 	SV_HandleEntityDestruction( self.real, owner, kill, delay )
@@ -580,6 +582,10 @@ function GetVoidTexture()
 	return rt:GetTarget()
 end
 
+function GetVoidOverlay()
+	return void_mat, surfaceMaterial
+end
+
 local function SharedRandomVec(seed)
 	return Vector(
 		util.SharedRandom("x", 0, 1, seed),
@@ -737,9 +743,21 @@ hook.Add("RenderScene", "snatch_void_inside", function(origin, angles, fov)
 	end
 end )
 
+-- Keep track of if we're currently rendering 3D sky so we don't draw extra
+-- The 'sky' arg in PostDrawOpaqueRenderables returns true on maps without a skybox, 
+-- so we keep track of it ourselves
+local isInSky = false
+hook.Add("PreDrawSkyBox", "JazzDisableSkyDraw", function()
+	isInSky = true
+end )
+hook.Add("PostDrawSkyBox", "JazzDisableSkyDraw", function()
+	isInSky = false
+end)
+
 -- Render the inside of the jazz void with the default void material
 -- This void material has a rendertarget basetexture we update each frame
 hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky) 
+	if isInSky then return end
 	
 	-- Re-render this for every new scene if not drawing once
 	if not convar_drawonce:GetBool() then
@@ -755,25 +773,16 @@ hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 		v:Get():Draw()
 	end
 
-	render.SuppressEngineLighting(false)
-
-	//renderBrushLines()
-
-end )
-
--- Render an additional transparent overlay to give it a bit more depth/surface
-hook.Add( "PostDrawTranslucentRenderables", "snatch_void_surface", function() 
-
+	-- Draw again with overlay
 	render.SetMaterial(surfaceMaterial)
-	render.SuppressEngineLighting(true)
 
-	-- Draw all map meshes
 	for _, v in pairs(map_meshes) do
 		v:Get():Draw()
 	end
 
-
 	render.SuppressEngineLighting(false)
+
+	//renderBrushLines()
 
 end )
 

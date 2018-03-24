@@ -24,6 +24,7 @@ function CanSnatch(ent)
     if CLIENT and ent:IsWeapon() and ent:IsCarriedByLocalPlayer() then return false end
     //if SERVER and not IsValid(ent:GetPhysicsObject()) then return false end
 
+    if ent:GetClass() == "hunter_flechette" then return true end
 	if ent:GetClass() == "prop_physics" then return true end
 	if ent:GetClass() == "prop_physics_multiplayer" then return true end
 	if ent:GetClass() == "prop_dynamic" then return true end

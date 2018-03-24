@@ -1,0 +1,14 @@
+"UnlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/jazzblackshard"
+	"$nodecal" 1
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$baseTextureTransform"
+			"texturescrollrate" .05
+			"texturescrollangle" -90
+		}
+	}
+}

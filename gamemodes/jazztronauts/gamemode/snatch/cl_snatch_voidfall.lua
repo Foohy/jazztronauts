@@ -11,12 +11,39 @@ local strainsounds = {
 	Sound("physics/metal/metal_box_strain4.wav")
 }
 
+local strainbig = {
+	Sound("npc/dog/dog_straining1.wav"),
+	Sound("npc/dog/dog_straining2.wav"),
+	Sound("npc/dog/dog_straining3.wav")
+}
+
+local popbig = {
+	Sound("weapons/underwater_explode3.wav"),
+	Sound("weapons/underwater_explode4.wav")
+}
+
+local function getScale(scene)
+	local brush = scene.handle:Get().brush
+	local size = brush.max - brush.min
+
+	local scale = math.max(size.x * size.y, size.x * size.z, size.y * size.z)
+	local remapped = math.Clamp(math.Remap(scale, 1000, 700000, 0, 1), 0, 1)
+
+	return remapped
+end
+
+local function isBigTake(scale)
+	return scale > 0.8
+end
+
 local function Handle( scene )
 
 	if scene:GetMode() ~= 2 then return end
-	--scene:GetRealEntity(), scene:GetEntity()
+	local scale = getScale(scene)
+	local bigTake = isBigTake(scale)
 
-	scene.duration = 4
+	scene.duration = bigTake and 5 or 4
+	scene.breaktime = bigTake and 1.8 or 0.8
 	scene.startpos = scene:GetRealEntity():GetPos()
 	scene.startvel = (LocalPlayer():EyePos() - scene.startpos):GetNormalized() * 100 + Vector(0, 0, 100)
 	scene.angvel = AngleRand() * 0.25
@@ -27,7 +54,8 @@ local function Handle( scene )
 		phys:Wake()
 	end
 
-	sound.Play(table.Random(strainsounds), scene.startpos, 85, math.Rand(75, 100))
+	local sounds = bigTake and strainbig or strainsounds
+	sound.Play(table.Random(sounds), scene.startpos, 85 + scale* 35, 120 - (1 - scale) * 50)
 
 	--Build scene table
 	table.insert( scenes, scene )
@@ -44,7 +72,7 @@ local function DoneScene( scene )
 end
 
 local function DrawScene( scene )
-	if (CurTime() - scene.time) < 1 then return end 
+	if (CurTime() - scene.time) < scene.breaktime then return end 
 
 	-- Redraw the entity in the jazz void
 	scene:GetEntity():DrawModel()
@@ -56,12 +84,21 @@ local function TickScene( scene )
 	local p = t / scene.duration
 	local ent = scene:GetEntity()
 
-	if t > 1 then
-		t = t - 1
+	if t > scene.breaktime then
+		t = t - scene.breaktime
 
 		if not scene.playedPop then
 			scene.playedPop = true
-			sound.Play( "garrysmod/balloon_pop_cute.wav", scene.startpos, 95, math.random(50, 80))
+			local scale = getScale(scene)
+			local bigTake = isBigTake(scale)
+
+			sound.Play( "garrysmod/balloon_pop_cute.wav", scene.startpos, 85 + scale * 35, 120 - scale * 90)
+			if bigTake then 
+				sound.Play( table.Random(popbig), scene.startpos, 85 + scale * 35, 120 - scale * 90, 0.5)
+			end
+
+			local distScale = scene.startpos:Distance(LocalPlayer():EyePos())
+			util.ScreenShake(scene.startpos, 8, 8, 0.25 + scale - distScale * 0.0001, 0)
 		end
 
 		local phys = ent:GetPhysicsObject()
@@ -76,7 +113,7 @@ local function TickScene( scene )
 
 		end
 	else
-		local pos = scene.startpos + VectorRand() * math.max(0, .5 - t) * 5
+		local pos = scene.startpos + VectorRand() * math.Clamp(scene.breaktime - 0.25 - t, 0, 1) * 3
 		ent:SetPos( pos )
 	end
 

@@ -52,11 +52,18 @@ local map = bsp.GetCurrent()
 
 print("NOW WE LOAD LUMPS")
 
+/*
+	BIG FAT #TODO: TO BOTH FOOHY AND ZAK
+	THIS IS TEMPORARY. FIX THIS. BAD DESIGN ALERT.
+*/
+local function onSnatchInfoReady()
+	hook.Call("JazzSnatchMapReady", GAMEMODE)
+end
 if SERVER then
 
 	map:LoadLumps({
 		bsp.LUMP_BRUSHES,
-	})
+	}, onSnatchInfoReady)
 
 else
 
@@ -64,7 +71,7 @@ else
 		bsp.LUMP_BRUSHES,
 		bsp.LUMP_FACES,
 		bsp.LUMP_TEXINFO,
-	})
+	}, onSnatchInfoReady)
 
 end
 

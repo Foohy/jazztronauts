@@ -30,6 +30,9 @@ game.AddParticles( "particles/jazztronauts_particles.pcf")
 PrecacheParticleSystem( "shard_glow" )
 
 ENT.TriggerRadius = 16
+ENT.BrushMinDestroyRadius = 64
+ENT.BrushMaxDestroyRadius = 300
+ENT.BrushDestroyInterval = 0.1 --0.01
 
 function ENT:Initialize()
 
@@ -44,6 +47,11 @@ function ENT:Initialize()
 
         self:SetTrigger(true)
         self:PhysWake()
+
+        -- Build a list of nearby brushes
+        timer.Simple(0, function()
+            self:WaitForMapInfo()
+        end )
     end
 
     
@@ -70,6 +78,64 @@ function ENT:UpdateTransmitState()
     return TRANSMIT_ALWAYS
 end
 
+-- Wait for the map info to be ready, then grab all the nearby brushes
+function ENT:WaitForMapInfo()
+    if bsp.GetCurrent():GetBrushes() then
+        self:GetNearbyBrushes()
+    else
+        hook.Add("JazzSnatchMapReady", self, function()
+            self:GetNearbyBrushes()
+        end)
+    end
+end
+
+function ENT:GetNearbyBrushes()
+    local brushes = bsp.GetCurrent():GetBrushes()
+    if !brushes then print("SHARDS DIDN'T GRAB BRUSHES - MAP STILL LOADING") return end
+
+    self.NearBrushes = {}
+    for k, v in pairs(brushes) do
+
+        if v:IntersectsSphere(self:GetPos(), self.BrushMaxDestroyRadius) and not snatch.removed_brushes[v] then
+            v:CreateWindings()
+
+            -- Skip if not solid
+            if bit.band(v.contents, CONTENTS_SOLID) != CONTENTS_SOLID then continue end
+
+            local info = {
+                id = k,
+                dist = self:GetPos():Distance((v.min + v.max) / 2)
+            }
+
+            table.insert(self.NearBrushes, info)
+        end
+    end
+
+    table.SortByMember(self.NearBrushes, "dist", true)
+
+    print("Found ", #self.NearBrushes .. " nearby brushes")
+end
+
+function ENT:DestroyNearbyBrushes(maxdist)
+    if not self.NearBrushes then 
+        self:GetNearbyBrushes()
+        return 
+    end
+
+    local pos = self:GetPos()
+    for k, v in ipairs(self.NearBrushes) do
+
+        -- Don't continue if we hit the specified max range
+        if v.dist > maxdist then break end
+
+        -- Random delay
+        timer.Simple(k * self.BrushDestroyInterval, function()
+            snatch.New():StartWorld( pos, nil, v.id )
+        end )
+    end
+
+    self.NearBrushes = nil
+end
 
 function ENT:Touch(ply)
     if CLIENT or self.Collected or !IsValid(ply) or !ply:IsPlayer() then return end
@@ -80,6 +146,14 @@ function ENT:Touch(ply)
     local expl = ents.Create( "env_explosion" )
 	expl:SetPos(self:GetPos())
 	expl:Fire("Explode", 0, 0)
+
+    if SERVER then 
+        -- Vary the range as they collect shards - bigger by the end
+        local numleft, total = mapgen.GetShardCount()
+        local maxdist = Lerp(numleft * 1.0 / total, self.BrushMaxDestroyRadius, self.BrushMinDestroyRadius)
+        print("DISTANCE: ", maxdist)
+        self:DestroyNearbyBrushes(maxdist)
+    end
 
     self:Remove()
 end

@@ -190,6 +190,7 @@ function meta:AppendBrushToMapMesh(brush)
 end
 
 next_brush_mesh_id = next_brush_mesh_id or 0
+local vec_one = Vector(1, 1, 1)
 function meta:RunWorld( brush_id )
 
 	if map:IsLoading() then print("STILL LOADING") return end
@@ -257,7 +258,7 @@ function meta:RunWorld( brush_id )
 	--actual:SetMoveType( MOVETYPE_VPHYSICS )
 	actual:SetRenderBounds( brush.min - brush.center, brush.max - brush.center )
 	actual:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
-	actual:SetModelScale( 0 )
+	//actual:SetModelScale( 0 )
 	--actual:GetPhysicsObject():Wake()
 	--actual:GetPhysicsObject():AddVelocity( Vector(0,0,100) )
 	actual.brush = brush
@@ -270,6 +271,7 @@ function meta:RunWorld( brush_id )
 		local mtx = Matrix()
 		mtx:SetTranslation( actual:GetPos() )
 		mtx:SetAngles( actual:GetAngles() )
+		mtx:SetScale(vec_one * actual:GetModelScale())
 
 		cam.PushModelMatrix( mtx )
 		self.brush:Render()

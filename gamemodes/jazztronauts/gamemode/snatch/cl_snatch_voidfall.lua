@@ -101,6 +101,8 @@ local function TickScene( scene )
 			util.ScreenShake(scene.startpos, 8, 8, 0.25 + scale - distScale * 0.0001, 0)
 		end
 
+		ent:SetModelScale(1 - t / (scene.duration - scene.breaktime))
+
 		local phys = ent:GetPhysicsObject()
 		if phys:IsValid() then
 			phys:EnableGravity(true)

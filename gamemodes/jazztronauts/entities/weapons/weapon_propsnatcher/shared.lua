@@ -216,7 +216,7 @@ function SWEP:TraceToRemove(stealWorld)
 
 	elseif not stealWorld then
 		local ent = self:FindConeEntity(tr)
-		print(ent)
+
 		-- Tell the server which entity we'd like to pick
 		if self:AcceptEntity( ent ) then
 			net.Start( "remove_client_send_trace" )

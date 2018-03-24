@@ -89,6 +89,22 @@ function meta:ContainsPoint(point)
 
 end
 
+function meta:IntersectsSphere(origin, radius)
+	if self:ContainsPoint(origin) then return true end
+
+	local n = 0
+	for _, side in pairs(self.sides) do
+
+		local plane = side.plane.back
+		local d = plane.normal:Dot( origin ) - plane.dist
+		if d < radius then
+			n = n + 1
+		end
+	end
+
+	return n == #self.sides
+end
+
 function meta:Add(side)
 
 	table.insert(self.sides, side)

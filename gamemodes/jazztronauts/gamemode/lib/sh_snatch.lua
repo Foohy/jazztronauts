@@ -35,7 +35,7 @@ end
 removed_brushes = removed_brushes or {}
 
 -- Voidmesh stuff
-max_map_verts = 4096
+max_map_verts = 2048
 map_meshes = map_meshes or {}
 current_mesh = current_mesh or { num = 1, mesh = nil, vertices = {} }
 
@@ -112,7 +112,7 @@ function TakeItAll()
 
 end
 
-function meta:StartWorld( position, owner )
+function meta:StartWorld( position, owner, brushid )
 
 	if not SERVER then return end
 
@@ -124,30 +124,30 @@ function meta:StartWorld( position, owner )
 
 	if map:IsLoading() then print("STILL LOADING") return end
 
-	local hit_brush = nil
+	if not brushid then
+		for k,v in pairs( map:GetBrushes() ) do
+			if bit.band(v.contents, CONTENTS_SOLID) != CONTENTS_SOLID then continue end
+			if v:ContainsPoint( position ) and not removed_brushes[k] then
+				brushid = k
+				break
+			end
 
-	for k,v in pairs( map:GetBrushes() ) do
-		if bit.band(v.contents, CONTENTS_SOLID) != CONTENTS_SOLID then continue end
-		if v:ContainsPoint( position ) and not removed_brushes[k] then
-			hit_brush = k
-			break
 		end
-
 	end
 
-	if not hit_brush or removed_brushes[hit_brush] == true then return end
-	removed_brushes[hit_brush] = true
+	if not brushid or removed_brushes[brushid] == true then return end
+	removed_brushes[brushid] = true
 
-	self.brush = hit_brush
+	self.brush = brushid
 	self:SetMode(2)
 
-	print("***SNATCH BRUSH: " .. hit_brush .. " ***")
+	//print("***SNATCH BRUSH: " .. brushid .. " ***")
 	SV_SendPropSceneToClients( self )
 
 end
 
 local function emptySide(side)
-	return side.texinfo.texdata.material == "TOOLS/TOOLSNODRAW"
+	return !side.texinfo or side.texinfo.texdata.material == "TOOLS/TOOLSNODRAW"
 end
 
 local idx = 0
@@ -209,17 +209,17 @@ function meta:RunWorld( brush_id )
 	brush.center = (brush.min + brush.max) / 2
 	local to_center = -brush.center
 
-	print("TRANSLATE: " .. tostring( to_center ) )
+	//print("TRANSLATE: " .. tostring( to_center ) )
 
 	for _, side in pairs( brush.sides ) do
-		if not side.winding then continue end
+		if not side.winding or not side.texinfo then continue end
 		side.winding:Move( to_center )
 
 		local texinfo = side.texinfo
 		local texdata = texinfo.texdata
 		local material = Material( texdata.material )
 
-		print( texdata.material )
+		//print( texdata.material )
 
 		next_brush_mesh_id = next_brush_mesh_id + 1
 		side.winding:CreateMesh( "brushpoly_" .. next_brush_mesh_id, material, texinfo.st, texinfo.lst, texdata.width, texdata.height )
@@ -237,7 +237,7 @@ function meta:RunWorld( brush_id )
 	-- Update the mesh that encompasses all of the void geometry
 	self:AppendBrushToMapMesh(brush)
 
-	print("WINDINGS READY, CREATE BRUSH PROXY")
+	//print("WINDINGS READY, CREATE BRUSH PROXY")
 
 	local entity = ManagedCSEnt( "brushproxy_" .. brush_id, "models/hunter/blocks/cube025x025x025.mdl", false )
 	local actual = entity:Get()
@@ -274,7 +274,7 @@ function meta:RunWorld( brush_id )
 	self.fake = actual
 	self.real = actual
 
-	print("PROXY READY, SNATCH IT")
+	//print("PROXY READY, SNATCH IT")
 
 	hook.Call( "HandlePropSnatch", GAMEMODE, self )
 

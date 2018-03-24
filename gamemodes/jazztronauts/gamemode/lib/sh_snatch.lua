@@ -165,7 +165,7 @@ function meta:AppendBrushToMapMesh(brush)
 		local texinfo = side.texinfo
 		local texdata = texinfo.texdata
 		side.winding:Move( to_brush )
-		side.winding:EmitMesh(texinfo.st, texinfo.lst, texdata.width, texdata.height, current_mesh.vertices)
+		side.winding:EmitMesh(texinfo.st, texinfo.lst, texdata.width, texdata.height, -to_brush, current_mesh.vertices)
 		side.winding:Move( -to_brush )
 
 	end
@@ -222,7 +222,7 @@ function meta:RunWorld( brush_id )
 		//print( texdata.material )
 
 		next_brush_mesh_id = next_brush_mesh_id + 1
-		side.winding:CreateMesh( "brushpoly_" .. next_brush_mesh_id, material, texinfo.st, texinfo.lst, texdata.width, texdata.height )
+		side.winding:CreateMesh( "brushpoly_" .. next_brush_mesh_id, material, texinfo.st, texinfo.lst, texdata.width, texdata.height, -to_center )
 
 		for _, point in pairs( side.winding.points ) do
 

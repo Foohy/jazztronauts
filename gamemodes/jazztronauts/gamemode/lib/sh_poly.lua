@@ -579,7 +579,7 @@ local function makeMaterial( texture )
 
 end
 
-function meta:EmitMesh(texmatrix, lmmatrix, width, height, meshVerts )
+function meta:EmitMesh(texmatrix, lmmatrix, width, height, offset, meshVerts )
 	width = width or 1
 	height = height or 1
 	material = material or default_mesh_material
@@ -587,7 +587,7 @@ function meta:EmitMesh(texmatrix, lmmatrix, width, height, meshVerts )
 	local function emitPointVert(p, normal, verts)
 		local u,v = 0,0
 		if texmatrix ~= nil then
-			u,v = texmatrix:GetUV(p)
+			u,v = texmatrix:GetUV(p + offset)
 			u = u / width 
 			v = v / height
 		end
@@ -601,7 +601,7 @@ function meta:EmitMesh(texmatrix, lmmatrix, width, height, meshVerts )
 
 
 			if lmmatrix ~= nil then
-				u,v = lmmatrix:GetUV(p)
+				u,v = lmmatrix:GetUV(p + offset)
 			end
 
 			--local light = render.ComputeLighting( p, normal )
@@ -626,11 +626,11 @@ function meta:EmitMesh(texmatrix, lmmatrix, width, height, meshVerts )
 end
 
 local default_mesh_material = Material( "editor/wireframe" )
-function meta:CreateMesh(id, material, texmatrix, lmmatrix, width, height )
+function meta:CreateMesh(id, material, texmatrix, lmmatrix, width, height, offset )
 	self.mesh = ManagedMesh( id, material )
 
 	mesh.Begin( self.mesh:Get(), MATERIAL_TRIANGLES, #self.points - 2 )
-		self:EmitMesh( texmatrix, lmmatrix, width, height)
+		self:EmitMesh( texmatrix, lmmatrix, width, height, offset)
 	mesh.End()
 
 	self.material = material

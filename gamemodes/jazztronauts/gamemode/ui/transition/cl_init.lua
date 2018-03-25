@@ -40,6 +40,8 @@ timer.Simple(3,function()
 	transitionIn()
 end)]]
 
+local convar_drawtransition = CreateClientConVar("jazz_transition", "1", true, false, "Roll that beautiful bean footage.")
+
 if mapcontrol.IsInHub() then
 	transitionIn(2)
 end
@@ -47,6 +49,8 @@ end
 hook.Add("PostRenderVGUI", "transitions", function()
 
 	local amount = ( CurTime() - starttime ) * rate
+
+	if not convar_drawtransition:GetBool() then return end
 
 	if transitioning == 0 then
 		return

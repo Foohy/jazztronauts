@@ -5,6 +5,7 @@ local meta = FindMetaTable("VMatrix")
 local __kmap = {}
 for k=1,16 do __kmap[k] = { math.ceil(k/4), ((k-1) % 4)+1 } end
 
+
 local cvmeta = {}
 cvmeta.__index = function( self, k )
 	local m = rawget(self, "mtx")
@@ -30,7 +31,7 @@ local _B = MAccess()
 local _C = MAccess()
 
 function meta:Transpose()
-
+/*
 	_A.mtx = self:ToTable()
 	_C.mtx = self
 
@@ -47,6 +48,26 @@ function meta:Transpose()
 	_C[10] = _A[7 ]
 	_C[14] = _A[8 ]
 	_C[15] = _A[12]
+*/
+
+	local m = self
+	local mv = m:ToTable()
+
+	m:SetField(1,2, mv[2][1])
+	m:SetField(1,3, mv[3][1])
+	m:SetField(1,4, mv[4][1])
+
+	m:SetField(2,1, mv[1][2])
+	m:SetField(2,3, mv[3][2])
+	m:SetField(2,4, mv[4][2])
+
+	m:SetField(3,1, mv[1][3])
+	m:SetField(3,2, mv[2][3])
+	m:SetField(3,4, mv[4][3])
+
+	m:SetField(4,1, mv[1][4])
+	m:SetField(4,2, mv[2][4])
+	m:SetField(4,3, mv[3][4])
 
 	return self
 
@@ -84,29 +105,47 @@ end
 
 local _T = MAccess()
 
-function meta:Transform( other, w )
+function meta:Transform3( vector, w, out )
 
-	if getmetatable(other) == meta then
-		other:Concat( self )
-	elseif isvector(other) then
-		local x = other.x
-		local y = other.y
-		local z = other.z
-		w = w or 1
+	out = out or Vector()
 
-		_T.mtx = self
-		local nx = x * _T[1 ] + y * _T[2 ] + z * _T[3 ] + w * _T[4 ]
-		local ny = x * _T[5 ] + y * _T[6 ] + z * _T[7 ] + w * _T[8 ]
-		local nz = x * _T[9 ] + y * _T[10] + z * _T[11] + w * _T[12]
-		local nw = x * _T[13] + y * _T[14] + z * _T[15] + w * _T[16]
+	local x = vector.x
+	local y = vector.y
+	local z = vector.z
+	w = w or 1
 
-		other.x = nx
-		other.y = ny
-		other.z = nz
+	_T.mtx = self
+	local nx = x * _T[1 ] + y * _T[2 ] + z * _T[3 ] + w * _T[4 ]
+	local ny = x * _T[5 ] + y * _T[6 ] + z * _T[7 ] + w * _T[8 ]
+	local nz = x * _T[9 ] + y * _T[10] + z * _T[11] + w * _T[12]
 
-		return other, nw
-	end
+	out.x = nx
+	out.y = ny
+	out.z = nz
 
-	return other
+	return out
+
+end
+
+function meta:Transform4( vector, w, out )
+
+	out = out or Vector()
+
+	local x = vector.x
+	local y = vector.y
+	local z = vector.z
+	w = w or 1
+
+	_T.mtx = self
+	local nx = x * _T[1 ] + y * _T[2 ] + z * _T[3 ] + w * _T[4 ]
+	local ny = x * _T[5 ] + y * _T[6 ] + z * _T[7 ] + w * _T[8 ]
+	local nz = x * _T[9 ] + y * _T[10] + z * _T[11] + w * _T[12]
+	local nw = x * _T[13] + y * _T[14] + z * _T[15] + w * _T[16]
+
+	out.x = nx
+	out.y = ny
+	out.z = nz
+
+	return out, nw
 
 end

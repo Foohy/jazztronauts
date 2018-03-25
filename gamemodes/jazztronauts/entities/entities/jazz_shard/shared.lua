@@ -14,7 +14,6 @@ sound.Add( {
 	channel = CHAN_STATIC,
 	volume = 0.75,
 	level = 80,
-	pitch = { 95, 110 },
 	sound = "jazztronauts/shard_hum_mono.wav"
 } )
 sound.Add( {
@@ -22,17 +21,22 @@ sound.Add( {
 	channel = CHAN_STATIC,
 	volume = 0.75,
 	level = 65,
-	pitch = { 95, 110 },
 	sound = "jazztronauts/shard_hum.wav"
 } )
 
 game.AddParticles( "particles/jazztronauts_particles.pcf") 
 PrecacheParticleSystem( "shard_glow" )
 
+ENT.ParticleName = "shard_glow"
 ENT.TriggerRadius = 16
 ENT.BrushMinDestroyRadius = 64
 ENT.BrushMaxDestroyRadius = 300
-ENT.BrushDestroyInterval = 0.1 --0.01
+ENT.BrushDestroyInterval = 0.1
+ENT.SnatchMode = 2
+ENT.RemoveDelay = 0
+
+ENT.ShardSound = "jazz_shard_idle"
+ENT.ShardNearSound = "jazz_shard_idle_near"
 
 function ENT:Initialize()
 
@@ -54,20 +58,18 @@ function ENT:Initialize()
         end )
     end
 
-    
-
     if CLIENT then
         --self:SetMaterial("models/wireframe")
         self.DrawMatrix = Matrix()
         self.StartOffset = math.random(0, 20)
 
-        self.IdleSound = CreateSound(self, "jazz_shard_idle") 
+        self.IdleSound = CreateSound(self, self.ShardSound) 
         self.IdleSound:Play()
 
-        self.IdleSoundNear = CreateSound(self, "jazz_shard_idle_near") 
+        self.IdleSoundNear = CreateSound(self, self.ShardNearSound) 
         self.IdleSoundNear:Play()
 
-        ParticleEffect( "shard_glow", self:GetPos(), self:GetAngles(), self )
+        ParticleEffect( self.ParticleName, self:GetPos(), self:GetAngles(), self )
         hook.Add("JazzDrawVoid", self, self.OnPortalRendered)
     end
 end
@@ -116,23 +118,39 @@ function ENT:GetNearbyBrushes()
     print("Found ", #self.NearBrushes .. " nearby brushes")
 end
 
-function ENT:DestroyNearbyBrushes(maxdist)
+function ENT:DestroyNearbyBrushesAndSelf(maxdist)
+    print("Begin destruction, ", maxdist)
     if not self.NearBrushes then 
         self:GetNearbyBrushes()
         return 
     end
 
     local pos = self:GetPos()
+    local actual = 0
     for k, v in ipairs(self.NearBrushes) do
-
         -- Don't continue if we hit the specified max range
         if v.dist > maxdist then break end
 
+        -- Ignore meshes that have already been taken
+        if snatch.removed_brushes[v.id] then continue end
+
         -- Random delay
-        timer.Simple(k * self.BrushDestroyInterval, function()
-            snatch.New():StartWorld( pos, nil, v.id )
+        timer.Simple(actual * self.BrushDestroyInterval, function()
+            local yoink = snatch.New()
+            yoink:SetMode(self.SnatchMode)
+            yoink:StartWorld( pos, self, v.id )
         end )
+
+        actual = actual + 1
     end
+
+    print("Actually yoinked: " .. actual .. " (" .. (actual * self.BrushDestroyInterval) .. " seconds)")
+
+    -- Destroy ourselves at the end of the delay
+    local addDelay = actual > 0 and self.RemoveDelay or 0
+    timer.Simple(actual * self.BrushDestroyInterval + addDelay, function()
+        self:Remove()
+    end )
 
     self.NearBrushes = nil
 end
@@ -152,10 +170,10 @@ function ENT:Touch(ply)
         local numleft, total = mapgen.GetShardCount()
         local maxdist = Lerp(numleft * 1.0 / total, self.BrushMaxDestroyRadius, self.BrushMinDestroyRadius)
         print("DISTANCE: ", maxdist)
-        self:DestroyNearbyBrushes(maxdist)
+        self:DestroyNearbyBrushesAndSelf(maxdist)
     end
 
-    self:Remove()
+    //self:Remove()
 end
 
 function ENT:OnRemove()
@@ -192,6 +210,20 @@ function ENT:OnPortalRendered()
     self:DrawModel()
 end
 
+function ENT:DrawDynLight()
+    local dlight = DynamicLight( self:EntIndex() )
+	if dlight then
+		dlight.pos = self:GetPos()
+		dlight.r = 255
+		dlight.g = 255
+		dlight.b = 255
+		dlight.brightness = 2
+		dlight.Decay = 100
+		dlight.Size = 256
+		dlight.DieTime = CurTime() + 1
+    end
+end
+
 function ENT:Draw()
     self.DrawMatrix:Identity()
 
@@ -204,15 +236,5 @@ function ENT:Draw()
     self:EnableMatrix("RenderMultiply", self.DrawMatrix)
     self:DrawModel()
 
-    local dlight = DynamicLight( self:EntIndex() )
-	if dlight then
-		dlight.pos = self:GetPos()
-		dlight.r = 255
-		dlight.g = 255
-		dlight.b = 255
-		dlight.brightness = 2
-		dlight.Decay = 1000
-		dlight.Size = 256
-		dlight.DieTime = CurTime() + 1
-    end
+    self:DrawDynLight()
 end

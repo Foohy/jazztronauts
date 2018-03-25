@@ -146,7 +146,6 @@ function meta:StartWorld( position, owner, brushid )
 	removed_brushes[brushid] = true
 
 	self.brush = brushid
-	self:SetMode(2)
 
 	//print("***SNATCH BRUSH: " .. brushid .. " ***")
 	SV_SendPropSceneToClients( self )
@@ -271,7 +270,7 @@ function meta:RunWorld( brush_id )
 		local mtx = Matrix()
 		mtx:SetTranslation( actual:GetPos() )
 		mtx:SetAngles( actual:GetAngles() )
-		mtx:SetScale(vec_one * actual:GetModelScale())
+		mtx:SetScale(vec_one * (actual:GetModelScale() or 1))
 
 		cam.PushModelMatrix( mtx )
 		self.brush:Render()
@@ -301,7 +300,6 @@ function meta:StartProp( prop, owner, kill, delay )
 
 	self.position = self.real:GetPos()
 	self.real.doing_removal = true
-	self:SetMode(1)
 
 	SV_SendPropSceneToClients( self )
 	SV_HandleEntityDestruction( self.real, owner, kill, delay )
@@ -429,6 +427,7 @@ if SERVER then
 		net.WriteUInt( scene.mode or 1, 8 )
 		net.WriteBit( scene.is_world and 1 or 0 )
 		net.WriteFloat( scene.time )
+		net.WriteEntity( scene.owner )
 
 		if not scene.is_world then
 
@@ -539,6 +538,7 @@ elseif CLIENT then
 		local mode = net.ReadUInt( 8 )
 		local is_world = net.ReadBit() == 1
 		local time = net.ReadFloat()
+		local owner = net.ReadEntity()
 
 		if not is_world then
 
@@ -554,7 +554,8 @@ elseif CLIENT then
 				mode = mode,
 				time = time,
 				vel = vel,
-				avel = avel,			
+				avel = avel,
+				owner = owner,		
 			} ):RunProp( ent )
 
 		else
@@ -566,6 +567,7 @@ elseif CLIENT then
 				mode = mode,
 				time = time,
 				pos = pos,
+				owner = owner,
 			} ):RunWorld( brush )
 
 		end

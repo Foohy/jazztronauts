@@ -36,17 +36,23 @@ local function isBigTake(scale)
 	return scale > 0.8
 end
 
+local function getCenter(scene)
+	return IsValid(scene.owner) and scene.owner:GetPos() or Vector()
+end
+
 local function Handle( scene )
-	if scene:GetMode() ~= 2 then return end
+	if scene:GetMode() ~= 3 then return end
 
 	local scale = getScale(scene)
 	local bigTake = isBigTake(scale)
+	local center = getCenter(scene)
 
-	scene.duration = bigTake and 5 or 4
 	scene.breaktime = bigTake and 1.8 or 0.8
 	scene.startpos = scene:GetRealEntity():GetPos()
 	scene.startvel = (LocalPlayer():EyePos() - scene.startpos):GetNormalized() * 100 + Vector(0, 0, 100)
-	scene.angvel = AngleRand() * 0.25
+	scene.angvel = AngleRand() * 0.25	
+	scene.duration = (bigTake and 3 or 2) + center:Distance(scene.startpos) * 0.0001
+
 	scene:GetEntity():SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
 
 	local phys = scene:GetEntity():GetPhysicsObject()
@@ -62,7 +68,7 @@ local function Handle( scene )
 
 end
 
-hook.Add( "HandlePropSnatch", "snatch_voidfall", Handle )
+hook.Add( "HandlePropSnatch", "snatch_voidfall_suck", Handle )
 
 
 local function DoneScene( scene )
@@ -72,6 +78,8 @@ local function DoneScene( scene )
 end
 
 local function DrawScene( scene )
+	if (CurTime() - scene.time) < scene.breaktime then return end 
+
 	-- Redraw the entity in the jazz void
 	scene:GetEntity():DrawModel()
 end
@@ -81,10 +89,11 @@ local function TickScene( scene )
 	local t = (CurTime() - scene.time)
 	local p = t / scene.duration
 	local ent = scene:GetEntity()
+	local center = getCenter(scene)
 
 	if t > scene.breaktime then
 		t = t - scene.breaktime
-
+		local bp = t / (scene.duration - scene.breaktime)
 		if not scene.playedPop then
 			scene.playedPop = true
 			local scale = getScale(scene)
@@ -99,16 +108,16 @@ local function TickScene( scene )
 			util.ScreenShake(scene.startpos, 8, 8, 0.25 + scale - distScale * 0.0001, 0)
 		end
 
-		ent:SetModelScale(1 - t / (scene.duration - scene.breaktime))
+		ent:SetModelScale(1 - bp)
 
 		local phys = ent:GetPhysicsObject()
 		if phys:IsValid() then
 			phys:EnableGravity(true)
 		else
-			local pos = scene.startpos + scene.startvel * t
-			pos = pos + 0.5 * physenv.GetGravity() * (t ^ 2)
-			ent:SetPos( pos )
-
+			//local pos = scene.startpos + scene.startvel * t
+			//pos = pos + 0.5 * physenv.GetGravity() * (t ^ 2)
+			local pos = LerpVector(math.EaseInOut(bp, 1, 0), scene.startpos, center)
+			ent:SetPos( pos ) 
 			ent:SetAngles( scene.angvel * t)
 
 		end
@@ -119,7 +128,7 @@ local function TickScene( scene )
 
 end
 
-hook.Add( "Think", "TickVoidRemoveScenes", function() 
+hook.Add( "Think", "TickVoidSuckRemoveScenes", function() 
 	for i=#scenes, 1, -1 do
 
 		if CurTime() - scenes[i].time > scenes[i].duration then
@@ -135,7 +144,7 @@ hook.Add( "Think", "TickVoidRemoveScenes", function()
 
 end)
 
-hook.Add("JazzDrawVoid", "DrawInsideVoidRemoveScenes", function()
+hook.Add("JazzDrawVoid", "DrawInsideVoidSuckRemoveScenes", function()
 	for i=#scenes, 1, -1 do
 		if CurTime() - scenes[i].time <= scenes[i].duration then
 			DrawScene( scenes[i] )

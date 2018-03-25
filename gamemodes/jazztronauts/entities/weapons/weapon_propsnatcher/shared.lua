@@ -86,10 +86,10 @@ function SWEP:SetUpgrades()
 	--self.EnableConeOrSomething = unlocks.IsUnlocked("store", self.Owner, snatch1)
 
 	-- Tier II - Automatic fire upgrade
-	self.Primary.Automatic = unlocks.IsUnlocked("store", self.Owner, snatch2)
+	self.Primary.Automatic = true// unlocks.IsUnlocked("store", self.Owner, snatch2)
 
 	-- Tier III - World stealing
-	self.CanStealWorld = unlocks.IsUnlocked("store", self.Owner, snatch3)
+	self.CanStealWorld = true //unlocks.IsUnlocked("store", self.Owner, snatch3)
 end
 
 
@@ -129,20 +129,21 @@ function SWEP:GetEntitySize(ent)
 	return ent:GetMass() / 100
 end
 
-function SWEP:RemoveEntity( ent )
+function SWEP:RemoveEntity( ent, snatchobj )
 
 	if self:AcceptEntity( ent ) and not ent.doing_removal then
-
-		snatch.New():StartProp( ent, self:GetOwner(), self.KillsPeople )
+		snatchobj:SetMode(1)
+		snatchobj:StartProp( ent, self:GetOwner(), self.KillsPeople )
 		GAMEMODE:CollectProp( ent, self:GetOwner() )
 
 	end
 
 end
 
-function SWEP:RemoveWorld( position )
+function SWEP:RemoveWorld( position, snatchobj )
 
-	snatch.New():StartWorld( position, self:GetOwner() )
+	snatchobj:SetMode(2)
+	snatchobj:StartWorld( position, self:GetOwner() )
 
 end
 
@@ -233,14 +234,15 @@ if SERVER then
 
 		local world = net.ReadBit() == 0
 		local swep = net.ReadEntity()
+		local snatchobj = snatch.New()
 
 		if world then
 
-			swep:RemoveWorld( net.ReadVector() )
+			swep:RemoveWorld( net.ReadVector(), snatchobj )
 
 		else
 
-			swep:RemoveEntity( net.ReadEntity() )
+			swep:RemoveEntity( net.ReadEntity(), snatchobj )
 
 		end
 
@@ -327,7 +329,7 @@ function SWEP:SecondaryAttack()
 	
 	if !self:CanSecondaryAttack() then return end
 	self:SetNextSecondaryFire(CurTime() + 0.5)
-	self:EmitSound( self.Primary.Sound, 50, math.random( 50, 60 ) )
+	//self:EmitSound( self.Primary.Sound, 50, math.random( 50, 60 ) )
 	
 	if CLIENT or game.SinglePlayer() then
 		self:TraceToRemove(true)

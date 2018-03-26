@@ -72,43 +72,43 @@ if SERVER then
     end
 
     local function checkAreaTrace(pos, ang)
-
+        local mask = bit.bor(MASK_SOLID, CONTENTS_PLAYERCLIP, CONTENTS_SOLID, CONTENTS_GRATE)
         local traces = {}
         local tdist = 1000000
         table.insert(traces, util.TraceLine( {
             start = pos,
             endpos = pos + ang:Up() * tdist,
-            mask = MASK_SOLID
+            mask = mask
         }))
 
         table.insert(traces, util.TraceLine( {
             start = pos,
             endpos = pos + ang:Up() * -tdist,
-            mask = MASK_SOLID
+            mask = mask
         }))
 
         table.insert(traces, util.TraceLine( {
             start = pos,
             endpos = pos + ang:Right() * tdist,
-            mask = MASK_SOLID
+            mask = mask
         }))
 
         table.insert(traces, util.TraceLine( {
             start = pos,
             endpos = pos + ang:Right() * -tdist,
-            mask = MASK_SOLID
+            mask = mask
         }))
 
         table.insert(traces, util.TraceLine( {
             start = pos,
             endpos = pos + ang:Forward() * tdist,
-            mask = MASK_SOLID
+            mask = mask
         }))
 
         table.insert(traces, util.TraceLine( {
             start = pos,
             endpos = pos + ang:Forward() * -tdist,
-            mask = MASK_SOLID
+            mask = mask
         }))
 
         local num = 0
@@ -145,7 +145,7 @@ if SERVER then
         if !util.IsInWorld(pos) then return nil end
 
         -- If the point is inside something solid -- also nah
-        if maskAny(util.PointContents(pos), CONTENTS_PLAYERCLIP, CONTENTS_SOLID) then return end
+        if maskAny(util.PointContents(pos), CONTENTS_PLAYERCLIP, CONTENTS_SOLID, CONTENTS_GRATE) then return end
 
         -- Check if they're near a suspicious amount of sky
         if !checkAreaTrace(pos, ent:GetAngles()) then return end
@@ -159,16 +159,7 @@ if SERVER then
         local skycam = ents.FindByClass("sky_camera")
         if #skycam == 0 then return false end -- Map has no skybox
 
-        local sky = skycam[1]
-
-        -- Test if ent has direct line of site of sky_camera (usually a pretty good sign)
-        local tr = util.TraceLine( {
-            start = ent:GetPos(),
-            endpos = sky:GetPos(),
-            mask = CONTENTS_SOLID
-        } )
-        
-        return !tr.Hit
+        return skycam[1]:TestPVS(ent)
     end
 
     local function spawnShard(transform, id)

@@ -59,7 +59,7 @@ function ENT:TryCallBus( id )
 
 	print("CALL BUSID: " .. tostring(id) )
 
-	local accept = id == 12345678
+	local accept = true --id == 12345678
 
 	if accept then
 		mapcontrol.RollMap()
@@ -99,6 +99,8 @@ end
 
 function ENT:ButtonPressed( button )
 
+	if self.locked then return end
+
 	self:EmitSound( "buttons/blip1.wav" )
 
 	local num = tonumber( button )
@@ -120,11 +122,13 @@ function ENT:ButtonPressed( button )
 
 	if button == "RANDOM" then
 
+		self.locked = true
+
 		self:SetReadout("")
 
 		self:EmitSound( "jazztronauts/ticka_tacka_1.wav" )
 
-		local num = 12345678
+		local num = math.random(10000000, 99999999)
 		local str = tostring( num )
 
 		for i=1, 8 do
@@ -132,6 +136,7 @@ function ENT:ButtonPressed( button )
 			timer.Simple( .5 + i / 8, function() 
 
 				self:AppendNumber( tonumber( str[i] ) )
+				if i == 8 then self.locked = false end
 
 			end )
 
@@ -185,7 +190,16 @@ function ENT:DrawNumbers( canvas )
 	surface.SetDrawColor( Color(0,0,0,200) )
 	surface.DrawRect( 0,0,w,h )
 
-	draw.DrawText( self:GetReadout(), "SmallHeaderFont", w, 0, Color(200,100,10), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+	local str = self:GetReadout()
+
+	local x = w - 12
+	for i=#str, 1, -1 do
+
+		draw.DrawText( tostring( str[i] ), "SmallHeaderFont", x, 0, Color(255,150,10), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+		x = x - 25
+
+	end
+
 
 end
 

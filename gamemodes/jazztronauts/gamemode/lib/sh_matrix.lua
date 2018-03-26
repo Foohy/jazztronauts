@@ -149,3 +149,11 @@ function meta:Transform4( vector, w, out )
 	return out, nw
 
 end
+
+function meta:DrawAxis( scale )
+
+	if SERVER then return end
+
+	gfx.renderAxis( self:GetTranslation(), self:GetForward(), self:GetRight(), self:GetUp(), scale )
+
+end

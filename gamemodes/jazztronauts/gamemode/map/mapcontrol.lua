@@ -3,6 +3,7 @@ module( 'mapcontrol', package.seeall )
 
 curSelected = curSelected or "gm_construct"
 mapList = mapList or {}
+mapIDs = mapIDs or {} -- Store generated unique id lookups for a map
 function GetMap()
 	return curSelected
 end
@@ -15,14 +16,35 @@ function GetHubMap()
 	return "jazz_bar"
 end
 
+function GetMapID(mapname)
+	local crc = tonumber(util.CRC(string.lower(mapname)))
+	return crc % 90000000 + 10000000
+end
+
 if SERVER then
 	util.AddNetworkString("jazz_rollmap")
 
-	-- Roll a new map to select
+	-- Roll a new random map to select
 	function RollMap()
 		local newMap = table.Random(mapList)
 		SetSelectedMap(newMap)
+		return newMap, mapIDs[newMap]
+	end
+
+	-- Given a unique map id, roll to it
+	function RollMapID(id)
+		local newMap = mapIDs[id] and table.Random(mapIDs[id])
+		if newMap then
+			SetSelectedMap(newMap)
+		end
+
 		return newMap
+	end
+
+	-- Get a random valid unique map id
+	function GetRandomMapID()
+		local _, k = table.Random(mapIDs)
+		return k
 	end
 
 	-- Update the new selected map
@@ -69,6 +91,9 @@ if SERVER then
 
 	-- Build the list of maps given what we've already played and what's installed
 	function SetupMaps() 
+		mapList = {}
+		mapIDs = {}
+
 		local maps = file.Find("maps/*.bsp", "WORKSHOP") -- option: WORKSHOP
 		local finished = progress.GetMapHistory()
 		for _, v in pairs(maps) do
@@ -76,6 +101,17 @@ if SERVER then
 			if finished and table.HasValue(finished, map) then continue end
 			
 			table.insert(mapList, map)
+			
+			local mapid = GetMapID(map)
+			if mapIDs[mapid] then 
+				print("WARNING!!! THE FOLLOWING MAPS HAVE ID COLLISIONS: ")
+				print(map)
+				for _, v in pairs(mapIDs) do print(v) end
+				print("-------------------------------")
+				table.insert(mapIDs[mapid], map)
+			else
+				mapIDs[mapid] = { map }
+			end
 		end
 	end
 

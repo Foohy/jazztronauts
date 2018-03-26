@@ -59,14 +59,7 @@ function ENT:TryCallBus( id )
 
 	print("CALL BUSID: " .. tostring(id) )
 
-	local accept = true --id == 12345678
-
-	if accept then
-		mapcontrol.RollMap()
-	end
-
-	return accept
-
+	return mapcontrol.RollMapID(id)
 end
 
 function ENT:AppendNumber( num )
@@ -128,7 +121,7 @@ function ENT:ButtonPressed( button )
 
 		self:EmitSound( "jazztronauts/ticka_tacka_1.wav" )
 
-		local num = math.random(10000000, 99999999)
+		local num = mapcontrol.GetRandomMapID()
 		local str = tostring( num )
 
 		for i=1, 8 do

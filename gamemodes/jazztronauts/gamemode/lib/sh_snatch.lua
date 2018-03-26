@@ -585,6 +585,9 @@ local sizeX = ScrW() -- Size of the void rendertarget. Expose scale?
 local sizeY = ScrH()
 local rt = irt.New("jazz_snatch_voidbg", sizeX, sizeY)
 
+void_prop_count = 10
+
+
 //rt:SetAlphaBits( 8 )
 rt:EnableDepth( true, true )
 local rtTex = rt:GetTarget()
@@ -634,6 +637,8 @@ local function renderVoid(eyePos, eyeAng, fov)
 	cam.Start3D(Vector(), eyeAng, fov, 0, 0, sizeX, sizeY)
 		-- Render the sky first, don't write to depth so everything draws over it
 		render.OverrideDepthEnable(true, false)
+			hook.Call("JazzPreDrawVoidSky", GAMEMODE)
+
 			local tunnel = ManagedCSEnt("jazz_snatchvoid_tunnel", "models/props/jazz_dome.mdl")
 			tunnel:SetNoDraw(true)
 			tunnel:SetPos(Vector())
@@ -652,18 +657,22 @@ local function renderVoid(eyePos, eyeAng, fov)
 
 			tunnel:SetMaterial("sunabouzu/JazzSwirl03")
 			tunnel:DrawModel()
-
+		
+		hook.Call("JazzPostDrawVoidSky", GAMEMODE)
 		render.OverrideDepthEnable(true, true)
 	cam.End3D()
+
 
 	-- Random props pass
 	if convar_drawprops:GetBool() then
 	cam.Start3D(eyePos, eyeAng, fov, 0, 0, sizeX, sizeY)
+		hook.Call("JazzPreDrawVoid", GAMEMODE)
+
 		local skull = ManagedCSEnt("jazz_snatchvoid_skull", "models/krio/jazzcat1.mdl")
 		skull:SetNoDraw(true)
 		skull:SetModelScale(4)
 
-		for i=1, 10 do
+		for i=1, void_prop_count do
 			local plyPos = LocalPlayer():EyePos()
 
 			-- Create a "treadmill" so they don't move until they get far away, then wrap around
@@ -786,7 +795,6 @@ hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 
 	-- Draw again with overlay
 	render.SetMaterial(surfaceMaterial)
-
 	for _, v in pairs(map_meshes) do
 		v:Get():Draw()
 	end

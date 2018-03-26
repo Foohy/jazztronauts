@@ -169,7 +169,7 @@ function ENT:Touch(ply)
         -- Vary the range as they collect shards - bigger by the end
         local numleft, total = mapgen.GetShardCount()
         local maxdist = Lerp(numleft * 1.0 / total, self.BrushMaxDestroyRadius, self.BrushMinDestroyRadius)
-        print("DISTANCE: ", maxdist)
+        
         self:DestroyNearbyBrushesAndSelf(maxdist)
     end
 

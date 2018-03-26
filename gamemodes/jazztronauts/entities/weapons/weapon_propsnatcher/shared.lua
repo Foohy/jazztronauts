@@ -24,6 +24,10 @@ SWEP.Secondary.ClipSize		= -1
 SWEP.Secondary.DefaultClip 	= -1
 SWEP.Secondary.Ammo 		= "none"
 
+-- General settings
+SWEP.ReticleCircleMaterial 	= Material("ui/jazztronauts/circle")
+SWEP.MaxRange 				= 500
+
 -- Tier 1 settings
 SWEP.AutoAimCone			= 10
 
@@ -34,7 +38,6 @@ SWEP.WarmUpTime				= 5 -- How long it takes to get to full blast
 SWEP.Spawnable 				= true
 SWEP.RequestInfo			= {}
 SWEP.KillsPeople			= true
-
 
 SWEP.StartShootTime 		= 0
 SWEP.LastCursorPos			= Vector()
@@ -166,32 +169,64 @@ local function findInCone(startpos, direction, radius, angle)
 	return res
 end
 
--- Given a trace result
-function SWEP:FindConeEntity(tr, acctbl)
+local backtrace = {
+	start = Vector(),
+	endpos = Vector(),
+	filter = nil,
+}
+local function IsVisible(self, ent)
+	backtrace.start:Set(ent:GetPos())
+	backtrace.endpos:Set(self.Owner:EyePos())
+	backtrace.filter = self.Owner
+	-- For simplicity, don't allow entities to block backtraces, only brushes
+	//backtrace.mask = bit.bor(MASK_SOLID_BRUSHONLY, CONTENTS_MOVEABLE  )
+	backtrace.mask = MASK_VISIBLE    
 
-	-- Whatever the trace actually hit always has priority
+	local res = util.TraceLine(backtrace)
+	return not res.Hit
+end
+
+-- Given a trace result
+function SWEP:FindConeEntity(tr )
+	local accept = {}
+	local near = {}
+
+	-- Whatever the trace actually hit always has priority	
+	local closest, closedist
+	closedist = math.huge
 	if self:AcceptEntity(tr.Entity) then 
-		if acctbl then table.insert(acctbl, tr.Entity)
-		else
-			return tr.Entity 
-		end
+		table.insert(accept, tr.Entity)
+		closest = tr.Entity
+		closedist = 0
 	end
 
-	local dist = (tr.StartPos - tr.HitPos):Length() + 100
-	local valid = findInCone(tr.StartPos, tr.Normal, dist, self.AutoAimCone)
+	local maxdist2 = self.MaxRange^2
+	local valid = findInCone(tr.StartPos, tr.Normal, self.MaxRange * 2, self.AutoAimCone)
+	local endPos = tr.StartPos + tr.Normal * self.MaxRange
 
 	-- Find the first available entity within the cone of influence
 	for _, v in pairs(valid) do
-		if self:AcceptEntity(v) then 
-			if acctbl then table.insert(acctbl, v)
-			else
-				return v 
+		local dist2 = (v:GetPos() - tr.StartPos):LengthSqr()
+		if self:AcceptEntity(v) then
+			local isVis = dist2 < maxdist2 and IsVisible(self, v) 
+
+			-- Insert into appropriate table
+			local tbl = isVis and accept or near 
+			table.insert(tbl, v)
+
+			-- Check if closest
+			if isVis then
+				local ldist = util.DistanceToLine(tr.StartPos, endPos, v:GetPos())
+				if ldist < closedist then
+					closedist = ldist
+					closest = v
+				end
 			end
 		end
 	end
 
 	-- Didn't find any valid entities (or returning array)
-	return acctbl and #acctbl > 0 and acctbl[1]
+	return closest, accept, near
 end
 
 --Reach out and touch something
@@ -202,7 +237,7 @@ function SWEP:TraceToRemove(stealWorld)
 
 	local tr = util.TraceLine( {
 		start = pos,
-		endpos = pos + dir * 100000,
+		endpos = pos + dir * self.MaxRange,
 		filter = self:GetOwner(),
 	} )
 
@@ -215,6 +250,8 @@ function SWEP:TraceToRemove(stealWorld)
 		net.WriteVector( tr.HitPos )
 		net.SendToServer()
 
+		self.WorldShootFade = 1
+
 	elseif not stealWorld then
 		local ent = self:FindConeEntity(tr)
 
@@ -225,7 +262,15 @@ function SWEP:TraceToRemove(stealWorld)
 			net.WriteEntity( self )
 			net.WriteEntity( ent )
 			net.SendToServer()
+
+			-- Add some nice feedback
+			self.ShootFade = 1
+			self.HoverAlpha = 2
+		else
+			self.BadShootFade = 1.0
 		end
+	else
+		self.BadShootFade = 1.0
 	end
 end
 
@@ -249,12 +294,26 @@ if SERVER then
 	end)
 end
 
+local function LerpColor(t, c1, c2)
+	return Color(Lerp(t, c1.r, c2.r), Lerp(t, c1.g, c2.g), Lerp(t, c1.b, c2.b))
+end
+
+local function ToVector(c)
+	return Vector(c.r / 255.0, c.g / 255.0, c.b / 255.0)
+end
+
 -- If auto aim is enabled, show the sphere of influence/current reticle
+SWEP.HoverAlpha = 0
+SWEP.ShootFade = 0
+SWEP.WorldShootFade = 0
+SWEP.BadShootFade = 0
 function SWEP:DrawHUD()
 	local pfov = LocalPlayer():GetFOV()
 	local radius = (ScrW() / 2) * math.tan(math.rad(90 - pfov/2)) * math.tan(math.rad(self.AutoAimCone))
 
-	surface.DrawCircle(ScrW()/2, ScrH() /2, radius * 0.8, 255, 255, 255)
+	-- #TODO: When _holding_, keep the circle at the smaller radius and show that same semicircle
+	-- from the bus caller
+	radius = radius - math.sin(math.pi * self.WorldShootFade) * ScreenScale(50)
 
 	-- Aimhack higlight 
 	local pos = self.Owner:GetShootPos()
@@ -262,12 +321,37 @@ function SWEP:DrawHUD()
 
 	local tr = util.TraceLine( {
 		start = pos,
-		endpos = pos + dir * 100000,
+		endpos = pos + dir * self.MaxRange,
 		filter = self:GetOwner(),
 	} )
 
-	local allents = {}
-	local ent = self:FindConeEntity(tr, allents)
+	//local timeStart = SysTime()
+	local ent, accept, near = self:FindConeEntity(tr)
+	//print((SysTime() - timeStart) * 1000)
+
+	-- Draw entities we can't grab now, but we're nearby	
+	local s = ScreenScale(1)
+	surface.SetDrawColor(100, 100, 100)
+	for _, v in pairs(near) do
+		cam.Start3D()
+		local toscr = v:GetPos():ToScreen()
+		cam.End3D()
+
+		surface.DrawRect(toscr.x - s, toscr.y - s, s *2, s *2)
+	end
+
+	-- Draw all the entities that are currently eligible to be snatched
+	local s = ScreenScale(2)
+	surface.SetDrawColor(255, 100, 100)
+	for _, v in pairs(accept) do
+		cam.Start3D()
+		local toscr = v:GetPos():ToScreen()
+		cam.End3D()
+
+		surface.DrawRect(toscr.x - s, toscr.y - s, s *2, s *2)
+	end
+
+	-- Draw what we're currently hovered over
 	if IsValid(ent) then
 		cam.Start3D()
 		local toscr = ent:GetPos():ToScreen()
@@ -277,19 +361,32 @@ function SWEP:DrawHUD()
 		self.LastCursorPos.x = Lerp(moveAmt, self.LastCursorPos.x, toscr.x)
 		self.LastCursorPos.y = Lerp(moveAmt, self.LastCursorPos.y, toscr.y)
 
-		surface.DrawCircle(self.LastCursorPos.x, self.LastCursorPos.y, ScreenScale(5), 255, 255, 255)
-		surface.SetDrawColor(255, 100, 100)
-		for _, v in pairs(allents) do
-			cam.Start3D()
-			local toscr = v:GetPos():ToScreen()
-			cam.End3D()
-
-			local s = 5
-
-			surface.DrawRect(toscr.x - s, toscr.y - s, s *2, s *2)
-			//surface.DrawCircle(toscr.x, toscr.y, ScreenScale(2), 255, 100, 100)
-		end
+		local asize = 50.0
+		surface.SetMaterial(self.ReticleCircleMaterial)
+		surface.SetDrawColor(100, 255, 100)
+		surface.DrawTexturedRect(self.LastCursorPos.x - asize/2, self.LastCursorPos.y - asize/2, asize, asize)
 	end
+
+	-- Large cone range circle
+	local size = radius * 2.55
+	local color = HSVToColor(20 + self.ShootFade * 30, 0.1 + self.ShootFade * 0.9, 1)
+	color = LerpColor(self.BadShootFade, color, Color(255, 60, 60)) -- Fade in red for bad boy shots
+	self.ReticleCircleMaterial:SetFloat("$glowend", 0.5 + (1 - self.ShootFade) * 1)
+
+	local glowcol = HSVToColor( self.ShootFade * 30, 0.1 + self.ShootFade * 0.9, 1)
+	self.ReticleCircleMaterial:SetVector("$glowcolor", ToVector(glowcol) * (self.ShootFade - 0.2))
+
+	local alpha = math.max(self.HoverAlpha, math.min(1, self.WorldShootFade * 50))
+	surface.SetDrawColor(color.r, color.g, color.b, 20 + alpha * 200)
+	surface.SetMaterial(self.ReticleCircleMaterial)
+	surface.DrawTexturedRect(ScrW() / 2 - size/2, ScrH() / 2 - size/2, size, size)
+
+	-- Step hover alpha linearly
+	local speed = 10
+	self.HoverAlpha = math.Approach(self.HoverAlpha, IsValid(ent) and 1 or 0, FrameTime() * speed) 
+	self.ShootFade = math.Approach(self.ShootFade, 0, FrameTime() * 3)
+	self.WorldShootFade = math.Approach(self.WorldShootFade, 0, FrameTime() * 2.1)
+	self.BadShootFade = math.Approach(self.BadShootFade, 0, FrameTime() * 3)
 end
 
 -- When button starts being held down

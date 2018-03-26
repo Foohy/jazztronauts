@@ -151,6 +151,14 @@ function SWEP:RemoveWorld( position, snatchobj )
 
 end
 
+local function getPropCenter(ent)
+	local backtrmin, backtrmax = ent:GetCollisionBounds()
+	backtrmin = util.LocalToWorld(ent, backtrmin)
+	backtrmax = util.LocalToWorld(ent, backtrmax)
+
+	return (backtrmin + backtrmax) / 2
+end
+
 -- IT'S BEEN LIKE 10 YEARS HOW CAN THIS FUNCTION _STILL_ BE BUGGED
 local function findInCone(startpos, direction, radius, angle)
 	local near = ents.FindInSphere(startpos, radius)
@@ -159,12 +167,14 @@ local function findInCone(startpos, direction, radius, angle)
 
 	-- Filter out entities that aren't in the angle
 	for _, v in ipairs(near) do
-		local dir = (v:GetPos() - startpos)
+		local vpos = getPropCenter(v)
+		local dir = (vpos - startpos)
 		dir:Normalize()
 
 		if direction:Dot(dir) >= ang then
 			table.insert(res, v)
 		end
+
 	end
 
 	return res
@@ -175,13 +185,6 @@ local backtrace = {
 	endpos = Vector(),
 	filter = nil,
 }
-local function getPropCenter(ent)
-	local backtrmin, backtrmax = ent:GetCollisionBounds()
-	backtrmin = util.LocalToWorld(ent, backtrmin)
-	backtrmax = util.LocalToWorld(ent, backtrmax)
-
-	return (backtrmin + backtrmax) / 2
-end
 local function IsVisible(self, ent)
 
 	backtrace.start:Set(getPropCenter(ent))

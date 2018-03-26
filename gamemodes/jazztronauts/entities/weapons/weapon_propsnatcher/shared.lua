@@ -174,8 +174,16 @@ local backtrace = {
 	endpos = Vector(),
 	filter = nil,
 }
+local function getPropCenter(ent)
+	local backtrmin, backtrmax = ent:GetCollisionBounds()
+	backtrmin = util.LocalToWorld(ent, backtrmin)
+	backtrmax = util.LocalToWorld(ent, backtrmax)
+
+	return (backtrmin + backtrmax) / 2
+end
 local function IsVisible(self, ent)
-	backtrace.start:Set(ent:GetPos())
+
+	backtrace.start:Set(getPropCenter(ent))
 	backtrace.endpos:Set(self.Owner:EyePos())
 	backtrace.filter = self.Owner
 	-- For simplicity, don't allow entities to block backtraces, only brushes
@@ -190,14 +198,15 @@ end
 function SWEP:FindConeEntity(tr )
 	local accept = {}
 	local near = {}
+	cam.Start3D() -- so ToScreen works
 
 	-- Whatever the trace actually hit always has priority	
-	local closest, closedist
-	closedist = math.huge
+	local closest, closedist2
+	closedist2 = math.huge
 	if self:AcceptEntity(tr.Entity) then 
 		table.insert(accept, tr.Entity)
 		closest = tr.Entity
-		closedist = 0
+		closedist2 = 0
 	end
 
 	local maxdist2 = self.MaxRange^2
@@ -206,7 +215,8 @@ function SWEP:FindConeEntity(tr )
 
 	-- Find the first available entity within the cone of influence
 	for _, v in pairs(valid) do
-		local dist2 = (v:GetPos() - tr.StartPos):LengthSqr()
+		local centerpos = getPropCenter(v)
+		local dist2 = (centerpos - tr.StartPos):LengthSqr()
 		if self:AcceptEntity(v) then
 			local isVis = dist2 < maxdist2 and IsVisible(self, v) 
 
@@ -216,14 +226,17 @@ function SWEP:FindConeEntity(tr )
 
 			-- Check if closest
 			if isVis then
-				local ldist = util.DistanceToLine(tr.StartPos, endPos, v:GetPos())
-				if ldist < closedist then
-					closedist = ldist
+				local scrpos = centerpos:ToScreen()
+				local ldist = (scrpos.x - ScrW()/2)^2 + (scrpos.y - ScrH()/2)^2
+				if ldist < closedist2 then
+					closedist2 = ldist
 					closest = v
 				end
 			end
 		end
 	end
+
+	cam.End3D()
 
 	-- Didn't find any valid entities (or returning array)
 	return closest, accept, near
@@ -242,7 +255,7 @@ function SWEP:TraceToRemove(stealWorld)
 	} )
 
 	-- Tell the server we'd like to steal the world right here
-	if stealWorld and not tr.HitNonWorld then
+	if stealWorld and tr.HitWorld then
 
 		net.Start( "remove_client_send_trace" )
 		net.WriteBit(0)
@@ -334,7 +347,7 @@ function SWEP:DrawHUD()
 	surface.SetDrawColor(100, 100, 100)
 	for _, v in pairs(near) do
 		cam.Start3D()
-		local toscr = v:GetPos():ToScreen()
+		local toscr = getPropCenter(v):ToScreen()
 		cam.End3D()
 
 		surface.DrawRect(toscr.x - s, toscr.y - s, s *2, s *2)
@@ -345,7 +358,7 @@ function SWEP:DrawHUD()
 	surface.SetDrawColor(255, 100, 100)
 	for _, v in pairs(accept) do
 		cam.Start3D()
-		local toscr = v:GetPos():ToScreen()
+		local toscr = getPropCenter(v):ToScreen()
 		cam.End3D()
 
 		surface.DrawRect(toscr.x - s, toscr.y - s, s *2, s *2)
@@ -354,7 +367,7 @@ function SWEP:DrawHUD()
 	-- Draw what we're currently hovered over
 	if IsValid(ent) then
 		cam.Start3D()
-		local toscr = ent:GetPos():ToScreen()
+		local toscr = getPropCenter(ent):ToScreen()
 		cam.End3D()
 
 		local moveAmt = math.min(1, FrameTime() * 30)

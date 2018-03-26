@@ -17,12 +17,18 @@ function Clear( list_name )
 
 	if SERVER then
 
-		--FUCK
-		--local table_name = "unlocklist_" .. list_name
-		--sql.Query( "DROP TABLE " .. table_name )
+		local table_name = "unlocklist_" .. list_name
+		sql.Query( "DROP TABLE " .. table_name )
+		print("Dropping " .. table_name)
 
 	end
 
+end
+
+function ClearAll()
+	for k, v in pairs(unlock_lists) do
+		Clear(k)
+	end
 end
 
 function Register( list_name )

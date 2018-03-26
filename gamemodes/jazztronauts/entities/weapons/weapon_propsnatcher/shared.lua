@@ -29,7 +29,8 @@ SWEP.ReticleCircleMaterial 	= Material("ui/jazztronauts/circle")
 SWEP.MaxRange 				= 500
 
 -- Tier 1 settings
-SWEP.AutoAimCone			= 10
+local AimConeDefault 		= 0
+SWEP.AutoAimCone			= AimConeDefault
 
 -- Tier 2 settings
 SWEP.MinFireDelay 			= 0.1 -- Min delay to fire when at full blast
@@ -86,13 +87,13 @@ end
 function SWEP:SetUpgrades()
 
 	-- Tier I - Aim in cone upgrade
-	--self.EnableConeOrSomething = unlocks.IsUnlocked("store", self.Owner, snatch1)
+	self.AutoAimCone = unlocks.IsUnlocked("store", self.Owner, snatch1) and 10 or AimConeDefault
 
 	-- Tier II - Automatic fire upgrade
-	self.Primary.Automatic = true// unlocks.IsUnlocked("store", self.Owner, snatch2)
+	self.Primary.Automatic = unlocks.IsUnlocked("store", self.Owner, snatch2)
 
 	-- Tier III - World stealing
-	self.CanStealWorld = true //unlocks.IsUnlocked("store", self.Owner, snatch3)
+	self.CanStealWorld = unlocks.IsUnlocked("store", self.Owner, snatch3)
 end
 
 
@@ -320,13 +321,16 @@ SWEP.HoverAlpha = 0
 SWEP.ShootFade = 0
 SWEP.WorldShootFade = 0
 SWEP.BadShootFade = 0
+SWEP.EquipFade = 0
 function SWEP:DrawHUD()
 	local pfov = LocalPlayer():GetFOV()
 	local radius = (ScrW() / 2) * math.tan(math.rad(90 - pfov/2)) * math.tan(math.rad(self.AutoAimCone))
+	local drawExtended = self.AutoAimCone > 0
 
 	-- #TODO: When _holding_, keep the circle at the smaller radius and show that same semicircle
 	-- from the bus caller
 	radius = radius - math.sin(math.pi * self.WorldShootFade) * ScreenScale(50)
+	radius = radius * math.EaseInOut(self.EquipFade, 0, 1)
 
 	-- Aimhack higlight 
 	local pos = self.Owner:GetShootPos()
@@ -342,7 +346,7 @@ function SWEP:DrawHUD()
 	local ent, accept, near = self:FindConeEntity(tr)
 	//print((SysTime() - timeStart) * 1000)
 
-	-- Draw entities we can't grab now, but we're nearby	
+	-- Draw entities we can't grab now, but we're nearby
 	local s = ScreenScale(1)
 	surface.SetDrawColor(100, 100, 100)
 	for _, v in pairs(near) do
@@ -365,7 +369,7 @@ function SWEP:DrawHUD()
 	end
 
 	-- Draw what we're currently hovered over
-	if IsValid(ent) then
+	if IsValid(ent) and drawExtended then
 		cam.Start3D()
 		local toscr = getPropCenter(ent):ToScreen()
 		cam.End3D()
@@ -400,6 +404,13 @@ function SWEP:DrawHUD()
 	self.ShootFade = math.Approach(self.ShootFade, 0, FrameTime() * 3)
 	self.WorldShootFade = math.Approach(self.WorldShootFade, 0, FrameTime() * 2.1)
 	self.BadShootFade = math.Approach(self.BadShootFade, 0, FrameTime() * 3)
+	self.EquipFade = math.Approach(self.EquipFade, 1, FrameTime() * 3)
+end
+
+function SWEP:Deploy()
+	self.EquipFade = 0
+
+	return self.BaseClass.Deploy(self)
 end
 
 -- When button starts being held down

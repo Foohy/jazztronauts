@@ -223,6 +223,15 @@ function ENT:DrawControls( canvas )
 
 	local pressed = false
 	if LocalPlayer():KeyDown( IN_USE ) then
+		if not self.was_use_down then
+			self.was_use_down = true
+			pressed = true
+		end
+	else
+		self.was_use_down = false
+	end
+
+	if LocalPlayer():KeyDown( IN_ATTACK ) then
 		if not self.was_attack_down then
 			self.was_attack_down = true
 			pressed = true

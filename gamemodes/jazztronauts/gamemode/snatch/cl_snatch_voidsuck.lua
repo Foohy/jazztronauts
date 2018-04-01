@@ -61,7 +61,7 @@ local function Handle( scene )
 	end
 
 	local sounds = bigTake and strainbig or strainsounds
-	sound.Play(table.Random(sounds), scene.startpos, 85 + scale* 35, 120 - (1 - scale) * 50)
+	sound.Play(table.Random(sounds), scene.startpos, 95 + scale* 35, 120 - (1 - scale) * 50)
 
 	--Build scene table
 	table.insert( scenes, scene )
@@ -101,7 +101,7 @@ local function TickScene( scene )
 
 			sound.Play( "garrysmod/balloon_pop_cute.wav", scene.startpos, 85 + scale * 35, 120 - scale * 90)
 			if bigTake then 
-				sound.Play( table.Random(popbig), scene.startpos, 85 + scale * 35, 120 - scale * 90, 0.5)
+				sound.Play( table.Random(popbig), scene.startpos, 90 + scale * 35, 120 - scale * 90, 0.5)
 			end
 
 			local distScale = scene.startpos:Distance(LocalPlayer():EyePos())

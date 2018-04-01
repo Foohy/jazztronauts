@@ -84,15 +84,9 @@ function ENT:Initialize()
 	self:EmitSound( "jazz_bus_idle", 90, 150 )
 
 	-- Hook into when the map is changed so this bus knows to leave
-	if SERVER then
-		hook.Add("JazzMapRandomized", self, function(self, newmap)
-			if self:GetDestination() != newmap then self:LeaveStation() end
-		end )
-
-		hook.Add("PlayerEnteredVehicle", self, function(self, ply, veh, role) 
-			self:CheckLaunch()
-		end)
-	end
+	hook.Add("JazzMapRandomized", "JazzHubBusChange_" .. self:GetCreationID(), function(newmap)
+		if IsValid(self) and self:GetDestination() != newmap then self:LeaveStation() end
+	end )
 end
 
 function ENT:AttachSeat(pos, ang)
@@ -107,6 +101,8 @@ function ENT:AttachSeat(pos, ang)
 	ent:SetParent(self)
 	ent:Spawn()
 	ent:Activate()
+
+	ent.JazzBus = self
 
 	self.Seats = self.Seats or {}
 	table.insert(self.Seats, ent)
@@ -151,7 +147,7 @@ function ENT:LeaveStation()
 
 	self.StartTime = CurTime()
 	self.StartPos = self:GetPos()
-	self.GoalPos = self.GoalPos + self:GetAngles():Right() * 2000
+	self.GoalPos = self.GoalPos + self:GetAngles():Right() * 3000
 
 	self.Leaving = true
 	self:ResetTrigger("arrived")
@@ -271,3 +267,9 @@ function ENT:OnRemove()
 		end )
 	end
 end
+
+hook.Add("PlayerEnteredVehicle", "JazzHubBusEnterSeat", function(ply, veh, role) 
+	if IsValid(veh.JazzBus) then
+		veh.JazzBus:CheckLaunch()
+	end
+end)

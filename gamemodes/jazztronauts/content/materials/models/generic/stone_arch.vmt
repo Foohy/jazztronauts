@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/generic/stone_arch"
+	"$bumpmap" "models/generic/stone_arch_N"
+}

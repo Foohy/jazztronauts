@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/wooden_bucket"
+	"$bumpmap" "models/generic/stone_arch_N"
+}

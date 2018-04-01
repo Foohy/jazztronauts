@@ -1,0 +1,6 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/drapelit"
+	"$selfillum" 1
+	"$nocull" 1
+}

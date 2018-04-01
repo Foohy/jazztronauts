@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/msx/msx_light"
+	$selfillum 1
+}

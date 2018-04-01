@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "msx/mg2_glass"
+	"$surfaceprop" "Glass"
+	"$nocull" 1
+	"$translucent" 1
+}

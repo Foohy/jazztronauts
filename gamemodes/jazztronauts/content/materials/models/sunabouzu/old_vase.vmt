@@ -1,0 +1,9 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/old_vase"
+	"$bumpmap" "models/sunabouzu/old_vase_N"
+	"$phong" "1"
+	"$phongexponent" "3"
+	"$phongboost" "30"
+	$phongfresnelranges		"[ .025 .1 .1]"
+}

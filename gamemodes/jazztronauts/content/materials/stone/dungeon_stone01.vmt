@@ -1,0 +1,12 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "stone/dungeon_stone01"
+	"$bumpmap" "stone/dungeon_stone01_normal"
+	$reflectivity "[.5 .5 .5]"
+	"$surfaceprop" "Brick"
+	$detail detail\noise_detail_01 // e.g. for brickwork, concrete...
+	$detailscale 7.74
+	$detailblendfactor 0.8
+	$detailblendmode 0
+	"%keywords" "demon,hunter,dungeon,stone"
+}

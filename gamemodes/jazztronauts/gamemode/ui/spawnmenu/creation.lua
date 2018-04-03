@@ -26,11 +26,31 @@ function PANEL:AddUnlockedProp( model )
 
 end
 
+function PANEL:AddUnlockedWeapon( weapon )
+	local wepinfo = list.Get("Weapon")[weapon]
+	if not wepinfo then return false end
+
+	local icon = spawnmenu.CreateContentIcon( wepinfo.ScriptedEntityType or "weapon", self.content, 
+		{ 
+			nicename = wepinfo.PrintName or wepinfo.ClassName or weapon,
+			spawnname = wepinfo.ClassName or weapon,
+			material = "entities/" .. (wepinfo.ClassName or weapon) .. ".png",
+			admin = wepinfo.AdminOnly
+		} )
+
+	icon.OpenMenu = function() end
+	self.weapons:Add( icon )
+	return true
+end
+
 function PANEL:Populate()
 
+	-- Prop Panel
 	local pnl = vgui.Create( "Panel", self )
-
 	self:AddSheet( "Props", pnl, "icon16/exclamation.png", nil, nil, "Spawn your props" )
+
+	self.content = vgui.Create( "ContentContainer", pnl )
+	self.content:Dock( FILL )
 
 	if unlocks.IsValid( "props" ) then
 
@@ -39,26 +59,39 @@ function PANEL:Populate()
 		end
 
 	end
-
-	self.content = vgui.Create( "ContentContainer", pnl )
-	self.content:Dock( FILL )
-
 	hook.Add("OnUnlocked", "creation_panel_unlock", function( list, key )
 		if list == "props" then
 			self:AddUnlockedProp( key )
 		end
 	end)
 
+	//local pnl = vgui.Create( "DPanel" )
+	//self:AddSheet( "Tools", pnl, "icon16/exclamation.png", nil, nil, "Select tools" )
+
+
+	-- Weapons Panel
 	local pnl = vgui.Create( "DPanel" )
-
-	self:AddSheet( "Tools", pnl, "icon16/exclamation.png", nil, nil, "Select tools" )
-
-	local pnl = vgui.Create( "DPanel" )
-
 	self:AddSheet( "Weapons", pnl, "icon16/exclamation.png", nil, nil, "Guns" )
+	
+	self.weapons = vgui.Create( "ContentContainer", pnl )
+	self.weapons:Dock( FILL )
 
+	-- Go through every registered jazz weapon and try to add them
+	for k, v in pairs(list.Get("Weapon")) do
+		if v.Category == "Jazztronauts" and GAMEMODE:JazzCanSpawnWeapon(LocalPlayer(), k) then
+			self:AddUnlockedWeapon( k )
+		end
+	end
+
+	hook.Add("OnUnlocked", "weapons_panel_unlock", function( list, key )
+		if list == "store" then
+			self:AddUnlockedWeapon( key )
+		end
+	end)
+
+
+	-- Backup spawnmenu just in case
 	local pnl = vgui.Create( "CreationMenu" )
-
 	self:AddSheet( "Dogs", pnl, "icon16/exclamation.png", nil, nil, "Dogs?" )
 
 	--[[local tabs = spawnmenu.GetCreationTabs()

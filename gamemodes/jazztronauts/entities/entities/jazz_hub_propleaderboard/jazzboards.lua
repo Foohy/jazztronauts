@@ -10,7 +10,7 @@ BOARD_RECENTS           = 3 -- Most props not claimed yet (recently collected pr
 BOARD_TOTALPROPS_SINGLE = 4 -- Most props of a single type collected of all time
 
 -- How many top entries we should care about 
-BoardEntryCount = 3
+BoardEntryCount = 5
 
 Boards = Boards or {}
 

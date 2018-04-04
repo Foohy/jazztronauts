@@ -8,9 +8,16 @@ GM.Author   = "Snakefuck Mountain"
 
 team.SetUp( 1, "Jazztronauts", Color( 255, 128, 0, 255 ) )
 
+if SERVER then 
+    CreateConVar("jazz_override_noclip", 1, FCVAR_NOTIFY, "Allow jazztronauts to override when players can noclip.")
+end
 
 function GM:PlayerNoClip(ply)
-	return mapcontrol.IsInHub() or true
+    if GetConVar("jazz_override_noclip"):GetBool() then
+        return mapcontrol.IsInHub()
+    else
+        return self.BaseClass.PlayerNoClip(self, ply)
+    end
 end
 
 function GM:PhysgunPickup(ply, ent)

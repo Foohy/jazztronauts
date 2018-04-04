@@ -7,7 +7,8 @@ local PipeRadius = 40
 local function TickVomitProps()
     for i=#JazzVomitProps, 1, -1 do
         local p = JazzVomitProps[i]
-        local t = (p and p.RemoveAt or 0) - UnPredictedCurTime()
+
+        local t = (IsValid(p) and p.Instance.RemoveAt or 0) - UnPredictedCurTime()
         if not IsValid(p) or t < 0 then
             table.remove(JazzVomitProps, i)
             if IsValid(p) then p:Remove() end 
@@ -22,46 +23,67 @@ local function TickVomitProps()
     end
 end
 
+local function getPropSize(ent)
+    local phys = ent:GetPhysicsObject()
+    local min, max = IsValid(phys) and phys:GetAABB()
+
+    if not min or not max then
+        min, max = ent:GetModelBounds()
+    end
+
+    return max - min
+end
+
 local function resize(ent)
+    local size = getPropSize(ent) * 0.5
+
     ent:PhysicsInitSphere(32)
 
-    local scale = 32 / ent:BoundingRadius()
+    local maxsize = math.max(size.x, size.y, size.z)
+    local scale = 32 / maxsize
     ent:SetModelScale(scale)
 end
 
 local function tooBig(ent)
-    return ent:BoundingRadius() > PipeRadius
+    local size = getPropSize(ent) * 0.5
+
+    return size.x > PipeRadius || size.y > PipeRadius
 end
 
-local function AddVomitProp(model)
-    local ent = nil
-    if util.IsValidRagdoll(model) and false then
-        ent = ClientsideRagdoll(model)
-        ent:SetModel(model)
-        ent:Spawn()
-        for i=0, ent:GetPhysicsObjectCount()-1 do
-			local boneid = ent:TranslatePhysBoneToBone( i )
-            if boneid > -1 then
-                local phys = ent:GetPhysicsObjectNum( i )
-                if phys then
-                    phys:Wake()
-                    phys:SetVelocity( VectorRand() * 100 )
-                    phys:AddAngleVelocity( VectorRand() * 100 )
-                end
+local idx = 0
+local function AddVomitProp(model, pos)
+    idx = idx + 1
+    local shouldRagdoll = util.IsValidRagdoll(model)
+    local entObj = ManagedCSEnt(model .. idx .. FrameNumber(), model, shouldRagdoll)
+    local ent = entObj.Instance
+    if shouldRagdoll then
+
+		for i=0, ent:GetPhysicsObjectCount()-1 do
+            local phys = ent:GetPhysicsObjectNum( i )
+            if phys then
+
+                phys:SetPos( pos, true )
+                phys:Wake()
+                phys:SetVelocity( VectorRand() * 100  )
+                phys:AddAngleVelocity(VectorRand() * 100  )
+
             end
-        end
-    else
-        ent = ents.CreateClientProp(model)
-        ent:SetModel(model)
-        ent:Spawn()
+		end
         
+        if not IsValid(ent:GetPhysicsObject()) then
+            resize(ent)
+        end
+    else 
         if not ent:PhysicsInit(SOLID_VPHYSICS) or tooBig(ent) then
             resize(ent)
         end
+
+        ent:SetPos(pos)
     end
 
     ent:SetNoDraw(false)
     ent:DrawShadow(true)
+
     ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
     ent:GetPhysicsObject():SetMass(500)
     ent:GetPhysicsObject():Wake()
@@ -69,7 +91,7 @@ local function AddVomitProp(model)
     ent:GetPhysicsObject():AddAngleVelocity(VectorRand() * 1000)
 
     ent.RemoveAt = UnPredictedCurTime() + Lifetime
-    table.insert(JazzVomitProps, ent)
+    table.insert(JazzVomitProps, entObj)
     //SafeRemoveEntityDelayed(ent, 10)
 
     return ent
@@ -82,5 +104,4 @@ net.Receive("jazz_propvom_effect", function(len, ply)
     local model = net.ReadString()
 
     local ent = AddVomitProp(model, pos)
-    ent:SetPos(pos)
 end )

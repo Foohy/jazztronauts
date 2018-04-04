@@ -30,6 +30,9 @@ function ManagedCSEnt( id, model, ragdoll )
 	ent.Get = function( self )
 		return rawget(self, "Instance")
 	end
+	ent.IsValid = function(self)
+		return IsValid(self.Instance)
+	end
 
 	local meta = {}
 	meta.__index = function( t, k )

@@ -26,7 +26,11 @@ end
 function GM:InitPostEntity()
 
 	if mapcontrol.IsInHub() then
-		--mapgen.LoadHubProps()
+		-- Restore the bus for the last map we played
+		local m = progress.GetLastMapSession()
+		if m then
+			mapcontrol.SetSelectedMap(m.filename)
+		end
 	else
 		-- Add current map to list of 'started' maps
 		local map = progress.GetMap(game.GetMap())
@@ -42,6 +46,7 @@ function GM:InitPostEntity()
 			map = progress.StartMap(game.GetMap(), seed, shardworth)
 		-- Else, spawn shards, but only the ones that haven't been collected
 		else
+			map = progress.StartMap(game.GetMap()) -- Start a new session, but keep existin mapgen info
 			local shards = progress.GetMapShards(game.GetMap())
 			local generated = mapgen.GenerateShards(#shards, tonumber(map.seed), shards)
 
@@ -59,8 +64,16 @@ function GM:InitPostEntity()
 end
 
 function GM:ShutDown()
-	if mapcontrol.IsInHub() then 
-		--mapgen.SaveHubProps()
+	if not mapcontrol.IsInHub() then 
+		progress.UpdateMapSession(game.GetMap())
+	end
+end
+
+-- Save progress every little bit or so
+function GM:Think()
+	if not self.JazzNextSave or CurTime() > self.JazzNextSave then
+		progress.UpdateMapSession(game.GetMap())
+		self.JazzNextSave = CurTime() + 30
 	end
 end
 
@@ -121,7 +134,7 @@ local function PrintMapHistory(ply)
 	if maps then
 		for _, v in pairs(maps) do 
 			local mapstr = v.filename 
-			mapstr = mapstr .. " (Started " .. string.NiceTime(os.time() - v.starttime) .. " ago)"
+			mapstr = mapstr //.. " (Started " .. string.NiceTime(os.time() - v.starttime) .. " ago)"
 			
 			ply:ChatPrint(mapstr)
 		end

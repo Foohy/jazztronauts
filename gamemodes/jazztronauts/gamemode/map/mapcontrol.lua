@@ -1,7 +1,7 @@
 
 module( 'mapcontrol', package.seeall )
 
-curSelected = curSelected or "gm_construct"
+curSelected = curSelected or ""
 mapList = mapList or {}
 mapIDs = mapIDs or {} -- Store generated unique id lookups for a map
 function GetMap()

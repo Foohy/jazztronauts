@@ -48,6 +48,8 @@ end
    Desc: Return true if it's allowed 
 -----------------------------------------------------------]]
 function GM:PlayerSpawnSWEP( ply, wname, wtable )
+    if not self:JazzCanSpawnWeapon(ply, wname) then return false end
+    
 	return SpawnItem(ply, model, "sents")
 end
 

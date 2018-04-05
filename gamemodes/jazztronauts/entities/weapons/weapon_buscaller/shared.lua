@@ -2,6 +2,7 @@ if SERVER then
 	AddCSLuaFile()
 end
 
+SWEP.Base 					= "weapon_basehold"
 SWEP.PrintName 		 		= "Portable Bus Stop"
 SWEP.Slot		 	 		= 5
 SWEP.Category				= "Jazztronauts"
@@ -27,17 +28,15 @@ SWEP.Spawnable 				= true
 SWEP.RequestInfo			= {}
 
 function SWEP:Initialize()
+	self.BaseClass.Initialize( self )
 	self:SetWeaponHoldType( self.HoldType )	
-	
-	if CLIENT then
-		self.BeamHum = CreateSound(self, "ambient/energy/force_field_loop1.wav")
-	end
 end
 
 function SWEP:SetupDataTables()
+	self.BaseClass.SetupDataTables( self )
+
 	self:NetworkVar("Entity", 0, "BusMarker")
 end
-
 
 function SWEP:Deploy()
 	return true
@@ -81,50 +80,71 @@ function SWEP:ViewModelDrawn(viewmodel)
 	cam.End3D()
 end
 
-function SWEP:IsBeamActive()
-	if self.Owner:GetActiveWeapon() != self then return false end
+function SWEP:UpdateBeamHum()
+	local active = self:IsPrimaryAttacking()
 
-	if CLIENT and LocalPlayer() == self.Owner then 
-		return self.Owner:KeyDown(IN_ATTACK)
+	if not self:IsCarriedByLocalPlayer() then return end
+	//print(active)
+	if active then
+		if not self.BeamHum then
+			self.BeamHum = CreateSound(self, "ambient/energy/force_field_loop1.wav")
+		end
+
+		if not self.BeamHum:IsPlaying() then 
+			self.BeamHum:Play()
+		end
+	elseif self.BeamHum then 
+		self.BeamHum:Stop()
+		self.BeamHum = nil
+	end
+end
+
+function SWEP:SwitchWeaponThink()
+	if not IsFirstTimePredicted() then return end
+	local forceAttack = self.Owner:KeyDownLast(IN_ATTACK) and self.Owner:KeyDown(IN_ATTACK)
+	
+	-- Because this is only a hack, only do it for one 'cycle'
+	-- User must un-press attack before being able to attack again
+	if not forceAttack then
+		self.IgnoreAttackForced = true
 	end
 
-	return IsValid(self:GetBusMarker())
+	if forceAttack and not self:IsPrimaryAttacking() and not self.IgnoreAttackForced then
+		self:PrimaryAttack()
+		print("force attack")
+		self.IgnoreAttackForced = true
+	end
+
 end
 
 function SWEP:Think()
+
+	self:SwitchWeaponThink()
 	if SERVER then return end 
-	
-	-- TODO: Clean this up. 
-	if self.BeamHum:IsPlaying() and !self:IsBeamActive() then 
-		self.BeamHum:Stop()
+
+	local marker = self:GetBusMarker()
+
+	-- If the marker is no longer valid, stop attacking
+	if not IsValid(marker) and self.HadMarker then	
+		self:StopPrimaryAttacking()
+		self.HadMarker = false
 	end
 
-	if !self.BeamHum:IsPlaying() and self:IsBeamActive() then
-		self.BeamHum:Play()
-	end
+	self:UpdateBeamHum()
 
 	-- If the marker has enough people, vary the pitch as it gets closer
-	local marker = self:GetBusMarker()
-	if IsValid(marker) and marker.GetSpawnPercent and marker:GetSpawnPercent() > 0 then 
+	if IsValid(marker) and marker.GetSpawnPercent then 
+		self.HadMarker = true
+
 		local perc = marker:GetSpawnPercent()
 		if self.BeamHum then self.BeamHum:ChangePitch(100 + perc * 100) end
 	end
 end
 
-function SWEP:OnRemove()
-	if self.BeamHum then 
-		self.BeamHum:Stop() 
-		self.BeamHum = nil
-	end
-end
-
 -- Get the bus stop they're aimed at, or nil if they aren't looking at one
-function SWEP:GetLookMarker(pos, dir)
+local function GetLookMarker(pos, dir, fov)
 	for _, v in pairs(ents.FindByClass("jazz_bus_marker")) do
-		local posDir = (v:GetPos() - pos):GetNormal()
-		
-		local amt = 0.992
-		if posDir:Dot(dir) > amt then return v end
+		if v:IsLookingAt(pos, dir, fov) then return v end
 	end
 
 	return nil
@@ -145,7 +165,7 @@ function SWEP:CreateOrUpdateBusMarker()
 	local pos = self.Owner:GetShootPos()
 	local dir = self.Owner:GetAimVector()
 
-	local marker = self:GetLookMarker(pos, dir)
+	local marker = GetLookMarker(pos, dir, self.Owner:GetFOV())
 
 	-- If we weren't looking at an existing marker,
 	-- do a trace to where WE want to put it
@@ -165,47 +185,21 @@ function SWEP:CreateOrUpdateBusMarker()
 end 
 
 function SWEP:PrimaryAttack()
-	if !self:CanPrimaryAttack() then return end
+	self.BaseClass.PrimaryAttack(self)
 
 	self.Owner:ViewPunch( Angle( -1, 0, 0 ) )
+	self:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
 
 	if IsFirstTimePredicted() then 
+
 		if SERVER then
-			self.Owner:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
+			
 			self:CreateOrUpdateBusMarker()
 		end
 	end
 
 	self:ShootEffects()
 end
-
--- The opposite of Attack is Dettack. It's when they stop attacking.
-function SWEP:PrimaryDettack()
-	if !IsFirstTimePredicted() then return end
-
-	if SERVER and IsValid(self:GetBusMarker()) then
-		self:GetBusMarker():RemovePlayer(self.Owner)
-	end
-	
-	self:SetBusMarker(nil)
-end
-
-function SWEP:Holster(wep)
-	self:PrimaryDettack()
-
-	if self.BeamHum then
-		self.BeamHum:Stop()
-	end
-	return true
-end
-
--- Hook into when the player stops holding ATTACK to turn off their persistent beam
-hook.Add("KeyRelease", "JazzMarkerStopBeam", function(ply, key)
-	local wep = ply:GetWeapon("weapon_buscaller")
-	if key == IN_ATTACK and IsValid(wep) and wep.PrimaryDettack then
-		wep:PrimaryDettack()
-	end
-end )
 
 function SWEP:ShootEffects()
 
@@ -215,8 +209,77 @@ function SWEP:ShootEffects()
 
 end
 
+function SWEP:StopPrimaryAttack()
+	if !IsFirstTimePredicted() then return end
+
+	if SERVER and IsValid(self:GetBusMarker()) then
+		self:GetBusMarker():RemovePlayer(self.Owner)
+	end
+	
+	self:SetBusMarker(nil)
+end
+
+function SWEP:Cleanup()
+	if self.BeamHum then
+		self.BeamHum:Stop()
+	end
+
+	self.IgnoreAttackForced = false
+end
+
+
 function SWEP:Reload() return false end
 function SWEP:CanPrimaryAttack() return true end
 function SWEP:CanSecondaryAttack() return false end
 function SWEP:CanSecondaryAttack() return false end
 function SWEP:Reload() return false end
+
+hook.Add("CreateMove", "JazzSwitchToBusCaller", function(cmd)
+	if not LocalPlayer():Alive() then return end
+
+	-- Suppress weapon fire if we're over a summon circle
+	local curWep = LocalPlayer():GetActiveWeapon()
+	local firstShot = cmd:KeyDown(IN_ATTACK) && not LocalPlayer():KeyDownLast(IN_ATTACK)
+	if firstShot && (!IsValid(curWep) or curWep:GetClass() != "weapon_buscaller") then
+
+		local pos = LocalPlayer():GetShootPos()
+		local dir = LocalPlayer():GetAimVector()
+
+		local marker = GetLookMarker(pos, dir)
+
+		-- Valid marker hit, suppress and switch to weapon
+		if IsValid(marker) then
+			local caller = LocalPlayer():GetWeapon("weapon_buscaller")
+
+			-- Automatically switch to the bus caller weapon
+			if IsValid(caller) then
+				cmd:SelectWeapon(caller)
+			end
+		end
+	end
+end )
+
+-- Give the player the bus caller if they're hovering over it and somehow don't have it
+hook.Add("SetupMove", "JazzSwitchToBusCaller", function(ply, mv, cmd)
+	local curWep = ply:GetActiveWeapon()
+	if CLIENT or not cmd:KeyDown(IN_ATTACK) then return end
+	if IsValid(curWep) and curWep:GetClass() == "weapon_buscaller" then return end
+	if ply:HasWeapon("weapon_buscaller") then return end
+
+	-- Check to see if we're clicking in the direction of a bus caller
+	local pos = ply:GetShootPos()
+	local dir = ply:GetAimVector()
+
+	local marker = GetLookMarker(pos, dir)
+
+	-- If we're in the direction of a marker, give the player the weapon and switch to it
+	if IsValid(marker) then
+		local wep = ply:Give("weapon_buscaller")
+
+		-- Manually switch to it. Very hacky and not predicted, 
+		-- but we're already too late for prediction anyway
+		if IsValid(wep) then
+			ply:SelectWeapon(wep:GetClass())
+		end
+	end
+end )

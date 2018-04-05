@@ -2,14 +2,25 @@ include("../lib/sh_sql.lua")
 
 module( "progress", package.seeall )
 
-jsql.Register("jazz_maphistory", 
+-- Stores map generation information about a specific map
+jsql.Register("jazz_mapgen", 
 [[
 	id INTEGER PRIMARY KEY,
 	filename VARCHAR(128) UNIQUE NOT NULL,
-	seed INTEGER NOT NULL DEFAULT 0,
-	starttime NUMERIC NOT NULL DEFAULT 0
+	seed INTEGER NOT NULL DEFAULT 0
 ]])
 
+-- Store specific map session data
+jsql.Register("jazz_maphistory", 
+[[
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	mapid INTEGER NOT NULL,
+	starttime NUMERIC NOT NULL DEFAULT 0,
+	endtime NUMERIC NOT NULL DEFAULT 0,
+	FOREIGN KEY(mapid) REFERENCES jazz_mapgen(id) ON DELETE CASCADE
+]])
+
+-- Keep track of every generated shard for each map
 jsql.Register("jazz_mapshards", 
 [[
 	id INTEGER NOT NULL,
@@ -17,15 +28,17 @@ jsql.Register("jazz_mapshards",
 	collected BOOL NOT NULL DEFAULT 0,
 	collect_player BIGINT,
 	PRIMARY KEY(id, mapid),
-	FOREIGN KEY(mapid) REFERENCES jazz_maphistory(id) ON DELETE CASCADE
+	FOREIGN KEY(mapid) REFERENCES jazz_mapgen(id) ON DELETE CASCADE
 ]])
 
+-- Per-player data
 jsql.Register("jazz_playerdata", 
 [[
 	steamid BIGINT NOT NULL PRIMARY KEY,
 	notes INT UNSIGNED NOT NULL DEFAULT 0 CHECK (notes >= 0)
 ]])
 
+-- Per-player prop stealing data
 jsql.Register("jazz_propdata", 
 [[
 	steamid BIGINT NOT NULL,
@@ -37,6 +50,7 @@ jsql.Register("jazz_propdata",
 	PRIMARY KEY(steamid, mapname, propname)
 ]])
 
+-- Hub prop positions (deprecated)
 jsql.Register("jazz_hubprops", 
 [[
 	id INTEGER PRIMARY KEY,
@@ -58,7 +72,7 @@ end
 ---------------------------------
 
 function GetMap(mapname)
-	local chkstr = "SELECT * FROM jazz_maphistory WHERE " ..
+	local chkstr = "SELECT * FROM jazz_mapgen WHERE " ..
 		string.format("filename='%s'", mapname)
 
 	local res = Query(chkstr)
@@ -69,7 +83,7 @@ end
 -- Get a list of maps that have been started or completed
 function GetMapHistory()
 	-- #TODO: Filter based on completion
-	local chkstr = "SELECT * FROM jazz_maphistory"
+	local chkstr = "SELECT * FROM jazz_mapgen"
 	
 	return Query(chkstr)
 end
@@ -81,16 +95,12 @@ function StartMap(mapname, seed, shardcount)
 	-- Check if we've already played (or attempted to play) this map
 	local res = GetMap(mapname)
 
-	-- Map has already been started
-	-- Return existing info, don't alter
-	if res != nil then 
-		return res
-	else
-		local insrt = "INSERT INTO jazz_maphistory " ..
-			"(filename, seed, starttime)" ..
+	-- If map has never been played before, insert gen info
+	if res == nil and seed and shardcount then 
+		local insrt = "INSERT INTO jazz_mapgen " ..
+			"(filename, seed)" ..
 			string.format("VALUES ( '%s', ", mapname) ..
-			string.format("%s, ", seed) ..
-			string.format("%s)", os.time())
+			string.format("%s)", seed)
 
 		-- Returns false on failure, and nil on success
 		if Query(insrt) == false then return nil end
@@ -104,17 +114,62 @@ function StartMap(mapname, seed, shardcount)
 			table.concat(shardvals, ",")
 
 		-- Create the table of shard values 
-		if Query(insrt_shard) != false then
-			return map
+		if Query(insrt_shard) == false then
+			ErrorNoHalt("WARNING: Failed to insert shards into database for map " .. mapname)
 		end
 	end
+
+	-- Retry map query
+	res = GetMap(mapname)
+
+	-- Start a new map session
+	local insrt = "INSERT INTO jazz_maphistory " ..
+		"(mapid, starttime, endtime)" ..
+		string.format("VALUES ( '%s', ", res.id) ..
+		string.format("%s, ", os.time()) ..
+		string.format("%s)", os.time())
+
+	if Query(insrt) == false then
+		ErrorNoHalt("WARNING: Failed to start a new play session for map " .. mapname)
+	end
+
+	return res
+end
+
+function GetMapSessions(lim)
+	local queryStr = "SELECT h.id, h.mapid, h.starttime, h.endtime, g.filename, g.seed " ..
+		"FROM jazz_maphistory h " ..
+		"INNER JOIN jazz_mapgen g ON h.mapid = g.id " ..
+		"ORDER BY h.id DESC " ..
+		"LIMIT " .. (lim or 1)
+
+	return Query(queryStr)
+end
+
+function GetLastMapSession()
+	local res = GetMapSessions(1)
+	return res and type(res) == "table" and res[1] or nil
+end
+
+function UpdateMapSession(mapname)
+	local curSession = GetLastMapSession()
+
+	-- Ensure the current session matches up with the current mapname
+	if not curSession or curSession.filename != string.lower(mapname) then return false end
+	print("Updating session for " .. curSession.filename .. " (sessionid: " .. curSession.id .. ")")
+
+	local updateStr = "UPDATE jazz_maphistory " ..
+		"SET endtime = " .. os.time() .. " " ..
+		"WHERE id = " ..curSession.id
+
+	return Query(updateStr) != false
 end
 
 -- Get a list of shards that were created for this map
 function GetMapShards(mapname)
 	mapname = string.lower(mapname)
-	local chkstr = "SELECT * FROM jazz_maphistory " ..
-		"INNER JOIN jazz_mapshards ON jazz_maphistory.id = jazz_mapshards.mapid " ..
+	local chkstr = "SELECT * FROM jazz_mapgen " ..
+		"INNER JOIN jazz_mapshards ON jazz_mapgen.id = jazz_mapshards.mapid " ..
 		"WHERE " .. string.format("filename='%s' ", mapname) ..
 		"ORDER BY jazz_mapshards.id ASC"
 
@@ -125,8 +180,8 @@ end
 function GetMapShardCount(mapname)
 	mapname = mapname and string.lower(mapname) or nil
 
-	local chkstr = "SELECT SUM(collected) as collected, COUNT(*) as total FROM jazz_maphistory " ..
-		"INNER JOIN jazz_mapshards ON jazz_maphistory.id = jazz_mapshards.mapid " ..
+	local chkstr = "SELECT SUM(collected) as collected, COUNT(*) as total FROM jazz_mapgen " ..
+		"INNER JOIN jazz_mapshards ON jazz_mapgen.id = jazz_mapshards.mapid " ..
 		(mapname and "WHERE " .. string.format("filename='%s' ", mapname) or "") ..
 		"ORDER BY jazz_mapshards.id ASC"
 	

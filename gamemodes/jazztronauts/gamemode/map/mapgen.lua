@@ -138,6 +138,23 @@ if SERVER then
         return false
     end
 
+    -- Return true if the entity will spawn within a trigger teleport
+    -- This usually makes it impossible to get to
+    local function isWithinTrigger(ent)
+        local pos = ent:GetPos()
+        local tps = ents.FindByClass("trigger_teleport*")
+        for _, v in pairs(tps) do
+            local min = v:LocalToWorld(v:OBBMins())
+            local max = v:LocalToWorld(v:OBBMaxs())
+
+            if pos:WithinAABox(min, max) then
+                return true
+            end
+        end
+
+        return false
+    end
+
     local function findValidSpawn(ent)
         local pos = ent:GetPos() + Vector(0, 0, 16)
 
@@ -146,6 +163,9 @@ if SERVER then
 
         -- If the point is inside something solid -- also nah
         if maskAny(util.PointContents(pos), CONTENTS_PLAYERCLIP, CONTENTS_SOLID, CONTENTS_GRATE) then return end
+
+        -- Don't spawn inside a trigger_teleport either
+        if isWithinTrigger(ent) then return end
 
         -- Check if they're near a suspicious amount of sky
         if !checkAreaTrace(pos, ent:GetAngles()) then return end

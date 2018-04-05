@@ -131,15 +131,11 @@ end
 
 function SWEP:PrimaryAttack()
 	if not self:CanPrimaryAttack() then return end
-	if not IsFirstTimePredicted() then return end
-
 	self:AnyAttack(WEAPON_PRIMARY)
 end
 
 function SWEP:SecondaryAttack()
 	if not self:CanSecondaryAttack() then return end
-	if not IsFirstTimePredicted() then return end
-
 	self:AnyAttack(WEAPON_SECONDARY)
 end
 

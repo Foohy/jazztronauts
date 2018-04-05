@@ -33,7 +33,7 @@ local DefaultTeleportDistance 	= 256
 local DefaultProngCount			= 2
 local DefaultSpeed				= 300
 
-SWEP.Spawnable 				= true
+SWEP.Spawnable 				= false
 SWEP.RequestInfo			= {}
 SWEP.TeleportDistance		= DefaultTeleportDistance
 SWEP.ProngCount 			= DefaultProngCount

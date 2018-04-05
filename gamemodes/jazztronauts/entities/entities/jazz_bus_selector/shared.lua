@@ -156,16 +156,16 @@ end
 
 if SERVER then return end
 
-surface.CreateFont( "SmallHeaderFont", {
+surface.CreateFont( "JazzMapSelectKey", {
 	font      = "KG Shake it Off Chunky",
-	size      = 48,
-	weight    = 700,
+	size      = 200,
+	weight    = 500,
 	antialias = true
 })
 
-surface.CreateFont( "SelectMapFont", {
+surface.CreateFont( "JazzMapSelectMain", {
 	font      = "KG Shake it Off Chunky",
-	size      = 100,
+	size      = 200,
 	weight    = 700,
 	antialias = true
 })
@@ -180,16 +180,19 @@ function ENT:DrawNumbers( canvas )
 
 	local w,h = canvas:GetResolution()
 
-	surface.SetDrawColor( Color(0,0,0,200) )
+	surface.SetDrawColor( Color(50,0,40,230) )
 	surface.DrawRect( 0,0,w,h )
 
 	local str = self:GetReadout()
 
-	local x = w - 12
+	local x = w - 30
 	for i=#str, 1, -1 do
 
-		draw.DrawText( tostring( str[i] ), "SmallHeaderFont", x, 0, Color(255,150,10), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
-		x = x - 25
+		local hue = 240 + math.sin(i * 0.5 + CurTime()) * 30
+		local col = HSVToColor(hue, 0.85, 1)
+
+		draw.DrawText( tostring( str[i] ), "JazzMapSelectMain", x, 0, col, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+		x = x - 62
 
 	end
 
@@ -253,7 +256,7 @@ function ENT:DrawControls( canvas )
 				surface.SetDrawColor( Color(0,0,se and 255 or 100) )
 				surface.DrawRect( btx, bty, btw, bth )
 
-				draw.SimpleText( buttons[i][j], "SmallHeaderFont", btx + btw/2, bty + bth/2, Color(200,200,200), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw.SimpleText( buttons[i][j], "JazzMapSelectKey", btx + btw/2, bty + bth/2, Color(200,200,200), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
 				if pressed and se then
 
@@ -305,7 +308,7 @@ function ENT:DrawTranslucent()
 	self.canvas2:SetPos( pos )
 	self.canvas2:SetAngles( angles )
 	self.canvas2:SetSize( 40, 10 )
-	self.canvas2:SetResolution( 200, 50 )
+	self.canvas2:SetResolution( 500, 150 )
 	self.canvas2:SetDrawFunc( self.DrawNumbers, self, self.canvas2 )
 	self.canvas2:Draw()
 

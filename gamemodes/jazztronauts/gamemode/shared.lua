@@ -9,8 +9,15 @@ GM.Author   = "Snakefuck Mountain"
 team.SetUp( 1, "Jazztronauts", Color( 255, 128, 0, 255 ) )
 
 
+CreateConVar("jazz_override_noclip", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY }, "Allow jazztronauts to override when players can noclip.")
+
+
 function GM:PlayerNoClip(ply)
-	return mapcontrol.IsInHub() //or true
+    if cvars.Bool("jazz_override_noclip", true) then
+        return mapcontrol.IsInHub()
+    else
+        return self.BaseClass.PlayerNoClip(self, ply)
+    end
 end
 
 function GM:PhysgunPickup(ply, ent)
@@ -31,4 +38,19 @@ end
 
 function GM:CanDrive(ply, ent)
     return mapcontrol.IsInHub()
+end
+
+-- Shared so we can query on the client too
+function GM:JazzCanSpawnWeapon(ply, wep)
+    local wepinfo = list.Get("Weapon")[wep]
+    if not wepinfo then return false end
+
+    -- Ignore weapons outside of jazztronauts (for now??!?)
+    if wepinfo.Category != "Jazztronauts" then return true end
+
+    -- Check if a built in jazz weapon (always spawnable)
+    if wepinfo.Spawnable then return true end
+
+    -- Final check, must have been purchased in the store
+    return unlocks.IsUnlocked("store", ply, wep)
 end

@@ -64,7 +64,7 @@ function ENT:CheckPlayerCount()
     self:RemoveInvalid() 
 
     if #self.PlayerList == 0 then
-        self:Remove()
+        self:StartRemove()
     end
 
     if self:HasEnoughPlayers() and !self:CountdownStarted() then 
@@ -81,6 +81,8 @@ function ENT:StopCountdown()
 end
 
 function ENT:Think() 
+    if self:GetIsBeingDeleted() then return end
+    
     self:CheckPlayerCount()
 
     if self:CountdownStarted() then 
@@ -91,9 +93,16 @@ function ENT:Think()
 
         if CurTime() > self:GetSpawnTime() then 
             self:CallBus()
-            self:Remove()
+            self:StartRemove()
         end
     end
+end
+
+function ENT:StartRemove()
+    if self:GetIsBeingDeleted() then return end
+
+    self:SetIsBeingDeleted(true)
+    SafeRemoveEntityDelayed(self, 0.5)
 end
 
 

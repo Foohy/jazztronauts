@@ -77,7 +77,7 @@ function ENT:Think()
 	if not self.SpawnQueue then return end
 
 	if not self.Constipated then
-		self:VomitMultiple(1)
+		self:VomitMultiple(2)
 	end
 
 	jazzboards.UpdateLeaderboards(self.CurrentUser, -self.TotalCount)
@@ -118,12 +118,14 @@ function ENT:VomitNewProps(ply)
 
 	-- Store original use counts
 	self.SpawnQueue = counts
-
+	
 	-- Store the index on each keyvalue pair to make it easier to lookup later
 	self.TotalCount = 0
 	for k, v in pairs(self.SpawnQueue) do
 		v.Index = k
 		self.TotalCount = self.TotalCount + v.recent
+
+		util.PrecacheModel(v.propname)
 	end
 	
 	-- Add this as a 'session' prop for leaderboards
@@ -219,8 +221,6 @@ end
 function ENT:SpawnPropEffect(propinfo, pos)
 	local filter = RecipientFilter()
 	filter:AddPVS(self:GetPos())
-	
-    util.PrecacheModel(propinfo.propname)
 
 	net.Start("jazz_propvom_effect")
 		net.WriteVector(pos)

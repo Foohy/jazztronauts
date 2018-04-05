@@ -26,7 +26,11 @@ end
 function GM:InitPostEntity()
 
 	if mapcontrol.IsInHub() then
-		--mapgen.LoadHubProps()
+		-- Restore the bus for the last map we played
+		local m = progress.GetLastMapSession()
+		if m then
+			mapcontrol.SetSelectedMap(m.filename)
+		end
 	else
 		-- Add current map to list of 'started' maps
 		local map = progress.GetMap(game.GetMap())
@@ -42,6 +46,7 @@ function GM:InitPostEntity()
 			map = progress.StartMap(game.GetMap(), seed, shardworth)
 		-- Else, spawn shards, but only the ones that haven't been collected
 		else
+			map = progress.StartMap(game.GetMap()) -- Start a new session, but keep existin mapgen info
 			local shards = progress.GetMapShards(game.GetMap())
 			local generated = mapgen.GenerateShards(#shards, tonumber(map.seed), shards)
 
@@ -59,8 +64,16 @@ function GM:InitPostEntity()
 end
 
 function GM:ShutDown()
-	if mapcontrol.IsInHub() then 
-		--mapgen.SaveHubProps()
+	if not mapcontrol.IsInHub() then 
+		progress.UpdateMapSession(game.GetMap())
+	end
+end
+
+-- Save progress every little bit or so
+function GM:Think()
+	if not self.JazzNextSave or CurTime() > self.JazzNextSave then
+		progress.UpdateMapSession(game.GetMap())
+		self.JazzNextSave = CurTime() + 30
 	end
 end
 
@@ -121,7 +134,7 @@ local function PrintMapHistory(ply)
 	if maps then
 		for _, v in pairs(maps) do 
 			local mapstr = v.filename 
-			mapstr = mapstr .. " (Started " .. string.NiceTime(os.time() - v.starttime) .. " ago)"
+			mapstr = mapstr //.. " (Started " .. string.NiceTime(os.time() - v.starttime) .. " ago)"
 			
 			ply:ChatPrint(mapstr)
 		end
@@ -160,6 +173,62 @@ function GM:PlayerSpawn( ply )
 		
 	-- Setup note count
 	ply:SetNotes(progress.GetNotes(ply))
+end
+
+-- Stop killing the player, they don't collide 
+function GM:IsSpawnpointSuitable(ply, spawnent, makesuitable)
+	return true
+end
+
+-- Allow spawning on players if they're hovered over someone that's alive
+function GM:PlayerSelectSpawn(ply)
+	local obstarget = ply:GetObserverTarget()
+	if IsValid(obstarget) and obstarget:Alive() then
+		return obstarget
+	end
+
+	return self.BaseClass.PlayerSelectSpawn(self, ply)
+end
+
+local function getAlive()
+	local players = player.GetAll()
+	local alive = {}
+	for _, v in pairs(players) do
+		if IsValid(v) and v:Alive() then table.insert(alive, v) end
+	end
+
+	return alive
+end
+
+local function getNextPlayer(ply)
+	local players = getAlive()
+	if #players == 0 then return nil end
+
+	local i = table.KeyFromValue(players, ply) or 1
+	i = (i % #players) + 1
+
+	return players[i]
+end
+
+function GM:PlayerDeathThink(ply)
+
+	-- Switch observing player
+	if ply:KeyPressed(IN_ATTACK2) then
+		local nextply = getNextPlayer(ply:GetObserverTarget())
+		if IsValid(nextply) then
+			ply:Spectate(OBS_MODE_CHASE)
+			ply:SpectateEntity(nextply)
+		end
+
+		return
+	end
+
+	if ply.NextSpawnTime && ply.NextSpawnTime > CurTime() then return end
+
+	-- Respawn on time's up
+	if ( ply:IsBot() || ply:KeyPressed( IN_ATTACK ) || ply:KeyPressed( IN_JUMP ) ) then
+		ply:Spawn()
+	end
 end
 
 function GM:PlayerShouldTakeDamage(ply, attacker)

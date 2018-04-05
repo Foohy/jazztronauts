@@ -369,10 +369,41 @@ end
 
 if SERVER then
 
+	local function tryPickUp(ply, ent)
+		if not IsValid(ply) or not IsValid(ent) then return end
+		ent:SetPos(ply:GetPos())
+	end
+
+	-- Store outputs (manually) on props so we can manually invoke outputs
+	local outputs = { "OnBreak", "OnPlayerUse" }
+	hook.Add("EntityKeyValue", "JazzManuallyStoreOutputs", function(ent, key, value)
+		if not table.HasValue(outputs, key) then
+			return 
+		end
+
+		-- Install TriggerOutput and StoreOutput
+		if not ent.TriggerOutput then
+			local old = _G.ENT -- should be nil, but I ain't steppin on any toes
+			_G.ENT = ent
+			include("base/entities/entities/base_entity/outputs.lua")
+			_G.ENT = old
+		end
+
+		ent:StoreOutput(key, value)
+	end)
+
 	SV_HandleEntityDestruction = function( ent, owner, kill, delay )
 
-		timer.Simple(delay or .02, function()
+		timer.Simple(delay or .12, function()
+			if not IsValid(ent) then return end
 
+			-- If we stole a weapon, don't actually delete it if it's now equipped by a player
+			if ent:IsWeapon() and IsValid(ent:GetParent()) and ent:GetParent():IsPlayer() then
+				print("NOT REMOVING NOW-IN-USE WEAPON")
+				return
+			end
+
+			-- Specific player/NPC logic to register as a kill
 			if ( ent:IsPlayer() or ent:IsNPC() ) and kill then
 
 				if not string.find( ent:GetClass(), "strider" ) then
@@ -398,17 +429,20 @@ if SERVER then
 		end )
 
 		if not ent:IsPlayer() then
+			ent:SetTrigger(true)
+			ent:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
-			local phys = ent:GetPhysicsObject()
-
-			--Disable physics as much as possible
-			if phys:IsValid() then
-
-				phys:EnableCollisions(false)
-				phys:EnableMotion(false)
-
+			-- For weapons, have the activator try to 'pick up' the weapon
+			if not ent:IsNPC() then
+				tryPickUp(owner, ent) -- Give the entity a chance to 'pick up' whatever it is
 			end
 
+			-- Try to trigger correspondong outputs if the map relied on the prop
+			local name = ent:GetName()
+			if ent.TriggerOutput then
+				ent:TriggerOutput("OnBreak", owner)
+				ent:TriggerOutput("OnPlayerUse", owner)
+			end
 		end
 
 	end

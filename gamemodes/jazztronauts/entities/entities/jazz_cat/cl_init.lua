@@ -1,9 +1,39 @@
 include("shared.lua")
 
+-- How quickly the chat fades in and out
 ENT.ChatFadeSpeed = 1.2
-ENT.ChatFadeDistance = 150
 
 ENT.ChatFade = 0
+function ENT:Initialize()
+
+    -- Allow mouse clicks on the chat menu (and make it so clicking doesn't shoot their weapon)
+    if self:GetNPCID() == missions.NPC_CAT_BAR then
+        hook.Add("KeyPress", self, function(self, ply, key) return self:OnMouseClicked(ply, key) end )
+        hook.Add("KeyRelease", self, function(self, ply, key) return self:OnMouseReleased(ply, key) end)
+    end
+
+end
+
+function ENT:OnMouseClicked(ply, key)
+    if not IsFirstTimePredicted() or key != IN_ATTACK then return end
+
+    if self.IsLeftDown then return end
+    self.IsLeftDown = true
+
+    local opt = self:GetSelectedOption(LocalPlayer(), self.BarChoices)
+    if opt then
+
+        surface.PlaySound("buttons/button9.wav")
+        self.BarChoices[opt].func(self, LocalPlayer())
+    end
+end
+
+function ENT:OnMouseReleased(ply, key)
+    if not IsFirstTimePredicted() then return end
+    if key == IN_ATTACK or (key == IN_ZOOM and self.IsLeftDown) then
+        self.IsLeftDown = false      
+    end
+end 
 
 function ENT:ShouldDrawChat()
     local pos = self:GetMenuPosAng(LocalPlayer())
@@ -47,7 +77,17 @@ function ENT:Draw()
         if self.ChatFade > 0 then
             self:DrawDialogEntry(self.BarChoices, self.ChatFade)
         end
+    
+        -- Play a small click sound when switching between options
+        local opt = self:GetSelectedOption(LocalPlayer(), self.BarChoices)
+        if self.LastOption != opt then
+            self.LastOption = opt
+        
+
+            LocalPlayer():EmitSound("buttons/lightswitch2.wav", 0, 175)
+        end
     end
+
 end
 
 dialog.RegisterFunc("setskin", function(d, skinid)

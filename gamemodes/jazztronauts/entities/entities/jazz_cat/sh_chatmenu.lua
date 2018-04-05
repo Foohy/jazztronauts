@@ -7,6 +7,9 @@ ENT.ScreenScale = 0.05
 -- Center offset ofthe radial menu in 3d2d screen space
 ENT.RadialOffset = 0
 
+-- How far away until the chat is unusable
+ENT.ChatFadeDistance = 150
+
 -- Chat menu color scheme
 chatmenu.textColor = Color(159, 100, 128)
 chatmenu.selectColor = Color(238, 19, 122)
@@ -47,6 +50,13 @@ function ENT:GetMenuPosAng(ply)
     return pos, ang
 end
 
+function ENT:IsWithinScreen(x, y)
+    local w = self.ScreenWidth * self.ScreenScale
+    local h = self.ScreenHeight * self.ScreenScale
+
+    return x > -w/2 && x < w/2 && y > -h/2 && y < h/2
+end
+
 function ENT:GetSelectedOption(ply, choices)
     local pos, ang = self:GetMenuPosAng(ply)
 
@@ -54,6 +64,11 @@ function ENT:GetSelectedOption(ply, choices)
     local dialogCenter = pos + 
         self:GetAngles():Up() * self.ScreenScale * -self.RadialOffset
     local eye = ply:GetEyeTrace()
+
+    -- If physically too far away, nothing is selected
+    if dialogCenter:Distance(ply:EyePos()) > self.ChatFadeDistance then
+        return nil, nil
+    end
 
     -- Intersect with dialog plane so we can see which option they're looking at
     local hitpos = util.IntersectRayWithPlane(eye.StartPos, eye.Normal, dialogCenter, ang:Up())
@@ -67,7 +82,10 @@ function ENT:GetSelectedOption(ply, choices)
         local lpos = Vector(localPos.x, localPos.y * ratio, localPos.z)
 
         -- Do a test to make sure we're within the screen
-        //print(lpos * self.ScreenScale)
+        //surface.DrawTexturedRectRotated(0, 0, self.ScreenWidth, self.ScreenHeight, 180)
+        if not self:IsWithinScreen(lpos.x, lpos.y) then
+            return hitoption, localPos
+        end
 
         -- Grab the angle, this is basically a hidden radial menu
         local ang = -math.deg(math.atan2(lpos.y, lpos.x)) + 90
@@ -248,7 +266,7 @@ function ENT:DrawDialogEntry(choices, showperc)
         end
 
         -- Draw the virtual mouse cursor for where we're currently pointing
-        if localPos then
+        if hitoption and localPos then
             surface.SetDrawColor(255, 255, 255)
             surface.SetMaterial(cursorMat)
             surface.DrawTexturedRect(-chatmenu.cursorW/2 + localPos.x / self.ScreenScale, 

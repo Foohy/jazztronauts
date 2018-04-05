@@ -5,6 +5,8 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 include("sh_chatmenu.lua")
 
+util.AddNetworkString("JazzRequestChatStart")
+
 function ENT:Initialize()
     self:SetModel(self.Model)
     local mins, maxs = self:GetModelBounds()
@@ -42,11 +44,21 @@ function ENT:Use(activator, caller)
     -- Incredibly TODO until we've got the actual input ui going
     if self.NPCID == missions.NPC_CAT_BAR then
         local opt = self:GetSelectedOption(caller, self.BarChoices)
-        self.BarChoices[opt].func(self, caller)
+        if opt then
+            self.BarChoices[opt].func(self, caller)
+        end
     else
         self:StartChat(caller)
     end
 end
+
+net.Receive("JazzRequestChatStart", function(len, ply)
+    local cat = net.ReadEntity()
+
+    if IsValid(cat) && cat.StartChat then
+        cat:StartChat(ply)
+    end
+end )
 
 -- In the map, entities are placed in all possible cat locations
 -- Randomly choose which ones to keep so only a single cat is spawned

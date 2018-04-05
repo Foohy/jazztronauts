@@ -115,7 +115,7 @@ local function CreateJazzMenu()
 
 end
 
-hook.Add( "OnGamemodeLoaded", "CreateJazzMenu", CreateJazzMenu )
+hook.Add( "InitPostEntity", "CreateJazzMenu", CreateJazzMenu )
 --CreateJazzMenu()
 
 function GM:OnSpawnMenuOpen()

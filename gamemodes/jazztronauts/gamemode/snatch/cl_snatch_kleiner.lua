@@ -83,7 +83,7 @@ local function DrawScene( scene )
 
 		--SHING
 		local sdt = ((CurTime() - scene.time) - blink) / (scene.duration - blink)
-		local sc = 4 * (sdt * (1-sdt))
+		local sc = 0.25 * (sdt * (1-sdt))
 
 		render.SetMaterial( spritematerial )
 		render.DrawSprite( pos, 3000 * sc, 3000 * sc, Color(255,255,255) )

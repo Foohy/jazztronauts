@@ -65,6 +65,8 @@ local snatch3 = jstore.Register("snatch3", 1000000, {
     type = "upgrade" 
 })
 
+CreateConVar("jazz_debug_snatch_allups", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY }, "Temporarily enable all upgrades for snatcher")
+
 function SWEP:Initialize()
 	self.BaseClass.Initialize( self )
 
@@ -86,14 +88,16 @@ end
 -- Query and apply current upgrade settings to this weapon
 function SWEP:SetUpgrades()
 
+	local override = cvars.Bool("jazz_debug_snatch_allups", false)
+
 	-- Tier I - Aim in cone upgrade
-	self.AutoAimCone = unlocks.IsUnlocked("store", self.Owner, snatch1) and 10 or AimConeDefault
+	self.AutoAimCone = (unlocks.IsUnlocked("store", self.Owner, snatch1) or override) and 10 or AimConeDefault
 
 	-- Tier II - Automatic fire upgrade
-	self.Primary.Automatic = unlocks.IsUnlocked("store", self.Owner, snatch2)
+	self.Primary.Automatic = unlocks.IsUnlocked("store", self.Owner, snatch2) or override
 
 	-- Tier III - World stealing
-	self.CanStealWorld = unlocks.IsUnlocked("store", self.Owner, snatch3)
+	self.CanStealWorld = unlocks.IsUnlocked("store", self.Owner, snatch3) or override
 end
 
 

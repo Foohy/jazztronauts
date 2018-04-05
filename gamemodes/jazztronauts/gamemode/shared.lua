@@ -8,12 +8,12 @@ GM.Author   = "Snakefuck Mountain"
 
 team.SetUp( 1, "Jazztronauts", Color( 255, 128, 0, 255 ) )
 
-if SERVER then 
-    CreateConVar("jazz_override_noclip", 1, FCVAR_NOTIFY, "Allow jazztronauts to override when players can noclip.")
-end
+
+CreateConVar("jazz_override_noclip", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY }, "Allow jazztronauts to override when players can noclip.")
+
 
 function GM:PlayerNoClip(ply)
-    if GetConVar("jazz_override_noclip"):GetBool() then
+    if cvars.Bool("jazz_override_noclip", true) then
         return mapcontrol.IsInHub()
     else
         return self.BaseClass.PlayerNoClip(self, ply)

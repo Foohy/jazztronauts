@@ -61,7 +61,7 @@ surface.CreateFont( "PropFeed_Generic1", {
 surface.CreateFont( "PropFeed_Numeric", {
 	font = "KG Shake it Off Chunky",
 	extended = false,
-	size = ScreenScale(30),
+	size = ScreenScale(25),
 	weight = 500,
 	blursize = 0,
 	scanlines = 0,
@@ -110,7 +110,7 @@ local stops = {
 	{100+400, color_grad2},
 }
 
-local generic_gradient_rect = Rect(0,0,200,35):ScreenScale()
+local generic_gradient_rect = Rect(0,0,165,30):ScreenScale()
 local m = CacheGradient( "stage0", generic_gradient_rect, -45, stops, 0, nil )
 local text_irt = irt.New( "text_render", generic_gradient_rect:GetSize())
 text_irt:SetAlphaBits(8)
@@ -146,7 +146,7 @@ local color_stops1 = {
 
 local blast_gradient = CacheGradient( "blast", generic_gradient_rect, 0, alpha_stops, 0 )
 
-local function DrawPropEntry(item,x,y, dt, wanted, custom)
+local function DrawPropEntry(item,x,y, dt, highlight, custom)
 
 	if item == nil then
 		item = {
@@ -159,7 +159,7 @@ local function DrawPropEntry(item,x,y, dt, wanted, custom)
 		}
 	end
 
-	wanted = wanted or item.wanted
+	highlight = highlight or item.highlight
 	custom = custom or item.custom
 	local name = item.nice_name --"prop_name"
 	local elapsed = item.elapsed
@@ -189,7 +189,7 @@ local function DrawPropEntry(item,x,y, dt, wanted, custom)
 
 	rect.h = rect.h * (1 - (math.max(dt, .9) - .9) * 10)
 
-	if wanted then
+	if highlight then
 		LinearGradient( rect, 0, alpha_stops, 0, b )
 	else
 		LinearGradient( rect, 0, color_stops1, 0 )
@@ -206,19 +206,20 @@ local function DrawPropEntry(item,x,y, dt, wanted, custom)
 
 	local tx = x + left_align
 	surface.SetFont("PropFeed_Name")
-	surface.SetTextColor( MulAlpha(wanted and color_text_generic2 or color_text_name1, text_alpha) )
+	surface.SetTextColor( MulAlpha(highlight and color_text_generic2 or color_text_name1, text_alpha) )
 	surface.SetTextPos( x+left_align,y+top_align )
 	surface.DrawText( item.ply:Nick() )
 	tx = tx + surface.GetTextSize( item.ply:Nick() ) + ScreenScale(2)
 
 	surface.SetFont("PropFeed_Generic1")
-	surface.SetTextColor( MulAlpha(wanted and color_text_generic2 or color_text_generic1, text_alpha) )
+	surface.SetTextColor( MulAlpha(highlight and color_text_generic2 or color_text_generic1, text_alpha) )
 	surface.SetTextPos( tx,y+top_align+ScreenScale(2) )
 	surface.DrawText( "FOUND" )
 	tx = tx + surface.GetTextSize( "FOUND" ) + ScreenScale(2)
 
 	surface.SetFont("PropFeed_Name")
-	surface.SetTextColor( MulAlpha(wanted and color_text_prop2 or (custom and color_text_prop1 or color_text_name1), text_alpha) )
+	local col = (custom and color_text_prop1) or (highlight and color_text_prop2) or color_text_name1
+	surface.SetTextColor( MulAlpha( col, text_alpha) )
 	surface.SetTextPos( tx,y+top_align )
 	surface.DrawText( name )
 
@@ -229,7 +230,7 @@ local function DrawPropEntry(item,x,y, dt, wanted, custom)
 	end
 
 	local amount_ss = ScreenScale(8)
-	if not wanted then
+	if not highlight then
 		text_irt:Render( function()
 
 			local oldx, oldy = rect.x, rect.y
@@ -273,7 +274,7 @@ local function DrawPropEntry(item,x,y, dt, wanted, custom)
 		surface.SetFont("PropFeed_Numeric")
 		surface.SetTextColor( MulAlpha(color_text_generic2, text_alpha) )
 		surface.SetTextPos( x+left_align,y+amount_ss )
-		surface.DrawText( "$" .. comma_value(item.worth) .. "!!" )
+		surface.DrawText( count_text)
 	end
 
 	LinearGradientCached( "blast", rect, Color(255,255,100 + flash * 155, flash * 120 ) )
@@ -358,13 +359,13 @@ local function AddPropToFeed( model, skin, worth, ply, cnt )
 		ply = ply,
 		count = 1,
 		worth = worth,
-		wanted = math.random(1,10) == 5,
+		highlight = ply == LocalPlayer(),
 		custom = math.random(1,10) == 5,
 		nice_name = nice_prop_name( model ),
 	})
 
-	if feed[#feed].custom then feed[#feed].wanted = false end
-	if feed[#feed].wanted then feed[#feed].worth = math.random(1,10) * 10000 end
+	//if feed[#feed].custom then feed[#feed].highlight = false end
+	//if feed[#feed].highlight then feed[#feed].worth = math.random(1,10) * 10000 end
 
 end
 

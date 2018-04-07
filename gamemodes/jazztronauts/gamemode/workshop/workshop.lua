@@ -110,3 +110,138 @@ function FetchThumbnail(addon, func)
         end
 	end )
 end
+
+
+-- Attempt to find the addon that 'owns' this map
+-- May be nil if the map is just loose in their folder
+function FindOwningAddon(mapname)
+	if not mapname then return 0 end
+
+	-- First, try to see if we've cached the mapname/workshop association
+	local res = progress.GetMap(mapname)
+	if res and res.wsid != 0 then return res.wsid end
+
+	local addons = engine.GetAddons()
+
+	-- For each installed addon, search its contents for the given map file
+	-- This is very slow so make ideally we only ever do this once on startup
+	for _, v in pairs(addons) do
+		local found = file.Find("maps/" .. mapname .. ".bsp", v.title)
+		if #found > 0 then return v.wsid end
+	end
+
+	return nil
+end
+
+local function tryGetValue(jsonObj, ...)
+	if not jsonObj then return nil end
+	local cur = jsonObj
+	for _, v in ipairs({...}) do
+		if not cur[v] then return nil end
+		cur = cur[v]
+	end
+
+	return cur
+end
+
+-- Retreives info about a supllied workshop addon
+-- Identical to steamworks.FileInfo, but works on servers too
+function FileInfo(itemid, func)
+	local body = { ["itemcount"] = "1", ["publishedfileids[0]"] = tostring(itemid)}
+	http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v0001/", body, 
+		function(resp, len, head, status)
+			print("Published file details received...")
+			local json = util.JSONToTable(resp)
+			local addoninfo = tryGetValue(json, "response", "publishedfiledetails", 1)
+
+			func(addoninfo, (not addoninfo) and "Unable to parse json: \n" .. resp or nil)
+		end,
+		function(errmsg)
+			func(nil, errmsg)
+		end
+	)
+
+end
+
+-- Given a workshop id, download the raw GMA file to disk
+-- Works on both server and client (steamworks.Download does not)
+function DownloadGMA(wsid, path, func)
+	-- Callback for when the actual GMA file is downloaded
+	local function FileDownloaded(body, size, headers, status)
+		
+		print("Downloaded! decompressing...")
+
+		-- Decompress (LZMA), then write
+		body = util.Decompress(body)
+
+		print("Writing to " .. path)
+		file.Write(path, body)
+		func(true) -- holy shit
+	end
+
+	-- Callback for when we've received information about a specific published file
+	local function OnGetPublishedFileDetails(resp, len, head, status)
+		print("Published file details received...")
+		local json = util.JSONToTable(resp)
+		local addoninfo = tryGetValue(json, "response", "publishedfiledetails", 1)
+		local fileurl = addoninfo and addoninfo.file_url
+		if not fileurl then
+			func(false, "Received response from GetPublishedFileDetails, but invalid JSON: " .. resp)
+			return
+		end
+		print("Beginning file download... " .. fileurl)
+		http.Fetch(fileurl, FileDownloaded, 
+		function(errormsg)
+			func(false, "Download file failed: " ..  errormsg)
+		end)
+	end
+
+	-- Callback for when we receive information about a workshop addon
+	local function OnGetCollectionDetails(resp, len, head, status)
+		print("Collection details received...")
+		-- Grab published fileid from collection details
+		local json = util.JSONToTable(resp)
+		local fileid = tryGetValue(json, "response", "collectiondetails", 1, "publishedfileid")
+		if not fileid then
+			func(false, "Received response from GetCollectionDetails, but invalid JSON: " .. resp)
+			return
+		end
+
+		local body = { ["itemcount"] = "1", ["publishedfileids[0]"] = fileid}
+		http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v0001/", body, 
+			OnGetPublishedFileDetails,
+			function(errmsg)
+				func(false, "GetPublishedFileDetails request failed: " .. errmsg)
+			end
+		)
+	end
+
+	-- Start the call chain, getting information about the published files for the workshop addon
+	local body = { collectioncount = "1", ["publishedfileids[0]"] = tostring(wsid)}
+	http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v0001/", body, 
+		OnGetCollectionDetails,	
+		function(errmsg)
+			func(false, "GetCollectionDetails request failed: " .. errmsg)
+		end
+	)
+end
+
+function DownloadAndMountGMA(wsid, func)
+	file.CreateDir( "jazztronauts" )
+	local dlpath = "jazztronauts/" .. wsid .. ".dat"
+	DownloadGMA(wsid, dlpath, function(succ, msg)
+		if not succ then 
+			print("Failed to download addon: " .. msg)
+			func(nil)
+			return
+		end
+
+		print("Addon downloaded to " .. dlpath .. ", mounting...")
+		local succ, files = game.MountGMA("data/" .. dlpath)
+		if files then 
+			print("CONTENT MOUNTED!!! SAY HELLO TO YOUR NEW FILES:")
+			PrintTable(files) 
+		end
+		func(files)
+	end)
+end

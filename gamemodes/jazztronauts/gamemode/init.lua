@@ -43,7 +43,7 @@ function GM:InitPostEntity()
 
 		-- If the map doesn't exist, try to generate as many shards as we can
 		-- Then store that as the map's worth
-		if not map then	
+		if not map or tonumber(map.seed) == 0 then	
 			print("Brand new map")
 			local shardworth = mapgen.CalculateShardCount()
 			local seed = math.random(0, 100000)

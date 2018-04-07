@@ -115,8 +115,8 @@ function StartMap(mapname, seed, shardcount)
 
 	-- If map has never been played before, insert gen info
 	-- Note, a seed of 0 signifies the map hasn't been played (no shards generated)
-	if (res == nil or res.seed == 0) and seed and shardcount then 
-
+	if (res == nil or tonumber(res.seed) == 0) and seed and shardcount then 
+		print("Generating shards")
 		-- Store the map + generation info down. Shards reference this
 		local wsid = res and res.wsid or workshop.FindOwningAddon(mapname)
 		if not StoreMap(mapname, wsid, seed) then return nil end

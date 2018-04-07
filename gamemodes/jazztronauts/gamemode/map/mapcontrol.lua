@@ -102,6 +102,46 @@ if SERVER then
 		RunConsoleCommand("changelevel", mapname)
 	end
 
+	-- Given a workshop id, try to download and mount it 
+	-- if it hasn't already been downloaded/mounted
+	function InstallAddon(wsid, func)
+		local cachepath = "jazztronauts"
+		file.CreateDir(cachepath)
+		local dlpath = cachepath .. "/" .. wsid .. ".dat"
+		
+		-- Check local cache first
+		local s, files = game.MountGMA("data/" .. dlpath)
+		if s and files then
+			print("Mounted from cache file!")
+			func(files)
+			return
+		end
+
+		-- Download from internet and mount
+		workshop.DownloadGMA(wsid, dlpath, function(data, errmsg)
+
+			-- Bad workshop ID or network failure
+			if not data then 
+				print("Failed to download addon: " .. errmsg)
+				func(nil)
+				return
+			end
+
+			-- Try mounting
+			print("Addon downloaded, decompressing and mounting...")
+			local time = SysTime()
+			local s, files = game.MountGMA("data/" .. dlpath)
+			print("Mounting: " .. (SysTime() - time) .. " seconds.")
+
+			if s and files then 
+				print("CONTENT MOUNTED!!! SAY HELLO TO YOUR NEW FILES:")
+				PrintTable(files) 
+			end
+
+			func(files)
+		end)
+	end
+
 	local function GetExternalMapAddons()
 		local addons = {}
 		local f = file.Open("data/jazztronauts/addons.txt", "r", "THIRDPARTY") -- TODO: Query external server?

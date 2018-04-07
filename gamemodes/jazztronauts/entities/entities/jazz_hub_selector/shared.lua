@@ -5,10 +5,12 @@ ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.Model			= "models/sunabouzu/jazz_tv02.mdl"
 
+local SCAN_FAILED_NOMAP 	= -3
+local SCAN_FAILED_NOSPACE 	= -2
+local SCAN_FAILED_NETWORK 	= -1
 local SCAN_IDLE		= 0
 local SCAN_SCANNING = 1
 local SCAN_COMPLETE = 2
-local SCAN_FAILED 	= 3
 
 function ENT:Initialize()
 	self:SetModel( self.Model )
@@ -32,14 +34,16 @@ function ENT:SetupDataTables()
 end
 
 function ENT:SelectAddon(wsid)
-	self:SetScanState(SCAN_SCANNING)
+	mapcontrol.SetSelectedMap(nil) -- Tell the current bus to leave
 	self:SetSelectedWorkshopID(wsid)
-	mapcontrol.SetSelectedMap(nil)
-	workshop.DownloadAndMountGMA(wsid, function(files)
-		self:SetScanState(files and SCAN_COMPLETE or SCAN_FAILED)
-		
+	self:SetScanState(SCAN_SCANNING)
+
+	-- Attempt to mount the given addon (cache-aware)
+	mapcontrol.InstallAddon(wsid, function(files, msg)
+
 		local newMaps = {}
 		if files then
+			-- Store the workshop id association for every map contained in this addon
 			for _, v in pairs(files) do
 				if not string.match(v, "maps/.*.bsp") then continue end
 				local filename = string.GetFileFromFilename(string.StripExtension(v))
@@ -48,16 +52,16 @@ function ENT:SelectAddon(wsid)
 				table.insert(newMaps, filename)
 			end
 
+			-- Make sure there was actually maps added!!
 			if #newMaps > 0 then
 				mapcontrol.SetSelectedMap(table.Random(newMaps))
 			else
 				print("Addon id " .. wsid .. " contains no maps at all!!")
 			end
+			self:SetScanState(#newMaps > 0 and SCAN_COMPLETE or SCAN_FAILED_NOMAP)
+		else
+			self:SetScanState(SCAN_FAILED_NETWORK)
 		end
-
-		self:SetScanState(#newMaps > 0 and SCAN_COMPLETE or SCAN_FAILED)
-
-		//progress.StoreMap()
 	end)
 end
 
@@ -68,8 +72,9 @@ function ENT:Use(activator, caller)
 		print("No active browser found!!!")
 		return
 	end
-
-	self:SelectAddon(browser:GetAddonWorkshopID())
+	
+	timer.Simple(0, function() self:SelectAddon(browser:GetAddonWorkshopID()) end)
+	
 end
 
 if SERVER then return end
@@ -138,6 +143,9 @@ function ENT:GetScanStateString()
 	if state == SCAN_IDLE then return "IDLE"
 	elseif state == SCAN_SCANNING then return "SCANNING"
 	elseif state == SCAN_COMPLETE then return "SCAN COMPLETE"
+	elseif state == SCAN_FAILED_NOMAP then return "SCAN FAILURE - NO MAP"
+	elseif state == SCAN_FAILED_NETWORK then return "SCAN FAILURE - FAILED TO DOWNLOAD"
+	elseif state == SCAN_FAILED_NOSPACE then return "SCAN FAILURE - DISK FULL"
 	end
 	
 	return "SCAN FAILURE"

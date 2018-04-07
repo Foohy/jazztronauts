@@ -163,20 +163,39 @@ function FileInfo(itemid, func)
 
 end
 
+
 -- Given a workshop id, download the raw GMA file to disk
 -- Works on both server and client (steamworks.Download does not)
 function DownloadGMA(wsid, path, func)
 	-- Callback for when the actual GMA file is downloaded
 	local function FileDownloaded(body, size, headers, status)
 		
-		print("Downloaded! decompressing...")
+		print("Downloaded " ..  size .. " bytes!")
 
 		-- Decompress (LZMA), then write
+
+		local start = SysTime()
 		body = util.Decompress(body)
+		print("Decompress: " .. (SysTime() - start) .. " seconds")
 
 		print("Writing to " .. path)
+		start = SysTime()
 		file.Write(path, body)
-		func(true) -- holy shit
+		print("Write to disk: " .. (SysTime() - start) .. " seconds")
+
+		start = SysTime()
+		local fileList = gmad.FileList("data/" .. path)
+		print("Reading file list: " .. (SysTime() - start) .. " seconds")
+
+		-- Just a useful object that shows info about what we just mounted
+		local res = { 
+			files = fileList,
+			path = path,
+			wsid = wsid,
+			timestamp = 0 -- TODO: timestamp of last time this addon was updated
+		}
+
+		func(res) -- holy shit it actually worked
 	end
 
 	-- Callback for when we've received information about a specific published file
@@ -186,13 +205,13 @@ function DownloadGMA(wsid, path, func)
 		local addoninfo = tryGetValue(json, "response", "publishedfiledetails", 1)
 		local fileurl = addoninfo and addoninfo.file_url
 		if not fileurl then
-			func(false, "Received response from GetPublishedFileDetails, but invalid JSON: " .. resp)
+			func(nil, "Received response from GetPublishedFileDetails, but invalid JSON: " .. resp)
 			return
 		end
 		print("Beginning file download... " .. fileurl)
 		http.Fetch(fileurl, FileDownloaded, 
 		function(errormsg)
-			func(false, "Download file failed: " ..  errormsg)
+			func(nil, "Download file failed: " ..  errormsg)
 		end)
 	end
 
@@ -203,7 +222,7 @@ function DownloadGMA(wsid, path, func)
 		local json = util.JSONToTable(resp)
 		local fileid = tryGetValue(json, "response", "collectiondetails", 1, "publishedfileid")
 		if not fileid then
-			func(false, "Received response from GetCollectionDetails, but invalid JSON: " .. resp)
+			func(nil, "Received response from GetCollectionDetails, but invalid JSON: " .. resp)
 			return
 		end
 
@@ -211,7 +230,7 @@ function DownloadGMA(wsid, path, func)
 		http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v0001/", body, 
 			OnGetPublishedFileDetails,
 			function(errmsg)
-				func(false, "GetPublishedFileDetails request failed: " .. errmsg)
+				func(nil, "GetPublishedFileDetails request failed: " .. errmsg)
 			end
 		)
 	end
@@ -221,27 +240,7 @@ function DownloadGMA(wsid, path, func)
 	http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v0001/", body, 
 		OnGetCollectionDetails,	
 		function(errmsg)
-			func(false, "GetCollectionDetails request failed: " .. errmsg)
+			func(nil, "GetCollectionDetails request failed: " .. errmsg)
 		end
 	)
-end
-
-function DownloadAndMountGMA(wsid, func)
-	file.CreateDir( "jazztronauts" )
-	local dlpath = "jazztronauts/" .. wsid .. ".dat"
-	DownloadGMA(wsid, dlpath, function(succ, msg)
-		if not succ then 
-			print("Failed to download addon: " .. msg)
-			func(nil)
-			return
-		end
-
-		print("Addon downloaded to " .. dlpath .. ", mounting...")
-		local succ, files = game.MountGMA("data/" .. dlpath)
-		if files then 
-			print("CONTENT MOUNTED!!! SAY HELLO TO YOUR NEW FILES:")
-			PrintTable(files) 
-		end
-		func(files)
-	end)
 end

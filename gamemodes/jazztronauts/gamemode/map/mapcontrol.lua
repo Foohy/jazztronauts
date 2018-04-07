@@ -31,9 +31,13 @@ if SERVER then
 
 	-- Roll a new random map to select
 	function RollMap()
+		print("mapcontrol.RollMap() is disabled.")
+		return
+		/*
 		local newMap = table.Random(mapList)
 		SetSelectedMap(newMap)
 		return newMap, mapIDs[newMap]
+		*/
 	end
 
 	function GetRandomAddon()

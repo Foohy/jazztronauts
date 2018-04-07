@@ -119,5 +119,5 @@ function FileList(filepath)
     local f = file.Open(filepath, "r", "GAME")
     if not f then return nil end
 
-    return readFileEntries(f)
+    return ReadFileEntries(f)
 end

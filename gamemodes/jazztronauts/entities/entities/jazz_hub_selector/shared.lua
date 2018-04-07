@@ -12,6 +12,13 @@ local SCAN_IDLE		= 0
 local SCAN_SCANNING = 1
 local SCAN_COMPLETE = 2
 
+local outputs =
+{
+	"OnMapSelected",
+	"OnMapDownloaded",
+	"OnMapAnalyzed"
+}
+
 function ENT:Initialize()
 	self:SetModel( self.Model )
 	self:PhysicsInit( SOLID_VPHYSICS )
@@ -33,14 +40,45 @@ function ENT:SetupDataTables()
 	self:NetworkVar("Int", 1, "ScanState")
 end
 
+function ENT:KeyValue( key, value )
+
+	if table.HasValue(outputs, key) then
+		self:StoreOutput(key, value)
+	end
+end
+
+function ENT:AcceptInput( name, activator, caller, data )
+	if name == "SelectAddon" then 
+		self:SelectAddon() 
+		return true 
+	end
+
+	return false
+end
+
 function ENT:SelectAddon(wsid)
+	
+	-- TODO: Not here
+	if not wsid then
+		local browser = ents.FindByClass("jazz_hub_browser")[1]
+		if not IsValid(browser) then
+			print("No active browser found!!!")
+			return
+		end
+		
+		wsid = browser:GetAddonWorkshopID()
+	end
+	
+
 	mapcontrol.SetSelectedMap(nil) -- Tell the current bus to leave
 	self:SetSelectedWorkshopID(wsid)
 	self:SetScanState(SCAN_SCANNING)
 
+	self:TriggerOutput("OnMapSelected", self)
+
 	-- Attempt to mount the given addon (cache-aware)
 	mapcontrol.InstallAddon(wsid, function(files, msg)
-
+		local success = false
 		local newMaps = {}
 		if files then
 			-- Store the workshop id association for every map contained in this addon
@@ -54,6 +92,7 @@ function ENT:SelectAddon(wsid)
 
 			-- Make sure there was actually maps added!!
 			if #newMaps > 0 then
+				success = true
 				mapcontrol.SetSelectedMap(table.Random(newMaps))
 			else
 				print("Addon id " .. wsid .. " contains no maps at all!!")
@@ -62,18 +101,20 @@ function ENT:SelectAddon(wsid)
 		else
 			self:SetScanState(SCAN_FAILED_NETWORK)
 		end
+
+		self:TriggerOutput("OnMapDownloaded", self, success and 1 or 0)
+
+		-- At this point we'd start analyzing the map (bsp magic)
+		-- Not implemented, but yknow, let em dream
+		if success then
+			self:TriggerOutput("OnMapAnalyzed", self)
+		end
 	end)
 end
 
 function ENT:Use(activator, caller)
-	-- TODO: Not here
-	local browser = ents.FindByClass("jazz_hub_browser")[1]
-	if not IsValid(browser) then
-		print("No active browser found!!!")
-		return
-	end
-	
-	timer.Simple(0, function() self:SelectAddon(browser:GetAddonWorkshopID()) end)
+
+	timer.Simple(0, function() self:SelectAddon() end)
 	
 end
 

@@ -3,9 +3,13 @@ AddCSLuaFile()
 ENT.Type = "anim"
 ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
-ENT.Model			= "models/sunabouzu/jazz_tv01.mdl"
+ENT.Model			= "models/sunabouzu/jazzbigtv.mdl"
 
-ENT.BusOffset = Vector(90, 230, 0)
+local outputs =
+{
+	"OnMapRolled"
+}
+
 function ENT:Initialize()
 	self:SetModel( self.Model )
 	self:PhysicsInit( SOLID_VPHYSICS )
@@ -27,14 +31,36 @@ function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "AddonWorkshopID")
 end
 
-function ENT:Use(activator, caller)
+function ENT:KeyValue( key, value )
+
+	if table.HasValue(outputs, key) then
+		self:StoreOutput(key, value)
+	end
+end
+
+function ENT:RollAddon()
 	local addon = mapcontrol.GetRandomAddon()
 	workshop.FileInfo(addon, function(body, err)
 		if err then print("Failed to get addon information: " .. err) end
 
+		self:TriggerOutput("OnMapRolled", self)
 		self:SetAddonName(body and body.title or addon)
 		self:SetAddonWorkshopID(addon)
 	end)
+end
+
+function ENT:AcceptInput( name, activator, caller, data )
+	if name == "RollAddon" then 
+		self:RollAddon() 
+		return true 
+	end
+
+	return false
+end
+
+
+function ENT:Use(activator, caller)
+	self:RollAddon()
 end
 
 if SERVER then return end
@@ -43,11 +69,11 @@ ENT.ScreenScale = 0.09
 
 surface.CreateFont( "JazzTVChannel", {
 	font      = "VCR OSD Mono",
-	size      = 70,
+	size      = 30,
 	weight    = 500,
 	//antialias = true,
 	additive  = false,
-	blursize  = 2,
+	blursize  = 1,
 	scanlines = 3
 })
 
@@ -77,8 +103,8 @@ function ENT:UpdateRenderTarget()
 			surface.SetTextPos(128, 128)
 			surface.DrawText("Tiddy")
 
-			//local title = self:GetAddonName()
-			//draw.SimpleTextOutlined( title, "JazzTVChannel", 128, 128, Color(60,255,60), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, color_black )
+			local title = self:GetAddonName()
+			draw.SimpleTextOutlined( title, "JazzTVChannel", sizeX - 20, 100, Color(60,255,60), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, color_black )
 		cam.End2D()
 	
 	end)
@@ -131,7 +157,7 @@ function ENT:Draw()
 		local title = self:GetAddonName()
 		local x = 58 / self.ScreenScale
 		local y = -27 / self.ScreenScale
-		draw.SimpleTextOutlined( title, "JazzTVChannel", x, y, Color(60,255,60), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, color_black )
+		//draw.SimpleTextOutlined( title, "JazzTVChannel", x, y, Color(60,255,60), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, color_black )
 
 
 	cam.End3D2D()

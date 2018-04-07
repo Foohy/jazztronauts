@@ -42,6 +42,22 @@
 	input Vomit(void)  : "Begin vomiting props"
 ]
 
+@PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazzbigtv.mdl") = jazz_hub_browser : "Jazz Addon Browser"
+[
+	output OnMapRolled(void) : "Fires when a map has been successfully rolled"
+
+	input RollAddon(void)  : "Perform a random roll for the next addon"
+]
+
+@PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazz_tv02.mdl") = jazz_hub_selector : "Jazz Map Selector"
+[
+	output OnMapSelected(void) : "Fires when a map has been selected and is starting the download process."
+	output OnMapDownloaded(integer) : "Fires when a map has finished downloading and is ready to be analyzed. 1 means successful, 0 means failure."
+	output OnMapAnalyzed(void) : "Fires when a map has finished being analyzed and facts have been extracted."
+
+	input SelectAddon(void)  : "Select the currently-browsed addon. Begins downloading and mounting the map"
+]
+
 @PointClass base(Targetname, Origin, Angles) studioprop("models/krio/jazzcat1.mdl") = jazz_cat : "Jazz Cat"
 [
     npcid(choices) : "Cat Character" : "1" =

@@ -1,11 +1,16 @@
 
 module( 'mapcontrol', package.seeall )
 
-curSelected = curSelected or ""
-mapList = mapList or {}
-mapIDs = mapIDs or {} -- Store generated unique id lookups for a map
+local localonly = CreateConVar("jazz_localmaps_only", 0, FCVAR_ARCHIVE, "Only use maps currently mounted on the server for map rolling.")
+
+curSelected = curSelected or {}
+
+//curSelected = curSelected or ""
+--mapList = mapList or {}
+--mapIDs = mapIDs or {} -- Store generated unique id lookups for a map
+addonList = addonList or {}
 function GetMap()
-	return curSelected
+	return curSelected.map
 end
 
 function IsInHub()
@@ -31,6 +36,10 @@ if SERVER then
 		return newMap, mapIDs[newMap]
 	end
 
+	function GetRandomAddon()
+		return table.Random(addonList)
+	end
+
 	-- Given a unique map id, roll to it
 	function RollMapID(id)
 		local newMap = mapIDs[id] and table.Random(mapIDs[id])
@@ -47,58 +56,93 @@ if SERVER then
 		return k
 	end
 
+	function GetMapsInAddon(wsid)
+		local maps = {}
+		local found = file.Find("maps/*.bsp", wsid)
+		for _, v in pairs(found) do 
+			table.insert(maps, string.StripExtension(v)) 
+		end
+
+		return maps
+	end
+
 	-- Update the new selected map
 	function SetSelectedMap(newMap)
-		if newMap == curSelected then return end
-		curSelected = newMap
+		if newMap == curSelected.map then return end
+		curSelected.map = newMap
 
-		local addon = FindOwningAddon(newMap)
-		local wsid = addon and addon.wsid or 0
+		-- Update workshop info
+		local wsid = workshop.FindOwningAddon(newMap) or 0
+		curSelected.wsid = wsid
 
-		hook.Call("JazzMapRandomized", GAMEMODE, curSelected, wsid)
+		-- If workshop info present, it might be a map pack, so store that too
+		curSelected.maps = wsid != 0 and GetMapsInAddon(wsid) or {}
 
-		net.Start("jazz_rollmap")
-			net.WriteString(curSelected)
-			net.WriteUInt(wsid, 64)
-		net.Broadcast()
+		hook.Call("JazzMapRandomized", GAMEMODE, curSelected.map, curSelected.wsid)
+
+		mapcontrol.Refresh()
 	end
 
 	-- Send the current map to this player (usually if they just joined)
 	function Refresh(ply)
+		if not curSelected.map then return end
+
 		net.Start("jazz_rollmap")
-			net.WriteString(curSelected)
-		net.Send(ply)
+			net.WriteString(curSelected.map)
+			net.WriteUInt(curSelected.wsid, 64)
+			net.WriteUInt(#curSelected.maps, 8)
+			for _, v in ipairs(curSelected.maps) do
+				net.WriteString(v)
+			end
+		return IsValid(ply) and net.Send(ply) or net.Broadcast()
 	end
 
-	-- Attempt to find the addon that 'owns' this map
-	-- May be nil if the map is just loose in their folder
-	function FindOwningAddon(mapname)
-		local addons = engine.GetAddons()
-
-		-- For each installed addon, search its contents for the given map file
-		-- This is very slow so make ideally we only ever do this once on startup
-		for _, v in pairs(addons) do
-			local found = file.Find("maps/" .. mapname .. ".bsp", v.title)
-			if #found > 0 then return v end
-		end
-
-		return nil
-	end
 
 	function Launch(mapname)
 		RunConsoleCommand("changelevel", mapname)
 	end
 
-	-- Build the list of maps given what we've already played and what's installed
-	function SetupMaps() 
-		mapList = {}
-		mapIDs = {}
+	local function GetExternalMapAddons()
+		local addons = {}
+		local f = file.Open("data/jazztronauts/addons.txt", "r", "THIRDPARTY") -- TODO: Query external server?
 
+		if not f then return addons end
+
+		local line = f:ReadLine() 
+		while line do
+			table.insert(addons, tonumber(line))
+
+			line = f:ReadLine()
+		end
+
+		return addons
+	end
+
+	local function GetLocalMapAddons()
+		local valid = {}
+		local addons = engine.GetAddons()
+
+		-- For each installed addon, search its contents for a map file
+		for _, v in pairs(addons) do
+			local found = file.Find("maps/*.bsp", v.title)
+			if #found > 0 then 
+				table.insert(valid, v)
+			end
+		end
+	end
+
+	-- Build a list of all addons that have maps installed
+	-- This list will become our entire possible sample range -- so it's gonna be big
+	function SetupMaps() 
+		--mapList = {}
+		--mapIDs = {}
+		addonList = localonly:GetBool() and GetLocalMapAddons() or GetExternalMapAddons()
+
+		/*
 		local maps = file.Find("maps/*.bsp", "WORKSHOP") -- option: WORKSHOP
-		local finished = progress.GetMapHistory()
+
 		for _, v in pairs(maps) do
 			local map = string.StripExtension(v)
-			if finished and table.HasValue(finished, map) then continue end
 			
 			table.insert(mapList, map)
 			
@@ -112,7 +156,7 @@ if SERVER then
 			else
 				mapIDs[mapid] = { map }
 			end
-		end
+		end*/
 	end
 
 	-- Spawn the exit bus's enterance portal at the specified position/angle.
@@ -172,6 +216,16 @@ else //CLIENT
 	net.Receive("jazz_rollmap", function(len, ply)
 		curSelected = net.ReadString()
 		local wsid = net.ReadUInt(64)
+		local maps = { curSelected }
+
+		-- Read list of maps that are a part of this map pack
+		-- Can be zero
+		local num = net.ReadUInt(8)
+		maps = {}
+		for i = 1, num do
+			table.insert(maps, net.ReadString())
+		end
+		PrintTable(maps)
 
 		print("New map received: " .. curSelected)
 

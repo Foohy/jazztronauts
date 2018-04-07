@@ -22,9 +22,12 @@ function ENT:Initialize()
 	-- Hook into map change events
 	if SERVER then
 		hook.Add("JazzMapRandomized", self, function(self, newmap, wsid)
-			if self.LastMap != newmap then -- Hotreload fix
+			if self.LastMap != newmap then
 				self.LastMap = newmap
-				self:OnMapChanged(newmap, wsid)
+				
+				if self.LastMap then
+					self:OnMapChanged(newmap, wsid)
+				end
 			end
 		end )
 

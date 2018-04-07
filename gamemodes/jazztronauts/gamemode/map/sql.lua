@@ -7,6 +7,7 @@ jsql.Register("jazz_mapgen",
 [[
 	id INTEGER PRIMARY KEY,
 	filename VARCHAR(128) UNIQUE NOT NULL,
+	wsid INTEGER NOT NULL DEFAULT 0,
 	seed INTEGER NOT NULL DEFAULT 0
 ]])
 
@@ -88,6 +89,23 @@ function GetMapHistory()
 	return Query(chkstr)
 end
 
+-- Store map information. (Mostly, the association of mapname -> workshopid)
+-- Allows upserting
+function StoreMap(mapname, wsid, seed)
+	seed = seed or 0
+	wsid = wsid or 0
+
+	local insrt = "INSERT INTO jazz_mapgen (filename, wsid, seed)" ..
+		string.format("VALUES ( '%s', %s, %s) ", mapname, wsid, seed)
+
+	local update = "UPDATE jazz_mapgen " ..
+		string.format("SET wsid=%s, seed=%s ", wsid, seed) ..
+		string.format("WHERE filename='%s'", mapname)
+
+	local map = GetMap(mapname)
+	return Query(map != nil and update or insrt) != false
+end
+
 -- Start playing a new, previously unplayed map
 function StartMap(mapname, seed, shardcount)
 	mapname = string.lower(mapname)
@@ -96,15 +114,14 @@ function StartMap(mapname, seed, shardcount)
 	local res = GetMap(mapname)
 
 	-- If map has never been played before, insert gen info
-	if res == nil and seed and shardcount then 
-		local insrt = "INSERT INTO jazz_mapgen " ..
-			"(filename, seed)" ..
-			string.format("VALUES ( '%s', ", mapname) ..
-			string.format("%s)", seed)
+	-- Note, a seed of 0 signifies the map hasn't been played (no shards generated)
+	if (res == nil or res.seed == 0) and seed and shardcount then 
 
-		-- Returns false on failure, and nil on success
-		if Query(insrt) == false then return nil end
+		-- Store the map + generation info down. Shards reference this
+		local wsid = res and res.wsid or workshop.FindOwningAddon(mapname)
+		if not StoreMap(mapname, wsid, seed) then return nil end
 
+		-- Generate all the shards and insert into db as well
 		local map = GetMap(mapname)
 		local shardvals = {}
 		for i=1, shardcount do

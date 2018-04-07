@@ -22,6 +22,11 @@ function GM:Initialize()
 	RunConsoleCommand("mp_falldamage", "1")
 
 	mapcontrol.SetupMaps()
+
+	-- Add the current map's workshop pack to download
+	-- Usually this is automatic, but because we're doing some manualy mounting, it doesn't happen
+	local wsid = workshop.FindOwningAddon(game.GetMap()) or 0
+	if wsid != 0 then resource.AddWorkshop(wsid) end
 end
 
 function GM:InitPostEntity()

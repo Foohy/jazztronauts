@@ -3,6 +3,9 @@ module( 'mapgen', package.seeall )
 SpawnedShards = SpawnedShards or {}
 InitialShardCount = InitialShardCount or 0
 
+-- No two shards can ever be closer than this
+local MinShardDist = 500
+
 function GetShardCount()
 	return table.Count(SpawnedShards), InitialShardCount
 end
@@ -226,6 +229,31 @@ if SERVER then
         
     end
 
+    function GetSpawnPoint(ent)
+        if !IsValid(ent) or !ent:CreatedByMap() then return nil end
+        if isInSkyBox(ent) then return nil end -- god wouldn't that suck
+
+        return findValidSpawn(ent)
+    end
+
+    -- Depending on the map, there might be certain entities that automatically
+    -- Make for great shard spawn locations. These will take preference over 
+    -- the default shard generation algorithm
+    function GetPreferredSpawns(seed)
+        local prefix = string.Split(game.GetMap(), "_")[1]
+        return hook.Call("JazzGetShardSpawnOverrides", GAMEMODE, prefix, seed)
+    end
+
+    local function minDistance2(posang, postbl)
+        local mindist = math.huge
+        for _, v in pairs(postbl) do
+            if v == posang then continue end
+            mindist = math.min(mindist, (posang.pos - v.pos):LengthSqr())
+        end
+        
+        return mindist
+    end
+
     function GenerateShards(count, seed, shardtbl)
         for _, v in pairs(SpawnedShards) do
             if IsValid(v) then v:Remove() end
@@ -234,33 +262,54 @@ if SERVER then
         math.randomseed(seed)
         SpawnedShards = {}
 
+        -- Get preferred spawns, if there are any
+        local preferredSpawns = GetPreferredSpawns(seed) or {}
+
         -- Go through every _map_ entity, filter bad spots, and go from there
         local validSpawns = {}
         for _, v in pairs(ents.GetAll()) do
-            if !IsValid(v) or !v:CreatedByMap() then continue end
-            if isInSkyBox(v) then continue end -- god wouldn't that suck
+            local posang = GetSpawnPoint(v)
 
-            local posang = findValidSpawn(v) 
-            if !posang then continue end
+            -- Bad spawnpoints are nil and are not eligible to spawn at
+            if posang != nil  then
 
-            table.insert(validSpawns, posang)
+                -- Ensure this position isn't already near a spawnpoint
+                local mindist2 = MinShardDist^2
+                if minDistance2(posang, preferredSpawns) > mindist2 and
+                   minDistance2(posang, validSpawns) > mindist2
+                then 
+                    table.insert(validSpawns, posang)
+                end
+            end
         end
 
         -- Select count random spawns and go
         local n = 0
-        for k, v in RandomPairs(validSpawns) do      
+        local function registerShard(posang)
             count = count - 1
-            if count < 0 then break end
+            if count < 0 then return false end
             n = n + 1
-            
+
+            print(minDistance2(posang, validSpawns))
+
             -- Create a new shard only if it hasn't been collected
             local shard = nil
             if not shardtbl or not tobool(shardtbl[n].collected) then 
-                shard = spawnShard(v, n)
+                shard = spawnShard(posang, n)
             end
 
-            table.insert(SpawnedShards, shard) 
+            table.insert(SpawnedShards, shard)
+            return true
+        end
 
+        -- Spawn as many high priority shards as we can
+        for k, v in RandomPairs(preferredSpawns) do
+            if not registerShard(v) then break end
+        end
+
+        -- Fill up the rest
+        for k, v in RandomPairs(validSpawns) do   
+            if not registerShard(v) then break end
         end
 
         InitialShardCount = n

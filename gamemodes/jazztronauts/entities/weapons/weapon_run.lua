@@ -46,6 +46,12 @@ end
 
 function SWEP:Deploy()
 
+	if SERVER then
+		self.OldRunSpeed = self.Owner:GetRunSpeed()
+		self.OldWalkSpeed = self.Owner:GetWalkSpeed()
+		self.OldJumpPower = self.Owner:GetJumpPower()
+	end
+
 	return true
 
 end
@@ -63,7 +69,11 @@ function SWEP:StopPrimaryAttack()
 end
 
 function SWEP:Cleanup()
-
+	if SERVER then
+		self.Owner:SetRunSpeed(self.OldRunSpeed)
+		self.Owner:SetWalkSpeed(self.OldWalkSpeed)
+		self.Owner:SetJumpPower(self.OldJumpPower)
+	end
 end
 
 function SWEP:DrawWorldModel()

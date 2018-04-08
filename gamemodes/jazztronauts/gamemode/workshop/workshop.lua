@@ -107,7 +107,9 @@ function FetchThumbnail(addon, func)
 			end
 
 		    func(mat)
-        end
+        else
+        	func(nil)
+    	end
 	end )
 end
 

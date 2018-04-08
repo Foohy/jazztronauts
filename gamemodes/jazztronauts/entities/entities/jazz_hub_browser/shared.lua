@@ -67,7 +67,7 @@ end
 if SERVER then return end
 
 ENT.ScreenScale = 0.09
-ENT.NoiseSpeed = 2
+ENT.NoiseSpeed = 3
 ENT.WhiteNoiseSound = Sound("jazztronauts/tv_noise.wav")
 
 ENT.ImageOffset = 0
@@ -187,6 +187,7 @@ function ENT:ChangeChannel(wsid)
 	if wsid == 0 then return end
 
 	steamworks.FileInfo( wsid, function( result ) 
+
 		if !IsValid(self) then return end
 		self.ErrorChannel = result == nil
 		if self.ErrorChannel then 
@@ -194,13 +195,13 @@ function ENT:ChangeChannel(wsid)
 			return 
 		end
 
+		self.AddonName = result.title
 		workshop.FetchThumbnail(result, function(material)
 			if !self then return end
 
-			self.AddonThumb = material -- ThumbnailMat
-			self.AddonName = result.title
-
-			self.GoalNoise = 0.0
+			self.ErrorChannel = material == nil
+			self.AddonThumb = material
+			self.GoalNoise = self.ErrorChannel and 1 or 0
 		end )
 	end )
 end

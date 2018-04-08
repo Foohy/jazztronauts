@@ -143,12 +143,11 @@ function ENT:UpdateRenderTarget()
 			surface.SetMaterial(overlayScanMat)
 			surface.DrawTexturedRect(0, 0, sizeX, sizeY)
 
-			surface.SetDrawColor(255, 255, 255)
-			surface.SetTextPos(128, 128)
-			surface.DrawText("Tiddy")
+			local title = self.AddonTitle or ""
+			draw.SimpleTextOutlined( title, "JazzTVChannel", sizeX/2, sizeY * 0.3, Color(60,255,60), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, color_black )
 
-			//local title = self:GetAddonName()
-			//draw.SimpleTextOutlined( title, "JazzTVChannel", 128, 128, Color(60,255,60), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, color_black )
+			local scanstate = self:GetScanStateString()
+			draw.SimpleTextOutlined( scanstate, "JazzTVChannel", sizeX/2, sizeY/2, Color(60,255,60), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, color_black )
 		cam.End2D()
 	
 	end)
@@ -193,35 +192,7 @@ function ENT:GetScanStateString()
 end
 
 function ENT:Draw()
-	render.MaterialOverrideByIndex(1, rt:GetUnlitMaterial())
+	render.MaterialOverrideByIndex(1, rt:GetUnlitMaterial(true))
 	self:DrawModel()
 	render.MaterialOverrideByIndex(1, nil)
-
-	local ang = self.Entity:GetAngles()
-	local pos = self.Entity:GetPos()
-	
-	ang:RotateAroundAxis( ang:Up(), 90 )
-	ang:RotateAroundAxis( ang:Forward(), 90 )
-
-	//Push outward just a tad
-	pos = pos - ang:Up() * -1
-
-	cam.Start3D2D(pos, ang, self.ScreenScale)
-		if false and self.ThumbnailMat then
-			surface.SetMaterial(self.ThumbnailMat)
-			surface.SetDrawColor(255, 255, 255, 255)
-			surface.DrawTexturedRect(-256, -70, 456, 456)
-		end
-
-		local title = self.AddonTitle or ""
-		local x = 58 / self.ScreenScale
-		local y = -27 / self.ScreenScale
-		draw.SimpleTextOutlined( title, "JazzTVChannel", x, y, Color(60,255,60), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, color_black )
-
-		local scanstate = self:GetScanStateString()
-		draw.SimpleTextOutlined( scanstate, "JazzTVChannel", 0, 0, Color(60,255,60), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, color_black )
-
-
-
-	cam.End3D2D()
 end

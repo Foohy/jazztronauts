@@ -27,7 +27,6 @@ function ENT:Initialize()
 end
 
 function ENT:SetupDataTables()
-	self:NetworkVar("String", 0, "AddonName")
 	self:NetworkVar("Int", 0, "AddonWorkshopID")
 end
 
@@ -39,12 +38,14 @@ function ENT:KeyValue( key, value )
 end
 
 function ENT:RollAddon()
+	self:SetAddonWorkshopID(0)
+	self:EmitSound("buttons/lever7.wav", 75, 200)
+
 	local addon = mapcontrol.GetRandomAddon()
 	workshop.FileInfo(addon, function(body, err)
 		if err then print("Failed to get addon information: " .. err) end
 
 		self:TriggerOutput("OnMapRolled", self)
-		self:SetAddonName(body and body.title or addon)
 		self:SetAddonWorkshopID(addon)
 	end)
 end
@@ -66,6 +67,12 @@ end
 if SERVER then return end
 
 ENT.ScreenScale = 0.09
+ENT.NoiseSpeed = 2
+ENT.WhiteNoiseSound = Sound("jazztronauts/tv_noise.wav")
+
+ENT.ImageOffset = 0
+ENT.TVNoiseAmount = 1
+ENT.GoalNoise = 0
 
 surface.CreateFont( "JazzTVChannel", {
 	font      = "VCR OSD Mono",
@@ -79,10 +86,35 @@ surface.CreateFont( "JazzTVChannel", {
 
 
 local overlayScanMat = Material("effects/map_monitor")
+local noiseMat = Material("effects/map_monitor_noise")
+local colormodMat = Material( "effects/map_monitor_colour" )
 
 local sizeX = 512
 local sizeY = 512
 local rt = irt.New("jazz_thumbnail_screen", sizeX, sizeY)
+
+local drawColorParams =
+{
+	["$pp_colour_addr"] = 0,
+	["$pp_colour_addg"] = 0,
+	["$pp_colour_addb"] = 0,
+	["$pp_colour_brightness"] = 0,
+	["$pp_colour_colour"] = 1,
+	["$pp_colour_contrast"] = 1,
+	["$pp_colour_mulr"] = 0,
+	["$pp_colour_mulg"] = 0,
+	["$pp_colour_mulb"] = 0
+}
+
+local function DrawColorModifyRT(params, texture)
+	colormodMat:SetTexture("$fbtexture", texture)
+	for k, v in pairs(params) do
+		colormodMat:SetFloat(k, v)
+	end
+
+	render.SetMaterial(colormodMat)
+	render.DrawScreenQuad()
+end
 
 function ENT:UpdateRenderTarget()
 	
@@ -91,19 +123,46 @@ function ENT:UpdateRenderTarget()
 
 		cam.Start2D()
 
-			if self.ThumbnailMat then
-				overlayScanMat:SetTexture("$basetexture", self.ThumbnailMat:GetTexture("$basetexture"))
+			if self.AddonThumb then
+				overlayScanMat:SetTexture("$basetexture", self.AddonThumb:GetTexture("$basetexture"))
 			end
+
+			local noiseamt = self.TVNoiseAmount
+			
+			local offset = math.random() * 2 <= noiseamt and sizeY * 0.05 or 0
+			self.ImageOffset = math.Approach(self.ImageOffset, offset, FrameTime() * 550)
 
 			surface.SetDrawColor(255, 255, 255)
 			surface.SetMaterial(overlayScanMat)
+			surface.DrawTexturedRect(0, self.ImageOffset, sizeX, sizeY)
+			
+			drawColorParams["$pp_colour_colour"] = math.max(0, 1 - noiseamt*8)
+			drawColorParams["$pp_colour_contrast"] = noiseamt + 1
+			DrawColorModifyRT(drawColorParams, rt:GetTarget())
+
+			noiseMat:SetFloat("$alpha", noiseamt)
+			surface.SetMaterial(noiseMat)
 			surface.DrawTexturedRect(0, 0, sizeX, sizeY)
 
-			local title = self:GetAddonName()
-			draw.SimpleTextOutlined( title, "JazzTVChannel", sizeX - 20, 100, Color(60,255,60), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, color_black )
+			draw.SimpleTextOutlined( self.AddonName, "JazzTVChannel", sizeX - 20, 100, Color(60,255,60), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, color_black )
+
+			if self.ErrorChannel then
+				draw.SimpleTextOutlined( "NO SIGNAL", "JazzTVChannel", sizeX/2, sizeY/2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, color_black )
+			end
 		cam.End2D()
 	
 	end)
+end
+
+function ENT:UpdateNoiseAudio()
+	if not self.TVNoise then
+		self.TVNoise = CreateSound(self, self.WhiteNoiseSound)
+		self.TVNoise:Play()
+	end
+
+	if self.TVNoise then
+		self.TVNoise:ChangeVolume(self.TVNoiseAmount)
+	end
 end
 
 function ENT:Think()
@@ -111,20 +170,37 @@ function ENT:Think()
 	local wsid = self:GetAddonWorkshopID()
 	if self.LastWorkshopID != wsid then
 		self.LastWorkshopID = wsid
-		self:RefreshThumbnail(wsid)
+		self:ChangeChannel(wsid)
 	end
 
+	-- Fade between noise amounts
+	local goal = self.GoalNoise + math.sin(CurTime() * 0.1) * 0.01 + 0.02
+	self.TVNoiseAmount = math.Approach(self.TVNoiseAmount, goal, FrameTime() * self.NoiseSpeed)
+
+	self:UpdateNoiseAudio()
 	self:UpdateRenderTarget()
 end
 
-function ENT:RefreshThumbnail(wsid)
+function ENT:ChangeChannel(wsid)
+	self.GoalNoise = 1.0
+	self.AddonName = ""
+	if wsid == 0 then return end
+
 	steamworks.FileInfo( wsid, function( result ) 
-		if !IsValid(self) or !result then return end
+		if !IsValid(self) then return end
+		self.ErrorChannel = result == nil
+		if self.ErrorChannel then 
+			print("Failed to get file info for wsid: " .. wsid)
+			return 
+		end
 
 		workshop.FetchThumbnail(result, function(material)
 			if !self then return end
 
-			self.ThumbnailMat = material
+			self.AddonThumb = material -- ThumbnailMat
+			self.AddonName = result.title
+
+			self.GoalNoise = 0.0
 		end )
 	end )
 end

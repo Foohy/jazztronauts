@@ -1,0 +1,5 @@
+"g_colourmodify"
+{
+	"$fbtexture" "_rt_FullFrameFB"
+	"$ignorez" "1"
+}

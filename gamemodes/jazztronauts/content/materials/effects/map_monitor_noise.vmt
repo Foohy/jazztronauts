@@ -1,0 +1,17 @@
+"UnlitGeneric"
+{
+    "$baseTexture" "effects/map_monitor_noise"
+    "$surfaceprop" "glass"
+    "$vertexcolor" 1
+    "$transparent" 1
+    "$model" 1
+    "Proxies"
+    {
+        "AnimatedTexture"
+        {
+            "animatedTextureVar" "$basetexture"
+            "animatedTextureFrameNumVar" "$frame"
+            "animatedTextureFrameRate" "40"
+        }
+    }
+}

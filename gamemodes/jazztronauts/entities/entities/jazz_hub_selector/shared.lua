@@ -122,10 +122,10 @@ if SERVER then return end
 
 ENT.ScreenScale = 0.09
 
-local overlayScanMat = Material("effects/map_monitor")
+local noThumbMat = Material("vgui/black")
 
-local sizeX = 512
-local sizeY = 512
+local sizeX = 1024
+local sizeY = 1024
 local rt = irt.New("jazz_thumbnail_selector_screen", sizeX, sizeY)
 
 function ENT:UpdateRenderTarget()
@@ -134,13 +134,9 @@ function ENT:UpdateRenderTarget()
 		render.Clear(0, 0, 0, 255)
 
 		cam.Start2D()
-
-			if self.ThumbnailMat then
-				overlayScanMat:SetTexture("$basetexture", self.ThumbnailMat:GetTexture("$basetexture"))
-			end
-
+			
 			surface.SetDrawColor(255, 255, 255)
-			surface.SetMaterial(overlayScanMat)
+			surface.SetMaterial(self.ThumbnailMat or noThumbMat)
 			surface.DrawTexturedRect(0, 0, sizeX, sizeY)
 
 			local title = self.AddonTitle or ""

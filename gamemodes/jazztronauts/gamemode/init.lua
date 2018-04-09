@@ -15,10 +15,21 @@ AddCSLuaFile( "missions/cl_init.lua" )
 
 AddCSLuaFile( "cl_hud.lua" )
 
+local function SetIfDefault(convarstr, ...)
+	local convar = GetConVar(convarstr)
+	if not convar or convar:GetDefault() == convar:GetString() then
+		print("Setting " .. convarstr)
+		RunConsoleCommand(convarstr, ...)
+	end
+end
+
 function GM:Initialize()
 	self.BaseClass:Initialize()
 
-	RunConsoleCommand("sv_loadingurl", "host.foohy.net/public/Documents/Jazz/")
+	SetIfDefault("sv_loadingurl", "host.foohy.net/public/Documents/Jazz/")
+	SetIfDefault("sv_gravity", "800")
+	SetIfDefault("sv_airaccelerate", "150")
+
 	RunConsoleCommand("mp_falldamage", "1")
 
 	mapcontrol.SetupMaps()

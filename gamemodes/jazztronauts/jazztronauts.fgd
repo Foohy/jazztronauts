@@ -45,8 +45,10 @@
 @PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazzbigtv.mdl") = jazz_hub_browser : "Jazz Addon Browser"
 [
 	output OnMapRolled(void) : "Fires when a map has been successfully rolled"
+	output OnAddonSelected(void) : "Fires when an addon has been selected and we should switch modes"
 
 	input RollAddon(void)  : "Perform a random roll for the next addon"
+	input SelectCurrentAddon(void)  : "Select the current addon, switching modes."
 ]
 
 @PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazz_tv02.mdl") = jazz_hub_selector : "Jazz Map Selector"

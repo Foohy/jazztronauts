@@ -5,10 +5,32 @@ ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.Model			= "models/sunabouzu/jazzbigtv.mdl"
 
+ENT.OnSound = Sound("jazztronauts/tv_on.wav")
+ENT.OffSound = Sound("buttons/lightswitch2.wav")
 local outputs =
 {
-	"OnMapRolled"
+	"OnMapRolled",
+	"OnAddonSelected"
 }
+
+concommand.Add("jazz_rolladdon", function(ply, cmd, args)
+	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
+		v:RollAddon()
+	end
+end )
+
+concommand.Add("jazz_selectaddon", function(ply, cmd, args)
+	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
+		v:SelectCurrentAddon()
+	end
+end)
+
+concommand.Add("jazz_canceladdon", function(ply, cmd, args)
+	for _, v in pairs(ents.FindByClass("jazz_hub_selector")) do
+		v:CancelAddon()
+	end
+end)
+
 
 function ENT:Initialize()
 	self:SetModel( self.Model )
@@ -24,10 +46,13 @@ function ENT:Initialize()
 	if SERVER then
 		self:SetUseType(SIMPLE_USE)
 	end
+
+	self:SetOn(true)
 end
 
 function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "AddonWorkshopID")
+	self:NetworkVar("Bool", 0, "IsOn")
 end
 
 function ENT:KeyValue( key, value )
@@ -38,6 +63,8 @@ function ENT:KeyValue( key, value )
 end
 
 function ENT:RollAddon()
+	if not self:GetIsOn() then return end
+
 	self:SetAddonWorkshopID(0)
 	self:EmitSound("buttons/lever7.wav", 75, 200)
 
@@ -50,17 +77,41 @@ function ENT:RollAddon()
 	end)
 end
 
+function ENT:SelectCurrentAddon()
+	if not self:GetIsOn() or self:GetAddonWorkshopID() == 0 then return end
+
+	self:TriggerOutput("OnAddonSelected", self)
+
+	local sel = ents.FindByClass("jazz_hub_selector")
+	for _, v in pairs(sel) do
+		v:SelectAddon(self:GetAddonWorkshopID())
+	end
+
+	if #sel > 0 then
+		self:SetOn(false)
+	end
+end
+
 function ENT:AcceptInput( name, activator, caller, data )
 	if name == "RollAddon" then 
 		self:RollAddon() 
 		return true 
+	elseif name == "SelectCurrentAddon" then
+		self:SelectCurrentAddon()
+		return true
 	end
 
 	return false
 end
 
+function ENT:SetOn(isOn)
+	local snd = isOn and self.OnSound or self.OffSound
+	self:EmitSound(snd)
+	self:SetIsOn(isOn)
+end
 
 function ENT:Use(activator, caller)
+
 	self:RollAddon()
 end
 
@@ -69,10 +120,12 @@ if SERVER then return end
 ENT.ScreenScale = 0.09
 ENT.NoiseSpeed = 3
 ENT.WhiteNoiseSound = Sound("jazztronauts/tv_noise.wav")
+ENT.HumSound = Sound("jazztronauts/tv_hum.wav")
 
 ENT.ImageOffset = 0
 ENT.TVNoiseAmount = 1
 ENT.GoalNoise = 0
+ENT.OnAmount = 0
 
 surface.CreateFont( "JazzTVChannel", {
 	font      = "VCR OSD Mono",
@@ -92,6 +145,7 @@ local colormodMat = Material( "effects/map_monitor_colour" )
 local sizeX = 512
 local sizeY = 512
 local rt = irt.New("jazz_thumbnail_screen", sizeX, sizeY)
+local rt_pass = irt.New("jazz_thumbnail_screen_passthrough", sizeX, sizeY)
 
 local drawColorParams =
 {
@@ -116,9 +170,7 @@ local function DrawColorModifyRT(params, texture)
 	render.DrawScreenQuad()
 end
 
-function ENT:UpdateRenderTarget()
-	
-	rt:Render(function()
+function ENT:DrawScreenContents(rt)
 		render.Clear(0, 0, 0, 255)
 
 		cam.Start2D()
@@ -138,6 +190,7 @@ function ENT:UpdateRenderTarget()
 			
 			drawColorParams["$pp_colour_colour"] = math.max(0, 1 - noiseamt*8)
 			drawColorParams["$pp_colour_contrast"] = noiseamt + 1
+			drawColorParams["$pp_colour_brightness"] = (1 - self.OnAmount)
 			DrawColorModifyRT(drawColorParams, rt:GetTarget())
 
 			noiseMat:SetFloat("$alpha", noiseamt)
@@ -150,7 +203,31 @@ function ENT:UpdateRenderTarget()
 				draw.SimpleTextOutlined( "NO SIGNAL", "JazzTVChannel", sizeX/2, sizeY/2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, color_black )
 			end
 		cam.End2D()
-	
+end
+
+function ENT:UpdateRenderTarget()
+	//self.OnAmount = math.Clamp(math.sin(CurTime() * 0.5) * 2, 0, 1)
+	local isTurningOff = self.OnAmount < 1
+
+	if isTurningOff then
+		rt:Render(function()
+			self:DrawScreenContents(rt)
+		end)
+	end
+
+	rt_pass:Render(function()
+		if isTurningOff then
+			cam.Start2D()
+				render.Clear(0, 0, 0, 0)
+				surface.SetMaterial(rt:GetUnlitMaterial(true))
+				local hx, hy = sizeX/2, sizeY/2
+				local vsquish = math.Clamp(math.Remap(self.OnAmount, 1, 0, 1, -0.2), 0.01, 1)
+				local hsquish = math.Clamp(math.Remap(self.OnAmount, 1, 0, 2.5, 0), 0.00, 1)
+				surface.DrawTexturedRect(hx - hsquish * hx, hy - vsquish * hy, hx * hsquish* 2, hy * vsquish* 2)
+			cam.End2D()
+		else
+			self:DrawScreenContents(rt_pass)
+		end
 	end)
 end
 
@@ -161,7 +238,17 @@ function ENT:UpdateNoiseAudio()
 	end
 
 	if self.TVNoise then
-		self.TVNoise:ChangeVolume(self.TVNoiseAmount)
+		self.TVNoise:ChangeVolume(self.TVNoiseAmount * self.OnAmount)
+	end
+
+	if not self.TVHum then
+		self.TVHum = CreateSound(self, self.HumSound)
+		self.TVHum:SetSoundLevel(65)
+		self.TVHum:Play()
+	end
+
+	if self.TVHum then
+		self.TVHum:ChangeVolume(self.OnAmount)
 	end
 end
 
@@ -173,9 +260,15 @@ function ENT:Think()
 		self:ChangeChannel(wsid)
 	end
 
+	
+	-- Fade 'on' amount
+	local goalOn = self.GetIsOn and self:GetIsOn() and 1.0 or 0.0
+	self.OnAmount = math.Approach(self.OnAmount, goalOn, FrameTime() * 3)
+
 	-- Fade between noise amounts
 	local goal = self.GoalNoise + math.sin(CurTime() * 0.1) * 0.01 + 0.02
 	self.TVNoiseAmount = math.Approach(self.TVNoiseAmount, goal, FrameTime() * self.NoiseSpeed)
+
 
 	self:UpdateNoiseAudio()
 	self:UpdateRenderTarget()
@@ -207,7 +300,7 @@ function ENT:ChangeChannel(wsid)
 end
 
 function ENT:Draw()
-	render.MaterialOverrideByIndex(1, rt:GetUnlitMaterial())
+	render.MaterialOverrideByIndex(1, rt_pass:GetUnlitMaterial())
 	self:DrawModel()
 	render.MaterialOverrideByIndex(1, nil)
 end

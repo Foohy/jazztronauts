@@ -56,28 +56,34 @@ function ENT:AcceptInput( name, activator, caller, data )
 	return false
 end
 
-function ENT:SelectAddon(wsid)
-	
-	-- TODO: Not here
-	if not wsid then
-		local browser = ents.FindByClass("jazz_hub_browser")[1]
-		if not IsValid(browser) then
-			print("No active browser found!!!")
-			return
-		end
-		
-		wsid = browser:GetAddonWorkshopID()
+function ENT:CancelAddon()
+	self:SelectAddon(nil)
+
+	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
+		v:SetOn(true)
 	end
-	
+end
+
+function ENT:SelectAddon(wsid)
 
 	mapcontrol.SetSelectedMap(nil) -- Tell the current bus to leave
-	self:SetSelectedWorkshopID(wsid)
-	self:SetScanState(SCAN_SCANNING)
+	self:SetSelectedWorkshopID(wsid or 0)
 
+	if not wsid or wsid == 0 then
+		self:SetScanState(SCAN_IDLE)
+		self.CurrentlyScanning = nil
+		return 
+	end
+
+	self:SetScanState(SCAN_SCANNING)
 	self:TriggerOutput("OnMapSelected", self)
 
 	-- Attempt to mount the given addon (cache-aware)
+	self.CurrentlyScanning = wsid
 	mapcontrol.InstallAddon(wsid, function(files, msg)
+		if self.CurrentlyScanning != wsid then return end
+		self.CurrentlyScanning = nil
+
 		local success = false
 		local newMaps = {}
 		if files then
@@ -114,7 +120,13 @@ end
 
 function ENT:Use(activator, caller)
 
-	timer.Simple(0, function() self:SelectAddon() end)
+	timer.Simple(0, function() 
+		if self:GetSelectedWorkshopID() != 0 then
+			self:CancelAddon() 
+		else
+			ents.FindByClass("jazz_hub_browser")[1]:SelectCurrentAddon()
+		end
+	end)
 	
 end
 
@@ -161,6 +173,9 @@ function ENT:Think()
 end
 
 function ENT:RefreshThumbnail(wsid)
+	self.ThumbnailMat = nil
+	self.AddonTitle = ""
+
 	steamworks.FileInfo( wsid, function( result ) 
 		if !IsValid(self) or !result then return end
 

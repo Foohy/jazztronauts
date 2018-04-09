@@ -55,7 +55,7 @@ function ENT:Initialize()
 	self:AttachRadio(Vector(40, -190, 50), Angle(0, 150, 0))
 
 	local spawnPos = self:GetPos()
-	self.StartPos = spawnPos + self:GetAngles():Right() * -2000 + Vector(0, 0, 40)
+	self.StartPos = spawnPos + self:GetAngles():Right() * (-self.HalfLength) + Vector(0, 0, 20)
 	self.GoalPos = self:GetFront()
 	self.StartAngles = self:GetAngles()
 	self.MoveState = MOVE_STATIONARY
@@ -224,12 +224,11 @@ function ENT:PhysicsStationary(phys, deltatime)
 end
 
 function ENT:PhysicsArriving(phys, deltatime)
-	local t, perc = self:GetProgress()
-	local p = math.pow(perc, 0.1)
+	local _, perc = self:GetProgress()
+	local p = math.EaseInOut(math.Clamp(perc, 0, 1), 0, 2)
 	local rotAng = 0
 
-	local percC = math.Clamp(p, 0, 1)
-	self.ShadowControl.pos = LerpVector(percC, self.StartPos, self.GoalPos)
+	self.ShadowControl.pos = LerpVector(p, self.StartPos, self.GoalPos)
 	self.ShadowControl.angle = Angle(self.StartAngles)
 	self.ShadowControl.angle:RotateAroundAxis(self.StartAngles:Forward(), rotAng)
 end

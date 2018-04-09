@@ -29,12 +29,17 @@ if __name__ == "__main__":
         print("A Steam WebAPI key is required.")
         sys.exit(1)
 
+    if len(sys.argv) > 2:
+        FILENAME = sys.argv[2]
+
     key = sys.argv[1]
     page = 0
     workshopids = []
 
+    f = open(FILENAME, "w")
+
     while True:
-        req = "{0}/{1}?key={2}&appid={3}&requiredtags[0]=map&numperpage={4}&page={5}&return_metadata=1".format(HOST, ENDPOINT, key, APPID, NUMPERPAGE, page)
+        req = "{0}/{1}?key={2}&appid={3}&requiredtags[0]=map&numperpage={4}&page={5}&return_metadata=1&query_type=1".format(HOST, ENDPOINT, key, APPID, NUMPERPAGE, page)
         response = urllib2.urlopen(req).read()
         resobj = json.loads(response.decode("utf-8", "ignore"))
         total = resobj["response"]["total"]
@@ -48,7 +53,7 @@ if __name__ == "__main__":
 
         # Informative output
         finished = page * NUMPERPAGE + len(resobj["response"]["publishedfiledetails"])
-        #print("Finished {0} addons. ({1:.2f}% of {2})".format(finished, finished * 100.0 / total, total))
+        print("Finished {0} addons. ({1:.2f}% of {2})".format(finished, finished * 100.0 / total, total))
 
         # Move onto to the next page
         page += 1
@@ -60,7 +65,6 @@ if __name__ == "__main__":
             time.sleep(DELAY)
     
     print("Dumping {0} addons to {1}".format(len(workshopids), FILENAME))
-    f = open(FILENAME, "w")
     for id in workshopids:
         f.write(id + "\n")
 

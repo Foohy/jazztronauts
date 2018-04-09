@@ -55,7 +55,7 @@ function ENT:Initialize()
 	self:AttachRadio(Vector(40, -190, 50), Angle(0, 150, 0))
 
 	local spawnPos = self:GetPos()
-	self.StartPos = spawnPos + self:GetAngles():Right() * (-self.HalfLength) + Vector(0, 0, 20)
+	self.StartPos = spawnPos + self:GetAngles():Right() * (-self.HalfLength - 10) + Vector(0, 0, 20)
 	self.GoalPos = self:GetFront()
 	self.StartAngles = self:GetAngles()
 	self.MoveState = MOVE_STATIONARY

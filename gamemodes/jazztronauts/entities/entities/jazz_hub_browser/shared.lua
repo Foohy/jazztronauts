@@ -99,6 +99,10 @@ function ENT:AcceptInput( name, activator, caller, data )
 	elseif name == "SelectCurrentAddon" then
 		self:SelectCurrentAddon()
 		return true
+	elseif name == "TurnOn" then
+		self:SetOn(true)
+	elseif name == "TurnOff" then
+		self:SetOn(false)
 	end
 
 	return false

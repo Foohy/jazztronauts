@@ -49,6 +49,8 @@
 
 	input RollAddon(void)  : "Perform a random roll for the next addon"
 	input SelectCurrentAddon(void)  : "Select the current addon, switching modes."
+	input TurnOn(void) 	   : "Turn on the tv, allowing it to receive input to change the channel"
+	input TurnOff(void)    : "Turn off the tv, blocking any channel change inputs."
 ]
 
 @PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazz_tv02.mdl") = jazz_hub_selector : "Jazz Map Selector"

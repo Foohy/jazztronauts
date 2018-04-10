@@ -52,6 +52,10 @@ function ENT:AcceptInput( name, activator, caller, data )
 		self:SelectAddon() 
 		return true 
 	end
+	if name == "CancelAddon" then 
+		self:CancelAddon() 
+		return true 
+	end
 
 	return false
 end
@@ -59,9 +63,11 @@ end
 function ENT:CancelAddon()
 	self:SelectAddon(nil)
 
+	/*
 	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
 		v:SetOn(true)
 	end
+	*/
 end
 
 function ENT:SelectAddon(wsid)

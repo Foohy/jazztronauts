@@ -1,0 +1,11 @@
+"LightmappedGeneric"
+{
+	// Original shader: BaseTimesLightmapAlphaBlend
+//	"$translucent" 1
+	"$alphatest" 1 
+	"$basetexture" "Nature/treeline001a"
+	"$surfaceprop" "wood"
+	"%keywords" "wasteland"
+}
+
+//literally all i had to do was comment out $translucent and uncomment $alphatest and it works in all cases now. 2003 must have been a wild year for production.

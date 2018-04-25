@@ -1,0 +1,16 @@
+"WorldVertexTransition"
+{
+	"$basetexture" "Nature/dirtfloor008a"
+//	$basetexturetransform "center .5 .5 scale .6 .6 rotate 30 translate 0 0"
+//	"$bumpmap" "sunabouzu/jazzForestFloor01_n"
+//	$envmapmask "sunabouzu/jazzforestfloor01_s"
+	"$basetexture2" "Nature/dirtfloor009c"
+//	"$bumpmap2" "sunabouzu/jazzForestFloor02_n"
+//	$envmapmask2  "sunabouzu/jazzforestfloor02_s"
+	"$surfaceprop" "Dirt"
+	"$surfaceprop2" "Dirt"
+	$blendmodulatetexture "sunabouzu/jazzBlendModulate"
+//	$envmap env_cubemap
+//	$envmaptint "[ .8 .8 .8]"
+	"%keywords" "jazz"
+}

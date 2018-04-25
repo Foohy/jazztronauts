@@ -1,0 +1,19 @@
+"Refract"
+{
+	"$normalmap" "sunabouzu/rain_window"
+	"$refracttinttexture" "sunabouzu/rain_window_mask"
+	$refracttint "[1.5 1.5 1.5]"
+	"$refractamount" .05
+	"$bluramount" .25
+	"$surfaceprop" "glass"
+	"%keywords" "sunabouzu"
+	Proxies
+{
+	TextureScroll
+	{
+		texturescrollvar $bumpTransform
+		texturescrollrate .2
+		texturescrollangle 270.00
+	}
+}
+}

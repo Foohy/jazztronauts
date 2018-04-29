@@ -3,7 +3,8 @@ AddCSLuaFile()
 ENT.Type = "anim"
 ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
-ENT.Model			= "models/sunabouzu/jazz_tv02.mdl"
+ENT.AutomaticFrameAdvance = true 
+ENT.Model			= "models/sunabouzu/jazzportal.mdl"
 
 local SCAN_FAILED_NOMAP 	= -3
 local SCAN_FAILED_NOSPACE 	= -2
@@ -35,6 +36,18 @@ function ENT:Initialize()
 	end
 end
 
+function ENT:SetPortalSequence(seqName, noreset)
+	local sequence = self:LookupSequence(seqName)
+
+	if (self:GetSequence() != sequence ) then
+		if not noreset then
+			self:ResetSequence(sequence)
+		end
+
+		self:SetPlaybackRate(1.0)
+	end
+end
+
 function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "SelectedWorkshopID")
 	self:NetworkVar("Int", 1, "ScanState")
@@ -48,8 +61,9 @@ function ENT:KeyValue( key, value )
 end
 
 function ENT:AcceptInput( name, activator, caller, data )
+
 	if name == "SelectAddon" then 
-		self:SelectAddon() 
+		//self:SelectAddon() 
 		return true 
 	end
 	if name == "CancelAddon" then 
@@ -62,7 +76,7 @@ end
 
 function ENT:CancelAddon()
 	self:SelectAddon(nil)
-
+	self:SetPortalSequence("Close")
 	/*
 	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
 		v:SetOn(true)
@@ -82,6 +96,7 @@ function ENT:SelectAddon(wsid)
 	end
 
 	self:SetScanState(SCAN_SCANNING)
+	self:SetPortalSequence("Open")
 	self:TriggerOutput("OnMapSelected", self)
 
 	-- Attempt to mount the given addon (cache-aware)
@@ -115,6 +130,7 @@ function ENT:SelectAddon(wsid)
 		end
 
 		self:TriggerOutput("OnMapDownloaded", self, success and 1 or 0)
+		self:SetPortalSequence("Settle")
 
 		-- At this point we'd start analyzing the map (bsp magic)
 		-- Not implemented, but yknow, let em dream
@@ -167,6 +183,13 @@ function ENT:UpdateRenderTarget()
 	end)
 end
 
+local function GetScale(self)
+	local seq = self:GetSequence()
+	if seq != self:LookupSequence("Close") and seq != self:LookupSequence("Open") then return 1 end
+	local t = self:GetCycle()
+	return seq == self:LookupSequence("Close") and 1 - t or t
+end
+
 function ENT:Think()
 
 	local wsid = self:GetSelectedWorkshopID()
@@ -174,6 +197,16 @@ function ENT:Think()
 		self.LastWorkshopID = wsid
 		self:RefreshThumbnail(wsid)
 	end
+
+	local rGoal = (EyePos() - self:GetPos()):Angle()
+	if not self.LastRot then self.LastRot = rGoal end
+	local r = LerpAngle(FrameTime(), self.LastRot, rGoal)
+	self.LastRot = r
+
+	local m = Matrix()
+	m:Scale(Vector(1, 1, GetScale(self) + 0.01))
+	m:Rotate(Angle(0, r.y + 90, 0))
+	self:EnableMatrix("RenderMultiply", m)
 
 	self:UpdateRenderTarget()
 end
@@ -209,7 +242,7 @@ function ENT:GetScanStateString()
 end
 
 function ENT:Draw()
-	render.MaterialOverrideByIndex(1, rt:GetUnlitMaterial(true))
+	render.MaterialOverrideByIndex(0, rt:GetUnlitMaterial(true))
 	self:DrawModel()
-	render.MaterialOverrideByIndex(1, nil)
+	render.MaterialOverrideByIndex(0, nil)
 end

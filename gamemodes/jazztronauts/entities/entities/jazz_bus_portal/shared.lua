@@ -112,7 +112,6 @@ function ENT:Initialize()
 
         -- Hook into when the void renders so we can insert our props into it
         hook.Add("JazzDrawVoid", self, function(self) self:OnPortalRendered() end)
-        hook.Add("JazzDrawVoidOffset", self, function(self) self:OnPortalRenderedOffset() end)
     end
 end
 
@@ -142,16 +141,6 @@ function ENT:DistanceToVoid(pos, dontflip)
 
     return fwd:Dot(dir) * mult
 end
-
-
--- Break if the front of the bus has breached our plane of existence
-function ENT:ShouldBreak()
-    if !IsValid(self:GetBus()) then return false end
-    
-    local busFront = self:GetBus():GetFront()
-    return self:DistanceToVoid(busFront) > 0
-end
-
 
 if SERVER then return end
 
@@ -227,6 +216,7 @@ function ENT:Think()
         if self.Broken then 
             self:OnBroken()
         end
+
     end
 
     -- This logic is for the exit view only
@@ -286,12 +276,9 @@ function ENT:OnPortalRendered()
     render.SetBlend(self:GetFadeAmount())
     
     self:DrawInteriorDoubles()
+    self:DrawInsidePortal()
 
     render.SetBlend(1)
-end
-
-function ENT:OnPortalRenderedOffset()
-    self:DrawInsidePortal()
 end
 
 -- Get the opacity for everything in the void
@@ -340,13 +327,31 @@ function ENT:DrawInsidePortal()
 
     -- If we're the exit portal, draw the gibs floating into space
     if self:GetIsExit() and self.Broken then 
-        if CurTime() - self.BreakTime < 45 then
-            for _, gib in pairs(self.Gibs) do
-                if gib then gib:DrawModel() end
-            end
+        for _, gib in pairs(self.Gibs) do
+            gib:DrawModel()
         end
     end
 
+    -- Draw a fixed border to make it look like cracks in the wall
+    -- Disable fog for this, we want it to be seamless
+    if self.Broken then
+        render.OverrideDepthEnable(true, true)
+        render.FogMode(MATERIAL_FOG_NONE)
+        self.VoidBorder:SetPos(self:GetPos())
+        self.VoidBorder:SetAngles(self:GetAngles())
+        self.VoidBorder:SetMaterial(self.WallMaterial)
+        self.VoidBorder:SetupBones()
+        self.VoidBorder:DrawModel()
+
+        -- Additional overlay pass
+        if self.IsOnVoidWall then
+            local _, overlay = snatch.GetVoidOverlay()
+            self.VoidBorder:SetMaterial(overlay:GetName())
+            self.VoidBorder:DrawModel()
+        end
+        render.FogMode(MATERIAL_FOG_LINEAR)
+        render.OverrideDepthEnable(false)
+    end
 
     render.SuppressEngineLighting(false)
 end
@@ -383,28 +388,6 @@ function ENT:DrawInteriorDoubles()
     self.VoidTunnel:SetMaterial("sunabouzu/jazzLake02")
     self.VoidTunnel:DrawModel()
 
-    -- Draw a fixed border to make it look like cracks in the wall
-    -- Disable fog for this, we want it to be seamless
-    if self.Broken then
-        render.OverrideDepthEnable(true, true)
-        render.FogMode(MATERIAL_FOG_NONE)
-        self.VoidBorder:SetPos(self:GetPos())
-        self.VoidBorder:SetAngles(self:GetAngles())
-        self.VoidBorder:SetMaterial(self.WallMaterial)
-        self.VoidBorder:SetupBones()
-        self.VoidBorder:DrawModel()
-
-        -- Additional overlay pass
-        if self.IsOnVoidWall then
-            local _, overlay = snatch.GetVoidOverlay()
-            self.VoidBorder:SetMaterial(overlay:GetName())
-            self.VoidBorder:DrawModel()
-        end
-        render.FogMode(MATERIAL_FOG_LINEAR)
-        render.OverrideDepthEnable(false)
-    end
-
-
     render.FogMode(MATERIAL_FOG_LINEAR)
     
     -- Draw the wiggly wobbly road into the distance
@@ -437,22 +420,26 @@ function ENT:DrawInteriorDoubles()
     render.SuppressEngineLighting(false)
 end
 
+-- Break if the front of the bus has breached our plane of existence
+function ENT:ShouldBreak()
+    if !IsValid(self:GetBus()) then return false end
+    
+    local busFront = self:GetBus():GetFront()
+    return self:DistanceToVoid(busFront) > 0
+end
+
 -- Right when we switch over to the jazz dimension, the bus will stop moving
 -- So we immediately start 'virtually' moving through the jazz dimension instead
 -- IDEALLY I'D LIKE TO RETURN A VIEW MATRIX, BUT GMOD DOESN'T HANDLE THAT VERY WELL
 function ENT:GetJazzVoidView()
     if !self.VoidTime or !IsValid(self:GetBus()) then return Vector() end
 
-    -- Counteract remaining bus movement
-    local busOff = self:DistanceToVoid(EyePos())
-
     local t = CurTime() - self.VoidTime
-    return self:GetAngles():Right() * (self:GetBus().JazzSpeed * 3 * -t - busOff)
+    return self:GetAngles():Right() * self:GetBus().JazzSpeed * -t
 end
 
 function ENT:OnBroken()
-    self.BreakTime = CurTime()
-    
+
     -- Draw and wake up every gib
     for _, gib in pairs(self.Gibs) do
 
@@ -464,9 +451,9 @@ function ENT:OnBroken()
         end
 
         gib:GetPhysicsObject():Wake()
-        local mult = self:GetIsExit() and -2 or 1 -- Break INTO the void, not out of
-        local force = math.random(400, 900) * mult
-        gib:GetPhysicsObject():SetVelocity(self:GetAngles():Right() * force + VectorRand() * 100)
+        local mult = self:GetIsExit() and -1 or 1 -- Break INTO the void, not out of
+        local force = math.random(200, 700) * mult
+        gib:GetPhysicsObject():SetVelocity(self:GetAngles():Right() * force)
         gib:GetPhysicsObject():AddAngleVelocity(VectorRand() * 100)
     end
 
@@ -601,7 +588,6 @@ end)
 
 -- Totally overrwrite the world with the custom void world
 hook.Add("PreDrawEffects", "JazzDrawPortalWorld", function()
-    snatch.void_view_offset = Vector()
     local exitPortal = GetExitPortal()
     if !IsValid(exitPortal) then return end
 
@@ -612,7 +598,7 @@ hook.Add("PreDrawEffects", "JazzDrawPortalWorld", function()
     if exitPortal:DistanceToVoid(origin) > 0 then
         
         local voffset = exitPortal:GetJazzVoidView()
-        snatch.void_view_offset = voffset
+
         snatch.UpdateVoidTexture(origin, angles)
 
         render.Clear(55, 0, 55, 255, true, true) -- Dump anything that was rendered

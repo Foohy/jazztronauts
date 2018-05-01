@@ -620,7 +620,6 @@ local sizeY = ScrH()
 local rt = irt.New("jazz_snatch_voidbg", sizeX, sizeY)
 
 void_prop_count = 10
-void_view_offset = Vector()
 
 
 //rt:SetAlphaBits( 8 )
@@ -660,48 +659,11 @@ end
 local propProximityFade = 200
 local range = 4000.0
 local hRangeVec = Vector(range/2, range/2, range/2)
-local function renderFollowCats(plyPos)
-
-	local skull = ManagedCSEnt("jazz_snatchvoid_skull", "models/krio/jazzcat1.mdl")
-	skull:SetNoDraw(true)
-	skull:SetModelScale(4)
-
-	for i=1, void_prop_count do
-
-		-- Create a "treadmill" so they don't move until they get far away, then wrap around
-		local modvec = ModVec(plyPos + SharedRandomVec(i) * range, range)
-		local p = plyPos - modvec + hRangeVec
-
-		skull:SetPos(p)
-
-		-- Face the player
-		local ang = (skull:GetPos() - plyPos):Angle()
-		skull:SetAngles(ang)
-		skull:SetupBones()
-
-		-- Calculate the 'distance' from the center by where they are in the offset
-		local d = MapVec(math.pi * modvec / range, math.sin)
-
-		-- Fade out if it's super close
-		local dfade = MapVec( modvec - hRangeVec, math.abs) / propProximityFade
-
-		-- Apply blending and draw
-		local distFade = math.max(0, 2.0 - dfade:Length())
-		local alpha = math.min(d.x, d.y, d.z) - distFade
-		if alpha >= 0 then
-			render.SetBlend(alpha)
-			skull:DrawModel()
-		end
-
-	end
-end
 local function renderVoid(eyePos, eyeAng, fov)
 
 	local oldW, oldH = ScrW(), ScrH()
 	render.Clear( 0, 0, 0, 0, true, true )
 	render.SetViewPort( 0, 0, sizeX, sizeY )
-
-	local eyeOffset = eyePos + void_view_offset
 
 	render.SuppressEngineLighting(true)
 
@@ -737,31 +699,50 @@ local function renderVoid(eyePos, eyeAng, fov)
 
 	-- Random props pass
 	if convar_drawprops:GetBool() then
-	
-	-- Pre draw void with movement offset
-	cam.Start3D(eyeOffset, eyeAng, fov, 0, 0, sizeX, sizeY)
-		hook.Call("JazzPreDrawVoidOffset", GAMEMODE)
-		
-		renderFollowCats(eyeOffset)
-	cam.End3D()
-
-	-- Pre draw and draw void without movement offset
 	cam.Start3D(eyePos, eyeAng, fov, 0, 0, sizeX, sizeY)
 		hook.Call("JazzPreDrawVoid", GAMEMODE)
 
+		local skull = ManagedCSEnt("jazz_snatchvoid_skull", "models/krio/jazzcat1.mdl")
+		skull:SetNoDraw(true)
+		skull:SetModelScale(4)
+
+		for i=1, void_prop_count do
+			local plyPos = LocalPlayer():EyePos()
+
+			-- Create a "treadmill" so they don't move until they get far away, then wrap around
+			local modvec = ModVec(plyPos + SharedRandomVec(i) * range, range)
+			local p = plyPos - modvec + hRangeVec
+
+			skull:SetPos(p)
+
+			-- Face the player
+			local ang = (skull:GetPos() - plyPos):Angle()
+			skull:SetAngles(ang)
+			skull:SetupBones()
+
+			-- Calculate the 'distance' from the center by where they are in the offset
+			local d = MapVec(math.pi * modvec / range, math.sin)
+
+			-- Fade out if it's super close
+			local dfade = MapVec( modvec - hRangeVec, math.abs) / propProximityFade
+
+			-- Apply blending and draw
+			local distFade = math.max(0, 2.0 - dfade:Length())
+			local alpha = math.min(d.x, d.y, d.z) - distFade
+			if alpha >= 0 then
+				render.SetBlend(alpha)
+				skull:DrawModel()
+			end
+	
+		end
 		render.SetBlend(1) -- Finished, reset blend
 		render.ClearDepth()
 
+	
 		render.OverrideDepthEnable(false)
 		hook.Call("JazzDrawVoid", GAMEMODE)
 
 	cam.End3D()	
-
-	-- Draw void WITH movement offset
-	cam.Start3D(eyeOffset, eyeAng, fov, 0, 0, sizeX, sizeY)
-		hook.Call("JazzDrawVoidOffset", GAMEMODE)
-	cam.End3D()
-
 	end
 	render.OverrideDepthEnable(false)
 	render.SuppressEngineLighting(false)

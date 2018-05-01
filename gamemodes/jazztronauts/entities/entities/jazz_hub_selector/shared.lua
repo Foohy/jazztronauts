@@ -183,6 +183,13 @@ function ENT:UpdateRenderTarget()
 	end)
 end
 
+local function GetScale(self)
+	local seq = self:GetSequence()
+	if seq != self:LookupSequence("Close") and seq != self:LookupSequence("Open") then return 1 end
+	local t = self:GetCycle()
+	return seq == self:LookupSequence("Close") and 1 - t or t
+end
+
 function ENT:Think()
 
 	local wsid = self:GetSelectedWorkshopID()
@@ -197,7 +204,7 @@ function ENT:Think()
 	self.LastRot = r
 
 	local m = Matrix()
-	m:Scale(Vector(1, 1, 1))
+	m:Scale(Vector(1, 1, GetScale(self) + 0.01))
 	m:Rotate(Angle(0, r.y + 90, 0))
 	self:EnableMatrix("RenderMultiply", m)
 
@@ -235,13 +242,7 @@ function ENT:GetScanStateString()
 end
 
 function ENT:Draw()
-	local goal = self:GetScanState() == SCAN_COMPLETE and 1.0 or 0
-	self.LastOpacity = self.LastOpacity or goal
-	self.LastOpacity = math.Approach(self.LastOpacity, goal, FrameTime())
-
-	render.SetBlend(self.LastOpacity)
 	render.MaterialOverrideByIndex(0, rt:GetUnlitMaterial(true))
 	self:DrawModel()
 	render.MaterialOverrideByIndex(0, nil)
-	render.SetBlend(1)
 end

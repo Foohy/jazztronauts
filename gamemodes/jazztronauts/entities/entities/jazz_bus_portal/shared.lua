@@ -1,5 +1,7 @@
 -- Board that displays currently selected maps
 AddCSLuaFile()
+AddCSLuaFile("cl_voidrender.lua")
+if CLIENT then include("cl_voidrender.lua") end
 
 ENT.Type = "anim"
 ENT.Base = "base_anim"
@@ -174,7 +176,7 @@ function ENT:StoreSurfaceMaterial()
         -- If it has, then set our whole border material to it
         -- (since the underlying texture is this one anyway)
         if isVoided then
-            self.WallMaterial = "!" .. snatch.GetVoidOverlay():GetName()
+            self.WallMaterial = "!" .. jazzvoid.GetVoidOverlay():GetName()
             self.IsOnVoidWall = true
             return
         end
@@ -396,7 +398,7 @@ function ENT:DrawInteriorDoubles()
 
         -- Additional overlay pass
         if self.IsOnVoidWall then
-            local _, overlay = snatch.GetVoidOverlay()
+            local _, overlay = jazzvoid.GetVoidOverlay()
             self.VoidBorder:SetMaterial(overlay:GetName())
             self.VoidBorder:DrawModel()
         end
@@ -534,7 +536,7 @@ function ENT:DrawPortal()
         render.ClearBuffersObeyStencil(55, 0, 55, 255, true)
 
         cam.Start2D()
-            render.DrawTextureToScreen(snatch.GetVoidTexture())
+            render.DrawTextureToScreen(jazzvoid.GetVoidTexture())
         cam.End2D()
         
 
@@ -602,7 +604,7 @@ end)
 
 -- Totally overrwrite the world with the custom void world
 hook.Add("PreDrawEffects", "JazzDrawPortalWorld", function()
-    snatch.void_view_offset = Vector()
+    jazzvoid.void_view_offset = Vector()
     local exitPortal = GetExitPortal()
     if !IsValid(exitPortal) then return end
 
@@ -613,12 +615,12 @@ hook.Add("PreDrawEffects", "JazzDrawPortalWorld", function()
     if exitPortal:DistanceToVoid(origin) > 0 then
         
         local voffset = exitPortal:GetJazzVoidView()
-        snatch.void_view_offset = voffset
-        snatch.UpdateVoidTexture(origin, angles)
+        jazzvoid.void_view_offset = voffset
+        jazzvoid.UpdateVoidTexture(origin, angles)
 
         render.Clear(55, 0, 55, 255, true, true) -- Dump anything that was rendered
         cam.Start2D()
-            render.DrawTextureToScreen(snatch.GetVoidTexture())
+            render.DrawTextureToScreen(jazzvoid.GetVoidTexture())
         cam.End2D()
     end
 end )

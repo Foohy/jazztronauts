@@ -92,7 +92,7 @@ function ENT:OnRemove()
     if self.SuckSoundNear then self.SuckSoundNear:Stop() end
 
     if CLIENT then
-        local _, surfaceMat = snatch.GetVoidOverlay()
+        local _, surfaceMat = jazzvoid.GetVoidOverlay()
         surfaceMat:SetFloat("$alpha", 1)
         surfaceMat:SetVector("$color", Vector(1, 1, 1))
     end
@@ -152,7 +152,7 @@ if CLIENT then
                 self.HasExploded = true 
 
                 LocalPlayer():ScreenFade(SCREENFADE.IN, Color(255, 255, 255, 200), 1.45, 0)
-                snatch.void_prop_count = 0
+                jazzvoid.void_prop_count = 0
             end
 
             local p = math.EaseInOut(math.min(1, t / 5), 0, 0.9)
@@ -178,7 +178,7 @@ if CLIENT then
             core2:DrawModel()
 
             -- Begin changing the overlay tint sprite to be more delightfully devilish
-            local _, surfaceMat = snatch.GetVoidOverlay()
+            local _, surfaceMat = jazzvoid.GetVoidOverlay()
             local col = LerpVector(t, Vector(1,1,1), Vector(1.0, 0.60, 0.1))
             local alpha = Lerp(t * 0.1, 1, 0.2)
             surfaceMat:SetFloat("$alpha", alpha)

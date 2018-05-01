@@ -1,13 +1,6 @@
 include("shared.lua")
 
-local function CopyMaterial(mat, name)
-    local vals = mat:GetKeyValues()
-    for k, v in pairs(vals) do if type(v) == "ITexture" then vals[k] = v:GetName() end end
-    vals["$translucent"] = 1 -- Why isn't this copied??
-    return CreateMaterial(name, mat:GetShader(), vals)
-end
-
-local ReticleCircleMaterial 	= CopyMaterial(Material("ui/jazztronauts/circle"), "BusMarkerMaterial" .. FrameNumber())
+local ReticleCircleMaterial 	= Material("ui/jazztronauts/bus_circle")
 local ReticleCenterMaterial     = Material("icon16/car.png")
 
 ENT.SpawnScale = 0
@@ -48,12 +41,14 @@ local function drawSemiCircle(cx, cy, w, h, perc)
     surface.DrawPoly(verts)
 end
 
-local function isMarkerLocallyHeld(marker)
+local function getHeldMarker()
     local wep = LocalPlayer():GetWeapon("weapon_buscaller")
-    if not IsValid(wep) or wep != LocalPlayer():GetActiveWeapon() then return false end
+    if not IsValid(wep) or wep != LocalPlayer():GetActiveWeapon() then return nil end
 
-    return marker == wep:GetBusMarker()
+    local marker = wep:GetBusMarker()
+    return IsValid(marker) and marker or nil
 end
+
 
 hook.Add( "PostDrawHUD", "JazzDrawBusMarker", function()
     local markers = LocalPlayer().ActiveBusMarkers
@@ -64,7 +59,8 @@ hook.Add( "PostDrawHUD", "JazzDrawBusMarker", function()
 
         for _, v in pairs(markers) do
             if !IsValid(v) then continue end
-            local isLook = v:IsLookingAt(EyePos(), EyeAngles():Forward(), LocalPlayer():GetFOV()) or isMarkerLocallyHeld(v)
+            local heldMarker = getHeldMarker()
+            local isLook = (v == heldMarker) or (v:IsLookingAt(EyePos(), EyeAngles():Forward(), LocalPlayer():GetFOV()) and !heldMarker)
             local isMoving = v:GetSpawnPercent() > 0
             v.SmoothPercent = v.SmoothPercent or 0     
             v.SmoothPercent = math.Approach(v.SmoothPercent, v:GetSpawnPercent(), FrameTime() * 0.25)
@@ -88,14 +84,14 @@ hook.Add( "PostDrawHUD", "JazzDrawBusMarker", function()
             local size = radius * 2.55
             ReticleCircleMaterial:SetFloat("$glowstart", isLook and 0 or 1)
             ReticleCircleMaterial:SetFloat("$glowend", 1.0)
-            ReticleCircleMaterial:SetFloat("$glowalpha", 1)
+            ReticleCircleMaterial:SetFloat("$glowalpha", 2)
 
             ReticleCircleMaterial:SetFloat("$edgesoftnessstart", .48)
             ReticleCircleMaterial:SetFloat("$edgesoftnessend", 0.4 - v:GetSpawnPercent() * 0.4)
 
             ReticleCircleMaterial:SetVector("$glowcolor", Vector(255/255.0, 247/255.0, 114/255.0))
             surface.SetMaterial(ReticleCircleMaterial)
-            surface.SetDrawColor(isLook and 30 or 255, 255, isLook and 30 or 255, 255)
+            surface.SetDrawColor(255, isLook and 247 or 255, isLook and 114 or 255, 255)
 	        surface.DrawTexturedRect(x - size/2, y - size/2, size, size)
 
             local size = radius * 1

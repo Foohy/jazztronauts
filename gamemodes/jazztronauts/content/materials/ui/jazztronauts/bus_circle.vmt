@@ -1,0 +1,24 @@
+UnlitGeneric
+{
+	$basetexture "ui/jazztronauts/circle"
+	$translucent 1
+	$distancealpha 1
+	
+	$softedges 1
+	$edgesoftnessstart .5
+	$edgesoftnessend .35
+	$scaleedgesoftnessbasedonscreenres 1
+	
+	$glow 1
+	$glowcolor "[.0 .00 .0]"
+	$glowalpha 0.9
+	$glowstart .1
+	$glowend .5
+	//$glowx .98
+	//$glowy .98
+
+	$vertexcolor 1
+	$vertexalpha 1
+	$no_fullbright 1
+	$ignorez 1
+}

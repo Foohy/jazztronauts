@@ -20,20 +20,29 @@ snatch.void_mat = void_mat
 -- Performance convars
 convar_drawprops = CreateClientConVar("jazz_void_drawprops", "1", true, false, "Render additional props/effects in the jazz void.")
 convar_drawonce = CreateClientConVar("jazz_void_drawonce", "0", true, false, "Don't render the void for water reflections, mirrors, or additional scenes. Will introduce rendering artifacts in water/mirrors, but is much faster.")
+convar_resscale = CreateClientConVar("jazz_void_resolution_scale", "1.0", true, false, "Resolution scale to render the void at. 1.0 is full screen resolution, 0.5 is half resolution.")
 
--- Re
+-- Void rendering parameters 
 local surfaceMaterial = Material("sunabouzu/JazzShell") //glass/reflectiveglass002 brick/brick_model
-local sizeX = ScrW() -- Size of the void rendertarget. Expose scale?
-local sizeY = ScrH()
-local rt = irt.New("jazz_snatch_voidbg", ScrW(), ScrH())
 
 void_prop_count = 10
 void_view_offset = Vector()
 
+function CreateVoidRT()
+	local renderScale = math.Clamp(convar_resscale:GetFloat(), 0, 8)
+	local rt = irt.New("jazz_snatch_voidbg", ScrW() * renderScale, ScrH() * renderScale)
+	rt:EnableDepth( true, true )
 
-//rt:SetAlphaBits( 8 )
-rt:EnableDepth( true, true )
-local rtTex = rt:GetTarget()
+	return rt
+end
+
+-- Create the render target at least once on client startup
+local rt = rt or CreateVoidRT()
+
+-- Also recreate if they change the resolution scale
+cvars.AddChangeCallback(convar_resscale:GetName(), function(name, old, new)
+	rt = CreateVoidRT()
+end, "jazz_void_res_callback")
 
 function GetVoidTexture()
 	return rt:GetTarget()
@@ -219,6 +228,7 @@ hook.Add("RenderScene", "snatch_void_inside", function(origin, angles, fov)
 	end
 
 	-- Also make sure this is always set
+	local rtTex = rt:GetTarget()
 	if void_mat:GetTexture("$basetexture"):GetName() != rtTex:GetName() then
 		print("Setting void basetexture")
 		void_mat:SetTexture("$basetexture", rtTex)

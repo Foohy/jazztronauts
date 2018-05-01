@@ -363,9 +363,9 @@ function ChangeNotes(ply, delta)
 	local insert = "INSERT OR IGNORE INTO jazz_playerdata(steamid) "
 		.. string.format("VALUES ('%s')", id)
 
-	-- Try an update first, then insert
-	if Query(update) == false then return false end
+	-- Try an insert first to make sure they exist
 	if Query(insert) == false then return false end
+	if Query(update) == false then return false end
 
 	return true
 end

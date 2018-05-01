@@ -261,3 +261,25 @@ function GM:BroadcastMessage( message )
 	end
 
 end
+
+local acknowledge = "yep, dump it"
+concommand.Add("jazz_reset_progress", function(ply, cmd, args)
+	if IsValid(ply) and not ply:IsSuperAdmin() then return end
+	local phrase = table.concat(args, " ")
+	if phrase != acknowledge then
+		local failInfo = "Are you sure you want to reset progress? This command cannot be undone." 
+		.. "\nRe-run this command with the argument \"" .. acknowledge .. "\" to acknowledge."
+		if IsValid(ply) then 
+			ply:ChatPrint(failInfo) 
+		else
+			print(failInfo)
+		end
+		return
+	end
+
+	jsql.Reset()
+	unlocks.ClearAll()
+
+	print("Dump'd. Changelevel to reflect all changes.")
+	
+end, nil, "Reset all jazztronauts progress entirely. This wipes all player progress, map history, purchases, unlocks, and previous game data.")

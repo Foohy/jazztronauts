@@ -441,13 +441,14 @@ end
 -- So we immediately start 'virtually' moving through the jazz dimension instead
 -- IDEALLY I'D LIKE TO RETURN A VIEW MATRIX, BUT GMOD DOESN'T HANDLE THAT VERY WELL
 function ENT:GetJazzVoidView()
-    if !self.VoidTime or !IsValid(self:GetBus()) then return Vector() end
+    local bus = self:GetBus()
+    if !self.VoidTime or !IsValid(bus) then return Vector() end
 
     -- Counteract remaining bus movement
     local busOff = self:DistanceToVoid(EyePos())
 
     local t = CurTime() - self.VoidTime
-    return self:GetAngles():Right() * (self:GetBus().JazzSpeed * 3 * -t - busOff)
+    return bus:GetAngles():Right() * (bus.JazzSpeed * 3 * t - busOff)
 end
 
 function ENT:OnBroken()

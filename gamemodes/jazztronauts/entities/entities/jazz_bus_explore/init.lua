@@ -56,7 +56,7 @@ function ENT:Initialize()
 	self:AttachRadio(Vector(40, -190, 50), Angle(0, 150, 0))
 
 	local spawnPos = self:GetPos()
-	self.StartPos = spawnPos + self:GetAngles():Right() * (-self.HalfLength - 10) + Vector(0, 0, 20)
+	self.StartPos = spawnPos + self:GetAngles():Right() * (-self.HalfLength - 20) + Vector(0, 0, 20)
 	self.GoalPos = self:GetFront()
 	self.StartAngles = self:GetAngles()
 	self.MoveState = MOVE_STATIONARY
@@ -64,12 +64,8 @@ function ENT:Initialize()
 	-- Start us off right at the start
 	self:SetPos(self.StartPos)
 
-	-- Setup shadow controller
-	self:StartMotionController()
-
 	-- Play an ominous sound that something's coming
 	sound.Play(table.Random(self.PrelimSounds), spawnPos, 85, 100, 1)
-
 
 	-- Let it sink in
 	timer.Simple(2.8, function()
@@ -101,7 +97,11 @@ function ENT:CheckLaunch()
 end
 
 function ENT:Arrive()
+	-- Setup shadow controller
+	self:StartMotionController()
+
 	local phys = self:GetPhysicsObject()
+
 	if phys then
 		phys:EnableGravity( true )
 		phys:EnableMotion( true )
@@ -196,6 +196,7 @@ function ENT:Touch(other)
 	if !IsValid(other:GetPhysicsObject()) then return end
 	if (other:GetClass() == self:GetClass()) then return end
 	if (other:IsPlayer() and table.HasValue(self.Seats, other:GetVehicle())) then return end
+	if (other:GetParent() and other:GetParent():GetClass() == self:GetClass()) then return end
 
 	local front = self:GetFront()
 	local moveFwdAmt = (front - other:GetPos()):Dot(self:GetAngles():Right())

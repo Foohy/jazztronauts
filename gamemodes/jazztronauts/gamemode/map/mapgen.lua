@@ -22,6 +22,7 @@ function CanSnatch(ent)
     if ent:IsNPC() then return true end  
     if ent:GetClass() == "npc_antlion_grub" then return true end
     if ent:GetClass() == "npc_grenade_frag" then return true end
+    if ent:GetClass() == "prop_combine_ball" then return true end
 
     if ent:IsWeapon() and ent:GetParent() and ent:GetParent():IsPlayer() then return false end
     if CLIENT and ent:IsWeapon() and ent:IsCarriedByLocalPlayer() then return false end

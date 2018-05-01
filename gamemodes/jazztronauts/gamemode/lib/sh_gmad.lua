@@ -119,5 +119,10 @@ function FileList(filepath)
     local f = file.Open(filepath, "r", "GAME")
     if not f then return nil end
 
-    return ReadFileEntries(f)
+    local succ, res = pcall(ReadFileEntries, f)
+    if not succ then
+        ErrorNoHalt("Failed to parse GMA \"" .. filepath .. "\"!")
+    end
+    
+    return res
 end

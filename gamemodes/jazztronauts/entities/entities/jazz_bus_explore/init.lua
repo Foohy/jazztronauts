@@ -20,6 +20,7 @@ ENT.ShadowControl.deltatime        = 0
 local MOVE_STATIONARY 	= 1
 local MOVE_ARRIVING 	= 2
 local MOVE_LEAVING 		= 3
+local MOVE_LEAVING_PORTAL = 4
 
 ENT.BusLeaveDelay = 1
 ENT.BusLeaveAccel = 500
@@ -244,6 +245,16 @@ function ENT:PhysicsLeaving(phys, deltatime)
 	self.ShadowControl.angle:RotateAroundAxis(self.StartAngles:Forward(), rotAng)
 end
 
+function ENT:PhysicsLeavingPortal(phys, deltatime)
+	local t, perc = self:GetProgress()
+	local rotAng = 0
+	local pos = t * self.JazzSpeed
+
+	self.ShadowControl.pos = self.StartPos + self.MoveForward * pos
+	self.ShadowControl.angle = Angle(self.StartAngles)
+	self.ShadowControl.angle:RotateAroundAxis(self.StartAngles:Forward(), rotAng)
+end
+
 function ENT:PhysicsSimulate( phys, deltatime )
 	if self.MoveState == MOVE_STATIONARY then
 		self:PhysicsStationary(phys, deltatime)
@@ -251,6 +262,8 @@ function ENT:PhysicsSimulate( phys, deltatime )
 		self:PhysicsArriving(phys, deltatime)
 	elseif self.MoveState == MOVE_LEAVING then
 		self:PhysicsLeaving(phys, deltatime)
+	elseif self.MoveState == MOVE_LEAVING_PORTAL then
+		self:PhysicsLeavingPortal(phys, deltatime)
 	end
 
 	phys:ComputeShadowControl( self.ShadowControl )
@@ -269,12 +282,25 @@ function ENT:Think()
 		end
 	end
 
-	if self.MoveState == MOVE_LEAVING and IsValid(self.ExitPortal) then 
-		if self.ExitPortal:DistanceToVoid(self:GetRear()) > 0 then 
+	if IsValid(self.ExitPortal) then
+		local leaving 		= self.MoveState == MOVE_LEAVING
+		local leavingPortal = self.MoveState == MOVE_LEAVING_PORTAL
+
+		-- Switch to 'portal' travel model if we hit a portal
+		if leaving and self.ExitPortal:ShouldBreak() then
+			self.MoveState = MOVE_LEAVING_PORTAL
+			self.StartTime = CurTime()
+			self.MoveForward = (self.GoalPos - self.StartPos):GetNormal()
+			self.StartPos = self:GetPos()
+		end
+
+		-- Stop moving the bus entirely when the rear of the bus gets inside the portal
+		if (leaving or leavingPortal) and self.ExitPortal:DistanceToVoid(self:GetRear()) > 0 then 
 			self.MoveState = MOVE_STATIONARY
 			self.GoalPos = self:GetPos()
 		end
 	end
+
 
 	-- Changelevel at the end
 	if self.ChangelevelTime and CurTime() > self.ChangelevelTime then 

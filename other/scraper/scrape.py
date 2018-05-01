@@ -49,7 +49,10 @@ if __name__ == "__main__":
                 print("Ignoring: " + addon["title"])
                 continue
 
-            workshopids.append(addon["publishedfileid"])
+            # Add if not already in (sometimes query will give us dupes?)
+            wsid = addon["publishedfileid"]
+            if not wsid in workshopids:
+                workshopids.append(wsid)
 
         # Informative output
         finished = page * NUMPERPAGE + len(resobj["response"]["publishedfiledetails"])

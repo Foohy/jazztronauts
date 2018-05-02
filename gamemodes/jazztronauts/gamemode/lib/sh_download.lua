@@ -304,7 +304,7 @@ if SERVER then
 
 		if not thread.awaiting_response then return end
 
-		if thread.active.current == chunkid then
+		if thread.active.current == chunkid or chunkid == 0 then
 			coroutine.resume( thread.co, "ok" )
 		else
 			coroutine.resume( thread.co, "out-of-order chunk " .. chunkid )

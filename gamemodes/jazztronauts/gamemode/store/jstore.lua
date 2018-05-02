@@ -18,6 +18,15 @@ unlocks.Register(list_name)
 -- Register name and pricing information with a specific unlock
 function Register(unlockName, price, props)
     if not Items then Items = {} end
+
+    -- unlockName can be a string or a SWEP/ENT table
+    if type(unlockName) == "table" then
+        props.name = props.name or unlockName.PrintName or unlockName.ClassName
+        unlockName = unlockName.ClassName or string.GetFileFromFilename(unlockName.Folder)
+    end
+
+    print(unlockName)
+
     props = props or {}
     props.price = price
     props.unlock = unlockName -- For completeness
@@ -52,7 +61,6 @@ function RegisterSeries(baseUnlockName, basePrice, count, props)
         }
         local newprops = table.Copy(props)
         table.Merge(newprops, itemprops)
-        PrintTable(itemprops)
 
         -- Add a new unique item and store in repeats table for fast lookup
         req = Register(unlock, basePrice, newprops)

@@ -48,9 +48,13 @@ function GM:JazzCanSpawnWeapon(ply, wep)
     -- Ignore weapons outside of jazztronauts (for now??!?)
     if wepinfo.Category != "Jazztronauts" then return true end
 
-    -- Check if a built in jazz weapon (always spawnable)
-    if wepinfo.Spawnable then return true end
+    -- If the weapon is in the store, it must have been unlocked to spawn
+    if jstore.GetItem(wep) then
 
-    -- Final check, must have been purchased in the store
-    return unlocks.IsUnlocked("store", ply, wep)
+        -- Final check, must have been purchased in the store
+        return unlocks.IsUnlocked("store", ply, wep)
+
+    end
+
+    return true
 end

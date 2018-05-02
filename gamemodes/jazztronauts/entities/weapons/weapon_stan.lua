@@ -33,7 +33,7 @@ local DefaultTeleportDistance 	= 256
 local DefaultProngCount			= 2
 local DefaultSpeed				= 300
 
-SWEP.Spawnable 				= false
+SWEP.Spawnable 				= true
 SWEP.RequestInfo			= {}
 SWEP.TeleportDistance		= DefaultTeleportDistance
 SWEP.ProngCount 			= DefaultProngCount
@@ -42,7 +42,7 @@ SWEP.TopSpeed 				= 2000
 
 
 -- List this weapon in the store
-local storeStan = jstore.Register("weapon_stan", 4000, { name = "Stan", type = "tool" })
+local storeStan = jstore.Register(SWEP, 4000, { type = "tool" })
 
 -- Create 3 items to be purchased one after the other that control range
 local storeRange = jstore.RegisterSeries("stan_range", 2000, 3, { 
@@ -121,13 +121,13 @@ function SWEP:StartPrimaryAttack()
 	--self.Owner:SetAnimation( PLAYER_ATTACK1 )
 
 
-	print("Starting to attack")
+	//print("Starting to attack")
 
 end
 
 function SWEP:StopPrimaryAttack()
 
-	print("Stopping attack")
+	//print("Stopping attack")
 
 end
 

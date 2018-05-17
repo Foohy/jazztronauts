@@ -1,5 +1,5 @@
 "VertexlitGeneric"
 {
-	"$basetexture" "matsys_regressiontest/background"
+	"$basetexture" "tools/toolsblack"
 	$nocull 1
 }

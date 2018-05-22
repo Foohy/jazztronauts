@@ -99,8 +99,8 @@ function GM:CollectShard(shard, ply)
 	local left, total = mapgen.CollectShard(ply, shard)
 	if not left then return false end
 
-	-- Congrats
-	ply:ChangeNotes(1000)
+	-- Congrats to everyone
+	progress.ChangeNotesList(shard.JazzWorth)
 end
 
 -- Called when prop is snatched from the level
@@ -171,7 +171,7 @@ function GM:PlayerSpawn( ply )
 	PrintMapHistory(ply)
 		
 	-- Setup note count
-	ply:SetNotes(progress.GetNotes(ply))
+	ply:RefreshNotes()
 end
 
 -- Stop killing the player, they don't collide 

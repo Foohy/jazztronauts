@@ -370,6 +370,32 @@ function ChangeNotes(ply, delta)
 	return true
 end
 
+-- Add notes to EVERYBODY, even people not in the server
+-- Takes in a list of players that are definitely in the server
+function ChangeNotesList(delta)
+	delta = math.max(delta, 0)
+
+	-- Add 0 notes to every person, to make sure they have an entry in the db
+	for k, v in pairs(player.GetAll()) do
+		ChangeNotes(v, 0)
+	end
+
+	-- Blindly go through the database and increase the amount of everyone
+	local update = "UPDATE jazz_playerdata "
+		.. string.format("SET notes = notes + %s ", delta)
+
+	local success = Query(update) != false
+
+	-- Network updated note counts to players
+	if success then
+		for k, v in pairs(player.GetAll()) do
+			v:RefreshNotes()
+		end
+	end
+
+	return success
+end
+
 -- Retrieve the note count of a specific player
 function GetNotes(ply)
 	if !IsValid(ply) then return -1 end

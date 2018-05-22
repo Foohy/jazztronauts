@@ -42,13 +42,8 @@ end
 
 function GM:InitPostEntity()
 
-	if mapcontrol.IsInHub() then
-		-- Restore the bus for the last map we played
-		local m = progress.GetLastMapSession()
-		if m then
-			mapcontrol.SetSelectedMap(m.filename)
-		end
-	else
+	if not mapcontrol.IsInHub() then
+	
 		-- Add current map to list of 'started' maps
 		local map = progress.GetMap(game.GetMap())
 

@@ -15,7 +15,7 @@ local outputs =
 
 concommand.Add("jazz_rolladdon", function(ply, cmd, args)
 	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
-		v:RollAddon()
+		v:RollWorkshop()
 	end
 end )
 
@@ -45,9 +45,18 @@ function ENT:Initialize()
 	-- Hook into map change events
 	if SERVER then
 		self:SetUseType(SIMPLE_USE)
+		
+		-- Turn on the tv
+		self:SetOn(true)
+
+		-- Set current map to whatever the last one we visited was
+		local m = progress.GetLastMapSession()
+		local wsid = workshop.FindOwningAddon(m.filename)
+		if wsid && wsid != 0 then
+			self:BrowseToWorkshop(wsid)
+		end
 	end
 
-	self:SetOn(true)
 end
 
 function ENT:SetupDataTables()
@@ -62,18 +71,22 @@ function ENT:KeyValue( key, value )
 	end
 end
 
-function ENT:RollAddon()
+function ENT:RollWorkshop()
 	if not self:GetIsOn() then return end
 
+	local addon = mapcontrol.GetRandomAddon()
+	self:BrowseToWorkshop(addon)
+end
+
+function ENT:BrowseToWorkshop(wsid)
 	self:SetAddonWorkshopID(0)
 	self:EmitSound("buttons/lever7.wav", 75, 200)
 
-	local addon = mapcontrol.GetRandomAddon()
-	workshop.FileInfo(addon, function(body, err)
+	workshop.FileInfo(wsid, function(body, err)
 		if err then print("Failed to get addon information: " .. err) end
 
 		self:TriggerOutput("OnMapRolled", self)
-		self:SetAddonWorkshopID(addon)
+		self:SetAddonWorkshopID(wsid)
 	end)
 end
 
@@ -94,7 +107,7 @@ end
 
 function ENT:AcceptInput( name, activator, caller, data )
 	if name == "RollAddon" then 
-		self:RollAddon() 
+		self:RollWorkshop() 
 		return true 
 	elseif name == "SelectCurrentAddon" then
 		self:SelectCurrentAddon()
@@ -116,7 +129,7 @@ end
 
 function ENT:Use(activator, caller)
 
-	self:RollAddon()
+	self:RollWorkshop()
 end
 
 if SERVER then return end

@@ -3,6 +3,13 @@ include("shared.lua")
 local ReticleCircleMaterial 	= Material("ui/jazztronauts/bus_circle")
 local ReticleCenterMaterial     = Material("icon16/car.png")
 
+surface.CreateFont( "JazzMouseHint", {
+	font      = "KG Shake it Off Chunky",
+	size      = ScreenScale(8),
+	weight    = 700,
+	antialias = true
+})
+
 ENT.SpawnScale = 0
 function ENT:Initialize()
 
@@ -60,7 +67,8 @@ hook.Add( "PostDrawHUD", "JazzDrawBusMarker", function()
         for _, v in pairs(markers) do
             if !IsValid(v) then continue end
             local heldMarker = getHeldMarker()
-            local isLook = (v == heldMarker) or (v:IsLookingAt(EyePos(), EyeAngles():Forward(), LocalPlayer():GetFOV()) and !heldMarker)
+            local isLookNotHold = v:IsLookingAt(EyePos(), EyeAngles():Forward(), LocalPlayer():GetFOV()) and !heldMarker
+            local isLook = (v == heldMarker) or isLookNotHold
             local isMoving = v:GetSpawnPercent() > 0
             v.SmoothPercent = v.SmoothPercent or 0     
             v.SmoothPercent = math.Approach(v.SmoothPercent, v:GetSpawnPercent(), FrameTime() * 0.25)
@@ -102,6 +110,10 @@ hook.Add( "PostDrawHUD", "JazzDrawBusMarker", function()
 
             surface.DrawTexturedRectRotated(x, y, size, size, rot)
 
+            //Draw hint to hold mouse1 while hovered
+            if isLookNotHold then
+                draw.DrawText("HOLD MOUSE", "JazzMouseHint", x, y + radius - ScreenScale(4), Color(255, 247, 114, 255), TEXT_ALIGN_CENTER)
+            end
 
             //draw.DrawText(tostring(v:GetSpawnPercent()), nil, x, y)
         end

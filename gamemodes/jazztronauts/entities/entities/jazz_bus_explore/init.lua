@@ -196,7 +196,7 @@ function ENT:Touch(other)
 	if !IsValid(other:GetPhysicsObject()) then return end
 	if (other:GetClass() == self:GetClass()) then return end
 	if (other:IsPlayer() and table.HasValue(self.Seats, other:GetVehicle())) then return end
-	if (other:GetParent() and other:GetParent():GetClass() == self:GetClass()) then return end
+	if (IsValid(other:GetParent()) and other:GetParent():GetClass() == self:GetClass()) then return end
 
 	local front = self:GetFront()
 	local moveFwdAmt = (front - other:GetPos()):Dot(self:GetAngles():Right())

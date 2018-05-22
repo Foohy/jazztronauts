@@ -1,0 +1,69 @@
+body {
+  margin: 0;
+  background-image: url('bg.jpg');
+  color: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  -webkit-box-orient: vertical;
+  text-align: center;
+}
+
+.content {
+  width: 100%;
+}
+
+.social {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.social svg {
+  vertical-align: middle;
+}
+
+/* thanks https://www.quackit.com/css/codes/marquees/ */
+
+.marquee {
+  height: 50px;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee h1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  line-height: 50px;
+  text-align: left;
+  -webkit-animation: marquee 5s linear infinite alternate;
+  animation: marquee 5s linear infinite alternate;
+}
+
+@-webkit-keyframes marquee {
+  0% {
+    -webkit-transform: translateX(70%);
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    -webkit-transform: translateX(70%);
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+  }
+}

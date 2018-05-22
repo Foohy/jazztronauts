@@ -56,18 +56,6 @@ function SWEP:Deploy()
 
 end
 
-function SWEP:StartPrimaryAttack()
-
-	print("Starting to attack")
-
-end
-
-function SWEP:StopPrimaryAttack()
-
-	print("Stopping attack")
-
-end
-
 function SWEP:Cleanup()
 	if SERVER then
 		self.Owner:SetRunSpeed(self.OldRunSpeed)

@@ -11,6 +11,9 @@ SWEP.ViewModel		 		= "models/weapons/v_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
 SWEP.HoldType		 		= "pistol"
 
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
+
 SWEP.Primary.Delay			= 0.1
 SWEP.Primary.ClipSize		= -1
 SWEP.Primary.DefaultClip 	= -1
@@ -46,45 +49,14 @@ function SWEP:DrawWorldModel()
 
 	self:DrawModel()
 
-	local attach = self:LookupAttachment("muzzle")
-	if attach > 0 then
-		attach = self:GetAttachment(attach)
-		attach = attach.Pos
-	else
-		attach = self.Owner:GetShootPos()
-	end
-
-	local marker = self:GetBusMarker()
-	if IsValid(marker) then 
-		local dist = attach:Distance(marker:GetPos())
-		local offset = -CurTime()*4
-
-		render.SetMaterial(self.BeamMat)
-		render.DrawBeam(attach, marker:GetPos(), 3, offset, dist/100 + offset, color_blue)
-	end
-
-	render.SetMaterial( Material( "sprites/light_glow02_add" ) )
-	//render.DrawSprite( attach, 25, 25, Color( self.Color.r, self.Color.g, self.Color.b, 255 ) )
 end
 
-function SWEP:ViewModelDrawn(viewmodel)
-	cam.Start3D()
-		local marker = self:GetBusMarker()
-		if !IsValid(marker) then return end
-		local angpos = viewmodel:GetAttachment(self:LookupAttachment("muzzle"))
-		local dist = angpos.Pos:Distance(marker:GetPos())
-		local offset = -CurTime()*4
-
-		render.SetMaterial(self.BeamMat)
-		render.DrawBeam(angpos.Pos, marker:GetPos(), 3, offset, dist/100 + offset, color_blue)
-	cam.End3D()
-end
 
 function SWEP:UpdateBeamHum()
 	local active = self:IsPrimaryAttacking()
 
 	if not self:IsCarriedByLocalPlayer() then return end
-	//print(active)
+
 	if active then
 		if not self.BeamHum then
 			self.BeamHum = CreateSound(self, "ambient/energy/force_field_loop1.wav")
@@ -131,6 +103,9 @@ function SWEP:Think()
 	end
 
 	self:UpdateBeamHum()
+	if IsValid(marker) then
+		marker:AddJazzRenderBeam(self.Owner)
+	end
 
 	-- If the marker has enough people, vary the pitch as it gets closer
 	if IsValid(marker) and marker.GetSpawnPercent then 

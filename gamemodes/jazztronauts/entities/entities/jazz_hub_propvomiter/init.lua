@@ -244,9 +244,13 @@ function ENT:VomitProp()
 	unlocks.Unlock( propr_unlock_list, self.CurrentUser, prop.propname )
 
 	-- Spawn some placeholder gibs, this prop doesnt normally break
-	self:SpawnRandomGibs(pos, ang)
 	self.CurrentUser:ChangeNotes(worth)
 	self:SpawnPropEffect(prop, pos)
+
+	-- Don't do it _every_ time, but adjustable odds
+	if math.Rand(0, 1) <= 0.75 then
+		self:SpawnRandomGibs(pos, ang)
+	end
 	
 	-- Decrement
 	self:Decrement(prop.Index)

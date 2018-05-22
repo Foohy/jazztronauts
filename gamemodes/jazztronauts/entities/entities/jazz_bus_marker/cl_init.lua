@@ -2,7 +2,7 @@ include("shared.lua")
 
 local ReticleCircleMaterial 	= Material("ui/jazztronauts/bus_circle")
 local ReticleCenterMaterial     = Material("icon16/car.png")
-
+local BeamMat                   = Material("cable/physbeam")
 surface.CreateFont( "JazzMouseHint", {
 	font      = "KG Shake it Off Chunky",
 	size      = ScreenScale(8),
@@ -28,6 +28,13 @@ function ENT:Think()
     self.SpawnScale = math.Approach(self.SpawnScale, goalScale, FrameTime() * 5)
     self:SetModelScale(self.SpawnScale)
 
+end
+
+function ENT:AddJazzRenderBeam(ply)
+    if not IsValid(ply) or not ply:IsPlayer() then return end
+
+    self.BusCallerPlayers = self.BusCallerPlayers or {}
+    self.BusCallerPlayers[ply:SteamID()] = ply
 end
 
 function ENT:Draw()
@@ -56,6 +63,50 @@ local function getHeldMarker()
     return IsValid(marker) and marker or nil
 end
 
+local function renderPlayerBeam(marker, ply)
+    local wep = ply:GetActiveWeapon()
+    if not IsValid(wep) or wep:GetClass() != "weapon_buscaller" then return false end
+    if wep:GetBusMarker() != marker then return false end
+
+    -- Get attach point of gun's muzzle
+    local attach = wep:LookupAttachment("muzzle")
+	if attach > 0 then
+        if wep:IsCarriedByLocalPlayer() then
+            attach = ply:GetViewModel():GetAttachment(attach)
+        else
+		    attach = wep:GetAttachment(attach)
+        end
+		attach = attach.Pos
+	else
+		attach = ply:GetShootPos()
+	end
+
+    -- Draw beam
+    local dist = attach:Distance(marker:GetPos())
+    local offset = -CurTime()*4
+
+    render.SetMaterial(BeamMat)
+    render.DrawBeam(attach, marker:GetPos(), 3, offset, dist/100 + offset, color_blue)
+    return true
+end
+
+hook.Add("PostDrawOpaqueRenderables", "JazzDrawBusMarkerBeams", function()
+    local markers = LocalPlayer().ActiveBusMarkers
+    if !markers or #markers == 0 then return end
+
+    for _, v in pairs(markers) do
+
+        -- Render the beams for each player
+        local activePlayers = v.BusCallerPlayers or {}
+        for __, ply in pairs(activePlayers) do
+            if !renderPlayerBeam(v, ply) then
+                v.BusCallerPlayers[ply:SteamID()] = nil
+            end
+        end
+    end
+end )
+
+hook.Add("PostThink")
 
 hook.Add( "PostDrawHUD", "JazzDrawBusMarker", function()
     local markers = LocalPlayer().ActiveBusMarkers

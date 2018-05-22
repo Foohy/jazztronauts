@@ -7,7 +7,7 @@ SWEP.PrintName 		 		= "Portable Bus Stop"
 SWEP.Slot		 	 		= 5
 SWEP.Category				= "Jazztronauts"
 
-SWEP.ViewModel		 		= "models/weapons/v_pistol.mdl"
+SWEP.ViewModel		 		= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
 SWEP.HoldType		 		= "pistol"
 
@@ -23,12 +23,12 @@ SWEP.Primary.Automatic		= false
 
 SWEP.Secondary.ClipSize		= -1
 SWEP.Secondary.DefaultClip 	= -1
-SWEP.Secondary.Ammo 			= "none"
-
-SWEP.BeamMat				= Material("cable/physbeam")
+SWEP.Secondary.Ammo 		= "none"
 
 SWEP.Spawnable 				= true
 SWEP.RequestInfo			= {}
+
+SWEP.BeamMat				= Material("cable/physbeam")
 
 function SWEP:Initialize()
 	self.BaseClass.Initialize( self )

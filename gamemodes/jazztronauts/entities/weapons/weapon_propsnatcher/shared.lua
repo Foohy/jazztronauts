@@ -9,7 +9,7 @@ SWEP.PrintName 		 		= "Prop Snatcher"
 SWEP.Slot		 	 		= 0
 SWEP.Category				= "Jazztronauts"
 
-SWEP.ViewModel		 		= "models/weapons/v_pistol.mdl"
+SWEP.ViewModel		 		= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
 SWEP.HoldType		 		= "pistol"
 

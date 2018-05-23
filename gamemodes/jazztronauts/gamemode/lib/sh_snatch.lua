@@ -26,21 +26,51 @@ local CL_CopyRagdollPose = nil
 local meta = {}
 meta.__index = meta
 
-local map = bsp.GetCurrent()
+local map = bsp.GetCurrent( nil, SERVER )
 
 print("NOW WE LOAD LUMPS")
+
+local function findPropProxy( id )
+
+	for k,v in pairs( ents.FindByClass( "jazz_static_proxy") ) do
+		if v:GetID() == id then return v end
+	end
+
+end
 
 /*
 	BIG FAT #TODO: TO BOTH FOOHY AND ZAK
 	THIS IS TEMPORARY. FIX THIS. BAD DESIGN ALERT.
 */
 local function onSnatchInfoReady()
+
+	if SERVER then
+
+		for k,v in pairs( map.props or {} ) do
+			local exist = findPropProxy( v.id )
+			if not exist then
+
+				local ent = ents.Create("jazz_static_proxy")
+				if not IsValid( ent ) then continue end
+
+				ent:SetID( v.id )
+				ent:SetPos( v.origin )
+				ent:SetAngles( v.angles )
+				ent:SetModel( Model( v.model ) )
+				ent:Spawn()
+
+			end
+		end
+
+	end
+
 	hook.Call("JazzSnatchMapReady", GAMEMODE)
 end
 if SERVER then
 
 	map:LoadLumps({
 		bsp.LUMP_BRUSHES,
+		bsp.LUMP_GAME_LUMP,
 	}, onSnatchInfoReady)
 
 else

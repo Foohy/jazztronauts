@@ -118,6 +118,18 @@ function rmeta:Header()
 
 end
 
+function rmeta:GameLump()
+
+	return {
+		id = self:Long(),
+		flags = self:UShort(),
+		version = self:UShort(),
+		offset = self:Long(),
+		len = self:Long(),
+	}
+
+end
+
 function rmeta:TextureStringTable( size )
 
 	local names = {}
@@ -294,6 +306,22 @@ function meta:LumpElementSize( lump )
 	if lump == LUMP_NODES then return 32 end
 	if lump == LUMP_MODELS then return 48 end
 	return 1
+
+end
+
+function meta:_LoadArray( name, num, func, ... )
+
+	local t = {}
+	local yieldpoints = math.ceil( 5000 / num )
+	task.Yield("chunk", name, num)
+
+	for i=1, num do
+		table.insert(t, func(...))
+		if i % yieldpoints == 1 or i == num then task.Yield("progress", i) end
+	end
+
+	task.Yield("chunkdone", name, num, t)
+	return t
 
 end
 
@@ -475,6 +503,171 @@ function meta:_LoadFaces( reader )
 
 end
 
+local GameLump_t = Struct({
+	CHAR.id[4],
+	UINT16.flags,
+	UINT16.version,
+	INT32.fileofs,
+	INT32.filelen,
+})
+
+local StaticPropLump_t = {}
+StaticPropLump_t[4] = Struct({
+	VECTOR.origin,
+	QANGLE.angles,
+	
+	UINT16.proptype,
+	UINT16.firstleaf,
+	UINT16.leafcount,
+
+	UINT8.solid,
+	UINT8.flags,
+
+	INT32.skin,
+	FLOAT.fademindist,
+	FLOAT.fademaxdist,
+
+	VECTOR.lightingorigin,
+})
+StaticPropLump_t[5] = Struct({
+	VECTOR.origin,
+	QANGLE.angles,
+	
+	UINT16.proptype,
+	UINT16.firstleaf,
+	UINT16.leafcount,
+
+	UINT8.solid,
+	UINT8.flags,
+
+	INT32.skin,
+	FLOAT.fademindist,
+	FLOAT.fademaxdist,
+
+	VECTOR.lightingorigin,
+	FLOAT.forcedfadescale,
+})
+StaticPropLump_t[6] = Struct({
+	VECTOR.origin,
+	QANGLE.angles,
+	
+	UINT16.proptype,
+	UINT16.firstleaf,
+	UINT16.leafcount,
+
+	UINT8.solid,
+	UINT8.flags,
+
+	INT32.skin,
+	FLOAT.fademindist,
+	FLOAT.fademaxdist,
+
+	VECTOR.lightingorigin,
+	FLOAT.forcedfadescale,
+
+	UINT16.mindxlevel,
+	UINT16.maxdxlevel,
+})
+StaticPropLump_t[7] = Struct({
+	VECTOR.origin,
+	QANGLE.angles,
+	
+	UINT16.proptype,
+	UINT16.firstleaf,
+	UINT16.leafcount,
+
+	UINT8.solid,
+	UINT8.flags,
+
+	INT32.skin,
+	FLOAT.fademindist,
+	FLOAT.fademaxdist,
+
+	VECTOR.lightingorigin,
+	FLOAT.forcedfadescale,
+
+	UINT16.mindxlevel,
+	UINT16.maxdxlevel,
+
+	INT32.color,
+})
+StaticPropLump_t[8] = Struct({
+	VECTOR.origin,
+	QANGLE.angles,
+	
+	UINT16.proptype,
+	UINT16.firstleaf,
+	UINT16.leafcount,
+
+	UINT8.solid,
+	UINT8.flags,
+
+	INT32.skin,
+	FLOAT.fademindist,
+	FLOAT.fademaxdist,
+
+	VECTOR.lightingorigin,
+	FLOAT.forcedfadescale,
+
+	UINT8.mincpulevel,
+	UINT8.maxcpulevel,
+	UINT8.mingpulevel,
+	UINT8.maxgpulevel,
+
+	INT32.color,
+})
+
+function meta:_LoadGameLumps( reader )
+
+	self:_Lock( LUMP_GAME_LUMP )
+
+		if self.gamelumps then self:_Unlock( LUMP_GAME_LUMP ) return self.gamelumps end
+		self.gamelumps = {}
+
+		reader = reader or Reader( self )
+
+		local lump = self.header.lumps[ LUMP_GAME_LUMP+1 ]
+		local file = reader.file
+
+		file:Seek( lump.offset )
+
+		local count = INT32.read( file )
+		for i=1, count do
+			local lump = GameLump_t.read( file )
+			self.gamelumps[lump.id] = lump
+		end
+
+		local props = self.gamelumps["prps"]
+		if props == nil then print("NO PROP LUMP") self:_Unlock( LUMP_GAME_LUMP ) return self.gamelumps end
+
+		local struct = StaticPropLump_t[ props.version ]
+		if struct == nil then print("VERSION NOT SUPPORTED") self:_Unlock( LUMP_GAME_LUMP ) return self.gamelumps end
+
+		file:Seek( props.fileofs )
+
+		self.props = {}
+
+		local dict = {}
+		local leafs = {}
+
+		local dict = self:_LoadArray( "prop-dict", INT32.read( file ), CHAR[128].read, file )
+		local leafs = self:_LoadArray( "prop-leafs", INT32.read( file ), UINT16.read, file )
+		local nextpropid = 0
+
+		self.props = self:_LoadArray( "props", INT32.read( file ), function()
+			local prop = struct.read( file )
+			prop.model = dict[ prop.proptype + 1 ]
+			prop.leaf = leafs[ prop.firstleaf + 1 ]
+			prop.id = nextpropid
+			nextpropid = nextpropid + 1
+
+			return prop
+		end )
+
+	self:_Unlock( LUMP_GAME_LUMP )
+
+end
+
 function meta:_ConvertBrushes()
 
 	self.converted_brushes = {}
@@ -523,6 +716,8 @@ function meta:Init( filename, path )
 	self.leafs = nil
 	self.nodes = nil
 	self.models = nil
+	self.gamelumps = nil --done
+	self.props = nil --done
 
 	--Just make sure it's loaded ok?
 	self:_LoadHeader()
@@ -553,6 +748,7 @@ function meta:Load( lump )
 	if lump == LUMP_EDGES then return self:_LoadEdges() end
 	if lump == LUMP_SURFEDGES then return self:_LoadSurfEdges() end
 	if lump == LUMP_FACES then return self:_LoadFaces() end
+	if lump == LUMP_GAME_LUMP then return self:_LoadGameLumps() end
 
 	ErrorNoHalt("UNKNOWN LUMP: " .. tostring(lump))
 
@@ -596,26 +792,36 @@ function meta:LoadLumps( lumps, cb_finished )
 end
 
 _BSP_CACHE = _BSP_CACHE or {}
-function Get( filename, path )
+function Get( filename, path, nocache )
 
 	local fpath = filename .. tostring(path)
-	if _BSP_CACHE[fpath] then return _BSP_CACHE[fpath] end
+	if _BSP_CACHE[fpath] and not nocache then return _BSP_CACHE[fpath] end
 
 	local new = setmetatable({ loaders = 0 }, meta):Init( filename, path )
+
+	if nocache then return new end
+
 	_BSP_CACHE[fpath] = new
 	return new
 
 end
 
-function GetCurrent()
+function GetCurrent(...)
 
-	return Get( "maps/" .. game.GetMap() .. ".bsp" )
+	return Get( "maps/" .. game.GetMap() .. ".bsp", ... )
 
 end
 
 if SERVER then return end
 
-local bsp = Get( "maps/" .. game.GetMap() .. ".bsp" )
+local bsp = Get( "maps/" .. game.GetMap() .. ".bsp", nil, true )
+
+if CLIENT then
+
+	print("TEST LOAD GAMELUMPS")
+	bsp:_LoadGameLumps()
+
+end
 
 --[[local function load()
 

@@ -235,6 +235,65 @@ hook.Add("RenderScene", "snatch_void_inside", function(origin, angles, fov)
 	end
 end )
 
+
+
+local post_filter = {
+	["$basetexture"] = "concrete/concretefloor001a",
+	["$vertexcolor"] = 1,
+	["$vertexalpha"] = 1,
+	["$model"] = 0,
+	["$additive"] = 0,
+}
+
+local post_filter2 = {
+	["$basetexture"] = "concrete/concretefloor001a",
+	["$vertexcolor"] = 1,
+	["$vertexalpha"] = 1,
+	["$model"] = 0,
+	["$additive"] = 1,
+}
+
+local monitor_plz = {
+	["$basetexture"] = "effects/map_monitor_noise",
+	["$vertexcolor"] = 1,
+	["$vertexalpha"] = 1,
+	["$model"] = 0,
+	["$additive"] = 0,
+	["$basetexturetransform"] = "center .5 .5 scale -5 5 rotate 0 translate 0 0",
+	["Proxies"] = 
+	{ 
+		["AnimatedTexture"] = 
+		{ 
+			["animatedTextureVar"] = "$basetexture",
+			["animatedTextureFrameNumVar"] = "$frame",
+			["animatedTextureFrameRate"] = "40",
+		}
+	}
+}
+
+local shard = {
+	--["$basetexture"] = "sunabouzu/JazzSwirl03",
+	["$basetexture"] = "sunabouzu/JazzLake01_a",
+	--["$basetexture"] = "models/sunabouzu/jazzShard_core",
+	--["$basetexturetransform"] = "center .5 .5 scale -.2 .2 rotate 0 translate 0 0",
+	["$nocull"] = "1",
+	["Proxies"] =
+	{
+		["TextureScroll"] =
+		{
+			["texturescrollvar"] = "$baseTextureTransform",
+			["texturescrollrate"] = ".2",
+			["texturescrollangle"] = "-90",
+		}
+	}
+}
+
+local post_filter_mat = CreateMaterial("VoidPostFilter" .. FrameNumber(), "UnLitGeneric", post_filter)
+local post_filter_mat2 = CreateMaterial("VoidPostFilter2" .. FrameNumber(), "UnLitGeneric", post_filter2)
+local monitor_mat = CreateMaterial("VoidStatic" .. FrameNumber(), "UnLitGeneric", shard)
+
+
+
 -- Keep track of if we're currently rendering 3D sky so we don't draw extra
 -- The 'sky' arg in PostDrawOpaqueRenderables returns true on maps without a skybox, 
 -- so we keep track of it ourselves
@@ -245,6 +304,19 @@ end )
 hook.Add("PostDrawSkyBox", "JazzDisableSkyDraw", function()
 	isInSky = false
 end)
+
+local color_mat = Material("model_color")
+
+local function DrawProps()
+	render.SetColorModulation(1,1,1)
+	render.SuppressEngineLighting(true)	
+	render.MaterialOverride(monitor_mat)
+	for k,v in pairs(ents.FindByClass("jazz_static_proxy")) do
+		v:DrawModel()
+	end
+	render.MaterialOverride(nil)
+	render.SuppressEngineLighting(false)
+end
 
 -- Render the inside of the jazz void with the default void material
 -- This void material has a rendertarget basetexture we update each frame
@@ -273,10 +345,106 @@ hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 
 	render.SuppressEngineLighting(false)
 
+	--DrawProps()
+
 	//renderBrushLines()
 
 end )
 
 hook.Add( "PreDrawEffects", "snatch_void_lines", function()
 	//renderBrushLines()
+
+end)
+
+--monitor_mat = Material("models/sunabouzu/jazzShard_core")
+
+hook.Add( "PostRender", "snatch_props", function()
+
+	if true then return end
+
+	local w = ScrW()
+	local h = ScrH()
+
+	local rt = irt.New("post_layer", w, h)
+		:EnableDepth(true,true)
+		:EnableFullscreen(false)
+		:EnablePointSample(true)
+		:SetAlphaBits(8)
+
+	post_filter_mat:SetTexture("$basetexture", rt:GetTarget())
+	post_filter_mat2:SetTexture("$basetexture", rt:GetTarget())
+	--monitor_mat:SetVector("$color", Vector(1,.5,1))
+	--monitor_mat:SetVector("$color", Vector(1,1,1))
+	--monitor_mat:SetTexture("$basetexture", GetVoidTexture():GetName())
+
+
+	render.UpdateScreenEffectTexture()
+
+	render.PushRenderTarget(rt:GetTarget())
+	render.Clear( 0, 0, 0, 0, true, true )
+
+	render.OverrideAlphaWriteEnable(true, false)
+	render.OverrideColorWriteEnable(true, false)
+	render.RenderView({ w = w, h = h, origin = EyePos() })
+	render.OverrideColorWriteEnable(false, false)
+	render.OverrideAlphaWriteEnable(false, false)
+	render.SetWriteDepthToDestAlpha( false )
+
+	render.SetStencilEnable(true)
+	render.SetStencilReferenceValue(1)
+	render.ClearStencil()
+	render.SetStencilPassOperation(STENCILOPERATION_REPLACE)
+	render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_ALWAYS)
+	render.SetStencilTestMask(0x00)
+	render.SetStencilWriteMask(0xFF)
+
+	render.OverrideColorWriteEnable(true, true)
+	cam.Start(
+		{
+			x = 0,
+			y = 0,
+			w = w,
+			h = h,
+			origin = EyePos() + EyeAngles():Forward() * .1,
+		})
+
+		DrawProps()
+
+	cam.End()
+	render.OverrideColorWriteEnable(false, false)
+
+	render.SetStencilWriteMask(0x00)
+	render.SetStencilTestMask(0xFF)
+	render.SetStencilReferenceValue(1)
+	render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_EQUAL)
+
+	cam.Start2D()
+	render.OverrideColorWriteEnable(true, false)
+	--render.SetColorMaterial()
+	render.SetMaterial(monitor_mat)
+	render.DrawScreenQuad()
+	render.OverrideColorWriteEnable(false, false)
+	cam.End2D()
+
+
+	render.SetStencilEnable(false)
+
+	render.BlurRenderTarget( rt:GetTarget(), 2, 2, 10 )
+	render.PopRenderTarget()
+
+	cam.Start2D()
+	
+	surface.SetDrawColor(255,255,255,255)
+	render.SetMaterial(post_filter_mat)
+	render.DrawScreenQuad()
+
+	render.SetMaterial(post_filter_mat2)
+	render.DrawScreenQuad()
+	render.DrawScreenQuad()
+	render.DrawScreenQuad()
+	render.DrawScreenQuad()
+	render.DrawScreenQuad()
+
+	cam.End2D()
+
 end)

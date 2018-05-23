@@ -8,6 +8,7 @@ include( "store/cl_init.lua" )
 include( "snatch/cl_init.lua" )
 
 include( "cl_scoreboard.lua" )
+include( "cl_jazzphysgun.lua")
 include( "cl_hud.lua" )
 
 GM.HideHUD = {

@@ -8,6 +8,7 @@ include( "snatch/init.lua" )
 
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_scoreboard.lua" )
+AddCSLuaFile( "cl_jazzphysgun.lua")
 AddCSLuaFile( "player.lua" )
 AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "workshop/workshop.lua" )

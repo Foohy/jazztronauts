@@ -27,7 +27,7 @@ SWEP.AutoSwitchTo		= false
 SWEP.AutoSwitchFrom		= false
 
 SWEP.PrintName			= "PhysCannon"
-SWEP.Slot				= 1
+SWEP.Slot				= 0
 SWEP.SlotPos			= 2
 SWEP.DrawAmmo			= false
 
@@ -819,7 +819,7 @@ if CLIENT then
 	end
 
 	hook.Add("PostDrawTranslucentRenderables", "fphysgun_fx", function()
-
+		if true then return false end //Disabled for now
 		for _,ply in pairs(player.GetAll()) do
 
 			local weapon = ply:GetActiveWeapon()

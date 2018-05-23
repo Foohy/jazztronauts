@@ -47,14 +47,21 @@ function PLAYER:Loadout()
 		
 		self.Player:Give( "weapon_crowbar" )
 		self.Player:Give( "weapon_pistol" )
-		self.Player:Give( "weapon_smg1" )
-		self.Player:Give( "weapon_frag" )
+		//self.Player:Give( "weapon_smg1" )
+		//self.Player:Give( "weapon_frag" )
 		self.Player:Give( "weapon_physcannon" )
-		self.Player:Give( "weapon_crossbow" )
-		self.Player:Give( "weapon_shotgun" )
-		self.Player:Give( "weapon_357" )
-		self.Player:Give( "weapon_rpg" )
-		self.Player:Give( "weapon_ar2" )
+		//self.Player:Give( "weapon_crossbow" )
+		//self.Player:Give( "weapon_shotgun" )
+		//self.Player:Give( "weapon_357" )
+		//self.Player:Give( "weapon_rpg" )
+		//self.Player:Give( "weapon_ar2" )
+	end
+
+	-- Give player purchased weapons
+	for _, wep in pairs(unlocks.GetAll("store", self.Player)) do
+		if (GAMEMODE:JazzCanSpawnWeapon(self.Player, wep)) then
+			self.Player:Give(wep)
+		end
 	end
 	
 	--self.Player:Give( "gmod_tool" )

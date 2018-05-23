@@ -515,7 +515,7 @@ function ENT:DrawPortal()
     -- Don't bother rendering if the eyes are behind the plane anyway
     if self:DistanceToVoid(EyePos(), true) < 0 then return end
     self.DrawingPortal = true
-
+    local lastclip = render.EnableClipping(false)
     render.SetStencilEnable(true)
         render.SetStencilWriteMask(255)
         render.SetStencilTestMask(255)
@@ -547,6 +547,8 @@ function ENT:DrawPortal()
         render.OverrideColorWriteEnable(false, false)
 
     render.SetStencilEnable(false)
+    render.EnableClipping(lastclip)
+    
     self.DrawingPortal = false
 end
 
@@ -580,7 +582,7 @@ hook.Add("PostRender", "JazzClearExteriorVoidList", function()
     table.Empty(portals)
 end )
 
-hook.Add("PostDrawOpaqueRenderables", "JazzBusDrawExteriorVoid", function(depth, sky)
+hook.Add("PreDrawTranslucentRenderables", "JazzBusDrawExteriorVoid", function(depth, sky)
     local portals = LocalPlayer().ActiveBusPortals
     if !portals then return end
 

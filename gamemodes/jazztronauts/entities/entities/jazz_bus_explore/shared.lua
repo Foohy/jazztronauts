@@ -8,7 +8,7 @@ ENT.Category 		= ""
 ENT.Spawnable 		= false
 ENT.AdminSpawnable 	= false
 
-ENT.Model 			= Model( "models/sunabouzu/jazzbus.mdl" )
+ENT.Model 			= Model( "models/matt/jazz_trolley.mdl" )
 ENT.HalfLength 		= 300
 ENT.JazzSpeed		= 800 -- How fast to explore the jazz dimension
 

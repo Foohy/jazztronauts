@@ -26,6 +26,7 @@ convar_resscale = CreateClientConVar("jazz_void_resolution_scale", "1.0", true, 
 local surfaceMaterial = Material("sunabouzu/JazzShell") //glass/reflectiveglass002 brick/brick_model
 
 void_prop_count = 10
+void_prop_side = math.ceil(math.pow(void_prop_count, 1/3.0))
 void_view_offset = Vector()
 
 function CreateVoidRT()
@@ -75,7 +76,8 @@ end
 
 -- Render the entire void scene
 local propProximityFade = 200
-local range = 4000.0
+local range = 9000.0
+local zrangediv = 8
 local hRangeVec = Vector(range/2, range/2, range/2)
 local function renderFollowCats(plyPos)
 
@@ -86,8 +88,19 @@ local function renderFollowCats(plyPos)
 	for i=1, void_prop_count do
 
 		-- Create a "treadmill" so they don't move until they get far away, then wrap around
-		local modvec = ModVec(plyPos + SharedRandomVec(i) * range, range)
+
+		local basex = (i - 1) % void_prop_side 
+		local basey = math.floor((i - 1) / void_prop_side) % void_prop_side 
+		local basez = math.floor((i - 1) / math.pow(void_prop_side, 2)) 
+		local basevec = Vector(basex, basey, basez)
+
+		local modvec = ModVec(plyPos + (basevec / void_prop_side + SharedRandomVec(i) * 0.3) * range, range)
 		local p = plyPos - modvec + hRangeVec
+
+		-- Mod z even closer
+		local zrange = range / zrangediv
+		modvec.z = modvec.z % (zrange)
+		p.z = plyPos.z - modvec.z + (hRangeVec.z/zrangediv)
 
 		skull:SetPos(p)
 
@@ -98,6 +111,7 @@ local function renderFollowCats(plyPos)
 
 		-- Calculate the 'distance' from the center by where they are in the offset
 		local d = MapVec(math.pi * modvec / range, math.sin)
+		d.z = math.sin(math.pi * modvec.z / zrange)
 
 		-- Fade out if it's super close
 		local dfade = MapVec( modvec - hRangeVec, math.abs) / propProximityFade
@@ -105,7 +119,7 @@ local function renderFollowCats(plyPos)
 		-- Apply blending and draw
 		local distFade = math.max(0, 2.0 - dfade:Length())
 		local alpha = math.min(d.x, d.y, d.z) - distFade
-		if alpha >= 0 then
+		if alpha > 0 then
 			render.SetBlend(alpha)
 			skull:DrawModel()
 		end

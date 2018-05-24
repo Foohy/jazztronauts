@@ -103,7 +103,7 @@ function SWEP:Think()
 	end
 
 	self:UpdateBeamHum()
-	if IsValid(marker) then
+	if IsValid(marker) and marker.AddJazzRenderBeam then
 		marker:AddJazzRenderBeam(self.Owner)
 	end
 

@@ -124,6 +124,7 @@ function CompileScript(script)
 	local entries = {}
 	local entry = nil
 	local jump_parent = nil
+	local response_jump = nil
 
 	local i = 1
 	repeat
@@ -135,16 +136,35 @@ function CompileScript(script)
 			i = i + 2
 		elseif t.type == TOK_JUMP and nt.type == TOK_TEXT then
 			if i+2 <= #toks and toks[i+2].type == TOK_ENTRY then
+				if response_jump then
+					table.insert(entry, response_jump)
+					response_jump = nil
+				end
+
 				entry = {}
 				entry.type = ENTRY_JUMP
 				entry.data = nt.tok
-				if jump_parent ~= nil then table.insert(jump_parent, {cmd=CMD_OPTION, data=entry}) end
+				if jump_parent ~= nil then 
+					//NOTE: 
+					//Below command works perfectly in adding a jump command to the end of the response text
+					//HOWEVER: Adding it right here makes it skip the 'print' command, added after this
+					//We need to add this command specifically as the last command, after the print statement
+					//table.insert(entry, {cmd=entry.data == "exit" and CMD_EXIT or CMD_JUMP, data=entry.data})
+					response_jump = {cmd=entry.data == "exit" and CMD_EXIT or CMD_JUMP, data=entry.data}
+
+					table.insert(jump_parent, {cmd=CMD_OPTION, data=entry}) 
+				end
 				i = i + 2
 			else
 				if entry ~= nil then table.insert(entry, {cmd=nt.tok == "exit" and CMD_EXIT or CMD_JUMP, data=nt.tok}) end
 				i = i + 1
 			end
 		elseif t.type == TOK_TEXT and nt.type == TOK_ENTRY then
+			if response_jump then
+				table.insert(entry, response_jump)
+				response_jump = nil
+			end
+
 			entry = {}
 			entry.type = ENTRY_NORMAL
 			entry.data = t.tok
@@ -156,6 +176,7 @@ function CompileScript(script)
 				jump_parent = entry
 			end
 			i = i + 1
+
 		elseif t.type == TOK_FIRE and nt.type == TOK_TEXT then
 			if entry ~= nil then table.insert(entry, {cmd=CMD_EXEC, data=nt.tok}) end
 			i = i + 1
@@ -341,6 +362,11 @@ function EnterGraph( node, callback )
 	if not node then return nil end
 
 	local cmd = node[1]
+
+	return EnterNode(cmd, callback)
+end
+
+function EnterNode(cmd, callback)
 	if not cmd then return nil end
 
 	local stepfunc = nil
@@ -365,7 +391,6 @@ function EnterGraph( node, callback )
 	end
 
 	return stepfunc
-
 end
 
 function Init()

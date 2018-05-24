@@ -1,5 +1,5 @@
 include("shared.lua")
-
+include("cl_styling.lua")
 local ScrW = ScrW
 local ScrH = ScrH
 local draw = draw
@@ -9,6 +9,7 @@ local string = string
 local FrameTime = FrameTime
 local print = print
 local pairs = pairs
+local ipairs = ipairs
 local net = net
 local util = util
 local tostring = tostring
@@ -17,6 +18,8 @@ local LocalPlayer = LocalPlayer
 local unpack = unpack
 local coroutine = coroutine
 local ErrorNoHalt = ErrorNoHalt
+local PrintTable = PrintTable
+
 
 local STATE_IDLE = 0
 local STATE_OPENING = 1
@@ -42,32 +45,15 @@ local _dialog = {
 
 module("dialog")
 
+PrintSpeedScale = 1.0
+
 Init()
 
-surface.CreateFont( "DialogFont", {
-	font = "Arial", -- Use the font-name which is shown to you by your operating system Font Viewer, not the file name
-	extended = false,
-	size = 25,
-	weight = 500,
-	blursize = 0,
-	scanlines = 0,
-	antialias = true,
-	underline = false,
-	italic = false,
-	strikeout = false,
-	symbol = false,
-	rotary = false,
-	shadow = false,
-	additive = false,
-	outline = false,
-} )
-
-local DialogFont = "DialogFont"
 local State = nil
 local DT = nil
 local Done = nil
 local Time = nil
-
+/*
 local function CalcTextRect( str )
 
 	surface.SetFont( DialogFont )
@@ -86,7 +72,7 @@ local function CalcTextRect( str )
 	_dialog.texth = bh
 	_dialog.singleh = sh
 
-end
+end*/
 
 function Start( text, delay )
 
@@ -94,7 +80,7 @@ function Start( text, delay )
 	_dialog.printed = ""
 	State( STATE_OPENING, delay )
 
-	CalcTextRect()
+	//CalcTextRect()
 
 end
 
@@ -105,45 +91,13 @@ function RegisterFunc(name, func)
 	g_funcs[name] = func;
 end
 
-local function DrawTextArea( width, height )
-
-	if _dialog.open == 0 then return end
-
-	local open = math.sin( _dialog.open * math.pi / 2 )
-	open = math.sqrt(open)
-
-	local s = State()
-
-	local w = width * open
-	local h = height * open
-
-	local x = ScrW() / 2
-	local y = ScrH() - h
-
-	surface.SetDrawColor( 0,0,0,190 )
-	surface.DrawRect( x - w/2, y - h/2, w, h )
-
-	local left = x - _dialog.textw / 2
-	local top = y - _dialog.texth / 2
-
-	surface.SetTextColor( 255, 255, 255, 255 * open )
-	surface.SetFont( DialogFont )
-
-	local lines = string.Explode( "\n", _dialog.printed )
-	for k, line in pairs(lines) do
-		surface.SetTextPos( left, top + _dialog.singleh * (k-1) )
-		surface.DrawText( line )
-	end
-
-end
-
 --STATE MACHINE
 
 local edges = {
 	[STATE_OPENING] = function(d) _ = Done() and State( STATE_OPENED ) end,
 	[STATE_OPENED] = function(d) _ = Done() and State( STATE_PRINTING ) end,
 	[STATE_PRINTING] = function(d) _ = Done() and State( string.len(d.text) == 0 and STATE_DONEPRINTING or STATE_PRINTING ) end,
-	[STATE_CHOOSE] = function(d) _ = Done() and State( STATE_DONECHOOSE ) end,
+	[STATE_CHOOSE] = function(d) _ = Done() and State( STATE_CHOOSE ) end,
 	[STATE_DONECHOOSE] = function(d) State( STATE_CLOSING ) end,
 	[STATE_CLOSING] = function(d) _ = Done() and State( STATE_IDLE ) end,
 	[STATE_WAIT] = function(d) _ = Done() and State( d.nextstate ) end,
@@ -154,9 +108,12 @@ local inits = {
 	[STATE_OPENING] = function(d) d.rate = 2 d.printed = "" end,
 	[STATE_OPENED] = function(d) d.rate = 12 d.nodeiter() end,
 	[STATE_PRINTING] = function(d)
-		d.rate = 60
-		d.printed = d.printed .. d.text[1]
-		d.text = d.text:sub(2,-1)
+		d.rate = 60 * PrintSpeedScale
+		local numc = math.Clamp(math.Round(FrameTime() * d.rate), 1, #d.text)
+		print("NUMCEE", numc)
+		d.printed = d.printed .. d.text:sub(1, numc)
+		d.text = d.text:sub(numc + 1,-1)
+		print(d.printed, d.text)
 	end,
 	[STATE_DONEPRINTING] = function(d)
 		d.nodeiter()
@@ -216,7 +173,7 @@ State = function( newstate, wait )
 
 	if wait then
 		_dialog.state = STATE_WAIT
-		_dialog.rate = 1/wait
+		_dialog.rate = PrintSpeedScale * 1/wait
 		_dialog.nextstate =  newstate
 		return _dialog
 	end
@@ -238,32 +195,17 @@ end
 
 Done = function() return DT() >= 1 end
 
-local function Update( deltatime )
-
-	DT( deltatime )
-
-	_ = ( ticks[ State() ] or nop )( _dialog )
-	_ = ( edges[ State() ] or nop )( _dialog )
-
-end
-
-function PaintAll()
-
-	Update( FrameTime() )
-
-	DrawTextArea( 850, 200 )
-
-end
-
-local function ScriptCallback(cmd, data)
-
-	print(tostring(cmd) .. " " .. tostring(data))
+function ScriptCallback(cmd, data)
+	print("CALLBACK: " .. tostring(cmd) .. " " .. tostring(data))
+	//if type(data) == "table" then PrintTable(data) end
 	if cmd == CMD_JUMP then
-		State( STATE_OPENING, 2 )
-		return data
+		//State( STATE_OPENING, 2 )
+		//return data
+		//_dialog.defaultOptionFunc(data)
+		_dialog.jump = data
 	end
 	if cmd == CMD_LAYOUT then
-		CalcTextRect( data )
+		//CalcTextRect( data )
 	end
 	if cmd == CMD_PRINT then
 		_dialog.text = data
@@ -277,7 +219,7 @@ local function ScriptCallback(cmd, data)
 		State( STATE_PRINTING, .2 )
 	end
 	if cmd == CMD_OPTIONLIST then
-		State( STATE_CLOSING, 2 )
+		_dialog.defaultOptionFunc(data)
 	end
 	if cmd == CMD_EXIT then
 		State( STATE_CLOSING, 2 )
@@ -286,7 +228,50 @@ local function ScriptCallback(cmd, data)
 		_dialog.exec = data
 		State( STATE_EXEC, .1 )
 	end
+end
 
+local function Update( deltatime )
+
+	DT( deltatime )
+
+	_ = ( ticks[ State() ] or nop )( _dialog )
+	_ = ( edges[ State() ] or nop )( _dialog )
+
+end
+
+function PaintAll()
+
+	Update( FrameTime() )
+
+	if _dialog.defaultRenderFunc then
+		_dialog.defaultRenderFunc(_dialog)
+	end
+
+end
+
+-- Immediately start the dialog at a new specified entry
+function StartGraph(cmd, skipOpen)
+	if skipOpen then
+		_dialog.printed = ""
+		_dialog.text = ""
+		State(STATE_OPENED)
+	else
+		State( STATE_OPENING )
+	end
+
+	_dialog.nodeiter = EnterNode( cmd, ScriptCallback )
+	if skipOpen then _dialog.nodeiter() end
+end
+
+-- Skip printing out text
+function SkipText()
+	PrintSpeedScale = math.huge
+end
+
+-- Continue onto the next page of dialog
+function Continue()
+	StartGraph(_dialog.jump[1], true)
+	_dialog.jump = nil
 end
 
 function GetFocus()
@@ -295,6 +280,14 @@ end
 
 function GetCamera()
 	return _dialog.camera
+end
+
+function SetOptionCallback(func)
+	_dialog.defaultOptionFunc = func
+end
+
+function SetRenderCallback(func)
+	_dialog.defaultRenderFunc = func
 end
 
 net.Receive( "dialog_dispatch", function( len, ply )
@@ -307,7 +300,7 @@ net.Receive( "dialog_dispatch", function( len, ply )
 	if net.ReadBit() then camera = net.ReadEntity() end
 	if script == nil then script = "<no script>" end
 
-	CalcTextRect("")
+	//CalcTextRect("")
 	_dialog.text = ""
 	_dialog.camera = camera
 	_dialog.focus = focus
@@ -320,6 +313,11 @@ net.Receive( "dialog_dispatch", function( len, ply )
 	--Start( , 0 )
 
 end )
+
+-- Show mouse during selection scenes
+//hook.Add("Think", "JazzDialogShowMouse", function()
+	//gui.EnableScreenClicker(true)
+//end )
 
 /*
 Start(

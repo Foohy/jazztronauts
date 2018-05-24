@@ -55,8 +55,8 @@ function ENT:Initialize()
 
 	-- Setup seat offsets
 	for i=1, 8 do
-		self:AttachSeat(Vector(40, i * 45 - 150, 80), Angle(0, 180, 0))
-		self:AttachSeat(Vector(-40, i * 45 - 150, 80), Angle(0, 180, 0))
+		self:AttachSeat(Vector(40, i * 40 - 180, 80), Angle(0, 180, 0))
+		self:AttachSeat(Vector(-40, i * 40 - 180, 80), Angle(0, 180, 0))
 	end
 	
 	-- Setup radio

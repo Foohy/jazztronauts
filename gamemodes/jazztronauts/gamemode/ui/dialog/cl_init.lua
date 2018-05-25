@@ -14,7 +14,6 @@ local net = net
 local util = util
 local tostring = tostring
 local tonumber = tonumber
-local LocalPlayer = LocalPlayer
 local unpack = unpack
 local coroutine = coroutine
 local ErrorNoHalt = ErrorNoHalt
@@ -37,7 +36,7 @@ local _dialog = {
 	rate = 1,
 	time = 0,
 	duration = 1,
-	text = "Hello There",
+	text = "",
 	printed = "",
 	open = 0,
 	nodeiter = nil,
@@ -53,26 +52,6 @@ local State = nil
 local DT = nil
 local Done = nil
 local Time = nil
-/*
-local function CalcTextRect( str )
-
-	surface.SetFont( DialogFont )
-
-	local bw, bh = 0, 0
-	local sh = 0
-	local lines = string.Explode( "\n", str or _dialog.text )
-	for _, line in pairs(lines) do
-		local w,h = surface.GetTextSize( line )
-		bw = math.max(w, bw)
-		sh = math.max(h, sh)
-		bh = bh + h
-	end
-
-	_dialog.textw = bw
-	_dialog.texth = bh
-	_dialog.singleh = sh
-
-end*/
 
 local function InvokeEvent(eventName, ...)
 	if not _dialog.defaultcallbacktbl then return end
@@ -86,8 +65,6 @@ function Start( text, delay )
 	_dialog.text = text
 	_dialog.printed = ""
 	State( STATE_OPENING, delay )
-
-	//CalcTextRect()
 
 end
 
@@ -123,7 +100,6 @@ local inits = {
 		local numc = math.Clamp(math.Round(FrameTime() * d.rate), 1, #d.text)
 		d.printed = d.printed .. d.text:sub(1, numc)
 		d.text = d.text:sub(numc + 1,-1)
-		print(d.printed, d.text)
 	end,
 	[STATE_DONEPRINTING] = function(d)
 		d.nodeiter()
@@ -206,13 +182,12 @@ end
 Done = function() return DT() >= 1 end
 
 function ScriptCallback(cmd, data)
-	print("CALLBACK: " .. tostring(cmd) .. " " .. tostring(data))
-	//if type(data) == "table" then PrintTable(data) end
+
 	if cmd == CMD_JUMP then
-		//State( STATE_OPENING, 2 )
-		//return data
-		//_dialog.defaultOptionFunc(data)
-		_dialog.jump = data
+		_dialog.waitdata = {
+			cmd = cmd,
+			data = data
+		} 
 	end
 	if cmd == CMD_LAYOUT then
 		//CalcTextRect( data )
@@ -232,7 +207,10 @@ function ScriptCallback(cmd, data)
 		InvokeEvent("ListOptions", data)
 	end
 	if cmd == CMD_EXIT then
-		State( STATE_CLOSING, 2 )
+		_dialog.waitdata = {
+			cmd = cmd,
+			data = data
+		}
 	end
 	if cmd == CMD_EXEC then
 		_dialog.exec = data
@@ -270,14 +248,11 @@ function StartGraph(cmd, skipOpen)
 	if _dialog.nodeiter != nil then
 		PrintSpeedScale = 1.0
 
-		if skipOpen then
-			_dialog.printed = ""
-			_dialog.text = ""
-			State(STATE_OPENED)
-		else
-			State( STATE_OPENING )
-		end
-	
+		_dialog.printed = ""
+		_dialog.text = ""
+
+		State(skipOpen and STATE_OPENED or STATE_OPENING)
+
 		if skipOpen then _dialog.nodeiter() end
 	
 		InvokeEvent("DialogStart")
@@ -292,15 +267,23 @@ end
 -- Continue onto the next page of dialog
 function Continue()
 	if not ReadyToContinue() then return end
-	
-	StartGraph(_dialog.jump[1], true)
-	_dialog.jump = nil
+
+	local data = _dialog.waitdata
+	if data.cmd == "jump" then
+		StartGraph(data.data[1], true)
+	elseif data.cmd == "exit" then
+		State(STATE_CLOSING, 2)
+	else
+		print("UNHANDLED CONTINUE STATE: " .. data.cmd )
+	end
+
+	_dialog.waitdata = nil
 
 	return true
 end
 
 function ReadyToContinue()
-	return _dialog.jump != nil
+	return _dialog.waitdata != nil
 end
 
 function GetFocus()

@@ -7,18 +7,18 @@ accept:
 a2:
     i suppose the adrenaline and endorphins secondary to 
     getting tempered glass acupuncture of the face counted as 
-    getting high though %% so I’m gonna chalk that one down as something to revisit
+    getting high though %% so I'm gonna chalk that one down as something to revisit
     &a3
 a3:
     problem is %% my stash of Good Shit is still basically zeroed out %
     but luckily for everybody here that has a vested interest in not having 
-    their endocrine system snorted out of desperation %% i’ve got an old 
+    their endocrine system snorted out of desperation %% i've got an old 
     fallback recipe that is significantly less likely to explode 
-    when someone doesn’t say the right sutra when picking it up
+    when someone doesn't say the right sutra when picking it up
     &a4
 a4:
-    i’ve got basically everything on hand % 
-    but i’ll need ten beer bottles and two gas cans to finish the recipe
+    i've got basically everything on hand % 
+    but i'll need ten beer bottles and two gas cans to finish the recipe
     *start 1*
     &a5
 a5:
@@ -28,18 +28,18 @@ a5:
 idle:
 	whats good
     %%%
-    oh, if you’re worrying about me going sober this time %
+    oh, if you're worrying about me going sober this time %
     i finally found my emergency stash of bug spray the bartender locked up %
-    so i’ll be able to crutch out on cascading organ failure long enough to 
+    so i'll be able to crutch out on cascading organ failure long enough to 
     keep me going until you get me that stuff i asked for
 
     &exit
 
 turnin:
-    alright kick ass y’all aint bad at this now i get why rich people hire minions
+    alright kick ass y'all aint bad at this now i get why rich people hire minions
     &t1
 t1:
-    now i can put the finishing touches on this here moonshine and i’ll be safe 
+    now i can put the finishing touches on this here moonshine and i'll be safe 
     from the horrible specter of metacognition for the next couple months or so
     &t2
 t2:

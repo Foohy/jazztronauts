@@ -50,6 +50,20 @@ surface.CreateFont( "JazzDialogFontHint", {
 	antialias = true,
 } )
 
+local function drawPlayer(ply)
+	if not pac then
+		ply:DrawModel()
+		return 
+	end
+
+	pac.ForceRendering(true)
+	pac.Think()
+	pac.PostDrawOpaqueRenderables()
+	pac.PostDrawTranslucentRenderables()
+	ply:DrawModel()
+	pac.ForceRendering(false)
+end
+
 local renderPlayerCutIn = false
 local function RenderEntityCutIn(ent, x, y, w, h)
 	if not IsValid(ent) then return end
@@ -75,7 +89,11 @@ local function RenderEntityCutIn(ent, x, y, w, h)
 
 	renderPlayerCutIn = ent == LocalPlayer()
 	cam.Start3D(pos, ang, 25, x, y, w, h)
-		ent:DrawModel()
+		if ent:IsPlayer() then
+			drawPlayer(ent)
+		else
+			ent:DrawModel()
+		end
 	cam.End3D()
 
 	renderPlayerCutIn = false

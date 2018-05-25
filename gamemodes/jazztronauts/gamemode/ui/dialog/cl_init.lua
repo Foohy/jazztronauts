@@ -18,6 +18,7 @@ local unpack = unpack
 local coroutine = coroutine
 local ErrorNoHalt = ErrorNoHalt
 local type = type
+local PrintTable = PrintTable
 
 
 local STATE_IDLE = 0
@@ -236,7 +237,7 @@ end
 
 
 -- Immediately start the dialog at a new specified entry
-function StartGraph(cmd, skipOpen)
+function StartGraph(cmd, skipOpen, options)
 
 	local t = type(cmd)
 	if t == "table" then
@@ -244,6 +245,8 @@ function StartGraph(cmd, skipOpen)
 	elseif t == "string" then
 		_dialog.nodeiter = EnterGraph( cmd, ScriptCallback )
 	end
+
+	_dialog.options = options or {}
 
 	if _dialog.nodeiter != nil then
 		PrintSpeedScale = 1.0
@@ -265,7 +268,7 @@ function SkipText()
 end
 
 -- Continue onto the next page of dialog
-function Continue()
+function Continue(options)
 	if not ReadyToContinue() then return end
 
 	local data = _dialog.waitdata
@@ -276,10 +279,15 @@ function Continue()
 	else
 		print("UNHANDLED CONTINUE STATE: " .. data.cmd )
 	end
-
+	_dialog.options = options or {}
 	_dialog.waitdata = nil
 
 	return true
+end
+
+-- Retrieves who is currently the speaker in the dialog
+function GetSpeaker()
+	return _dialog.options.speaker or GetFocus()
 end
 
 function ReadyToContinue()

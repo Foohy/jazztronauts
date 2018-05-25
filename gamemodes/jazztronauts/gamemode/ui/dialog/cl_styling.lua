@@ -31,17 +31,7 @@ surface.CreateFont( "JazzDialogNameFont", {
 	extended = false,
 	size = ScreenScale(15),
 	weight = 500,
-	blursize = 0,
-	scanlines = 0,
 	antialias = true,
-	underline = false,
-	italic = false,
-	strikeout = false,
-	symbol = false,
-	rotary = false,
-	shadow = false,
-	additive = false,
-	outline = false,
 } )
 
 surface.CreateFont( "JazzDialogFont", {
@@ -49,8 +39,6 @@ surface.CreateFont( "JazzDialogFont", {
 	extended = false,
 	size = ScreenScale(15),
 	weight = 500,
-	blursize = 0,
-	scanlines = 0,
 	antialias = true,
 } )
 
@@ -59,34 +47,55 @@ surface.CreateFont( "JazzDialogFontHint", {
 	extended = false,
 	size = ScreenScale(11),
 	weight = 500,
-	blursize = 0,
-	scanlines = 0,
 	antialias = true,
 } )
 
+local renderPlayerCutIn = false
+local function RenderEntityCutIn(ent, x, y, w, h)
+	if not IsValid(ent) then return end
 
-local function RenderCatCutIn(_dialog, x, y, w, h)
-	local cat = dialog.GetFocus()
-	if not IsValid(cat) then return end
-	local headpos = cat:GetPos() + cat:GetAngles():Up() * 49
+	local headpos = ent:GetPos() + ent:GetAngles():Up() * 49
+	local offset = ent:GetAngles():Forward() * CatCamOffset.X + ent:GetAngles():Right() * CatCamOffset.Y
 
-	local pos = headpos + cat:GetAngles():Forward() * CatCamOffset.X + cat:GetAngles():Right() * CatCamOffset.Y
+	-- Apply player-specific setup here
+	if ent:IsPlayer() then
+		local bone = ent:LookupBone("ValveBiped.Bip01_Neck1")	
+		bone = bone or ent:LookupBone("ValveBiped.Bip01_Head1")
+		if bone and ent:GetBonePosition(bone) != ent:GetPos() then
+			headpos = ent:GetBonePosition(bone)
+		else
+			headpos = ent:GetPos() + ent:GetAngles():Up() * 60
+		end
+
+		offset = ent:GetAngles():Forward() * -CatCamOffset.X + ent:GetAngles():Right() * CatCamOffset.Y
+	end
+
+	local pos = headpos + offset
 	local ang = (headpos - pos):Angle()
 
+	renderPlayerCutIn = ent == LocalPlayer()
 	cam.Start3D(pos, ang, 25, x, y, w, h)
-		cat:DrawModel()
+		ent:DrawModel()
 	cam.End3D()
+
+	renderPlayerCutIn = false
 end
+hook.Add("ShouldDrawLocalPlayer", "JazzDrawLocalPlayerDialog", function()
+	if renderPlayerCutIn then return true end
+end )
 
 local function GetCurrentSpeaker()
-	local speaker = dialog.GetFocus()
-	if not IsValid(speaker) || !speaker.GetNPCID then return "" end
+	local speaker = dialog.GetSpeaker()
+	if not IsValid(speaker) then return end
 
-	return string.upper(missions.GetNPCName(speaker:GetNPCID()))
+	local name = speaker.GetNPCID and string.upper(missions.GetNPCName(speaker:GetNPCID())) or speaker:GetName()
+	return speaker, name
 end
 
 DialogCallbacks.Paint = function(_dialog)
 	if _dialog.open == 0 then return end
+	local speaker, speakername = GetCurrentSpeaker()
+	local localspeaker = speaker == LocalPlayer()
 
 	local open = math.sin( _dialog.open * math.pi / 2 )
 	open = math.sqrt(open)
@@ -94,27 +103,28 @@ DialogCallbacks.Paint = function(_dialog)
 	local w = BGW * open
 	local h = BGH * open
 
-	local x = ScrW() / 2 + BGOffX
+	local x = ScrW() / 2 + BGOffX * (localspeaker and -1 or 1)
 	local y = ScrH() - h/2 - BGOffY
 
 	surface.SetMaterial(chatboxMat)
 	surface.SetDrawColor( 255, 255, 255, 255 )
-	surface.DrawTexturedRectUV( x - w/2, y - h/2, w, h, 0, 0, 1, 1)
+	surface.DrawTexturedRectUV( x - w/2, y - h/2, w, h, localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
 
-	local left = x - w/2 + NameTextX
+	local left = x - w/2 + NameTextX 
 	local top = y - h/2 + NameTextY
 
 	surface.SetTextColor( 64, 38, 49, 255 * open )
 	surface.SetFont( "JazzDialogNameFont" )
-    local tw,th = surface.GetTextSize( "a" )
+    local tw,th = surface.GetTextSize(speakername)
 
 	-- Draw current speaker's name
-	surface.SetTextPos( left, top - th)
-	surface.DrawText( GetCurrentSpeaker())
+	local nameX = localspeaker and x + w/2 - tw - NameTextX or left
+	surface.SetTextPos(nameX, top - th)
+	surface.DrawText(speakername)
 
 	surface.SetFont( "JazzDialogFont" )
     local tw,th = surface.GetTextSize( "a" )
-	left = x - w/2 + TextX
+	left = x - w/2 + TextX * (localspeaker and 0.2 or 1)
 	top = y - h/2 + TextY
 
 	-- Draw dialog contents
@@ -129,13 +139,21 @@ DialogCallbacks.Paint = function(_dialog)
 		surface.SetFont( "JazzDialogFontHint" )
 		local contstr = "Click to continue...    "
 		local tw,th = surface.GetTextSize(contstr)
+		local contX = x + w/2 - tw //* (localspeaker and 0.2 or 1)
+		if localspeaker then
+			contX = contX - ScreenScale(65)
+		end
 		surface.SetTextColor( 38, 38, 38, 255 * open )
-		surface.SetTextPos( x + w/2 - tw, y + h/2 - th)
+		surface.SetTextPos(contX, y + h/2 - th)
 		surface.DrawText(contstr)
 	end
 
 	-- Render whoever's talking
-	RenderCatCutIn(_dialog, 0, ScrH() - CatH * math.EaseInOut(_dialog.open, 0, 1), CatW, CatH)
+	if localspeaker then
+		RenderEntityCutIn(speaker, ScrW() - CatW, ScrH() - CatH * math.EaseInOut(_dialog.open, 0, 1), CatW, CatH)
+	else
+		RenderEntityCutIn(speaker, 0, ScrH() - CatH * math.EaseInOut(_dialog.open, 0, 1), CatW, CatH)
+	end
 end
 
 -- Called when the dialog presents the user with a list of branching options
@@ -152,7 +170,7 @@ DialogCallbacks.ListOptions = function(data)
 		btn:SizeToContents()
 		btn:Dock(TOP)
 		btn.DoClick = function()
-            dialog.StartGraph(v.data[1], true)
+            dialog.StartGraph(v.data[1], true, { speaker = LocalPlayer() })
 			frame:Close()
 		end
 	end

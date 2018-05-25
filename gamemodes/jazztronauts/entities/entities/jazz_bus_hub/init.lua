@@ -139,6 +139,7 @@ end
 function ENT:Touch( other )
 	local _, p = self:GetProgress()
 	if p > 1 and not self.IsLaunching then return end
+	if other:IsPlayer() && other:InVehicle() then return end
 
 	local phys = IsValid(other) and other:GetPhysicsObject()
 

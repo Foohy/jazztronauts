@@ -18,7 +18,7 @@ local LocalPlayer = LocalPlayer
 local unpack = unpack
 local coroutine = coroutine
 local ErrorNoHalt = ErrorNoHalt
-local PrintTable = PrintTable
+local type = type
 
 
 local STATE_IDLE = 0
@@ -74,6 +74,13 @@ local function CalcTextRect( str )
 
 end*/
 
+local function InvokeEvent(eventName, ...)
+	if not _dialog.defaultcallbacktbl then return end
+	if type(_dialog.defaultcallbacktbl[eventName]) != 'function' then return end
+
+	_dialog.defaultcallbacktbl[eventName](...)
+end
+
 function Start( text, delay )
 
 	_dialog.text = text
@@ -105,12 +112,15 @@ local edges = {
 }
 
 local inits = {
+	[STATE_IDLE] = function(d)
+		_dialog.nodeiter = nil 
+		InvokeEvent("DialogEnd") 
+	end,
 	[STATE_OPENING] = function(d) d.rate = 2 d.printed = "" end,
 	[STATE_OPENED] = function(d) d.rate = 12 d.nodeiter() end,
 	[STATE_PRINTING] = function(d)
 		d.rate = 60 * PrintSpeedScale
 		local numc = math.Clamp(math.Round(FrameTime() * d.rate), 1, #d.text)
-		print("NUMCEE", numc)
 		d.printed = d.printed .. d.text:sub(1, numc)
 		d.text = d.text:sub(numc + 1,-1)
 		print(d.printed, d.text)
@@ -219,7 +229,7 @@ function ScriptCallback(cmd, data)
 		State( STATE_PRINTING, .2 )
 	end
 	if cmd == CMD_OPTIONLIST then
-		_dialog.defaultOptionFunc(data)
+		InvokeEvent("ListOptions", data)
 	end
 	if cmd == CMD_EXIT then
 		State( STATE_CLOSING, 2 )
@@ -243,24 +253,35 @@ function PaintAll()
 
 	Update( FrameTime() )
 
-	if _dialog.defaultRenderFunc then
-		_dialog.defaultRenderFunc(_dialog)
-	end
-
+	InvokeEvent("Paint", _dialog)
 end
+
 
 -- Immediately start the dialog at a new specified entry
 function StartGraph(cmd, skipOpen)
-	if skipOpen then
-		_dialog.printed = ""
-		_dialog.text = ""
-		State(STATE_OPENED)
-	else
-		State( STATE_OPENING )
+
+	local t = type(cmd)
+	if t == "table" then
+		_dialog.nodeiter = EnterNode( cmd, ScriptCallback )
+	elseif t == "string" then
+		_dialog.nodeiter = EnterGraph( cmd, ScriptCallback )
 	end
 
-	_dialog.nodeiter = EnterNode( cmd, ScriptCallback )
-	if skipOpen then _dialog.nodeiter() end
+	if _dialog.nodeiter != nil then
+		PrintSpeedScale = 1.0
+
+		if skipOpen then
+			_dialog.printed = ""
+			_dialog.text = ""
+			State(STATE_OPENED)
+		else
+			State( STATE_OPENING )
+		end
+	
+		if skipOpen then _dialog.nodeiter() end
+	
+		InvokeEvent("DialogStart")
+	end
 end
 
 -- Skip printing out text
@@ -270,8 +291,16 @@ end
 
 -- Continue onto the next page of dialog
 function Continue()
+	if not ReadyToContinue() then return end
+	
 	StartGraph(_dialog.jump[1], true)
 	_dialog.jump = nil
+
+	return true
+end
+
+function ReadyToContinue()
+	return _dialog.jump != nil
 end
 
 function GetFocus()
@@ -282,12 +311,12 @@ function GetCamera()
 	return _dialog.camera
 end
 
-function SetOptionCallback(func)
-	_dialog.defaultOptionFunc = func
+function IsInDialog()
+	return _dialog.nodeiter != nil
 end
 
-function SetRenderCallback(func)
-	_dialog.defaultRenderFunc = func
+function SetCallbackTable(tbl)
+	_dialog.defaultcallbacktbl = tbl
 end
 
 net.Receive( "dialog_dispatch", function( len, ply )
@@ -300,30 +329,9 @@ net.Receive( "dialog_dispatch", function( len, ply )
 	if net.ReadBit() then camera = net.ReadEntity() end
 	if script == nil then script = "<no script>" end
 
-	//CalcTextRect("")
-	_dialog.text = ""
+	//Setup command variables
 	_dialog.camera = camera
 	_dialog.focus = focus
-	State( STATE_OPENING )
 
-	_dialog.nodeiter = EnterGraph( script, ScriptCallback )
-	--nodeiter()
-	--nodeiter()
-
-	--Start( , 0 )
-
+	StartGraph(script, false)
 end )
-
--- Show mouse during selection scenes
-//hook.Add("Think", "JazzDialogShowMouse", function()
-	//gui.EnableScreenClicker(true)
-//end )
-
-/*
-Start(
-[[thanks jeeves did you hear me ask for the sparknotes link
-this is why your search engine is dead jeeves,
-this is why google dropped don't be evil as their motto
-your insistence upon triviasplaining]]
-, 5)
-*/

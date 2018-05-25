@@ -23,6 +23,9 @@ local CatW = ScreenScale(150)
 local CatH = ScreenScale(170)
 local CatCamOffset = Vector(-60, -35, 0):GetNormal() * 70
 
+
+local DialogCallbacks = {}
+
 surface.CreateFont( "JazzDialogNameFont", {
 	font = "KG Shake it Off Chunky",
 	extended = false,
@@ -49,39 +52,18 @@ surface.CreateFont( "JazzDialogFont", {
 	blursize = 0,
 	scanlines = 0,
 	antialias = true,
-	underline = false,
-	italic = false,
-	strikeout = false,
-	symbol = false,
-	rotary = false,
-	shadow = false,
-	additive = false,
-	outline = false,
 } )
 
-local function CreateResponseButtons(data)
-	local frame = vgui.Create("DFrame")
-	frame:Center()
-	frame:MakePopup()
-	frame:SetSizable(true)
-	frame:SetWide(100)
-	PrintTable(data)
-	for k, v in ipairs(data.data) do
-		print("yo: ", v)
-		PrintTable(v)
-		local btn = vgui.Create("DButton", frame)
-		btn:SetText(v.data[1].data)
-		btn:SizeToContents()
-		btn:Dock(TOP)
-		btn.DoClick = function()
-            dialog.StartGraph(v.data[1], true)
-			frame:Close()
-		end
-	end
+surface.CreateFont( "JazzDialogFontHint", {
+	font = "Arial",
+	extended = false,
+	size = ScreenScale(11),
+	weight = 500,
+	blursize = 0,
+	scanlines = 0,
+	antialias = true,
+} )
 
-	frame:InvalidateLayout(true)
-	frame:SizeToChildren(true, true)
-end
 
 local function RenderCatCutIn(_dialog, x, y, w, h)
 	local cat = dialog.GetFocus()
@@ -103,7 +85,7 @@ local function GetCurrentSpeaker()
 	return string.upper(missions.GetNPCName(speaker:GetNPCID()))
 end
 
-local function RenderDialog(_dialog)
+DialogCallbacks.Paint = function(_dialog)
 	if _dialog.open == 0 then return end
 
 	local open = math.sin( _dialog.open * math.pi / 2 )
@@ -142,16 +124,78 @@ local function RenderDialog(_dialog)
 		surface.DrawText( line )
 	end
 
+	-- If we're waiting on input, slam that down
+	if dialog.ReadyToContinue() then
+		surface.SetFont( "JazzDialogFontHint" )
+		local contstr = "Click to continue...    "
+		local tw,th = surface.GetTextSize(contstr)
+		surface.SetTextColor( 38, 38, 38, 255 * open )
+		surface.SetTextPos( x + w/2 - tw, y + h/2 - th)
+		surface.DrawText(contstr)
+	end
+
 	-- Render whoever's talking
 	RenderCatCutIn(_dialog, 0, ScrH() - CatH * math.EaseInOut(_dialog.open, 0, 1), CatW, CatH)
 end
 
+-- Called when the dialog presents the user with a list of branching options
+DialogCallbacks.ListOptions = function(data)
+	local frame = vgui.Create("DFrame")
+	frame:Center()
+	frame:MakePopup()
+	frame:SetSizable(true)
+	frame:SetWide(100)
 
+	for k, v in ipairs(data.data) do
+		local btn = vgui.Create("DButton", frame)
+		btn:SetText(v.data[1].data)
+		btn:SizeToContents()
+		btn:Dock(TOP)
+		btn.DoClick = function()
+            dialog.StartGraph(v.data[1], true)
+			frame:Close()
+		end
+	end
+
+	frame:InvalidateLayout(true)
+	frame:SizeToChildren(true, true)
+end
+
+-- Called when we are beginning a new dialog session
+DialogCallbacks.DialogStart = function()
+	gui.EnableScreenClicker(true)
+end
+
+-- Called when we are finished with a dialog session
+DialogCallbacks.DialogEnd = function()
+	gui.EnableScreenClicker(false)
+end
+
+-- Hook into dialog system to style it up and perform IO
 local function Initialize()
-    dialog.SetOptionCallback(CreateResponseButtons)
-    dialog.SetRenderCallback(RenderDialog)
+    dialog.SetCallbackTable(DialogCallbacks)
 end
 hook.Add("InitPostEntity", "JazzInitializeDialogRendering", Initialize)
 hook.Add("OnReloaded", "JazzInitializeDialogRendering", Initialize)
 
--- Setup scene with clientside player/cat doubles
+-- Hook into user input so they can optionally skip dialog, or continue to the next one
+local wasSkipPressed = false
+hook.Add("Think", "JazzDialogSkipListener", function()
+	local skip = input.IsMouseDown(MOUSE_LEFT) 
+		or input.IsKeyDown(KEY_SPACE)
+		or input.IsKeyDown(KEY_ENTER)
+	
+	if skip == wasSkipPressed then return end
+	wasSkipPressed = skip
+
+	if not dialog.IsInDialog() then return end
+	if not skip then return end
+
+	-- First try to continue to the next page of dialog
+	if not dialog.Continue() then
+
+		-- If we couldn't, that means we're still writing 
+		-- So speed up the text output
+		dialog.SkipText()
+	end
+end)

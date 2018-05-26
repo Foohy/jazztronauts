@@ -8,17 +8,27 @@ decl_type = function( read, write, size, tsfunc )
 	return setmetatable({
 		read = read,
 		write = write,
-		size = size,
+		__size = size,
 		is_type_decl = true
 	},
 	{
 		__index = function( self, k )
 			if type(k) == "number" then
+				
+				local yieldpoints = math.ceil( 5000 / size )
+				local params = rawget( self, "__params" )
+				local key = params and params["key"]
 				local decl = decl_type( function( f )
 
 					local t = {}
 					for i=1, k do
-						table.insert( t, read(f) )
+						if i % yieldpoints == yieldpoints-1 then task.Yield("progress", i) end
+						if not key then
+							table.insert( t, read(f) )
+						else
+							local d = read(f)
+							t[d[key]] = d
+						end
 					end
 					return t
 
@@ -32,22 +42,27 @@ decl_type = function( read, write, size, tsfunc )
 					end
 
 				end, size * k, tsfunc )
-				rawset( decl, "name", rawget( self, "name" ))
-				rawset( decl, "length", k )
+				rawset( decl, "__name", rawget( self, "__name" ))
+				rawset( decl, "__length", k * ( rawget( self, "__length" ) or 1 ) )
+				rawset( decl, "__params", rawget( self, "__params" ) )
 				return decl
-			elseif k == "read" then return rawget( self, "read" )
-			elseif k == "write" then return rawget( self, "write" )
-			elseif k == "size" then return rawget( self, "size" )
+			elseif k == "sizeof" then return rawget( self, "__size" )
 			elseif type(k) == "string" then
 				local decl = decl_type( read, write, size, tsfunc )
-				rawset( decl, "name", k )
+				if rawget( self, "__name" ) == nil then
+					rawset( decl, "__name", k )
+				else
+					rawset( decl, "__count", k )
+					rawset( decl, "__name", rawget(self, "__name"))
+				end
+				rawset( decl, "__params", rawget( self, "__params" ) )
 				return decl
 			end
 		end,
 		__tostring = function( self )
-			local str = rawget( self, "name" ) or "<unnamed>"
-			if rawget( self, "length" ) or 0 > 0 then
-				str = str .. "[" .. rawget( self, "length" ) .. "]"
+			local str = rawget( self, "__name" ) or "<unnamed>"
+			if rawget( self, "__length" ) or 0 > 0 then
+				str = str .. "[" .. rawget( self, "__length" ) .. "]"
 			end
 			if tsfunc ~= nil then
 				str = str .. ":\n" .. tsfunc()
@@ -58,17 +73,25 @@ decl_type = function( read, write, size, tsfunc )
 
 end
 
-function Struct( def )
+function Struct( def, params )
 
-	local function read( f )
+	local function read( f, full )
 
 		local out = {}
 
 		for _,v in pairs( def ) do
 
-			out[ rawget(v, "name") ] = v.read( f )
+			local count = rawget(v, "__count")
+			if count ~= nil then
+				out[ rawget(v, "__name") ] = v[ out[ count ] ].read(f)
+			else
+				out[ rawget(v, "__name") ] = v.read( f )
+			end
 
 		end
+
+		local ret = params and rawget(params, "returns")
+		if ret and not full then return out[ret] end
 
 		return out
 
@@ -78,7 +101,14 @@ function Struct( def )
 
 		for _,v in pairs( def ) do
 
-			v.write( f, data[ rawget(v, "name") ] )
+			local count = rawget(v, "__count")
+			if count ~= nil then
+				for i=1, data[ count ] do
+					v.write( f, data[ rawget(v, "__name") ][i] )
+				end
+			else
+				v.write( f, data[ rawget(v, "__name") ] )
+			end
 
 		end
 
@@ -87,7 +117,7 @@ function Struct( def )
 	local size = 0
 	for _,v in pairs( def ) do
 
-		size = size + v.size
+		size = size + v.sizeof
 
 	end
 
@@ -103,9 +133,13 @@ function Struct( def )
 
 	end )
 
+	rawset( decl, "__params", params )
+
 	return decl
 
 end
+
+StructDecl = decl_type
 
 CHAR = decl_type(
 	function( f ) return file_meta.Read( f, 1 ) end,
@@ -136,8 +170,8 @@ ch_meta.__index = function( self, k )
 			file_meta.Write( f, data )
 
 		end, k )
-		rawset( decl, "name", rawget( self, "name" ))
-		rawset( decl, "length", k )
+		rawset( decl, "__name", rawget( self, "__name" ))
+		rawset( decl, "__length", k )
 		return decl
 	end
 	local x = thru( self, k )
@@ -196,18 +230,17 @@ VECTOR = decl_type(
 	12
 )
 
+VECTOR4 = decl_type(
+	function(f) return Vector4( FLOAT.read(f), FLOAT.read(f), FLOAT.read(f), FLOAT.read(f) ) end,
+	function(f, v) FLOAT.write(f, v.x) FLOAT.write(f, v.y) FLOAT.write(f, v.z) FLOAT.write(f, v.w) end,
+	16
+)
+
 QANGLE = decl_type(
 	function(f) return Angle( FLOAT.read(f), FLOAT.read(f), FLOAT.read(f) ) end,
 	function(f, v) FLOAT.write(f, v.x) FLOAT.write(f, v.y) FLOAT.write(f, v.z) end,
 	12
 )
-
-VECTOR4 = Struct({
-	FLOAT.x,
-	FLOAT.y,
-	FLOAT.z,
-	FLOAT.w
-})
 
 VECTOR2D = Struct({
 	FLOAT.x,

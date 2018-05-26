@@ -23,6 +23,7 @@ include("sh_worldcanvas.lua")
 
 include("sh_poly.lua")
 include("sh_brush.lua")
+include("sh_bsptypes.lua")
 include("sh_bsp.lua")
 include("sh_csg.lua")
 include("sh_tree.lua")

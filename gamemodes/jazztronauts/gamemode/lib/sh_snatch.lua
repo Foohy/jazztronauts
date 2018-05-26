@@ -26,7 +26,7 @@ local CL_CopyRagdollPose = nil
 local meta = {}
 meta.__index = meta
 
-local map = bsp.GetCurrent( nil, SERVER )
+local map = bsp.GetCurrent( nil, nil )
 
 print("NOW WE LOAD LUMPS")
 

@@ -40,7 +40,7 @@ function Plane(x,y,z,dist)
 
 	local p = nil
 	if isvector(x) then
-		p = { normal = Vector(x), dist = y or 0 }
+		p = { normal = Vector(x), dist = y or 0, type = z }
 	else
 		p = { normal = Vector(x,y,z), dist = dist }
 	end

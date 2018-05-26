@@ -670,6 +670,8 @@ end
 
 function meta:_ConvertBrushes()
 
+	if self.converted_brushes ~= nil then return end
+
 	self.converted_brushes = {}
 	for k, origbrush in pairs( self.brushes ) do
 

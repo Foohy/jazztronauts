@@ -312,7 +312,6 @@ function SetCallbackTable(tbl)
 end
 
 function InformScriptFinished(entrypoint, seen)
-	print("INFORMING SERVER THAT WE'RE FINISHED: ", entrypoint, seen)
 	local scriptid = util.NetworkStringToID(entrypoint)
 	if not scriptid then return false end
 
@@ -321,7 +320,6 @@ function InformScriptFinished(entrypoint, seen)
 	net.WriteBit(seen)
 
 	net.SendToServer()
-	print("SENT TO SERVER!! ID: ", scriptid)
 	return true
 end
 

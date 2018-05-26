@@ -55,7 +55,6 @@ net.Receive("dialog_dispatch", function(len, ply)
 
 	--TODO: Broadcast on dialog finished event?
 	local script = util.NetworkIDToString(scriptid)
-	print("CLIENT (" .. ply:GetName() .. ") TOLD US THEY'RE DONE WITH SCRIPT: ", scriptid, tostring(script), markseen)
 
 	hook.Call("JazzDialogFinished", GAMEMODE, ply, script, markseen)
 end )

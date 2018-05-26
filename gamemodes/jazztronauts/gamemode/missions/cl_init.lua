@@ -1,4 +1,5 @@
 include("missions.lua")
+include("converse.lua")
 
 dialog.RegisterFunc("start", function(d, id)
     local mid = tonumber(id) or -1

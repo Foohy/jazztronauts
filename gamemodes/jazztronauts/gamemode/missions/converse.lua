@@ -1,5 +1,9 @@
 -- no these aren't a brand of shoes
-include("missions.lua")
+ScriptsList = "scripts"
+unlocks.Register(ScriptsList)
+
+if CLIENT then return end
+
 module( "converse", package.seeall )
 
 MissionConvos = {}
@@ -15,6 +19,7 @@ MISSION_COMPLETED = 0 -- Mission is completed and ready to turn in
 MISSION_AVAILABLE = 1 -- Mission is available and the player can talk to accept it
 MISSION_ACCEPTED = 2 -- Mission is currently active but not quite completed
 
+MissionPriority = 2
 
 -- Add a conversation for a specific mission state
 -- For example, this can be used to specify the dialog script to accept a specific unlocked mission
@@ -27,8 +32,13 @@ function AddMission(mid, script, mcond)
     }
 end
 
-function Add(id, script, conditionFunc, isRepeat)
-
+function Add(script, conditionFunc, priority)
+    table.insert(Convos,
+    {
+        script = script,
+        condition = conditionFunc,
+        priority = priority
+    })
 end
 
 function ResetConvos()
@@ -59,8 +69,9 @@ local function getFirst(...)
     return nil
 end
 
-
-function GetMissionScript(ply, npcid)
+-- Retrieves the current state of the player's missions
+-- so we can check conditions all at once
+local function getMissionScript(ply, npcid)
     local hist = missions.GetMissionHistory(ply)
 
     -- Choose which mission id is most important for us to talk about
@@ -75,5 +86,31 @@ function GetMissionScript(ply, npcid)
         return nil
     end
 
-    return MissionConvos[mid][cond].script
+    return MissionConvos[mid][cond].script, cond
+end
+
+function GetAvailableConvos(ply, npcid)
+    local convos = {}
+    for _, v in pairs(Convos) do
+        if v.condition(ply) then 
+            table.insert(convos, v)
+        end
+    end
+
+    -- Add in current mission convo as well
+    local curMisScript, cond = getMissionScript(ply, npcid)
+    if curMisScript != nil then
+        table.insert(convos, {
+            script = curMisScript, 
+            priority = MissionPriority
+        })
+    end
+
+    table.SortByMember(convos, "priority")
+    return convos
+end
+
+function GetNextScript(ply, npcid)
+    local convos = GetAvailableConvos(ply, npcid)
+    return #convos > 0 and convos[1].script or nil
 end

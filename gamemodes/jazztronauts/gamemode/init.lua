@@ -120,6 +120,15 @@ function GM:CollectProp(prop, ply)
 	end
 end
 
+function GM:JazzDialogFinished(ply, script, markseen)
+	print("GAMEMODE HOOK SAYS HELLO: ", ply, script, markseen)
+	-- Mark this as 'seen', so other systems know to continue
+	if script and markseen then
+		unlocks.Unlock(converse.ScriptsList, ply, script)
+		print("Unlocking: ", script)
+	end
+end
+
 -- TODO: Just for debugging for now
 local function PrintMapHistory(ply)
 

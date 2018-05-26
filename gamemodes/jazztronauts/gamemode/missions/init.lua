@@ -3,6 +3,7 @@ include("missions.lua")
 include("converse.lua")
 
 AddCSLuaFile("missions.lua")
+AddCSLuaFile("converse.lua")
 
 -- Utility mission functions so we don't go insane
 -- Remove these

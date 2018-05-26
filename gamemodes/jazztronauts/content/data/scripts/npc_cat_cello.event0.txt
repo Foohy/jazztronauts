@@ -1,0 +1,22 @@
+begin:
+    you ready to DATE!??!%%
+    SMOOCHES
+    player:
+	&response1:
+		i'm not into that
+	&response2:
+		i'm incredibly into that
+
+response1:
+    good
+    me too
+    &finish
+
+response2:
+    why you gotta make it weird man
+    &finish
+
+finish:
+    whatever here's your dumb prize jesus
+    *mark_seen*
+    &exit

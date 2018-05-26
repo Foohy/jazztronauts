@@ -26,7 +26,7 @@ end
 
 function ENT:StartChat(ply)
     if SERVER then
-        local script = converse.GetMissionScript(ply, self.NPCID)
+        local script = converse.GetNextScript(ply, self.NPCID)
         script = dialog.IsValid(script) and script or self:GetIdleScript()
 
         dialog.Dispatch(script, ply, self)

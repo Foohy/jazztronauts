@@ -92,7 +92,7 @@ local edges = {
 local inits = {
 	[STATE_IDLE] = function(d)
 		_dialog.nodeiter = nil 
-		InvokeEvent("DialogEnd") 
+		InvokeEvent("DialogEnd", d) 
 	end,
 	[STATE_OPENING] = function(d) d.rate = 2 d.printed = "" end,
 	[STATE_OPENED] = function(d) d.rate = 12 d.nodeiter() end,
@@ -238,15 +238,15 @@ end
 
 -- Immediately start the dialog at a new specified entry
 function StartGraph(cmd, skipOpen, options)
-
+	_dialog.options = options or {}
 	local t = type(cmd)
 	if t == "table" then
 		_dialog.nodeiter = EnterNode( cmd, ScriptCallback )
 	elseif t == "string" then
 		_dialog.nodeiter = EnterGraph( cmd, ScriptCallback )
+		_dialog.entrypoint = cmd
+		_dialog.seen = false
 	end
-
-	_dialog.options = options or {}
 
 	if _dialog.nodeiter != nil then
 		PrintSpeedScale = 1.0
@@ -258,7 +258,7 @@ function StartGraph(cmd, skipOpen, options)
 
 		if skipOpen then _dialog.nodeiter() end
 	
-		InvokeEvent("DialogStart")
+		InvokeEvent("DialogStart", _dialog)
 	end
 end
 
@@ -279,6 +279,7 @@ function Continue(options)
 	else
 		print("UNHANDLED CONTINUE STATE: " .. data.cmd )
 	end
+
 	_dialog.options = options or {}
 	_dialog.waitdata = nil
 
@@ -310,6 +311,20 @@ function SetCallbackTable(tbl)
 	_dialog.defaultcallbacktbl = tbl
 end
 
+function InformScriptFinished(entrypoint, seen)
+	print("INFORMING SERVER THAT WE'RE FINISHED: ", entrypoint, seen)
+	local scriptid = util.NetworkStringToID(entrypoint)
+	if not scriptid then return false end
+
+	net.Start( "dialog_dispatch" )
+	net.WriteUInt( scriptid, 16 )
+	net.WriteBit(seen)
+
+	net.SendToServer()
+	print("SENT TO SERVER!! ID: ", scriptid)
+	return true
+end
+
 net.Receive( "dialog_dispatch", function( len, ply )
 
 	local script = util.NetworkIDToString( net.ReadUInt( 16 ) )
@@ -325,4 +340,9 @@ net.Receive( "dialog_dispatch", function( len, ply )
 	_dialog.focus = focus
 
 	StartGraph(script, false)
+end )
+
+-- Mark this script's entrypoint as 'seen', used for some other systems
+RegisterFunc("mark_seen", function(d)
+	d.seen = true
 end )

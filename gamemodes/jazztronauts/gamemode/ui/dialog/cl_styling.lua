@@ -198,13 +198,14 @@ DialogCallbacks.ListOptions = function(data)
 end
 
 -- Called when we are beginning a new dialog session
-DialogCallbacks.DialogStart = function()
+DialogCallbacks.DialogStart = function(d)
 	gui.EnableScreenClicker(true)
 end
 
 -- Called when we are finished with a dialog session
-DialogCallbacks.DialogEnd = function()
+DialogCallbacks.DialogEnd = function(d)
 	gui.EnableScreenClicker(false)
+	dialog.InformScriptFinished(d.entrypoint, d.seen)
 end
 
 -- Hook into dialog system to style it up and perform IO

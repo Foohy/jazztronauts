@@ -1,0 +1,116 @@
+begin:
+    So now that we have a moment, how are you settling in?%%
+    We have very little idea of how to provide creature comforts,%
+    but I'm told that the camp has a %"cozy"% quality these days.
+    player:
+	&resp1a:
+		It's uh...yeah, cozy's one word for it.%%
+        Did you guys set up all the scrap metal walls and stuff?
+	&resp2a:
+		I'm more interested in that huge machine across from it.%
+        Can you tell me more about it?
+    &resp3a:
+        Fine, thanks. Is it ok if I just unwind and reflect by myself? (Exit)
+
+###### Branch 1
+resp1a:
+    No, that was not our handiwork.%
+    The camp and the wash room next to it are new additions. 
+    The last group before you,% actually.%% Lovely bunch.
+    &resp1b
+
+resp1b:
+    Certainly raised a few eyebrows, %though.%% It's not often you see a-%%%%
+    Well.%%% Hm.%%%% I'm not sure this is my story to tell,% honestly.%%
+    Forgive me,% I try not to gossip about my patrons.
+    player:
+    &resp1c:
+        C'mon, man, you can't just drop that and not follow through.
+    &resp1c:
+        You can tell me, I'm not a cop.
+    &resp1c:
+        Drama, then?
+
+resp1c:
+    Like I said, not my story to tell.%
+    It's not anything particularly scandalous,% just a silly thing 
+    that I'd feel rather catty talking about behind their backs.
+    &resp1d
+
+resp1d:
+    Honestly,% I don't think I've ever met such a cheery, energetic bunch.
+    They clearly loved just spending time with each other%.%.%.
+    didn't even seem to mind they were trapped here,%
+    so long as they were enjoying themselves. 
+    &resp1e
+
+resp1e:
+    I admit, I've a great deal of respect for people like that.%%
+    I hope the six of them are doing well for themselves,%
+    wherever they are now.
+    &merge1a
+
+###### Branch 2
+resp2a:
+    The jury-rigged Combine machinery with a giant CRT connected 
+    to it, I assume?%% Yes, it does stand out, doesn't it.
+    &resp2b
+
+resp2b:
+    Sorry to say,% that was not our work.% In fact it wasn't any %ONE's% work.%
+    That has been a very long project.
+    &resp2c
+
+resp2c:
+    Back before we had it,% we had to manually drive up and down 
+    Voidway 66 trying to find a place to salvage,% hoping any 
+    given wormhole would be worthwhile.
+    &resp2d
+resp2d:
+    It was not optimal,% to say the least.% Eventually a guest 
+    had the idea to make a compass that pointed to the closest dimensional 
+    breach.%% I think a piece of it is still in that machine somewhere.
+    &resp2e
+    
+resp2e:
+    Then another guest wired some gizmo they had to it,%
+    and then another,% and another,% a little bit at a time%
+    until we were left with that hulking mass out there.%%
+    To be honest,% I would not know how to repair it if we needed to.
+    &resp2f
+resp2f:
+    So, try and be gentle with it.%% It's got a long legacy.
+    &merge1a
+
+###### Branch 3
+resp3a:
+    Of course it is.% Please,% take as much time as you need,% 
+    and let me know when you'd like a new drink.
+    &exit
+
+###### Merge point
+merge1a:
+    In any event,% it's come a long way from the empty room that it once was.%%
+    I'll admit,% hearing laughter and commotion coming from 
+    the camp again does fill me with a sort of pride. 
+    &merge1b
+
+merge1b:
+    Perhaps it is the nature of my profession,% who can say?
+    &merge1c
+merge1c:
+    I hope you will be comfortable here during your stay.%%
+    Please,% don't hesitate to let me know if you need anything.
+    %% Ah, one other thing.%.%.
+    &merge1d
+merge1d:
+    This isn't required of you,% but can I ask you to spend some time 
+    with the rest of my peers?%% They won't admit it,% but they do 
+    enjoy the company%.%.%.and exposure to different worldviews 
+    couldn't hurt them either.
+    &merge1e
+merge1e:
+    Well then,% I think it's time I let you go back to your business.%%
+    Thank you for coming,% and I hope you drop by again soon.
+    *mark_seen*
+    &exit

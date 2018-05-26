@@ -1,5 +1,7 @@
 include("shared.lua")
 include("cl_styling.lua")
+include("cl_debug.lua")
+
 local ScrW = ScrW
 local ScrH = ScrH
 local draw = draw
@@ -253,6 +255,7 @@ function StartGraph(cmd, skipOpen, options)
 
 		_dialog.printed = ""
 		_dialog.text = ""
+		_dialog.waitdata = nil
 
 		State(skipOpen and STATE_OPENED or STATE_OPENING)
 
@@ -299,6 +302,10 @@ function GetFocus()
 	return _dialog.focus
 end
 
+function SetFocus(focus)
+	_dialog.focus = focus
+end
+
 function GetCamera()
 	return _dialog.camera
 end
@@ -335,7 +342,7 @@ net.Receive( "dialog_dispatch", function( len, ply )
 
 	//Setup command variables
 	_dialog.camera = camera
-	_dialog.focus = focus
+	SetFocus(focus)
 
 	StartGraph(script, false)
 end )

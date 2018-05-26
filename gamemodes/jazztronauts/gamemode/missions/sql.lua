@@ -81,8 +81,9 @@ function _startMission(ply, missionid)
     return jsql.Query(insert) != false
 end
 
-function _addMissionProgress(ply, missionid)
+function _addMissionProgress(ply, missionid, num)
     if !IsValid(ply) then return nil end
+    num = math.max(num or 1, 1)
 	local id = ply:SteamID64() or "0"
     local mis = GetMission(ply, missionid)
 
@@ -90,7 +91,7 @@ function _addMissionProgress(ply, missionid)
     if not mis or mis.completed then return false end
 
     local upd = "UPDATE jazz_active_missions "
-        .. "SET progress = progress + 1 "
+        .. string.format("SET progress = progress + %d ", num)
 		.. string.format("WHERE steamid='%s' and missionid=%d", id, missionid)
 
     return jsql.Query(upd) != false

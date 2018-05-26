@@ -10,7 +10,7 @@ AddCSLuaFile("converse.lua")
 concommand.Add("jazz_missions_add", function(ply, cmd, args, argstr)
     local m = missions.GetActiveMissions(ply)
     for k, v in pairs(m) do
-        missions.AddMissionProgress(ply, k)
+        missions.AddMissionProgress(ply, k, tonumber(args[1]))
     end
 end )
 

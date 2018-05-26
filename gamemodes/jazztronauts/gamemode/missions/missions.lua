@@ -181,11 +181,11 @@ if SERVER then
     end
 
     -- Manually increment a specific mission id's progress
-    function AddMissionProgress(ply, mid)
+    function AddMissionProgress(ply, mid, num)
         local minfo = GetMissionInfo(mid)
         if not IsValid(ply) or not minfo then return false end
 
-        local added = _addMissionProgress(ply, mid)
+        local added = _addMissionProgress(ply, mid, num)
         if added then 
             UpdatePlayerMissionInfo(ply)
         end

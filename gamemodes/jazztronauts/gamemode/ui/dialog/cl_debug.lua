@@ -1,6 +1,11 @@
 local function printNPCIDs()
-    
+    for k, v in pairs(missions.NPCList) do
+        print(v.name .. " \t\t= " .. k .. " (" .. v.prettyname .. ")")
+    end
 end
+concommand.Add("jazz_debug_printnpcs", function(ply, cmd, args)
+    printNPCIDs()
+end )
 
 local function FindNPCByID(npcid)
     local npcs = ents.FindByClass("jazz_cat")

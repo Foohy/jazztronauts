@@ -8,6 +8,30 @@ AddNPC("NPC_CAT_SING", "Singer")
 AddNPC("NPC_CAT_PIANO", "Piano Man")
 AddNPC("NPC_CAT_CELLO", "Cellist")
 
+-- Utility function for giving a player a monetary reward
+local function GrantMoney(amt)
+    return function(ply)
+        ply:ChangeNotes(amt)
+    end
+end
+
+-- Utility function for unlocking something for the player
+local function UnlockItem(lst, unlock)
+    return function(ply)
+        unlocks.Unlock(lst, ply, unlock)
+    end
+end
+
+-- Combine multiple rewards
+local function MultiReward(...)
+    local funcs = {...}
+    return function(ply)
+        for _, v in pairs(funcs) do
+            v(ply)
+        end
+    end
+end
+
 AddMission(0, {
     -- User-friendly instructions for what the player should collect
     Instructions = "Collect 15 oil drums",
@@ -29,7 +53,11 @@ AddMission(0, {
 
     -- List of all missions that needs to have been completed before this one becomes available
     -- Leave empty to be available immediately
-    Prerequisites = nil
+    Prerequisites = nil,
+
+    -- When they finish the mission, this function is called to give out a reward
+    -- The 'GrantMoney' function returns a function that gives money
+    OnCompleted = GrantMoney(1500)
 })
 
 AddMission(1, {
@@ -52,7 +80,11 @@ AddMission(1, {
     NPCId = NPC_CAT_CELLO,
 
     -- List of all missions that needs to have been completed before this one becomes available
-    Prerequisites = { 0 }
+    Prerequisites = { 0 },
+
+    -- When they finish the mission, this function is called to give out a reward
+    -- The 'GrantMoney' function returns a function that gives money
+    OnCompleted = GrantMoney(1500)
 })
 
 AddMission(2, {
@@ -74,7 +106,11 @@ AddMission(2, {
     NPCId = NPC_CAT_CELLO,
 
     -- List of all missions that needs to have been completed before this one becomes available
-    Prerequisites = { 1 }
+    Prerequisites = { 1 },
+
+    -- When they finish the mission, this function is called to give out a reward
+    -- The 'GrantMoney' function returns a function that gives money
+    OnCompleted = GrantMoney(1500)
 })
 
 AddMission(3, {
@@ -87,7 +123,8 @@ AddMission(3, {
     end,
     Count = 10,
     NPCId = NPC_CAT_CELLO,
-    Prerequisites = { 2 }
+    Prerequisites = { 2 },
+    OnCompleted = GrantMoney(1500)
 })
 
 AddMission(4, {
@@ -99,7 +136,8 @@ AddMission(4, {
     end,
     Count = 1,
     NPCId = NPC_CAT_CELLO,
-    Prerequisites = { 3 }
+    Prerequisites = { 3 },
+    OnCompleted = GrantMoney(1500)
 })
 
 AddMission(5, {
@@ -109,5 +147,6 @@ AddMission(5, {
     end,
     Count = 1,
     NPCId = NPC_CAT_CELLO,
-    Prerequisites = { 4 }
+    Prerequisites = { 4 },
+    OnCompleted = GrantMoney(1500)
 })

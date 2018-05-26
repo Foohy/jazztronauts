@@ -30,6 +30,10 @@ function AddNPC(strname, prettyname)
 end
 
 function GetNPCName(id)
+    return NPCList[id] and NPCList[id].name or "Invalid"
+end
+
+function GetNPCPrettyName(id)
     return NPCList[id] and NPCList[id].prettyname or "Invalid"
 end
 
@@ -188,6 +192,9 @@ if SERVER then
         
         if not isReadyToTurnIn(active, minfo) then return false end
         if not _completeMission(ply, mid) then return false end
+
+        -- Grant the player their reward
+        if minfo.OnCompleted then minfo.OnCompleted(ply) end
 
         UpdatePlayerMissionInfo(ply)
         return true

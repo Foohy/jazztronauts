@@ -66,7 +66,7 @@ function ENT:Draw()
 
     -- Draw debug name above their head. TODO: This is lazy. Style cat models.
     cam.Start3D2D(self:GetPos() + offset, ang, 0.1)
-        draw.DrawText(missions.GetNPCName(self:GetNPCID()), "SteamCommentFont", 0, 0, color_white, TEXT_ALIGN_CENTER)
+        draw.DrawText(missions.GetNPCPrettyName(self:GetNPCID()), "SteamCommentFont", 0, 0, color_white, TEXT_ALIGN_CENTER)
     cam.End3D2D()
     
     -- Only the bartender has multiple options, everyone else just chats

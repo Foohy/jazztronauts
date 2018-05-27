@@ -1,7 +1,5 @@
 AddCSLuaFile()
 
-if true then return end
-
 if SERVER then 
 
 	for k,v in pairs( ents.GetAll() ) do
@@ -14,18 +12,25 @@ if SERVER then
 
 	hook.Add("AcceptInput", "hacking", function( ent, input, activator, caller, value )
 
-		if ent and caller then
+		if not IsValid( caller ) then
+			print("Unknown caller for: " .. tostring(input))
+			if IsValid( activator ) then
+				print("But activator was: " .. tostring(activator) )
+			end
+		end
+
+		if IsValid(ent) and IsValid(caller) then
 
 			local name = ent:GetName()
 			local index = caller:MapCreationID() - 1234 --really garry?
 
 			--print(tostring(caller))
 
-			for k, v in pairs( ents.GetAll() ) do
+			--[[for k, v in pairs( ents.GetAll() ) do
 				if v == caller then
 					print( tostring(caller), " ", k, tostring(caller:GetPos()), caller:MapCreationID() - 1234 )
 				end
-			end
+			end]]
 
 			net.Start( "input_fired" )
 			net.WriteString( name )
@@ -73,6 +78,38 @@ local io_functions = {
 			"OnTrigger",
 		},
 	},
+	logic_branch = {
+		inputs = {
+			"SetValue",
+			"SetValueTest",
+			"Toggle",
+			"ToggleTest",
+			"Test",
+		},
+		outputs = {
+			"OnTrue",
+			"OnFalse",
+		},
+	},
+	logic_timer = {
+		inputs = {
+			"RefireTime",
+			"ResetTimer",
+			"FireTimer",
+			"Enable",
+			"Disable",
+			"Toggle",
+			"LowerRandomBound",
+			"UpperRandomBound",
+			"AddToTimer",
+			"SubtractFromTimer",
+		},
+		outputs = {
+			"OnTimer",
+			"OnTimerHigh",
+			"OnTimerLow",
+		},
+	},
 	func_button = {
 		inputs = {
 			"Kill",
@@ -109,6 +146,62 @@ local io_functions = {
 			"OnOut",
 		},
 	},
+	func_door = {
+		inputs = {
+			"Open",
+			"Close",
+			"Toggle",
+			"Lock",
+			"Unlock",
+			"SetSpeed",
+		},
+		outputs = {
+			"OnClose",
+			"OnOpen",
+			"OnFullyClosed",
+			"OnFullyOpen",
+			"OnBlockedClosing",
+			"OnBlockedOpening",
+			"OnUnblockedClosing",
+			"OnUnblockedOpening",
+			"OnLockedUse",
+		},
+	},
+	func_door_rotating = {
+		inputs = {
+			"Open",
+			"Close",
+			"Toggle",
+			"Lock",
+			"Unlock",
+			"SetSpeed",
+		},
+		outputs = {
+			"OnClose",
+			"OnOpen",
+			"OnFullyClosed",
+			"OnFullyOpen",
+			"OnBlockedClosing",
+			"OnBlockedOpening",
+			"OnUnblockedClosing",
+			"OnUnblockedOpening",
+			"OnLockedUse",
+		},
+	},
+	func_rotating = {
+		inputs = {
+			"SetSpeed",
+			"Start",
+			"Stop",
+			"StopAtStartPos",
+			"StartForward",
+			"StartBackward",
+			"Toggle",
+			"Reverse",
+		},
+		outputs = {
+		},
+	},
 	prop_dynamic = {
 		inputs = {
 			"SetAnimation",
@@ -125,7 +218,74 @@ local io_functions = {
 			"OnAnimationBegun",
 			"OnAnimationDone",
 		},
-	}
+	},
+	env_sprite = {
+		inputs = {
+			"SetScale",
+			"HideSprite",
+			"ShowSprite",
+			"ToggleSprite",
+			"ColorRedValue",
+			"ColorGreenValue",
+			"ColorBlueValue",
+			"Alpha",
+			"Color",
+		},
+		outputs = {
+
+		},
+	},
+	env_spark = {
+		inputs = {
+			"StartSpark",
+			"StopSpark",
+			"ToggleSpark",
+			"SparkOnce"
+		},
+		outputs = {
+
+		},
+	},
+	trigger_once = {
+		inputs = {
+			"Toggle",
+			"Enable",
+			"Disable",
+		},
+		outputs = {
+			"OnStartTouch",
+			"OnTrigger",
+		},
+	},
+	trigger_multiple = {
+		inputs = {
+			"TouchTest",
+			"Toggle",
+			"Enable",
+			"Disable",
+		},
+		outputs = {
+			"OnStartTouchAll",
+			"OnEndTouch",
+			"OnEndTouchAll",
+			"OnStartTouch",
+			"OnTrigger",
+		},
+	},
+	ambient_generic = {
+		inputs = {
+			"Pitch",
+			"PlaySound",
+			"StopSound",
+			"ToggleSound",
+			"Volume",
+			"FadeIn",
+			"FadeOut"
+		},
+		outputs = {
+
+		},
+	},
 }
 
 local function EntsByClass( class )
@@ -152,12 +312,11 @@ local function EntsByName( name )
 
 end
 
-local function ParseOutput( str )
+local function ParseOutput( event, str )
 
 	if type( str ) ~= "string" then return end
 
-	local args = {}
-	local names = {"target", "func", "activator"}
+	local args = { event }
 	for w in string.gmatch(str .. ",","(.-),") do
 		table.insert( args, w )
 	end
@@ -234,18 +393,21 @@ local function PrepGraph()
 	local indices = {}
 
 	for k,v in pairs( map.entities ) do
-		indices[v] = k --THIS NUMBER IS MAGIC, FUCK
-		if v.classname == "logic_relay" then
+		indices[v] = k
+		if v.targetname == "closeCurtains" then
 			print("ENT: " .. k)
 			for k, v in pairs(v) do
 				print( "\t" .. tostring(k) .. " = " .. tostring(v) )
 			end
 		end
+		--print( v.classname )
 	end
 
-	for k,v in pairs( io_functions ) do
-		local elist = EntsByClass( k )
-		for _, ent in pairs( elist ) do
+	--for k,v in pairs( io_functions ) do
+	--	local elist = EntsByClass( k )
+		for _, ent in pairs( map.entities ) do
+
+			if not ent.origin then continue end
 
 			local gent = {}
 			gent.index = indices[ent]
@@ -253,21 +415,27 @@ local function PrepGraph()
 			gent.pos = ent.origin
 			gent.outputs = {}
 			gent.targets = {}
+			gent.has_targets = false
 			gent.name = ent.targetname or ent.classname
 			gent.blips = {}
 
-			for _, out in pairs( v.outputs ) do
-				if ent[out] then gent.outputs[out] = ParseOutput( ent[out] ) end
+			for _, out in pairs( ent.outputs or {} ) do
+				table.insert( gent.outputs, ParseOutput( out[1], out[2] ) )
 			end
 
+			--[[for _, out in pairs( v.outputs ) do
+				if ent[out] then gent.outputs[out] = ParseOutput( ent[out] ) end
+			end]]
+
 			for _, out in pairs( gent.outputs ) do
-				local target = EntsByName( out[1] )[1]
-				gent.targets[ out[1] ] = target
+				local target = EntsByName( out[2] )[1]
+				gent.targets[ out[2] ] = target
+				gent.has_targets = true
 			end
 
 			table.insert( graph, gent )
 		end
-	end
+	--end
 
 	local function FindEntGraph( ent )
 		for _, gent in pairs( graph ) do
@@ -279,14 +447,23 @@ local function PrepGraph()
 	for _, gent in pairs( graph ) do
 		for k, t in pairs( gent.targets ) do
 			gent.targets[k] = FindEntGraph( gent.targets[k] )
+			if gent.targets[k] then gent.targets[k].targeted = true end
 		end
 	end
 
 	for _, gent in pairs( graph ) do
 		gent.lines = {}
+		local n = 0
 		for k, t in pairs( gent.targets ) do
 			print("MAKE LINE: " .. tostring(k))
-			gent.lines[k] = FormLines( gent.pos, t.pos )
+			gent.lines[k] = FormLines( gent.pos + Vector(0,0,n), t.pos )
+			n = n + 2
+		end
+	end
+
+	for i=#graph, 1, -1 do
+		if not graph[i].has_targets and not graph[i].targeted then
+			table.remove( graph, i )
 		end
 	end
 
@@ -303,15 +480,14 @@ local function AcceptedInput()
 	local input = net.ReadString()
 	local ent_index = net.ReadInt(32)
 
-	print("INPUT", name, input, ent_index)
+	--print("INPUT", name, input, ent_index)
 
 	for k,gent in pairs( graph ) do
 		if gent.index == ent_index then
-			print("FOUND ENTITY")
 
 			for _, output in pairs( gent.outputs ) do
-				if output[2] == input and output[1] and gent.lines[ output[1] ] then
-					table.insert( gent.blips, { t=CurTime(), target=output[1], speed = 200, } )
+				if output[3] == input and output[2] and gent.lines[ output[2] ] then
+					table.insert( gent.blips, { t=CurTime(), target=output[2], speed = 300, } )
 				end
 			end
 
@@ -370,15 +546,19 @@ hook.Add( "PostRender", "hacker_vision", function()
 		local b,e = pcall( function()
 
 			for k,v in pairs( graph ) do
-				gfx.renderBox( v.pos, Vector(-10,-10,-10), Vector(10,10,10), Color(100,80,0) )
+				gfx.renderBox( v.pos, Vector(-5,-5,-5), Vector(5,5,5), Color(100,80,0) )
 			end
 
 			for k,v in pairs( graph ) do
 
 				for _, blip in pairs( v.blips ) do
 					local line = v.lines[blip.target]
-					local pulse = PointAlongLine( line, blip.speed * ( (CurTime() - blip.t) / line.length ) % 1 )
+					local dt = blip.speed * (CurTime() - blip.t) / line.length
+					local pulse = PointAlongLine( line, dt % 1 )
 					gfx.renderBox( pulse, Vector(-2,-2,-2), Vector(2,2,2), Color(255,255,255,255) )
+					for _, edge in pairs( line.edges ) do
+						gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), Color(255,80,80), Color(255,80,80), 20 * (1-dt))
+					end
 				end
 				
 				for target, l in pairs( v.lines ) do
@@ -407,12 +587,15 @@ hook.Add( "PostRender", "hacker_vision", function()
 
 		for k,v in pairs( graph ) do
 			local ts = v.pos:ToScreen()
-			draw.SimpleText(v.name or v.classname, nil, ts.x, ts.y, Color(255,255,100))
+			--draw.SimpleText(v.name or v.classname, nil, ts.x, ts.y, Color(255,255,100))
 
 			for name, out in pairs( v.outputs ) do
-				local pos = v.lines[ out[1] ] and v.lines[ out[1] ].center or v.pos
-				local ps = pos:ToScreen()
-				draw.DrawText(name .. "\n ->" .. out[2] .. "\n  ->" .. out[3], nil, ps.x, ps.y, Color(255,255,255))
+				local line = v.lines[ out[2] ]
+				if line then
+					local pos = line.center
+					local ps = pos:ToScreen()
+					--draw.DrawText(name .. "\n ->" .. out[3] .. "\n  ->" .. out[4], nil, ps.x, ps.y, Color(255,255,255))
+				end
 			end
 		end
 

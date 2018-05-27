@@ -15,7 +15,7 @@ decl_type = function( read, write, size, tsfunc )
 		__index = function( self, k )
 			if type(k) == "number" then
 				
-				local yieldpoints = math.ceil( 5000 / size )
+				local yieldpoints = math.ceil( 10000 / size )
 				local params = rawget( self, "__params" )
 				local key = params and params["key"]
 				local decl = decl_type( function( f )

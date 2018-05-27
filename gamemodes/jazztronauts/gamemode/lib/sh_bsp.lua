@@ -1,3 +1,5 @@
+if true then return end --Not using this anymore, use bsp2
+
 if SERVER then AddCSLuaFile("sh_bsp.lua") end
 
 module( "bsp", package.seeall )

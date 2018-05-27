@@ -26,9 +26,7 @@ local CL_CopyRagdollPose = nil
 local meta = {}
 meta.__index = meta
 
-local map = bsp.GetCurrent( nil, nil )
-
-print("NOW WE LOAD LUMPS")
+local map = bsp2.GetCurrent()
 
 local function findPropProxy( id )
 
@@ -66,23 +64,8 @@ local function onSnatchInfoReady()
 
 	hook.Call("JazzSnatchMapReady", GAMEMODE)
 end
-if SERVER then
 
-	map:LoadLumps({
-		bsp.LUMP_BRUSHES,
-		bsp.LUMP_GAME_LUMP,
-	}, onSnatchInfoReady)
-
-else
-
-	map:LoadLumps({
-		bsp.LUMP_BRUSHES,
-		bsp.LUMP_FACES,
-		bsp.LUMP_TEXINFO,
-	}, onSnatchInfoReady)
-
-end
-
+hook.Add( "CurrentBSPReady", "snatchReady", onSnatchInfoReady )
 
 function meta:Init( data )
 
@@ -109,7 +92,7 @@ function TakeItAll()
 
 	local t = 0.1
 
-	for k,v in pairs( map:GetBrushes() ) do
+	for k,v in pairs( map.brushes ) do
 
 		v:CreateWindings()
 
@@ -140,7 +123,7 @@ function meta:StartWorld( position, owner, brushid )
 	if map:IsLoading() then print("STILL LOADING") return end
 
 	if not brushid then
-		for k,v in pairs( map:GetBrushes() ) do
+		for k,v in pairs( map.brushes ) do
 			if bit.band(v.contents, CONTENTS_SOLID) != CONTENTS_SOLID then continue end
 			if v:ContainsPoint( position ) and not removed_brushes[k] then
 				brushid = k
@@ -179,7 +162,7 @@ function meta:AppendBrushToMapMesh(brush)
 		local texinfo = side.texinfo
 		local texdata = texinfo.texdata
 		side.winding:Move( to_brush )
-		side.winding:EmitMesh(texinfo.st, texinfo.lst, texdata.width, texdata.height, -to_brush, current_mesh.vertices)
+		side.winding:EmitMesh(texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_brush, current_mesh.vertices)
 		side.winding:Move( -to_brush )
 
 	end
@@ -202,7 +185,7 @@ function meta:RunWorld( brush_id )
 
 	if map:IsLoading() then print("STILL LOADING") return end
 
-	local brush_list = map:GetBrushes()
+	local brush_list = map.brushes
 	local brush = brush_list[brush_id]:Copy()
 
 	if not brush then
@@ -237,7 +220,7 @@ function meta:RunWorld( brush_id )
 		//print( texdata.material )
 
 		next_brush_mesh_id = next_brush_mesh_id + 1
-		side.winding:CreateMesh( "brushpoly_" .. next_brush_mesh_id, material, texinfo.st, texinfo.lst, texdata.width, texdata.height, -to_center )
+		side.winding:CreateMesh( "brushpoly_" .. next_brush_mesh_id, material, texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_center )
 
 		for _, point in pairs( side.winding.points ) do
 

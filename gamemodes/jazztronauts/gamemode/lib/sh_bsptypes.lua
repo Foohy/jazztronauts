@@ -63,6 +63,70 @@ LUMP_MAP_FLAGS                  = 59
 LUMP_OVERLAY_FADES				= 60
 
 BSP = {}
+BSP.LumpNames = {
+	"ENTITIES",
+	"PLANES",
+	"TEXDATA",
+	"VERTEXES",
+	"VISIBILITY",
+	"NODES",
+	"TEXINFO",
+	"FACES",
+	"LIGHTING",
+	"OCCLUSION",
+	"LEAFS",
+	"FACEIDS",
+	"EDGES",
+	"SURFEDGES",
+	"MODELS",
+	"WORLDLIGHTS",
+	"LEAFFACES",
+	"LEAFBRUSHES",
+	"BRUSHES",
+	"BRUSHSIDES",
+	"AREAS",
+	"AREAPORTALS",
+	"UNUSED0",
+	"UNUSED1",
+	"UNUSED2",
+	"UNUSED3",
+	"DISPINFO",
+	"ORIGINALFACES",
+	"PHYSDISP",
+	"PHYSCOLLIDE",
+	"VERTNORMALS",
+	"VERTNORMALINDICES",
+	"DISP_LIGHTMAP_ALPHAS",
+	"DISP_VERTS",
+	"DISP_LIGHTMAP_SAMPLE_POSITIONS",
+	"GAME_LUMP",
+	"LEAFWATERDATA",
+	"PRIMITIVES",
+	"PRIMVERTS",
+	"PRIMINDICES",
+	"PAKFILE",
+	"CLIPPORTALVERTS",
+	"CUBEMAPS",
+	"TEXDATA_STRING_DATA",
+	"TEXDATA_STRING_TABLE",
+	"OVERLAYS",
+	"LEAFMINDISTTOWATER",
+	"FACE_MACRO_TEXTURE_INFO",
+	"DISP_TRIS",
+	"PHYSCOLLIDESURFACE",
+	"WATEROVERLAYS",
+	"LEAF_AMBIENT_INDEX_HDR",
+	"LEAF_AMBIENT_INDEX",
+	"LIGHTING_HDR",
+	"WORLDLIGHTS_HDR",
+	"LEAF_AMBIENT_LIGHTING_HDR",
+	"LEAF_AMBIENT_LIGHTING",
+	"XZIPPAKFILE",
+	"FACES_HDR",
+	"MAP_FLAGS",
+	"OVERLAY_FADES",
+}
+
 BSP.Lump_t = Struct({
 	INT32.offset,
 	INT32.length,
@@ -93,7 +157,7 @@ BSP.Plane_t = StructDecl(
 
 BSP.Edge_t = Struct({
 	UINT16.v[2]
-})
+}, { returns = "v" })
 
 BSP.SurfEdge_t = INT32
 
@@ -318,8 +382,6 @@ BSP.Overlay_t = Struct({
 	VECTOR.BasisNormal,
 })
 
-print("OVERLAY SIZE: " .. tostring(BSP.Overlay_t.sizeof))
-
 BSP.LeafAmbientLighting_t = Struct({
 	BSP.CompressedLightCube_t.cube,
 	UINT8.x,
@@ -490,26 +552,53 @@ BSP.StaticPropLump_t[8] = Struct({
 	INT32.color,
 })
 
-local function ReadLumpStruct( f, lump, struct )
-	local size = lump.length / struct.sizeof
-	
-	print("LUMP: " .. tostring(struct))
+local function Chunk( lumpid, size, f, ... )
 
+	local name = BSP.LumpNames[lumpid+1]
+	task.Yield("chunk", name, size)
+	local out = f(...)
+	task.Yield("chunkdone", name, size, out)
+	return out
+
+end
+
+local function ReadLumpStruct( f, lump, struct, lumpid )
+
+	local size = lump.length / struct.sizeof
 	assert( math.floor(size) == size )
+
 	f:Seek( lump.offset )
 
-	return struct[ size ].read( f )
+	return Chunk( lumpid, size, struct[ size ].read, f )
 end
 
 local function StructLump( lump, struct )
 
 	return function( f, header )
-		return ReadLumpStruct( f, header.lumps[lump+1], struct )
+		return ReadLumpStruct( f, header.lumps[lump+1], struct, lump )
+	end
+
+end
+
+local function NOT_IMPLEMENTED( lump )
+
+	return function( f, header )
+		print( "***WARNING: Lump not implemented yet: " .. BSP.LumpNames[lump+1] .. "***" )
+		return Chunk( lump, 0, function() end )
 	end
 
 end
 
 BSP.Readers = {}
+BSP.Readers[LUMP_ENTITIES] = function( f, header )
+	local lump = header.lumps[LUMP_ENTITIES+1]
+
+	f:Seek( lump.offset )
+	return Chunk( LUMP_ENTITIES, lump.length, function()
+		return f:Read( lump.length )
+	end)
+end
+
 BSP.Readers[LUMP_PLANES] = StructLump( LUMP_PLANES, BSP.Plane_t )
 BSP.Readers[LUMP_TEXDATA] = StructLump( LUMP_TEXDATA, BSP.TexData_t )
 BSP.Readers[LUMP_VERTEXES] = StructLump( LUMP_VERTEXES, BSP.Vertex_t )
@@ -536,6 +625,7 @@ BSP.Readers[LUMP_LEAFS] = function( f, header )
 		return StructLump( LUMP_LEAFS, BSP.Leaf_t )( f, header )
 	end
 end
+
 BSP.Readers[LUMP_FACEIDS] = StructLump( LUMP_FACEIDS, UINT16 )
 BSP.Readers[LUMP_EDGES] = StructLump( LUMP_EDGES, BSP.Edge_t )
 BSP.Readers[LUMP_SURFEDGES] = StructLump( LUMP_SURFEDGES, BSP.SurfEdge_t )
@@ -549,21 +639,24 @@ BSP.Readers[LUMP_AREAS] = StructLump( LUMP_AREAS, BSP.Area_t )
 BSP.Readers[LUMP_AREAPORTALS] = StructLump( LUMP_AREAPORTALS, BSP.AreaPortal_t )
 BSP.Readers[LUMP_DISPINFO] = StructLump( LUMP_DISPINFO, BSP.DispInfo_t )
 BSP.Readers[LUMP_ORIGINALFACES] = StructLump( LUMP_ORIGINALFACES, BSP.Face_t )
-BSP.Readers[LUMP_PHYSDISP] = nil
-BSP.Readers[LUMP_PHYSCOLLIDE] = nil
+BSP.Readers[LUMP_PHYSDISP] = NOT_IMPLEMENTED( LUMP_PHYSDISP )
+BSP.Readers[LUMP_PHYSCOLLIDE] = NOT_IMPLEMENTED( LUMP_PHYSCOLLIDE )
 BSP.Readers[LUMP_VERTNORMALS] = StructLump( LUMP_VERTNORMALS, VECTOR )
 BSP.Readers[LUMP_VERTNORMALINDICES] = StructLump( LUMP_VERTNORMALINDICES, UINT16 )
-BSP.Readers[LUMP_DISP_LIGHTMAP_ALPHAS] = nil
+BSP.Readers[LUMP_DISP_LIGHTMAP_ALPHAS] = NOT_IMPLEMENTED( LUMP_DISP_LIGHTMAP_ALPHAS )
 BSP.Readers[LUMP_DISP_VERTS] = StructLump( LUMP_DISP_VERTS, BSP.DispVert_t )
-BSP.Readers[LUMP_DISP_LIGHTMAP_SAMPLE_POSITIONS] = nil
+BSP.Readers[LUMP_DISP_LIGHTMAP_SAMPLE_POSITIONS] = NOT_IMPLEMENTED( LUMP_DISP_LIGHTMAP_SAMPLE_POSITIONS )
 
 BSP.Readers[LUMP_GAME_LUMP] = function( f, header )
 	f:Seek( header.lumps[LUMP_GAME_LUMP+1].offset )
-	local out = {}
 	local lumps = BSP.GameLumpHeader_t.read( f )
 	local proplump = lumps["prps"]
 
-	if proplump then
+	if not proplump then return {} end
+
+	return Chunk( LUMP_GAME_LUMP, proplump.filelen, function()
+
+		local out = {}
 		local struct = BSP.StaticPropLump_t[ proplump.version ]
 		if struct then
 
@@ -582,16 +675,19 @@ BSP.Readers[LUMP_GAME_LUMP] = function( f, header )
 		else
 			out.props = {}
 		end
-	end
-	return out
+		return out
+
+	end )
 end
 
 BSP.Readers[LUMP_LEAFWATERDATA] = StructLump( LUMP_LEAFWATERDATA, BSP.LeafWaterData_t )
-BSP.Readers[LUMP_PRIMITIVES] = nil
-BSP.Readers[LUMP_PRIMVERTS] = nil
-BSP.Readers[LUMP_PRIMINDICES] = nil
-BSP.Readers[LUMP_PAKFILE] = nil
-BSP.Readers[LUMP_CLIPPORTALVERTS] = nil
+
+BSP.Readers[LUMP_PRIMITIVES] = NOT_IMPLEMENTED( LUMP_PRIMITIVES )
+BSP.Readers[LUMP_PRIMVERTS] = NOT_IMPLEMENTED( LUMP_PRIMVERTS )
+BSP.Readers[LUMP_PRIMINDICES] = NOT_IMPLEMENTED( LUMP_PRIMINDICES )
+BSP.Readers[LUMP_PAKFILE] = NOT_IMPLEMENTED( LUMP_PAKFILE )
+BSP.Readers[LUMP_CLIPPORTALVERTS] = NOT_IMPLEMENTED( LUMP_CLIPPORTALVERTS )
+
 BSP.Readers[LUMP_CUBEMAPS] = StructLump( LUMP_CUBEMAPS, BSP.CubemapSample_t )
 
 BSP.Readers[LUMP_TEXDATA_STRING_DATA] = function( f, header )
@@ -602,76 +698,42 @@ BSP.Readers[LUMP_TEXDATA_STRING_DATA] = function( f, header )
 	local names = {}
 
 	f:Seek( lump.offset )
-	while f:Tell() < eof do
-		local ch = CHAR.read(f)
-		if ch == '\0' then
-			table.insert( names, str )
-			str = ""
-		else
-			str = str .. ch
+
+	return Chunk( LUMP_TEXDATA_STRING_DATA, lump.length, function()
+
+		while f:Tell() < eof do
+			local ch = CHAR.read(f)
+			if ch == '\0' then
+				table.insert( names, str )
+				str = ""
+			else
+				str = str .. ch
+			end
+			i = i + 1
+			if i % 4000 == 1 then task.Yield("progress", i) end
 		end
-		i = i + 1
-		if i % 1000 == 1 then task.Yield("progress", i) end
-	end
-	return names
+		return names
+
+	end )
 end
 
-BSP.Readers[LUMP_TEXDATA_STRING_TABLE] = nil --we don't ever need to load this
+BSP.Readers[LUMP_TEXDATA_STRING_TABLE] = NOT_IMPLEMENTED( LUMP_TEXDATA_STRING_TABLE ) --we don't ever need to load this
+
 BSP.Readers[LUMP_OVERLAYS] = StructLump( LUMP_OVERLAYS, BSP.Overlay_t )
-BSP.Readers[LUMP_LEAFMINDISTTOWATER] = nil
-BSP.Readers[LUMP_FACE_MACRO_TEXTURE_INFO] = nil
-BSP.Readers[LUMP_DISP_TRIS] = nil
-BSP.Readers[LUMP_PHYSCOLLIDESURFACE] = nil
-BSP.Readers[LUMP_WATEROVERLAYS] = nil
-BSP.Readers[LUMP_LEAF_AMBIENT_INDEX_HDR] = nil
-BSP.Readers[LUMP_LEAF_AMBIENT_INDEX] = nil
-BSP.Readers[LUMP_LIGHTING_HDR] = nil
-BSP.Readers[LUMP_WORLDLIGHTS_HDR] = nil
-BSP.Readers[LUMP_LEAF_AMBIENT_LIGHTING_HDR] = nil
-BSP.Readers[LUMP_LEAF_AMBIENT_LIGHTING] = nil
-BSP.Readers[LUMP_XZIPPAKFILE] = nil
-BSP.Readers[LUMP_FACES_HDR] = nil	
-BSP.Readers[LUMP_MAP_FLAGS] = nil          
-BSP.Readers[LUMP_OVERLAY_FADES] = nil		
 
-if true then return end
-
-if CLIENT then
-
-	local f = file.Open( "maps/jazz_bar.bsp", "rb", "GAME" )
-	local header = BSP.Header_t.read(f)
-
-	local function load()
-
-		BSP.Readers[LUMP_PLANES]( f, header )
-		BSP.Readers[LUMP_TEXDATA]( f, header )
-		BSP.Readers[LUMP_VERTEXES]( f, header )
-		BSP.Readers[LUMP_NODES]( f, header )
-		BSP.Readers[LUMP_LEAFS]( f, header )
-		BSP.Readers[LUMP_BRUSHES]( f, header )
-		BSP.Readers[LUMP_BRUSHSIDES]( f, header )
-		BSP.Readers[LUMP_MODELS]( f, header )
-		BSP.Readers[LUMP_FACES]( f, header )
-		BSP.Readers[LUMP_TEXINFO]( f, header )
-		BSP.Readers[LUMP_TEXDATA_STRING_DATA]( f, header )
-		BSP.Readers[LUMP_EDGES]( f, header )
-		BSP.Readers[LUMP_SURFEDGES]( f, header )
-		BSP.Readers[LUMP_GAME_LUMP]( f, header )
-		BSP.Readers[LUMP_OVERLAYS]( f, header )
-
-	end
-
-	local t = task.New( load, 1 )
-	function t:chunk( name, count )
-		Msg("LOADING: " .. string.upper(name) .. " : " .. count )
-	end
-
-	function t:progress()
-		Msg(".")
-	end
-
-	function t:chunkdone( name, count, tab )
-		Msg("DONE\n")
-	end
-
-end
+--Not implemented yet
+BSP.Readers[LUMP_LEAFMINDISTTOWATER] = NOT_IMPLEMENTED( LUMP_LEAFMINDISTTOWATER )
+BSP.Readers[LUMP_FACE_MACRO_TEXTURE_INFO] = NOT_IMPLEMENTED( LUMP_FACE_MACRO_TEXTURE_INFO )
+BSP.Readers[LUMP_DISP_TRIS] = NOT_IMPLEMENTED( LUMP_DISP_TRIS )
+BSP.Readers[LUMP_PHYSCOLLIDESURFACE] = NOT_IMPLEMENTED( LUMP_PHYSCOLLIDESURFACE )
+BSP.Readers[LUMP_WATEROVERLAYS] = NOT_IMPLEMENTED( LUMP_WATEROVERLAYS )
+BSP.Readers[LUMP_LEAF_AMBIENT_INDEX_HDR] = NOT_IMPLEMENTED( LUMP_LEAF_AMBIENT_INDEX_HDR )
+BSP.Readers[LUMP_LEAF_AMBIENT_INDEX] = NOT_IMPLEMENTED( LUMP_LEAF_AMBIENT_INDEX )
+BSP.Readers[LUMP_LIGHTING_HDR] = NOT_IMPLEMENTED( LUMP_LIGHTING_HDR )
+BSP.Readers[LUMP_WORLDLIGHTS_HDR] = NOT_IMPLEMENTED( LUMP_WORLDLIGHTS_HDR )
+BSP.Readers[LUMP_LEAF_AMBIENT_LIGHTING_HDR] = NOT_IMPLEMENTED( LUMP_LEAF_AMBIENT_LIGHTING_HDR )
+BSP.Readers[LUMP_LEAF_AMBIENT_LIGHTING] = NOT_IMPLEMENTED( LUMP_LEAF_AMBIENT_LIGHTING )
+BSP.Readers[LUMP_XZIPPAKFILE] = NOT_IMPLEMENTED( LUMP_XZIPPAKFILE )
+BSP.Readers[LUMP_FACES_HDR] = NOT_IMPLEMENTED( LUMP_FACES_HDR )
+BSP.Readers[LUMP_MAP_FLAGS] = NOT_IMPLEMENTED( LUMP_MAP_FLAGS )
+BSP.Readers[LUMP_OVERLAY_FADES] = NOT_IMPLEMENTED( LUMP_OVERLAY_FADES )

@@ -36,6 +36,19 @@ function New(...)
 
 end
 
+function YieldPer( x, ... )
+
+	if g_task ~= nil then
+		g_task.count = g_task.count + 1
+		if (g_task.count-1) % x > g_task.count % x then
+			local inf = debug.getinfo( 2 )
+			g_task.currentline = inf.currentline
+			return coroutine.yield( ... )
+		end
+	end
+
+end
+
 function Yield( ... )
 
 	if g_task ~= nil then
@@ -71,6 +84,7 @@ function meta:Init( work, priority, ... )
 	self.sleep = 0
 	self.info = debug.getinfo( self.work )
 	self.co = coroutine.create( self.work )
+	self.count = 0
 	self.hooks = {}
 
 	table.insert( tasks, self )

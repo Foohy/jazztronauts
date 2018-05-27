@@ -260,7 +260,7 @@ meta.__call = function(self, ...)
 	end
 
 	for k, v in pairs( edgegraph[currentstate] ) do
-		local res = v.edge()
+		local res = v.edge(...)
 		if res then 
 			switchstates(self, v.nextstate, ...)
 			did_switch = true
@@ -278,13 +278,16 @@ end
 
 function New()
 
-	return setmetatable(
+	local sm = setmetatable(
 	{
 		states = {},
 		edges = {},
 		currentstate = nil,
 		transitioned = false,
 	}, meta)
+	sm.none = _NOP
+	sm( sm.none )
+	return sm
 
 end
 

@@ -1,6 +1,8 @@
 if SERVER then AddCSLuaFile("sh_aas.lua") end
 if SERVER then return end
 
+if true then return end
+
 local bspdata = bsp.Get( "maps/" .. game.GetMap() .. ".bsp" )
 --local bspdata = bsp.Get( "maps/gm_construct.bsp")
 

@@ -189,6 +189,11 @@ AddProcess( "Converting Entities", function( data )
 				end
 			end
 		end
+		if string.Left( k, 2 ) == "On" then
+			t.outputs = t.outputs or {}
+			table.insert( t.outputs, {k, v} )
+			return nil
+		end
 		return v
 	end
 

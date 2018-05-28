@@ -3,13 +3,13 @@ accept:
     whatever you are that I was looking for
     &a2
 a2:
-    y’all ever talk to an interior painter about their job? %%
-    shit’s harder than you’d think from the commercials
+    y'all ever talk to an interior painter about their job? %%
+    shit's harder than you'd think from the commercials
     &a3
 a3:
-    like you’d think all you do is crack open a can of Bougie Beige and 
+    like you'd think all you do is crack open a can of Bougie Beige and 
     do a zoom shot of a paint roller covering about three foot of wall and bam 
-    you’re in an immaculately stenciled dining room with trim that changes color in different lighting
+    you're in an immaculately stenciled dining room with trim that changes color in different lighting
     &a4
 a4:
     then you take the thing home and suddenly you gotta deal with %color theory% 
@@ -32,7 +32,7 @@ a6:
 a7:
     completely unrelatedly %%
     I need about five cans of paint %
-    so if you could bring those by the next time you’re here that’d be swell
+    so if you could bring those by the next time you're here that'd be swell
     *start 2*
     &exit
 
@@ -42,8 +42,8 @@ idle:
 i2:
     damn
     %%%%
-    well I’d appreciate bein’ snappy with this one %%
-    cause I’ve got a project going and I really need the paint before
+    well I'd appreciate bein' snappy with this one %%
+    cause I've got a project going and I really need the paint before
     I can get anything else done with it
     &exit
 

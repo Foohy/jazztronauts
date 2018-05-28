@@ -6,7 +6,8 @@ module( "missions", package.seeall )
 MissionList = {}
 NPCList = {}
 
-function AddMission(id, mdata)
+function AddMission(id, npcid, mdata)
+    id = IndexToMID(id, npcid)
     if not id or not mdata then
         error("Invalid arguments, id or mdata is nil")
         return
@@ -17,6 +18,7 @@ function AddMission(id, mdata)
         return 
     end
     mdata.missionid = id
+    mdata.NPCId = npcid
     MissionList[id] = mdata
 end
 
@@ -29,7 +31,19 @@ function AddNPC(strname, prettyname)
     _G[strname] = idx
 end
 
+function IndexToMID(index, npcid)
+    return npcid * 1000 + index
+end
+
+function MIDToIndex(mid, npcid)
+    return mid - 1000 * npcid
+end
+
 function GetNPCName(id)
+    return NPCList[id] and NPCList[id].name or "Invalid"
+end
+
+function GetNPCPrettyName(id)
     return NPCList[id] and NPCList[id].prettyname or "Invalid"
 end
 
@@ -167,11 +181,11 @@ if SERVER then
     end
 
     -- Manually increment a specific mission id's progress
-    function AddMissionProgress(ply, mid)
+    function AddMissionProgress(ply, mid, num)
         local minfo = GetMissionInfo(mid)
         if not IsValid(ply) or not minfo then return false end
 
-        local added = _addMissionProgress(ply, mid)
+        local added = _addMissionProgress(ply, mid, num)
         if added then 
             UpdatePlayerMissionInfo(ply)
         end
@@ -188,6 +202,9 @@ if SERVER then
         
         if not isReadyToTurnIn(active, minfo) then return false end
         if not _completeMission(ply, mid) then return false end
+
+        -- Grant the player their reward
+        if minfo.OnCompleted then minfo.OnCompleted(ply) end
 
         UpdatePlayerMissionInfo(ply)
         return true
@@ -236,7 +253,7 @@ if SERVER then
 
             -- Write info for each active mission
             for k, v in pairs(active) do
-                net.WriteInt(k, 8) -- MissionID
+                net.WriteInt(k, 16) -- MissionID
                 net.WriteUInt(v.progress, 8) -- Progress
             end
 
@@ -245,7 +262,7 @@ if SERVER then
 
     -- Receive requests from players to try to start/finish missions
     net.Receive("jazz_missionupdate", function(len, ply)
-        local mid = net.ReadUInt(8)
+        local mid = net.ReadUInt(16)
         local tryFinish = net.ReadBit() == 1
 
         if not mapcontrol.IsInHub() then 
@@ -266,14 +283,14 @@ elseif CLIENT then
 
     function TryStartMission(mid)
         net.Start("jazz_missionupdate")
-            net.WriteUInt(mid, 8)
+            net.WriteUInt(mid, 16)
             net.WriteBit(false)
         net.SendToServer()
     end
 
     function TryFinishMission(mid)
         net.Start("jazz_missionupdate")
-            net.WriteUInt(mid, 8)
+            net.WriteUInt(mid, 16)
             net.WriteBit(true)
         net.SendToServer()
     end
@@ -294,7 +311,7 @@ elseif CLIENT then
 
         -- Go through and read each mission-progress pair
         for i=1, numActive do
-            local mid = net.ReadUInt(8)
+            local mid = net.ReadUInt(16)
             local num = net.ReadUInt(8)
 
             prog[mid] = num

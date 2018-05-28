@@ -20,9 +20,9 @@ a3:
     &a4
 
 a4:
-    in exchange I’ll hook you up with some of the good shit if that’s your thing, %%
-    and if you’re straight edge i guess I can work with that
-    yknow im p sure that’s what they said to CM Punk right before Mickey Gall fed him his own lungs
+    in exchange I'll hook you up with some of the good shit if that's your thing, %%
+    and if you're straight edge i guess I can work with that
+    yknow im p sure that's what they said to CM Punk right before Mickey Gall fed him his own lungs
     &a5
 
 a5:
@@ -30,29 +30,29 @@ a5:
     oh right, %% drugs. %%%
     my stash of the Good Shit is getting dangerously low. %
     go get me like, 15 exploding barrels. %%%
-    trust me i’m a professional it’ll be fine
+    trust me i'm a professional it'll be fine
     *start 0*
     &exit
 
 idle:
     *setskin 3*
-	lets see here, cup of coconut oil, cup of gasoline, cup and a half of… *setskin 8*
-    oh you’re back already?
+	lets see here, cup of coconut oil, cup of gasoline, cup and a half of%.%.%. *setskin 8*
+    oh you're back already?
     &i2
 i2:
     *setskin 0* i mean i appreciate the visit and all but i gave you a shopping list %%
     and believe me it is in your best interest for you to get 
-    that back to me before this tab wears off because i haven’t been sober in seventeen years 
+    that back to me before this tab wears off because i haven't been sober in seventeen years 
     and i do not want to screw up this attempt to beat my record at the halfway mark again
 
     &exit
 
 turnin:
 	oh thank god i was beginning to perceive time as a linear series 
-    of cause and effect that shit’s terrifying
+    of cause and effect that shit's terrifying
     &t2
 t2:
-    here’s your cut. %%
+    here's your cut. %%
     *finish 0*
     &t3
 t3:

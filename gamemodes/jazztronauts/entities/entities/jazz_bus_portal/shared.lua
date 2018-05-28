@@ -487,8 +487,8 @@ function ENT:OnBroken()
 
     util.Effect("HelicopterMegaBomb", ed)
 
-    self:EmitSound("ambient/machines/wall_crash1.wav", 130)
-    self:EmitSound("ambient/machines/thumper_hit.wav", 130)
+    self:EmitSound("ambient/machines/wall_crash1.wav", 110)
+    self:EmitSound("ambient/machines/thumper_hit.wav", 110)
 
     util.ScreenShake(self:GetPos(), 15, 3, 3, 1000)
 

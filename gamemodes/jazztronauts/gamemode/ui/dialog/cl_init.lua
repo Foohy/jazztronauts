@@ -1,4 +1,6 @@
 include("shared.lua")
+include("cl_styling.lua")
+include("cl_debug.lua")
 
 local ScrW = ScrW
 local ScrH = ScrH
@@ -9,14 +11,17 @@ local string = string
 local FrameTime = FrameTime
 local print = print
 local pairs = pairs
+local ipairs = ipairs
 local net = net
 local util = util
 local tostring = tostring
 local tonumber = tonumber
-local LocalPlayer = LocalPlayer
 local unpack = unpack
 local coroutine = coroutine
 local ErrorNoHalt = ErrorNoHalt
+local type = type
+local PrintTable = PrintTable
+
 
 local STATE_IDLE = 0
 local STATE_OPENING = 1
@@ -34,7 +39,7 @@ local _dialog = {
 	rate = 1,
 	time = 0,
 	duration = 1,
-	text = "Hello There",
+	text = "",
 	printed = "",
 	open = 0,
 	nodeiter = nil,
@@ -42,50 +47,20 @@ local _dialog = {
 
 module("dialog")
 
+PrintSpeedScale = 1.0
+
 Init()
 
-surface.CreateFont( "DialogFont", {
-	font = "Arial", -- Use the font-name which is shown to you by your operating system Font Viewer, not the file name
-	extended = false,
-	size = 25,
-	weight = 500,
-	blursize = 0,
-	scanlines = 0,
-	antialias = true,
-	underline = false,
-	italic = false,
-	strikeout = false,
-	symbol = false,
-	rotary = false,
-	shadow = false,
-	additive = false,
-	outline = false,
-} )
-
-local DialogFont = "DialogFont"
 local State = nil
 local DT = nil
 local Done = nil
 local Time = nil
 
-local function CalcTextRect( str )
+local function InvokeEvent(eventName, ...)
+	if not _dialog.defaultcallbacktbl then return end
+	if type(_dialog.defaultcallbacktbl[eventName]) != 'function' then return end
 
-	surface.SetFont( DialogFont )
-
-	local bw, bh = 0, 0
-	local sh = 0
-	local lines = string.Explode( "\n", str or _dialog.text )
-	for _, line in pairs(lines) do
-		local w,h = surface.GetTextSize( line )
-		bw = math.max(w, bw)
-		sh = math.max(h, sh)
-		bh = bh + h
-	end
-
-	_dialog.textw = bw
-	_dialog.texth = bh
-	_dialog.singleh = sh
-
+	_dialog.defaultcallbacktbl[eventName](...)
 end
 
 function Start( text, delay )
@@ -93,8 +68,6 @@ function Start( text, delay )
 	_dialog.text = text
 	_dialog.printed = ""
 	State( STATE_OPENING, delay )
-
-	CalcTextRect()
 
 end
 
@@ -105,45 +78,13 @@ function RegisterFunc(name, func)
 	g_funcs[name] = func;
 end
 
-local function DrawTextArea( width, height )
-
-	if _dialog.open == 0 then return end
-
-	local open = math.sin( _dialog.open * math.pi / 2 )
-	open = math.sqrt(open)
-
-	local s = State()
-
-	local w = width * open
-	local h = height * open
-
-	local x = ScrW() / 2
-	local y = ScrH() - h
-
-	surface.SetDrawColor( 0,0,0,190 )
-	surface.DrawRect( x - w/2, y - h/2, w, h )
-
-	local left = x - _dialog.textw / 2
-	local top = y - _dialog.texth / 2
-
-	surface.SetTextColor( 255, 255, 255, 255 * open )
-	surface.SetFont( DialogFont )
-
-	local lines = string.Explode( "\n", _dialog.printed )
-	for k, line in pairs(lines) do
-		surface.SetTextPos( left, top + _dialog.singleh * (k-1) )
-		surface.DrawText( line )
-	end
-
-end
-
 --STATE MACHINE
 
 local edges = {
 	[STATE_OPENING] = function(d) _ = Done() and State( STATE_OPENED ) end,
 	[STATE_OPENED] = function(d) _ = Done() and State( STATE_PRINTING ) end,
 	[STATE_PRINTING] = function(d) _ = Done() and State( string.len(d.text) == 0 and STATE_DONEPRINTING or STATE_PRINTING ) end,
-	[STATE_CHOOSE] = function(d) _ = Done() and State( STATE_DONECHOOSE ) end,
+	[STATE_CHOOSE] = function(d) _ = Done() and State( STATE_CHOOSE ) end,
 	[STATE_DONECHOOSE] = function(d) State( STATE_CLOSING ) end,
 	[STATE_CLOSING] = function(d) _ = Done() and State( STATE_IDLE ) end,
 	[STATE_WAIT] = function(d) _ = Done() and State( d.nextstate ) end,
@@ -151,12 +92,17 @@ local edges = {
 }
 
 local inits = {
+	[STATE_IDLE] = function(d)
+		_dialog.nodeiter = nil 
+		InvokeEvent("DialogEnd", d) 
+	end,
 	[STATE_OPENING] = function(d) d.rate = 2 d.printed = "" end,
 	[STATE_OPENED] = function(d) d.rate = 12 d.nodeiter() end,
 	[STATE_PRINTING] = function(d)
-		d.rate = 60
-		d.printed = d.printed .. d.text[1]
-		d.text = d.text:sub(2,-1)
+		d.rate = 60 * PrintSpeedScale
+		local numc = math.Clamp(math.Round(FrameTime() * d.rate), 1, #d.text)
+		d.printed = d.printed .. d.text:sub(1, numc)
+		d.text = d.text:sub(numc + 1,-1)
 	end,
 	[STATE_DONEPRINTING] = function(d)
 		d.nodeiter()
@@ -216,7 +162,7 @@ State = function( newstate, wait )
 
 	if wait then
 		_dialog.state = STATE_WAIT
-		_dialog.rate = 1/wait
+		_dialog.rate = PrintSpeedScale * 1/wait
 		_dialog.nextstate =  newstate
 		return _dialog
 	end
@@ -238,32 +184,16 @@ end
 
 Done = function() return DT() >= 1 end
 
-local function Update( deltatime )
+function ScriptCallback(cmd, data)
 
-	DT( deltatime )
-
-	_ = ( ticks[ State() ] or nop )( _dialog )
-	_ = ( edges[ State() ] or nop )( _dialog )
-
-end
-
-function PaintAll()
-
-	Update( FrameTime() )
-
-	DrawTextArea( 850, 200 )
-
-end
-
-local function ScriptCallback(cmd, data)
-
-	print(tostring(cmd) .. " " .. tostring(data))
 	if cmd == CMD_JUMP then
-		State( STATE_OPENING, 2 )
-		return data
+		_dialog.waitdata = {
+			cmd = cmd,
+			data = data
+		} 
 	end
 	if cmd == CMD_LAYOUT then
-		CalcTextRect( data )
+		//CalcTextRect( data )
 	end
 	if cmd == CMD_PRINT then
 		_dialog.text = data
@@ -277,24 +207,127 @@ local function ScriptCallback(cmd, data)
 		State( STATE_PRINTING, .2 )
 	end
 	if cmd == CMD_OPTIONLIST then
-		State( STATE_CLOSING, 2 )
+		InvokeEvent("ListOptions", data)
 	end
 	if cmd == CMD_EXIT then
-		State( STATE_CLOSING, 2 )
+		_dialog.waitdata = {
+			cmd = cmd,
+			data = data
+		}
 	end
 	if cmd == CMD_EXEC then
 		_dialog.exec = data
 		State( STATE_EXEC, .1 )
 	end
+end
 
+local function Update( deltatime )
+
+	DT( deltatime )
+
+	_ = ( ticks[ State() ] or nop )( _dialog )
+	_ = ( edges[ State() ] or nop )( _dialog )
+
+end
+
+function PaintAll()
+
+	Update( FrameTime() )
+
+	InvokeEvent("Paint", _dialog)
+end
+
+
+-- Immediately start the dialog at a new specified entry
+function StartGraph(cmd, skipOpen, options)
+	_dialog.options = options or {}
+	local t = type(cmd)
+	if t == "table" then
+		_dialog.nodeiter = EnterNode( cmd, ScriptCallback )
+	elseif t == "string" then
+		_dialog.nodeiter = EnterGraph( cmd, ScriptCallback )
+		_dialog.entrypoint = cmd
+		_dialog.seen = false
+	end
+
+	if _dialog.nodeiter != nil then
+		PrintSpeedScale = 1.0
+
+		_dialog.printed = ""
+		_dialog.text = ""
+		_dialog.waitdata = nil
+
+		State(skipOpen and STATE_OPENED or STATE_OPENING)
+
+		if skipOpen then _dialog.nodeiter() end
+	
+		InvokeEvent("DialogStart", _dialog)
+	end
+end
+
+-- Skip printing out text
+function SkipText()
+	PrintSpeedScale = math.huge
+end
+
+-- Continue onto the next page of dialog
+function Continue(options)
+	if not ReadyToContinue() then return end
+
+	local data = _dialog.waitdata
+	if data.cmd == "jump" then
+		StartGraph(data.data[1], true)
+	elseif data.cmd == "exit" then
+		State(STATE_CLOSING, 2)
+	else
+		print("UNHANDLED CONTINUE STATE: " .. data.cmd )
+	end
+
+	_dialog.options = options or {}
+	_dialog.waitdata = nil
+
+	return true
+end
+
+-- Retrieves who is currently the speaker in the dialog
+function GetSpeaker()
+	return _dialog.options.speaker or GetFocus()
+end
+
+function ReadyToContinue()
+	return _dialog.waitdata != nil
 end
 
 function GetFocus()
 	return _dialog.focus
 end
 
+function SetFocus(focus)
+	_dialog.focus = focus
+end
+
 function GetCamera()
 	return _dialog.camera
+end
+
+function IsInDialog()
+	return _dialog.nodeiter != nil
+end
+
+function SetCallbackTable(tbl)
+	_dialog.defaultcallbacktbl = tbl
+end
+
+function InformScriptFinished(entrypoint, seen)
+	local scriptid = util.NetworkStringToID(entrypoint)
+	if not scriptid then return false end
+
+	net.Start( "dialog_dispatch" )
+	net.WriteUInt( scriptid, 16 )
+	net.WriteBit(seen)
+
+	net.SendToServer()
+	return true
 end
 
 net.Receive( "dialog_dispatch", function( len, ply )
@@ -307,25 +340,14 @@ net.Receive( "dialog_dispatch", function( len, ply )
 	if net.ReadBit() then camera = net.ReadEntity() end
 	if script == nil then script = "<no script>" end
 
-	CalcTextRect("")
-	_dialog.text = ""
+	//Setup command variables
 	_dialog.camera = camera
-	_dialog.focus = focus
-	State( STATE_OPENING )
+	SetFocus(focus)
 
-	_dialog.nodeiter = EnterGraph( script, ScriptCallback )
-	--nodeiter()
-	--nodeiter()
-
-	--Start( , 0 )
-
+	StartGraph(script, false)
 end )
 
-/*
-Start(
-[[thanks jeeves did you hear me ask for the sparknotes link
-this is why your search engine is dead jeeves,
-this is why google dropped don't be evil as their motto
-your insistence upon triviasplaining]]
-, 5)
-*/
+-- Mark this script's entrypoint as 'seen', used for some other systems
+RegisterFunc("mark_seen", function(d)
+	d.seen = true
+end )

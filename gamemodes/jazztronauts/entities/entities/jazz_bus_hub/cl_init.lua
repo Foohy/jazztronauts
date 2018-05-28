@@ -167,7 +167,7 @@ end
 
 function ENT:Think()
 	if self.IsLaunching then 
-		local factor = (CurTime() -  self.StartLaunchTime) * 10
+		local factor = (CurTime() -  self.StartLaunchTime) * 15
 		util.ScreenShake(LocalPlayer():GetPos(), factor, 5, 0.01, 100) 
 	end
 end

@@ -27,10 +27,11 @@ end
 
 local ShowFinishedMissions = false
 hook.Add("HUDPaint", "JazzDrawMissions", function()
-
+	local i = 0
 	for k, v in pairs(missions.MissionList) do
 		if missions.Active[k] or (ShowFinishedMissions and missions.Finished[k]) then
-			DrawMission(k, 5, ScrH() - (80 + k * 60))
+			i = i + 1
+			DrawMission(k, 5, ScrH() - (80 + i * 60))
 		end
 	end
 end )

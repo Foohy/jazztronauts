@@ -27,9 +27,16 @@ ENT.BusLeaveAccel = 500
 
 ENT.PrelimSounds = 
 {
-	"ambient/machines/wall_move1.wav",
-	"ambient/machines/wall_move4.wav",
-	"ambient/machines/thumper_startup1.wav"
+	{ snd = "ambient/machines/wall_move1.wav", delay = 2.8 },
+	{ snd = "ambient/machines/wall_move4.wav", delay = 2.8},
+	{ snd = "ambient/machines/thumper_startup1.wav", delay = 2.8},
+	{ snd = "jazztronauts/trolley/jazz_trolley_bell.wav", delay = 1.0}
+}
+
+ENT.BrakeSounds = 
+{
+	"jazztronauts/trolley/brake_1.wav",
+	"jazztronauts/trolley/brake_2.wav",
 }
 
 ENT.TravelTime = 1.5
@@ -48,8 +55,8 @@ function ENT:Initialize()
 
 	-- Setup seat offsets
 	for i=1, 8 do
-		self:AttachSeat(Vector(40, i * 45 - 150, 80), Angle(0, 180, 0))
-		self:AttachSeat(Vector(-40, i * 45 - 150, 80), Angle(0, 180, 0))
+		self:AttachSeat(Vector(40, i * 40 - 180, 80), Angle(0, 180, 0))
+		self:AttachSeat(Vector(-40, i * 40 - 180, 80), Angle(0, 180, 0))
 	end
 	
 	-- Setup radio
@@ -65,10 +72,17 @@ function ENT:Initialize()
 	self:SetPos(self.StartPos)
 
 	-- Play an ominous sound that something's coming
-	sound.Play(table.Random(self.PrelimSounds), spawnPos, 85, 100, 1)
+	local prelim = table.Random(self.PrelimSounds)
+	sound.Play(prelim.snd, spawnPos, 85, 100, 1)
+
+	-- Also setup the screetching sound
+	local rf = RecipientFilter()
+	rf:AddAllPlayers()
+	self.BrakeSound = CreateSound(self, table.Random(self.BrakeSounds), rf)
+	self.BrakeSound:SetSoundLevel(100)
 
 	-- Let it sink in
-	timer.Simple(2.8, function()
+	timer.Simple(prelim.delay, function()
 		if IsValid(self) then self:Arrive() end
 	end )
 
@@ -108,6 +122,8 @@ function ENT:Arrive()
 		phys:Wake()
 	end
 	self:SetNoDraw(false)
+	
+	self.BrakeSound:Play()
 
 	self.StartTime = CurTime()
 	self.MoveState = MOVE_ARRIVING
@@ -278,6 +294,8 @@ function ENT:Think()
 			self:GetPhysicsObject():EnableMotion(false)
 			self:SetPos(self.GoalPos)
 			self.MoveState = MOVE_STATIONARY
+			
+			self.BrakeSound:FadeOut(0.2)
 
 			self.RadioMusic:Play()
 		end

@@ -140,29 +140,25 @@ function GM:DrawPhysgunBeam(ply, physgun, enabled, target, physbone, hitpos)
 		tpos = LocalToWorld( hitpos, Angle( 0, 0, 0 ), pos, ang )
 	end
 
-	local srcPos = physgun:GetAttachment( 1 ).Pos
-	if ( !ply:ShouldDrawLocalPlayer() ) then
-		srcPos = ply:GetViewModel():GetAttachment( 1 ).Pos
-	end
 
-
-    local vm = ply:GetViewModel()
-    local attach = vm:GetAttachment(1)
-    local pos, ang = attach.Pos, attach.Ang
-
-    physgun.JazzProngs = physgun.JazzProngs or 0
-    
+    physgun.JazzProngs = physgun.JazzProngs or 0   
     if IsValid(target) then
-
         physgun.JazzProngs = physgun.JazzProngs + FrameTime() * 4
     else
         physgun.JazzProngs = physgun.JazzProngs - FrameTime() * 4
     end
-
     physgun.JazzProngs = math.Clamp(physgun.JazzProngs, 0, 1)
+
+	local srcPos = physgun:GetAttachment( 1 ).Pos
+	if ply == LocalPlayer() && !ply:ShouldDrawLocalPlayer() then
+		srcPos = ply:GetViewModel():GetAttachment( 1 ).Pos     
+        renderVMFx(physgun, ply:GetViewModel(), srcPos)
+	else
+    	srcPos = physgun:GetAttachment(1).Pos
+    end
+
     //vm:SetPoseParameter( "active", physgun.JazzProngs )
-    renderGrabEffect(target, tpos, pos)
-    renderVMFx(physgun, vm, pos)
+    renderGrabEffect(target, tpos, srcPos)
 
 	return false
 end

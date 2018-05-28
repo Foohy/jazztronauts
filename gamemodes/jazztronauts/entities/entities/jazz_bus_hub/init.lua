@@ -12,10 +12,10 @@ ENT.ShadowControl.maxangular       = 1000000
 ENT.ShadowControl.maxspeeddamp     = 10000
 ENT.ShadowControl.maxangulardamp   = 1000000
 ENT.ShadowControl.dampfactor       = 1
-ENT.ShadowControl.teleportdistance = 200
+ENT.ShadowControl.teleportdistance = 2
 ENT.ShadowControl.deltatime = deltatime
 
-ENT.TravelTime = 1.5
+ENT.TravelTime = 2.5
 ENT.SkidPlayed = false
 ENT.EngineOffPlayed = false
 
@@ -62,11 +62,11 @@ function ENT:Initialize()
 		phys:EnableMotion( true )
 		phys:Wake()
 	end
-
+	self:SetTrigger(true) -- So we get 'touch' callbacks that fuck shit up
 	-- Setup seat offsets
 	for i=1, 8 do
-		self:AttachSeat(Vector(40, i * 45 - 150, 80), Angle(0, 180, 0))
-		self:AttachSeat(Vector(-40, i * 45 - 150, 80), Angle(0, 180, 0))
+		self:AttachSeat(Vector(40, i * 40 - 180, 80), Angle(0, 180, 0))
+		self:AttachSeat(Vector(-40, i * 40 - 180, 80), Angle(0, 180, 0))
 	end
 
 	self.StartPos = self:GetPos() + self:GetAngles():Right() * -2000 + Vector(0, 0, 40)
@@ -136,8 +136,27 @@ function ENT:CheckLaunch()
 	end
 end
 
-function ENT:PhysicsCollide( data, phys )
+function ENT:Touch( other )
+	local _, p = self:GetProgress()
+	if p > 1 and not self.IsLaunching then return end
+	if other:IsPlayer() && other:InVehicle() then return end
 
+	local phys = IsValid(other) and other:GetPhysicsObject()
+
+	if IsValid(phys) then
+		phys:EnableMotion(true)
+		phys:Wake()
+		phys:SetVelocity(self:GetAngles():Right() * 10000000)
+	end
+
+	local d = DamageInfo()
+	local velocity = self:GetVelocity()
+	d:SetDamage((velocity - other:GetVelocity()):Length() )
+	d:SetAttacker(self)
+	d:SetDamageType(DMG_CRUSH)
+	d:SetDamageForce(self:GetAngles():Right() * velocity:Length() * 10000) -- Just fuck them up
+
+	other:TakeDamageInfo( d )
 end
 
 function ENT:LeaveStation()
@@ -147,7 +166,7 @@ function ENT:LeaveStation()
 
 	self.StartTime = CurTime()
 	self.StartPos = self:GetPos()
-	self.GoalPos = self.GoalPos + self:GetAngles():Right() * 3000
+	self.GoalPos = self.GoalPos + self:GetAngles():Right() * 6000
 
 	self.Leaving = true
 	self:ResetTrigger("arrived")
@@ -170,8 +189,8 @@ function ENT:PhysicsSimulate( phys, deltatime )
 		-- Bus is speeding up, rotate backward a bit
 		rotAng = math.Clamp(perc * 16, 0, 1) * -3.5
 	else
-		p = math.pow(perc, 0.4)
-		
+		p = math.EaseInOut(math.Clamp(perc, 0, 1), 1, 1)
+
 		-- Bus slowing down, rotate forwards
 		rotAng = math.Clamp(1.2 - perc, 0, 1) * 3.5
 	end
@@ -189,7 +208,8 @@ end
 function ENT:TriggerAt(name, time, func)
 	local t, p = self:GetProgress()
 	local fullname = name .. "_Trigger"
-	if t - self.TravelTime > time and not self[fullname] then
+	//print(t, t)
+	if t > time and not self[fullname] then
 		self[fullname] = true
 		func()
 	end
@@ -209,24 +229,28 @@ function ENT:Think()
 	end
 
 	if self.Leaving then
-		self:TriggerAt("accelturbo", -1.0, function()
+		self:TriggerAt("accelturbo", 0.4, function()
 			self:EmitSound( "jazz_bus_accelerate", 90, 150 )
 		end )
 	end
 
 	-- Skid sound when stopping
-	self:TriggerAt("stopslide", -0.8, function()
+	self:TriggerAt("stopslide", 0.7, function()
 		self:EmitSound( "vehicles/v8/skid_normalfriction.wav", 90, 110 )	
 	end )
 
-	self:TriggerAt("engineoff", 0.0, function()
+	self:TriggerAt("engineoff", 1.5, function()
 		self:EmitSound( "vehicles/v8/v8_stop1.wav", 90, 110 )
 		self:StopSound("jazz_bus_idle")
 	end )
 
+	self:TriggerAt("dingding", self.TravelTime - 0.2, function()
+		self:EmitSound( "jazztronauts/trolley/jazz_trolley_bell.wav", 90, 110 )
+	end )
+
 	-- Allow the bus to settle into its spot before stopping movement
-	local endTime = self.IsLaunching and 2.2 or 1
-	self:TriggerAt("arrived", endTime, function()
+	local endTime = self.IsLaunching and 1.2 or 0
+	self:TriggerAt("arrived", self.TravelTime + endTime, function()
 		self:GetPhysicsObject():EnableMotion(false)
 		self:SetPos(self.GoalPos)
 		self:SetAngles(self.StartAngles)
@@ -235,17 +259,6 @@ function ENT:Think()
 			self:Remove()
 		end
 	end )
-
-	-- TODO: actual transition effects
-	if self.IsLaunching then
-
-		--if !self.NextExplode or self.NextExplode < CurTime() then
-		--	local expl = ents.Create( "env_explosion" ) //creates the explosion
-		--	expl:SetPos( self:GetPos() + self:GetAngles():Right() * 550 + self:GetAngles():Up() * 50)
-		--	expl:Spawn() //this actually spawns the explosion
-		--	expl:Fire( "Explode", 0, 0 )
-		--end
-	end
 end
 
 function ENT:OnRemove()

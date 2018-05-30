@@ -247,6 +247,18 @@ function meta:IsLoading()
 
 end
 
+BLOCK_THREAD = 0x1234ABCD
+
+if SERVER then
+--[[
+	local f = file.Open( "maps/" .. game.GetMap() .. ".bsp", "rb", path or "GAME" )
+	local header = BSP.Header_t.read(f)
+	local entity_data = BSP.Readers[LUMP_ENTITIES]( f, header )
+	file.Write( "fuckin.txt", entity_data )
+]]
+
+end
+
 local function LoadBSP( bsp, path, callback )
 
 	local f = file.Open( "maps/" .. bsp .. ".bsp", "rb", path or "GAME" )
@@ -312,10 +324,12 @@ local function LoadBSP( bsp, path, callback )
 		end
 
 		bspdata.__loading = false
-		if callback then 
+		if type(callback) == "function" then 
 			local b,e = pcall(callback, bspdata) 
 			if not b then print(e) end
 		end
+
+		f:Close()
 
 		if CLIENT then
 
@@ -339,17 +353,25 @@ local function LoadBSP( bsp, path, callback )
 
 	end
 
-	local t = task.New( load, 1 )
-	function t:chunk( name, count )
-		Msg("LOADING: " .. string.upper(name) .. " : " .. count .. " " )
-	end
+	if callback ~= BLOCK_THREAD then
 
-	function t:progress()
-		Msg(".")
-	end
+		local t = task.New( load, 1 )
+		function t:chunk( name, count )
+			Msg("LOADING: " .. string.upper(name) .. " : " .. count .. " " )
+		end
 
-	function t:chunkdone( name, count, tab )
-		Msg("DONE\n")
+		function t:progress()
+			Msg(".")
+		end
+
+		function t:chunkdone( name, count, tab )
+			Msg("DONE\n")
+		end
+
+	else
+
+		load()
+
 	end
 
 	return bspdata
@@ -358,14 +380,20 @@ end
 
 if SERVER then
 	--LoadBSP(game.GetMap())
+	print("SERVER LOADING BSP...")
 end
 
 --_G["LOADED_BSP"] = nil
-_G["LOADED_BSP"] = _G["LOADED_BSP"] or LoadBSP( game.GetMap(), nil, function()
+_G["LOADED_BSP"] = _G["LOADED_BSP"] or LoadBSP( game.GetMap(), nil, SERVER and BLOCK_THREAD or function()
 
 	hook.Call( "CurrentBSPReady" )
 
 end )
+
+if SERVER then
+	print("SERVER FINISHED LOADING BSP")
+	print( PrintTable( _G["LOADED_BSP"].entities[1] ) )
+end
 
 local current_map = _G["LOADED_BSP"]
 

@@ -83,7 +83,7 @@ end
 
 -- Wait for the map info to be ready, then grab all the nearby brushes
 function ENT:WaitForMapInfo()
-    if bsp.GetCurrent():GetBrushes() then
+    if bsp2.GetCurrent().brushes then
         self:GetNearbyBrushes()
     else
         hook.Add("JazzSnatchMapReady", self, function()
@@ -93,7 +93,7 @@ function ENT:WaitForMapInfo()
 end
 
 function ENT:GetNearbyBrushes()
-    local brushes = bsp.GetCurrent():GetBrushes()
+    local brushes = bsp2.GetCurrent().brushes
     if !brushes then print("SHARDS DIDN'T GRAB BRUSHES - MAP STILL LOADING") return end
 
     self.NearBrushes = {}

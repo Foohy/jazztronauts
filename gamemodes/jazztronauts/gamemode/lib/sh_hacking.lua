@@ -1,5 +1,11 @@
 AddCSLuaFile()
 
+local function GetIndexMapping()
+
+	local indices = {}
+
+end
+
 if SERVER then 
 
 	for k,v in pairs( ents.GetAll() ) do
@@ -9,6 +15,27 @@ if SERVER then
 	end
 
 	util.AddNetworkString("input_fired")
+
+	local entity_store = {}
+
+	hook.Add("EntityKeyValue", "hacking", function( ent, key, value )
+
+		if string.Left( key, 2 ) == "On" then
+
+			local map = bsp2.GetCurrent()
+			local indexed = map and map.entities[ ent:MapCreationID() - 1234 ]
+			local name = indexed and (indexed.name or indexed.classname) or "<what is " .. ent:MapCreationID() .. ">"
+
+			print( "ReRoute: " .. tostring( ent:GetName() or ent:GetClassName() ) .. "[" .. name .. "]" .. " : " .. key .. " => " .. tostring( value ))
+		end
+
+	end )
+
+	hook.Add("InitPostEntity", "hacking", function()
+
+		print("****INIT POST ENTITY****")
+
+	end )
 
 	hook.Add("AcceptInput", "hacking", function( ent, input, activator, caller, value )
 
@@ -22,7 +49,8 @@ if SERVER then
 		if IsValid(ent) and IsValid(caller) then
 
 			local name = ent:GetName()
-			local index = caller:MapCreationID() - 1234 --really garry?
+			local target_index = ent:MapCreationID() - 1234
+			local caller_index = caller:MapCreationID() - 1234 --really garry?
 
 			--print(tostring(caller))
 
@@ -33,9 +61,9 @@ if SERVER then
 			end]]
 
 			net.Start( "input_fired" )
-			net.WriteString( name )
+			net.WriteInt( target_index, 32 )
+			net.WriteInt( caller_index, 32 )
 			net.WriteString( input )
-			net.WriteInt( index, 32 )
 			net.Send( player.GetAll() )
 
 		end
@@ -292,7 +320,7 @@ local function EntsByClass( class )
 
 	local t = {}
 	for k,v in pairs( map.entities ) do
-		if string.find( v.classname or "", class ) then
+		if v.classname == class then
 			table.insert( t, v )
 		end
 	end
@@ -304,7 +332,7 @@ local function EntsByName( name )
 
 	local t = {}
 	for k,v in pairs( map.entities ) do
-		if string.find( v.targetname or "", name ) then
+		if v.targetname == name or ( v.targetname and string.Right(name, 1) == "*" and string.find( v.targetname, string.sub( name, 1, -1 ) ) ) then
 			table.insert( t, v )
 		end
 	end
@@ -320,6 +348,8 @@ local function ParseOutput( event, str )
 	for w in string.gmatch(str .. ",","(.-),") do
 		table.insert( args, w )
 	end
+
+	if args[2] == "" then return nil end
 	return args
 
 end
@@ -428,8 +458,8 @@ local function PrepGraph()
 			end]]
 
 			for _, out in pairs( gent.outputs ) do
-				local target = EntsByName( out[2] )[1]
-				gent.targets[ out[2] ] = target
+				local targetlist = EntsByName( out[2] )
+				gent.targets[ out[2] ] = targetlist
 				gent.has_targets = true
 			end
 
@@ -445,19 +475,22 @@ local function PrepGraph()
 	end
 
 	for _, gent in pairs( graph ) do
-		for k, t in pairs( gent.targets ) do
-			gent.targets[k] = FindEntGraph( gent.targets[k] )
-			if gent.targets[k] then gent.targets[k].targeted = true end
+		for k, targetlist in pairs( gent.targets ) do
+			for l, target in pairs( targetlist ) do
+				targetlist[l] = FindEntGraph( target )
+				if targetlist[l] then targetlist[l].targeted = true end
+			end
 		end
 	end
 
 	for _, gent in pairs( graph ) do
 		gent.lines = {}
 		local n = 0
-		for k, t in pairs( gent.targets ) do
-			print("MAKE LINE: " .. tostring(k))
-			gent.lines[k] = FormLines( gent.pos + Vector(0,0,n), t.pos )
-			n = n + 2
+		for k, targetlist in pairs( gent.targets ) do
+			for l, target in pairs( targetlist ) do
+				gent.lines[ target.index ] = FormLines( gent.pos + Vector(0,0,n), target.pos )
+				n = n + 2
+			end
 		end
 	end
 
@@ -476,18 +509,18 @@ local graph = nil
 local function AcceptedInput()
 	if not graph then return end
 
-	local name = net.ReadString()
+	local target_index = net.ReadInt( 32 )
+	local caller_index = net.ReadInt( 32 )
 	local input = net.ReadString()
-	local ent_index = net.ReadInt(32)
 
-	--print("INPUT", name, input, ent_index)
+	print("INPUT", input, caller_index, target_index)
 
 	for k,gent in pairs( graph ) do
-		if gent.index == ent_index then
+		if gent.index == caller_index then
 
 			for _, output in pairs( gent.outputs ) do
-				if output[3] == input and output[2] and gent.lines[ output[2] ] then
-					table.insert( gent.blips, { t=CurTime(), target=output[2], speed = 300, } )
+				if output[3] == input and output[2] and gent.lines[ target_index ] then
+					table.insert( gent.blips, { t=CurTime(), target=target_index, speed = 300, } )
 				end
 			end
 
@@ -519,6 +552,8 @@ hook.Add( "PostRender", "hacker_vision", function()
 		else graph = e end
 	end
 
+	--if true then return end
+
 	UpdateBlips()
 
 	local w = ScrW()
@@ -533,7 +568,7 @@ hook.Add( "PostRender", "hacker_vision", function()
 	hacker_vision:SetTexture("$basetexture", rt:GetTarget())
 
 	render.PushRenderTarget(rt:GetTarget())
-	render.Clear( 0, 20, 100, 100, true, true )
+	render.Clear( 0, 0, 0, 100, true, true ) --60
 
 	cam.Start(
 		{
@@ -545,8 +580,11 @@ hook.Add( "PostRender", "hacker_vision", function()
 
 		local b,e = pcall( function()
 
+
+			local line_color = Color(20,120,20)
+
 			for k,v in pairs( graph ) do
-				gfx.renderBox( v.pos, Vector(-5,-5,-5), Vector(5,5,5), Color(100,80,0) )
+				gfx.renderBox( v.pos, Vector(-2,-2,-2), Vector(2,2,2), Color(100,100,100) )
 			end
 
 			for k,v in pairs( graph ) do
@@ -557,15 +595,33 @@ hook.Add( "PostRender", "hacker_vision", function()
 					local pulse = PointAlongLine( line, dt % 1 )
 					gfx.renderBox( pulse, Vector(-2,-2,-2), Vector(2,2,2), Color(255,255,255,255) )
 					for _, edge in pairs( line.edges ) do
-						gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), Color(255,80,80), Color(255,80,80), 20 * (1-dt))
+						gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), Color(80,255,80), Color(80,255,80), 20 * (1-dt))
 					end
 				end
 				
 				for target, l in pairs( v.lines ) do
 					for _, edge in pairs( l.edges ) do
-						gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), nil, nil, 5)
+						gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), line_color, line_color, 5)
 					end
 				end
+
+				local angle = Angle(0,0,0)
+				local p0 = EyePos()
+				angle:RotateAroundAxis( angle:Forward(), 90 )
+				angle:RotateAroundAxis( angle:Right(), -math.atan2( v.pos.y - p0.y, v.pos.x - p0.x ) * 57.3 + 90 )
+				--angle:RotateAroundAxis( angle:Up(), CurTime() * 20 + k * 100 )
+
+				local cross = (p0 - v.pos):GetNormal():Cross( angle:Right() )
+				local sin = cross:Length()
+				local ang = -math.asin( sin ) * 57.3
+
+				if p0.z > v.pos.z then ang = 180 - ang end
+
+				angle:RotateAroundAxis( angle:Forward(), ang + 90 )
+
+				cam.Start3D2D(v.pos, angle, .25 )
+				draw.SimpleText(v.name or v.classname, nil, 0, 0, Color(255,255,100))
+				cam.End3D2D()
 
 			end
 

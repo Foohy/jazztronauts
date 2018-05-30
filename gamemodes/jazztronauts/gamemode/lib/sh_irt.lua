@@ -417,6 +417,8 @@ local function test()
 --local mins, maxs = LocalPlayer():GetHitBoxBounds( 0, 0 )
 --print( mins, maxs )
 
+	if true then return end
+
 	local size_test = 32
 
 	if scene ~= nil then

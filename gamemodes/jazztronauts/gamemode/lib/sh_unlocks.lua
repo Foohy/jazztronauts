@@ -276,7 +276,7 @@ end )
 
 hook.Add( "OnUnlocked", "unlock_test", function( list_name, key, ply ) 
 
-	print( ("  UNLOCKED[ %s ] => %s (for %s)" ):format( list_name, key, tostring(ply) ) )
+	--print( ("  UNLOCKED[ %s ] => %s (for %s)" ):format( list_name, key, tostring(ply) ) )
 
 end )
 

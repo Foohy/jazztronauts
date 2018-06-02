@@ -18,7 +18,7 @@ end
 
 concommand.Add("jazz_debug_runscript", function(ply, cmd, args)
 	local script = args[1]
-	if not dialog.IsValid(script) then 
+	if not dialog.IsScriptValid(script) then 
 		print("Invalid script \"" .. script .. "\"!")
 		return 
 	end

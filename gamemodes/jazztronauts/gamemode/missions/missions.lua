@@ -5,6 +5,7 @@ module( "missions", package.seeall )
 
 MissionList = {}
 NPCList = {}
+NPCListLookup = {}
 
 function AddMission(id, npcid, mdata)
     id = IndexToMID(id, npcid)
@@ -28,6 +29,8 @@ function AddNPC(strname, prettyname)
         name = strname,
         prettyname = prettyname
     })
+    NPCListLookup[string.lower(strname)] = idx
+
     _G[strname] = idx
 end
 
@@ -37,6 +40,10 @@ end
 
 function MIDToIndex(mid, npcid)
     return mid - 1000 * npcid
+end
+
+function GetNPCID(name)
+    return NPCListLookup[string.lower(name)]
 end
 
 function GetNPCName(id)
@@ -53,6 +60,15 @@ end
 
 function ResetMissions()
     MissionList = {}
+end
+
+function FindNPCByID(npcid)
+    local npcs = ents.FindByClass("jazz_cat")
+    for _, v in pairs(npcs) do
+        if v.GetNPCID and v:GetNPCID() == npcid then 
+            return v
+        end
+    end
 end
 
 -- Load in the mission list now

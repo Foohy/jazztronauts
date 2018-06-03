@@ -67,8 +67,32 @@ dialog.RegisterFunc("show", function(d, time)
 end)
 
 local sceneModels = {}
+local function removeSceneEntity(name)
+    if IsValid(sceneModels[name]) then
+        sceneModels[name]:SetNoDraw(true)
+        sceneModels[name] = nil
+    end
+end
 dialog.RegisterFunc("spawn", function(d, name, mdl)
     sceneModels[name] = ManagedCSEnt(name, mdl)
+    sceneModels[name]:SetNoDraw(false)
+end)
+
+dialog.RegisterFunc("remove", function(d, name)
+    removeSceneEntity(name)
+end)
+
+dialog.RegisterFunc("clear", function(d)
+    ResetScene()
+end)
+
+dialog.RegisterFunc("setproxy", function(d, name)
+    dialog.SetFocusProxy(name and sceneModels[name])
+end)
+
+dialog.RegisterFunc("setfocus", function(d, npc)
+    local npcid = tonumber(npc) or missions.GetNPCID(npc)
+    dialog.SetFocus(npcid and missions.FindNPCByID(npcid))
 end)
 
 dialog.RegisterFunc("setposang", function(d, name, ...)
@@ -139,10 +163,18 @@ dialog.RegisterFunc("setfov", function(d, fov)
     view.fov = fov
 end)
 
+function ResetScene()
+    for k, v in pairs(sceneModels) do
+        removeSceneEntity(k)
+    end
+
+    sceneModels = {}
+end
+
 function ResetView(instant)
     local function reset()
         view = {}
-        sceneModels = {}
+        ResetScene()
     end
 
     //Only do the transition if we've actually overwritten something

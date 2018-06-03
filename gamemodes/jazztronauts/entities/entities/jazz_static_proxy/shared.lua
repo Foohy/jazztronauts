@@ -9,6 +9,7 @@ ENT.Model = "models/Combine_Helicopter/helicopter_bomb01.mdl"
 function ENT:Initialize()
 	--self:SetModel( self.Model )
 	self:DrawShadow( false )
+	self.IsProxy = true
 end
 
 function ENT:GetID()

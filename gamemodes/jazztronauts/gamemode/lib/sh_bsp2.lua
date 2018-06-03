@@ -384,15 +384,21 @@ if SERVER then
 end
 
 --_G["LOADED_BSP"] = nil
-_G["LOADED_BSP"] = _G["LOADED_BSP"] or LoadBSP( game.GetMap(), nil, SERVER and BLOCK_THREAD or function()
+if _G["LOADED_BSP"] == nil then
+	_G["LOADED_BSP"] = LoadBSP( game.GetMap(), nil, SERVER and BLOCK_THREAD or function()
 
-	hook.Call( "CurrentBSPReady" )
+		hook.Call( "CurrentBSPReady" )
 
-end )
+	end )
 
-if SERVER then
-	print("SERVER FINISHED LOADING BSP")
-	print( PrintTable( _G["LOADED_BSP"].entities[1] ) )
+	if SERVER then
+
+		print("SERVER FINISHED LOADING BSP")
+		print( PrintTable( _G["LOADED_BSP"].entities[1] ) )
+		hook.Call( "CurrentBSPReady" )
+
+	end
+
 end
 
 local current_map = _G["LOADED_BSP"]

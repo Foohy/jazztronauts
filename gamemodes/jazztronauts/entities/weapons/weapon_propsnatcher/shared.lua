@@ -191,6 +191,8 @@ local backtrace = {
 }
 local function IsVisible(self, ent)
 
+	if ent:GetClass() == "jazz_static_proxy" then return true end
+
 	backtrace.start:Set(getPropCenter(ent))
 	backtrace.endpos:Set(self.Owner:EyePos())
 	backtrace.filter = self.Owner

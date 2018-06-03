@@ -42,14 +42,23 @@ end
 */
 local function onSnatchInfoReady()
 
-	if SERVER then
+	hook.Call("JazzSnatchMapReady", GAMEMODE)
+end
+
+hook.Add( "CurrentBSPReady", "snatchReady", onSnatchInfoReady )
+
+if SERVER then
+
+	hook.Add( "InitPostEntity", "snatchmakeproxies", function()
+
+		print("Server loaded map, creating proxies")
 
 		for k,v in pairs( map.props or {} ) do
 			local exist = findPropProxy( v.id )
 			if not exist then
 
 				local ent = ents.Create("jazz_static_proxy")
-				if not IsValid( ent ) then continue end
+				if not IsValid( ent ) then print("!!!Failed to create proxy") continue end
 
 				ent:SetID( v.id )
 				ent:SetPos( v.origin )
@@ -60,12 +69,9 @@ local function onSnatchInfoReady()
 			end
 		end
 
-	end
+	end )
 
-	hook.Call("JazzSnatchMapReady", GAMEMODE)
 end
-
-hook.Add( "CurrentBSPReady", "snatchReady", onSnatchInfoReady )
 
 function meta:Init( data )
 
@@ -451,6 +457,9 @@ if SERVER then
 		net.Start( "remove_prop_scene" )
 		net.WriteUInt( scene.mode or 1, 8 )
 		net.WriteBit( scene.is_world and 1 or 0 )
+		if not scene.is_world then
+			net.WriteBit( scene.real.IsProxy and 1 or 0 )
+		end
 		net.WriteFloat( scene.time )
 		net.WriteEntity( scene.owner )
 
@@ -556,12 +565,18 @@ elseif CLIENT then
 
 	end
 
+	local expanded_models = {}
+	local expanded_props = {}
 
 	local function CL_RecvPropSceneFromServer()
 
 		--Read the net
 		local mode = net.ReadUInt( 8 )
 		local is_world = net.ReadBit() == 1
+		local is_proxy = false
+		if not is_world then
+			is_proxy = net.ReadBit() == 1
+		end
 		local time = net.ReadFloat()
 		local owner = net.ReadEntity()
 
@@ -570,6 +585,30 @@ elseif CLIENT then
 			local ent = net.ReadEntity()
 			local vel = net.ReadVector()
 			local avel = net.ReadVector()
+
+			if is_proxy then
+
+				local mdl = ent:GetModel()
+				if not expanded_models[mdl] then
+					expanded_models[mdl] = MakeExpandedModel( ent:GetModel(), nil )
+				end
+
+				local mtx = Matrix()
+				mtx:SetTranslation( ent:GetPos() )
+				mtx:SetAngles( ent:GetAngles() )
+
+				table.insert( expanded_props, {
+					mesh = expanded_models[mdl],
+					mtx = mtx,
+				})
+
+				--local expanded = MakeExpandedModel( ent:GetModel(), nil )
+				--table.insert( expanded_models, expanded )
+
+				--expanded:SetPos( ent:GetPos() )
+				--expanded:SetAngles( ent:GetAngles() )
+
+			end
 
 			--Entity needs to exist
 			if not ent:IsValid() then return end
@@ -598,6 +637,36 @@ elseif CLIENT then
 		end
 
 	end
+
+	hook.Add("PostDrawTranslucentRenderables", "drawsnatchstaticprops", function()
+
+		local a,b = jazzvoid.GetVoidOverlay()
+
+		for k,v in pairs( expanded_props ) do
+
+			render.SetMaterial( a )
+			cam.PushModelMatrix( v.mtx )
+			v.mesh:Draw()
+			cam.PopModelMatrix()
+
+		end
+
+	end )
+
+	hook.Add("PostDrawOpaqueRenderables", "drawsnatchstaticprops", function()
+
+		--[[local a,b = jazzvoid.GetVoidOverlay()
+
+		for k,v in pairs( expanded_props ) do
+
+			render.SetMaterial( a )
+			cam.PushModelMatrix( v.mtx )
+			v.mesh:Draw()
+			cam.PopModelMatrix()
+
+		end]]
+
+	end )
 		
 	net.Receive("remove_prop_scene", CL_RecvPropSceneFromServer)
 

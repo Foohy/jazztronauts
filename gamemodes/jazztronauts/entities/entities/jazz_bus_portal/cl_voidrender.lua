@@ -12,6 +12,7 @@ local refractParams = {
 	["$refractamount"] = 0.03,
 	["$bluramount"] = 2,
 	["$model"] = 1,
+	["$nocull"] = 1,
 }
 local refract = CreateMaterial("RefractBrushModel" .. FrameNumber(), "Refract", refractParams)
 void_mat = refract
@@ -343,9 +344,10 @@ hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 	end
 
 	//render.UpdateScreenEffectTexture()
-	render.SetMaterial(void_mat)
+	
 	render.SuppressEngineLighting(true)
-
+	render.SetMaterial(void_mat)
+	
 	-- Draw all map meshes
 	for _, v in pairs(snatch.map_meshes) do
 		v:Get():Draw()

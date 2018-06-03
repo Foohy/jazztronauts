@@ -8,6 +8,8 @@ end
 
 if SERVER then 
 
+	local proxy_name = "__jazz_io_proxy"
+
 	for k,v in pairs( ents.GetAll() ) do
 		if v:MapCreationID() ~= -1 then
 			--print( v:MapCreationID() )
@@ -20,13 +22,22 @@ if SERVER then
 
 	hook.Add("EntityKeyValue", "hacking", function( ent, key, value )
 
+		if ent:GetName() == proxy_name then return value end
+
 		if string.Left( key, 2 ) == "On" then
 
 			local map = bsp2.GetCurrent()
 			local indexed = map and map.entities[ ent:MapCreationID() - 1234 ]
 			local name = indexed and (indexed.name or indexed.classname) or "<what is " .. ent:MapCreationID() .. ">"
 
-			print( "ReRoute: " .. tostring( ent:GetName() or ent:GetClassName() ) .. "[" .. name .. "]" .. " : " .. key .. " => " .. tostring( value ))
+			--print( "ReRoute: " .. tostring( ent:GetName() or ent:GetClassName() ) .. "[" .. name .. "]" .. " : " .. key .. " => " .. tostring( value ))
+
+			value = string.Replace( value, ",", "FWDCMA" )
+
+			return proxy_name .. ",Forward," .. value
+
+			--ReRoute: breakable2[<what is -1>] : OnBreak => breakable_spawner_2s,ForceSpawn,,2,-1
+
 		end
 
 	end )
@@ -34,6 +45,14 @@ if SERVER then
 	hook.Add("InitPostEntity", "hacking", function()
 
 		print("****INIT POST ENTITY****")
+
+		local io_proxy = ents.FindByClass("jazz_io_proxy")[1]
+		if not IsValid( io_proxy ) then
+			io_proxy = ents.Create("jazz_io_proxy")
+			io_proxy:SetPos( Vector(0,0,0) )
+			io_proxy:SetName(proxy_name)
+			io_proxy:Spawn()
+		end
 
 	end )
 
@@ -46,7 +65,9 @@ if SERVER then
 			end
 		end
 
-		if IsValid(ent) and IsValid(caller) then
+		--print(tostring(caller:GetName()) .. " => " .. tostring(ent:GetName()) .. " [" .. input .. "]: Activator was: " .. tostring(activator:GetName() or activator) .. " value: " .. tostring(value) )
+
+		/*if IsValid(ent) and IsValid(caller) then
 
 			local name = ent:GetName()
 			local target_index = ent:MapCreationID() - 1234
@@ -66,7 +87,7 @@ if SERVER then
 			net.WriteString( input )
 			net.Send( player.GetAll() )
 
-		end
+		end*/
 
 	end )
 
@@ -512,6 +533,9 @@ local function AcceptedInput()
 	local target_index = net.ReadInt( 32 )
 	local caller_index = net.ReadInt( 32 )
 	local input = net.ReadString()
+	local delay = net.ReadFloat()
+
+	delay = math.max( delay, .1 )
 
 	print("INPUT", input, caller_index, target_index)
 
@@ -520,7 +544,8 @@ local function AcceptedInput()
 
 			for _, output in pairs( gent.outputs ) do
 				if output[3] == input and output[2] and gent.lines[ target_index ] then
-					table.insert( gent.blips, { t=CurTime(), target=target_index, speed = 300, } )
+					local speedcalc = gent.lines[ target_index ].length / delay
+					table.insert( gent.blips, { t=CurTime(), target=target_index, speed = speedcalc, } )
 				end
 			end
 
@@ -543,6 +568,8 @@ local function UpdateBlips()
 end
 
 hook.Add( "PostRender", "hacker_vision", function()
+
+	if true then return end
 
 	if map:IsLoading() then return end
 

@@ -2,7 +2,9 @@ include("shared.lua")
 
 AddCSLuaFile( "shared.lua")
 AddCSLuaFile( "cl_init.lua")
+AddCSLuaFile( "cl_dialog.lua")
 AddCSLuaFile( "cl_styling.lua")
+AddCSLuaFile( "cl_dialogcmds.lua")
 AddCSLuaFile( "cl_debug.lua")
 
 local print = print

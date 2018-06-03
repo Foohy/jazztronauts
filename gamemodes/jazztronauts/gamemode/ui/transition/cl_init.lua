@@ -30,6 +30,15 @@ function transitionIn(delay)
 	starttime = CurTime() + (delay or 0)
 end
 
+local function getTransitionAmount()
+	return ( CurTime() - starttime ) * rate
+end
+
+function isTransitioning()
+	local amount = getTransitionAmount()
+	return transitioning != 0 and (amount >= 0 and amount <= 1)
+end
+
 concommand.Add("txin", function() transitionIn() end )
 concommand.Add("txout", function() transitionOut() end )
 
@@ -42,15 +51,15 @@ end)]]
 
 local convar_drawtransition = CreateClientConVar("jazz_transition", "1", true, false, "Roll that beautiful bean footage.")
 
-if mapcontrol.IsInHub() then
-	transitionIn(2)
+if convar_drawtransition:GetBool() then
+	if mapcontrol.IsInHub() then
+		transitionIn(2)
+	end
 end
 
 hook.Add("PostRenderVGUI", "transitions", function()
 
-	local amount = ( CurTime() - starttime ) * rate
-
-	if not convar_drawtransition:GetBool() then return end
+	local amount = getTransitionAmount()
 
 	if transitioning == 0 then
 		return

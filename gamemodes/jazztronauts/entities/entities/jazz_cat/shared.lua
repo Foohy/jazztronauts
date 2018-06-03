@@ -21,14 +21,15 @@ end
 
 function ENT:GetIdleScript()
     local npcidle = "idle.begin" .. self.NPCID
-    return dialog.IsValid(npcidle) and npcidle or "idle.begin"
+    return dialog.IsScriptValid(npcidle) and npcidle or "idle.begin"
 end
 
 function ENT:StartChat(ply)
     if SERVER then
         local script = converse.GetNextScript(ply, self.NPCID)
-        script = dialog.IsValid(script) and script or self:GetIdleScript()
-
+        script = dialog.IsScriptValid(script) and script or self:GetIdleScript()
+        //REMOVE:
+        //script = "dunked.begin"
         dialog.Dispatch(script, ply, self)
     else
         net.Start("JazzRequestChatStart")

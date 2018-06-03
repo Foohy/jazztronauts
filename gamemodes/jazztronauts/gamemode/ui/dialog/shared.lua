@@ -352,7 +352,7 @@ function GetGraph()
 
 end
 
-function IsValid(node)
+function IsScriptValid(node)
 	return node and (g_graph[node] or g_graph[node .. ".begin"])
 end
 

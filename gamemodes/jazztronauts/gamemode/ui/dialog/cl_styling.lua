@@ -206,6 +206,7 @@ end
 DialogCallbacks.DialogEnd = function(d)
 	gui.EnableScreenClicker(false)
 	dialog.InformScriptFinished(d.entrypoint, d.seen)
+	dialog.ResetView()
 end
 
 -- Hook into dialog system to style it up and perform IO

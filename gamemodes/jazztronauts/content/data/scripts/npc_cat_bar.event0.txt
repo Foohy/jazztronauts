@@ -1,4 +1,21 @@
 begin:
+    # Scene setup
+    *hide 1*
+    *txout*
+    *setfov 70*
+    *spawn cat models/krio/jazzcat1.mdl*
+    *setposang cat -305.654907 409.102570 35.521034;setang 3.861566 180 0.000000*
+    *setanim cat sit*
+    *txin true*
+    *setcam -399.595001 459.590210 78.340256;setang 3.197538 -2.534574 0.000000*
+    *tweencam 4.0   -401.148773 374.122742 78.340256;setang 3.086878 -0.874674 0.000000*
+    *wait 2.5*
+    *txout*
+    *setcam setpos -207.606873 523.032166 145.427139;setang 31.526472 -129.350937 0.000000*
+    *tweencam 3.0 -193.346848 402.567993 74.846519;setang -0.454177 177.998001 0.000000*
+    *txin*
+    *wait 3.0*
+    *show 1.0*
     So now that we have a moment, how are you settling in?%%
     We have very little idea of how to provide creature comforts,%
     but I'm told that the camp has a %"cozy"% quality these days.

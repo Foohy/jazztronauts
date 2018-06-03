@@ -104,7 +104,7 @@ end )
 
 local function GetCurrentSpeaker()
 	local speaker = dialog.GetSpeaker()
-	if not IsValid(speaker) then return end
+	if not IsValid(speaker) then return nil, "nil" end
 
 	local name = speaker.GetNPCID and string.upper(missions.GetNPCPrettyName(speaker:GetNPCID())) or speaker:GetName()
 	return speaker, name

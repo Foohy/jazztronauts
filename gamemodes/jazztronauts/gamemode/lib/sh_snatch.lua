@@ -593,6 +593,8 @@ elseif CLIENT then
 					expanded_models[mdl] = MakeExpandedModel( ent:GetModel(), nil )
 				end
 
+				if expanded_models[mdl] == nil then return end
+
 				local mtx = Matrix()
 				mtx:SetTranslation( ent:GetPos() )
 				mtx:SetAngles( ent:GetAngles() )

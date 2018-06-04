@@ -24,7 +24,7 @@ end
 
 function meta:Add(p)
 
-	table.insert( self.points, p )
+	table.insert( self.points, Vector(p) )
 
 end
 
@@ -32,7 +32,7 @@ function meta:Move(v)
 
 	for i=1, #self.points do
 
-		self.points[i] = self.points[i] + v
+		self.points[i]:Add( v )
 
 	end
 	return self

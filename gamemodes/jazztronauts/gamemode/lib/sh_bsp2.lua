@@ -12,7 +12,29 @@ local function AddProcess( name, f )
 	})
 end
 
+--[[AddProcess( "Converting Brushes", function( data )
+
+	local out = {}
+	for k, orig in pairs( data[LUMP_BRUSHES] or {} ) do
+
+
+
+	end
+
+	data[LUMP_BRUSHES] = out
+	data.brushes = out
+	return out
+
+end )]]
+
 AddProcess( "Linking", function( data )
+
+	local verts = data[LUMP_VERTEXES]
+	for k, edge in pairs( ( verts and data[LUMP_EDGES] ) or {} ) do
+		edge[1] = verts[edge[1]+1]
+		edge[2] = verts[edge[2]+1]
+		task.YieldPer(10000, "progress")
+	end
 
 	local edges = data[LUMP_EDGES]
 	for k, surfedge in pairs( ( edges and data[LUMP_SURFEDGES] ) or {} ) do
@@ -27,6 +49,7 @@ AddProcess( "Linking", function( data )
 	end
 
 	for k, texinfo in pairs( data[LUMP_TEXINFO] or {} ) do
+		texinfo.id = k
 		texinfo.texdata = data[LUMP_TEXDATA] and data[LUMP_TEXDATA][texinfo.texdata+1]
 		task.YieldPer(10000, "progress")
 	end
@@ -34,6 +57,7 @@ AddProcess( "Linking", function( data )
 	local facelist = data[LUMP_FACES] or data[LUMP_ORIGINALFACES]
 
 	for k, node in pairs( data[LUMP_NODES] or {} ) do
+		node.id = k
 		node.plane = data[LUMP_PLANES] and data[LUMP_PLANES][node.planenum+1]
 		node.planenum = nil
 
@@ -48,6 +72,39 @@ AddProcess( "Linking", function( data )
 			table.insert( node.faces, facelist and facelist[i] )
 			task.YieldPer(10000, "progress")
 		end
+
+		node.is_leaf = false
+		node.is_node = true
+	end
+
+	for k, side in pairs( data[LUMP_BRUSHSIDES] or {} ) do
+		side.id = k
+		side.plane = data[LUMP_PLANES] and data[LUMP_PLANES][side.planenum+1]
+		side.planenum = nil
+
+		side.texinfo = data[LUMP_TEXINFO] and data[LUMP_TEXINFO][side.texinfo+1]
+		side.dispinfo = data[LUMP_DISPINFO] and data[LUMP_DISPINFO][side.dispinfo+1]
+	end
+
+	local blib = brush
+	for k, brush in pairs( ( data[LUMP_BRUSHSIDES] and data[LUMP_BRUSHES] ) or {} ) do
+		local newbrush = blib.Brush()
+		newbrush.contents = brush.contents
+		newbrush.id = k
+
+		for i = brush.firstside+1, brush.firstside + brush.numsides do
+			local origside = data[LUMP_BRUSHSIDES][i]
+			local side = blib.Side( origside.plane.back )
+			side.texinfo = origside.texinfo
+			side.dispinfo = origside.dispinfo
+			side.bevel = origside.bevel != 0
+			newbrush:Add( side )
+			task.YieldPer(10000, "progress")
+		end
+
+		newbrush:CreateWindings()
+		newbrush.center = (newbrush.min + newbrush.max) / 2
+		data[LUMP_BRUSHES][k] = newbrush
 	end
 
 	for k, leafface in pairs( data[LUMP_LEAFFACES] or {} ) do
@@ -61,6 +118,7 @@ AddProcess( "Linking", function( data )
 	end
 
 	for k, leaf in pairs( data[LUMP_LEAFS] or {} ) do
+		leaf.id = k
 		leaf.faces = {}
 		for i = leaf.firstleafface+1, leaf.firstleafface + leaf.numleaffaces do
 			table.insert( leaf.faces, data[LUMP_LEAFFACES] and data[LUMP_LEAFFACES][i] )
@@ -73,30 +131,22 @@ AddProcess( "Linking", function( data )
 			task.YieldPer(10000, "progress")
 		end
 
+		leaf.has_detail_brushes = false
+		for k,v in pairs( leaf.brushes ) do
+			if bit.band( v.contents, CONTENTS_DETAIL ) ~= 0 then
+				leaf.has_detail_brushes = true
+			end
+		end
+
 		leaf.mins = Vector(leaf.mins[1], leaf.mins[2], leaf.mins[3])
 		leaf.maxs = Vector(leaf.maxs[1], leaf.maxs[2], leaf.maxs[3])
-	end
-
-	for k, side in pairs( data[LUMP_BRUSHSIDES] or {} ) do
-		side.plane = data[LUMP_PLANES] and data[LUMP_PLANES][side.planenum+1]
-		side.planenum = nil
-
-		side.texinfo = data[LUMP_TEXINFO] and data[LUMP_TEXINFO][side.texinfo+1]
-		side.dispinfo = data[LUMP_DISPINFO] and data[LUMP_DISPINFO][side.dispinfo+1]
-	end
-
-	for k, brush in pairs( ( data[LUMP_BRUSHSIDES] and data[LUMP_BRUSHES] ) or {} ) do
-		brush.sides = {}
-		for i = brush.firstside+1, brush.firstside + brush.numsides do
-			table.insert( brush.sides, data[LUMP_BRUSHSIDES][i] )
-			task.YieldPer(10000, "progress")
-		end
-		brush.firstside = nil
-		brush.numsides = nil
+		leaf.is_leaf = true
+		leaf.is_node = false
 	end
 
 	for _, lump in pairs( { data[LUMP_FACES], data[LUMP_ORIGINALFACES] }) do
 	for k, face in pairs( lump ) do
+		face.id = k
 		face.plane = data[LUMP_PLANES] and data[LUMP_PLANES][face.planenum+1]
 		face.planenum = nil
 		face.edges = {}
@@ -117,6 +167,7 @@ AddProcess( "Linking", function( data )
 	end
 
 	for k, model in pairs( data[LUMP_MODELS] or {} ) do
+		model.id = k
 		model.headnode = data[LUMP_NODES] and data[LUMP_NODES][model.headnode+1]
 		model.faces = {}
 		for i = model.firstface+1, model.firstface + model.numfaces do
@@ -129,38 +180,11 @@ AddProcess( "Linking", function( data )
 	data.verts = data[LUMP_VERTEXES]
 	data.brushes = data[LUMP_BRUSHES]
 	data.edges = data[LUMP_SURFEDGES]
-	data.faces = data[LUMP_FACES]
+	data.faces = data[LUMP_FACES] or data[LUMP_ORIGINALFACES]
 	data.nodes = data[LUMP_NODES]
 	data.leafs = data[LUMP_LEAFS]
 	data.models = data[LUMP_MODELS]
 	data.props = data[LUMP_GAME_LUMP] and data[LUMP_GAME_LUMP].props
-
-end )
-
-AddProcess( "Converting Brushes", function( data )
-
-	local out = {}
-	for k, orig in pairs( data[LUMP_BRUSHES] or {} ) do
-
-		local newbrush = brush.Brush()
-		newbrush.contents = orig.contents
-
-		for i, origside in pairs( orig.sides ) do
-			local side = brush.Side( origside.plane.back )
-			side.texinfo = origside.texinfo
-			side.bevel = origside.bevel != 0
-			newbrush:Add( side )
-			task.YieldPer(10000, "progress")
-		end
-
-		newbrush.center = (newbrush.min + newbrush.max) / 2
-		table.insert( out, newbrush )
-
-	end
-
-	data[LUMP_BRUSHES] = out
-	data.brushes = out
-	return out
 
 end )
 
@@ -185,7 +209,7 @@ AddProcess( "Converting Entities", function( data )
 				local index = string.match( v, "(%d+)")
 				local model = data.models[ index+1 ]
 				if model then
-					return model
+					t.bmodel = model
 				end
 			end
 		end

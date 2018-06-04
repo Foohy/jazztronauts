@@ -34,6 +34,7 @@ function CanSnatch(ent)
 	if ent:GetClass() == "prop_physics_multiplayer" then return true end
 	if ent:GetClass() == "prop_dynamic" then return true end
 	if ent:GetClass() == "prop_ragdoll" then return true end
+    if ent:GetClass() == "prop_door_rotating" then return true end
     if string.find(ent:GetClass(), "weapon_") ~= nil then return true end
     if string.find(ent:GetClass(), "prop_vehicle") ~= nil then return true end
     //if string.find(ent:GetClass(), "jazz_bus_") ~= nil then return true end

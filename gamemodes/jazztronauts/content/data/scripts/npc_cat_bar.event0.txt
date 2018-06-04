@@ -3,9 +3,24 @@ begin:
     *hide 1*
     *txout*
     *setfov 70*
+
+    # Spawn the cat we'll be conversing with
+    # Note this sets the cat as the 'proxy', meaning that's the model that'll show up in the bottom left dialog corner
     *spawn cat models/krio/jazzcat1.mdl*
     *setposang cat -305.654907 409.102570 35.521034;setang 3.861566 180 0.000000*
     *setanim cat sit*
+    *setproxy cat*
+
+    # Spawning scene props
+    *spawn beer1 models/props_junk/GlassBottle01a.mdl*
+    *setposang beer1 -283.465637 441.905090 47.889038;setang 4.426392 -0.486702 0.000000*
+    *spawn beer2 models/props_junk/GlassBottle01a.mdl*
+    *setposang beer2 -283.465637 445.905090 47.889038;setang 4.426392 -0.486702 0.000000*
+    *spawn beer3 models/props_junk/GlassBottle01a.mdl*
+    *setposang beer3 -283.465637 447.905090 42.889038;setang 4 50 90.000000*
+    *spawn jug1 models/props_junk/glassjug01.mdl*
+    *setposang jug1 -285.115448 388.506378 40.458138;setang 3.098470 6.152791 0.000000*
+
     *txin true*
     *setcam -399.595001 459.590210 78.340256;setang 3.197538 -2.534574 0.000000*
     *tweencam 4.0   -401.148773 374.122742 78.340256;setang 3.086878 -0.874674 0.000000*
@@ -14,7 +29,7 @@ begin:
     *setcam setpos -207.606873 523.032166 145.427139;setang 31.526472 -129.350937 0.000000*
     *tweencam 3.0 -193.346848 402.567993 74.846519;setang -0.454177 177.998001 0.000000*
     *txin*
-    *wait 3.0*
+    *wait 2.5*
     *show 1.0*
     So now that we have a moment, how are you settling in?%%
     We have very little idea of how to provide creature comforts,%

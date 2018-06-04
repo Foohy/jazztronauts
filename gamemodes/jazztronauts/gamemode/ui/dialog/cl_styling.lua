@@ -21,8 +21,14 @@ local BGH = ScreenScale(90)
 
 local CatW = ScreenScale(150)
 local CatH = ScreenScale(170)
-local CatCamOffset = Vector(-60, -35, 0):GetNormal() * 70
+local CatCamOffset = Vector(-35, 60, 0):GetNormal() * 70
 
+-- Local view camera offsets for specific models
+-- We try to not need these, but sometimes it's just easier
+local CamOffsets = {
+	["models/krio/jazzcat1.mdl"] = {pos = Vector(0, 0, 12), offset = Vector(-36, -60, 0):GetNormal() * 70},
+	["models/props_c17/oildrum001_explosive.mdl"] = { pos = Vector(0, 0, 40), offset = CatCamOffset }
+}
 
 local DialogCallbacks = {}
 
@@ -50,6 +56,18 @@ surface.CreateFont( "JazzDialogFontHint", {
 	antialias = true,
 } )
 
+-- The focus proxy allows us to use another model as a replacement
+-- for the normal npc. The NPC provides the context for the dialog
+-- and this lets us modify it without actually modifying it
+local focusProxy
+function dialog.SetFocusProxy(focusEnt)
+	focusProxy = focusEnt
+end
+
+function dialog.GetFocusProxy()
+	return focusProxy
+end
+
 local function drawPlayer(ply)
 	if not pac then
 		ply:DrawModel()
@@ -68,22 +86,28 @@ local renderPlayerCutIn = false
 local function RenderEntityCutIn(ent, x, y, w, h)
 	if not IsValid(ent) then return end
 
-	local headpos = ent:GetPos() + ent:GetAngles():Up() * 49
-	local offset = ent:GetAngles():Forward() * CatCamOffset.X + ent:GetAngles():Right() * CatCamOffset.Y
+	local headpos = ent:GetPos()
+	local entangs = ent:GetAngles()
+	local offset = entangs:Right() * CatCamOffset.X + entangs:Forward() * CatCamOffset.Y
 
-	-- Apply player-specific setup here
-	if ent:IsPlayer() then
-		local bone = ent:LookupBone("ValveBiped.Bip01_Neck1")	
-		bone = bone or ent:LookupBone("ValveBiped.Bip01_Head1")
-		if bone and ent:GetBonePosition(bone) != ent:GetPos() then
-			headpos = ent:GetBonePosition(bone)
-		else
-			headpos = ent:GetPos() + ent:GetAngles():Up() * 60
-		end
-
-		offset = ent:GetAngles():Forward() * -CatCamOffset.X + ent:GetAngles():Right() * CatCamOffset.Y
+	-- Attempt to automatically find a good spot to focus on
+	local bone = ent:LookupBone("ValveBiped.Bip01_Neck1")	
+	bone = bone or ent:LookupBone("ValveBiped.Bip01_Head1")
+	bone = bone or ent:LookupBone("Head")
+	if bone and ent:GetBonePosition(bone) != ent:GetPos() then
+		headpos = ent:GetBonePosition(bone)
+	elseif ent:IsPlayer() then
+		headpos = ent:GetPos() + entangs:Up() * 60
 	end
 
+	-- Apply additional offsets if necessary
+	local posang = CamOffsets[ent:GetModel()]
+	if posang then
+		headpos = headpos + entangs:Right() * posang.pos.x + entangs:Forward() * posang.pos.y +  entangs:Up() * posang.pos.z
+		offset = entangs:Right() * posang.offset.X + entangs:Forward() * posang.offset.Y + entangs:Up() * posang.offset.Z
+	end
+
+	-- Calculate virtual camera view
 	local pos = headpos + offset
 	local ang = (headpos - pos):Angle()
 
@@ -104,9 +128,12 @@ end )
 
 local function GetCurrentSpeaker()
 	local speaker = dialog.GetSpeaker()
-	if not IsValid(speaker) then return end
+	if not IsValid(speaker) then return nil, "nil" end
 
 	local name = speaker.GetNPCID and string.upper(missions.GetNPCPrettyName(speaker:GetNPCID())) or speaker:GetName()
+	if speaker == dialog.GetFocus() and IsValid(focusProxy) then
+		speaker = focusProxy
+	end
 	return speaker, name
 end
 

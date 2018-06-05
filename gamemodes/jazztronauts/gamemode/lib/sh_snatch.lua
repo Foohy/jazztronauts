@@ -49,6 +49,25 @@ hook.Add( "CurrentBSPReady", "snatchReady", onSnatchInfoReady )
 
 if SERVER then
 
+	--[[
+
+			for k,v in pairs( map.props or {} ) do
+			local exist = findPropProxy( v.id )
+			if not exist then
+
+				local ent = ents.Create("jazz_static_proxy")
+				if not IsValid( ent ) then print("!!!Failed to create proxy") continue end
+
+				ent:SetID( v.id )
+				ent:SetPos( v.origin )
+				ent:SetAngles( v.angles )
+				ent:SetModel( Model( v.model ) )
+				ent:Spawn()
+
+			end
+		end
+	]]
+
 	hook.Add( "InitPostEntity", "snatchmakeproxies", function()
 
 		print("Server loaded map, creating proxies")
@@ -100,9 +119,9 @@ function TakeItAll()
 
 	for k,v in pairs( map.brushes ) do
 
-		v:CreateWindings()
+		--v:CreateWindings()
 
-		local center = (v.min + v.max) / 2
+		local center = v.center
 
 		timer.Simple( t, function()
 
@@ -162,6 +181,9 @@ function meta:AppendBrushToMapMesh(brush)
 
 	-- Add vertices for every side
 	local to_brush = brush.center
+
+	print( tostring(to_brush) )
+
 	for _, side in pairs(brush.sides) do
 		if not side.winding or emptySide(side) then continue end
 
@@ -192,7 +214,7 @@ function meta:RunWorld( brush_id )
 	if map:IsLoading() then print("STILL LOADING") return end
 
 	local brush_list = map.brushes
-	local brush = brush_list[brush_id]:Copy()
+	local brush = brush_list[brush_id]:Copy( true )
 
 	if not brush then
 		ErrorNoHalt( "Brush not found: " .. tostring( brush_id ))
@@ -209,8 +231,8 @@ function meta:RunWorld( brush_id )
 	local convex = {}
 
 	brush:CreateWindings()
-
 	brush.center = (brush.min + brush.max) / 2
+
 	local to_center = -brush.center
 
 	//print("TRANSLATE: " .. tostring( to_center ) )

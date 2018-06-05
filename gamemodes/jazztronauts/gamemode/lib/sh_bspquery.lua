@@ -4,7 +4,7 @@ local map = bsp2.GetCurrent()
 
 if SERVER then return end
 
-for k,v in pairs( map[bsp2.LUMP_TEXINFO] ) do
+--[[for k,v in pairs( map[bsp2.LUMP_TEXINFO] ) do
 	--if string.find( v.texdata.material, "TOOLS/" ) then PrintTable(v) end
 end
 
@@ -14,7 +14,7 @@ end
 
 for k,v in pairs( map[bsp2.LUMP_TEXDATA] ) do
 	if string.find( v.material, "TOOLS/" ) then PrintTable(v) end
-end
+end]]
 
 local function drawFace( face )
 
@@ -275,12 +275,21 @@ end
 local trace_res = nil
 hook.Add( "HUDPaint", "dbgquery", function()
 
+	if true then return end
+	if map:IsLoading() then return end
+
 	if trace_res and trace_res.Hit then
+
+		if not map.entities[1].index then
+			for k, ent in pairs( map.entities ) do
+				ent.index = k
+			end
+		end
 
 
 		local ent = trace_res.Entity
 		local d = tostring( ( "%0.1f"):format( trace_res.t ) )
-		d = ent and ( ( ent.targetname and ent.targetname .. "<" .. ent.classname .. ">" ) or ent.classname ) .. " [" .. d .. "]" or d
+		d = ent and ( ( ent.targetname and ent.targetname .. "<" .. ent.classname .. ">" ) or ent.classname ) .. " [" .. d .. ", " .. ent.index .. " ]" or d
 		d = trace_res.IsDetail and "detail [" .. d .. "]" or d
 
 		local inf = trace_res.TexInfo
@@ -313,6 +322,8 @@ hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky )
 
 	if map:IsLoading() then return end
 
+	if true then return end
+
 	local mask = bit.bor( MASK_SOLID, CONTENTS_DETAIL )
 	mask = bit.bor( mask, CONTENTS_GRATE )
 	mask = bit.bor( mask, CONTENTS_TRANSLUCENT )
@@ -330,7 +341,7 @@ hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky )
 	--trace( map.models[1].headnode, d )
 	for k,v in pairs( map.entities ) do
 
-		if string.find( v.classname, "trigger_" ) then continue end
+		--if string.find( v.classname, "trigger_" ) then continue end
 
 		if v.bmodel then
 
@@ -368,7 +379,7 @@ hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky )
 				drawLeaf( res.leaf, res.mtx )
 			else
 				drawBrush( res.Brush, res.mtx  )
-			end
+			end			
 
 		end
 

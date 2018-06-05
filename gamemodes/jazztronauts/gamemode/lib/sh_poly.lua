@@ -32,7 +32,7 @@ function meta:Move(v)
 
 	for i=1, #self.points do
 
-		self.points[i]:Add( v )
+		self.points[i] = self.points[i] + v --:Add( v )
 
 	end
 	return self

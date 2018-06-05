@@ -23,10 +23,10 @@ function meta:Init( plane, winding )
 
 end
 
-function meta:Copy()
+function meta:Copy( nowindings )
 
 	local s = Side( Plane( Vector(self.plane.normal), self.plane.dist ) )
-	if self.winding then
+	if self.winding and not nowindings then
 		s.winding = self.winding:Copy()
 	end
 	s.texinfo = self.texinfo
@@ -132,6 +132,7 @@ function meta:CreateWindings()
 
 	for i, side in pairs(self.sides) do
 		if side.bevel then continue end
+		--if side.winding ~= nil then continue end
 		side.winding = poly.BaseWinding( side.plane )
 		for j, other in pairs(self.sides) do
 			if j ~= i and not other.bevel then

@@ -35,5 +35,6 @@ include("sh_mdl.lua")
 include("sh_snatch.lua")
 include("sh_gmad.lua")
 include("sh_hacking.lua")
+include("sh_drugs.lua")
 
 if SERVER then AddCSLuaFile("shared.lua") end

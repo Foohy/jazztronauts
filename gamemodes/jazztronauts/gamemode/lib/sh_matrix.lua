@@ -103,6 +103,12 @@ function meta:Concat( other )
 
 end
 
+function meta:Copy()
+
+	return Matrix( self:ToTable() )
+
+end
+
 local _T = MAccess()
 
 function meta:Transform3( vector, w, out )

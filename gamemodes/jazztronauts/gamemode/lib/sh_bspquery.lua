@@ -1,8 +1,8 @@
 AddCSLuaFile()
 
-local map = bsp2.GetCurrent()
+module( "bsp2", package.seeall )
 
-if SERVER then return end
+local map = bsp2.GetCurrent()
 
 --[[for k,v in pairs( map[bsp2.LUMP_TEXINFO] ) do
 	--if string.find( v.texdata.material, "TOOLS/" ) then PrintTable(v) end
@@ -15,49 +15,6 @@ end
 for k,v in pairs( map[bsp2.LUMP_TEXDATA] ) do
 	if string.find( v.material, "TOOLS/" ) then PrintTable(v) end
 end]]
-
-local function drawFace( face )
-
-	local winding = poly.Winding()
-	for i=1, #face.edges do
-
-		winding:Add( face.edges[i][1] )
-
-	end
-	winding:Move( face.plane.normal )
-	winding:Render()
-
-end
-
-local function drawBrush( brush, mtx )
-
-	if mtx then cam.PushModelMatrix(mtx) end
-
-	brush:Render()
-
-	if mtx then cam.PopModelMatrix() end
-
-end
-
-local function drawLeaf( leaf, mtx )
-
-	if mtx then cam.PushModelMatrix(mtx) end
-
-	for k,v in pairs( leaf.brushes ) do
-		drawBrush( v )
-	end
-
-	if mtx then cam.PopModelMatrix() end
-
-end
-
-local function drawModel( model )
-
-	for k,v in pairs( model.faces ) do
-		drawFace( v )
-	end
-
-end
 
 local function findBrushSide( leaf, pos )
 
@@ -146,7 +103,7 @@ local function traceBrushes( leaf, tw )
 
 end
 
-local function trace( node, tw )
+function traceNode( node, tw )
 
 	if node == nil then return end
 	local stack = {}
@@ -272,6 +229,80 @@ local function trace( node, tw )
 
 end
 
+local meta = getmetatable( map )
+function meta:Trace( tdata)
+	local res = traceNode( self.models[1].headnode, tdata )
+
+	if not tdata.ignoreents then
+		for k,v in pairs( self.entities ) do
+
+			if v.bmodel then
+
+				local d = table.Copy(tdata)
+				d.Entity = v
+
+				local mtx = Matrix()
+				mtx:SetTranslation( v.origin or Vector(0,0,0) )
+				mtx:SetAngles( v.angles or Angle(0,0,0) )
+				d.mtx = mtx
+
+				traceNode( v.bmodel.headnode, d )
+				d.Steps = (res and (d.Steps + res.Steps)) or d.Steps
+				res = (res and res.t < d.t) and res or d
+			end
+		end
+	end
+
+	return res
+end
+
+
+if SERVER then return end
+
+
+local function drawFace( face )
+
+	local winding = poly.Winding()
+	for i=1, #face.edges do
+
+		winding:Add( face.edges[i][1] )
+
+	end
+	winding:Move( face.plane.normal )
+	winding:Render()
+
+end
+
+local function drawBrush( brush, mtx )
+
+	if mtx then cam.PushModelMatrix(mtx) end
+
+	brush:Render()
+
+	if mtx then cam.PopModelMatrix() end
+
+end
+
+local function drawLeaf( leaf, mtx )
+
+	if mtx then cam.PushModelMatrix(mtx) end
+
+	for k,v in pairs( leaf.brushes ) do
+		drawBrush( v )
+	end
+
+	if mtx then cam.PopModelMatrix() end
+
+end
+
+local function drawModel( model )
+
+	for k,v in pairs( model.faces ) do
+		drawFace( v )
+	end
+
+end
+
 local trace_res = nil
 hook.Add( "HUDPaint", "dbgquery", function()
 
@@ -330,7 +361,7 @@ hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky )
 	--mask = bit.bor( mask, CONTENTS_PLAYERCLIP )
 	--mask = bit.bor( mask, CONTENTS_MONSTERCLIP )
 
-	local res = trace( map.models[1].headnode, {
+	local res = map:Trace({
 		pos = LocalPlayer():EyePos(),
 		dir = LocalPlayer():EyeAngles():Forward(),
 		tmin = 0,
@@ -339,6 +370,15 @@ hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky )
 	} )
 
 	--trace( map.models[1].headnode, d )
+	/*
+	local res = trace( map.models[1].headnode, {
+		pos = LocalPlayer():EyePos(),
+		dir = LocalPlayer():EyeAngles():Forward(),
+		tmin = 0,
+		tmax = 10000,
+		mask = mask,
+	} )
+
 	for k,v in pairs( map.entities ) do
 
 		--if string.find( v.classname, "trigger_" ) then continue end
@@ -365,7 +405,7 @@ hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky )
 
 		end
 
-	end
+	end*/
 
 	if res then
 

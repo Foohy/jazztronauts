@@ -43,7 +43,7 @@ local function Handle( scene )
 	local bigTake = isBigTake(scale)
 
 	scene.duration = bigTake and 5 or 4
-	scene.breaktime = bigTake and 1.8 or 0.8
+	scene.breaktime = bigTake and 1.8 or 0
 	scene.startpos = scene:GetRealEntity():GetPos()
 	scene.startvel = (LocalPlayer():EyePos() - scene.startpos):GetNormalized() * 100 + Vector(0, 0, 100)
 	scene.angvel = AngleRand() * 0.25

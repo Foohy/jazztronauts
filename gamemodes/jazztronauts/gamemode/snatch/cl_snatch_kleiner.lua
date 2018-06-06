@@ -59,6 +59,12 @@ local function Handle( scene )
 	scene.koffset = koffset
 	scene.guypos = scene:GetEntity():GetPos() + koffset - Vector(0,0,1000)
 
+	-- If static prop, ignore collisions and re-render in void
+	if scene.is_proxy then
+		local ent = scene:GetEntity()
+		ent:PhysicsDestroy()
+	end
+
 	--Build scene table
 	table.insert( scenes, scene )
 
@@ -73,7 +79,13 @@ local function DoneScene( scene )
 
 end
 
-local function DrawScene( scene )
+local function DrawScene( scene, voidrender )
+	-- If rendering in void ONLY render the prop
+	-- Also only do this for static props for performance reasons
+	if voidrender and scene.is_proxy then
+		local ent = scene:GetEntity()
+		ent:DrawModel()
+	end
 
 	local dt = ( CurTime() - scene.time )
 	local pos = scene:GetEntity():GetPos()
@@ -183,7 +195,10 @@ local function TickScene( scene )
 			else
 
 				--No physics? just move the thing
-				ent:SetPos( ent:GetPos() + Vector(0,0,100) * FrameTime() )
+				scene.velocity = scene.velocity or 0
+				scene.velocity = scene.velocity + 0.5 * FrameTime()
+				ent:SetPos( ent:GetPos() + Vector(0,0, 200) * scene.velocity * FrameTime() )
+				ent:SetAngles(ent:GetAngles() + Angle(100, 300, 200) * scene.velocity * FrameTime())
 
 			end
 
@@ -236,3 +251,11 @@ hook.Add( "PostDrawOpaqueRenderables", "DrawRemoveScenes", function(depth, sky)
 	end
 
 end)
+
+hook.Add("JazzDrawVoid", "DrawRemoveSceneVoid", function()
+	for i=#scenes, 1, -1 do
+		if CurTime() - scenes[i].time <= scenes[i].duration then
+			DrawScene( scenes[i], true )
+		end
+	end
+end )

@@ -654,7 +654,8 @@ elseif CLIENT then
 				time = time,
 				vel = vel,
 				avel = avel,
-				owner = owner,		
+				owner = owner,
+				is_proxy = is_proxy
 			} ):RunProp( ent )
 
 		else

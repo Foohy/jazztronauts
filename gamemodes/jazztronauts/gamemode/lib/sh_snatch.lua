@@ -71,22 +71,23 @@ if SERVER then
 	hook.Add( "InitPostEntity", "snatchmakeproxies", function()
 
 		print("Server loaded map, creating proxies")
+		timer.Simple(0, function()
+			for k,v in pairs( map.props or {} ) do
+				local exist = findPropProxy( v.id )
+				if not exist then
 
-		for k,v in pairs( map.props or {} ) do
-			local exist = findPropProxy( v.id )
-			if not exist then
+					local ent = ents.Create("jazz_static_proxy")
+					if not IsValid( ent ) then print("!!!Failed to create proxy") continue end
 
-				local ent = ents.Create("jazz_static_proxy")
-				if not IsValid( ent ) then print("!!!Failed to create proxy") continue end
+					ent:SetID( v.id )
+					ent:SetPos( v.origin )
+					ent:SetAngles( v.angles )
+					ent:SetModel( Model( v.model ) )
+					ent:Spawn()
 
-				ent:SetID( v.id )
-				ent:SetPos( v.origin )
-				ent:SetAngles( v.angles )
-				ent:SetModel( Model( v.model ) )
-				ent:Spawn()
-
+				end
 			end
-		end
+		end)
 
 	end )
 
@@ -387,9 +388,19 @@ end
 
 
 if SERVER then
+	local ignorePickupClasses = {
+		"jazz_static_proxy",
+		"prop_physics",
+		"prop_physics_multiplayer",
+		"prop_dynamic",
+		"prop_dynamic_override"
+	}
 
 	local function tryPickUp(ply, ent)
 		if not IsValid(ply) or not IsValid(ent) then return end
+		local class = ent:GetClass()
+		if table.HasValue(ignorePickupClasses, class) then return end
+
 		ent:SetPos(ply:GetPos())
 	end
 
@@ -662,8 +673,7 @@ elseif CLIENT then
 
 	end
 
-	hook.Add("PostDrawTranslucentRenderables", "drawsnatchstaticprops", function()
-
+	hook.Add("PostDrawTranslucentRenderables", "drawsnatchstaticprops2", function()
 		local a,b = jazzvoid.GetVoidOverlay()
 
 		for k,v in pairs( expanded_props ) do
@@ -676,7 +686,7 @@ elseif CLIENT then
 		end
 
 	end )
-
+	/*
 	hook.Add("PostDrawOpaqueRenderables", "drawsnatchstaticprops", function()
 
 		--[[local a,b = jazzvoid.GetVoidOverlay()
@@ -690,7 +700,7 @@ elseif CLIENT then
 
 		end]]
 
-	end )
+	end )*/
 		
 	net.Receive("remove_prop_scene", CL_RecvPropSceneFromServer)
 

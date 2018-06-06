@@ -5,41 +5,7 @@ include("shared.lua")
 
 
 function ENT:Initialize()
-    self:SetModel(self.Model)
-    self:PhysicsInitSphere( 16 )
-    self:SetMoveType(MOVETYPE_NONE)
-    self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-
-    self:PhysWake()
-
-    self.PlayerList = {}
-end
-
--- Shards should be always networked, even if they're out of the player's PVS
--- Will be necessary if they need help locating them
-function ENT:UpdateTransmitState()
-    return TRANSMIT_ALWAYS
-end
-
-
-function ENT:AddPlayer(ply)
-    if table.HasValue(self.PlayerList, ply) then return end
-
-    table.insert(self.PlayerList, ply)
-    self:CheckPlayerCount()
-end
-
-function ENT:RemovePlayer(ply)
-    table.RemoveByValue(self.PlayerList, ply)
-    self:CheckPlayerCount()
-end
-
-local function filterByPredicate(tbl, func)
-    for i=#tbl, 1, -1 do
-        if func(tbl[i]) then 
-            table.remove(tbl, i)
-        end
-    end
+    self.BaseClass.Initialize(self)
 end
 
 function ENT:ValidPlayer(ply)
@@ -49,63 +15,14 @@ function ENT:ValidPlayer(ply)
     return IsValid(w) and w:GetBusMarker() == self 
 end
 
-function ENT:RemoveInvalid()
-    filterByPredicate(self.PlayerList, function(ply)
-        return !self:ValidPlayer(ply)
-    end )
-end
-
 function ENT:HasEnoughPlayers()
     return #self.PlayerList >= 2 * player.GetCount() / 3
 end
 
-
-function ENT:CheckPlayerCount()
-    self:RemoveInvalid() 
-
-    if #self.PlayerList == 0 then
-        self:StartRemove()
-    end
-
-    if self:HasEnoughPlayers() and !self:CountdownStarted() then 
-        self:StartCountdown()
-    end
-end
-
-function ENT:StartCountdown()
-    self:SetSpawnTime(CurTime() + self.SpawnDelay)
-end
-
-function ENT:StopCountdown() 
-    self:SetSpawnTime(0)
-end
-
-function ENT:Think() 
-    if self:GetIsBeingDeleted() then return end
-    
-    self:CheckPlayerCount()
-
-    if self:CountdownStarted() then 
-        if !self:HasEnoughPlayers() then
-            self:StopCountdown()
-            return
-        end
-
-        if CurTime() > self:GetSpawnTime() then 
-            self:CallBus()
-            self:StartRemove()
-        end
-    end
-end
-
-function ENT:StartRemove()
-    if self:GetIsBeingDeleted() then return end
-
-    self:SetIsBeingDeleted(true)
-    SafeRemoveEntityDelayed(self, 0.5)
-end
-
-
-function ENT:CallBus()
+function ENT:ActivateMarker()
     mapcontrol.SpawnExitBus(self:GetPos(), self:GetAngles())
+end
+
+function ENT:UpdateSpeed()
+    self:SetSpeed(self:HasEnoughPlayers() and 1/3 or 0)
 end

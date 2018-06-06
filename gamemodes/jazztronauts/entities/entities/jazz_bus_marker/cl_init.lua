@@ -17,7 +17,8 @@ end
 
 
 function ENT:Think()
-
+    self.BaseClass.Think(self)
+    
     if not self:GetIsBeingDeleted() then
         LocalPlayer().ActiveBusMarkers = LocalPlayer().ActiveBusMarkers or {}
         table.insert(LocalPlayer().ActiveBusMarkers, self)
@@ -105,8 +106,6 @@ hook.Add("PostDrawOpaqueRenderables", "JazzDrawBusMarkerBeams", function()
         end
     end
 end )
-
-hook.Add("PostThink")
 
 hook.Add( "PostDrawHUD", "JazzDrawBusMarker", function()
     local markers = LocalPlayer().ActiveBusMarkers

@@ -11,6 +11,7 @@ ENT.RemoveDelay = 0.5
 function ENT:SetupDataTables()
     self:NetworkVar("Float", 0, "Progress")
     self:NetworkVar("Float", 1, "Speed")
+    self:NetworkVar("Int", 0, "NumPlayers")
     self:NetworkVar("Bool", 0, "IsBeingDeleted")
 end
 
@@ -86,6 +87,8 @@ if SERVER then
 
     function ENT:CheckPlayerCount()
         self:RemoveInvalid() 
+
+        self:SetNumPlayers(#self.PlayerList)
 
         if #self.PlayerList == 0 then
             self:StartRemove()

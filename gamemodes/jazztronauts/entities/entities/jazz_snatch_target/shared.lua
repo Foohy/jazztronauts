@@ -46,7 +46,7 @@ end
 
 function ENT:SetupDataTables()
     self.BaseClass.SetupDataTables(self)
-    self:NetworkVar("Int", 0, "BrushID")
+    self:NetworkVar("Int", 1, "BrushID")
 end
 
 if SERVER then

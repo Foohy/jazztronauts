@@ -414,6 +414,12 @@ function SWEP:DrawHUD()
 	surface.SetMaterial(self.ReticleCircleMaterial)
 	surface.DrawTexturedRect(ScrW() / 2 - size/2, ScrH() / 2 - size/2, size, size)
 
+	-- Draw player count if we're grabbing a brush
+	if IsValid(curMarker) and curMarker.GetNumPlayers and curMarker:GetNumPlayers() > 1 then
+		local numPlayers = curMarker:GetNumPlayers()
+		draw.SimpleText("x" .. numPlayers, "JazzMouseHint", ScrW()/2, ScrH()/2, color, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	end
+
 	-- Step hover alpha linearly
 	local speed = 10
 	self.HoverAlpha = math.Approach(self.HoverAlpha, IsValid(ent) and 1 or 0, FrameTime() * speed) 
@@ -490,34 +496,11 @@ function SWEP:Think()
 				self:SetCurSnatchMarker(newMarker)
 			end
 		end
-		-- This is what I'd LIKE to do, but tracing this way is just
-		-- way too darn slow. Zak's lua bsp traversal would be perfect for this though
-		/*
-		local curMarker = self:GetCurSnatchMarker()
-		local tr = self:WorldStealTrace()
-		local newMarker = tr.HitWorld and snatch.FindOrCreateWorld(tr.HitPos)
-		
-		-- If we got a new marker that's valid, move over to that one
-		if IsValid(newMarker) and newMarker != curMarker then
-			self:RemoveSnatchMarker()
-
-			newMarker:AddPlayer(self.Owner)
-			self:SetCurSnatchMarker(newMarker)
-		end
-		*/
 	end
 end
 
 function SWEP:SecondaryAttack()
 	self.BaseClass.SecondaryAttack( self )
-	/*
-	if !self:CanSecondaryAttack() then return end
-	self:SetNextSecondaryFire(CurTime() + 0.5)
-	//self:EmitSound( self.Primary.Sound, 50, math.random( 50, 60 ) )
-	
-	if CLIENT or game.SinglePlayer() then
-		self:TraceToRemove(true)
-	end*/
 
 	self:ShootEffects()
 end

@@ -103,6 +103,7 @@ end
 
 function SWEP:SetupDataTables()
 	self.BaseClass.SetupDataTables( self )
+	self:NetworkVar("Entity", 0, "CurSnatchMarker")
 end
 
 function SWEP:Deploy()
@@ -336,9 +337,15 @@ function SWEP:DrawHUD()
 	local radius = (ScrW() / 2) * math.tan(math.rad(90 - pfov/2)) * math.tan(math.rad(self.AutoAimCone))
 	local drawExtended = self.AutoAimCone > 0
 
+	local curMarker = self:GetCurSnatchMarker()
+	local worldShootGoal = IsValid(curMarker) and 1 - curMarker:GetSpawnPercent() or 0
+	if IsValid(curMarker) then
+		--self.WorldShootGoal = 0.5
+	end
+
 	-- #TODO: When _holding_, keep the circle at the smaller radius and show that same semicircle
 	-- from the bus caller
-	radius = radius - math.sin(math.pi * self.WorldShootFade) * ScreenScale(50)
+	radius = radius - math.sin(math.pi * self.WorldShootFade * 0.5) * ScreenScale(50)
 	radius = radius * math.EaseInOut(self.EquipFade, 0, 1)
 
 	-- Aimhack higlight 
@@ -411,7 +418,7 @@ function SWEP:DrawHUD()
 	local speed = 10
 	self.HoverAlpha = math.Approach(self.HoverAlpha, IsValid(ent) and 1 or 0, FrameTime() * speed) 
 	self.ShootFade = math.Approach(self.ShootFade, 0, FrameTime() * 3)
-	self.WorldShootFade = math.Approach(self.WorldShootFade, 0, FrameTime() * 2.1)
+	self.WorldShootFade = math.Approach(self.WorldShootFade, worldShootGoal, FrameTime() * 5.1)
 	self.BadShootFade = math.Approach(self.BadShootFade, 0, FrameTime() * 3)
 	self.EquipFade = math.Approach(self.EquipFade, 1, FrameTime() * 3)
 end
@@ -454,16 +461,63 @@ function SWEP:PrimaryAttack()
 
 end
 
+
+function SWEP:RemoveSnatchMarker()
+	local curMarker = self:GetCurSnatchMarker()
+	if IsValid(curMarker) then
+		curMarker:RemovePlayer(self.Owner)
+	end
+
+	self:SetCurSnatchMarker(Entity(0))
+end
+
+function SWEP:StopSecondaryAttack()
+	if SERVER then
+		self:RemoveSnatchMarker()
+	end
+end
+
+function SWEP:Think() 
+	if not SERVER then return end
+	if self:IsSecondaryAttacking() then
+		local curMarker = self:GetCurSnatchMarker()
+		if not IsValid(curMarker) then 
+			--local tr = self:WorldStealTrace()
+			local newMarker = snatch.FindOrCreateWorld(self.Owner:GetShootPos(), self.Owner:GetAimVector(), self.MaxRange)
+
+			if IsValid(newMarker) then
+				newMarker:AddPlayer(self.Owner)
+				self:SetCurSnatchMarker(newMarker)
+			end
+		end
+		-- This is what I'd LIKE to do, but tracing this way is just
+		-- way too darn slow. Zak's lua bsp traversal would be perfect for this though
+		/*
+		local curMarker = self:GetCurSnatchMarker()
+		local tr = self:WorldStealTrace()
+		local newMarker = tr.HitWorld and snatch.FindOrCreateWorld(tr.HitPos)
+		
+		-- If we got a new marker that's valid, move over to that one
+		if IsValid(newMarker) and newMarker != curMarker then
+			self:RemoveSnatchMarker()
+
+			newMarker:AddPlayer(self.Owner)
+			self:SetCurSnatchMarker(newMarker)
+		end
+		*/
+	end
+end
+
 function SWEP:SecondaryAttack()
 	self.BaseClass.SecondaryAttack( self )
-	
+	/*
 	if !self:CanSecondaryAttack() then return end
 	self:SetNextSecondaryFire(CurTime() + 0.5)
 	//self:EmitSound( self.Primary.Sound, 50, math.random( 50, 60 ) )
 	
 	if CLIENT or game.SinglePlayer() then
 		self:TraceToRemove(true)
-	end
+	end*/
 
 	self:ShootEffects()
 end

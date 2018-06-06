@@ -304,6 +304,7 @@ local function LoadBSP( bsp, path, callback )
 		loadLump( LUMP_NODES )					--Spatial partitioning nodes
 		loadLump( LUMP_LEAFS )					--Spatial partitioning leafs
 		loadLump( LUMP_MODELS )					--Brush models (trigger_* / func_*)
+		loadLump( LUMP_LEAFBRUSHES )			--Indexing between leafs and brushes
 
 		if CLIENT then
 
@@ -316,7 +317,6 @@ local function LoadBSP( bsp, path, callback )
 			--loadLump( LUMP_FACES )					--Poligonal faces
 			loadLump( LUMP_ORIGINALFACES )			--Original poligonal faces before BSP splitting
 			loadLump( LUMP_LEAFFACES )				--Indexing between leafs and faces
-			loadLump( LUMP_LEAFBRUSHES )			--Indexing between leafs and bruches
 			loadLump( LUMP_WORLDLIGHTS )			--Extended information for light_* entities
 			loadLump( LUMP_CUBEMAPS )				--env_cubemap locations and sizes
 

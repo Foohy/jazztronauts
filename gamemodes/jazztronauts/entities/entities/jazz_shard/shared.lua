@@ -64,11 +64,7 @@ function ENT:Initialize()
         self.DrawMatrix = Matrix()
         self.StartOffset = math.random(0, 20)
 
-        self.IdleSound = CreateSound(self, self.ShardSound) 
-        self.IdleSound:Play()
-
-        self.IdleSoundNear = CreateSound(self, self.ShardNearSound) 
-        self.IdleSoundNear:Play()
+        self:EnsureSound()
 
         ParticleEffect( self.ParticleName, self:GetPos(), self:GetAngles(), self )
         hook.Add("JazzDrawVoid", self, self.OnPortalRendered)
@@ -195,9 +191,25 @@ function ENT:GetWavyTranslation(t)
     return self:GetAngles():Up() * math.sin(t) * 4
 end
 
+-- Make sure the sound plays
+function ENT:EnsureSound()
+    if not self.IdleSound then
+        self.IdleSound = CreateSound(self, self.ShardSound) 
+        self.IdleSound:Play()
+    end
+
+    if not self.IdleSoundNear then
+        self.IdleSoundNear = CreateSound(self, self.ShardNearSound) 
+        self.IdleSoundNear:Play()
+    end
+end
+
 function ENT:Think()
+    self:EnsureSound()
+
     local origin = self:GetWavyTranslation(CurTime() + self.StartOffset) + self:GetPos()
     origin = LocalPlayer():GetPos()
+
     local ed = EffectData()
     ed:SetScale(1)
     ed:SetMagnitude(3)

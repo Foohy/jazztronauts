@@ -125,7 +125,9 @@ function ENT:VomitNewProps(ply)
 		v.Index = k
 		self.TotalCount = self.TotalCount + v.recent
 
-		util.PrecacheModel(v.propname)
+		if v.type == "prop" then
+			util.PrecacheModel(v.propname)
+		end
 	end
 	
 	-- Add this as a 'session' prop for leaderboards
@@ -225,6 +227,7 @@ function ENT:SpawnPropEffect(propinfo, pos)
 	net.Start("jazz_propvom_effect")
 		net.WriteVector(pos)
 		net.WriteString(propinfo.propname)
+		net.WriteString(propinfo.type) -- #TODO: int types?
 	net.Send(filter)
 end
 

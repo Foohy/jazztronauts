@@ -190,8 +190,8 @@ function ResetView(instant)
 end
 
 hook.Add("CalcView", "JazzDialogView", function(ply, origin, angles, fov, znear, zfar)
-    if not view then return end
-    
+    if not view or not view.origin or not view.fov then return end
+
     -- Maybe do some tweening
     if view.endtime then
         local p = 1 - math.Clamp((view.endtime - CurTime()) / view.tweenlen, 0, 1)

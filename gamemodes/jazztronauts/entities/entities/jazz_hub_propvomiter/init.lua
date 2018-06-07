@@ -113,8 +113,8 @@ function ENT:VomitNewProps(ply)
 
 	self.CurrentUser = ply -- TODO: Store steamid, not player reference
 
-	local counts = progress.GetPlayerPropCounts(ply, true)
-	progress.ClearPlayerRecentProps(ply)
+	local counts = snatch.GetPlayerPropCounts(ply, true)
+	snatch.ClearPlayerRecentProps(ply)
 
 	-- Store original use counts
 	self.SpawnQueue = counts

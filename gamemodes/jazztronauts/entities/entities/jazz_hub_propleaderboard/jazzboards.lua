@@ -37,7 +37,7 @@ if SERVER then
         if not Boards[id] then return false end 
         local pid = IsValid(ply) and ply:SteamID64() or nil
 
-        local counts = progress.GetPropCounts()
+        local counts = snatch.GetPropCounts()
         local tallied = Boards[id].valuefunc(counts)
 
         -- If the leaderboard supports a temporary offset, apply it here

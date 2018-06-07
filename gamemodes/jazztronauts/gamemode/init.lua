@@ -110,7 +110,7 @@ function GM:CollectProp(prop, ply)
 
 	-- Collect the prop to the poop chute
 	if worth and worth > 0 then --TODO: Check if worth > 1 not 0
-		local newCount = progress.AddProp(ply, prop:GetModel(), worth)
+		local newCount = snatch.AddProp(ply, prop:GetModel(), worth)
 		propfeed.notify( prop, ply, newCount, worth)
 	end
 

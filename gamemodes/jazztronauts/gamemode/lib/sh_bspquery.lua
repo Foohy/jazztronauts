@@ -110,6 +110,7 @@ function traceNode( node, tw )
 	local pos = Vector(tw.pos)
 	local dir = Vector(tw.dir)
 	local inv = nil
+
 	if tw.mtx then
 		inv = tw.mtx:Copy()
 		inv:Invert()
@@ -199,11 +200,10 @@ function traceNode( node, tw )
 			if tw.hit == true then
 
 				if tw.Side then
-					tw.HitNormal = tw.Side.plane.back.normal
+					tw.HitNormal = Vector(tw.Side.plane.back.normal)
 					tw.TexInfo = tw.Side.texinfo
 					tw.Contents = tw.Brush.contents
 				end
-
 
 				if inv then
 					tw.mtx:Transform3( tw.HitPos, 1, tw.HitPos )
@@ -281,7 +281,7 @@ function meta:Trace( tdata)
 				end
 
 				local d = table.Copy(tdatacopy)
-				d.mask = 0xFFFFFFFF
+
 				d.Entity = v
 				d.pos = Vector(d.pos)
 				d.dir = Vector(d.dir)

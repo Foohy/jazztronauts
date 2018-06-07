@@ -552,6 +552,61 @@ BSP.StaticPropLump_t[8] = Struct({
 	INT32.color,
 })
 
+BSP.StaticPropLump_t[9] = Struct({
+	VECTOR.origin,
+	QANGLE.angles,
+	
+	UINT16.proptype,
+	UINT16.firstleaf,
+	UINT16.leafcount,
+
+	UINT8.solid,
+	UINT8.flags,
+
+	INT32.skin,
+	FLOAT.fademindist,
+	FLOAT.fademaxdist,
+
+	VECTOR.lightingorigin,
+	FLOAT.forcedfadescale,
+
+	UINT8.mincpulevel,
+	UINT8.maxcpulevel,
+	UINT8.mingpulevel,
+	UINT8.maxgpulevel,
+
+	INT32.color,
+	UINT8.disablex360,
+})
+
+BSP.StaticPropLump_t[10] = Struct({
+	VECTOR.origin,
+	QANGLE.angles,
+	
+	UINT16.proptype,
+	UINT16.firstleaf,
+	UINT16.leafcount,
+
+	UINT8.solid,
+	UINT8.flags,
+
+	INT32.skin,
+	FLOAT.fademindist,
+	FLOAT.fademaxdist,
+
+	VECTOR.lightingorigin,
+	FLOAT.forcedfadescale,
+
+	UINT8.mincpulevel,
+	UINT8.maxcpulevel,
+	UINT8.mingpulevel,
+	UINT8.maxgpulevel,
+
+	INT32.color,
+	FLOAT.unknown,
+	UINT8.disablex360,
+})
+
 local function Chunk( lumpid, size, f, ... )
 
 	local name = BSP.LumpNames[lumpid+1]

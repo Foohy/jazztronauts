@@ -575,8 +575,7 @@ BSP.StaticPropLump_t[9] = Struct({
 	UINT8.mingpulevel,
 	UINT8.maxgpulevel,
 
-	INT32.color,
-	UINT8.disablex360,
+	INT32.color
 })
 
 BSP.StaticPropLump_t[10] = Struct({
@@ -603,8 +602,7 @@ BSP.StaticPropLump_t[10] = Struct({
 	UINT8.maxgpulevel,
 
 	INT32.color,
-	FLOAT.unknown,
-	UINT8.disablex360,
+	FLOAT.unknown
 })
 
 local function Chunk( lumpid, size, f, ... )
@@ -728,6 +726,7 @@ BSP.Readers[LUMP_GAME_LUMP] = function( f, header )
 			out.props = props
 
 		else
+			ErrorNoHalt("Unable to load static prop lump for version: " ..  proplump.version)
 			out.props = {}
 		end
 		return out

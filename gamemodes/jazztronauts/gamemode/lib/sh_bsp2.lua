@@ -305,15 +305,15 @@ local function LoadBSP( bsp, path, callback )
 		loadLump( LUMP_LEAFS )					--Spatial partitioning leafs
 		loadLump( LUMP_MODELS )					--Brush models (trigger_* / func_*)
 		loadLump( LUMP_LEAFBRUSHES )			--Indexing between leafs and brushes
+		loadLump( LUMP_TEXDATA )				--Texture data (width / height / name)
+		loadLump( LUMP_TEXDATA_STRING_DATA )	--Names of textures
+		loadLump( LUMP_TEXINFO )				--Surface texture info
 
 		if CLIENT then
 
 			loadLump( LUMP_VERTEXES )				--All vertices that make up map geometry
 			loadLump( LUMP_EDGES )					--Edges between vertices in map geometry
 			loadLump( LUMP_SURFEDGES )				--Indexing between vertices
-			loadLump( LUMP_TEXDATA )				--Texture data (width / height / name)
-			loadLump( LUMP_TEXINFO )				--Surface texture info
-			loadLump( LUMP_TEXDATA_STRING_DATA )	--Names of textures
 			--loadLump( LUMP_FACES )					--Poligonal faces
 			loadLump( LUMP_ORIGINALFACES )			--Original poligonal faces before BSP splitting
 			loadLump( LUMP_LEAFFACES )				--Indexing between leafs and faces

@@ -107,14 +107,15 @@ function traceNode( node, tw )
 
 	if node == nil then return end
 	local stack = {}
-
+	local pos = Vector(tw.pos)
+	local dir = Vector(tw.dir)
 	local inv = nil
 	if tw.mtx then
 		inv = tw.mtx:Copy()
 		inv:Invert()
 
-		inv:Transform3( tw.pos, 1, tw.pos )
-		inv:Transform3( tw.dir, 0, tw.dir )
+		inv:Transform3( pos, 1, pos )
+		inv:Transform3( dir, 0, dir )
 	end
 
 	local steps = 0
@@ -131,8 +132,8 @@ function traceNode( node, tw )
 		if not node.is_leaf then
 
 			local pln = node.plane
-			local denom = tw.dir:Dot( pln.normal )
-			local dist = pln.dist - pln.normal:Dot( tw.pos )
+			local denom = dir:Dot( pln.normal )
+			local dist = pln.dist - pln.normal:Dot( pos )
 			local near = dist <= 0
 
 			if denom ~= 0.0 then
@@ -172,7 +173,7 @@ function traceNode( node, tw )
 					tw.leaf = node
 					tw.t = tw.tmin
 					tw.Hit = true
-					tw.HitPos = tw.pos + tw.dir * tw.t
+					tw.HitPos = pos + dir * tw.t
 					tw.HitWorld = true
 					tw.Brush = brush
 					tw.Side = side
@@ -187,7 +188,7 @@ function traceNode( node, tw )
 				tw.leaf = node
 				tw.t = tw.tmin
 				tw.Hit = true
-				tw.HitPos = tw.pos + tw.dir * tw.t
+				tw.HitPos = pos + dir * tw.t
 				tw.HitNormal = Vector(0,0,1)
 				tw.HitWorld = not tw.Entity
 
@@ -229,26 +230,71 @@ function traceNode( node, tw )
 
 end
 
+local bmodelMap = {}
+local function getBModelIdx(ent)
+	local model = ent:GetModel()
+	if not model then return end
+
+	local split = string.Split(model, "*")
+	if #split != 2 then return end
+	local num = split and tonumber(split[2]) or nil
+
+	return num
+end
+
+local function mapEntity(ent)
+	local idx = getBModelIdx(ent)
+	if idx then
+		bmodelMap[idx] = ent
+	end
+end
+for _, v in pairs(ents.GetAll()) do
+	mapEntity(v)
+end
+PrintTable(bmodelMap)
+hook.Add("OnEntityCreated", "JazzBSPQueryMapper", function(ent)
+	mapEntity(ent)
+end )
+hook.Add("OnEntityRemoved", "JazzBSpQueryUnmapper", function(ent)
+	local idx = getBModelIdx(ent)
+	if idx then
+		bmodelMap[idx] = nil
+	end
+end )
+
 local meta = getmetatable( map )
 function meta:Trace( tdata)
+	local tdatacopy = table.Copy(tdata)
 	local res = traceNode( self.models[1].headnode, tdata )
 
 	if not tdata.ignoreents then
 		for k,v in pairs( self.entities ) do
 
 			if v.bmodel then
+				local pos = v.origin and Vector(v.origin)
+				local ang = v.angles and Angle(v.angles)
 
-				local d = table.Copy(tdata)
+				local real = bmodelMap[v.bmodel.id - 1]
+				if IsValid(real) then
+					pos = real:GetPos()
+					ang = real:GetAngles()
+				end
+
+				local d = table.Copy(tdatacopy)
+				d.mask = 0xFFFFFFFF
 				d.Entity = v
+				d.pos = Vector(d.pos)
+				d.dir = Vector(d.dir)
 
 				local mtx = Matrix()
-				mtx:SetTranslation( v.origin or Vector(0,0,0) )
-				mtx:SetAngles( v.angles or Angle(0,0,0) )
+				mtx:SetTranslation( pos or Vector(0,0,0) )
+				mtx:SetAngles( ang or Angle(0,0,0) )
 				d.mtx = mtx
 
 				traceNode( v.bmodel.headnode, d )
 				d.Steps = (res and (d.Steps + res.Steps)) or d.Steps
 				res = (res and res.t < d.t) and res or d
+				--print("yo: ", v.bmodel.id, tostring(v.origin), d.hit)
 			end
 		end
 	end
@@ -306,7 +352,7 @@ end
 local trace_res = nil
 hook.Add( "HUDPaint", "dbgquery", function()
 
-	if true then return end
+	--if true then return end
 	if map:IsLoading() then return end
 
 	if trace_res and trace_res.Hit then
@@ -353,7 +399,7 @@ hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky )
 
 	if map:IsLoading() then return end
 
-	if true then return end
+	--if true then return end
 
 	local mask = bit.bor( MASK_SOLID, CONTENTS_DETAIL )
 	mask = bit.bor( mask, CONTENTS_GRATE )
@@ -367,6 +413,7 @@ hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky )
 		tmin = 0,
 		tmax = 10000,
 		mask = mask,
+		--ignoreents = true,
 	} )
 
 	--trace( map.models[1].headnode, d )

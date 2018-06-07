@@ -467,6 +467,56 @@ function SWEP:PrimaryAttack()
 
 end
 
+local function sign(n)
+	return n >= 0 and 1 or -1
+end
+
+local strainsounds = {
+	Sound("physics/metal/metal_solid_strain1.wav"),
+	Sound("physics/metal/metal_solid_strain2.wav"),
+	Sound("physics/metal/metal_solid_strain3.wav"),
+	Sound("physics/metal/metal_solid_strain4.wav"),
+	Sound("physics/metal/metal_solid_strain5.wav"),
+	Sound("physics/metal/metal_box_strain1.wav"),
+	Sound("physics/metal/metal_box_strain2.wav"),
+	Sound("physics/metal/metal_box_strain3.wav"),
+	Sound("physics/metal/metal_box_strain4.wav")
+}
+
+local function getBrushScale(brush)
+	local size = brush.max - brush.min
+	local scale = 1 - math.Clamp(500.0 / (size.x + size.y + size.z) - 0.2, 0, 1)
+	print(scale, 1000.0 / (size.x + size.y + size.z) - 0.2)
+	return scale
+end
+
+function SWEP:CalcView(ply, pos, ang, fov)
+	local marker = self:GetCurSnatchMarker(newMarker)
+	if not IsValid(marker) or not marker.GetProgress then return end
+
+	local scale = getBrushScale(marker.Brush)
+
+	self.PullShake = self.PullShake or 0
+	self.GoalShake = self.GoalShake or 0
+	self.NextRandom = self.NextRandom or 0
+	if CurTime() > self.NextRandom then
+		local time = math.random(0.1, 0.7)
+		self.NextRandom = CurTime() + time
+		self.GoalShake = math.random(0.2, 1) * sign(math.random(-1, 1))
+
+		util.ScreenShake(pos, 5, 5, time, 256)
+		if math.random() > 0.65 then
+			self.Owner:EmitSound(table.Random(strainsounds), 75, math.random(80, 100), 0.25)
+		end
+	end
+	self.PullShake = math.Approach(self.PullShake, self.GoalShake, FrameTime() * 7)
+
+	local p = marker:GetProgress()
+	local rot = self.PullShake * 25 + math.sin(CurTime() * 7) * 10
+	rot = rot + math.sin(CurTime() * 70) * 3
+
+	return pos, ang + Angle(0, 0, rot * p * scale), fov + p * scale * 25
+end
 
 function SWEP:RemoveSnatchMarker()
 	local curMarker = self:GetCurSnatchMarker()
@@ -494,6 +544,12 @@ function SWEP:Think()
 			if IsValid(newMarker) then
 				newMarker:AddPlayer(self.Owner)
 				self:SetCurSnatchMarker(newMarker)
+				newMarker:RegisterOnActivate(function()
+					if self:GetCurSnatchMarker() != newMarker then return end
+
+					local scale = getBrushScale(newMarker.BrushInfo)
+					self.Owner:ViewPunch(Angle(scale * 20, 0, 0))
+				end )
 			end
 		end
 	end

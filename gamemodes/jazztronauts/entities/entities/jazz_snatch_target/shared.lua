@@ -32,8 +32,7 @@ function snatch.FindOrCreateWorld(pos, dir, dist)
 		dir = dir,
 		tmin = 0,
 		tmax = dist,
-		mask = mask,
-        ignoreents = true
+		mask = mask
 	})
 
     local brush = res and res.Hit and res.Brush and res.Brush
@@ -63,14 +62,19 @@ if SERVER then
         local length = size.x + size.y + size.z
         
         -- 600 is pretty good for a more upgraded value
+        -- 100 is a pretty good starting value
         return 600.0 / math.pow(length, 1.1)
     end
 
     -- Overwritten
     function ENT:ActivateMarker()
+        self.BaseClass.ActivateMarker(self)
+
         local yoink = snatch.New()
         yoink:SetMode(2)
 	    yoink:StartWorld(self:GetPos(), self:GetOwner(), self:GetBrushID())
+
+        GAMEMODE:CollectBrush(self.BrushInfo, self.PlayerList)
     end
 
     function ENT:UpdateSpeed()

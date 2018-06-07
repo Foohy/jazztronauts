@@ -11,7 +11,7 @@ function GM:HUDPaint()
 	self.BaseClass.HUDPaint(self)
 
 	dialog.PaintAll()
-	radar.Paint()
+	--radar.Paint()
 	propfeed.Paint()
 
 end

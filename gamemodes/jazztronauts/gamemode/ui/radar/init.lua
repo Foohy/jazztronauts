@@ -1,3 +1,5 @@
+if true then return end
+
 include("shared.lua")
 
 AddCSLuaFile( "shared.lua")

@@ -16,6 +16,10 @@ local function parsePosAng(...)
     return tblPosAng
 end
 
+dialog.RegisterFunc("player", function(d, time)
+    return LocalPlayer():GetName()
+end)
+
 dialog.RegisterFunc("wait", function(d, time)
     local time = tonumber(time) or 0
     local waittime = CurTime() + time
@@ -213,4 +217,9 @@ hook.Add("Think", "JazzTickClientsideAnims", function()
             v:SetCycle(CurTime())
         end
     end
+end )
+
+-- Disable motion blur while in a dialog, as scene changes break it pretty bad
+hook.Add("GetMotionBlurValues", "JazzDisableMblurDialg", function(h, v, f, r)
+    if dialog.IsInDialog() then return 0, 0, 0, 0 end
 end )

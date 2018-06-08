@@ -6,14 +6,17 @@ ENT.VomitVelocity = Vector(0, 0, -200)
 ENT.MaxPipeSize = 50
 ENT.ConstipateOdds = 50 -- The odds to do the constipated thing (0 is always, 50 is 1/50)
 ENT.ConstipateCount = 100 -- How many props to spawn at once
+ENT.ConstipateMinProps = 20 -- Minimum number of props required to roll the dice for constipation
 
 ENT.Type = "point"
 ENT.DisableDuplicator = true
 ENT.VomitMusicFile = Sound("jazztronauts/music/trash_chute_music_loop.wav")
+ENT.VomitFinishFile = Sound("jazztronauts/music/trash_chute_music_stop.wav")
 ENT.VomitEmptyFile = Sound("jazztronauts/music/trash_chute_music_empty.wav")
 ENT.StartDelay = 0 -- Delay before anything at all happens
 ENT.MusicDelay = 3.5 -- Delay to let the music play before props begin to fall
 ENT.ConstipateDelay = 10.5 -- Delay when the tube is constipated
+ENT.FinishDelay = 2.0 -- How long to wait before closing the blinds
 
 local propr_unlock_list = "props"
 unlocks.Register(propr_unlock_list)
@@ -49,6 +52,25 @@ local outputs =
 	"OnVomitStartEmpty"
 }
 
+-- Task for precaching models over a few frames so we dont destroy everyone
+local function PrecacheProps(props)
+	for _, v in pairs(props) do
+		if v.type != "prop" then continue end
+		util.PrecacheModel(v.propname)
+		print("Precaching model: ", v.propname)
+		task.Yield()
+	end
+
+	task.Yield("done")
+end
+
+local function CreatePrecacheTask(props, callback)
+	local precacheTask = task.New(PrecacheProps, 1, props)
+	function precacheTask:done() 
+		callback() 
+	end
+end
+
 function ENT:Initialize()
 	//self:VomitNewProps()
 end
@@ -60,13 +82,22 @@ function ENT:KeyValue( key, value )
 	end
 end
 
+function ENT:StopVomit()
+	self:StartMusic(self.VomitFinishFile)
+	self.SpawnQueue = nil
+	self.IsStopping = true
+
+	timer.Simple(self.FinishDelay, function()
+		self:TriggerOutput("OnVomitEnd", self)
+		self.IsStopping = false
+	end )
+end
+
 function ENT:VomitMultiple(count)
 
 	for i=1, count do
 		if not self:VomitProp() then 
-			self:StopMusic(1)
-			self.SpawnQueue = nil
-			self:TriggerOutput("OnVomitEnd", self)
+			self:StopVomit()
 			break 
 		end
 	end
@@ -75,7 +106,8 @@ end
 function ENT:Think()
 	if !self.StartAt or CurTime() < self.StartAt then return end 
 	if not self.SpawnQueue then return end
-
+	if self.IsStopping then return end
+	
 	if not self.Constipated then
 		self:VomitMultiple(2)
 	end
@@ -94,10 +126,10 @@ function ENT:StopMusic(fadeTime)
 	end
 end
 
-function ENT:StartMusic(empty)
+function ENT:StartMusic(f)
 	self:StopMusic()
 
-	local f = empty and self.VomitEmptyFile or self.VomitMusicFile
+	--local f = empty and self.VomitEmptyFile or self.VomitMusicFile
 	self.VomitMusic = CreateSound(self, f)
 	self.VomitMusic:SetSoundLevel(80)
 	self.VomitMusic:Play()
@@ -124,10 +156,6 @@ function ENT:VomitNewProps(ply)
 	for k, v in pairs(self.SpawnQueue) do
 		v.Index = k
 		self.TotalCount = self.TotalCount + v.recent
-
-		if v.type == "prop" then
-			util.PrecacheModel(v.propname)
-		end
 	end
 	
 	-- Add this as a 'session' prop for leaderboards
@@ -135,21 +163,37 @@ function ENT:VomitNewProps(ply)
 		jazzboards.AddSessionProps(self.CurrentUser:SteamID64(), self.TotalCount)
 	end
 
-	-- Random chance for the pipe to be constipated
-	local empty = table.Count(self.SpawnQueue) == 0
-	self.Constipated = not empty and math.random(0, self.ConstipateOdds) == 0
+	-- Precache all the props first, then start the show
+	self.StartAt = math.huge
+	local loadStartTime = CurTime()
+	CreatePrecacheTask(self.SpawnQueue, function()
+		local loadTime = CurTime() - loadStartTime
+		print("LOAD TOOK: " .. loadTime .. " seconds!")
 
-	if self.Constipated then
-		self:DoConstipatedEffects()
-	end
+		-- Add this as a 'session' prop for leaderboards
+		if IsValid(self.CurrentUser) then
+			jazzboards.AddSessionProps(self.CurrentUser:SteamID64(), self.TotalCount)
+		end
 
-	-- Fire outputs
-	self:TriggerOutput(empty and "OnVomitStartEmpty" or "OnVomitStart", self)
+		-- Random chance for the pipe to be constipated
+		local empty = table.Count(self.SpawnQueue) == 0
+		self.Constipated = not empty 
+			and self.TotalCount > self.ConstipateMinProps 
+			and math.random(0, self.ConstipateOdds) == 0
 
-	-- Start the music and away we go
-	self.StartAt = CurTime() + self.MusicDelay + self.StartDelay
-	timer.Simple(self.StartDelay, function()
-		self:StartMusic(empty)
+		if self.Constipated then
+			self:DoConstipatedEffects()
+		end
+
+		-- Fire outputs
+		self:TriggerOutput(empty and "OnVomitStartEmpty" or "OnVomitStart", self)
+
+		-- Start the music and away we go
+		local startDelay = self.StartDelay - loadTime
+		self.StartAt = CurTime() + self.MusicDelay + startDelay
+		timer.Simple(startDelay, function()
+			self:StartMusic(empty and self.VomitEmptyFile or self.VomitMusicFile)
+		end )
 	end )
 end
 
@@ -261,8 +305,12 @@ function ENT:VomitProp()
 	return true
 end
 
+function ENT:IsActive()
+	return self.SpawnQueue or self.IsStopping
+end
+
 function ENT:AcceptInput( name, activator, caller, data )
-	if name == "Vomit" and self.SpawnQueue == nil then 
+	if name == "Vomit" and not self:IsActive() then 
 		self:VomitNewProps(activator) 
 		return true 
 	end

@@ -1,0 +1,400 @@
+begin:
+    # Scene setup
+    *hide*
+    *txout*
+    *setfov 70*
+    *spawn cat models/krio/jazzcat1.mdl*
+	*spawn npc_cat_bar models/krio/jazzcat1.mdl*
+	*spawn npc_cat_piano models/krio/jazzcat1.mdl*
+	*spawn npc_cat_cello models/krio/jazzcat1.mdl*
+	*spawn npc_cat_singer models/krio/jazzcat1.mdl*
+	*spawn table models/props_wasteland/cafeteria_table001a.mdl*
+	*spawn table2 models/props_wasteland/cafeteria_table001a.mdl*
+	*spawn narrator models/npc/cat.mdl*
+	*setposang table -1473.481445 3086.531494 0;setang 0 90 0*
+	*setposang table2 -1473.481445 3053.531494 0;setang 0 90 0*
+	*setposang npc_cat_bar -1456.906494 3002.029785 0;setang 1.819516 -93.511383 0.000000*
+	*setposang npc_cat_cello -1550.800171 3010.119873 0;setang 3.789388 -72.588135 0.000000*
+	*setposang narrator -1373.047852 2962.862061 0;setang 0.000003 -115.818779 0.000000*
+	*setposang npc_cat_piano -1413.009766 3020.624512 0;setang 5.865761 -118.480911 0.000000*
+    *setposang npc_cat_singer -1470.034180 3146.505859 0;setang -1.055448 90.343994 0.000000*
+	*setfov 70*
+	*wait .1*
+	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+
+
+
+###### START
+*txin*
+*show*
+	*setfocus npc_cat_cello*
+	c’mon lady luck% you pebble in the eye of 
+	a dying crawdad%% give me the good shit
+	&begin2
+begin2:
+	*setfocus npc_cat_piano*
+	*setcam setpos -1495.497559 3173.718506 86.646301;setang 8.891073 -59.375931 0.000000*
+	Well.% That’s a new one.
+	&begin3
+begin3:
+	*setfocus npc_cat_cello*
+*setcam setpos -1480.707764 3117.885986 56.487091;setang 7.240627 -137.106567 0.000000*	
+	ok no see,% brown-nosing the gods don’t work. 
+	%overtly insulting them gets your shit slapped.	
+	&begin4
+begin4:	
+	CONFUSING them?%% now we’re getting somewhere
+    
+	player:
+	&resp1a:
+		That wouldn’t fly with Zeus.
+	&resp2a:
+		The Cellist makes a lot of sense.
+    &resp3a:
+        Y’know what? I’m not in the mood to gamble. (exit)
+
+###### Branch 1
+resp1a:
+	*setfocus npc_cat_piano*
+	*setcam setpos -1497.595215 3103.203369 54.382309;setang -2.023108 -40.901863 0.000000*
+	Yeah they’re right.% Zeus would either throw you into nerd prison 
+	with his dad,% or turn into a goat and fuck everyone who’s 
+	ever cobbled your shoes. 
+    &resp1b
+
+resp1b:
+	.%.%.%or something weird like that.%% 
+	Fuck’s up with him anyways?% We’ve lived about as long as him 
+	and I’ve never %once% wanted to do any of the stupid 
+	nonsense he’s done.
+	&resp1c
+
+resp1c:
+	*setfocus npc_cat_cello*
+		*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+	listen% all i’m gonna say is that ambrosia is a hell of a drug
+	&resp1d
+
+resp1d:
+	*setfocus npc_cat_bar*
+	*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+	There’s a reason I don’t carry it anymore.
+    	&resp1e
+
+resp1e:
+	*setfocus npc_cat_cello*
+	goddamn% cowardly%*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000* lion ass%% prohibitionist%% 
+	i’ve still got to shit in your linen closet one of these days for that
+	&resp1f
+	
+resp1f:
+	*setfocus npc_cat_piano*
+	Shuddup.% Cards’re coming.
+	*txout .1*
+    &merge1a
+
+###### Branch 2
+resp2a:
+    *setfocus npc_cat_bar*
+	*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+	Oh dear.% Agreeing with the Cellist?%% 
+	Have you developed a fever?
+    &resp2b
+
+resp2b:
+    *setfocus npc_cat_cello*
+	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+	only fever they’re getting is% fuckin,% truth-bola.%% 
+	t-bola.% no cure known% they’re screwed. 
+	symptoms are waking the fuck up,% sheeple
+    &resp2c
+
+resp2c:
+    *setfocus npc_cat_piano*
+	*setcam setpos -1495.497559 3173.718506 86.646301;setang 8.891073 -59.375931 0.000000*
+	Thanks,% Banksy.
+    &resp2d
+	
+resp2d:
+    *setfocus npc_cat_cello*
+	WE AGREED YOU WOULDN’t SAY THAT PIECE OF SHITS NAME IN HERE AGAIN
+    &resp2e
+    
+resp2e:
+    *setfocus npc_cat_piano*
+	Thanksy
+    &resp2f
+	
+resp2f:
+    *setfocus npc_cat_cello*
+	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+	biTCH
+	&resp2g
+	
+resp2g:
+	*setfocus npc_cat_bar*
+	Settle down you two,% Singer wants to deal.
+	*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+	*hide*
+	&resp2h
+	
+resp2h:
+	*hide*
+	*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+	*wait* .6
+	*setcam setpos -1396.263062 3081.129639 50.612041;setang 1.330953 152.403229 0.000000*
+	*show*
+	*setfocus npc_cat_cello*
+	.%.%.%Sorry.%% Go ahead pipes,% do your thing.
+    &merge1a
+
+###### Branch 3
+resp3a:
+    *setfocus npc_cat_piano*
+	I don't blame you.% We'll  be out in a little while.
+    &exit
+
+###### Merge point
+merge1a:
+	*hide .1*
+	*txout .2*
+    *setfocus narrator*
+	*show .1*
+	>A Few Rounds Later.%.%.
+    &merge1b
+
+merge1b:
+	*hide .1*
+	*setcam setpos -1564.555542 3152.012207 87.040466;setang 18.527466 -35.418659 0.000000*
+    *txin .2*
+	*show .1*
+	>Apparently, the cats play some sort of strange variant of 
+	blackjack called ‘flavor blasted blackjack.’ 
+    &merge1c
+merge1c:
+    >It seems more or less identical to regular blackjack except 
+	players can steal money from each other through rules that 
+	nobody’s bothered explaining.
+    &merge1d
+merge1d:
+	*setfocus npc_cat_cello*
+	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+    goddamn%% i’m a strategic genius.% call me scipio africanus cause 
+	i’mma ride elephants over the alps of this game and 
+	steal all your lunch money
+    &merge1e
+merge1e:
+    *setfocus npc_cat_piano*
+	I know you’re getting warfare history wrong to try 
+	and make me mad.%% It doesn’t work anymore.
+	&merge1f
+	
+merge1f:
+	*setfocus npc_cat_cello*
+	shit.%%% alright well then call me dock ellis% because 
+	i’m playing a perfect *setcam setpos -1360.187134 3170.514893 99.880249;setang 26.460207 -134.498184 0.000000*
+ game in spite of the fact that 
+	all these cards look like Richard Nixon
+	&merge1g
+	
+merge1g:
+	*setfocus npc_cat_bar*
+	Your ability to appear perfectly lucid during a state 
+	of psychedelic dissociation will never cease to impress% or terrify me.
+	&merge1h
+	
+merge1h:
+	*setfocus narrator*
+	>The Singer taps the table twice.
+	&merge1i
+	
+merge1i:
+	*setfocus npc_cat_bar*
+	Ah,% right.%% I think it was your turn,% <playername>.
+	&decision2
+	
+decision2:
+	*setfocus narrator*
+	> .%.%.%You have two eights in your hand,% totaling 16. 
+		Should you hit,% or stand?
+	player:
+	&resp4a:
+		Hit
+	&resp5a:
+		Stand
+	&resp6a:
+		Fold (exit)
+		
+###### Branch 4
+resp4a:
+	*setfocus narrator*
+	*setcam setpos -1464.512939 3099.350830 66.755806;setang 1.916579 90.059235 0.000000*
+	>The Singer flicks a card your way.% 
+	You flip it over.
+	&resp4b
+	
+resp4b:
+	>It's a queen%.%.%. You've gone bust%.%.%.%.
+	&resp4c
+	
+resp4c:
+	*setfocus npc_cat_cello*
+	*setcam setpos -1564.555542 3152.012207 87.040466;setang 18.527466 -35.418659 0.000000*
+	l%m%a%o
+	&resp4d
+	
+resp4d:
+	*setfocus npc_cat_piano*
+	We might as well just% dump our chips at this rate.
+	&resp4e
+	
+resp4e:
+	*setfocus npc_cat_cello*
+	oh like any of this money means a damn thing you whiny baby%% 
+	you’re just mad we got decks you can’t count cards on anymore
+	&resp4f
+	
+resp4f:
+	*setfocus npc_cat_piano*
+	*setcam setpos -1495.497559 3173.718506 86.646301;setang 8.891073 -59.375931 0.000000*
+	Because you were all jealous of me being better at it!% 
+	Next% you’re going to ban me from% remembering how probability works!
+	&resp4g
+	
+resp4g:
+	*setfocus npc_cat_cello*
+	hhheeeehhhh, come to butthead
+	&merge2a
+	
+###### BRANCH 5
+resp5a:
+	*setfocus npc_cat_cello*
+	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+	coward.%% double down% fuck me up socrates
+	&resp5b
+	
+resp5b:
+	*setfocus narrator*
+	>The Cellist flips a card over. 
+	%%It’s a queen!
+	&resp5c
+	
+resp5c:
+	>The Cellist went over 21!
+	&resp5d
+	
+resp5d:
+	*setfocus npc_cat_cello*
+	FUCK
+	&resp5e
+	
+resp5e:
+	*setfocus npc_cat_piano*
+	*setcam setpos -1360.187134 3170.514893 99.880249;setang 26.460207 -134.498184 0.000000*
+	Haaaaaaaa% eat it,% shitlord!
+	&resp5f
+	
+resp5f:
+	*setfocus npc_cat_cello*
+	this means% literally nothing
+	&resp5g
+	
+resp5g:
+	*setfocus npc_cat_piano*
+	Means you suck ass at blackjack.
+	&resp5h
+	
+resp5h:
+	*setfocus npc_cat_bar*
+	*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+	It does% i’m sad to say.% We didn’t even see the second card,% 
+	why did you double down at 15?
+	&resp5i
+	
+resp5i:
+	*setfocus npc_cat_cello*
+	*setcam setpos -1463.405396 3151.398438 45.466812;setang -2.768539 -89.936363 0.000000*
+	its cute that you still ask me why I do anything
+	&resp5j
+	
+resp5j:
+	*setfocus npc_cat_bar*
+	Futility itself,% I know.%% Old habits die hard.
+	&merge2a
+	
+###### BRANCH 6
+resp6a:
+	*setfocus npc_cat_bar*
+		*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
+	Hit your limit?%% It’s rare to have anyone else with self control at this table.% 
+	Take care,% and stop by the bar sometime.
+	&exit
+	
+###### MERGE 2
+merge2a:
+*setcam setpos -1321.493286 3164.727295 181.018219;setang 40.542229 -153.761688 0.000000*
+*hide .2*
+*txout .2*
+	*setfocus narrator*
+	*txin*
+	*show .2*
+	>More time passes%.%.%.
+	&merge2b
+	
+merge2b:
+	>The Bartender has a gigantic mountain of chips.%% Everyone else has none.
+	&merge2c
+	
+merge2c:
+	*setfocus npc_cat_cello*
+	EVERY% GOD% DAMN% TIME%
+	&merge2d
+	
+merge2d:
+	*setfocus npc_cat_piano*
+	I don’t know what you expected.% 
+	There’s not a lot of people that can pull one over him.%% 
+	Well, living people at least.
+	&merge2e
+	
+merge2e:
+	*setfocus npc_cat_cello*
+	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+	yeah I bet lincoln could fuck him up in chess or something
+	&merge2f
+	
+merge2f:
+	*setfocus npc_cat_bar*
+	That’s likelier than you think.%*setcam setpos -1360.187134 3170.514893 99.880249;setang 26.460207 -134.498184 0.000000* Chess and I don’t get along.%% 
+	It’s too reliant on memorization% instead of decision making.
+	&merge2g
+	
+merge2g:
+	Now,%% GO% on the other hand%.%.%.
+	&merge2h
+	
+merge2h:
+	*setfocus npc_cat_cello*
+	please.%% do not do this to me.% if i have to hear you talk 
+	about the deepest lore of GO one% more% time%% i am going to 
+	have another aneurysm
+	&merge2i
+	
+merge2i:
+	*setfocus narrator*
+	>The bartender laughs.
+	&merge2j
+	
+merge2j:
+	*setfocus npc_cat_bar*
+	As you wish.% Well then,%% shall we call it quits for tonight? 
+	%Let’s help the Singer clean up and then get back to work.
+	&merge2k
+	
+merge2k:
+	*setfocus narrator*
+	>You make idle conversation with the cats while putting things away. 
+	&exit
+	
+	
+

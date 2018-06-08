@@ -485,8 +485,8 @@ local strainsounds = {
 
 local function getBrushScale(brush)
 	local size = brush.max - brush.min
-	local scale = 1 - math.Clamp(500.0 / (size.x + size.y + size.z) - 0.2, 0, 1)
-	print(scale, 1000.0 / (size.x + size.y + size.z) - 0.2)
+	local scale = math.Clamp((size.x + size.y + size.z) * 0.0004 - 0.15, 0, 1)
+
 	return scale
 end
 
@@ -504,7 +504,7 @@ function SWEP:CalcView(ply, pos, ang, fov)
 		self.NextRandom = CurTime() + time
 		self.GoalShake = math.random(0.2, 1) * sign(math.random(-1, 1))
 
-		util.ScreenShake(pos, 5, 5, time, 256)
+		util.ScreenShake(pos, 5 * scale, 5, time, 256)
 		if math.random() > 0.65 then
 			self.Owner:EmitSound(table.Random(strainsounds), 75, math.random(80, 100), 0.25)
 		end
@@ -548,7 +548,7 @@ function SWEP:Think()
 					if self:GetCurSnatchMarker() != newMarker then return end
 
 					local scale = getBrushScale(newMarker.BrushInfo)
-					self.Owner:ViewPunch(Angle(scale * 20, 0, 0))
+					self.Owner:ViewPunch(Angle(scale * 30, 0, 0))
 				end )
 			end
 		end

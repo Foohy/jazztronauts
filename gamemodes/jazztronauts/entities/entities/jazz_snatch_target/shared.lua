@@ -86,7 +86,20 @@ end
 if CLIENT then
     JazzSnatchMeshIndex = JazzSnatchMeshIndex or 1
 
-    ENT.BreakMaterial = Material("effects/map_monitor_noise")
+    -- Void material, but zero refraction on it
+    -- This is so we don't get any z-fighting/flickering when shaking the brush
+    local refractParams = {
+
+        ["$basetexture"] = "concrete/concretefloor001a",
+        ["$additive"] = 0,
+        ["$vertexcolor"] = 1,
+        ["$vertexalpha"] = 0,
+        ["$refractamount"] = 0.0,
+        ["$model"] = 1,
+        ["$nocull"] = 1,
+    }
+
+    local voidOnly = CreateMaterial("RefractBrushModel_NoRefract" .. FrameNumber(), "Refract", refractParams)
 
     function ENT:Initialize()
         self.BaseClass.Initialize(self)
@@ -142,8 +155,22 @@ if CLIENT then
 
         if not self.Brush and self.GetBrushID then
             self.Brush = self:BuildBrushMesh(self:GetBrushID())
-            local voidmat = jazzvoid.GetVoidOverlay()
-            self.VoidBrush = self:BuildBrushMesh(self:GetBrushID(), -1, voidmat)
+            local voidTex = jazzvoid.GetVoidTexture()
+            voidOnly:SetTexture("$basetexture", voidTex:GetName())
+            self.VoidBrush = self:BuildBrushMesh(self:GetBrushID(), -1, voidOnly)
+        end
+
+        -- Random shake think
+        self.NextRandom = self.NextRandom or 0
+        self.GoalRand = self.GoalRand or Vector()
+        self.CurRand = self.CurRand or Vector()
+        if self.NextRandom < UnPredictedCurTime() then
+            self.NextRandom = UnPredictedCurTime() + 0.02
+            self.GoalRand = Vector(math.random(-1, 1), math.random(-1, 1), math.random(-1, 1))
+        end
+        
+        for i=1, 3 do
+            self.CurRand[i] = math.Approach(self.CurRand[i], self.GoalRand[i], FrameTime() / 0.02)
         end
     end
 
@@ -152,7 +179,7 @@ if CLIENT then
             return util.SharedRandom("ass", min, max, CurTime() * 1000 + i)
         end
         local prog = math.pow(self:GetProgress(), 1) * 5
-        mtx:Translate(Vector(rand(-prog, prog, 1), rand(-prog, prog, 2), rand(-prog, prog, 3)))
+        mtx:Translate(self.CurRand * prog)
         //mtx:SetAngles(Angle(rand(-1, 1, 4), rand(-1, 1, 5), rand(-1, 1, 6)))
     end
 

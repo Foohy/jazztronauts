@@ -92,7 +92,7 @@ end
 function GetAvailableConvos(ply, npcid)
     local convos = {}
     for _, v in pairs(Convos) do
-        if v.condition(ply) then 
+        if v.condition(ply, npcid) then 
             table.insert(convos, v)
         end
     end

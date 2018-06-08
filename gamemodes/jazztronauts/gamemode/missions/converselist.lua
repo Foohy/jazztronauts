@@ -15,7 +15,8 @@ local function addMissionAuto(mid, npcid)
     
     -- Add mission event
     local eventscript = name .. ".event" .. convoid .. ".begin"
-    Add(eventscript, function(ply)
+    Add(eventscript, function(ply, talknpc)
+        if talknpc != npcid then return false end
         if unlocks.IsUnlocked("scripts", ply, eventscript) then return false end
 
         local missioninfo = missions.GetMission(ply, mid) 

@@ -183,6 +183,7 @@ end
 function ENT:PhysicsSimulate( phys, deltatime )
 	local t, perc = self:GetProgress()
 	local rotAng = 0
+
 	if self.Leaving then
 		p = math.pow(perc, 2)
 
@@ -195,8 +196,7 @@ function ENT:PhysicsSimulate( phys, deltatime )
 		rotAng = math.Clamp(1.2 - perc, 0, 1) * 3.5
 	end
 
-	local percC = math.Clamp(p, 0, 1)
-	self.ShadowControl.pos = LerpVector(percC, self.StartPos, self.GoalPos)
+	self.ShadowControl.pos = LerpVector(p, self.StartPos, self.GoalPos)
 	self.ShadowControl.angle = Angle(self.StartAngles)
 	self.ShadowControl.angle:RotateAroundAxis(self.StartAngles:Forward(), rotAng)
 

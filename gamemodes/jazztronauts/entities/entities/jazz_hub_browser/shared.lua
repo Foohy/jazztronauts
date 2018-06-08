@@ -51,9 +51,11 @@ function ENT:Initialize()
 
 		-- Set current map to whatever the last one we visited was
 		local m = progress.GetLastMapSession()
-		local wsid = workshop.FindOwningAddon(m.filename)
-		if wsid && wsid != 0 then
-			self:BrowseToWorkshop(wsid)
+		if m then
+			local wsid = workshop.FindOwningAddon(m.filename)
+			if wsid && wsid != 0 then
+				self:BrowseToWorkshop(wsid)
+			end
 		end
 	end
 

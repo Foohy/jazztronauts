@@ -325,10 +325,12 @@ local function drawModel( model )
 
 end
 
+local cvardebug = CreateClientConVar("jazz_debug_bspquery", "0", false, false, "Toggle on screen debugging of the bsp query module.")
+
 local trace_res = nil
 hook.Add( "HUDPaint", "dbgquery", function()
+	if not cvardebug:GetBool() then return end
 
-	--if true then return end
 	if map:IsLoading() then return end
 
 	if trace_res and trace_res.Hit then
@@ -366,7 +368,7 @@ hook.Add( "HUDPaint", "dbgquery", function()
 end )
 
 hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky ) 
-
+	if not cvardebug:GetBool() then return end
 	--if bsky then return end
 
 	--drawFace( face )

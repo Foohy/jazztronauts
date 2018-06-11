@@ -26,7 +26,8 @@ SWEP.Secondary.Ammo 		= "none"
 
 -- General settings
 SWEP.ReticleCircleMaterial 	= Material("ui/jazztronauts/circle")
-SWEP.MaxRange 				= 500
+SWEP.MaxRange 				= 700
+SWEP.CloseRange				= 250
 
 -- Tier 1 settings
 local AimConeDefault 		= 0
@@ -277,7 +278,7 @@ function SWEP:FindConeEntities()
 	-- Accepts everything as long as its an accepted entity
 	if phaseNumber == 0 then
 		table.Empty(validAccept1)
-		findInCone(resAim.StartPos, resAim.Normal, self.MaxRange * 0.050, self.AutoAimCone, validAccept1)
+		findInCone(resAim.StartPos, resAim.Normal, self.CloseRange, self.AutoAimCone, validAccept1)
 		filterTable(validAccept1, function(v)
 			return not self:AcceptEntity(v)
 		end )

@@ -131,7 +131,7 @@ function SWEP:Think() end
 function SWEP:OnRemove() end
 
 function SWEP:AcceptEntity( ent )
-	return mapgen.CanSnatch(ent)
+	return mapgen.CanSnatch(ent) and (not ent.JazzSnatchWait or CurTime() > ent.JazzSnatchWait)
 end
 
 function SWEP:GetEntitySize(ent)
@@ -165,10 +165,12 @@ local function getPropCenter(ent)
 end
 
 -- IT'S BEEN LIKE 10 YEARS HOW CAN THIS FUNCTION _STILL_ BE BUGGED
-local function findInCone(startpos, direction, radius, angle)
-	local near = ents.FindInSphere(startpos, radius)
+local function findInCone(startpos, direction, radius, angle, result)
+	local center = startpos + direction * radius / 2
+	local findRadius = math.tan(math.rad(angle)) * radius * math.pi
+	local near = ents.FindInSphere(center, findRadius)
+	
 	local ang = math.cos(math.rad(angle))
-	local res = {}
 
 	-- Filter out entities that aren't in the angle
 	for _, v in ipairs(near) do
@@ -177,80 +179,157 @@ local function findInCone(startpos, direction, radius, angle)
 		dir:Normalize()
 
 		if direction:Dot(dir) >= ang then
-			table.insert(res, v)
+			result[v] = v
 		end
-
 	end
 
-	return res
+	return result
 end
 
-local backtrace = {
-	start = Vector(),
-	endpos = Vector(),
-	filter = nil,
-}
-local function IsVisible(self, ent)
+-- Similar to find in cone, but flipped
+-- Shoot a whole bunch of rays into the scene to see what they get
+local coneSampleTrace = {}
+local coneSampleRes = {}
+local function findInConeSample(startpos, angle, aimCone, range, dimu, dimv, results)
+	local res = {}
+	local ttable = {
+		start = startpos,
+		filter = LocalPlayer(),
+		output = res
+	}
 
-	if ent:GetClass() == "jazz_static_proxy" then return true end
+	coneSampleTrace.start = startpos
+	coneSampleTrace.endpos = Vector()
+	coneSampleTrace.filter = LocalPlayer()
+	coneSampleTrace.output = coneSampleRes
 
-	backtrace.start:Set(getPropCenter(ent))
-	backtrace.endpos:Set(self.Owner:EyePos())
-	backtrace.filter = self.Owner
-	-- For simplicity, don't allow entities to block backtraces, only brushes
-	//backtrace.mask = bit.bor(MASK_SOLID_BRUSHONLY, CONTENTS_MOVEABLE  )
-	backtrace.mask = MASK_VISIBLE    
+	local mult = 17 -- #TODO: WHAT
+	--local gcstart = collectgarbage("count")
+	for u = 0, dimu do
+		for v = 0, dimv do
+			
+			local radial = u * 1.0 / dimu
+			local theta = 2 * math.pi * v / dimv
+			local x = radial * math.cos(theta) * aimCone * mult + ScrW() / 2
+			local y = radial * math.sin(theta) * aimCone * mult + ScrH() / 2
+			
+			local dir = util.AimVector(angle, 90, x, y, ScrW(), ScrH())
 
-	local res = util.TraceLine(backtrace)
-	return not res.Hit
+			//coneSampleTrace.endpos = coneSampleTrace.start + dir * range
+			coneSampleTrace.endpos:Set(dir)
+			coneSampleTrace.endpos:Mul(range)
+			coneSampleTrace.endpos:Add(coneSampleTrace.start)
+			
+			util.TraceLine(coneSampleTrace)
+			
+			--debugoverlay.Line(res.StartPos, res.HitPos, 0.11, color_white, true)
+			--debugoverlay.Sphere(coneSampleRes.StartPos + dir * 10, 0.02, 0.15, Color(255, 0, 0, 255), true)
+			if IsValid(coneSampleRes.Entity) then
+				results[coneSampleRes.Entity] = coneSampleRes.Entity
+			end
+		end
+	end
+	--print(collectgarbage("count") - gcstart)
+
+	return results
 end
 
--- Given a trace result
-function SWEP:FindConeEntity(tr )
-	local accept = {}
-	local near = {}
+local function filterTable(tbl, func)
+	for k, v in pairs(tbl) do
+		if func(v) then
+			tbl[k] = nil
+		end
+	end
+end
+
+local aimTrace = {}
+local validAccept = {}
+local validAccept1 = {}
+local validAccept2 = {}
+local validFar = {}
+local resAim = {}
+local phaseNumber = 0
+function SWEP:FindConeEntities()
+	--sleep(0.1)
+	phaseNumber = (phaseNumber + 1) % 3
+
 	cam.Start3D() -- so ToScreen works
+
+	-- Initial aim vector trace
+	-- Entities hit directly from the center take priority
+	aimTrace.start = self.Owner:GetShootPos()
+	aimTrace.endpos = aimTrace.start + self.Owner:GetAimVector() * self.MaxRange
+	aimTrace.filter = self:GetOwner()
+	aimTrace.output = resAim
+
+	util.TraceLine(aimTrace)
 
 	-- Whatever the trace actually hit always has priority	
 	local closest, closedist2
 	closedist2 = math.huge
-	if self:AcceptEntity(tr.Entity) then 
-		table.insert(accept, tr.Entity)
-		closest = tr.Entity
+	if self:AcceptEntity(resAim.Entity) then 
+		validAccept[resAim.Entity] = resAim.Entity
+		closest = resAim.Entity
 		closedist2 = 0
 	end
 
+	-- Phase 1: Close range find-in-cone
+	-- Accepts everything as long as its an accepted entity
+	if phaseNumber == 0 then
+		table.Empty(validAccept1)
+		findInCone(resAim.StartPos, resAim.Normal, self.MaxRange * 0.050, self.AutoAimCone, validAccept1)
+		filterTable(validAccept1, function(v)
+			return not self:AcceptEntity(v)
+		end )
+	end
+
+	-- Phase 2: Mid-range shotgun traces
+	-- Shoots out a shitload of traces and accepts anything they hit
+	if phaseNumber == 1 then
+		table.Empty(validAccept2)
+		findInConeSample(resAim.StartPos, resAim.Normal:Angle(), self.AutoAimCone, self.MaxRange, 6, 17, validAccept2)
+		filterTable(validAccept2, function(v)
+			return not self:AcceptEntity(v)
+		end )
+	end
+
+	-- Merge current results into single table
+	table.Empty(validAccept)
+	table.Merge(validAccept, validAccept1)
+	table.Merge(validAccept, validAccept2)
+
+	-- Phase 3: Far range find in cone.
+	-- Serves only as a 'prop esp'. Does not add anything as a valid target
+	-- Only so you can see there's props through walls
+	if phaseNumber == 2 then		
+		table.Empty(validFar)
+		findInCone(resAim.StartPos, resAim.Normal, self.MaxRange * 2, self.AutoAimCone, validFar)
+		filterTable(validFar, function(v)
+			return not self:AcceptEntity(v) or validAccept[v]
+		end )
+	end
+
 	local maxdist2 = self.MaxRange^2
-	local valid = findInCone(tr.StartPos, tr.Normal, self.MaxRange * 2, self.AutoAimCone)
-	local endPos = tr.StartPos + tr.Normal * self.MaxRange
+	local endPos = resAim.StartPos + resAim.Normal * self.MaxRange
 
-	-- Find the first available entity within the cone of influence
-	for _, v in pairs(valid) do
-		local centerpos = getPropCenter(v)
-		local dist2 = (centerpos - tr.StartPos):LengthSqr()
-		if self:AcceptEntity(v) then
-			local isVis = dist2 < maxdist2 and IsVisible(self, v) 
+	-- Find closest entity to center of screen
+	if closedist2 > 0 then
+		for _, v in pairs(validAccept) do
+			local centerpos = getPropCenter(v)
 
-			-- Insert into appropriate table
-			local tbl = isVis and accept or near 
-			table.insert(tbl, v)
-
-			-- Check if closest
-			if isVis then
-				local scrpos = centerpos:ToScreen()
-				local ldist = (scrpos.x - ScrW()/2)^2 + (scrpos.y - ScrH()/2)^2
-				if ldist < closedist2 then
-					closedist2 = ldist
-					closest = v
-				end
+			local scrpos = centerpos:ToScreen()
+			local ldist = (scrpos.x - ScrW()/2)^2 + (scrpos.y - ScrH()/2)^2
+			if ldist < closedist2 then
+				closedist2 = ldist
+				closest = v
 			end
 		end
 	end
 
 	cam.End3D()
 
-	-- Didn't find any valid entities (or returning array)
-	return closest, accept, near
+	-- Give back the closest entities, available entities, and nearby entities
+	return closest, validAccept, validFar
 end
 
 --Reach out and touch something
@@ -277,14 +356,14 @@ function SWEP:TraceToRemove(stealWorld)
 		self.WorldShootFade = 1
 
 	elseif not stealWorld then
-		local ent = self:FindConeEntity(tr)
 
 		-- Tell the server which entity we'd like to pick
-		if self:AcceptEntity( ent ) then
+		if self:AcceptEntity( self.ConeEnt ) then
+			self.ConeEnt.JazzSnatchWait = CurTime() + 2.0
 			net.Start( "remove_client_send_trace" )
 			net.WriteBit(1)
 			net.WriteEntity( self )
-			net.WriteEntity( ent )
+			net.WriteEntity( self.ConeEnt )
 			net.SendToServer()
 
 			-- Add some nice feedback
@@ -326,6 +405,22 @@ local function ToVector(c)
 	return Vector(c.r / 255.0, c.g / 255.0, c.b / 255.0)
 end
 
+local circleTbl = {}
+local function drawCircle(x, y, radius, segments)
+	table.Empty(circleTbl)
+
+	circleTbl[#circleTbl + 1] = { x = x, y = y, u = 0.5, v = 0.5 }
+	for i = 0, segments do
+		local a = math.rad( ( i / segments ) * -360 )
+		circleTbl[#circleTbl + 1] = { x = x + math.sin( a ) * radius, y = y + math.cos( a ) * radius, u = math.sin( a ) / 2 + 0.5, v = math.cos( a ) / 2 + 0.5 }
+	end
+
+	local a = math.rad( 0 )
+	circleTbl[#circleTbl + 1] = { x = x + math.sin( a ) * radius, y = y + math.cos( a ) * radius, u = math.sin( a ) / 2 + 0.5, v = math.cos( a ) / 2 + 0.5 }
+
+	surface.DrawPoly( circleTbl )
+end
+
 -- If auto aim is enabled, show the sphere of influence/current reticle
 SWEP.HoverAlpha = 0
 SWEP.ShootFade = 0
@@ -339,9 +434,6 @@ function SWEP:DrawHUD()
 
 	local curMarker = self:GetCurSnatchMarker()
 	local worldShootGoal = IsValid(curMarker) and 1 - curMarker:GetSpawnPercent() or 0
-	if IsValid(curMarker) then
-		--self.WorldShootGoal = 0.5
-	end
 
 	-- #TODO: When _holding_, keep the circle at the smaller radius and show that same semicircle
 	-- from the bus caller
@@ -349,18 +441,7 @@ function SWEP:DrawHUD()
 	radius = radius * math.EaseInOut(self.EquipFade, 0, 1)
 
 	-- Aimhack higlight 
-	local pos = self.Owner:GetShootPos()
-	local dir = self.Owner:GetAimVector()
-
-	local tr = util.TraceLine( {
-		start = pos,
-		endpos = pos + dir * self.MaxRange,
-		filter = self:GetOwner(),
-	} )
-
-	//local timeStart = SysTime()
-	local ent, accept, near = self:FindConeEntity(tr)
-	//print((SysTime() - timeStart) * 1000)
+	local ent, accept, near = self.ConeEnt, self.ConeAccept or {}, self.ConeNear or {}
 
 	-- Draw entities we can't grab now, but we're nearby
 	local s = ScreenScale(1)
@@ -376,13 +457,52 @@ function SWEP:DrawHUD()
 	-- Draw all the entities that are currently eligible to be snatched
 	local s = ScreenScale(2)
 	surface.SetDrawColor(255, 100, 100)
-	for _, v in pairs(accept) do
-		cam.Start3D()
-		local toscr = getPropCenter(v):ToScreen()
-		cam.End3D()
 
-		surface.DrawRect(toscr.x - s, toscr.y - s, s *2, s *2)
+	render.SetStencilEnable(true)
+	render.SetStencilWriteMask(0xFF)
+	render.SetStencilTestMask(0xFF)
+
+	render.ClearStencil()
+
+	-- First, draw where we cut out the world
+	render.SetStencilReferenceValue(1)
+	render.SetStencilCompareFunction(STENCIL_ALWAYS)
+	render.SetStencilPassOperation(STENCIL_REPLACE)
+
+	-- Write the circle where we want to clip props to
+	render.OverrideColorWriteEnable(true, false)
+	drawCircle(ScrW() / 2, ScrH() / 2, radius * 0.75, 15)
+	render.OverrideColorWriteEnable(false)
+
+	-- Now every prop drawn will obey the stencil
+	render.SetStencilCompareFunction(STENCIL_EQUAL)
+
+	-- Highlight the hovered entity the most
+	render.SetColorModulation(255, 5, 255)
+	render.SuppressEngineLighting(true)
+	if IsValid(ent) and drawExtended then
+		cam.Start3D()
+		ent:DrawModel()
+		cam.End3D()
 	end
+
+	-- Also redraw/color all 'available' props
+	render.SetColorModulation(1, 0, 5)
+	for _, v in pairs(accept) do
+		if not IsValid(v) then continue end
+		if v == ent then continue end
+
+		cam.Start3D()
+		local center = getPropCenter(v)
+		local toscr = center:ToScreen()
+
+		v:DrawModel()
+		cam.End3D()
+	end
+	render.SetColorModulation(1, 1, 1)
+	render.MaterialOverride()
+	render.SuppressEngineLighting(false)
+	render.SetStencilEnable(false)
 
 	-- Draw what we're currently hovered over
 	if IsValid(ent) and drawExtended then
@@ -532,6 +652,18 @@ function SWEP:StopSecondaryAttack()
 		self:RemoveSnatchMarker()
 	end
 end
+
+-- Do the cone tracing stuff here instead of in SWEP:Think
+-- This stuff really only ever needs to update once per frame, where Think() can be called multiple times
+hook.Add("PostRender", "JazzUpdateSnatchEnts", function()
+	local self = LocalPlayer():GetWeapon("weapon_propsnatcher")
+	if not IsValid(self) or self != LocalPlayer():GetActiveWeapon() then return end
+
+	local ent, accept, near = self:FindConeEntities()
+	self.ConeEnt = ent
+	self.ConeAccept = accept
+	self.ConeNear = near
+end )
 
 function SWEP:Think() 
 	if not SERVER then return end

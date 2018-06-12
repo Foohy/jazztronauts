@@ -32,6 +32,7 @@ function CanSnatch(ent)
     if ent:GetClass() == "hunter_flechette" then return true end
 	if ent:GetClass() == "prop_physics" then return true end
 	if ent:GetClass() == "prop_physics_multiplayer" then return true end
+    if ent:GetClass() == "prop_physics_respawnable" then return true end
 	if ent:GetClass() == "prop_dynamic" then return true end
 	if ent:GetClass() == "prop_ragdoll" then return true end
     if ent:GetClass() == "prop_door_rotating" then return true end

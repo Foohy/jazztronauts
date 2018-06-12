@@ -32,7 +32,8 @@ function snatch.FindOrCreateWorld(pos, dir, dist)
 		dir = dir,
 		tmin = 0,
 		tmax = dist,
-		mask = mask
+		mask = mask,
+        filter = { "func_dustmotes" }
 	})
 
     local brush = res and res.Hit and res.Brush and res.Brush

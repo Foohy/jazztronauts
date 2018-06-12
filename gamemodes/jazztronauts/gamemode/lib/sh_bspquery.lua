@@ -230,14 +230,26 @@ function traceNode( node, tw )
 
 end
 
+local function buildFilterMap(filter, dest)
+	table.Empty(dest)
+	if not filter then return end
+	
+	for k, v in pairs(filter) do
+		dest[v] = v
+	end
+end
+
+local filterMap = {}
 local meta = getmetatable( map )
 function meta:Trace( tdata)
 	local tdatacopy = table.Copy(tdata)
 	local res = traceNode( self.models[1].headnode, tdata )
+	buildFilterMap(tdata.filter, filterMap)
 
 	if not tdata.ignoreents then
 		for k,v in pairs( self.entities ) do
-
+			if filterMap[v.classname] then continue end
+			
 			if v.bmodel then
 				local pos = v.origin and Vector(v.origin)
 				local ang = v.angles and Angle(v.angles)

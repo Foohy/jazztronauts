@@ -9,6 +9,13 @@ end
 module( "snatch", package.seeall )
 
 removed_brushes = removed_brushes or {}
+local waitingBrushes = {}
+
+-- Networked table of removed brushes
+if SERVER then
+	nettable.Create("snatch_removed_brushes", nettable.TRANSMIT_ONCE)
+	nettable.Set("snatch_removed_brushes", removed_brushes)
+end
 
 -- Voidmesh stuff, rendered separately in jazzvoid module
 max_map_verts = 2048
@@ -146,7 +153,10 @@ function meta:StartWorld( position, owner, brushid )
 	self.is_prop = false
 	self.is_world = true
 
-	if map:IsLoading() then print("STILL LOADING") return end
+	if map:IsLoading() then 
+		print("BRUSH UPDATE BUT NOT LOADED")
+		return 
+	end
 
 	if not brushid then
 		for k,v in pairs( map.brushes ) do
@@ -183,8 +193,6 @@ function meta:AppendBrushToMapMesh(brush)
 	-- Add vertices for every side
 	local to_brush = brush.center
 
-	print( tostring(to_brush) )
-
 	for _, side in pairs(brush.sides) do
 		if not side.winding or emptySide(side) then continue end
 
@@ -212,7 +220,11 @@ next_brush_mesh_id = next_brush_mesh_id or 0
 local vec_one = Vector(1, 1, 1)
 function meta:RunWorld( brush_id )
 
-	if map:IsLoading() then print("STILL LOADING") return end
+	if map:IsLoading() then
+		print("brush_id " .. brush_id .. " stolen with no map loaded, saving for later")
+		waitingBrushes[brush_id] = true
+		return 
+	end
 
 	local brush_list = map.brushes
 	local brush = brush_list[brush_id]:Copy( true )
@@ -249,14 +261,10 @@ function meta:RunWorld( brush_id )
 		//print( texdata.material )
 
 		next_brush_mesh_id = next_brush_mesh_id + 1
-		side.winding:CreateMesh( "brushpoly_" .. next_brush_mesh_id, material, texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_center )
 
-		for _, point in pairs( side.winding.points ) do
-
-			table.insert( convex, point )
-
+		if self.mode then
+			side.winding:CreateMesh( "brushpoly_" .. next_brush_mesh_id, material, texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_center )
 		end
-
 	end
 
 	table.insert( removed_brushes, brush )
@@ -265,46 +273,47 @@ function meta:RunWorld( brush_id )
 	self:AppendBrushToMapMesh(brush)
 
 	//print("WINDINGS READY, CREATE BRUSH PROXY")
+	if self.mode then
+		local entity = ManagedCSEnt( "brushproxy_" .. brush_id, "models/hunter/blocks/cube025x025x025.mdl", false )
+		local actual = entity:Get()
 
-	local entity = ManagedCSEnt( "brushproxy_" .. brush_id, "models/hunter/blocks/cube025x025x025.mdl", false )
-	local actual = entity:Get()
+		actual.mesh = test_mesh
+		actual:SetPos( brush.center - EyeAngles():Forward() * 5 )
+		--actual:PhysicsInitConvex( convex )
+		--actual:PhysicsInit( SOLID_VPHYSICS )
+		--actual:SetSolid( SOLID_VPHYSICS )
+		--actual:SetMoveType( MOVETYPE_VPHYSICS )
+		actual:SetRenderBounds( brush.min - brush.center, brush.max - brush.center )
+		actual:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
+		//actual:SetModelScale( 0 )
+		--actual:GetPhysicsObject():Wake()
+		--actual:GetPhysicsObject():AddVelocity( Vector(0,0,100) )
+		actual.brush = brush
+		actual.RenderOverride = function( self )
 
-	actual.mesh = test_mesh
-	actual:SetPos( brush.center - EyeAngles():Forward() * 5 )
-	--actual:PhysicsInitConvex( convex )
-	--actual:PhysicsInit( SOLID_VPHYSICS )
-	--actual:SetSolid( SOLID_VPHYSICS )
-	--actual:SetMoveType( MOVETYPE_VPHYSICS )
-	actual:SetRenderBounds( brush.min - brush.center, brush.max - brush.center )
-	actual:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
-	//actual:SetModelScale( 0 )
-	--actual:GetPhysicsObject():Wake()
-	--actual:GetPhysicsObject():AddVelocity( Vector(0,0,100) )
-	actual.brush = brush
-	actual.RenderOverride = function( self )
+			if self.hide then return end
 
-		if self.hide then return end
+			//actual:DrawModel()
 
-		//actual:DrawModel()
+			local mtx = Matrix()
+			mtx:SetTranslation( actual:GetPos() )
+			mtx:SetAngles( actual:GetAngles() )
+			mtx:SetScale(vec_one * (actual:GetModelScale() or 1))
 
-		local mtx = Matrix()
-		mtx:SetTranslation( actual:GetPos() )
-		mtx:SetAngles( actual:GetAngles() )
-		mtx:SetScale(vec_one * (actual:GetModelScale() or 1))
+			cam.PushModelMatrix( mtx )
+			self.brush:Render()
+			cam.PopModelMatrix()
 
-		cam.PushModelMatrix( mtx )
-		self.brush:Render()
-		cam.PopModelMatrix()
+		end
 
+		self.handle = entity
+		self.fake = actual
+		self.real = actual
+
+		//print("PROXY READY, SNATCH IT")
+
+		hook.Call( "HandlePropSnatch", GAMEMODE, self )
 	end
-
-	self.handle = entity
-	self.fake = actual
-	self.real = actual
-
-	//print("PROXY READY, SNATCH IT")
-
-	hook.Call( "HandlePropSnatch", GAMEMODE, self )
 
 end
 
@@ -618,6 +627,7 @@ elseif CLIENT then
 			local ent = net.ReadEntity()
 			local vel = net.ReadVector()
 			local avel = net.ReadVector()
+			if not IsValid(ent) then return end
 
 			if is_proxy then
 
@@ -673,6 +683,39 @@ elseif CLIENT then
 		end
 
 	end
+
+	local function stealBrushesInstant(brushes)
+		local function stealBrushes(brushes)
+			for k, v in pairs(brushes) do
+				if removed_brushes[k] then continue end
+				
+				-- Steal the brush, but don't bother with any effects
+				New( {} ):RunWorld( k )
+				task.YieldPer(5)
+			end
+		end
+
+		local loadMeshTask = task.New(stealBrushes, 1, brushes)
+	end
+
+	hook.Add("JazzSnatchMapReady", "snatchUpdateNetworkedBrushSpawn", function()
+		local brushes = nettable.Get("snatch_removed_brushes")
+
+		local allBrushes = {}
+		table.Merge(allBrushes, brushes or {})
+		table.Merge(allBrushes, waitingBrushes or {})
+
+		stealBrushesInstant(allBrushes)
+	end )
+
+	-- Run only once when the client first joins and downloads the stolen brush list
+	-- Almost always the map will still be loading, but it doesn't hurt being optimistic
+	hook.Add("NetTableUpdated", "snatchUpdateWorldBrushBackup", function(name, changed, removed)
+		if name != "snatch_removed_brushes" then return end
+		if map:IsLoading() then return end
+		
+		stealBrushesInstant(changed)
+	end )
 
 	hook.Add("PostDrawTranslucentRenderables", "drawsnatchstaticprops2", function()
 		local a,b = jazzvoid.GetVoidOverlay()

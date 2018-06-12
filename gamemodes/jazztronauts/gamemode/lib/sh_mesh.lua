@@ -70,7 +70,7 @@ FreeMesh = function( mesh )
 	for k,v in pairs( _MESH_POOL ) do
 		if v == mesh then
 			if _MESH_REF_COUNTERS[k] == 1 then
-				print("***FREED CLIENTSIDE MESH: " .. tostring(v) .. "***")
+				--print("***FREED CLIENTSIDE MESH: " .. tostring(v) .. "***")
 				v:Destroy()
 				_MESH_POOL[k] = nil
 			else

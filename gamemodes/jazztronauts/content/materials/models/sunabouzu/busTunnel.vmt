@@ -19,7 +19,7 @@
 		{
 			"texturescrollvar" "$texture2transform"
 			"texturescrollrate" .33
-			"texturescrollangle" 80
+			"texturescrollangle" -80
 		}
 
 }

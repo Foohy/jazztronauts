@@ -85,3 +85,8 @@
         3 : "Total Unredeemed" 
     ]
 ]
+
+@PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/shard_tank.mdl") = jazz_shardtank : "Jazz Shard Tank"
+[
+
+]

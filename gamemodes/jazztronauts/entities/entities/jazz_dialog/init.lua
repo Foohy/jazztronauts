@@ -47,7 +47,7 @@ end
 
 function ENT:StartDialog( activator, caller, data )
 
-	local targets = activator
+	local targets = { activator }
 
 	if self.sendToAllPlayers then
 		targets = player.GetAll()
@@ -55,7 +55,9 @@ function ENT:StartDialog( activator, caller, data )
 
 	print("SV_Dispatch_Ent: " .. self:GetScript())
 
-	dialog.Dispatch( self:GetScript(), activator, self:GetCameraReference() )
+	for _, v in pairs(targets) do
+		dialog.Dispatch( self:GetScript(), v, self:GetCameraReference() )
+	end
 
 end
 

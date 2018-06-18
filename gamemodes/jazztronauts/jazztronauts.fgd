@@ -8,11 +8,9 @@
 		1  : "SendToAllPlayers"				: 1
 	]
 
-	camera_reference(target_destination) 	: "Camera" : "" : "Reference entity to inform where camera should be placed"
 	script(string)							: "Script" : "" : "Script to run"
 	
 	input Start(void)  : "Starts Dialog"
-	input Cancel(void) : "Cancels Dialog sequence"
 ]
 
 @PointClass base(Targetname, Origin, Angles) studioprop() = jazz_door : "Door to teleport players between locations"

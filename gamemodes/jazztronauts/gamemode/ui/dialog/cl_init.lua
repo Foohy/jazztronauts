@@ -1,5 +1,6 @@
 include("shared.lua")
 include("cl_dialog.lua")
 include("cl_styling.lua")
+include("cl_styling_horror.lua")
 include("cl_dialogcmds.lua")
 include("cl_debug.lua")

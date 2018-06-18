@@ -36,7 +36,6 @@ local _dialog = {
 	time = 0,
 	duration = 1,
 	text = "",
-	printed = "",
 	open = 0,
 	nodeiter = nil,
 }
@@ -59,10 +58,18 @@ local function InvokeEvent(eventName, ...)
 	_dialog.defaultcallbacktbl[eventName](...)
 end
 
+local function SetText(text)
+	InvokeEvent("SetText", _dialog, text or "")
+end
+
+local function AppendText(text)
+	InvokeEvent("AppendText", _dialog, text)
+end
+
 function Start( text, delay )
 
 	_dialog.text = text
-	_dialog.printed = ""
+	SetText()
 	State( STATE_OPENING, delay )
 
 end
@@ -92,19 +99,19 @@ local inits = {
 		_dialog.nodeiter = nil 
 		InvokeEvent("DialogEnd", d) 
 	end,
-	[STATE_OPENING] = function(d) d.rate = 2 d.printed = "" end,
+	[STATE_OPENING] = function(d) d.rate = 2 SetText() end,
 	[STATE_OPENED] = function(d) d.rate = 12 d.nodeiter() end,
 	[STATE_PRINTING] = function(d)
 		d.rate = 60 * PrintSpeedScale
 		local numc = math.Clamp(math.Round(FrameTime() * d.rate), 1, #d.text)
-		d.printed = d.printed .. d.text:sub(1, numc)
+		AppendText(d.text:sub(1, numc))
 		d.text = d.text:sub(numc + 1,-1)
 	end,
 	[STATE_DONEPRINTING] = function(d)
 		d.nodeiter()
 	end,
 	[STATE_CHOOSE] = function(d) d.rate = 1 end,
-	[STATE_CLOSING] = function(d) d.rate = 2 d.printed = "" end,
+	[STATE_CLOSING] = function(d) d.rate = 2 SetText() end,
 	[STATE_EXEC] = function(d)
 		d.rate = math.huge
 		local cmds = string.Split(d.exec, " ")
@@ -125,7 +132,7 @@ local inits = {
 			res = ret and tostring(ret) or ""
 	
 			-- Append function result
-			d.printed = d.printed .. res
+			AppendText(res)
 
 			-- If the coroutine is dead, move onto the next node
 			if coroutine.status(d.coroutine) == "dead" then
@@ -182,7 +189,6 @@ end
 Done = function() return DT() >= 1 end
 
 function ScriptCallback(cmd, data)
-
 	if cmd == CMD_JUMP then
 		_dialog.waitdata = {
 			cmd = cmd,
@@ -234,15 +240,27 @@ function PaintAll()
 	InvokeEvent("Paint", _dialog)
 end
 
+local function buildIterator(cmd, ScriptCallback, func)
+	local iter, cmd = func( cmd, ScriptCallback )
+	_dialog.curCmd = cmd
+	local iterfunc = function()
+		newCmd = iter(cmd, ScriptCallback)
+		if newCmd != nil then
+			_dialog.curCmd = newCmd
+		end
+	end
+
+	return iterfunc
+end
 
 -- Immediately start the dialog at a new specified entry
 function StartGraph(cmd, skipOpen, options)
 	_dialog.options = options or {}
 	local t = type(cmd)
 	if t == "table" then
-		_dialog.nodeiter = EnterNode( cmd, ScriptCallback )
+		_dialog.nodeiter = buildIterator( cmd, ScriptCallback, EnterNode )
 	elseif t == "string" then
-		_dialog.nodeiter = EnterGraph( cmd, ScriptCallback )
+		_dialog.nodeiter = buildIterator( cmd, ScriptCallback, EnterGraph )
 		_dialog.entrypoint = cmd
 		_dialog.seen = false
 	end
@@ -250,7 +268,7 @@ function StartGraph(cmd, skipOpen, options)
 	if _dialog.nodeiter != nil then
 		PrintSpeedScale = 1.0
 
-		_dialog.printed = ""
+		SetText()
 		_dialog.text = ""
 		_dialog.waitdata = nil
 
@@ -309,6 +327,11 @@ end
 
 function IsInDialog()
 	return _dialog.nodeiter != nil
+end
+
+function GetParam(name)
+	if not _dialog.curCmd or not _dialog.curCmd.env or not _dialog.curCmd.env.params then return nil end
+	return _dialog.curCmd.env.params[name]
 end
 
 function SetCallbackTable(tbl)

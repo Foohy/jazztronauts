@@ -23,6 +23,8 @@ local BGOffX, BGOffY = ScreenScaleEx(60, 10)
 
 local BGW, BGH = ScreenScaleEx(500, 90)
 
+local DialogColor = Color(64, 38, 49, 255)
+
 
 local CatW, CatH = ScreenScaleEx(150, 170)
 local CatCamOffset = Vector(-35, 60, 0):GetNormal() * 70
@@ -145,6 +147,8 @@ end
 
 DialogCallbacks.Paint = function(_dialog)
 	if _dialog.open == 0 then return end
+	if hook.Call("OnJazzDialogPaintOverride", GAMEMODE, _dialog) then return end
+
 	local speaker, speakername = GetCurrentSpeaker()
 	local localspeaker = speaker == LocalPlayer()
 
@@ -164,7 +168,7 @@ DialogCallbacks.Paint = function(_dialog)
 	local left = x - w/2 + NameTextX 
 	local top = y - h/2 + NameTextY
 
-	surface.SetTextColor( 64, 38, 49, 255 * open )
+	surface.SetTextColor( DialogColor.r, DialogColor.g, DialogColor.b, 255 * open )
 	surface.SetFont( "JazzDialogNameFont" )
     local tw,th = surface.GetTextSize(speakername)
 
@@ -179,11 +183,14 @@ DialogCallbacks.Paint = function(_dialog)
 	top = y - h/2 + TextY
 
 	-- Draw dialog contents
+	_dialog.textpanel:SetPos(left, top)
+	_dialog.textpanel:SetSize(ScrW(), ScrH())
+	/*
 	local lines = string.Explode( "\n", _dialog.printed )
 	for k, line in pairs(lines) do
 		surface.SetTextPos( left, top + th * (k-1) )
 		surface.DrawText( line )
-	end
+	end*/
 
 	-- If we're waiting on input, slam that down
 	if dialog.ReadyToContinue() then
@@ -266,10 +273,31 @@ DialogCallbacks.ListOptions = function(data)
 	frame:SizeToChildren(true, true)
 end
 
+local function CreateRichText()
+	local richText = vgui.Create("RichText")
+	richText:SetAutoDelete(false)
+	richText:SetVerticalScrollbarEnabled(false)
+	function richText:PerformLayout()
+		self:SetFontInternal("JazzDialogFont")
+		self:SetFGColor(DialogColor)
+	end
+
+	hook.Call("OnJazzDialogCreatePanel", GAMEMODE, richText)
+
+	return richText
+end
+
 -- Called when we are beginning a new dialog session
 DialogCallbacks.DialogStart = function(d)
 	gui.EnableScreenClicker(true)
 	dialog.SetFocusProxy(nil)
+
+	if IsValid(d.textpanel) then
+		d.textpanel:Remove()
+		d.textpanel = nil
+	end
+		
+	d.textpanel = CreateRichText()
 end
 
 -- Called when we are finished with a dialog session
@@ -278,6 +306,25 @@ DialogCallbacks.DialogEnd = function(d)
 	dialog.InformScriptFinished(d.entrypoint, d.seen)
 	dialog.ResetView()
 	dialog.SetFocusProxy(nil)
+
+	if IsValid(d.textpanel) then
+		d.textpanel:Remove()
+		d.textpanel = nil
+	end
+end
+
+-- Called when we should append the specific text to our dialog output
+DialogCallbacks.AppendText = function(d, txt)
+	if IsValid(d.textpanel) then
+		d.textpanel:AppendText(txt)
+	end
+end
+
+-- Called when we should set the dialog text to this
+DialogCallbacks.SetText = function(d, txt)
+	if IsValid(d.textpanel) then
+		d.textpanel:SetText(txt)
+	end
 end
 
 -- Hook into dialog system to style it up and perform IO
@@ -308,3 +355,22 @@ hook.Add("Think", "JazzDialogSkipListener", function()
 		dialog.SkipText()
 	end
 end)
+
+
+
+-- Mark this script's entrypoint as 'seen', used for some other systems
+dialog.RegisterFunc("c", function(d, r, g, b, a)
+	if not r or not g then
+		r = DialogColor.r
+		g = DialogColor.g
+		b = DialogColor.b
+		a = tonumber(r) or DialogColor.a
+	else
+		r = tonumber(r) or 255
+		g = tonumber(g) or 255
+		b = tonumber(b) or 255
+		a = tonumber(a) or 255
+	end
+
+	d.textpanel:InsertColorChange(r, g, b, a)
+end )

@@ -1,25 +1,17 @@
-cache:
-  untracked: true
-
 stages:
-  - clean
-  - pack
-  - copy
+  - addon
 
-cleanup:
-  stage: clean
+makeaddon:
+  stage: addon
+  tags: [steam]
   script:
-    - rm -f /var/www/html/download/jazztronauts/*
-
-package:
-  stage: pack
-  script: 
-    - 7z a build ./gamemodes
-    - 7z a -tzip build ./gamemodes
-
-update:
-  stage: copy
-  script:
-    - today=`date '+%Y_%m_%d__%H_%M_%S'`
-    - cp -f build.7z /var/www/html/download/jazztronauts/jazztronauts$today.7z
-    - cp -f build.zip /var/www/html/download/jazztronauts/jazztronauts$today.zip
+    - whoami
+    - cwd=$(pwd)
+    - msg=$(git log -1 --pretty=%B)
+    - cp -rf gamemodes/shoot/content/* .
+    - rm -rf gamemodes/shoot/content/
+    - mv gamemodes/shoot/addon.json addon.json
+    - mv gamemodes/shoot/shoot_icon.jpg shoot_icon.jpg
+    - cd /home/steam/server/bin/
+    - LD_LIBRARY_PATH=./ ./gmad_linux create -folder "$cwd" -out "$cwd/shoot.gma"
+    - LD_LIBRARY_PATH=./ ./gmpublish_linux update -addon "$cwd/shoot.gma" -id "1325059434" -changes "$msg"

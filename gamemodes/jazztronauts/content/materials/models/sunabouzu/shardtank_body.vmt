@@ -1,0 +1,14 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/shardtank_body_a"
+	"$bumpmap" "models/sunabouzu/shardtank_body_n"
+	$phong 1
+	$PhongExponent 5
+	$phongBoost 5
+	$phongFresnelRanges "[.15 .5 .9]"
+
+	$rimlight "1"
+	$rimlightexponent "50"
+	$rimlightboost "30"
+
+}

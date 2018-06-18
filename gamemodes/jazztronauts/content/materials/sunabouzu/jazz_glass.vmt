@@ -1,0 +1,8 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "sunabouzu/jazz_glass"
+	"$surfaceprop" "Glass"
+	"%keywords" "jazz"
+	"$additive" 1
+	"$nocull" 1
+}

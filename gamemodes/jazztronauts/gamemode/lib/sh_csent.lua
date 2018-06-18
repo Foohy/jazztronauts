@@ -76,7 +76,7 @@ FreeCSEntity = function( csent )
 	for k,v in pairs( _ENTITY_POOL ) do
 		if v == csent then
 			if _ENTITY_REF_COUNTERS[k] == 1 then
-				print("***FREED CLIENTSIDE ENTITY: " .. tostring(v:GetModel()) .. "***")
+				--print("***FREED CLIENTSIDE ENTITY: " .. tostring(v:GetModel()) .. "***")
 				v:Remove()
 				_ENTITY_POOL[k] = nil
 			else

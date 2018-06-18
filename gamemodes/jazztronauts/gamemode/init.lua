@@ -120,6 +120,54 @@ function GM:CollectProp(prop, ply)
 	end
 end
 
+function GM:CollectBrush(brush, players)
+
+	-- Calculate which side material of the brush we'll store
+	-- Brushes can have a different material for each face, so just take the
+	-- largest non-tool surface area
+	local maxmaterial = nil
+	local maxarea = -1
+	for _, v in pairs(brush.sides) do
+		if not v.winding then continue end
+		local texinfo = v.texinfo
+		local texdata = texinfo.texdata
+		local mat = texdata.material
+
+		local area = string.find(mat, "TOOLS/TOOLSNODRAW") and 0 or v.winding:Area()
+		if area > maxarea then
+			maxarea = area
+			maxmaterial = mat
+		end
+	end
+
+	if not maxmaterial then 
+		print("Collected brush with no valid surface materials! (brushid: " .. brush.id .. ")")
+		return
+	end
+
+	maxmaterial = string.lower(maxmaterial)
+	print("COLLECTED BRUSH: " .. maxmaterial)
+	local worth = math.max(1, math.Round(math.sqrt(maxarea) * 0.1))
+	print(worth)
+
+	-- Collect the prop to the poop chute
+	if worth and worth > 0 then --TODO: Check if worth > 1 not 0
+		for _, ply in pairs(players) do 
+			if not IsValid(ply) then continue end
+
+			local newCount = snatch.AddProp(ply, maxmaterial, worth, "brush")
+			--propfeed.notify( prop, ply, newCount, worth)
+		end
+	end
+
+	-- Also maybe collect the prop for player missions
+	/*
+	for _, v in pairs(player.GetAll()) do
+		missions.AddMissionProp(v, prop:GetModel())
+	end
+	*/
+end
+
 function GM:JazzDialogFinished(ply, script, markseen)
 
 	-- Mark this as 'seen', so other systems know to continue

@@ -49,6 +49,11 @@ if SERVER then
         self.PlayerList = {}
     end
 
+    function ENT:RegisterOnActivate(cb)
+        self.Callbacks = self.Callbacks or {}
+        table.insert(self.Callbacks, cb)
+    end
+
     function ENT:UpdateTransmitState()
         return TRANSMIT_ALWAYS
     end
@@ -123,7 +128,13 @@ if SERVER then
 
     -- Override these
     function ENT:ActivateMarker()
-        -- Overwritten
+        if self.Callbacks then
+            for _, v in pairs(self.Callbacks) do
+                v()
+            end
+        end
+
+        self.Callbacks = {}
     end
     
     function ENT:ValidPlayer(ply)

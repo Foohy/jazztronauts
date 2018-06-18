@@ -1,0 +1,21 @@
+STYLE = horror
+
+wallobserve1:
+    holy FUCK that's a *c 0 255 0*wall
+    &exit
+
+wallobserve2:
+    WHAT THE FUCK ANOTHER *c 0 255 0*WALL
+    &exit
+
+wallobserve3:
+    that's our friend *c 255 84 0*super duper meteor
+    &exit
+
+gods:
+    *c 255 14 0*malevolent gods are better than none
+    &exit
+
+moon:
+    *c 0 156 255*people rest at the moon's request
+    &exit

@@ -23,6 +23,31 @@ local function TickVomitProps()
     end
 end
 
+local brushMaterials = {}
+local function getBrushMaterial(material)
+    if brushMaterials[material] then
+        local propmat = brushMaterials[material]
+        return "!" .. propmat:GetName(), propmat
+    end
+
+    local brushMat = Material(material)
+    if not brushMat then return nil end
+
+
+    local matname = material .. "_vlit"
+    local propmat = CreateMaterial(matname, "VertexLitGeneric", 
+    {
+        ["$basetexture"] = brushMat:GetString("$basetexture"),
+        ["$model"] = 1,
+        ["$translucent"] = 1,
+        ["$vertexalpha"] = 1,
+        ["$vertexcolor"] = 1
+    })
+
+    brushMaterials[material] = propmat
+    return "!" .. matname, propmat
+end
+
 local function getPropSize(ent)
     local phys = ent:GetPhysicsObject()
     local min, max = IsValid(phys) and phys:GetAABB()
@@ -97,11 +122,30 @@ local function AddVomitProp(model, pos)
     return ent
 end
 
+local brushModels = {
+    --"models/sunabouzu/worldgib01.mdl",
+    "models/sunabouzu/worldgib02.mdl",
+    "models/sunabouzu/worldgib03.mdl"
+}
+local function AddVomitBrush(material, pos)
+    local model = table.Random(brushModels)
+    local ent = AddVomitProp(model, pos)
+    local matname, mat = getBrushMaterial(material)
+
+    ent:SetMaterial(matname)
+    return ent
+end
+
 hook.Add("Think", "TickVomitProps", TickVomitProps)
 
 net.Receive("jazz_propvom_effect", function(len, ply)
     local pos = net.ReadVector()
     local model = net.ReadString()
+    local type = net.ReadString()
 
-    local ent = AddVomitProp(model, pos)
+    if type == "brush" then
+        AddVomitBrush(model, pos)
+    else
+        AddVomitProp(model, pos)
+    end
 end )

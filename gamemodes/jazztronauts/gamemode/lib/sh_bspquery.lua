@@ -230,54 +230,42 @@ function traceNode( node, tw )
 
 end
 
-local bmodelMap = {}
-local function getBModelIdx(ent)
-	local model = ent:GetModel()
-	if not model then return end
-
-	local split = string.Split(model, "*")
-	if #split != 2 then return end
-	local num = split and tonumber(split[2]) or nil
-
-	return num
-end
-
-local function mapEntity(ent)
-	local idx = getBModelIdx(ent)
-	if idx then
-		bmodelMap[idx] = ent
+local function buildFilterMap(filter, dest)
+	table.Empty(dest)
+	if not filter then return end
+	
+	for k, v in pairs(filter) do
+		dest[v] = v
 	end
 end
-for _, v in pairs(ents.GetAll()) do
-	mapEntity(v)
-end
-PrintTable(bmodelMap)
-hook.Add("OnEntityCreated", "JazzBSPQueryMapper", function(ent)
-	mapEntity(ent)
-end )
-hook.Add("OnEntityRemoved", "JazzBSpQueryUnmapper", function(ent)
-	local idx = getBModelIdx(ent)
-	if idx then
-		bmodelMap[idx] = nil
-	end
-end )
 
+local filterMap = {}
 local meta = getmetatable( map )
 function meta:Trace( tdata)
 	local tdatacopy = table.Copy(tdata)
 	local res = traceNode( self.models[1].headnode, tdata )
+	buildFilterMap(tdata.filter, filterMap)
 
 	if not tdata.ignoreents then
 		for k,v in pairs( self.entities ) do
-
+			if filterMap[v.classname] then continue end
+			
 			if v.bmodel then
 				local pos = v.origin and Vector(v.origin)
 				local ang = v.angles and Angle(v.angles)
 
-				local real = bmodelMap[v.bmodel.id - 1]
-				if IsValid(real) then
-					pos = real:GetPos()
-					ang = real:GetAngles()
+				-- If this bmodel has an existent entity analog in the world
+				-- adopt the entity's position/angles
+				local realEnts = bmodelmap.GetEntity(v.bmodel.id - 1)
+				if realEnts then
+
+					-- TODO: Potentially multiple entities with the same bmodel (but rare)
+					-- For now just grab the first one, but should probably handle this later
+					local _, real = next(realEnts)
+					if IsValid(real) then
+						pos = real:GetPos()
+						ang = real:GetAngles()
+					end
 				end
 
 				local d = table.Copy(tdatacopy)
@@ -349,10 +337,12 @@ local function drawModel( model )
 
 end
 
+local cvardebug = CreateClientConVar("jazz_debug_bspquery", "0", false, false, "Toggle on screen debugging of the bsp query module.")
+
 local trace_res = nil
 hook.Add( "HUDPaint", "dbgquery", function()
+	if not cvardebug:GetBool() then return end
 
-	--if true then return end
 	if map:IsLoading() then return end
 
 	if trace_res and trace_res.Hit then
@@ -390,7 +380,7 @@ hook.Add( "HUDPaint", "dbgquery", function()
 end )
 
 hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky ) 
-
+	if not cvardebug:GetBool() then return end
 	--if bsky then return end
 
 	--drawFace( face )

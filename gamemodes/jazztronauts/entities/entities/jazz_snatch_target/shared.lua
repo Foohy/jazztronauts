@@ -33,7 +33,7 @@ function snatch.FindOrCreateWorld(pos, dir, dist)
 		tmin = 0,
 		tmax = dist,
 		mask = mask,
-        ignoreents = true
+        filter = { "func_dustmotes" }
 	})
 
     local brush = res and res.Hit and res.Brush and res.Brush
@@ -63,14 +63,19 @@ if SERVER then
         local length = size.x + size.y + size.z
         
         -- 600 is pretty good for a more upgraded value
+        -- 100 is a pretty good starting value
         return 600.0 / math.pow(length, 1.1)
     end
 
     -- Overwritten
     function ENT:ActivateMarker()
+        self.BaseClass.ActivateMarker(self)
+
         local yoink = snatch.New()
         yoink:SetMode(2)
 	    yoink:StartWorld(self:GetPos(), self:GetOwner(), self:GetBrushID())
+
+        GAMEMODE:CollectBrush(self.BrushInfo, self.PlayerList)
     end
 
     function ENT:UpdateSpeed()
@@ -82,7 +87,20 @@ end
 if CLIENT then
     JazzSnatchMeshIndex = JazzSnatchMeshIndex or 1
 
-    ENT.BreakMaterial = Material("effects/map_monitor_noise")
+    -- Void material, but zero refraction on it
+    -- This is so we don't get any z-fighting/flickering when shaking the brush
+    local refractParams = {
+
+        ["$basetexture"] = "concrete/concretefloor001a",
+        ["$additive"] = 0,
+        ["$vertexcolor"] = 1,
+        ["$vertexalpha"] = 0,
+        ["$refractamount"] = 0.0,
+        ["$model"] = 1,
+        ["$nocull"] = 1,
+    }
+
+    local voidOnly = CreateMaterial("RefractBrushModel_NoRefract" .. FrameNumber(), "Refract", refractParams)
 
     function ENT:Initialize()
         self.BaseClass.Initialize(self)
@@ -138,8 +156,22 @@ if CLIENT then
 
         if not self.Brush and self.GetBrushID then
             self.Brush = self:BuildBrushMesh(self:GetBrushID())
-            local voidmat = jazzvoid.GetVoidOverlay()
-            self.VoidBrush = self:BuildBrushMesh(self:GetBrushID(), -1, voidmat)
+            local voidTex = jazzvoid.GetVoidTexture()
+            voidOnly:SetTexture("$basetexture", voidTex:GetName())
+            self.VoidBrush = self:BuildBrushMesh(self:GetBrushID(), -1, voidOnly)
+        end
+
+        -- Random shake think
+        self.NextRandom = self.NextRandom or 0
+        self.GoalRand = self.GoalRand or Vector()
+        self.CurRand = self.CurRand or Vector()
+        if self.NextRandom < UnPredictedCurTime() then
+            self.NextRandom = UnPredictedCurTime() + 0.02
+            self.GoalRand = Vector(math.random(-1, 1), math.random(-1, 1), math.random(-1, 1))
+        end
+        
+        for i=1, 3 do
+            self.CurRand[i] = math.Approach(self.CurRand[i], self.GoalRand[i], FrameTime() / 0.02)
         end
     end
 
@@ -148,7 +180,7 @@ if CLIENT then
             return util.SharedRandom("ass", min, max, CurTime() * 1000 + i)
         end
         local prog = math.pow(self:GetProgress(), 1) * 5
-        mtx:Translate(Vector(rand(-prog, prog, 1), rand(-prog, prog, 2), rand(-prog, prog, 3)))
+        mtx:Translate(self.CurRand * prog)
         //mtx:SetAngles(Angle(rand(-1, 1, 4), rand(-1, 1, 5), rand(-1, 1, 6)))
     end
 

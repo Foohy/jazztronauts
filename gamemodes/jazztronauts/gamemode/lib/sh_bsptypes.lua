@@ -605,6 +605,13 @@ BSP.StaticPropLump_t[10] = Struct({
 	FLOAT.unknown
 })
 
+BSP.PhysModelHeader_t = Struct({
+	INT32.modelIndex,
+	INT32.dataSize,
+	INT32.keydataSize,
+	INT32.solidCount,
+})
+
 local function Chunk( lumpid, size, f, ... )
 
 	local name = BSP.LumpNames[lumpid+1]
@@ -693,7 +700,141 @@ BSP.Readers[LUMP_AREAPORTALS] = StructLump( LUMP_AREAPORTALS, BSP.AreaPortal_t )
 BSP.Readers[LUMP_DISPINFO] = StructLump( LUMP_DISPINFO, BSP.DispInfo_t )
 BSP.Readers[LUMP_ORIGINALFACES] = StructLump( LUMP_ORIGINALFACES, BSP.Face_t )
 BSP.Readers[LUMP_PHYSDISP] = NOT_IMPLEMENTED( LUMP_PHYSDISP )
-BSP.Readers[LUMP_PHYSCOLLIDE] = NOT_IMPLEMENTED( LUMP_PHYSCOLLIDE )
+
+BSP.Readers[LUMP_PHYSCOLLIDE] = function( f, header )
+	f:Seek( header.lumps[LUMP_PHYSCOLLIDE+1].offset )
+
+	local eof = f:Tell() + header.lumps[LUMP_PHYSCOLLIDE+1].length
+	local out = {}
+
+	local stack = {}
+	local function push( f, addr )
+		print("**PUSHADDR: " .. tostring(addr))
+		table.insert( stack, f:Tell() )
+		f:Seek( addr )
+	end
+
+	local function pop( f )
+		local addr = stack[#stack]
+		f:Seek( addr )
+		table.remove( stack, #stack )
+		return addr
+	end
+
+	local function readTriangle( f )
+
+		local tri = PHY.IVPCompactTriangle_t.read( f )
+		tri.tri_index = bit.band( tri.indices, 0x00000FFF )
+		tri.pierce_index = bit.rshift( bit.band( tri.indices, 0x00FFF000 ), 12 )
+		tri.material_index = bit.rshift( bit.band( tri.indices, 0x7F000000 ), 24 )
+		tri.is_virtual = bit.band( tri.indices, 0x10000000 ) ~= 0
+		tri.indices = nil
+
+		for j=1, 3 do
+			local edge = tri.c_three_edges[j]
+			edge.start_point_index = bit.band( edge.indices, 0x0000FFFF )
+			edge.opposite_index = bit.rshift( bit.band( edge.indices, 0x7FFF0000 ), 16 )
+
+			if bit.band( edge.opposite_index, 0x4000 ) ~= 0 then
+				edge.opposite_index = 32767 - edge.opposite_index
+			end
+
+			edge.is_virtual = bit.band( edge.indices, 0x10000000 ) ~= 0
+			edge.indices = nil
+		end
+		return tri
+
+	end
+
+	while true do
+		local model = BSP.PhysModelHeader_t.read( f )
+		local size = model.dataSize + model.keydataSize
+
+		if size <= 0 then break end
+
+		--PrintTable(model)
+
+		local jump = f:Tell() + model.dataSize + model.keydataSize
+
+			local surf = PHY.CompactSurfaceHeader_t.read( f )
+			print("SURF")
+			--PrintTable( surf )
+
+			local cs_header_size = PHY.IVPCompactSurface_t.sizeof
+			local surf2 = PHY.IVPCompactSurface_t.read(f)
+			surf2.max_factor_surface_deviation = bit.band( surf2.size_and_max_surface_deviation, 0xFF )
+			surf2.size = bit.rshift( bit.band( surf2.size_and_max_surface_deviation, 0xFFFFFF00 ), 8 )
+			surf2.size_and_max_surface_deviation = nil
+			surf2.ledge_list_size = surf2.offset_ledgetree_root - cs_header_size
+			surf2.ledge_tree_size = surf2.size - surf2.ledge_list_size - cs_header_size
+
+			surf2.ledge_tree_size = surf2.ledge_tree_size / PHY.IVPCompactLedgeTreeNode_t.sizeof
+			--PrintTable( surf2 )
+			PrintTable({
+				model = model.modelIndex,
+				size = surf2.size,
+				ledge_list_size = surf2.ledge_list_size,
+				ledge_tree_size = surf2.ledge_tree_size,
+			})
+			assert( surf2.dummy[3] == PHY.IVP_COMPACT_SURFACE_ID )
+
+			local remain_size = surf2.ledge_list_size + 960
+
+			for x=1, 50 do
+
+				--print("LEDGE")
+				local ledge_start = f:Tell()
+				local ledge = PHY.IVPCompactLedge_t.read( f )
+				
+				ledge.has_children_flag = bit.band( ledge.data, 0x00000003 ) ~= 0
+				ledge.is_compact_flag = bit.rshift( bit.band( ledge.data, 0x0000000C ), 2 ) ~= 0
+				ledge.size = bit.rshift( bit.band( ledge.data, 0xFFFFFF00 ), 8 ) * 16
+				ledge.n_points = (ledge.size / 16) - ledge.n_triangles - 1
+				ledge.tris = {}
+				ledge.points = {}
+				PrintTable( {ledge} )
+				for i=1, ledge.n_triangles do
+					local tri = readTriangle( f )
+					table.insert( ledge.tris, tri )
+				end
+
+				--[[push( f, ledge_start + ledge.c_point_offset )
+
+				for i=1, ledge.n_points do
+					local point = PHY.IVPCompactPolyPoint_t.read( f )
+					table.insert( ledge.points, Vector(point.x, point.y, point.z) )
+				end
+				PrintTable( ledge )
+
+				pop( f )]]
+
+				remain_size = remain_size - ledge.size --( f:Tell() - ledge_start ) - ledge.n_points * PHY.IVPCompactPolyPoint_t.sizeof
+				print( remain_size )
+
+				--if remain_size <= 0 then break end
+
+			end
+
+			print( "LEFT: " .. jump - f:Tell() )
+
+		f:Seek( jump )
+		if f:Tell() >= eof then break end
+
+		if true then break end
+
+	end
+
+	return out
+
+end
+
+if CLIENT then
+	local f = file.Open( "maps/io_test.bsp", "rb", "GAME" )
+	local header = BSP.Header_t.read(f)
+	BSP.Readers[LUMP_PHYSCOLLIDE]( f, header )
+	f:Close()
+end
+
 BSP.Readers[LUMP_VERTNORMALS] = StructLump( LUMP_VERTNORMALS, VECTOR )
 BSP.Readers[LUMP_VERTNORMALINDICES] = StructLump( LUMP_VERTNORMALINDICES, UINT16 )
 BSP.Readers[LUMP_DISP_LIGHTMAP_ALPHAS] = NOT_IMPLEMENTED( LUMP_DISP_LIGHTMAP_ALPHAS )

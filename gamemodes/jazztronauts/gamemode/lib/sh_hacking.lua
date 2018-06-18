@@ -1,5 +1,7 @@
 AddCSLuaFile()
 
+if true then return end
+
 local function GetIndexMapping()
 
 	local indices = {}

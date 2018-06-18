@@ -45,7 +45,7 @@ function Plane(x,y,z,dist)
 		p = { normal = Vector(x,y,z), dist = dist }
 	end
 
-	p.back = { normal = p.normal * -1, dist = -p.dist, back = p }
+	p.back = { normal = p.normal * -1, dist = -p.dist, back = p, type = p.type }
 	return p
 
 end

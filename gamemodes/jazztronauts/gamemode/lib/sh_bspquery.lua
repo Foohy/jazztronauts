@@ -380,7 +380,7 @@ hook.Add( "HUDPaint", "dbgquery", function()
 end )
 
 hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky ) 
-	if not cvardebug:GetBool() then return end
+	--if not cvardebug:GetBool() then return end
 	--if bsky then return end
 
 	--drawFace( face )

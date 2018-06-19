@@ -79,7 +79,7 @@ if CLIENT then
     net.Receive("jazz_leaderboards_update", function(len, ply)
         local id = net.ReadUInt(4)
         local num = net.ReadUInt(4)
-        print("Received " .. num .. " entries for leaderboard " .. id)
+        --print("Received " .. num .. " entries for leaderboard " .. id)
         Leaderboards[id] = {}
 
         for i=1, num do

@@ -96,7 +96,7 @@ function GetAvailableConvos(ply, npcid)
             table.insert(convos, v)
         end
     end
-    PrintTable(Convos)
+
     -- Add in current mission convo as well
     local curMisScript, cond = GetMissionScript(ply, npcid)
     if curMisScript != nil then

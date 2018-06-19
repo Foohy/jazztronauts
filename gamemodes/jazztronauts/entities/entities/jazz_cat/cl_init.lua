@@ -62,12 +62,22 @@ end
 -- Check for mission changes
 function ENT:Think()
     local script, cond = converse.GetMissionScript(LocalPlayer(), self:GetNPCID())
+    local actualscript = converse.GetNextScript(LocalPlayer(), self:GetNPCID())
 
-    local stateTable = {
-        [converse.MISSION_COMPLETED] = self.AttentionMarker,
-        [converse.MISSION_AVAILABLE] = self.QuestionMarker
-    }
-    local icon = stateTable[cond]
+    local icon = nil
+    if actualscript then
+        if script == actualscript then
+            local stateTable = 
+            {
+                [converse.MISSION_COMPLETED] = self.AttentionMarker,
+                [converse.MISSION_AVAILABLE] = self.QuestionMarker
+            }
+            icon = stateTable[cond]
+        else
+            icon = self.ChatMarker
+        end
+    end
+
     if icon then
         worldmarker.SetIcon(self, icon)
     end

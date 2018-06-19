@@ -5,6 +5,10 @@ include( "rangedecoder.lua" )
 include( "tests.lua" )
 
 local Base = LZMABase
+local BitLShift = BitLShift
+local BitRShift = BitRShift
+local BitAnd = bit.band
+local BitOr = bit.bor
 
 -------------------
 --LenDecoder
@@ -119,9 +123,9 @@ function meta:DecodeNormal( rangeDecoder )
 
 	local symbol = 1
 	repeat
-		symbol = bit.bor( symbol * 2, self.m_Decoders[ symbol ]:Decode( rangeDecoder ) )
+		symbol = BitOr( symbol * 2, self.m_Decoders[ symbol ]:Decode( rangeDecoder ) )
 	until symbol >= 0x100
-	return bit.band( symbol, 0xFF )
+	return BitAnd( symbol, 0xFF )
 
 end
 
@@ -129,22 +133,22 @@ function meta:DecodeWithMatchByte( rangeDecoder, matchByte )
 
 	local symbol = 1
 	repeat
-		local matchBit = bit.rshift( matchByte, 7 ) % 2
+		local matchBit = BitRShift( matchByte, 7 ) % 2
 		matchByte = matchByte * 2
 		local b = self.m_Decoders[ 0x100 * (1 + matchBit) + symbol ]:Decode( rangeDecoder )
-		symbol = bit.bor( symbol * 2, b )
+		symbol = BitOr( symbol * 2, b )
 		if matchBit ~= b then
 
 			while symbol < 0x100 do
 
-				symbol = bit.bor( symbol * 2, self.m_Decoders[ symbol ]:Decode( rangeDecoder ) )
+				symbol = BitOr( symbol * 2, self.m_Decoders[ symbol ]:Decode( rangeDecoder ) )
 
 			end
 			break
 
 		end
 	until symbol >= 0x100
-	return bit.band( symbol, 0xFF )
+	return BitAnd( symbol, 0xFF )
 
 end
 
@@ -169,9 +173,9 @@ end
 function meta:Create( numPosBits, numPrevBits )
 
 	self.m_NumPosBits = numPosBits
-	self.m_PosMask = bit.lshift( 1, numPosBits ) - 1
+	self.m_PosMask = BitLShift( 1, numPosBits ) - 1
 	self.m_NumPrevBits = numPrevBits
-	local numStates = bit.lshift( 1, self.m_NumPrevBits + self.m_NumPosBits )
+	local numStates = BitLShift( 1, self.m_NumPrevBits + self.m_NumPosBits )
 	self.m_Coders = {}
 
 	for i=1, numStates do
@@ -185,7 +189,7 @@ end
 
 function meta:Init()
 
-	local numStates = bit.lshift( 1, self.m_NumPrevBits + self.m_NumPosBits )
+	local numStates = BitLShift( 1, self.m_NumPrevBits + self.m_NumPosBits )
 
 	for i=1, numStates do
 
@@ -197,7 +201,7 @@ end
 
 function meta:GetState( pos, prevByte )
 
-	return BitLShift( bit.band( pos, self.m_PosMask ), self.m_NumPrevBits ) + BitRShift( prevByte, ( 8 - self.m_NumPrevBits ) )
+	return BitLShift( BitAnd( pos, self.m_PosMask ), self.m_NumPrevBits ) + BitRShift( prevByte, ( 8 - self.m_NumPrevBits ) )
 
 end
 
@@ -285,7 +289,7 @@ function meta:SetDictionarySize( dictionarySize )
 		self.m_DictionarySize = dictionarySize
 		self.m_DictionarySizeCheck = math.max( dictionarySize, 1 )
 
-		local blockSize = math.max( self.m_DictionarySizeCheck, bit.lshift( 1, 12 ) )
+		local blockSize = math.max( self.m_DictionarySizeCheck, 2^12 )
 		self.m_OutWindow:Create( blockSize )
 
 	end
@@ -322,7 +326,7 @@ function meta:Init( inStream, outStream )
 
 		for j=0, self.m_PosStateMask do
 
-			local index = bit.lshift( i, Base.kNumPosStatesBitsMax ) + j
+			local index = BitLShift( i, Base.kNumPosStatesBitsMax ) + j
 			self.m_IsMatchDecoders[ index ]:Init()
 			self.m_IsRep0LongDecoders[ index ]:Init()
 
@@ -354,62 +358,57 @@ function meta:Code( inStream, outStream, inSize, outSize, progress )
 
 	self:Init( inStream, outStream )
 
-	local statebitmax_shift = 2^Base.kNumPosStatesBitsMax
 	local state = Base.State()
 	local rep0, rep1, rep2, rep3 = 0,0,0,0
 
 	--not actually uint64, but doubles should be good enough
 	local nowPos64 = 0
-	local outSize64 = outSize
-	local outWindow = self.m_OutWindow
-	local rangeDecoder = self.m_RangeDecoder
 
-	if nowPos64 < outSize64 then
+	if nowPos64 < outSize then
 
-		if self.m_IsMatchDecoders[ BitLShift( state.Index, Base.kNumPosStatesBitsMax ) ]:Decode( rangeDecoder ) ~= 0 then
+		if self.m_IsMatchDecoders[ BitLShift( state.Index, Base.kNumPosStatesBitsMax ) ]:Decode( self.m_RangeDecoder ) ~= 0 then
 			error("Data error")
 		end
 
 		state:UpdateChar()
-		local b = self.m_LiteralDecoder:DecodeNormal( rangeDecoder, 0, 0 )
+		local b = self.m_LiteralDecoder:DecodeNormal( self.m_RangeDecoder, 0, 0 )
 
-		outWindow:PutByte( b )
+		self.m_OutWindow:PutByte( b )
 		nowPos64 = nowPos64 + 1
 
 	end
-	while nowPos64 < outSize64 do
+	while nowPos64 < outSize do
 
 		if self.stop == true then break end
 
-		task.YieldPer(4000, "progress", nowPos64, outSize64)
+		task.YieldPer(2000, "progress", nowPos64, outSize)
 
 		local posState = BitAnd( nowPos64, self.m_PosStateMask )
-		local matchIndex = (BitLShift( state.Index, Base.kNumPosStatesBitsMax ) + posState)
-		local res = self.m_IsMatchDecoders[ matchIndex ]:Decode( rangeDecoder )
+		local res = self.m_IsMatchDecoders[ BitLShift( state.Index, Base.kNumPosStatesBitsMax ) + posState ]:Decode( self.m_RangeDecoder )
 
 		if res == 0 then
 
 			local b = 0
 			if not state:IsCharState() then
-				b = self.m_LiteralDecoder:DecodeWithMatchByte( rangeDecoder, nowPos64, outWindow:GetByte(0), outWindow:GetByte( rep0 ) )
+				b = self.m_LiteralDecoder:DecodeWithMatchByte( self.m_RangeDecoder, nowPos64, self.m_OutWindow:GetByte(0), self.m_OutWindow:GetByte( rep0 ) )
 			else
-				b = self.m_LiteralDecoder:DecodeNormal( rangeDecoder, nowPos64, outWindow:GetByte(0) )
+				b = self.m_LiteralDecoder:DecodeNormal( self.m_RangeDecoder, nowPos64, self.m_OutWindow:GetByte(0) )
 			end
-			outWindow:PutByte( b )
+			self.m_OutWindow:PutByte( b )
 			state:UpdateChar()
 			nowPos64 = nowPos64 + 1
 
 		else
 
 			local len = 0
-			if self.m_IsRepDecoders[ state.Index ]:Decode( rangeDecoder ) == 1 then
+			if self.m_IsRepDecoders[ state.Index ]:Decode( self.m_RangeDecoder ) == 1 then
 
-				if self.m_IsRepG0Decoders[ state.Index ]:Decode( rangeDecoder ) == 0 then
+				if self.m_IsRepG0Decoders[ state.Index ]:Decode( self.m_RangeDecoder ) == 0 then
 
-					if self.m_IsRep0LongDecoders[ state.Index * statebitmax_shift + posState ]:Decode( rangeDecoder ) == 0 then
+					if self.m_IsRep0LongDecoders[ state.Index * 2^Base.kNumPosStatesBitsMax + posState ]:Decode( self.m_RangeDecoder ) == 0 then
 
 						state:UpdateShortRep()
-						outWindow:PutByte( outWindow:GetByte( rep0 ) )
+						self.m_OutWindow:PutByte( self.m_OutWindow:GetByte( rep0 ) )
 						nowPos64 = nowPos64 + 1
 						continue
 
@@ -418,13 +417,13 @@ function meta:Code( inStream, outStream, inSize, outSize, progress )
 				else
 
 					local distance = 0
-					if self.m_IsRepG1Decoders[ state.Index ]:Decode( rangeDecoder ) == 0 then
+					if self.m_IsRepG1Decoders[ state.Index ]:Decode( self.m_RangeDecoder ) == 0 then
 
 						distance = rep1
 
 					else
 
-						if self.m_IsRepG2Decoders[ state.Index ]:Decode( rangeDecoder ) == 0 then
+						if self.m_IsRepG2Decoders[ state.Index ]:Decode( self.m_RangeDecoder ) == 0 then
 
 							distance = rep2
 
@@ -444,7 +443,7 @@ function meta:Code( inStream, outStream, inSize, outSize, progress )
 
 				end
 
-				len = self.m_RepLenDecoder:Decode( rangeDecoder, posState ) + Base.kMatchMinLen
+				len = self.m_RepLenDecoder:Decode( self.m_RangeDecoder, posState ) + Base.kMatchMinLen
 				state:UpdateRep()
 
 			else
@@ -452,21 +451,21 @@ function meta:Code( inStream, outStream, inSize, outSize, progress )
 				rep3 = rep2
 				rep2 = rep1
 				rep1 = rep0
-				len = Base.kMatchMinLen + self.m_LenDecoder:Decode( rangeDecoder, posState )
+				len = Base.kMatchMinLen + self.m_LenDecoder:Decode( self.m_RangeDecoder, posState )
 				state:UpdateMatch()
-				local posSlot = self.m_PosSlotDecoder[ Base.GetLenToPosState( len ) ]:Decode( rangeDecoder )
+				local posSlot = self.m_PosSlotDecoder[ Base.GetLenToPosState( len ) ]:Decode( self.m_RangeDecoder )
 				if posSlot >= Base.kStartPosModelIndex then
 
 					local numDirectBits = BitRShift( posSlot, 1 ) - 1
-					rep0 = BitLShift( bit.bor( 2, bit.band( posSlot, 1 ) ), numDirectBits )
+					rep0 = BitLShift( BitOr( 2, BitAnd( posSlot, 1 ) ), numDirectBits )
 					if posSlot < Base.kEndPosModelIndex then
 
-						rep0 = rep0 + ReverseDecodeModels( self.m_PosDecoders, rep0 - posSlot - 1, rangeDecoder, numDirectBits )
+						rep0 = rep0 + ReverseDecodeModels( self.m_PosDecoders, rep0 - posSlot - 1, self.m_RangeDecoder, numDirectBits )
 
 					else
 
-						rep0 = rep0 + BitLShift( rangeDecoder:DecodeDirectBits( numDirectBits - Base.kNumAlignBits ), Base.kNumAlignBits )
-						rep0 = rep0 + self.m_PosAlignDecoder:ReverseDecode( rangeDecoder )
+						rep0 = rep0 + BitLShift( self.m_RangeDecoder:DecodeDirectBits( numDirectBits - Base.kNumAlignBits ), Base.kNumAlignBits )
+						rep0 = rep0 + self.m_PosAlignDecoder:ReverseDecode( self.m_RangeDecoder )
 
 					end
 
@@ -481,11 +480,11 @@ function meta:Code( inStream, outStream, inSize, outSize, progress )
 			if rep0 >= nowPos64 or rep0 >= self.m_DictionarySizeCheck then
 
 				if rep0 == 0xFFFFFFFF then break end
-				error("Data error on dictionary: " .. rep0)
+				--error("Data error on dictionary: " .. rep0)
 
 			end
 
-			outWindow:CopyBlock( rep0, len )
+			self.m_OutWindow:CopyBlock( rep0, len )
 			nowPos64 = nowPos64 + len
 
 		end

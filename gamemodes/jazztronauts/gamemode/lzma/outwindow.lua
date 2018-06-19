@@ -38,8 +38,8 @@ function meta:Flush()
 	local size = self.m_Pos - self.m_StreamPos
 	if size == 0 then return end
 
-	local len = self.m_StreamPos + size - 1
-	for i=self.m_StreamPos, len do
+	local len = self.m_StreamPos + size
+	for i=self.m_StreamPos+1, len do
 
 		task.YieldPer(10000, "writefile", i, len)
 		self.m_Stream:WriteByte( self.m_Buffer[i] )
@@ -61,7 +61,7 @@ function meta:CopyBlock( distance, len )
 
 		if pos >= self.m_WindowSize then pos = 0 end
 
-		self.m_Buffer[ self.m_Pos ] = self.m_Buffer[ pos ]
+		self.m_Buffer[ self.m_Pos + 1 ] = self.m_Buffer[ pos + 1 ]
 		self.m_Pos = self.m_Pos + 1
 
 		if self.m_Pos >= self.m_WindowSize then
@@ -77,7 +77,7 @@ end
 
 function meta:PutByte( b )
 
-	self.m_Buffer[ self.m_Pos ] = b
+	self.m_Buffer[ self.m_Pos + 1 ] = b
 	self.m_Pos = self.m_Pos + 1
 
 	if self.m_Pos >= self.m_WindowSize then
@@ -90,7 +90,7 @@ function meta:GetByte( distance )
 
 	local pos = self.m_Pos - distance - 1
 	if pos < 0 then pos = pos + self.m_WindowSize end
-	return self.m_Buffer[ pos ]
+	return self.m_Buffer[ pos + 1 ]
 
 end
 

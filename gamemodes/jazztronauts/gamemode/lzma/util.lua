@@ -1,7 +1,11 @@
 function ByteBuffer( size, init )
 
 	local t = { Length = size }
-	for i=1, size do task.YieldPer(10000) t[i-1] = init and init[i] or 0 end
+	if init then
+		for i=1, size do task.YieldPer(10000) t[i] = init[i] or 0 end
+	else
+		for i=1, size do task.YieldPer(10000) t[i] = 0 end
+	end
 	return t
 
 end
@@ -64,10 +68,10 @@ local function WideBinOp( f )
 
 		--local c0 = f( BitShortPart( a, 0 ), BitShortPart( b, 0 ) )
 		--local c1 = f( BitShortPart( a, 1 ), BitShortPart( b, 1 ) )
-		local c2 = f( BitShortPart( a, 2 ), BitShortPart( b, 2 ) )
+		--local c2 = f( BitShortPart( a, 2 ), BitShortPart( b, 2 ) )
 		local c3 = f( BitShortPart( a, 3 ), BitShortPart( b, 3 ) )
 
-		return c3 + BitLShift(c2, 16) --+ BitLShift(c1, 32) + BitLShift(c0, 48)
+		return c3 --+ BitLShift(c2, 16) --+ BitLShift(c1, 32) + BitLShift(c0, 48)
 
 	end
 
@@ -93,15 +97,14 @@ end
 end]]
 
 
-BitOr = WideBinOp( bit.bor )
-BitXor = WideBinOp( bit.bxor )
+--[[BitOr = WideBinOp( bit.bor )
 BitAnd = WideBinOp( bit.band )
 
 function BitOr( a, b )
 	local x = bit.bor(a,b)
 	if x < 0 then x = 0x100000000 + x end
 	return x
-end
+end]]
 
 --[[function BitAnd( a, b )
 	local x = bit.band(a,b)

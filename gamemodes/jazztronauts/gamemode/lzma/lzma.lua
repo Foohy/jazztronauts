@@ -100,7 +100,7 @@ function ByteBufferReader( bytes )
 	function rd:Size() return self.l end
 	function rd:Tell() return self.p end
 	function rd:Skip(n) self.p = self.p + n end
-	function rd:ReadByte() local x = bytes[self.p] self.p = self.p + 1 return x end
+	function rd:ReadByte() self.p = self.p + 1 return bytes[self.p] end
 	function rd:ReadLong() return bit.bor( rd:ReadByte() + BitLShift( rd:ReadByte(), 8 ) + BitLShift( rd:ReadByte(), 16 ) + BitLShift( rd:ReadByte(), 24 ), 0 ) end
 	function rd:ReadULong() return rd:ReadByte() + BitLShift( rd:ReadByte(), 8 ) + BitLShift( rd:ReadByte(), 16 ) + BitLShift( rd:ReadByte(), 24 ) end
 	return rd

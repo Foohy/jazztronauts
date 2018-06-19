@@ -7,6 +7,12 @@ meta.__index = meta
 
 local kTopValue = bit.lshift( 1, 24 )
 
+local BitLShift = BitLShift
+local BitRShift = BitRShift
+local BitAnd = bit.band
+local BitOr = bit.bor
+local RShift = bit.rshift
+
 function meta:Init( inStream )
 
 	self.m_Stream = inStream
@@ -60,7 +66,7 @@ function meta:DecodeDirectBits( numTotalBits )
 
 		range = BitRShift( range, 1 )
 
-		local t = 1 - bit.rshift(code - range, 31 )
+		local t = 1 - RShift(code - range, 31 )
 
 		code = code - range * t
 		result = result*2 + t
@@ -117,12 +123,12 @@ local meta = {}
 meta.__index = meta
 
 local kNumBitModelTotalBits = 11
-local kBitModelTotal = bit.lshift( 1, kNumBitModelTotalBits )
+local kBitModelTotal = BitLShift( 1, kNumBitModelTotalBits )
 local kNumMoveBits = 5
 
 function meta:Init()
 
-	self.m_Prob = bit.rshift( kBitModelTotal, 1 )
+	self.m_Prob = BitRShift( kBitModelTotal, 1 )
 	return self
 
 end
@@ -189,7 +195,7 @@ meta.__index = meta
 
 function meta:Init()
 
-	for i=1, bit.lshift( 1, self.m_NumBitLevels ) - 1 do
+	for i=1, BitLShift( 1, self.m_NumBitLevels ) - 1 do
 
 		local decoder = BitDecoder()
 		decoder:Init()
@@ -227,7 +233,7 @@ function meta:ReverseDecode( rangeDecoder )
 
 		local b = self.m_Models[m]:Decode( rangeDecoder )
 		m = (m * 2) + b
-		symbol = bit.bor( symbol, BitLShift( b, bitIndex ) )
+		symbol = BitOr( symbol, BitLShift( b, bitIndex ) )
 
 		bitIndex = bitIndex + 1
 
@@ -247,7 +253,7 @@ function ReverseDecodeModels( models, startIndex, rangeDecoder, numBitLevels )
 
 		local b = models[startIndex + m]:Decode( rangeDecoder )
 		m = (m * 2) + b
-		symbol = bit.bor( symbol, BitLShift( b, bitIndex ) )
+		symbol = BitOr( symbol, BitLShift( b, bitIndex ) )
 
 		bitIndex = bitIndex + 1
 

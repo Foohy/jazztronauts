@@ -7,6 +7,8 @@ module( "task", package.seeall )
 local TASK_TIME_SLICE = 0.008
 local HITCH_THESHOLD = 0.05
 local MAX_TASK_ITERATIONS = 100000
+local TASK_HITCH_DETECTION = false
+local TASK_PRIORITIZATION = false
 
 tasks = tasks or {}
 g_task = g_task or nil
@@ -187,7 +189,7 @@ local function ProcessTasks()
 	local task_slept = false
 	local task_yielded_timeslice = false
 
-	SortTasks()
+	if TASK_PRIORITIZATION then SortTasks() end
 
 	local pre_num_tasks = #tasks
 	while remaining_iterations > 0 and #tasks > 0 do
@@ -218,6 +220,8 @@ local function ProcessTasks()
 		remaining_iterations = remaining_iterations - 1
 
 	end
+
+	if not TASK_HITCH_DETECTION then return end
 
 	if task_died then
 		--print("TASK DIED")

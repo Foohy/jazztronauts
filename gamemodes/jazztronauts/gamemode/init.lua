@@ -22,7 +22,7 @@ concommand.Add( "jazz_test_lzma", function()
 
 	print("RUNNING LZMA TEST")
 
-	local test = lzma.Decompressor( lzma.FileReader("test.gma"), lzma.FileWriter("yourmom.dat") )
+	local test = lzma.Decompressor( lzma.FileReader("test3.gma"), lzma.FileWriter("yourmom.dat") )
 	local decoded_header = false
 
 	test:SetProgressCallback( function( decompressed, total, percent )

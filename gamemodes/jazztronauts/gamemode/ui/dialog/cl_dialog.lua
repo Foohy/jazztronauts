@@ -273,10 +273,10 @@ function StartGraph(cmd, skipOpen, options)
 		_dialog.waitdata = nil
 
 		State(skipOpen and STATE_OPENED or STATE_OPENING)
+		
+		InvokeEvent("DialogStart", _dialog)
 
 		if skipOpen then _dialog.nodeiter() end
-	
-		InvokeEvent("DialogStart", _dialog)
 	end
 end
 

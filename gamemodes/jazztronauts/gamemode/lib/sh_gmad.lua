@@ -3,7 +3,7 @@ if SERVER then AddCSLuaFile("sh_gmad.lua") end
 module( "gmad", package.seeall )
 
 -- GMA addon format we are supporting
-Ident   = "GMAD"
+Ident   = 0x44414D47
 Version = 3
 AppID   = 4000
 
@@ -31,7 +31,8 @@ local function ReadULongLong(f)
 end
 
 local function ReadHeader(f)
-    if f:Read(4) != Ident then return false end
+    local read = f:ReadULong()
+    if read != Ident then print("IDENT MISMATCH: " .. bit.tohex(read) .. " != " .. bit.tohex(Ident)) return false end
     local ver = f:ReadByte()
     if ver > Version then return false end
 
@@ -48,11 +49,10 @@ local function ReadRequiredContent(f)
         table.insert(req, str)
         str = ReadString(f)
     end
-
     return req
 end
 
-local function ReadFileEntries(f)
+function ReadFileEntries(f)
     local res = {}
 
     -- Read Header

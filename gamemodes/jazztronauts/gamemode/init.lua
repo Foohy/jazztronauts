@@ -6,6 +6,8 @@ include( "missions/init.lua")
 include( "store/init.lua" )
 include( "snatch/init.lua" )
 
+include( "lzma/lzma.lua")
+
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_scoreboard.lua" )
 AddCSLuaFile( "cl_jazzphysgun.lua")
@@ -15,6 +17,30 @@ AddCSLuaFile( "workshop/workshop.lua" )
 AddCSLuaFile( "missions/cl_init.lua" )
 
 AddCSLuaFile( "cl_hud.lua" )
+
+concommand.Add( "jazz_test_lzma", function()
+
+	print("RUNNING LZMA TEST")
+
+	local test = lzma.Decompressor( lzma.FileReader("test.gma"), lzma.FileWriter("yourmom.dat") )
+	local decoded_header = false
+
+	test:SetProgressCallback( function( decompressed, total, percent )
+
+		if decoded_header == false and decompressed > 0x40000 then
+			decoded_header = true
+
+			local b, e = pcall( gmad.ReadFileEntries, test:GetWindowReader() )
+			PrintTable( b and e or { e } )
+		end
+
+		print( ("decompressing: %0.2f%%"):format( percent ) )
+
+	end )
+
+	test:Start()
+
+end)
 
 local function SetIfDefault(convarstr, ...)
 	local convar = GetConVar(convarstr)

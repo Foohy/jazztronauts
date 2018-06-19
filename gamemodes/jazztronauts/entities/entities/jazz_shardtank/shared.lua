@@ -29,7 +29,7 @@ else
         "ambient/water/water_splash2.wav",
         "ambient/water/water_splash3.wav"
     }
-    ENT.TankIncreaseSound = "jazztronauts/honks/vaaaa.wav"
+    ENT.TankIncreaseSound = "jazztronauts/jazz_tank_choir.wav"
 
     ENT.FinishedAnimation = false
     ENT.AnimationStartShards = 0
@@ -66,13 +66,18 @@ else
         
         if not self.TankAmbient then
             self.TankAmbient = CreateSound(self, self.TankAmbientSound) 
-            self.TankAmbient:SetSoundLevel(60)
+            self.TankAmbient:SetSoundLevel(50)
             self.TankAmbient:Play()
             self.TankAmbient:ChangePitch(45)
             self.TankAmbient:ChangeVolume(0)
-        else
-            //self.TankAmbient:Stop()
-            //self.TankAmbient = nil
+        end
+
+        if not self.TankFill then
+            self.TankFill = CreateSound(self, self.TankIncreaseSound)
+            self.TankFill:SetSoundLevel(60)
+            self.TankFill:Play()
+            //self.TankFill:ChangePitch(45)
+            self.TankFill:ChangeVolume(0)
         end
     end
 
@@ -80,6 +85,11 @@ else
         if self.TankAmbient then
             self.TankAmbient:Stop()
             self.TankAmbient = nil
+        end
+
+        if self.TankFill then
+            self.TankFill:Stop()
+            self.TankFill = nil
         end
     end
 
@@ -98,7 +108,7 @@ else
         return c * 1.0 / t
     end
 
-    function ENT:DoShardAnimation(delay)
+    function ENT:DoShardAnimation(delay, last)
         coroutine.wait(delay)
 
         local shard = ManagedCSEnt("jazz_shardtank_" .. delay, "models/sunabouzu/jazzshard.mdl")
@@ -124,12 +134,20 @@ else
 
         local completePerc = self:GetCompletePercent()
         if self.TankAmbient then
-            self.TankAmbient:ChangeVolume(math.min(1, completePerc * 4))
+            self.TankAmbient:ChangeVolume(math.min(0.8, completePerc * 4))
+        end
+
+        if self.TankFill then
+            self.TankFill:ChangeVolume(1.0)
+            self.TankFill:ChangePitch(50 + completePerc * 75)
+
+            if last then 
+                self.TankFill:ChangeVolume(0.0, 4)
+            end
         end
 
         -- Sound effects
-        self:EmitSound(table.Random(self.TankSplashSounds), 75)
-        self:EmitSound(self.TankIncreaseSound, 75, 50 + completePerc * 60)
+        self:EmitSound(table.Random(self.TankSplashSounds), 75, 100, 0.1)
         
         -- Splash effect
         local effectdata = EffectData()
@@ -139,13 +157,14 @@ else
         effectdata:SetRadius(0.25)
         effectdata:SetEntity(self)
         util.Effect("ElectricSpark", effectdata)
-        
+
     end
 
     function ENT:DoAllShardAnimation()
         local curShards = self.AnimShardCount
         local numShards = self:GetCollectedShards()
         local numIterations = 0
+        
         self.AnimCoroutines = self.AnimCoroutines or {}
         while curShards != numShards do
             curShards = math.Approach(curShards, numShards, 1)
@@ -154,7 +173,7 @@ else
             local delay = 3 + numIterations / self.AnimShardRate
             local co = coroutine.create(self.DoShardAnimation)
             table.insert(self.AnimCoroutines, co)
-            coroutine.resume(co, self, delay)
+            coroutine.resume(co, self, delay, curShards == numShards)
         end
     end
 
@@ -184,7 +203,7 @@ else
         self:TickAnimCoroutines()
         self:CheckSound()
 
-        self.GoalCompletePercent = math.Approach(self.GoalCompletePercent or 0, self:GetCompletePercent(), FrameTime() * 0.1)
+        self.GoalCompletePercent = Lerp(FrameTime() * 1, self.GoalCompletePercent or 0, self:GetCompletePercent())
         self:SetCycle(self.GoalCompletePercent + math.sin(CurTime() * 2) * 0.007)
 
         //self.AnimShardCount = math.Approach(self.AnimShardCount, self:GetCollectedShards(), 1)

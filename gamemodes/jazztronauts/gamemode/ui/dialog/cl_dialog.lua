@@ -99,10 +99,13 @@ local inits = {
 		_dialog.nodeiter = nil 
 		InvokeEvent("DialogEnd", d) 
 	end,
-	[STATE_OPENING] = function(d) d.rate = 2 SetText() end,
+	[STATE_OPENING] = function(d) 
+		d.rate = GetParam("OPEN_RATE") != nil and math.huge or 2 
+		SetText() 
+	end,
 	[STATE_OPENED] = function(d) d.rate = 12 d.nodeiter() end,
 	[STATE_PRINTING] = function(d)
-		d.rate = 60 * PrintSpeedScale
+		d.rate = 60 * GetSpeedScale()
 		local numc = math.Clamp(math.Round(FrameTime() * d.rate), 1, #d.text)
 		AppendText(d.text:sub(1, numc))
 		d.text = d.text:sub(numc + 1,-1)
@@ -111,7 +114,10 @@ local inits = {
 		d.nodeiter()
 	end,
 	[STATE_CHOOSE] = function(d) d.rate = 1 end,
-	[STATE_CLOSING] = function(d) d.rate = 2 SetText() end,
+	[STATE_CLOSING] = function(d) 
+		d.rate = GetParam("CLOSE_RATE") != nil and math.huge or 2 
+		SetText() 
+	end,
 	[STATE_EXEC] = function(d)
 		d.rate = math.huge
 		local cmds = string.Split(d.exec, " ")
@@ -166,7 +172,7 @@ State = function( newstate, wait )
 
 	if wait then
 		_dialog.state = STATE_WAIT
-		_dialog.rate = PrintSpeedScale * 1/wait
+		_dialog.rate = GetSpeedScale() * 1.0/wait
 		_dialog.nextstate =  newstate
 		return _dialog
 	end
@@ -277,6 +283,7 @@ function StartGraph(cmd, skipOpen, options)
 		State(skipOpen and STATE_OPENED or STATE_OPENING)
 		
 		InvokeEvent("DialogStart", _dialog)
+		skipOpen = skipOpen or GetParam("SKIP_OPEN") != nil
 
 		if skipOpen then _dialog.nodeiter() end
 	end
@@ -285,6 +292,10 @@ end
 -- Skip printing out text
 function SkipText()
 	PrintSpeedScale = math.huge
+end
+
+function GetSpeedScale()
+	return PrintSpeedScale * (tonumber(GetParam("PRINT_RATE")) or 1)
 end
 
 -- Continue onto the next page of dialog

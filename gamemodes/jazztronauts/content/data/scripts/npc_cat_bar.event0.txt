@@ -1,6 +1,7 @@
+SKIP_OPEN = true
+
 begin:
     # Scene setup
-    *hide 1*
     *txout*
     *setfov 70*
 

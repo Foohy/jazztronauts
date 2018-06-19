@@ -217,6 +217,7 @@ function ScriptCallback(cmd, data)
 			cmd = cmd,
 			data = data
 		}
+		State( STATE_WAIT, math.huge )
 	end
 	if cmd == CMD_EXEC then
 		_dialog.exec = data

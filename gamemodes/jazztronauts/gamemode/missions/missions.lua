@@ -175,6 +175,24 @@ function GetReadyMissions(ply, npcid, h)
     return active
 end
 
+-- Get a list of all missions that have been completed and turned in already
+function GetCompletedMissions(ply, npcid, h)
+    local hist = h or getPlayerHistory(ply)
+    local completed = {}
+
+    -- Insert every mission that is ready to turn in
+    for k, v in pairs(hist) do
+        if v.completed then
+            completed[k] = v
+        end 
+    end
+
+    -- Filter missions from other npcids (if requested)
+    completed = filterNPCID(completed, npcid)
+
+    return completed
+end
+
 if SERVER then 
     util.AddNetworkString("jazz_missionupdate")
 

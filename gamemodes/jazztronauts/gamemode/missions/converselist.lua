@@ -18,9 +18,9 @@ local function addMissionAuto(mid, npcid)
     Add(eventscript, function(ply, talknpc)
         if talknpc != npcid then return false end
         if unlocks.IsUnlocked("scripts", ply, eventscript) then return false end
-
-        local missioninfo = missions.GetMission(ply, mid) 
-        return missioninfo and missioninfo.completed
+        
+        local completed = missions.GetCompletedMissions(ply)
+        return completed[mid]
     end,
     EVENT_PRIORITY )
 end

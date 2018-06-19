@@ -193,7 +193,8 @@ function ScriptCallback(cmd, data)
 		_dialog.waitdata = {
 			cmd = cmd,
 			data = data
-		} 
+		}
+		State( STATE_WAIT, math.huge )
 	end
 	if cmd == CMD_LAYOUT then
 		//CalcTextRect( data )
@@ -294,7 +295,7 @@ function Continue(options)
 	if data.cmd == "jump" then
 		StartGraph(data.data[1], true)
 	elseif data.cmd == "exit" then
-		State(STATE_CLOSING, 2)
+		State(STATE_CLOSING)
 	else
 		print("UNHANDLED CONTINUE STATE: " .. data.cmd )
 	end

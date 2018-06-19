@@ -4,14 +4,21 @@ include("shared.lua")
 ENT.ChatFadeSpeed = 1.2
 
 ENT.ChatFade = 0
+ENT.AttentionMarker = Material("materials/ui/jazztronauts/yes.png", "smooth")
+ENT.QuestionMarker = Material("materials/ui/jazztronauts/question.png", "smooth")
+ENT.ChatMarker = Material("materials/ui/jazztronauts/catchat.png", "smooth")
 function ENT:Initialize()
+    self:SetupChatTables()
 
     -- Allow mouse clicks on the chat menu (and make it so clicking doesn't shoot their weapon)
-    if self:GetNPCID() == missions.NPC_CAT_BAR then
+    if self.ChatChoices and #self.ChatChoices > 0 then
         hook.Add("KeyPress", self, function(self, ply, key) return self:OnMouseClicked(ply, key) end )
         hook.Add("KeyRelease", self, function(self, ply, key) return self:OnMouseReleased(ply, key) end)
     end
 
+    worldmarker.Register(self, self.AttentionMarker, 20)
+    worldmarker.Update(self, self:GetPos() + Vector(0, 0, 70))
+    worldmarker.SetEnabled(false)
 end
 
 function ENT:OnMouseClicked(ply, key)
@@ -20,11 +27,11 @@ function ENT:OnMouseClicked(ply, key)
     if self.IsLeftDown then return end
     self.IsLeftDown = true
 
-    local opt = self:GetSelectedOption(LocalPlayer(), self.BarChoices)
+    local opt = self:GetSelectedOption(LocalPlayer(), self.ChatChoices)
     if opt then
 
         surface.PlaySound("buttons/button9.wav")
-        self.BarChoices[opt].func(self, LocalPlayer())
+        self.ChatChoices[opt].func(self, LocalPlayer())
     end
 end
 
@@ -52,16 +59,34 @@ function ENT:UpdateChatFade()
     self.ChatFade = math.Clamp(self.ChatFade + FrameTime() * self.ChatFadeSpeed * change, 0, 1)
 end
 
+-- Check for mission changes
+function ENT:Think()
+    local script, cond = converse.GetMissionScript(LocalPlayer(), self:GetNPCID())
+
+    local stateTable = {
+        [converse.MISSION_COMPLETED] = self.AttentionMarker,
+        [converse.MISSION_AVAILABLE] = self.QuestionMarker
+    }
+    local icon = stateTable[cond]
+    if icon then
+        worldmarker.SetIcon(self, icon)
+    end
+    worldmarker.SetEnabled(self, icon != nil)
+
+    self:SetNextClientThink(CurTime() + 1.0)
+end
+
 function ENT:Draw()
-    if not self.GetNPCID then return end 
+    if not self.GetNPCID then return end
+
     self:DrawModel()
 
     local ang = self:GetAngles()
     ang:RotateAroundAxis(ang:Forward(), 90)
     ang:RotateAroundAxis(ang:Right(), 90)
 
-    local offset = self:GetAngles():Up() * 70
-    offset = offset + self:GetAngles():Forward() * -5
+    local offset = self:GetAngles():Up() * 40
+    offset = offset + self:GetAngles():Forward() * -10
     local right = self:GetAngles():Right()
 
     -- Draw debug name above their head. TODO: This is lazy. Style cat models.
@@ -70,16 +95,16 @@ function ENT:Draw()
     cam.End3D2D()
     
     -- Only the bartender has multiple options, everyone else just chats
-    if self:GetNPCID() == missions.NPC_CAT_BAR then
+    if self.ChatChoices and #self.ChatChoices > 0 then
         self:UpdateChatFade()
 
         -- Don't draw if 100% hidden
         if self.ChatFade > 0 then
-            self:DrawDialogEntry(self.BarChoices, self.ChatFade)
+            self:DrawDialogEntry(self.ChatChoices, self.ChatFade)
         end
     
         -- Play a small click sound when switching between options
-        local opt = self:GetSelectedOption(LocalPlayer(), self.BarChoices)
+        local opt = self:GetSelectedOption(LocalPlayer(), self.ChatChoices)
         if self.LastOption != opt then
             self.LastOption = opt
         

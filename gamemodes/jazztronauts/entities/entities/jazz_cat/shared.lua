@@ -10,13 +10,21 @@ ENT.IdleAnim = "standerino"
 
 local function ClientRun(ply, str) if SERVER then ply:SendLua(str) else RunString(str, "JazzChatMenu") end end
 
-ENT.BarChoices = {}
-chatmenu.AddChoice(ENT.BarChoices, "Upgrade tools!", function(self, ply) ClientRun(ply, "JazzOpenUpgradeStore()") end)
-chatmenu.AddChoice(ENT.BarChoices, "Store, please!", function(self, ply) ClientRun(ply, "JazzOpenStore()") end)
-chatmenu.AddChoice(ENT.BarChoices, "Just here to chat!", function(self, ply) self:StartChat(ply) end)
-
 function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "NPCID")
+end
+
+function ENT:SetupChatTables()
+    self.ChatChoices = {}
+    if self:GetNPCID() == missions.NPC_CAT_BAR then
+        self.ChatChoices.WelcomeText = "Welcome back. What can I get you?"
+        chatmenu.AddChoice(self.ChatChoices, "Upgrade tools!", function(self, ply) ClientRun(ply, "JazzOpenUpgradeStore()") end)
+        chatmenu.AddChoice(self.ChatChoices, "Store, please!", function(self, ply) ClientRun(ply, "JazzOpenStore()") end)
+        chatmenu.AddChoice(self.ChatChoices, "Just here to chat!", function(self, ply) self:StartChat(ply) end)
+    else
+        --self.ChatChoices.WelcomeText = ""
+        --chatmenu.AddChoice(self.ChatChoices, "Let's chat!", function(self, ply) self:StartChat(ply) end)
+    end
 end
 
 function ENT:GetIdleScript()

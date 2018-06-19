@@ -117,7 +117,7 @@ surface.CreateFont( "JazzDialogAsk", {
 })
 surface.CreateFont( "JazzDialogOption", {
     font      = "KG Shake it Off Chunky",
-    size      = 36,
+    size      = 40,
     weight    = 500,
     antialias = true
 })
@@ -201,16 +201,18 @@ end
 ENT.SelectBG = chatmenu.RenderSelectBG("JazzDialogOption", 3, 5)
 ENT.SelectBGMat = ENT.SelectBG:GetUnlitMaterial(true,false,true,true)
 
-function ENT:DrawChoice(choice, centerX, centerY, highlighted, ang)
+function ENT:DrawChoice(choice, centerX, centerY, highlighted, ang, scale, scaleBump)
     ang = math.NormalizeAngle(ang)
+    scale = scale or 1
+    scaleBump = scaleBump or 1
     local rot = -ang + 180
     if ang > 0 then
         -- Slightly rotate a bit more to not be as sideways
         rot = math.NormalizeAngle(rot + 90) * 1.3 + 90
     end
 
-    local pX = math.cos(math.rad(ang)) * chatmenu.scaleW + centerX
-    local pY = math.sin(math.rad(ang)) * chatmenu.scaleH + centerY
+    local pX = math.cos(math.rad(ang)) * chatmenu.scaleW * scaleBump + centerX
+    local pY = math.sin(math.rad(ang)) * chatmenu.scaleH * scaleBump + centerY
     
     -- Render the select border, if highlighted
     if highlighted then
@@ -219,15 +221,15 @@ function ENT:DrawChoice(choice, centerX, centerY, highlighted, ang)
         surface.SetMaterial(self.SelectBGMat)
         surface.DrawTexturedRectRotated(pX, 
             pY, 
-            choice.width + pad, 
-            choice.height + pad, 
+            choice.width * scale + pad, 
+            choice.height * scale + pad, 
             rot + 90)
     end
 
     -- Render the text itself
     surface.SetDrawColor(highlighted and chatmenu.selectColor or chatmenu.textColor)
     surface.SetMaterial(choice.material)
-    surface.DrawTexturedRectRotated(pX, pY, choice.width, choice.height, rot + 90)
+    surface.DrawTexturedRectRotated(pX, pY, choice.width * scale, choice.height * scale, rot + 90)
 end
 
 function ENT:DrawDialogEntry(choices, showperc)
@@ -257,12 +259,14 @@ function ENT:DrawDialogEntry(choices, showperc)
     local fadeperc = math.Clamp(showperc * 2 - 1, 0, 1)
     cam.Start3D2D(pos + ang:Up()*0.1, ang, self.ScreenScale)
         surface.SetAlphaMultiplier(fadeperc)
-        draw.DrawText("Welcome back. What can I get you?", "JazzDialogAsk", 0, -130, Color(0,0,0), TEXT_ALIGN_CENTER)
+        draw.DrawText(choices.WelcomeText, "JazzDialogAsk", 0, -130, Color(0,0,0), TEXT_ALIGN_CENTER)
 
         -- Draw the choice options + highlight nearby one
         for i=1, #choices do
+            local drawCenter = #choices == 1
             local ang = (i * 1.0 / 3) * 360 - 90
-            self:DrawChoice(choices[i], 0, self.RadialOffset, i == hitoption, ang)
+            if drawCenter then ang = -85 end
+            self:DrawChoice(choices[i], 0, self.RadialOffset, i == hitoption, ang, drawCenter and 2.5, drawCenter and 0.5)
         end
 
         -- Draw the virtual mouse cursor for where we're currently pointing

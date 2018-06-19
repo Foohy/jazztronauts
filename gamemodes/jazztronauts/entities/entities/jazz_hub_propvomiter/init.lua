@@ -1,6 +1,7 @@
 AddCSLuaFile("cl_init.lua")
 
 util.AddNetworkString("jazz_propvom_effect")
+util.AddNetworkString("jazz_propvom_propsavailable")
 
 ENT.VomitVelocity = Vector(0, 0, -200)
 ENT.MaxPipeSize = 50
@@ -69,6 +70,13 @@ local function CreatePrecacheTask(props, callback)
 	function precacheTask:done() 
 		callback() 
 	end
+end
+
+local function UpdatePlayerPropMarker(ply, enabled)
+
+	net.Start("jazz_propvom_propsavailable")
+		net.WriteBool(enabled)
+	net.Send(ply)
 end
 
 function ENT:Initialize()
@@ -162,6 +170,8 @@ function ENT:VomitNewProps(ply)
 	if IsValid(self.CurrentUser) then
 		jazzboards.AddSessionProps(self.CurrentUser:SteamID64(), self.TotalCount)
 	end
+
+	UpdatePlayerPropMarker(self.CurrentUser, false)
 
 	-- Precache all the props first, then start the show
 	self.StartAt = math.huge
@@ -317,3 +327,10 @@ function ENT:AcceptInput( name, activator, caller, data )
 
 	return false
 end
+
+
+hook.Add("PlayerInitialSpawn", "JazzInformPropsAvailable", function(ply)
+	local counts = snatch.GetPlayerPropCounts(ply, true)
+
+	UpdatePlayerPropMarker(ply, table.Count(counts) > 0)
+end )

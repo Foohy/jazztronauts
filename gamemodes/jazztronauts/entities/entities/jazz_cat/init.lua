@@ -19,6 +19,8 @@ function ENT:Initialize()
 
     self:SetIdleAnim(self.IdleAnim)
     self:SetNPCID(self.NPCID)
+
+    self:SetupChatTables()
 end
 
 function ENT:KeyValue( key, value )
@@ -43,9 +45,9 @@ function ENT:Use(activator, caller)
 
     -- Incredibly TODO until we've got the actual input ui going
     if self.NPCID == missions.NPC_CAT_BAR then
-        local opt = self:GetSelectedOption(caller, self.BarChoices)
+        local opt = self:GetSelectedOption(caller, self.ChatChoices)
         if opt then
-            self.BarChoices[opt].func(self, caller)
+            self.ChatChoices[opt].func(self, caller)
         end
     else
         self:StartChat(caller)

@@ -149,3 +149,19 @@ net.Receive("jazz_propvom_effect", function(len, ply)
         AddVomitProp(model, pos)
     end
 end )
+
+    
+local AttentionMarker = Material("materials/ui/jazztronauts/yes.png", "smooth")
+local markerName = "vomiter"
+net.Receive("jazz_propvom_propsavailable", function(len, ply)
+    local hasProps = net.ReadBool()
+
+    if hasProps then
+        worldmarker.Register(markerName, AttentionMarker, 20)
+        worldmarker.Update(markerName, Vector(-318.156342, -164.963669, 80.268784))
+        worldmarker.SetEnabled(markerName, true)
+    else
+        worldmarker.SetEnabled(markerName, false)
+    end
+
+end )

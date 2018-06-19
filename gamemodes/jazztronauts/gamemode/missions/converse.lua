@@ -2,7 +2,7 @@
 ScriptsList = "scripts"
 unlocks.Register(ScriptsList)
 
-if CLIENT then return end
+--if CLIENT then return end
 
 module( "converse", package.seeall )
 
@@ -71,8 +71,8 @@ end
 
 -- Retrieves the current state of the player's missions
 -- so we can check conditions all at once
-local function getMissionScript(ply, npcid)
-    local hist = missions.GetMissionHistory(ply)
+function GetMissionScript(ply, npcid)
+    local hist = SERVER and missions.GetMissionHistory(ply) or missions.ClientMissionHistory
 
     -- Choose which mission id is most important for us to talk about
     local ready = missions.GetReadyMissions(ply, npcid, hist)
@@ -96,9 +96,9 @@ function GetAvailableConvos(ply, npcid)
             table.insert(convos, v)
         end
     end
-
+    PrintTable(Convos)
     -- Add in current mission convo as well
-    local curMisScript, cond = getMissionScript(ply, npcid)
+    local curMisScript, cond = GetMissionScript(ply, npcid)
     if curMisScript != nil then
         table.insert(convos, {
             script = curMisScript, 

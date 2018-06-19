@@ -7,6 +7,8 @@ MissionList = {}
 NPCList = {}
 NPCListLookup = {}
 
+ClientMissionHistory = ClientMissionHistory or {}
+
 function AddMission(id, npcid, mdata)
     id = IndexToMID(id, npcid)
     if not id or not mdata then
@@ -109,9 +111,13 @@ local function filterNPCID(missions, npcid)
     return missions
 end
 
+local function getPlayerHistory(ply)
+    return SERVER and GetMissionHistory(ply) or ClientMissionHistory
+end
+
 -- Retrieve a list of missions the player has available to start
 function GetAvailableMissions(ply, npcid, h)
-    local hist = h or GetMissionHistory(ply)
+    local hist = h or getPlayerHistory(ply)
     local available = table.Copy(MissionList)
 
     -- Remove accepted/completed missions
@@ -134,7 +140,7 @@ end
 
 -- Retrieve a list of missions the player is currently in progress
 function GetActiveMissions(ply, npcid, h, excludeReady)
-    local hist = h or GetMissionHistory(ply)
+    local hist = h or getPlayerHistory(ply)
     local active = {}
 
     -- Insert every mission that is in progress (or ready to turn in)
@@ -153,7 +159,7 @@ end
 
 -- Retrieve a list of missions the player is ready to turn in
 function GetReadyMissions(ply, npcid, h)
-    local hist = h or GetMissionHistory(ply)
+    local hist = h or getPlayerHistory(ply)
     local active = {}
  
     -- Insert every mission that is ready to turn in
@@ -169,7 +175,6 @@ function GetReadyMissions(ply, npcid, h)
     return active
 end
 
-local MISSION_TYPE_SIZE = 64
 if SERVER then 
     util.AddNetworkString("jazz_missionupdate")
 
@@ -248,7 +253,7 @@ if SERVER then
     -- Update the player client about their newest mission data
     -- Includes completed misssions and active mission progress
     function UpdatePlayerMissionInfo(ply)
-        local hist = GetMissionHistory(ply)
+        local hist = getPlayerHistory(ply)
         local active = {}
 
         -- Save off the active missions
@@ -259,8 +264,8 @@ if SERVER then
         net.Start("jazz_missionupdate")
 
             -- Seralize finished maps into the bits of an integer
-            for i=0, MISSION_TYPE_SIZE do
-                net.WriteBit(hist[i] and hist[i].completed)
+            for k, v in SortedPairs(MissionList) do
+                net.WriteBit(hist[k] and hist[k].completed)
             end
 
             -- Send the progress of in-progress missions
@@ -317,9 +322,9 @@ elseif CLIENT then
         local hist = {}
         local prog = {}
 
-        for i=0, MISSION_TYPE_SIZE do
+        for k, v in SortedPairs(MissionList) do
             local finished = net.ReadBit() == 1
-            if finished then hist[i] = i end
+            if finished then hist[k] = k end
         end
 
         -- Read the number of active missions
@@ -333,6 +338,22 @@ elseif CLIENT then
             prog[mid] = num
         end
 
+        -- Build a mission history table that matches what sql would give us
+        ClientMissionHistory = {}
+        for k, v in SortedPairs(MissionList) do
+            local completed = hist[k] != nil
+            local active = prog[k] != nil
+
+            if not completed and not active then continue end
+
+            ClientMissionHistory[k] = 
+            {
+                missionid = k,
+                completed = completed,
+                progress = prog[k] or v.Count
+            }
+        end
+        
         Active = prog
         Finished = hist
 

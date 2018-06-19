@@ -65,7 +65,7 @@ function ENT:Think()
     local actualscript = converse.GetNextScript(LocalPlayer(), self:GetNPCID())
 
     local icon = nil
-    if actualscript then
+    if dialog.IsScriptValid(actualscript) then
         if script == actualscript then
             local stateTable = 
             {

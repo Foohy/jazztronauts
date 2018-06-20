@@ -204,6 +204,7 @@ DialogCallbacks.Paint = function(_dialog)
 		surface.SetTextColor( 38, 38, 38, 255 * open )
 		surface.SetTextPos(contX, y + h/2 - th)
 		surface.DrawText(contstr)
+		_dialog.textpanel:SetCursor("hand")
 	end
 
 	-- Render whoever's talking
@@ -277,9 +278,15 @@ local function CreateRichText()
 	local richText = vgui.Create("RichText")
 	richText:SetAutoDelete(false)
 	richText:SetVerticalScrollbarEnabled(false)
+
 	function richText:PerformLayout()
 		self:SetFontInternal("JazzDialogFont")
 		self:SetFGColor(DialogColor)
+	end
+
+	-- STOP SELECTING MY TEXT
+	function richText:Think()
+		self:KillFocus()
 	end
 
 	hook.Call("OnJazzDialogCreatePanel", GAMEMODE, richText)
@@ -289,8 +296,12 @@ end
 
 -- Called when we are beginning a new dialog session
 DialogCallbacks.DialogStart = function(d)
-	gui.EnableScreenClicker(true)
+	if not dialog.GetParam("HIDE_MOUSE") then
+		gui.EnableScreenClicker(true)
+	end
+
 	dialog.SetFocusProxy(nil)
+	LocalPlayer():JazzLock(true)
 
 	if IsValid(d.textpanel) then
 		d.textpanel:Remove()
@@ -306,6 +317,7 @@ DialogCallbacks.DialogEnd = function(d)
 	dialog.InformScriptFinished(d.entrypoint, d.seen)
 	dialog.ResetView()
 	dialog.SetFocusProxy(nil)
+	LocalPlayer():JazzLock(false)
 
 	if IsValid(d.textpanel) then
 		d.textpanel:Remove()
@@ -334,12 +346,41 @@ end
 hook.Add("InitPostEntity", "JazzInitializeDialogRendering", Initialize)
 hook.Add("OnReloaded", "JazzInitializeDialogRendering", Initialize)
 
+local prefixFuncs = 
+{
+	["IN"] = function(val) return LocalPlayer():KeyDown(val) end,
+	["KEY"] = function(val) return input.IsKeyDown(val) end,
+	["MOUSE"] = function(val) return input.IsMouseDown(val) end
+}
+
+local function AnyKeyDown(enumName)
+	local enumVal = _G[enumName]
+	if not enumVal then return false end
+
+	local prefix = string.Split(enumName, "_")[1]
+	if not prefixFuncs[prefix] then return false end
+
+	return prefixFuncs[prefix](enumVal)
+end
+
+local function AnyKeysDown(keys)
+	for _, v in pairs(keys) do
+		if AnyKeyDown(v) then return true end
+	end
+
+	return false
+end
+
+local DefaultKeys = { "MOUSE_LEFT", "KEY_SPACE", "KEY_ENTER"}
+
 -- Hook into user input so they can optionally skip dialog, or continue to the next one
 local wasSkipPressed = false
 hook.Add("Think", "JazzDialogSkipListener", function()
-	local skip = input.IsMouseDown(MOUSE_LEFT) 
-		or input.IsKeyDown(KEY_SPACE)
-		or input.IsKeyDown(KEY_ENTER)
+	local keyOverrides = dialog.GetParam("ADVANCE_KEYS")
+	keyOverrides = keyOverrides and string.Replace(keyOverrides, " ", "")
+	keyOverrides = keyOverrides and string.Split(keyOverrides, ",")
+
+	local skip = AnyKeysDown(keyOverrides or DefaultKeys)
 	
 	if skip == wasSkipPressed then return end
 	wasSkipPressed = skip

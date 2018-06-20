@@ -371,11 +371,17 @@ local function AnyKeysDown(keys)
 	return false
 end
 
-local DefaultKeys = { "MOUSE_LEFT", "KEY_SPACE", "KEY_ENTER"}
+local DefaultKeys = { "MOUSE_LEFT", "KEY_SPACE", "KEY_ENTER", "IN_USE"}
 
-
+local wasSkipPressed = false
+local wasSkipPressedInDialog = false
 hook.Add("StartCommand", "JazzDialogLockPlayer", function(ply, usercmd)
-	if not dialog.IsInDialog() then return end
+	-- Specific logic to make it so they must have RELEASED the skip key before
+	if not wasSkipPressedInDialog and not dialog.IsInDialog() then 
+		return 
+	end
+
+	wasSkipPressedInDialog = wasSkipPressed
 
 	-- Before we clear buttons, we'll query em later
 	lastKeyDownFlag = usercmd:GetButtons()
@@ -387,7 +393,6 @@ hook.Add("StartCommand", "JazzDialogLockPlayer", function(ply, usercmd)
 end )
 
 -- Hook into user input so they can optionally skip dialog, or continue to the next one
-local wasSkipPressed = false
 hook.Add("Think", "JazzDialogSkipListener", function()
 	local keyOverrides = dialog.GetParam("ADVANCE_KEYS")
 	keyOverrides = keyOverrides and string.Replace(keyOverrides, " ", "")

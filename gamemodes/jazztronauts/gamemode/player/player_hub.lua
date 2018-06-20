@@ -55,6 +55,22 @@ function meta:RefreshNotes()
     self:SetNotes(progress.GetNotes(self))
 end
 
+if CLIENT then
+    -- Clientside only version of player:Lock()
+    function meta:JazzLock(lock)
+        self.JazzIsCurrentlyLocked = lock
+        self.JazzLastLockAngles = lock and (self.JazzLastLockAngles or self:EyeAngles())
+    end
+
+    hook.Add("StartCommand", "JazzDialogLockPlayer", function(ply, usercmd)
+        if not ply.JazzIsCurrentlyLocked then return end
+        ply.JazzLastLockAngles = ply.JazzLastLockAngles or usercmd:GetViewAngles()
+        usercmd:ClearMovement()
+        usercmd:SetViewAngles(ply.JazzLastLockAngles)
+    end )
+end
+
+
 -- Turns out TeammateNoCollide is really funky. Zombies can't attack you (among other oddities)
 -- So just manually check collision here for players
 hook.Add("ShouldCollide", "PlayerNoCollide", function(ent1, ent2)

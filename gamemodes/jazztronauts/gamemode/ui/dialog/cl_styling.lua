@@ -301,7 +301,6 @@ DialogCallbacks.DialogStart = function(d)
 	end
 
 	dialog.SetFocusProxy(nil)
-	LocalPlayer():JazzLock(true)
 
 	if IsValid(d.textpanel) then
 		d.textpanel:Remove()
@@ -317,7 +316,7 @@ DialogCallbacks.DialogEnd = function(d)
 	dialog.InformScriptFinished(d.entrypoint, d.seen)
 	dialog.ResetView()
 	dialog.SetFocusProxy(nil)
-	LocalPlayer():JazzLock(false)
+	LocalPlayer().JazzDialogLastLockAngles = nil
 
 	if IsValid(d.textpanel) then
 		d.textpanel:Remove()
@@ -346,9 +345,10 @@ end
 hook.Add("InitPostEntity", "JazzInitializeDialogRendering", Initialize)
 hook.Add("OnReloaded", "JazzInitializeDialogRendering", Initialize)
 
+local lastKeyDownFlag = 0
 local prefixFuncs = 
 {
-	["IN"] = function(val) return LocalPlayer():KeyDown(val) end,
+	["IN"] = function(val) return bit.band(lastKeyDownFlag, val) == val end,
 	["KEY"] = function(val) return input.IsKeyDown(val) end,
 	["MOUSE"] = function(val) return input.IsMouseDown(val) end
 }
@@ -372,6 +372,19 @@ local function AnyKeysDown(keys)
 end
 
 local DefaultKeys = { "MOUSE_LEFT", "KEY_SPACE", "KEY_ENTER"}
+
+
+hook.Add("StartCommand", "JazzDialogLockPlayer", function(ply, usercmd)
+	if not dialog.IsInDialog() then return end
+
+	-- Before we clear buttons, we'll query em later
+	lastKeyDownFlag = usercmd:GetButtons()
+
+	ply.JazzDialogLastLockAngles = ply.JazzDialogLastLockAngles or usercmd:GetViewAngles()
+	usercmd:ClearMovement()
+	usercmd:ClearButtons()
+	usercmd:SetViewAngles(ply.JazzDialogLastLockAngles)
+end )
 
 -- Hook into user input so they can optionally skip dialog, or continue to the next one
 local wasSkipPressed = false

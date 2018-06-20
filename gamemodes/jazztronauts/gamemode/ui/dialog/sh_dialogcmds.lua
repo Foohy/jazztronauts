@@ -1,5 +1,51 @@
+AddCSLuaFile()
+
 module("dialog", package.seeall)
 
+
+-- Use of the map trigger command must be on entity names prefixed with this
+local mapTriggerPrefix = "jazzio_"
+
+if SERVER then
+    util.AddNetworkString( "dialog_requestcommand" )
+
+    net.Receive("dialog_requestcommand", function(len, ply)
+        if not IsValid(ply) or not mapcontrol.IsInGamemodeMap() then 
+            ErrorNoHalt("Dialog map triggers only work within jazztronaut gamemode maps!")
+            return 
+        end
+        local entName = net.ReadString()
+        local inp = net.ReadString()
+        local param = net.ReadString()
+
+        if string.sub(entName, 0, #mapTriggerPrefix) != mapTriggerPrefix then 
+            ErrorNoHalt("Dialog map triggers only work on entities prefixed with \"" .. mapTriggerPrefix .. "\"")
+            return 
+        end
+
+        local entities = ents.FindByName(entName)
+        for _, v in pairs(entities) do
+            v:Fire(inp, param)
+        end
+    end )
+end
+
+if not CLIENT then return end
+
+-- Fires an output on a named entity on the server
+-- Try to avoid using this unless specifically needed for something
+dialog.RegisterFunc("fire", function(d, entityName, inputName, fireParams)
+    if not entityName or not inputName then 
+        ErrorNoHalt("*fire <entityName> <inputName> [fireParams]* requires an entity name and input name!")
+        return
+    end
+
+    net.Start("dialog_requestcommand")
+        net.WriteString(entityName)
+        net.WriteString(inputName)
+        net.WriteString(fireParams or "")
+    net.SendToServer()
+end)
 
 local function parsePosAng(...)
     local args = table.concat({ ... }, " ")

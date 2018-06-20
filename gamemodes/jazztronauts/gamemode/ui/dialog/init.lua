@@ -1,11 +1,12 @@
 include("shared.lua")
+include("sh_dialogcmds.lua")
 
 AddCSLuaFile( "shared.lua")
 AddCSLuaFile( "cl_init.lua")
 AddCSLuaFile( "cl_dialog.lua")
 AddCSLuaFile( "cl_styling.lua")
 AddCSLuaFile( "cl_styling_horror.lua")
-AddCSLuaFile( "cl_dialogcmds.lua")
+AddCSLuaFile( "sh_dialogcmds.lua")
 AddCSLuaFile( "cl_debug.lua")
 
 local print = print

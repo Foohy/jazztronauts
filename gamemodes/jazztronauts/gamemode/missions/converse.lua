@@ -1,3 +1,5 @@
+AddCSLuaFile("converselist.lua")
+
 -- no these aren't a brand of shoes
 ScriptsList = "scripts"
 unlocks.Register(ScriptsList)

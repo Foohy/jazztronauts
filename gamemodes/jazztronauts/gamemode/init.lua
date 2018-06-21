@@ -1,3 +1,6 @@
+jit.opt.start( 3 )
+jit.opt.start( "hotloop=36", "hotexit=60", "tryside=4" )
+
 include( "shared.lua" )
 include( "ui/init.lua" )
 include( "map/init.lua" )
@@ -22,7 +25,7 @@ concommand.Add( "jazz_test_lzma", function()
 
 	print("RUNNING LZMA TEST")
 
-	local test = lzma.Decompressor( lzma.FileReader("test3.gma"), lzma.FileWriter("yourmom.dat") )
+	local test = lzma.Decompressor( lzma.FileReader("test2.gma"), lzma.FileWriter("yourmom.dat") )
 	local decoded_header = false
 
 	test:SetProgressCallback( function( decompressed, total, percent )

@@ -5,8 +5,6 @@
 local meta = {}
 meta.__index = meta
 
-local kTopValue = bit.lshift( 1, 24 )
-
 local BitLShift = BitLShift
 local BitRShift = BitRShift
 local BitAnd = bit.band
@@ -39,7 +37,7 @@ end
 
 function meta:Normalize()
 
-	while self.m_Range < kTopValue do
+	while self.m_Range < 0x1000000 do
 
 		self.m_Code = self.m_Code * 0x100 + self.m_Stream:ReadByte()
 		self.m_Range = self.m_Range * 0x100
@@ -66,12 +64,12 @@ function meta:DecodeDirectBits( numTotalBits )
 
 		range = BitRShift( range, 1 )
 
-		local t = 1 - RShift(code - range, 31 )
+		local t = 1 - RShift( code - range, 31 )
 
 		code = code - range * t
 		result = result*2 + t
 
-		if range < kTopValue then
+		if range < 0x1000000 then
 
 			code = code * 0x100 + self.m_Stream:ReadByte()
 			range = range * 0x100
@@ -126,6 +124,46 @@ local kNumBitModelTotalBits = 11
 local kBitModelTotal = BitLShift( 1, kNumBitModelTotalBits )
 local kNumMoveBits = 5
 
+function BitDecoderFast()
+
+	local prob = BitRShift( 0x800, 1 )
+	return function( rangeDecoder )
+
+		local newBound = RShift( rangeDecoder.m_Range, 11 ) * prob
+
+		if rangeDecoder.m_Code < newBound then
+
+			rangeDecoder.m_Range = newBound
+			prob = prob + RShift( 0x800 - prob, 5 )
+
+			if rangeDecoder.m_Range < 0x1000000 then
+
+				rangeDecoder.m_Code = rangeDecoder.m_Code * 0x100 + rangeDecoder.m_Stream:ReadByte()
+				rangeDecoder.m_Range = rangeDecoder.m_Range * 0x100
+
+			end
+			return 0
+
+		else
+
+			rangeDecoder.m_Range = rangeDecoder.m_Range - newBound
+			rangeDecoder.m_Code = rangeDecoder.m_Code - newBound
+			prob = prob - RShift( prob, 5 )
+
+			if rangeDecoder.m_Range < 0x1000000 then
+
+				rangeDecoder.m_Code = rangeDecoder.m_Code * 0x100 + rangeDecoder.m_Stream:ReadByte()
+				rangeDecoder.m_Range = rangeDecoder.m_Range * 0x100
+
+			end
+			return 1
+
+		end
+
+	end
+
+end
+
 function meta:Init()
 
 	self.m_Prob = BitRShift( kBitModelTotal, 1 )
@@ -149,32 +187,36 @@ end]]
 
 function meta:Decode( rangeDecoder )
 
-	local newBound = BitRShift( rangeDecoder.m_Range, kNumBitModelTotalBits ) * self.m_Prob
-	local b = 0
+	local newBound = RShift( rangeDecoder.m_Range, kNumBitModelTotalBits ) * self.m_Prob
 
 	if rangeDecoder.m_Code < newBound then
 
 		rangeDecoder.m_Range = newBound
-		self.m_Prob = self.m_Prob + BitRShift( kBitModelTotal - self.m_Prob, kNumMoveBits )
+		self.m_Prob = self.m_Prob + RShift( kBitModelTotal - self.m_Prob, kNumMoveBits )
+
+		if rangeDecoder.m_Range < 0x1000000 then
+
+			rangeDecoder.m_Code = rangeDecoder.m_Code * 0x100 + rangeDecoder.m_Stream:ReadByte()
+			rangeDecoder.m_Range = rangeDecoder.m_Range * 0x100
+
+		end
+		return 0
 
 	else
 
 		rangeDecoder.m_Range = rangeDecoder.m_Range - newBound
 		rangeDecoder.m_Code = rangeDecoder.m_Code - newBound
-		self.m_Prob = self.m_Prob - BitRShift( self.m_Prob, kNumMoveBits )
+		self.m_Prob = self.m_Prob - RShift( self.m_Prob, kNumMoveBits )
 
-		b = 1
+		if rangeDecoder.m_Range < 0x1000000 then
+
+			rangeDecoder.m_Code = rangeDecoder.m_Code * 0x100 + rangeDecoder.m_Stream:ReadByte()
+			rangeDecoder.m_Range = rangeDecoder.m_Range * 0x100
+
+		end
+		return 1
 
 	end
-
-	if rangeDecoder.m_Range < kTopValue then
-
-		rangeDecoder.m_Code = rangeDecoder.m_Code * 0x100 + rangeDecoder.m_Stream:ReadByte()
-		rangeDecoder.m_Range = rangeDecoder.m_Range * 0x100
-
-	end
-
-	return b
 
 end
 
@@ -210,7 +252,6 @@ function meta:Decode( rangeDecoder )
 
 	local m = 1
 	local bitIndex = self.m_NumBitLevels
-	local s = 2^self.m_NumBitLevels
 
 	while bitIndex > 0 do
 
@@ -219,7 +260,7 @@ function meta:Decode( rangeDecoder )
 
 	end
 
-	return m - s
+	return m - 2^self.m_NumBitLevels
 
 end
 

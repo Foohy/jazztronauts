@@ -69,6 +69,44 @@ function FileWriter( filename, path )
 
 end
 
+function FileWriter2( filename, path )
+
+	local outFile = file.Open( filename, "wb", "DATA" )
+	if not outFile then print("Can't open file: " .. tostring(filename) ) return end
+
+	local lut = {}
+	for i=0, 255 do
+		lut[i] = string.char(i)
+	end
+
+	local wr = {
+		f = outFile,
+		p = 0,
+		c = 0,
+		s = 64,
+		m = 1,
+		w = true,
+		d = {},
+	}
+	function wr:Close() wr:Flush() self.f:Close() end
+	function wr:Size() return self.f:Size() end
+	function wr:Flush()
+		if self.p == 0 then return end
+		--self.f:WriteULong( self.c )
+		self.f:Write( table.concat( self.d ) )
+		self.c = 0
+		self.p = 0
+		self.m = 1
+	end
+	function wr:WriteByte(b)
+		self.p = self.p + 1
+		self.d[ self.p ] = lut[b] --string.char( b )
+		if self.p == self.s then self:Flush() end
+	end
+	return wr
+
+end
+
 function ByteReader( bytes, length )
 
 	local rd = {

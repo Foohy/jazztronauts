@@ -328,9 +328,10 @@ function ENT:AcceptInput( name, activator, caller, data )
 	return false
 end
 
+if mapcontrol.IsInHub() then
+	hook.Add("PlayerInitialSpawn", "JazzInformPropsAvailable", function(ply)
+		local counts = snatch.GetPlayerPropCounts(ply, true)
 
-hook.Add("PlayerInitialSpawn", "JazzInformPropsAvailable", function(ply)
-	local counts = snatch.GetPlayerPropCounts(ply, true)
-
-	UpdatePlayerPropMarker(ply, table.Count(counts) > 0)
-end )
+		UpdatePlayerPropMarker(ply, table.Count(counts) > 0)
+	end )
+end

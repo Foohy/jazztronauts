@@ -18,8 +18,8 @@ function ENT:SetupChatTables()
     self.ChatChoices = {}
     if self:GetNPCID() == missions.NPC_CAT_BAR then
         self.ChatChoices.WelcomeText = "Welcome back. What can I get you?"
-        chatmenu.AddChoice(self.ChatChoices, "Upgrade tools!", function(self, ply) ClientRun(ply, "JazzOpenUpgradeStore()") end)
-        chatmenu.AddChoice(self.ChatChoices, "Store, please!", function(self, ply) ClientRun(ply, "JazzOpenStore()") end)
+        chatmenu.AddChoice(self.ChatChoices, "Upgrade tools!", function(self, ply) ClientRun(ply, "jstore.OpenUpgradeStore()") end)
+        chatmenu.AddChoice(self.ChatChoices, "Store, please!", function(self, ply) ClientRun(ply, "jstore.OpenStore()") end)
         chatmenu.AddChoice(self.ChatChoices, "Just here to chat!", function(self, ply) self:StartChat(ply) end)
     else
         --self.ChatChoices.WelcomeText = ""

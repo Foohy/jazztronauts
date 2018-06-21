@@ -7,6 +7,8 @@ ENT.ChatFade = 0
 ENT.AttentionMarker = Material("materials/ui/jazztronauts/yes.png", "smooth")
 ENT.QuestionMarker = Material("materials/ui/jazztronauts/question.png", "smooth")
 ENT.ChatMarker = Material("materials/ui/jazztronauts/catchat.png", "smooth")
+ENT.StoreMarker = Material("materials/ui/jazztronauts/catcoin.png", "smooth")
+
 function ENT:Initialize()
     self:SetupChatTables()
 
@@ -78,11 +80,26 @@ function ENT:Think()
         end
     end
 
+    self:SetChoiceIcon(self.ChatChoices, 3, icon)
+
+    -- New item in store checks
+    if self:GetNPCID() == missions.NPC_CAT_BAR then
+        local newTools = jstore.HasNewItems("tools")
+        local newUpgrades = jstore.HasNewItems("upgrades")
+
+        self:SetChoiceIcon(self.ChatChoices, 1, newUpgrades and self.StoreMarker)
+        self:SetChoiceIcon(self.ChatChoices, 2, newTools and self.StoreMarker)
+
+        if not icon and (newTools or newUpgrades) then
+            icon = self.StoreMarker
+        end
+    end
+
     if icon then
         worldmarker.SetIcon(self, icon)
     end
-    worldmarker.SetEnabled(self, icon != nil)
 
+    worldmarker.SetEnabled(self, icon != nil)
     self:SetNextClientThink(CurTime() + 1.0)
 end
 

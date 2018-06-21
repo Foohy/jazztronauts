@@ -96,8 +96,14 @@ function ENT:GetSelectedOption(ply, choices)
     return hitoption, localPos
 end
 
+function ENT:SetChoiceIcon(choices, index, icon)
+    if not choices or not choices[index] then return end
+    choices[index].icon = icon
+end
+
 -- Everything from here on is just client rendering stuff
 if SERVER then 
+
     -- Adds a new choice (serverside)
     function chatmenu.AddChoice(choicetable, text, func)
         return table.insert(choicetable, {
@@ -202,6 +208,7 @@ ENT.SelectBG = chatmenu.RenderSelectBG("JazzDialogOption", 3, 5)
 ENT.SelectBGMat = ENT.SelectBG:GetUnlitMaterial(true,false,true,true)
 
 function ENT:DrawChoice(choice, centerX, centerY, highlighted, ang, scale, scaleBump)
+
     ang = math.NormalizeAngle(ang)
     scale = scale or 1
     scaleBump = scaleBump or 1
@@ -215,13 +222,15 @@ function ENT:DrawChoice(choice, centerX, centerY, highlighted, ang, scale, scale
     local pY = math.sin(math.rad(ang)) * chatmenu.scaleH * scaleBump + centerY
     
     -- Render the select border, if highlighted
+    local pad = 20
+    local wpad = choice.icon and choice.height * 1.5 or 20
+    local woff = (-wpad / 2 + pad/2)
     if highlighted then
-        local pad = 20
         surface.SetDrawColor(color_white)
         surface.SetMaterial(self.SelectBGMat)
-        surface.DrawTexturedRectRotated(pX, 
+        surface.DrawTexturedRectRotated(pX + woff, 
             pY, 
-            choice.width * scale + pad, 
+            choice.width * scale + wpad, 
             choice.height * scale + pad, 
             rot + 90)
     end
@@ -230,6 +239,20 @@ function ENT:DrawChoice(choice, centerX, centerY, highlighted, ang, scale, scale
     surface.SetDrawColor(highlighted and chatmenu.selectColor or chatmenu.textColor)
     surface.SetMaterial(choice.material)
     surface.DrawTexturedRectRotated(pX, pY, choice.width * scale, choice.height * scale, rot + 90)
+
+    -- Render the optional icon too
+    if choice.icon then
+        local move = choice.width * scale / 2 + pad
+        local iX = pX + math.cos(math.rad(-rot + 90)) * move
+        local iY = pY + math.sin(math.rad(-rot + 90)) * move
+
+        surface.SetMaterial(choice.icon)
+        surface.DrawTexturedRectRotated(iX, //woff - choice.width * scale / 2
+            iY, 
+            choice.height * scale, 
+            choice.height * scale, 
+            rot + 90)
+    end
 end
 
 function ENT:DrawDialogEntry(choices, showperc)

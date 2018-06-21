@@ -1,8 +1,10 @@
+module("jstore", package.seeall) -- Extend jstore module
 
 -- #TODO: Derma skin? Sanity check??? Don't ever let me make UI again. 
 
 -- Background jazzy tile
 local bgmat = Material("materials/ui/jazz_grid.png", "noclamp")
+local newIcon = "materials/ui/jazztronauts/catcoin.png"
 
 -- Background for the layout panel
 local bgPanelColor = Color(73, 24, 71)
@@ -29,6 +31,12 @@ local bgUpgradePriceDisabledColor = Color(20, 65, 58)
 
 -- The color of the rounded bright border on the button
 local borderColor = Color(227, 210, 167)
+
+local storeFilters = 
+{
+    ["upgrades"] = function(itm) return itm.type == "upgrade" end,
+    ["tools"] = function(itm) return itm.type != "upgrade" end
+}
 
 surface.CreateFont( "JazzStoreName", {
 	font      = "KG Shake it Off Chunky",
@@ -78,6 +86,15 @@ local function addButton(parent, item)
     img:DockMargin(margin, margin, margin, margin)
     img:SetKeepAspect(true)
     img:SetImage("scripted/breen_fakemonitor_1")
+
+    -- Optional "NEW" informative marker
+    local newImg = vgui.Create("DImage", img)
+    newImg:SetImage(newIcon)
+    newImg:NoClipping(true)
+    newImg:SetPos(ScreenScale(-8), ScreenScale(-8))
+    newImg:SetSize(ScreenScale(16), ScreenScale(16))
+    newImg:SetVisible(IsItemNewlyAffordable(item.unlock))
+    function btn:SetIsNew(isNew) newImg:SetVisible(isNew) end
 
     -- Wrap in a DListLayout so our name/description lays out correctly
     local itemInfo = vgui.Create("DListLayout", btn)
@@ -140,6 +157,9 @@ local function addButton(parent, item)
         else
             btn:SetEnabled(true)
         end
+
+        -- Newly available
+        btn:SetIsNew(IsItemNewlyAffordable(item.unlock))
     end
 
     -- Purchase
@@ -149,6 +169,13 @@ local function addButton(parent, item)
             print(success)
             if IsValid(btn) then parent:RefreshButtons() end
         end )
+    end
+
+    function btn:Think()
+        if self:IsHovered() and IsItemNewlyAffordable(item.unlock) then
+            MarkItemSeen(item.unlock)
+            self:SetIsNew(IsItemNewlyAffordable(item.unlock))
+        end
     end
 
     return btn
@@ -192,6 +219,7 @@ local function createListButton(parent, item)
     btn:SizeToChildren(false, true)
     btn.SetBackgroundColor = function(self, col) self.BGColor = col end
 
+    local newMat = Material(newIcon)
     function btn:Paint(w, h)
         -- Left gradient
         local rect = Rect(0, 0, upGradWidth, h)
@@ -204,6 +232,19 @@ local function createListButton(parent, item)
         -- Right gradient
         local rect = Rect(w - upGradWidth, 0, upGradWidth, h)
         LinearGradientCached( "upgrade_item_right", rect, self.BGColor)
+        
+        -- "New" icon
+        if IsItemNewlyAffordable(item.unlock) then
+            surface.SetDrawColor(color_white)
+            surface.SetMaterial(newMat)
+            surface.DisableClipping(true)
+                surface.DrawTexturedRect(h * -0.4, 0, h, h)
+            surface.DisableClipping(false)
+
+            if self:IsHovered() then
+                MarkItemSeen(item.unlock)
+            end
+        end
     end
 
     function btn:UpdateColours(skin)
@@ -369,12 +410,25 @@ local function createStoreFrame(title)
     return frame, layout, scroll
 end
 
-function JazzOpenStore()
+function GetStoreItems(storeName)
+    if not storeFilters[storeName] then return {} end
+    local filtered = {}
+    local items = jstore.GetItems()
+    for k, v in pairs(items) do
+        if storeFilters[storeName](v) then
+            table.insert(filtered, v)
+        end
+    end
+
+    return filtered
+end
+
+function OpenStore()
     local frame, layout = createStoreFrame("Tools")
 
     -- Create a button for each store item
-    for k, v in pairs(jstore.GetItems()) do
-        if v.type == "upgrade" then continue end
+    local items = GetStoreItems("tools")
+    for k, v in pairs(items) do
         local btn = addButton(layout, v)
 
         btn:RefreshState()
@@ -387,21 +441,64 @@ function JazzOpenStore()
 
 end
 
-function JazzOpenUpgradeStore()
+function OpenUpgradeStore()
     local frame, layout = createStoreFrame("Upgrades")
 
     -- Create a button for each store item
     -- Sort the items by number of requirements
-    for k, v in SortedPairsByMemberValue(jstore.GetItems(), "numreqs") do
-        if v.type != "upgrade" then continue end
+    local items = GetStoreItems("upgrades")
+    for k, v in SortedPairsByMemberValue(items, "numreqs") do
         local btn = createCategoryButton(layout, v)
         
         btn:RefreshState()
         table.insert(layout.Buttons, btn)
     end
+
+    
 end
+
+function IsItemNewlyAffordable(itemName)
+    local item = jstore.GetItem(itemName)
+    if not item then return false end
+
+    -- If not available, its not available
+    if not jstore.IsAvailable(LocalPlayer(), item.unlock) then return false end
+
+    -- If not enough money, not new
+    if LocalPlayer():GetNotes() < item.price then return false end
+
+    -- Check if already seen
+    return not LocalPlayer():GetPData("jazz_seenitems_" .. item.name, false)
+end
+
+function HasNewItems(storeName)
+    local items = GetStoreItems(storeName)
+
+    for _, v in pairs(items) do
+        if IsItemNewlyAffordable(v.unlock) then
+            return true
+        end
+    end
+
+    return false
+end
+
+function MarkItemSeen(itemName)
+    local item = jstore.GetItem(itemName)
+    if not item then return end
+
+    LocalPlayer():SetPData("jazz_seenitems_" .. item.name, true)
+end
+
+function ResetSeenItems()
+    for _, v in pairs(jstore.GetItems()) do
+        LocalPlayer():RemovePData("jazz_seenitems_" .. v.name)
+    end
+end
+
+concommand.Add("jazz_reset_seen", ResetSeenItems)
 
 -- #TODO: Actually hook this up
 concommand.Add("jazz_open_store", function(ply, cmd, args)
-    JazzOpenStore()
+    OpenStore()
 end )

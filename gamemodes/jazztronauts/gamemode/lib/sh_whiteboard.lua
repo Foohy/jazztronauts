@@ -316,6 +316,10 @@ function Get( index )
 
 end
 
+function GetVCoordSpace()
+	return virtual_coord_space
+end
+
 net.Receive(NET_WHITEBOARD_CMD, function( _, ply ) Get( net.ReadUInt(2) ):NetUpdate( ply ) end )
 
 if SERVER then

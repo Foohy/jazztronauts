@@ -19,13 +19,35 @@ hook.Add("JazzMapStarted", "JazzWaitingFinish", function()
     gui.EnableScreenClicker(false)
 end )
 
-local virtual_coord_space = Rect(0,0,ScrW(),ScrH())
+local function LerpFactor( f )
+    return 1 - math.exp( FrameTime() * -f )
+end
+
+local function TimeLerp( v, target, f )
+    return v + (target - v) * LerpFactor( f )
+end
+
+local cmx = 0
+local cmy = 0
+
 local drawing = false
 local function DrawWhiteboard()
-    local vs_rect = virtual_coord_space
+
+    local vs_rect = whiteboard.GetVCoordSpace()
     local sc_rect = Rect("screen")
-    local wb_rect = Rect(0,0,ScrW()*.8,ScrH()*.8):Dock( sc_rect, DOCK_CENTER )
-    local x,y = gui.MousePos()
+    local wb_rect = Rect(0,0,ScrW()*.8, ScrH()*.8 ):Dock( sc_rect, DOCK_CENTER )
+    local rx,ry = gui.MousePos()
+
+    cmx = TimeLerp( cmx, rx, 12 )
+    cmy = TimeLerp( cmy, ry, 12 )
+
+    if not drawing then
+        cmx = rx
+        cmy = ry
+    end
+
+    local x = cmx
+    local y = cmy
 
     local function cursor(x,y)
         surface.SetDrawColor(255,255,255,80)
@@ -42,7 +64,6 @@ local function DrawWhiteboard()
             if not drawing then
                 drawing = true
                 whiteboard.Get(0):MoveTo( vx, vy )
-                print("BEGIN LINE")
             else
                 whiteboard.Get(0):LineTo( vx, vy )
             end

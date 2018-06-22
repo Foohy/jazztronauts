@@ -1,5 +1,6 @@
 include( "lib/shared.lua")
 include( 'player.lua' )
+include( "sh_playerwait.lua")
 
 DeriveGamemode("sandbox")
 

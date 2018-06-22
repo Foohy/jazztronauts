@@ -70,7 +70,22 @@ function GM:Initialize()
 	if wsid != 0 then resource.AddWorkshop(wsid) end
 end
 
-function GM:InitPostEntity()
+function GM:JazzMapStarted()
+	game.CleanUpMap()
+	self:GenerateJazzEntities()
+
+	print("JAZZ MAP STARTED!!!!!!!!!!")
+
+	-- Unlock and respawn everyone
+	for _, v in pairs(player.GetAll()) do
+		print("UNLOCKING PLAYER: ", ply)
+		v:UnLock()
+		v:KillSilent()
+		v:Spawn()
+	end
+end
+
+function GM:GenerateJazzEntities()
 
 	if not mapcontrol.IsInHub() then
 	
@@ -232,7 +247,15 @@ function GM:PlayerInitialSpawn( ply )
 
 	-- Update them with their active missions
 	missions.UpdatePlayerMissionInfo(ply)
-	
+
+	-- Freeze them if map hasn't started yet
+	if self:IsWaitingForPlayers() then
+		timer.Simple(0, function() 
+			if self:IsWaitingForPlayers() then
+				ply:Lock()
+			end
+		end )
+	end
 end
 
 function GM:PlayerSpawn( ply )

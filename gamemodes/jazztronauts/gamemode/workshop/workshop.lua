@@ -165,29 +165,10 @@ function FileInfo(itemid, func)
 
 end
 
-
--- Given a workshop id, download the raw GMA file to disk
--- Works on both server and client (steamworks.Download does not)
-function DownloadGMA(wsid, path, func)
-	-- Callback for when the actual GMA file is downloaded
-	local function FileDownloaded(body, size, headers, status)
-		
-		print("Downloaded " ..  size .. " bytes!")
-
-		-- Decompress (LZMA), then write
-
-		local start = SysTime()
-		body = util.Decompress(body)
-		print("Decompress: " .. (SysTime() - start) .. " seconds")
-
-		print("Writing to " .. path)
-		start = SysTime()
-		file.Write(path, body)
-		print("Write to disk: " .. (SysTime() - start) .. " seconds")
-
-		start = SysTime()
-		local fileList = gmad.FileList("data/" .. path)
-		print("Reading file list: " .. (SysTime() - start) .. " seconds")
+-- Given a workshop id, download the raw GMA file, returning the compressed binary string
+function DownloadExtractGMA(wsid, path, func)
+	DownloadGMA(wsid, function(data)
+		local fileList = ExtractGMA(path, data)
 
 		-- Just a useful object that shows info about what we just mounted
 		local res = { 
@@ -197,7 +178,38 @@ function DownloadGMA(wsid, path, func)
 			timestamp = 0 -- TODO: timestamp of last time this addon was updated
 		}
 
-		func(res) -- holy shit it actually worked
+		func(res)
+	end )
+end
+
+function ExtractGMA(path, data)
+	-- Decompress (LZMA), then write
+	local start = SysTime()
+	data = util.Decompress(data)
+	print("Decompress: " .. (SysTime() - start) .. " seconds")
+
+	-- Write to disk
+	print("Writing to " .. path)
+	start = SysTime()
+	file.Write(path, data)
+	print("Write to disk: " .. (SysTime() - start) .. " seconds")
+
+	-- Read file contents
+	start = SysTime()
+	local fileList = gmad.FileList("data/" .. path)
+	print("Reading file list: " .. (SysTime() - start) .. " seconds")
+
+	return fileList
+end
+
+-- Given a workshop id, download the raw GMA file to disk
+-- Works on both server and client (steamworks.Download does not)
+function DownloadGMA(wsid, func)
+	-- Callback for when the actual GMA file is downloaded
+	local function FileDownloaded(body, size, headers, status)		
+		print("Downloaded " ..  size .. " bytes!")
+
+		func(body)
 	end
 
 	-- Callback for when we've received information about a specific published file

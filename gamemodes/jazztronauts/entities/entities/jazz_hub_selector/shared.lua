@@ -51,6 +51,7 @@ end
 function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "SelectedWorkshopID")
 	self:NetworkVar("Int", 1, "ScanState")
+	self:NetworkVar("Int", 2, "FreezeTime")
 end
 
 function ENT:KeyValue( key, value )
@@ -99,11 +100,16 @@ function ENT:SelectAddon(wsid)
 	self:SetPortalSequence("Open")
 	self:TriggerOutput("OnMapSelected", self)
 
-	-- Attempt to mount the given addon (cache-aware)
-	self.CurrentlyScanning = wsid
-	mapcontrol.InstallAddon(wsid, function(files, msg)
+	local function onPreDecompress()
+		print(FrameTime())
+		self:SetFreezeTime(CurTime() + 4 + FrameTime())
+		return 4.0 + FrameTime()
+	end
+
+	local function onMounted(files, msg)
 		if self.CurrentlyScanning != wsid then return end
 		self.CurrentlyScanning = nil
+		self:SetFreezeTime(0)
 
 		local success = false
 		local newMaps = {}
@@ -137,7 +143,11 @@ function ENT:SelectAddon(wsid)
 		if success then
 			self:TriggerOutput("OnMapAnalyzed", self)
 		end
-	end)
+	end
+
+	-- Attempt to mount the given addon (cache-aware)
+	self.CurrentlyScanning = wsid
+	mapcontrol.InstallAddon(wsid, onMounted, onPreDecompress)
 end
 
 function ENT:Use(activator, caller)
@@ -183,7 +193,51 @@ function ENT:UpdateRenderTarget()
 	end)
 end
 
+function ENT:IntermissionThink()
+	LocalPlayer().JazzInterFreeze = self:GetFreezeTime()
+
+	if self:GetFreezeTime() == 0 then 
+		self.PlayedSpinup = false
+		if self.SoundChannel then
+			self.LastSoundPos = self.SoundChannel:GetTime()
+			self.SoundChannel:Stop()
+			self.SoundChannel = nil
+		end
+		return 
+	end
+
+	local time = self:GetFreezeTime() - CurTime()
+
+	if time < 2.5 then
+		if not self.PlayedSpinup then
+			self.PlayedSpinup = true
+			LocalPlayer():EmitSound("/ambient/levels/labs/teleport_preblast_suckin1.wav")
+		end
+	end
+
+	if time <= 0 and not self.WaitingSoundChannel and not self.SoundChannel then
+		self.WaitingSoundChannel = true -- Queued, but no channel yet
+		RunConsoleCommand("stopsound")
+		timer.Simple(0, function()
+			sound.PlayFile("sound/jazztronauts/music/intermission_music.mp3", "noblock", function(channel, err, errstr)
+				self.WaitingSoundChannel = nil
+				if self:GetFreezeTime() == 0 then
+					channel:Stop()
+					return
+				end
+
+				channel:EnableLooping(true)
+				if self.LastSoundPos then
+					channel:SetTime(self.LastSoundPos)
+				end
+				self.SoundChannel = channel -- Queued, but no channel yet
+			end )
+		end )
+	end
+end
+
 function ENT:Think()
+	self:IntermissionThink()
 
 	local wsid = self:GetSelectedWorkshopID()
 	if self.LastWorkshopID != wsid then
@@ -245,3 +299,28 @@ function ENT:Draw()
 	render.MaterialOverrideByIndex(0, nil)
 	render.SetBlend(1)
 end
+
+surface.CreateFont( "JazzIntermissionCountdown", {
+	font      = "KG Shake it Off Chunky",
+	size      = ScreenScale(32),
+	weight    = 700,
+	antialias = true
+})
+
+local interMat = Material("materials/ui/jazztronauts/intermission.png", "smooth")
+hook.Add("HUDPaint", "JazzDrawIntermissionFreeze", function()
+	local freezeTime = LocalPlayer().JazzInterFreeze
+	if not freezeTime or freezeTime == 0 then return end
+	local time = freezeTime - CurTime()
+	local timeStr = math.max(0, math.Round(time))
+	if timeStr < 1 then timeStr = "MERGING WORLDS" end
+
+	draw.SimpleText(timeStr, "JazzIntermissionCountdown", ScrW() / 2, ScrH() / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+
+	if time < 0 then
+		local size = ScreenScale(250)
+		surface.SetDrawColor(255, 255, 255)
+		surface.SetMaterial(interMat)
+		surface.DrawTexturedRect(ScrW() / 2 - size / 2, ScrH() / 2 - size / 2, size, size)
+	end
+end )

@@ -113,7 +113,7 @@ if SERVER then
 
 	-- Given a workshop id, try to download and mount it 
 	-- if it hasn't already been downloaded/mounted
-	function InstallAddon(wsid, func)
+	function InstallAddon(wsid, finishFunc, decompFunc)
 		local cachepath = "jazztronauts"
 		file.CreateDir(cachepath)
 		local dlpath = cachepath .. "/" .. wsid .. ".dat"
@@ -122,32 +122,40 @@ if SERVER then
 		local s, files = game.MountGMA("data/" .. dlpath)
 		if s and files then
 			print("Mounted from cache file!")
-			func(files)
+			finishFunc(files)
 			return
 		end
 
 		-- Download from internet and mount
-		workshop.DownloadGMA(wsid, dlpath, function(data, errmsg)
+		workshop.DownloadGMA(wsid, function(data, errmsg)
 
 			-- Bad workshop ID or network failure
 			if not data then 
 				print("Failed to download addon: " .. errmsg)
-				func(nil)
+				finishFunc(nil)
 				return
 			end
 
-			-- Try mounting
-			print("Addon downloaded, decompressing and mounting...")
-			local time = SysTime()
-			local s, files = game.MountGMA("data/" .. dlpath)
-			print("Mounting: " .. (SysTime() - time) .. " seconds.")
+			-- Optionally, delay before decompressing if the decompress function told us to
+			local delay = decompFunc and decompFunc(wsid) or 0
+			timer.Simple(delay, function()
 
-			if s and files then 
-				print("CONTENT MOUNTED!!! SAY HELLO TO YOUR NEW FILES:")
-				PrintTable(files) 
-			end
+				-- Decompress and save to cache folder
+				local fileList = workshop.ExtractGMA(dlpath, data)
 
-			func(files)
+				-- Try mounting
+				print("Addon downloaded, decompressing and mounting...")
+				local time = SysTime()
+				local s, files = game.MountGMA("data/" .. dlpath)
+				print("Mounting: " .. (SysTime() - time) .. " seconds.")
+
+				if s and files then 
+					print("CONTENT MOUNTED!!! SAY HELLO TO YOUR NEW FILES:")
+					PrintTable(files) 
+				end
+
+				finishFunc(files)
+			end )
 		end)
 	end
 

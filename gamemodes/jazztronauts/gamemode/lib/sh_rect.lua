@@ -59,6 +59,33 @@ function bmeta:GetSize() return self.x1 - self.x0, self.y1 - self.y0 end
 function rmeta:Unpack(...) return self.x, self.y, self.w, self.h, ... end
 function bmeta:Unpack(...) return self.x0, self.y0, self.x1, self.y1, ... end
 
+local function Remap( a, b, x, y, clamped )
+
+	if not IsBox(a) and not IsRect(a) then return end
+	if not IsBox(b) and not IsRect(b) then return end
+
+	local a_minx, a_miny = a:GetMin()
+	local a_maxx, a_maxy = a:GetMax()
+	local b_minx, b_miny = b:GetMin()
+	local b_maxx, b_maxy = b:GetMax()
+
+	local remap_x = ((x - a_minx) / (a_maxx - a_minx))
+	local remap_y = ((y - a_miny) / (a_maxy - a_miny))
+
+	if clamped then
+		remap_x = math.max( math.min( remap_x, 1 ), 0 )
+		remap_y = math.max( math.min( remap_y, 1 ), 0 )
+	end
+
+	return 
+		remap_x * (b_maxx - b_minx) + b_minx,
+		remap_y * (b_maxy - b_miny) + b_miny
+
+end
+
+rmeta.Remap = Remap
+bmeta.Remap = Remap
+
 --moves 'a' to dock into 'b'
 local function Dock( a, b, mode )
 

@@ -828,13 +828,6 @@ BSP.Readers[LUMP_PHYSCOLLIDE] = function( f, header )
 
 end
 
-if CLIENT then
-	local f = file.Open( "maps/io_test.bsp", "rb", "GAME" )
-	local header = BSP.Header_t.read(f)
-	BSP.Readers[LUMP_PHYSCOLLIDE]( f, header )
-	f:Close()
-end
-
 BSP.Readers[LUMP_VERTNORMALS] = StructLump( LUMP_VERTNORMALS, VECTOR )
 BSP.Readers[LUMP_VERTNORMALINDICES] = StructLump( LUMP_VERTNORMALINDICES, UINT16 )
 BSP.Readers[LUMP_DISP_LIGHTMAP_ALPHAS] = NOT_IMPLEMENTED( LUMP_DISP_LIGHTMAP_ALPHAS )

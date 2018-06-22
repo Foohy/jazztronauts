@@ -33,6 +33,7 @@ function snatch.FindOrCreateWorld(pos, dir, dist)
 		tmin = 0,
 		tmax = dist,
 		mask = mask,
+        ignoreents = true,
         filter = { "func_dustmotes" }
 	})
 

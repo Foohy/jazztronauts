@@ -240,10 +240,3 @@ if CLIENT then
         runCallbacks(item, success)
     end )
 end
-
--- Test extra unlocks
-jstore.RegisterSeries("jump_height", 1000, 3, { 
-	name = "Jump Height", 
-	cat = "Player Modifications", 
-	type = "upgrade"
-})

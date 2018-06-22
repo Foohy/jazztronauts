@@ -9,6 +9,8 @@ include( "missions/init.lua")
 include( "store/init.lua" )
 include( "snatch/init.lua" )
 
+include( "playerwait/init.lua")
+
 include( "lzma/lzma.lua")
 
 AddCSLuaFile( "cl_init.lua" )
@@ -18,6 +20,7 @@ AddCSLuaFile( "player.lua" )
 AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "workshop/workshop.lua" )
 AddCSLuaFile( "missions/cl_init.lua" )
+AddCSLuaFile( "playerwait/cl_init.lua")
 
 AddCSLuaFile( "cl_hud.lua" )
 
@@ -71,14 +74,14 @@ function GM:Initialize()
 end
 
 function GM:JazzMapStarted()
-	game.CleanUpMap()
-	self:GenerateJazzEntities()
-
-	print("JAZZ MAP STARTED!!!!!!!!!!")
+	print("MAP STARTED!!!!!!!")
+	if not mapcontrol.IsInHub() then
+		game.CleanUpMap()
+		self:GenerateJazzEntities()
+	end
 
 	-- Unlock and respawn everyone
 	for _, v in pairs(player.GetAll()) do
-		print("UNLOCKING PLAYER: ", ply)
 		v:UnLock()
 		v:KillSilent()
 		v:Spawn()

@@ -3,7 +3,7 @@ AddCSLuaFile()
 local tblName = "all_players"
 
 function GM:IsWaitingForPlayers()
-    return not Entity(1):GetNWBool("JazzMapStarted")
+    return not Entity(0):GetNWBool("JazzMapStarted")
 end
 
 function GM:GetConnectingPlayers()
@@ -27,41 +27,51 @@ if SERVER then
     -- Hook into player connect
     gameevent.Listen("player_connect")
     hook.Add("player_connect", "JazzAllPlayersAdd", function(data)
-        playerList[data.networkid] = data.name
+        print("PLAYER CONNECT ============================")
+        playerList[data.networkid] = true
     end )
 
     -- Hook into player disconnect
     gameevent.Listen("player_disconnect")
     hook.Add("player_disconnect", "JazzAllPlayersRemove", function(data)
+        print("PLAYER DISCONNECT =========================")
         playerList[data.networkid] = nil
     end )
 
     -- Check if there are players still in the process of connecting
     local function PlayersStillConnecting()
-        print(#playerList)
         return table.Count(playerList) > player.GetCount() or player.GetCount() == 0
+    end
+
+    local function mergePlayers(dest, players)
+        for k, v in pairs(players) do
+            dest[v:SteamID64()] = true
+        end
+    end
+
+    function playerwait.SavePlayers()
+        mergePlayers(playerList, player.GetAll()) -- Just in case
+        playerwait.SetPlayers(playerList)
     end
 
     -- Call when the map has officially been started
     -- Runs a map cleanup, causes shards to generate, and props to get their value assigned
     function GM:StartMap()
-        Entity(1):SetNWBool("JazzMapStarted", true)
+        Entity(0):SetNWBool("JazzMapStarted", true)
 
         hook.Run("JazzMapStarted")
     end
 
-    -- SetNW* functions don't actually set too early in the process
-    -- I don't feel like slamming DTVars on some ent or using the net lib, but jeeze man
-    local function ReadyToStart()
-        Entity(1):SetNWBool("JazzReadyToStart", true)
-        return Entity(1):GetNWBool("JazzReadyToStart")
-    end
-
     hook.Add("InitPostEntity", "JazzWaitPlayersThinkInit", function()
+        -- Load in a previous playerlist if we just changed level
+        table.Merge(playerList, playerwait.GetPlayers())
+        playerwait.ClearPlayers()
+
         hook.Add("Think", "JazzWaitingForPlayersThink", function()
-            if PlayersStillConnecting() then return end
-            if not ReadyToStart() then return end
-            //if CurTime() < 10 then return end
+            if not mapcontrol.IsInHub() then 
+                if PlayersStillConnecting() then return end
+                if CurTime() < 20 then return end
+            end
 
             GAMEMODE:StartMap()
             hook.Remove("Think", "JazzWaitingForPlayersThink")

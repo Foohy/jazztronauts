@@ -107,7 +107,8 @@ if SERVER then
 	end
 
 
-	function Launch(mapname)
+	function Launch(mapname)	
+		playerwait.SavePlayers()
 		RunConsoleCommand("changelevel", mapname)
 	end
 

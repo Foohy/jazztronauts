@@ -1,5 +1,7 @@
 AddCSLuaFile()
 
+GM.WaitForPlayersTime = 6 -- Countdown time for when everyone's ready to go
+
 local tblName = "all_players"
 local datatblName = "wait_time"
 
@@ -96,14 +98,25 @@ if SERVER then
             -- Start countdown
             if not GAMEMODE.WaitQueued then
                 GAMEMODE.WaitQueued = true
-                GAMEMODE:SetEndWaitTime(CurTime() + 6)
+                GAMEMODE:SetEndWaitTime(CurTime() + GAMEMODE.WaitForPlayersTime)
             end
 
+            -- Countdown over, start the map and stop thinking 
             if not GAMEMODE:IsWaitingForPlayers() then
                 GAMEMODE:StartMap()
                 hook.Remove("Think", "JazzWaitingForPlayersThink")
             end
         end )
+    end )
+
+else
+    -- Clientside hook for when map starts
+    hook.Add("Think", "JazzCheckWaitingForPlayersThink", function()
+        if not GAMEMODE:IsWaitingForPlayers() then
+            hook.Run("JazzMapStarted")
+            hook.Remove("Think", "JazzCheckWaitingForPlayersThink")
+            GAMEMODE.JazzHasStartedMap = true
+        end
     end )
 
 end

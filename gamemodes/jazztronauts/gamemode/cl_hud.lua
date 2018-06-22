@@ -121,6 +121,7 @@ end
 
 local function DrawShardCount()
 	if mapcontrol.IsInHub() then return end
+	if GAMEMODE:IsWaitingForPlayers() then return end
 
 	local left, total = mapgen.GetShardCount()
 	local str = (total - left) .. "/" .. total .. " shards collected"

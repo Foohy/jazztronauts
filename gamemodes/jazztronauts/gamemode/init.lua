@@ -9,6 +9,8 @@ include( "missions/init.lua")
 include( "store/init.lua" )
 include( "snatch/init.lua" )
 
+include( "playerwait/init.lua")
+
 include( "lzma/lzma.lua")
 
 AddCSLuaFile( "cl_init.lua" )
@@ -18,6 +20,7 @@ AddCSLuaFile( "player.lua" )
 AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "workshop/workshop.lua" )
 AddCSLuaFile( "missions/cl_init.lua" )
+AddCSLuaFile( "playerwait/cl_init.lua")
 
 AddCSLuaFile( "cl_hud.lua" )
 
@@ -70,7 +73,22 @@ function GM:Initialize()
 	if wsid != 0 then resource.AddWorkshop(wsid) end
 end
 
-function GM:InitPostEntity()
+function GM:JazzMapStarted()
+	print("MAP STARTED!!!!!!!")
+	if not mapcontrol.IsInHub() then
+		game.CleanUpMap()
+		self:GenerateJazzEntities()
+	end
+
+	-- Unlock and respawn everyone
+	for _, v in pairs(player.GetAll()) do
+		v:UnLock()
+		v:KillSilent()
+		v:Spawn()
+	end
+end
+
+function GM:GenerateJazzEntities()
 
 	if not mapcontrol.IsInHub() then
 	
@@ -232,7 +250,15 @@ function GM:PlayerInitialSpawn( ply )
 
 	-- Update them with their active missions
 	missions.UpdatePlayerMissionInfo(ply)
-	
+
+	-- Freeze them if map hasn't started yet
+	if self:IsWaitingForPlayers() then
+		timer.Simple(0, function() 
+			if self:IsWaitingForPlayers() then
+				ply:Lock()
+			end
+		end )
+	end
 end
 
 function GM:PlayerSpawn( ply )

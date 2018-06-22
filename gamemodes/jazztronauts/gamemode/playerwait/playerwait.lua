@@ -1,9 +1,18 @@
 AddCSLuaFile()
 
 local tblName = "all_players"
+local datatblName = "wait_time"
 
 function GM:IsWaitingForPlayers()
-    return Entity(0):GetNWBool("JazzWaitingForPlayers")
+    return self:GetEndWaitTime() > CurTime()
+end
+
+function GM:GetEndWaitTime()
+    return nettable.Get(datatblName)["JazzWaitingForPlayers"] or 0
+end
+
+function GM:SetEndWaitTime(time)
+    nettable.Get(datatblName)["JazzWaitingForPlayers"] = time
 end
 
 function GM:GetConnectingPlayers()
@@ -21,22 +30,23 @@ end
 if SERVER then
 
     nettable.Create(tblName)
-
     local playerList = nettable.Get(tblName)
+
+    -- You might be asking wtf
+    -- I want to network a SINGLE float, and DTvars/net library is overkill
+    -- and SetNW* is crazy unreliable, the client keeps stale values for some reason here
+    -- So screw it, we'll just use an existing library that does basically the same thing
+    nettable.Create(datatblName)
 
     -- Hook into player connect
     gameevent.Listen("player_connect")
     hook.Add("player_connect", "JazzAllPlayersAdd", function(data)
-        print("PLAYER CONNECT ============================")
-        PrintTable(data)
         playerList[util.SteamIDTo64(data.networkid)] = data.name
     end )
 
     -- Hook into player disconnect
     gameevent.Listen("player_disconnect")
     hook.Add("player_disconnect", "JazzAllPlayersRemove", function(data)
-        print("PLAYER DISCONNECT =========================")
-        PrintTable(data)
         playerList[util.SteamIDTo64(data.networkid)] = nil
     end )
 
@@ -51,27 +61,24 @@ if SERVER then
         end
     end
 
+    -- Save current players (active + connecting) to persistent storage
+    -- Called when the level changes so we know who's connecting after the changelevel
     function playerwait.SavePlayers()
-        print("=========== SAVE PLAYERS")
         mergePlayers(playerList, player.GetAll()) -- Just in case
-        PrintTable(playerList)
-        print("-----------------------------")
         playerwait.SetPlayers(playerList)
-        PrintTable(playerList)
     end
 
     -- Call when the map has officially been started
     -- Runs a map cleanup, causes shards to generate, and props to get their value assigned
     function GM:StartMap()
-        Entity(0):SetNWBool("JazzWaitingForPlayers", false)
-
+        GAMEMODE:SetEndWaitTime(0)
         hook.Run("JazzMapStarted")
     end
 
     hook.Add("InitPostEntity", "JazzWaitPlayersThinkInit", function()
 
         -- Start waiting for players
-        Entity(0):SetNWBool("JazzWaitingForPlayers", true)
+        GAMEMODE:SetEndWaitTime(math.huge)
 
         -- Load in a previous playerlist if we just changed level
         table.Merge(playerList, playerwait.GetPlayers())
@@ -79,12 +86,23 @@ if SERVER then
 
         hook.Add("Think", "JazzWaitingForPlayersThink", function()
             if not mapcontrol.IsInHub() then 
-                if PlayersStillConnecting() then return end
-                if CurTime() < 20 then return end
+                if PlayersStillConnecting() then
+                    GAMEMODE:SetEndWaitTime(math.huge)
+                    GAMEMODE.WaitQueued = false
+                    return 
+                end
             end
 
-            GAMEMODE:StartMap()
-            hook.Remove("Think", "JazzWaitingForPlayersThink")
+            -- Start countdown
+            if not GAMEMODE.WaitQueued then
+                GAMEMODE.WaitQueued = true
+                GAMEMODE:SetEndWaitTime(CurTime() + 6)
+            end
+
+            if not GAMEMODE:IsWaitingForPlayers() then
+                GAMEMODE:StartMap()
+                hook.Remove("Think", "JazzWaitingForPlayersThink")
+            end
         end )
     end )
 

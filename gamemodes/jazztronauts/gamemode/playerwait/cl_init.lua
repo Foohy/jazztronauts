@@ -37,4 +37,11 @@ hook.Add("HUDPaint", "JazzTemporaryWaitingForPlayersVisuals", function()
         draw.SimpleText(v, "JazzWaitingCountdownPlayer", ScrW() / 2, ScrH() / 2 + h * num + offset, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         num = num + 1
     end
+
+    local endtime = GAMEMODE:GetEndWaitTime()
+    print(endtime)
+    if endtime < math.huge then
+    	local time = math.max(0, math.Round(endtime - CurTime() + 1))
+    	draw.SimpleText(time, "JazzWaitingCountdownPlayer", ScrW() / 2, ScrH() / 2 + offset, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    end
 end)

@@ -6,6 +6,7 @@ include( "missions/cl_init.lua" )
 include( "workshop/workshop.lua" )
 include( "store/cl_init.lua" )
 include( "snatch/cl_init.lua" )
+include( "playerwait/cl_init.lua")
 
 include( "cl_scoreboard.lua" )
 include( "cl_jazzphysgun.lua")

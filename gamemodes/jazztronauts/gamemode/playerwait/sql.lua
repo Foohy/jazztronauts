@@ -3,6 +3,7 @@
 jsql.Register("jazz_persist_players", 
 [[
     steamid BIGINT NOT NULL,
+    name VARCHAR(256) NOT NULL,
     PRIMARY KEY(steamid)
 ]])
 
@@ -17,9 +18,9 @@ function SetPlayers(players)
 
 	local plyVals = {}
 	for k, v in pairs(players) do
-		table.insert(plyVals, "(" .. k .. ")")
+		table.insert(plyVals, "(" .. k .. ", " .. sql.SQLStr(v) .. ")")
 	end
-	local insrtply = "INSERT INTO jazz_persist_players (steamid) VALUES " ..
+	local insrtply = "INSERT INTO jazz_persist_players (steamid, name) VALUES " ..
 		table.concat(plyVals, ",")
 
 	return jsql.Query(insrtply) != nil
@@ -31,7 +32,7 @@ function GetPlayers()
 	if type(res) == "table" then
 		local plys = {}
 		for _, v in pairs(res) do
-			plys[v.steamid] = true
+			plys[v.steamid] = v.name or ""
 		end
 
 		return plys

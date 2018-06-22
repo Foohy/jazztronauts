@@ -3,7 +3,7 @@ AddCSLuaFile()
 local tblName = "all_players"
 
 function GM:IsWaitingForPlayers()
-    return not Entity(0):GetNWBool("JazzMapStarted")
+    return Entity(0):GetNWBool("JazzWaitingForPlayers")
 end
 
 function GM:GetConnectingPlayers()
@@ -28,14 +28,16 @@ if SERVER then
     gameevent.Listen("player_connect")
     hook.Add("player_connect", "JazzAllPlayersAdd", function(data)
         print("PLAYER CONNECT ============================")
-        playerList[data.networkid] = true
+        PrintTable(data)
+        playerList[util.SteamIDTo64(data.networkid)] = data.name
     end )
 
     -- Hook into player disconnect
     gameevent.Listen("player_disconnect")
     hook.Add("player_disconnect", "JazzAllPlayersRemove", function(data)
         print("PLAYER DISCONNECT =========================")
-        playerList[data.networkid] = nil
+        PrintTable(data)
+        playerList[util.SteamIDTo64(data.networkid)] = nil
     end )
 
     -- Check if there are players still in the process of connecting
@@ -45,24 +47,32 @@ if SERVER then
 
     local function mergePlayers(dest, players)
         for k, v in pairs(players) do
-            dest[v:SteamID64()] = true
+            dest[v:SteamID64()] = v:GetName()
         end
     end
 
     function playerwait.SavePlayers()
+        print("=========== SAVE PLAYERS")
         mergePlayers(playerList, player.GetAll()) -- Just in case
+        PrintTable(playerList)
+        print("-----------------------------")
         playerwait.SetPlayers(playerList)
+        PrintTable(playerList)
     end
 
     -- Call when the map has officially been started
     -- Runs a map cleanup, causes shards to generate, and props to get their value assigned
     function GM:StartMap()
-        Entity(0):SetNWBool("JazzMapStarted", true)
+        Entity(0):SetNWBool("JazzWaitingForPlayers", false)
 
         hook.Run("JazzMapStarted")
     end
 
     hook.Add("InitPostEntity", "JazzWaitPlayersThinkInit", function()
+
+        -- Start waiting for players
+        Entity(0):SetNWBool("JazzWaitingForPlayers", true)
+
         -- Load in a previous playerlist if we just changed level
         table.Merge(playerList, playerwait.GetPlayers())
         playerwait.ClearPlayers()
@@ -77,29 +87,5 @@ if SERVER then
             hook.Remove("Think", "JazzWaitingForPlayersThink")
         end )
     end )
-
-else
-    -- Clientside hook for when map starts
-    hook.Add("Think", "JazzCheckWaitingForPlayersThink", function()
-        if not GAMEMODE:IsWaitingForPlayers() then
-            hook.Run("JazzMapStarted")
-            hook.Remove("Think", "JazzCheckWaitingForPlayersThink")
-            GAMEMODE.JazzHasStartedMap = true
-        end
-    end )
-
-
-    hook.Add("HUDPaint", "JazzTemporaryWaitingForPlayersVisuals", function()
-        if not GAMEMODE:IsWaitingForPlayers() then return end
-
-	    draw.SimpleText("WAITING FOR PLAYERS", "JazzIntermissionCountdown", ScrW() / 2, ScrH() / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-
-        local num = 1
-        for _, v in pairs(GAMEMODE:GetConnectingPlayers()) do
-            local w, h = surface.GetTextSize(v)
-	        draw.SimpleText(v, "JazzIntermissionCountdown", ScrW() / 2, ScrH() / 2 + h * num, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-            num = num + 1
-        end
-    end)
 
 end

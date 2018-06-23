@@ -13,7 +13,7 @@ local function lpColor(ent, index, lp, gp)
 
 end
 
-local function renderGrabEffect(ent, pivot, srcPos)
+function JazzRenderGrabEffect(ent, pivot, srcPos)
 
     local color = nil
 
@@ -24,7 +24,10 @@ local function renderGrabEffect(ent, pivot, srcPos)
         end
     end
 
-    gfx.renderBeam(srcPos, pivot, Color(0,0,0), color or Color(255,100,255), 35)
+    if pivot then
+        gfx.renderBeam(srcPos, pivot, Color(0,0,0), color or Color(255,100,255), 35)
+    end
+
     if not IsValid(ent) then return end
 
     local maxs = ent:OBBMaxs()
@@ -70,8 +73,9 @@ local function renderGrabEffect(ent, pivot, srcPos)
         gfx.renderBeam(grabPoints[p], grabPoints[j], grabColors[p], grabColors[j], 20)
     end
 
-    gfx.renderBox(pivot, Vector(-4,-4,-4), Vector(4,4,4), color or Color(255,100,255) )
-
+    if pivot then
+        gfx.renderBox(pivot, Vector(-4,-4,-4), Vector(4,4,4), color or Color(255,100,255) )
+    end
 end
 
 local function renderVMFx(weapon, vm, pos)
@@ -158,7 +162,7 @@ function GM:DrawPhysgunBeam(ply, physgun, enabled, target, physbone, hitpos)
     end
 
     //vm:SetPoseParameter( "active", physgun.JazzProngs )
-    renderGrabEffect(target, tpos, srcPos)
+    JazzRenderGrabEffect(target, tpos, srcPos)
 
 	return false
 end

@@ -11,10 +11,16 @@ module( "snatch", package.seeall )
 removed_brushes = removed_brushes or {}
 local waitingBrushes = {}
 
+removed_staticprops = removed_staticprops or {}
+local waitingProps = {}
+
 -- Networked table of removed brushes
 if SERVER then
 	nettable.Create("snatch_removed_brushes", nettable.TRANSMIT_ONCE)
 	nettable.Set("snatch_removed_brushes", removed_brushes)
+
+	nettable.Create("snatch_removed_staticprops", nettable.TRANSMIT_ONCE)
+	nettable.Set("snatch_removed_staticprops", removed_staticprops)
 end
 
 -- Voidmesh stuff, rendered separately in jazzvoid module
@@ -330,6 +336,11 @@ function meta:StartProp( prop, owner, kill, delay )
 	self.position = self.real:GetPos()
 	self.real.doing_removal = true
 
+	-- If proxy, save to list of stolen props
+	if self.real.IsProxy then
+		removed_staticprops[self.real:GetID()] = true
+	end
+
 	SV_SendPropSceneToClients( self )
 	SV_HandleEntityDestruction( self.real, owner, kill, delay )
 
@@ -365,7 +376,21 @@ local expanded_props = {}
 function meta:RunStaticProp( propid, propproxy )
 	if SERVER then return end
 
+	-- Check if map is still loading
+	if map:IsLoading() then
+		print("prop id " .. propid .. " stolen with no map loaded, saving for later")
+		waitingProps[propid] = true
+		return 
+	end
+
+	-- Make sure this is actually a valid static prop id
 	local pdata = map.props[propid]
+	if not pdata then 
+		ErrorNoHalt("Invalid static prop id " .. propid)
+		return
+	end
+
+	-- Grab prop data
 	local mdl = pdata.model
 	if not expanded_models[mdl] then
 		expanded_models[mdl] = MakeExpandedModel(mdl, nil )
@@ -671,12 +696,6 @@ elseif CLIENT then
 			local ent = net.ReadEntity()
 			local propid = net.ReadUInt(16)
 
-			local pdata = map.props[propid]
-			if not pdata then 
-				ErrorNoHalt("Invalid static prop id " .. propid)
-				return
-			end
-
 			New( {
 				mode = mode,
 				time = time,
@@ -706,18 +725,35 @@ elseif CLIENT then
 		end
 	end
 
-	local function stealBrushesInstant(brushes)
-		local function stealBrushes(brushes)
-			for k, v in pairs(brushes) do
-				if removed_brushes[k] then continue end
-				
-				-- Steal the brush, but don't bother with any effects
-				New( {} ):RunWorld( k )
-				task.YieldPer(5)
-			end
+
+	local function stealBrushes(brushes)
+		for k, v in pairs(brushes) do
+			if removed_brushes[k] then continue end
+			
+			-- Steal the brush, but don't bother with any effects
+			New( {} ):RunWorld( k )
+			task.YieldPer(5)
+		end
+	end
+
+	local function stealStaticProps(propids)
+		for k, v in pairs(propids) do
+			if removed_staticprops[k] then continue end
+			
+			-- Steal the prop, but don't bother with any effects
+			New( {} ):RunStaticProp( k )
+
+			task.YieldPer(5)
+		end
+	end
+
+	local function stealCurrentVoid(brushids, propids)
+		local function stealVoid(brushids, propids)
+			stealBrushes(brushids)
+			stealStaticProps(propids)
 		end
 
-		local loadMeshTask = task.New(stealBrushes, 1, brushes)
+		local loadPropsTask = task.New(stealVoid, 1, brushids, propids)
 	end
 
 	hook.Add("JazzSnatchMapReady", "snatchUpdateNetworkedBrushSpawn", function()
@@ -727,7 +763,14 @@ elseif CLIENT then
 		table.Merge(allBrushes, brushes or {})
 		table.Merge(allBrushes, waitingBrushes or {})
 
-		stealBrushesInstant(allBrushes)
+		-- Do the same with static props
+		-- #TODO: Async load expanded brush models and wait on that
+		local props = nettable.Get("snatch_removed_staticprops")
+		local allProps = {}
+		table.Merge(allProps, props or {})
+		table.Merge(allProps, waitingProps or {})
+
+		stealCurrentVoid(allBrushes, allProps)
 	end )
 
 	-- Run only once when the client first joins and downloads the stolen brush list

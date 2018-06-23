@@ -100,7 +100,7 @@ end
 
 local wasWaiting = false
 hook.Add("HUDPaint", "JazzWaitingForPlayersVisuals", function()
-    if true then return end
+
     if not GAMEMODE:IsWaitingForPlayers() then return end
     if not wasWaiting then
         gui.EnableScreenClicker(true)

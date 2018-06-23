@@ -30,6 +30,8 @@ end
 local cmx = 0
 local cmy = 0
 
+whiteboard.Get(0):RequestFlush()
+
 local drawing = false
 local function DrawWhiteboard()
 

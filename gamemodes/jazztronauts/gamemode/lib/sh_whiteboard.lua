@@ -8,7 +8,7 @@ NET_WHITEBOARD_CMD = "whiteboard_cmd"
 
 MSG_MOVE_TO = 0       --CL: ask server to move cursor to location, SV: send to all clients
 MSG_LINE_TO = 1       --CL: ask server to draw a line, SV: send a line to all clients
-MSG_FLUSH_STATE = 2   --CL: ask server to dump everything that's been drawn so far
+MSG_FLUSH_STATE = 2   --CL: ask server to dump everything that's been drawn so far, SV: packet of stuff
 MSG_CLEAR = 3         --CL: ask server to clear whiteboard, SV: clear whiteboard on all clients
 
 --MoveTo: [X. Y. userid]
@@ -230,13 +230,29 @@ function meta:CL_SendLineTo( x, y )
 	net.SendToServer()
 end
 
+function meta:GetRecipients( uid )
+
+
+	local t = {}
+	for _, p in pairs( player.GetAll() ) do
+		local id = p:EntIndex()
+		local c = self:GetCursor( id )
+		if id == uid then continue end
+		if c.flushing then continue end
+		table.insert( t, p )
+	end
+
+	return t
+
+end
+
 function meta:SV_SendMoveTo( x, y, uid )
 	self:AppendMoveTo( x, y, uid )
 	self:NetBeginCmd( MSG_MOVE_TO )
 	net.WriteUInt( uid, 6 )
 	net.WriteUInt( x, coordinate_bits[1] )
 	net.WriteUInt( y, coordinate_bits[2] )
-	net.SendOmit( player.GetAll()[uid] )
+	net.Send( self:GetRecipients( uid ) )
 end
 
 function meta:SV_SendLineTo( x, y, uid )
@@ -245,7 +261,7 @@ function meta:SV_SendLineTo( x, y, uid )
 	net.WriteUInt( uid, 6 )
 	net.WriteUInt( x, coordinate_bits[1] )
 	net.WriteUInt( y, coordinate_bits[2] )
-	net.SendOmit( player.GetAll()[uid] )
+	net.Send( self:GetRecipients( uid ) )
 end
 
 function meta:MoveTo( x,y,uid )
@@ -262,10 +278,82 @@ function meta:LineTo( x,y,uid )
 
 end
 
-function meta:RequestFlush()
+function meta:CL_RecvBurst()
+
+	local first = net.ReadBit() == 1
+	local num = net.ReadUInt( 7 )
+	local lu = -1
+
+	if first then self:Clear() end
+
+	for i=1, num do
+
+		local c = net.ReadBit() == 1 and MSG_LINE_TO or MSG_MOVE_TO
+		local uid = net.ReadUInt( 6 )
+		if c == MSG_MOVE_TO then self:AppendMoveTo( net.ReadUInt(coordinate_bits[1]), net.ReadUInt(coordinate_bits[2]), uid ) end
+		if c == MSG_LINE_TO then self:AppendLineTo( net.ReadUInt(coordinate_bits[1]), net.ReadUInt(coordinate_bits[2]), uid ) end
+		lu = uid
+
+	end
+
+	if lu ~= -1 then
+		local c = self:GetCursor( lu )
+	end
+
+end
+
+function meta:SV_SendBurst( uid )
+
+	if self:GetCursor( uid ).flushing then return end
+
+	local t = task.New( function() 
+
+		if #self.commands == 0 then return end
+
+		self:GetCursor( uid ).flushing = true
+
+		local i = 1
+		local first = false
+
+		while true do
+			task.Sleep(.05)
+
+			local rem = math.max( #self.commands - i, 0 )
+			local snd = math.min( rem, 127 )
+			if rem == 0 then break end
+
+			self:NetBeginCmd( MSG_FLUSH_STATE )
+			net.WriteBit( first and 0 or 1 )
+			net.WriteUInt( snd, 7 )
+
+			first = true
+
+			while snd > 0 do
+
+				local cmd = self.commands[i]
+				net.WriteBit( cmd.c == MSG_LINE_TO and 1 or 0 )
+				net.WriteUInt( cmd.uid, 6 )
+				if cmd.c == MSG_MOVE_TO then net.WriteUInt(cmd.x, coordinate_bits[1]) net.WriteUInt(cmd.y, coordinate_bits[2]) end
+				if cmd.c == MSG_LINE_TO then net.WriteUInt(cmd.x, coordinate_bits[1]) net.WriteUInt(cmd.y, coordinate_bits[2]) end
+
+				i = i + 1
+				snd = snd - 1
+
+			end
+
+			net.Send( player.GetAll()[uid] )
+		end
+
+		self:GetCursor( uid ).flushing = false
+
+	end )
+
+end
+
+function meta:RequestFlush( uid )
 
 	if SERVER then
-
+		self:SV_SendBurst( uid )
 	else
 		self:NetBeginCmd( MSG_FLUSH_STATE )
 		net.SendToServer()
@@ -277,7 +365,7 @@ function meta:NetPlayerInput( ply )
 
 	local cmd = net.ReadUInt( 4 )
 	local uid = ply:EntIndex()
-	if cmd == MSG_FLUSH_STATE then self:RequestFlush() end
+	if cmd == MSG_FLUSH_STATE then self:RequestFlush( uid ) end
 	if cmd == MSG_MOVE_TO then self:MoveTo( net.ReadUInt(coordinate_bits[1]), net.ReadUInt(coordinate_bits[2]), uid ) end
 	if cmd == MSG_LINE_TO then self:LineTo( net.ReadUInt(coordinate_bits[1]), net.ReadUInt(coordinate_bits[2]), uid ) end
 
@@ -286,6 +374,8 @@ end
 function meta:NetPacket()
 
 	local cmd = net.ReadUInt(4)
+	if cmd == MSG_FLUSH_STATE then self:CL_RecvBurst() return end
+
 	local uid = net.ReadUInt(6)
 	if cmd == MSG_MOVE_TO then self:AppendMoveTo( net.ReadUInt(coordinate_bits[1]), net.ReadUInt(coordinate_bits[2]), uid ) end
 	if cmd == MSG_LINE_TO then self:AppendLineTo( net.ReadUInt(coordinate_bits[1]), net.ReadUInt(coordinate_bits[2]), uid ) end
@@ -335,7 +425,15 @@ if SERVER then
 end
 
 if CLIENT then
-	gui.EnableScreenClicker(false)
+	--gui.EnableScreenClicker(true)
+
+	--timer.Simple( .1, function() Get(0):RequestFlush() end )
+
+	concommand.Add( "flush_whiteboard", function()
+
+		Get(0):RequestFlush()
+
+	end )
 
 	local function LerpFactor( f )
 		return 1 - math.exp( FrameTime() * -f )

@@ -1,6 +1,6 @@
 AddCSLuaFile()
 
-GM.WaitForPlayersTime = 6 -- Countdown time for when everyone's ready to go
+GM.WaitForPlayersTime = 15 -- Countdown time for when everyone's ready to go
 
 local tblName = "all_players"
 local datatblName = "wait_time"

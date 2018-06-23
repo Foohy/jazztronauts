@@ -333,6 +333,13 @@ local function DrawProps()
 	render.SuppressEngineLighting(false)
 end
 
+local function PurgeRender()
+	local renderPurge = ManagedCSEnt("renderPurgeFix1", "models/hunter/blocks/cube025x025x025.mdl" ) //models/props_junk/PopCan01a.mdl, "models/hunter/blocks/cube025x025x025.mdl" 
+	renderPurge:SetNoDraw(true)
+	renderPurge:SetModelScale(0)
+	renderPurge:DrawModel()
+end
+
 -- Render the inside of the jazz void with the default void material
 -- This void material has a rendertarget basetexture we update each frame
 hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky) 
@@ -344,21 +351,28 @@ hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 	end
 
 	//render.UpdateScreenEffectTexture()
-	
+
 	render.SuppressEngineLighting(true)
 	render.SetMaterial(void_mat)
-	
+	render.MaterialOverride(void_mat)
+
 	-- Draw all map meshes
 	for _, v in pairs(snatch.map_meshes) do
 		v:Get():Draw()
 	end
 
 	-- Draw again with overlay
+	render.MaterialOverride(surfaceMaterial)
 	render.SetMaterial(surfaceMaterial)
+	render.SetColorModulation(1,1,1)
+
+	PurgeRender()
+
+
 	for _, v in pairs(snatch.map_meshes) do
 		v:Get():Draw()
 	end
-
+	render.MaterialOverride(nil)
 	render.SuppressEngineLighting(false)
 
 	--DrawProps()

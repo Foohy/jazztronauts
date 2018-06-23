@@ -480,7 +480,7 @@ if CLIENT then
 	local alpha = 0
 	hook.Add("HUDPaint", "whiteboard_test", function()
 
-		--if true then return end
+		if true then return end
 
 		local vs_rect = virtual_coord_space
 		local sc_rect = Rect("screen")

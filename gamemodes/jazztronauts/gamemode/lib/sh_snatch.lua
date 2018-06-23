@@ -81,29 +81,25 @@ if SERVER then
 		end
 	]]
 
-	hook.Add( "InitPostEntity", "snatchmakeproxies", function()
-
+	function SpawnProxies()
 		print("Server loaded map, creating proxies")
-		timer.Simple(0, function()
-			for k,v in pairs( map.props or {} ) do
-				local exist = findPropProxy( v.id )
-				if not exist then
 
-					local ent = ents.Create("jazz_static_proxy")
-					if not IsValid( ent ) then print("!!!Failed to create proxy") continue end
+		for k,v in pairs( map.props or {} ) do
+			local exist = findPropProxy( v.id )
+			if not exist then
 
-					ent:SetID( v.id )
-					ent:SetPos( v.origin )
-					ent:SetAngles( v.angles )
-					ent:SetModel( Model( v.model ) )
-					ent:Spawn()
+				local ent = ents.Create("jazz_static_proxy")
+				if not IsValid( ent ) then print("!!!Failed to create proxy") continue end
 
-				end
+				ent:SetID( v.id )
+				ent:SetPos( v.origin )
+				ent:SetAngles( v.angles )
+				ent:SetModel( Model( v.model ) )
+				ent:Spawn()
+
 			end
-		end)
-
-	end )
-
+		end
+	end
 end
 
 function meta:Init( data )

@@ -117,6 +117,9 @@ function GM:GenerateJazzEntities()
 			
 		end
 
+		-- Spawn static prop proxy entities
+		snatch.SpawnProxies()
+
 		-- Calculate worth of each map-spawned prop
 		mapgen.CalculatePropValues(30000)
 	end

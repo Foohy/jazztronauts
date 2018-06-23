@@ -789,6 +789,7 @@ local function LoadModel( model )
 
 end
 
+local id = 0
 function MakeExpandedModel( model, material )
 
 	local vvd, vtx, mdl = LoadModel( model )
@@ -806,8 +807,9 @@ function MakeExpandedModel( model, material )
 
 	local test_mesh = nil
 	if not test_mesh then
-		test_mesh = ManagedMesh( "modeltest" .. CurTime(), mesh_material )
+		test_mesh = ManagedMesh( "staticprop" .. FrameNumber() .. id, mesh_material )
 		test_mesh:BuildFromTriangles( mesh_tris )
+		id = id + 1
 	end
 
 	return test_mesh

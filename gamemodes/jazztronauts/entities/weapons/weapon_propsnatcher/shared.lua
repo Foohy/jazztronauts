@@ -469,6 +469,8 @@ function SWEP:DrawHUD()
 	local s = ScreenScale(1)
 	surface.SetDrawColor(100, 100, 100)
 	for _, v in pairs(near) do
+		if not IsValid(v) then continue end
+
 		cam.Start3D()
 		local toscr = getPropCenter(v):ToScreen()
 		cam.End3D()
@@ -639,7 +641,7 @@ end
 
 function SWEP:CalcView(ply, pos, ang, fov)
 	local marker = self:GetCurSnatchMarker(newMarker)
-	if not IsValid(marker) or not marker.GetProgress then return end
+	if not IsValid(marker) or not marker.GetProgress or not marker.Brush then return end
 
 	local scale = getBrushScale(marker.Brush)
 
@@ -705,6 +707,7 @@ function SWEP:Think()
 				self:SetCurSnatchMarker(newMarker)
 				newMarker:RegisterOnActivate(function()
 					if self:GetCurSnatchMarker() != newMarker then return end
+					if not IsValid(self.Owner) then return end
 
 					local scale = getBrushScale(newMarker.BrushInfo)
 					self.Owner:ViewPunch(Angle(scale * 30, 0, 0))

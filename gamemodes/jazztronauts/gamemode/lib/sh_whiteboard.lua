@@ -98,17 +98,6 @@ local colors = {
 
 if CLIENT then
 
-	function meta:GetIRT()
-
-		local rt = irt.New("whiteboard_" .. self.index, ScrW(), ScrH())
-			:EnableDepth(false,false)
-			:EnableFullscreen(true)
-			:EnablePointSample(true)
-
-		return rt
-
-	end
-
 	local whiteboard_mat = CreateMaterial("WhiteboardMat" .. FrameNumber(), "UnLitGeneric", {
 		["$basetexture"] = "concrete/concretefloor001a",
 		["$vertexcolor"] = 1,
@@ -124,6 +113,42 @@ if CLIENT then
 		["$model"] = 0,
 		["$additive"] = 1,
 	})
+
+	--[[local marker_mat = CreateMaterial("WhiteboardMarker" .. FrameNumber(), "UnLitGeneric", {
+		["$basetexture"] = "ui/marker",
+		["$vertexcolor"] = 1,
+		["$vertexalpha"] = 1,
+		["$model"] = 0,
+		["$additive"] = 0,		
+	})]]
+
+	local marker_mat = Material( "materials/ui/marker.png", "mips smooth")
+
+	function DrawMarker( x, y, size, r )
+
+		local r = r or 45
+		local c = math.cos( -r / 57.3 )
+		local s = math.sin( -r / 57.3 )
+		local ox = 122 * size
+		local oy = 0
+		surface.SetMaterial( marker_mat )
+		surface.DrawTexturedRectRotated( 
+			x + ox * c + oy * -s, 
+			y + ox * s + oy * c, 
+			256*size, 64*size, r )
+
+	end
+
+	function meta:GetIRT()
+
+		local rt = irt.New("whiteboard_" .. self.index, ScrW(), ScrH())
+			:EnableDepth(false,false)
+			:EnableFullscreen(true)
+			:EnablePointSample(true)
+
+		return rt
+
+	end
 
 	function meta:Draw( rect )
 
@@ -189,12 +214,17 @@ if CLIENT then
 			if dt < 1 then
 				if lc.c == MSG_MOVE_TO or lc.c == MSG_LINE_TO then
 					local x,y = virtual_coord_space:Remap( rect, lc.x, lc.y )
-					local col = Color(255,255,255,255* (1-dt) )
+					local colx = colors[ lc.uid + 1 ]
+					local col = Color(colx.r,colx.g,colx.b,255* (1-dt) )
 					draw.SimpleText( v:Nick(), "Trebuchet18", x,y,col )
+					surface.SetDrawColor( col )
+					local out = math.sin( dt * math.pi / 2 )
+					DrawMarker( x + out * 30, y - out * 30, .35, 45 - out * 10 )
 				end
 			end
 
 		end
+		
 
 	end
 
@@ -425,7 +455,7 @@ if SERVER then
 end
 
 if CLIENT then
-	--gui.EnableScreenClicker(true)
+	timer.Simple( .2, function() gui.EnableScreenClicker(true) end )
 
 	--timer.Simple( .1, function() Get(0):RequestFlush() end )
 
@@ -447,29 +477,47 @@ if CLIENT then
 	local cmy = 0
 
 	local drawing = false
+	local alpha = 0
 	hook.Add("HUDPaint", "whiteboard_test", function()
 
-		if true then return end
+		--if true then return end
 
 		local vs_rect = virtual_coord_space
 		local sc_rect = Rect("screen")
 		local wb_rect = Rect(0,0,ScrW()*.8, ScrH()*.8 ):Dock( sc_rect, DOCK_CENTER )
 		local rx,ry = gui.MousePos()
+		local target_alpha = 0
 
 		cmx = TimeLerp( cmx, rx, 12 )
 		cmy = TimeLerp( cmy, ry, 12 )
 
 		if not drawing then
-			cmx = rx
-			cmy = ry
+			--cmx = rx
+			--cmy = ry
+			target_alpha = 0.2
+		else
+			target_alpha = 1
 		end
+
+		alpha = TimeLerp( alpha, target_alpha, 15 )
 
 		local x = cmx
 		local y = cmy
 
 		local function cursor(x,y)
-			surface.SetDrawColor(255,255,255,80)
-			surface.DrawRect( Rect(x,y,5,5):Move(-2,-2):Unpack() )
+			--surface.SetDrawColor(255,255,255,80)
+
+			local colx = colors[ LocalPlayer():EntIndex() + 1 ]
+			surface.SetDrawColor( Color(colx.r,colx.g,colx.b,255*alpha) )
+			local out = math.sin( (1-alpha) * math.pi / 2 )
+
+			--if wb_rect:ContainsPoint( rx, ry ) or drawing then
+				local mx = x + out * 30
+				local my = y - out * 30 + math.sin( CurTime() * 5 ) * 12 * (1-alpha)
+				DrawMarker( mx, my, .35, 45 - out * 10 + math.cos( CurTime() * 5 ) * 8 * (1-alpha) )
+				--surface.DrawLine( x, y, mx, my )
+				surface.DrawRect( Rect(x,y,5,5):Move(-2,-2):Unpack() )
+			--end
 		end
 		
 		if input.IsMouseDown( MOUSE_LEFT ) then

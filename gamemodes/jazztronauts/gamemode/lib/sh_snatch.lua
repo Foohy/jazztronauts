@@ -359,6 +359,37 @@ function meta:RunProp( prop )
 
 end
 
+local expanded_models = {}
+local expanded_props = {}
+
+function meta:RunStaticProp( propid, propproxy )
+	if SERVER then return end
+
+	local pdata = map.props[propid]
+	local mdl = pdata.model
+	if not expanded_models[mdl] then
+		expanded_models[mdl] = MakeExpandedModel(mdl, nil )
+	end
+
+	if expanded_models[mdl] == nil then return end
+
+	local mtx = Matrix()
+	mtx:SetTranslation( pdata.origin )
+	mtx:SetAngles( pdata.angles )
+
+	table.insert( expanded_props, {
+		mesh = expanded_models[mdl],
+		mtx = mtx,
+	})
+
+	if IsValid(propproxy) then
+		self.vel = Vector()
+		self.avel = Vector()
+		self:RunProp(propproxy)
+	end
+	//hook.Call( "HandlePropSnatch", GAMEMODE, self )
+end
+
 function meta:Finish()
 
 	local fake = self:GetEntity()
@@ -508,8 +539,14 @@ if SERVER then
 		if not scene.is_world then
 
 			net.WriteEntity( ent )
-			net.WriteVector( phys:IsValid() and phys:GetVelocity() or Vector(0,0,0) )
-			net.WriteVector( phys:IsValid() and phys:GetAngleVelocity() or Vector(0,0,0) )
+
+			-- Write static prop id for proxies
+			if scene.real.IsProxy then
+				net.WriteUInt(ent:GetID(), 16)
+			else
+				net.WriteVector( phys:IsValid() and phys:GetVelocity() or Vector(0,0,0) )
+				net.WriteVector( phys:IsValid() and phys:GetAngleVelocity() or Vector(0,0,0) )
+			end
 
 		else
 
@@ -607,9 +644,6 @@ elseif CLIENT then
 
 	end
 
-	local expanded_models = {}
-	local expanded_props = {}
-
 	local function CL_RecvPropSceneFromServer()
 
 		--Read the net
@@ -622,54 +656,7 @@ elseif CLIENT then
 		local time = net.ReadFloat()
 		local owner = net.ReadEntity()
 
-		if not is_world then
-
-			local ent = net.ReadEntity()
-			local vel = net.ReadVector()
-			local avel = net.ReadVector()
-			if not IsValid(ent) then return end
-
-			if is_proxy then
-
-				local mdl = ent:GetModel()
-				if not expanded_models[mdl] then
-					expanded_models[mdl] = MakeExpandedModel( ent:GetModel(), nil )
-				end
-
-				if expanded_models[mdl] == nil then return end
-
-				local mtx = Matrix()
-				mtx:SetTranslation( ent:GetPos() )
-				mtx:SetAngles( ent:GetAngles() )
-
-				table.insert( expanded_props, {
-					mesh = expanded_models[mdl],
-					mtx = mtx,
-				})
-
-				--local expanded = MakeExpandedModel( ent:GetModel(), nil )
-				--table.insert( expanded_models, expanded )
-
-				--expanded:SetPos( ent:GetPos() )
-				--expanded:SetAngles( ent:GetAngles() )
-
-			end
-
-			--Entity needs to exist
-			if not ent:IsValid() then return end
-
-			--Run scene on client
-			New( {
-				mode = mode,
-				time = time,
-				vel = vel,
-				avel = avel,
-				owner = owner,
-				is_proxy = is_proxy
-			} ):RunProp( ent )
-
-		else
-
+		if is_world then
 			local pos = net.ReadVector()
 			local brush = net.ReadInt( 32 )
 
@@ -680,8 +667,43 @@ elseif CLIENT then
 				owner = owner,
 			} ):RunWorld( brush )
 
-		end
+		elseif is_proxy then
+			local ent = net.ReadEntity()
+			local propid = net.ReadUInt(16)
 
+			local pdata = map.props[propid]
+			if not pdata then 
+				ErrorNoHalt("Invalid static prop id " .. propid)
+				return
+			end
+
+			New( {
+				mode = mode,
+				time = time,
+				vel = Vector(),
+				avel = Vector(),
+				owner = owner,
+				is_proxy = true
+			} ):RunStaticProp(propid, ent )
+
+		else //Good ol' fashion entity
+
+			local ent = net.ReadEntity()
+			local vel = net.ReadVector()
+			local avel = net.ReadVector()
+
+			if not IsValid(ent) then return end
+
+			--Run scene on client
+			New( {
+				mode = mode,
+				time = time,
+				vel = vel,
+				avel = avel,
+				owner = owner,
+				is_proxy = false
+			} ):RunProp( ent )
+		end
 	end
 
 	local function stealBrushesInstant(brushes)

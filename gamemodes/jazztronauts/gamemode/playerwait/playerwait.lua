@@ -10,7 +10,7 @@ function GM:IsWaitingForPlayers()
 end
 
 function GM:GetEndWaitTime()
-    return nettable.Get(datatblName)["JazzWaitingForPlayers"] or 0
+    return (nettable.Get(datatblName) or {})["JazzWaitingForPlayers"] or 0
 end
 
 function GM:SetEndWaitTime(time)

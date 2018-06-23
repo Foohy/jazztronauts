@@ -165,8 +165,27 @@ local function getPropCenter(ent)
 	return (backtrmin + backtrmax) / 2
 end
 
+
+local frust = frustum.New()
+local twosqrt2 = 2 * math.sqrt(2)
+local function findInFrustum(ply, radius, angle)
+	local startpos = ply:EyePos()
+	local direction = ply:EyeAngles():Forward()
+
+	local center = startpos + direction * radius / 2
+	local findRadius = math.tan(math.rad(angle)) * radius * math.pi
+	local near = ents.FindInSphere(center, findRadius)
+
+	frust:Setup( 10, radius, angle * twosqrt2, 1, 1)
+	frust:Orient( ply:EyePos(), ply:EyeAngles() )
+	frust:CullEntities(near)
+
+	return near
+end
+
 -- IT'S BEEN LIKE 10 YEARS HOW CAN THIS FUNCTION _STILL_ BE BUGGED
 local function findInCone(startpos, direction, radius, angle, result)
+
 	local center = startpos + direction * radius / 2
 	local findRadius = math.tan(math.rad(angle)) * radius * math.pi
 	local near = ents.FindInSphere(center, findRadius)
@@ -186,6 +205,7 @@ local function findInCone(startpos, direction, radius, angle, result)
 
 	return result
 end
+
 
 -- Similar to find in cone, but flipped
 -- Shoot a whole bunch of rays into the scene to see what they get
@@ -278,7 +298,7 @@ function SWEP:FindConeEntities()
 	-- Accepts everything as long as its an accepted entity
 	if phaseNumber == 0 then
 		table.Empty(validAccept1)
-		findInCone(resAim.StartPos, resAim.Normal, self.CloseRange, self.AutoAimCone, validAccept1)
+		table.Merge(validAccept1, findInFrustum(LocalPlayer(), self.CloseRange, self.AutoAimCone ))
 		filterTable(validAccept1, function(v)
 			return not self:AcceptEntity(v)
 		end )
@@ -316,12 +336,13 @@ function SWEP:FindConeEntities()
 	-- Find closest entity to center of screen
 	if closedist2 > 0 then
 		for _, v in pairs(validAccept) do
-			local centerpos = getPropCenter(v)
+			if not IsValid(v) then continue end
 
-			local scrpos = centerpos:ToScreen()
-			local ldist = (scrpos.x - ScrW()/2)^2 + (scrpos.y - ScrH()/2)^2
-			if ldist < closedist2 then
-				closedist2 = ldist
+			local centerpos = getPropCenter(v)
+			local ldist2 = (resAim.StartPos - centerpos):LengthSqr() - v:BoundingRadius()
+
+			if ldist2 < closedist2 then
+				closedist2 = ldist2
 				closest = v
 			end
 		end
@@ -479,31 +500,36 @@ function SWEP:DrawHUD()
 	render.SetStencilCompareFunction(STENCIL_EQUAL)
 
 	-- Highlight the hovered entity the most
-	render.SetColorModulation(255, 5, 255)
+
 	render.SuppressEngineLighting(true)
-	if IsValid(ent) and drawExtended then
-		cam.Start3D()
-		ent:DrawModel()
-		cam.End3D()
-	end
 
 	-- Also redraw/color all 'available' props
-	render.SetColorModulation(1, 0, 5)
-	for _, v in pairs(accept) do
-		if not IsValid(v) then continue end
-		if v == ent then continue end
+	local _, mat = jazzvoid.GetVoidOverlay()
+	render.MaterialOverride(mat)
+	render.SetColorModulation(4, 4, 4)
+	cam.Start3D()
 
-		cam.Start3D()
-		local center = getPropCenter(v)
-		local toscr = center:ToScreen()
+		for k, v in pairs(accept) do
+			if not IsValid(v) then continue end
+			v:DrawModel()
+		end
 
-		v:DrawModel()
-		cam.End3D()
-	end
-	render.SetColorModulation(1, 1, 1)
-	render.MaterialOverride()
-	render.SuppressEngineLighting(false)
-	render.SetStencilEnable(false)
+		render.SetColorModulation(1, 1, 1)
+		render.MaterialOverride()
+		render.SuppressEngineLighting(false)
+		render.SetStencilEnable(false)
+
+		-- Render a bounding box over the selected prop	
+		if IsValid(ent) then
+			local srcPos = self:GetAttachment( 1 ).Pos
+			if !LocalPlayer():ShouldDrawLocalPlayer() then
+				srcPos = LocalPlayer():GetViewModel():GetAttachment( 1 ).Pos 
+			end
+
+			JazzRenderGrabEffect(ent, nil, srcPos)
+		end
+
+	cam.End3D()
 
 	-- Draw what we're currently hovered over
 	if IsValid(ent) and drawExtended then

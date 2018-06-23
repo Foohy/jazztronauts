@@ -58,11 +58,11 @@ local snatch2 = jstore.Register("snatch2", 50000, {
     requires = snatch1,
     type = "upgrade" 
 })
-local snatch3 = jstore.Register("snatch3", 1000000, { 
+local snatch3 = jstore.Register("snatch3", 10000, { 
     name = "Ultimate Aim", 
     cat = "Prop Snatcher", 
 	desc = "No matter where you aim, you're picking something up.",
-    requires = snatch2,
+    requires = snatch1,
     type = "upgrade" 
 })
 

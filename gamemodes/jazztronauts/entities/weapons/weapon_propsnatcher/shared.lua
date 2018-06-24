@@ -9,9 +9,9 @@ SWEP.PrintName 		 		= "Prop Snatcher"
 SWEP.Slot		 	 		= 0
 SWEP.Category				= "Jazztronauts"
 
-SWEP.ViewModel		 		= "models/weapons/c_pistol.mdl"
-SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
-SWEP.HoldType		 		= "pistol"
+SWEP.ViewModel		 		= "models/weapons/c_stunstick.mdl"
+SWEP.WorldModel				= "models/weapons/w_stunbaton.mdl"
+SWEP.HoldType		 		= "melee"
 
 SWEP.Primary.Delay			= 0.1
 SWEP.Primary.ClipSize		= -1
@@ -124,6 +124,8 @@ function SWEP:CanSecondaryAttack() return self.CanStealWorld end
 function SWEP:DrawWorldModel()
 
 	self:DrawModel()
+
+	if not IsValid(self.Owner) then return end
 
 	--Might use this later, who the fuck knows
 	local attach = self:LookupAttachment("muzzle")
@@ -397,7 +399,7 @@ function SWEP:TraceToRemove(stealWorld)
 			net.WriteEntity( self.ConeEnt )
 			net.SendToServer()
 
-			self:EmitSound( self.SnatchSounds[math.random(1,#self.SnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_WEAPON  )
+			self:EmitSound( self.SnatchSounds[math.random(1,#self.SnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_AUTO  )
 
 			-- Add some nice feedback
 			self.ShootFade = 1
@@ -739,7 +741,7 @@ function SWEP:Holster(wep) return true end
 
 function SWEP:ShootEffects()
 
-	self.Weapon:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
+	self.Weapon:SendWeaponAnim( ACT_VM_HITKILL )
 	self.Owner:MuzzleFlash()
 	self.Owner:SetAnimation( PLAYER_ATTACK1 )
 

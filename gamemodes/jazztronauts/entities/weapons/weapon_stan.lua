@@ -7,12 +7,12 @@ SWEP.PrintName 		 		= "Stan"
 SWEP.Slot		 	 		= 0
 SWEP.Category				= "Jazztronauts"
 
-SWEP.ViewModel		 		= "models/weapons/c_pistol.mdl"
-SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
+SWEP.ViewModel		 		= "models/weapons/c_stan.mdl"
+SWEP.WorldModel				= ""
 
 SWEP.UseHands		= true
 
-SWEP.HoldType		 		= "pistol"
+SWEP.HoldType		 		= "magic"
 
 util.PrecacheModel( SWEP.ViewModel )
 util.PrecacheModel( SWEP.WorldModel )
@@ -103,11 +103,18 @@ end
 
 function SWEP:Deploy()
 
+
+	local vm = self.Owner:GetViewModel()
+	vm:SendViewModelMatchingSequence( vm:LookupSequence( "anim_deploy" ) )
+	--vm:SendViewModelMatchingSequence( vm:LookupSequence( "fists_draw" ) )
+	vm:SetPlaybackRate( 1.5 )
+
 	return true
 
 end
 
 function SWEP:StartPrimaryAttack()
+
 
 	if CLIENT then
 
@@ -116,7 +123,7 @@ function SWEP:StartPrimaryAttack()
 
 	end
 
-	--self.Weapon:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
+	self.Weapon:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
 	--self.Owner:MuzzleFlash()
 	--self.Owner:SetAnimation( PLAYER_ATTACK1 )
 
@@ -128,6 +135,11 @@ end
 function SWEP:StopPrimaryAttack()
 
 	//print("Stopping attack")
+
+	local vm = self.Owner:GetViewModel()
+	vm:SendViewModelMatchingSequence( vm:LookupSequence( "anim_deploy" ) )
+	--vm:SendViewModelMatchingSequence( vm:LookupSequence( "fists_draw" ) )
+	vm:SetPlaybackRate( 1 )
 
 end
 
@@ -146,14 +158,22 @@ function SWEP:DrawWorldModel()
 
 end
 
-function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
 
-	local atBone = viewmodel:LookupBone( "ValveBiped.square" )
+local shiver = {}
+local MatFlare = Material("effects/blueflare1")
+
+function SWEP:PostDrawViewModel(viewmodel, weapon, ply)
+
+	local hands = ply:GetHands()
+	local atBone = hands:LookupBone( "ValveBiped.Bip01_R_Hand" )
 
 	if not atBone then return end
 
-	local pos, ang = viewmodel:GetBonePosition( atBone )
+	local pos, ang = hands:GetBonePosition( atBone )
 	local mtx = Matrix()
+
+	pos = pos + ang:Forward()
+
 	mtx:SetAngles( ang )
 	mtx:SetTranslation( pos )
 
@@ -167,10 +187,24 @@ function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
 
 	end
 
+	render.SetMaterial( MatFlare )
+	local s = math.cos( CurTime() * 5 ) * 5 + 20
+	local s2 = math.cos( CurTime() * 8 ) * 5 + 10
+	local s3 = math.cos( CurTime() * 3 ) * 8 + 5
+	render.DrawSprite( pos, s, s, Color(255,0,0) )
+	render.DrawSprite( pos, s2, s2, Color(255,0,0) )
+	render.DrawSprite( pos, s3, s3, Color(255,0,0) )
+
 end
 
-local shiver = {}
-local MatFlare = Material("effects/blueflare1")
+function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
+
+
+
+end
+
+
+
 function SWEP:AddProng( id, mtx, rot )
 	
 	shiver[id] = shiver[id] or {}
@@ -193,10 +227,10 @@ function SWEP:AddProng( id, mtx, rot )
 	local out = math.pow( math.sin( self.open * math.pi / 2 ), 2 )
 	local lmtx = Matrix()
 	lmtx:SetScale( Vector( 0.2, 0.2, 0.2 ) )
-	lmtx:Rotate( Angle( 90, 0, rot ) )
+	lmtx:Rotate( Angle( 0, 0, rot ) )
 	lmtx:Translate( Vector( -10, out * 30 + 20, 0 ) + VectorRand() * shiver[id].amt )
 
-	lmtx:Rotate( Angle(90 * self.glow, math.sin( CurTime() + id * 2 ) * 10, -90 * (1-self.open) ) )
+	lmtx:Rotate( Angle(90 * self.glow, math.sin( CurTime() + id * 2 ) * 10 + 180, 180 -90 * (1-self.open) ) )
 
 	lmtx:Scale( Vector(2,2,2) )
 
@@ -328,11 +362,12 @@ function SWEP:DrawHUD()
 	local b,e = pcall(function()
 
 		local viewmodel = self.Owner:GetViewModel(0)
-		local atBone = viewmodel:LookupBone( "ValveBiped.square" )
+		local hands = LocalPlayer():GetHands()
+		local atBone = hands:LookupBone( "ValveBiped.Bip01_R_Hand" )
 
 		if not atBone then return end
 
-		local atpos, atang = viewmodel:GetBonePosition( atBone )
+		local atpos, atang = hands:GetBonePosition( atBone )
 		local distance = self.TeleportDistance
 		local viewdir = self.Owner:GetAimVector()
 		local startpos = self.Owner:GetShootPos()
@@ -440,6 +475,8 @@ function SWEP:CalcViewModelView( viewmodel, oldpos, oldang, pos, ang )
 	ang.p = ang.p + math.random() * self.glow * 2
 	ang.y = ang.y + math.random() * self.glow * 2
 	ang.r = ang.r + math.random() * self.glow * 2
+
+	--pos = pos + ang:Forward() * 18
 
 	return pos, ang
 

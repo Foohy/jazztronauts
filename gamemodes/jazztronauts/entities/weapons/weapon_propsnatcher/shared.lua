@@ -44,6 +44,15 @@ SWEP.KillsPeople			= true
 SWEP.StartShootTime 		= 0
 SWEP.LastCursorPos			= Vector()
 
+SWEP.SnatchSounds = {
+	Sound("jazztronauts/snatch/snatch_get01.wav"),
+	Sound("jazztronauts/snatch/snatch_get02.wav"),
+	Sound("jazztronauts/snatch/snatch_get03.wav")
+}
+
+SWEP.MissSounds = {
+	Sound("jazztronauts/snatch/snatch_miss02.wav"),
+}
 
 local snatch1 = jstore.Register("snatch1", 10000, { 
     name = "Auto Aim", 
@@ -388,10 +397,14 @@ function SWEP:TraceToRemove(stealWorld)
 			net.WriteEntity( self.ConeEnt )
 			net.SendToServer()
 
+			self:EmitSound( self.SnatchSounds[math.random(1,#self.SnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_WEAPON  )
+
 			-- Add some nice feedback
 			self.ShootFade = 1
 			self.HoverAlpha = 2
 		else
+			self:EmitSound( self.MissSounds[math.random(1,#self.MissSounds)], 50, math.random( 100, 100 ), 1, CHAN_USER_BASE )
+
 			self.BadShootFade = 1.0
 		end
 	else
@@ -606,7 +619,6 @@ function SWEP:PrimaryAttack()
 	--Standard stuff
 	if !self:CanPrimaryAttack() then return end
 	self:SetNextPrimaryFire(CurTime() + self:GetPrimaryShootDelay())
-	self:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
 	
 	if CLIENT or game.SinglePlayer() then
 		self:TraceToRemove()

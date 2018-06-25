@@ -1,0 +1,206 @@
+###### START
+
+begin:
+*setfocus npc_cat_bar*
+Still no sign of that prop snatcher, eh?
+Ah well. It happens.
+&begin2
+
+begin2:
+*setfocus npc_cat_piano*
+Yes it happens.
+And each time it's the cellist who loses them.
+I wonder why.
+&begin3
+
+begin3:
+*setfocus npc_cat_cello*
+same
+&begin4
+
+begin4:
+*setfocus npc_cat_piano*
+That was rhet-
+&begin5
+
+begin5:
+*setfocus narrator*
+>The Pianist pauses, visibly tries to calm herself
+as the Cellist's grin grows wider, then snaps anyway.
+&begin6
+
+begin6:
+*setfocus npc_cat_piano*
+MAKING JOKES ABOUT BEING THE PROBLEM DOESN't MAKE YOU 
+NOT THE PROBLEM.
+If we had five wheels, you'd be the sixth.
+&begin7
+
+begin7:
+*setfocus npc_cat_cello*
+ohhhh hell yeah some motherfuckers trying to serve up a
+plate of beef carcaccio in my house, better saddle up
+cause it's about to get real salty in here
+&begin8
+
+begin8:
+*setfocus npc_cat_cello*
+hey remember that time you accidentally tore a player in
+half trying to save them from a combine apc that didn't even
+have player collision enabled
+&begin9
+
+begin9:
+*setfocus narrator*
+>The Pianist restrains herself again.
+Barely.
+&begin10
+
+begin11:
+*setfocus npc_cat_piano*
+Fuck you, that doesn't count. That happened years ago when
+we had barely any idea how this shitty game engine works.
+&begin12
+
+begin12:
+*setfocus npc_cat_cello*
+you tore a dude in half trying to get him out of danger he 
+was not in. because the cars were ghosts.
+you got spooked by ghost cars.
+&begin13
+
+begin13:
+*setfocus narrator*
+>The Pianist leans in to argue, eye twitching.
+&begin14
+
+begin14:
+*setfocus npc_cat_piano*
+Yeah and you somehow managed to lose a guest in fucking flatgrass.
+&begin15
+
+begin15:
+*setfocus npc_cat_cello*
+in my defense i was sober at the time
+&begin16
+
+begin16:
+*setfocus npc_cat_piano*
+Oh mY GOD
+&begin17
+
+begin17:
+*setfocus narrator*
+>The two cats start shouting at each other, it's mostly insults and
+wild accusations at this point. The Bartender has her back to the player,
+she seems to be busy seaching a shelf.
+&begin18
+
+begin18:
+>The Singer is just checking out the room. Shelves, that bit of vent up there, 
+the group of players watching them from behind a window, etc etc
+&begin19
+
+begin19:
+>Wait... The Singer is staring right at you!
+You've been spotted!
+&begin20
+
+begin20:
+*setfocus npc_cat_sing*
+>The Singer put their paw to their mouth, and whistles very loudly!
+The two cats stop arguing immediately and clutch their ears!
+&begin21
+
+begin21:
+*setfocus npc_cat_piano*
+Fuck! Ow! How do you do that so loudly!? 
+What!? Do you want!?!?
+&begin22
+
+begin22:
+*setfocus npc_cat_sing*
+>The Singer points frantically in your direction!
+%%%%%%%%%%%%%%%%%%%
+You've definitely been spotted!
+&begin23
+
+begin23:
+*setfocus npc_cat_bar*
+Ah. Would you look at what we have here?
+&begin24
+
+begin24:
+Guests.
+&begin25
+
+begin25:
+*setfocus narrator*
+>All of the cats have a grin on their face...
+&begin26
+
+begin26:
+*setfocus npc_cat_piano*
+So? Should I handle it?
+Because I've been itching to try out a new-
+&begin27
+
+begin27:
+*setfocus npc_cat_bar*
+>The bartender puts their paw into the air, stopping the Pianist
+immediately.
+&begin28
+
+begin28:
+No, no. That is no way to treat honored guests.
+%%%%
+...Cellist?
+&begin29
+
+begin29:
+*setfocus narrator*
+>The Pianist and Singer both look moderately surprised 
+by this development.
+&begin30
+
+begin30:
+*setfocus npc_cat_cello*
+yeah boss?
+&begin31
+
+begin31:
+*setfocus narrator*
+>The Bartender Flips a set of keys over to the Cellist.
+%%%%%
+The Pianist and Singer now look actively worried.
+&begin32
+
+begin32:
+*setfocus npc_cat_bar*
+You know what to do.
+&begin33
+
+begin33:
+*setfocus npc_cat_cello*
+>The cellist gives an awful salute and staggers
+out of the room.
+&begin34
+
+begin34:
+*setfocus npc_cat_bar*
+Everyone else with me.
+&begin35
+
+begin35:
+*setfocus narrator*
+>They give a quick nod, and just like earlier,
+dissapear without a trace...
+&begin36
+
+begin36:
+>Well, this ain't good. 
+You should probably stay on your toes from this point on.
+&exit
+
+
+###### END OF EVENT

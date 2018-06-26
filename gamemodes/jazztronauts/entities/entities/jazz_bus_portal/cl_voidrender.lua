@@ -14,9 +14,11 @@ local refractParams = {
 	["$model"] = 1,
 	["$nocull"] = 1,
 }
-local refract = CreateMaterial("RefractBrushModel" .. FrameNumber(), "Refract", refractParams)
+
+local refract = CreateMaterial("JazzVoidRefractMaterial", "Refract", refractParams)
 void_mat = refract
 snatch.void_mat = void_mat
+
 
 -- Performance convars
 convar_drawprops = CreateClientConVar("jazz_void_drawprops", "1", true, false, "Render additional props/effects in the jazz void.")

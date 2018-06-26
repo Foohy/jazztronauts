@@ -357,10 +357,10 @@ function LoadMacros()
 	end
 	PreProcessLine = replace
 
-	local test_string = " wow, %%%% this is my test string, oncat(bob) calling macro mycoolmacro and complex_name(arg0, arg1, arg2)\n" 
+	--[[local test_string = " wow, %%%% this is my test string, oncat(bob) calling macro mycoolmacro and complex_name(arg0, arg1, arg2)\n" 
 
 	MsgC( Color(255,255,255), test_string )
-	MsgC( Color(100,255,100), replace( test_string ))
+	MsgC( Color(100,255,100), replace( test_string ))]]
 
 	macros:Close()
 

@@ -10,5 +10,6 @@ oncat(name) *setfocus npc_cat_name*
 #   will replace any usage of 'oncat(bobby)' with '*setfocus npc_cat_bobby*'
 #   you can use argument to specify which parts can be modified
 
-complex_name(v0,v1,v2) first:v0 second:v1 third:v2
+complex_name(v0,v1,v2) first:v0 second:v1 compound(v2): oncat(v2)
 #   macros can have names with underscores in them, and also have multiple arguments
+#   also you can build compound macros by calling macros which were previously defined

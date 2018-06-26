@@ -1,5 +1,5 @@
 ###### START
-begin:
+begin1:
 *setfocus npc_cat_piano*
 Wow, I cannot believe that worked.
 &begin2

@@ -1,6 +1,6 @@
 ###### START
 
-begin:
+begin1:
 *setfocus npc_cat_bar*
 Still no sign of that prop snatcher, eh?
 Ah well. It happens.
@@ -31,8 +31,8 @@ as the Cellist's grin grows wider, then snaps anyway.
 
 begin6:
 *setfocus npc_cat_piano*
-MAKING JOKES ABOUT BEING THE PROBLEM DOESN't MAKE YOU 
-NOT THE PROBLEM.
+MAKING JOKES ABOUT BEING THE PROBLEM 
+DOESN't MAKE YOU NOT THE PROBLEM.
 If we had five wheels, you'd be the sixth.
 &begin7
 
@@ -54,7 +54,7 @@ begin9:
 *setfocus narrator*
 >The Pianist restrains herself again.
 Barely.
-&begin10
+&begin11
 
 begin11:
 *setfocus npc_cat_piano*
@@ -92,13 +92,14 @@ Oh mY GOD
 begin17:
 *setfocus narrator*
 >The two cats start shouting at each other, it's mostly insults and
-wild accusations at this point. The Bartender has her back to the player,
-she seems to be busy seaching a shelf.
+wild accusations at this point. The Bartender has her back to 
+the you,she seems to be busy seaching a shelf.
 &begin18
 
 begin18:
->The Singer is just checking out the room. Shelves, that bit of vent up there, 
-the group of players watching them from behind a window, etc etc
+>The Singer is just checking out the room. Shelves, that bit of 
+vent up there, the group of players watching them 
+from behind a window, etc etc
 &begin19
 
 begin19:
@@ -108,7 +109,7 @@ You've been spotted!
 
 begin20:
 *setfocus npc_cat_sing*
->The Singer put their paw to their mouth, and whistles very loudly!
+>The Singer puts their paw to their mouth, and whistles very loudly!
 The two cats stop arguing immediately and clutch their ears!
 &begin21
 

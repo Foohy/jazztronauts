@@ -281,6 +281,8 @@ function LinkScripts(scripts)
 
 end
 
+local PreProcessLine = function(x) return x end
+
 function LoadScript(name, filename)
 	--print("Load", name, filename)
 
@@ -294,7 +296,7 @@ function LoadScript(name, filename)
 	}
 
 	repeat
-		local line = data:ReadLine()
+		local line = PreProcessLine( data:ReadLine() )
 		if line then ParseLine(script, line:sub(0,-DetermineLineEnd(line))) end
 	until line == nil
 
@@ -304,7 +306,69 @@ function LoadScript(name, filename)
 
 end
 
+function LoadMacros()
+
+	local macros = file.Open( "data/scripts/macros.txt", "r", "THIRDPARTY" )
+	if macros == nil then ErrorNoHalt("Macros not loaded!") return end
+
+	local macrolist = {}
+
+	while true do
+		local line = macros:ReadLine()
+		if line == nil then break end
+
+		line = line:Trim()
+		if line:len() == 0 or line[1] == "#" then continue end
+		local x,y,z = line:gmatch("([%w_]+)%s-(%b())%s+(.+)")()
+		if not x then x,z = line:gmatch("([%w_]+)%s+(.+)")() end
+
+		local args = {}
+		for a in (y and y or ""):gmatch("[%w_]+") do table.insert( args, a ) end
+
+		local function use(iter)
+			local c = z
+			for i=1, #args do
+				c = c:gsub(args[i], iter and ( iter() or "") or "")
+			end
+			return c
+		end
+
+		table.insert( macrolist, {
+			name = x,
+			use = use,
+			paren = y ~= nil,
+		})
+	end
+
+	local function replace( str )
+		if str == nil then return str end
+		for _, macro in pairs(macrolist) do
+
+			if not macro.paren then
+				str = str:gsub(macro.name, macro.use)
+			else
+				str = str:gsub(macro.name .. "%s*(%b())", function( call )
+					return macro.use( call:gmatch("[%w_]+") )
+				end)
+			end
+
+		end
+		return str
+	end
+	PreProcessLine = replace
+
+	--[[local test_string = " wow, %%%% this is my test string, oncat(bob) calling macro mycoolmacro and complex_name(arg0, arg1, arg2)\n" 
+
+	MsgC( Color(255,255,255), test_string )
+	MsgC( Color(100,255,100), replace( test_string ))]]
+
+	macros:Close()
+
+end
+
 function LoadScripts()
+
+	LoadMacros()
 
 	--print("Loading scripts...")
 	local scripts, _ = file.Find( "data/scripts/*", "THIRDPARTY" )
@@ -313,7 +377,7 @@ function LoadScripts()
 	for _, script in pairs( scripts ) do
 		local ext = script:sub(script:find(".txt"), -1)
 		local name = script:sub(0, -ext:len() - 1)
-		if ext == ".txt" then
+		if ext == ".txt" and name ~= "macros" then
 			local result = LoadScript( name, "data/scripts/" .. script )
 			if result then table.insert(compiled, result) end
 		end

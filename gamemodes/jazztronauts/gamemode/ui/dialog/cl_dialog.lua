@@ -365,7 +365,7 @@ end
 
 net.Receive( "dialog_dispatch", function( len, ply )
 
-	local script = util.NetworkIDToString( net.ReadUInt( 16 ) )
+	local script = NameFromScriptID( net.ReadUInt( 16 ) )
 	local camera = nil
 	local focus = nil
 	

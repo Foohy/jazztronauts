@@ -12,6 +12,8 @@ local hook = hook
 local SERVER = SERVER
 local CLIENT = CLIENT
 
+include("sh_scriptids.lua")
+
 module("dialog")
 
 CMD_LAYOUT = "layout"
@@ -239,13 +241,17 @@ function LinkScripts(scripts)
 	g_graph = {}
 	--print("LINK SCRIPTS")
 
+	if SERVER then
+		ClearScriptIDs()
+	end
+
 	for _, script in pairs(scripts) do
 
 		local new_entries = {}
 		for k, entry in pairs(script.entries) do
 			if SERVER then
 				local netstr = script.name .. "." .. k
-				util.AddNetworkString( netstr )
+				AddScriptID( netstr )
 			end
 
 			new_entries[script.name .. "." .. k] = entry

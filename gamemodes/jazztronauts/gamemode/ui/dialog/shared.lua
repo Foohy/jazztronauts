@@ -46,7 +46,7 @@ local TOK_EMTPY = 7
 local function ChopRight(str, findstr)
 	local pos = str:find(findstr)
 	if not pos then return str end
-	print(str, str:sub(0, pos - 1))
+
 	return str:sub(0, pos - 1)
 end
 

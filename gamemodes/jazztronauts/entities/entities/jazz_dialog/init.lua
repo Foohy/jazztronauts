@@ -3,19 +3,38 @@
 ENT.Type = "point"
 ENT.DisableDuplicator = true
 
+local outputs = 
+{
+	"OnPlayerFinished",
+	"OnEveryoneFinished"
+}
+
 function ENT:Initialize()
 
 	self.script = ""
+
+	-- Handle if players disconnect mid-dialog so we aren't waiting on them
+	hook.Add( "player_disconnect", self, function( data )
+		self:PlayerEndDialog(data.userid and Player(data.userid))
+	end )
+
+	hook.Add("JazzDialogFinished", self, function(ply, script, markseen)
+		self:PlayerEndDialog(ply, script, markseen)
+	end )
 
 end
 
 function ENT:KeyValue( key, value )
 
-	print( "KV: " .. key .. " => " .. tostring(value) .. " [" .. type(value) .. "]" )
 	if key == "script" then self:SetScript( value ) end
 	if key == "camera_reference" then self:SetCameraReference( value ) end
 	if key == "spawnflags" then
 		self.sendToAllPlayers = bit.band( tonumber(value), 1 ) ~= 0
+	end
+
+	-- Store outputs
+	if table.HasValue(outputs, key) then
+		self:StoreOutput(key, value)
 	end
 
 end
@@ -55,10 +74,36 @@ function ENT:StartDialog( activator, caller, data )
 
 	print("SV_Dispatch_Ent: " .. self:GetScript())
 
+	self.ActivePlayers = self.ActivePlayers or {}
 	for _, v in pairs(targets) do
 		dialog.Dispatch( self:GetScript(), v, self:GetCameraReference() )
+		self.ActivePlayers[v] = true
 	end
 
+	self.ActivePlayerCount = table.Count(self.ActivePlayers)
+end
+
+-- Called when a player is no longer in a dialog started from this entity
+-- If dialog is null, they disconnected mid-dialog
+function ENT:PlayerEndDialog(ply, dialog, markseen)
+	if not self.ActivePlayers then return end
+	if IsValid(ply) and self.ActivePlayers[ply] then
+		self.ActivePlayers[ply] = nil
+		self:TriggerOutput("OnPlayerFinished", ply)	
+	end
+
+	-- Remove NULL players, just in case they slipped through
+	for k, v in pairs(self.ActivePlayers) do
+		if not IsValid(k) then self.ActivePlayers[k] = nil end
+	end
+
+	local oldCount = self.ActivePlayerCount
+	self.ActivePlayerCount = table.Count(self.ActivePlayers)
+
+	-- If we're not waiting on any more players, fire off event that everyone finished
+	if oldCount > 0 and self.ActivePlayerCount == 0 then
+		self:TriggerOutput("OnEveryoneFinished", self)	
+	end
 end
 
 function ENT:StopDialog( activator, caller, data )
@@ -75,3 +120,4 @@ function ENT:AcceptInput( name, activator, caller, data )
 	return false
 
 end
+

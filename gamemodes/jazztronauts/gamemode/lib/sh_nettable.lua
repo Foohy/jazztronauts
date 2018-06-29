@@ -103,7 +103,7 @@ local function writeTableHomogenous(tbl, valuesOnly)
     local ktype, vtype = next(tbl)
     ktype = TypeID(ktype)
     vtype = TypeID(vtype)
-    print(ktype, vtype)
+
     if not valuesOnly then net.WriteUInt(ktype, 8) end
     net.WriteUInt(vtype, 8)
 
@@ -126,7 +126,7 @@ local function readTableHomogenous(valuesOnly)
     local ktype, vtype
     if not valuesOnly then ktype = net.ReadUInt(8) end
     vtype = net.ReadUInt(8)
-    print(ktype, vtype)
+
     -- Read each table entry
     for i=1, count do
         local k, v
@@ -207,21 +207,12 @@ if CLIENT then
             Create(name)
         end
 
-        print("CHANGED: ")
-        PrintTable(changed)
-        print("\nREMOVED: ")
-        PrintTable(removed)
-
         if fullupdate then
-            print("FULL UPDATE")
             nettables[name].data = changed
         else
             table.Merge(nettables[name].data, changed)
             tableRemoveKeys(nettables[name].data, removed)
         end
-
-        print("\nContents: ")
-        PrintTable(nettables[name].data)
 
         hook.Call("NetTableUpdated", GAMEMODE, name, changed, removed)
     end )

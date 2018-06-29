@@ -1,11 +1,11 @@
 ###### START
-setup:
+setup1:
 *setfocus narrator*
 > ...A gun seems to have fallen from a hole in the ceiling.
-&begin
+&begin1
 
 
-begin:
+begin1:
 *setfocus npc_cat_piano*
 Nice job, asshole. Can't believe you tripped over a corpse.
 How many times have we had to step around dead bodies now?

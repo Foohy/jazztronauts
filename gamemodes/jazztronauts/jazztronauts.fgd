@@ -1,7 +1,7 @@
 @include "base.fgd"
 @include "halflife2.fgd"
 
-@PointClass base(Targetname) iconsprite("editor/lua_run.vmt") = jazz_dialog : "Runs Lua Code"
+@PointClass base(Targetname) iconsprite("editor/lua_run.vmt") = jazz_dialog : "Runs Dialog"
 [
 	spawnflags(flags) =
 	[
@@ -11,6 +11,10 @@
 	script(string)							: "Script" : "" : "Script to run"
 	
 	input Start(void)  : "Starts Dialog"
+
+	output OnPlayerFinished(void) : "Fires when a player has finished with the dialog sequence. The player is the activator"
+	output OnEveryoneFinished(void) : "Fires when everyone has finished playing this sequence."
+	
 ]
 
 @PointClass base(Targetname, Origin, Angles) studioprop() = jazz_door : "Door to teleport players between locations"

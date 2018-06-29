@@ -5,6 +5,9 @@ ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 ENT.Model = "models/sunabouzu/shard_tank.mdl"
 
+ENT.ActivateRadius = 300
+ENT.AnimationActivated = false
+
 function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "CollectedShards")
 	self:NetworkVar("Int", 1, "TotalShards")
@@ -147,7 +150,7 @@ else
         end
 
         -- Sound effects
-        self:EmitSound(table.Random(self.TankSplashSounds), 75, 100, 0.1)
+        self:EmitSound(table.Random(self.TankSplashSounds), 75, 100, 0.3)
         
         -- Splash effect
         local effectdata = EffectData()
@@ -170,7 +173,7 @@ else
             curShards = math.Approach(curShards, numShards, 1)
             numIterations = numIterations + 1
 
-            local delay = 3 + numIterations / self.AnimShardRate
+            local delay = numIterations / self.AnimShardRate
             local co = coroutine.create(self.DoShardAnimation)
             table.insert(self.AnimCoroutines, co)
             coroutine.resume(co, self, delay, curShards == numShards)
@@ -194,7 +197,21 @@ else
         end
     end
 
+    function ENT:ShouldActivate()
+        local dist2 = (LocalPlayer():EyePos() - self:GetPos()):LengthSqr()
+        
+        return dist2 < math.pow(self.ActivateRadius, 2)
+    end
+
     function ENT:Think()
+        if not self.AnimationActivated then
+            if not self:ShouldActivate() then
+                return
+            else 
+                self.AnimationActivated = true
+            end
+        end
+
         if not self.AnimCoroutines or #self.AnimCoroutines == 0 then
             if self.AnimShardCount != self:GetCollectedShards() then
                 self:DoAllShardAnimation()

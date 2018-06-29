@@ -1,22 +1,9 @@
 module( "jazzvoid", package.seeall )
 
-local refractParams = {
-	//["$basetexture"] = "_rt_FullFrameFB",
-	["$basetexture"] = "concrete/concretefloor001a",
-	["$normalmap"] = "sunabouzu/JazzShell_dudv",
-	//["$normalmap"] = "sunabouzu/jazzSpecks_n", //concrete/concretefloor001a_normal, "effects/fisheyelense_normal", "glass/reflectiveglass002_normal"
-	["$refracttint"] = "[1 1 1]",
-	["$additive"] = 0,
-	["$vertexcolor"] = 1,
-	["$vertexalpha"] = 0,
-	["$refractamount"] = 0.03,
-	["$bluramount"] = 2,
-	["$model"] = 1,
-	["$nocull"] = 1,
-}
-local refract = CreateMaterial("RefractBrushModel" .. FrameNumber(), "Refract", refractParams)
+local refract = Material("effects/jazz_void_refract.vmt")
 void_mat = refract
 snatch.void_mat = void_mat
+
 
 -- Performance convars
 convar_drawprops = CreateClientConVar("jazz_void_drawprops", "1", true, false, "Render additional props/effects in the jazz void.")

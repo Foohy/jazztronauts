@@ -12,6 +12,8 @@ local hook = hook
 local SERVER = SERVER
 local CLIENT = CLIENT
 
+include("sh_scriptids.lua")
+
 module("dialog")
 
 CMD_LAYOUT = "layout"
@@ -41,9 +43,20 @@ local TOK_EQUAL = 5
 local TOK_NEWLINE = 6
 local TOK_EMTPY = 7
 
+local function ChopRight(str, findstr)
+	local pos = str:find(findstr)
+	if not pos then return str end
+	print(str, str:sub(0, pos - 1))
+	return str:sub(0, pos - 1)
+end
+
 local function ParseLine(script, line)
+	-- Chop off comments
+	line = ChopRight(line, "#")
+
+	-- Trim the fat
 	line = line:Trim()
-	if line[1] == '#' then return end
+
 	local tok = ""
 	local function emit(type) 
 		if #tok == 0 then return end 
@@ -239,13 +252,17 @@ function LinkScripts(scripts)
 	g_graph = {}
 	--print("LINK SCRIPTS")
 
+	if SERVER then
+		ClearScriptIDs()
+	end
+
 	for _, script in pairs(scripts) do
 
 		local new_entries = {}
 		for k, entry in pairs(script.entries) do
 			if SERVER then
 				local netstr = script.name .. "." .. k
-				util.AddNetworkString( netstr )
+				AddScriptID( netstr )
 			end
 
 			new_entries[script.name .. "." .. k] = entry

@@ -103,7 +103,7 @@ local inits = {
 		d.rate = GetParam("OPEN_RATE") != nil and math.huge or 2 
 		SetText() 
 	end,
-	[STATE_OPENED] = function(d) d.rate = 12 d.nodeiter() end,
+	[STATE_OPENED] = function(d) SetText() d.rate = 12 d.nodeiter() end,
 	[STATE_PRINTING] = function(d)
 		d.rate = 60 * GetSpeedScale()
 		local numc = math.Clamp(math.Round(FrameTime() * d.rate), 1, #d.text)
@@ -194,13 +194,28 @@ end
 
 Done = function() return DT() >= 1 end
 
-function ScriptCallback(cmd, data)
-	if cmd == CMD_JUMP then
+local function QueueWait(cmd, data)
+	local advanceTime = GetDialogAdvanceTime()
+
+	if advanceTime then
+		if cmd != "exit" then
+			State(STATE_OPENED, advanceTime)
+			return data
+		else
+			return State(STATE_CLOSING, advanceTime)
+		end
+	else
 		_dialog.waitdata = {
 			cmd = cmd,
 			data = data
 		}
 		State( STATE_WAIT, math.huge )
+	end
+end
+
+function ScriptCallback(cmd, data)
+	if cmd == CMD_JUMP then
+		return QueueWait(cmd, data)
 	end
 	if cmd == CMD_LAYOUT then
 		//CalcTextRect( data )
@@ -220,11 +235,7 @@ function ScriptCallback(cmd, data)
 		InvokeEvent("ListOptions", data)
 	end
 	if cmd == CMD_EXIT then
-		_dialog.waitdata = {
-			cmd = cmd,
-			data = data
-		}
-		State( STATE_WAIT, math.huge )
+		return QueueWait(cmd, data)
 	end
 	if cmd == CMD_EXEC then
 		_dialog.exec = data
@@ -262,7 +273,7 @@ local function buildIterator(cmd, ScriptCallback, func)
 end
 
 -- Immediately start the dialog at a new specified entry
-function StartGraph(cmd, skipOpen, options)
+function StartGraph(cmd, skipOpen, options, delay)
 	_dialog.options = options or {}
 	local t = type(cmd)
 	if t == "table" then
@@ -281,7 +292,7 @@ function StartGraph(cmd, skipOpen, options)
 		_dialog.waitdata = nil
 
 		skipOpen = skipOpen or GetParam("SKIP_OPEN") != nil
-		State(skipOpen and STATE_OPENED or STATE_OPENING)
+		State(skipOpen and STATE_OPENED or STATE_OPENING, delay)
 		
 		InvokeEvent("DialogStart", _dialog)
 
@@ -291,6 +302,8 @@ end
 
 -- Skip printing out text
 function SkipText()
+	if GetDialogAdvanceTime() then return end
+
 	PrintSpeedScale = math.huge
 end
 
@@ -298,15 +311,19 @@ function GetSpeedScale()
 	return PrintSpeedScale * (tonumber(GetParam("PRINT_RATE")) or 1)
 end
 
+function GetDialogAdvanceTime()
+	return tonumber(GetParam("AUTO_ADVANCE"))
+end
+
 -- Continue onto the next page of dialog
-function Continue(options)
+function Continue(options, delay)
 	if not ReadyToContinue() then return end
 
 	local data = _dialog.waitdata
 	if data.cmd == "jump" then
-		StartGraph(data.data[1], true)
+		StartGraph(data.data[1], true, nil, delay)
 	elseif data.cmd == "exit" then
-		State(STATE_CLOSING)
+		State(STATE_CLOSING, delay)
 	else
 		print("UNHANDLED CONTINUE STATE: " .. data.cmd )
 	end
@@ -323,7 +340,7 @@ function GetSpeaker()
 end
 
 function ReadyToContinue()
-	return _dialog.waitdata != nil
+	return _dialog.waitdata != nil and not GetDialogAdvanceTime()
 end
 
 function GetFocus()
@@ -365,7 +382,7 @@ end
 
 net.Receive( "dialog_dispatch", function( len, ply )
 
-	local script = util.NetworkIDToString( net.ReadUInt( 16 ) )
+	local script = NameFromScriptID( net.ReadUInt( 16 ) )
 	local camera = nil
 	local focus = nil
 	

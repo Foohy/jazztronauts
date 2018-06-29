@@ -34,7 +34,7 @@ local function maybeWrite(ent)
 end
 
 function Dispatch( script, targets, focus, camera )
-	local scriptid = util.NetworkStringToID( script )
+	local scriptid = ScriptIDFromName( script )
 	if scriptid == 0 then 
 		ErrorNoHalt("Invalid script \"" .. script .. "\"!")
 		return false 

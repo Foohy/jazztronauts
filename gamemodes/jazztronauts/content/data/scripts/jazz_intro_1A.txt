@@ -1,5 +1,8 @@
+AUTO_ADVANCE = 2.0 # Enable auto-advancing, and defines how long to wait before advancing
+PRINT_RATE = 1 # Default print rate for this file. 1 = normal speed, 0.5 half speed, 2 = double speed, etc.
+
 ###### START
-begin:
+begin1:
 *setfocus npc_cat_cello*
 holy shit look at this garbage 
 whoever made this place really phoned it in huh
@@ -23,14 +26,14 @@ dont you fuckin dare blaspheme dm_juicyasszone.bsp
 it had a vision
 &begin5
 
-Begin5:
+begin5:
 *setfocus narrator*
->One of the cats quietly crawls out from under the corpseand dusts 
-themselves off. They very excitedly run over to a fourth cat,
+>One of the cats quietly crawls out from under the corpse and 
+dusts themselves off. They very excitedly run over to a fourth cat,
 and presents them a strange object...
 &begin6
 
-Begin6:
+begin6:
 *setfocus npc_cat_bar*
 Ah, a shard! Keen eyes as always.
 &begin7
@@ -58,7 +61,7 @@ our last guests leave.
 
 begin11:
 *setfocus npc_cat_cello*
-oh sure i'm the bad guy here, not the one who threatened to:
+oh sure i'm the bad guy here, not the one who threatened to,
 and i quote
 'floss their teeth with their spines'
 &begin12

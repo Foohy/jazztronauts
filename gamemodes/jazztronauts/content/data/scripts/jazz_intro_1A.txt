@@ -1,3 +1,6 @@
+AUTO_ADVANCE = 2.0 # Enable auto-advancing, and defines how long to wait before advancing
+PRINT_RATE = 1 # Default print rate for this file. 1 = normal speed, 0.5 half speed, 2 = double speed, etc.
+
 ###### START
 begin1:
 *setfocus npc_cat_cello*

@@ -18,8 +18,6 @@ function ENT:KeyValue( key, value )
 	self.proxy_keyvalues = self.proxy_keyvalues or {}
 	self.proxy_keyvalues[key] = value
 
-	MsgC( Color(100,255,100), "****Store keyvalue pair: " .. tostring(key) .. " = " .. tostring(value) .. "\n" )
-
 end
 
 function ENT:CreateViewController()
@@ -188,7 +186,6 @@ hook.Add("InitPostEntity", "view_control_proxy", function()
 
 		-- Copy keyvalues to proxy entity
 		for k,v in pairs( ent.stored_keyvalues ) do
-			print("SET: " .. k .. " = " .. tostring(v) .. " [" .. type(v) .. "]")
 			proxy:SetKeyValue(k, v)
 		end
 

@@ -455,7 +455,7 @@ if SERVER then
 end
 
 if CLIENT then
-	timer.Simple( .2, function() gui.EnableScreenClicker(true) end )
+	--timer.Simple( .2, function() gui.EnableScreenClicker(true) end )
 
 	--timer.Simple( .1, function() Get(0):RequestFlush() end )
 

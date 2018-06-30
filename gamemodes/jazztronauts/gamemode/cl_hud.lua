@@ -120,7 +120,7 @@ local function DrawNoteCount()
 end
 
 local function DrawShardCount()
-	if mapcontrol.IsInHub() then return end
+	if mapcontrol.IsInGamemodeMap() then return end
 	if GAMEMODE:IsWaitingForPlayers() then return end
 
 	local left, total = mapgen.GetShardCount()

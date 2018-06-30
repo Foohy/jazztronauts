@@ -75,7 +75,7 @@ end
 
 function GM:JazzMapStarted()
 	print("MAP STARTED!!!!!!!")
-	if not mapcontrol.IsInHub() then
+	if not mapcontrol.IsInGamemodeMap() then
 		game.CleanUpMap()
 		self:GenerateJazzEntities()
 	end
@@ -265,7 +265,7 @@ function GM:PlayerInitialSpawn( ply )
 end
 
 function GM:PlayerSpawn( ply )
-	local class = mapcontrol.IsInHub() and "player_hub" or "player_explore"
+	local class = mapcontrol.IsInGamemodeMap() and "player_hub" or "player_explore"
 	player_manager.SetPlayerClass( ply, class)
 
 	-- Stop observer mode

@@ -9,6 +9,8 @@ end
 
 function PANEL:AddUnlockedProp( model )
 
+	if not string.find(model, ".mdl") then return end
+
 	local icon = spawnmenu.CreateContentIcon( "model", self.content, 
 		{ 
 			model = model, 

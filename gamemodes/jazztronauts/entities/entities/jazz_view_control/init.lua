@@ -2,7 +2,11 @@
 
 ENT.Type = "point"
 
+local LOCK_CREATE_VIEWCONTROL = false
+
 function ENT:Initialize()
+
+	--MsgC( Color(100,255,255), "****INITIALIZE jazz_view_control*****\n" )
 
 	-- List of controllers this proxy manages
 	self.controllers = {}
@@ -10,6 +14,8 @@ function ENT:Initialize()
 end
 
 function ENT:KeyValue( key, value )
+
+	--MsgC( Color(100,255,255), "****KEYVALUE[" .. tostring(self) .. "]: " .. tostring(key) .. " = " .. tostring(value) .. " *****\n" )
 
 	-- Accept targetname as our own, does not propegate to instanced point_viewcontrols
 	if key == "targetname" then self:SetName( value ) return end
@@ -22,6 +28,9 @@ end
 
 function ENT:CreateViewController()
 
+	-- This lock stops the 'OnEntityCreated' and 'EntityKeyValue' hooks from intercepting this new point_viewcontrol
+	LOCK_CREATE_VIEWCONTROL = true
+
 	-- New point_viewcontrol entity
 	local controller = ents.Create("point_viewcontrol")
 
@@ -32,6 +41,10 @@ function ENT:CreateViewController()
 
 	-- Spawn the new point_viewcontrol
 	controller:Spawn()
+
+	-- Release lock
+	LOCK_CREATE_VIEWCONTROL = false
+
 	return controller
 
 end
@@ -161,38 +174,52 @@ function ENT:AcceptInput( name, activator, caller, data )
 
 end
 
+local function CreateViewControlProxy()
+
+	-- Proxy entity which will receive inputs
+	local proxy = ents.Create("jazz_view_control")
+
+	-- Spawn proxy entity
+	proxy:Spawn()
+
+	return proxy
+
+end
+
 hook.Add("EntityKeyValue", "view_control_proxy", function( ent, key, value )
 
 	if ent:GetClass() != "point_viewcontrol" then return end
+
+	-- Do not convert if this point_viewcontrol is being created by a jazz_view_control
+	if LOCK_CREATE_VIEWCONTROL then return end
 
 	-- Store all original string-based keyvalues for point_viewcontrol entities
 	ent.stored_keyvalues = ent.stored_keyvalues or {}
 	ent.stored_keyvalues[key] = value
 
-end)
+	-- Create a proxy for this point_viewcontrol to copy keyvalues to
+	ent.proxy = ent.proxy or CreateViewControlProxy()
 
-hook.Add("InitPostEntity", "view_control_proxy", function()
-
-	-- Remove any existing proxies in the off case we have any
-	for _, ent in pairs( ents.FindByClass("jazz_view_control") ) do
-		ent:Remove()
+	-- Copy all keyvalues except classname
+	if key ~= "classname" then
+		ent.proxy:SetKeyValue( key, value )
 	end
 
-	-- Find all point_viewcontrols and create proxies, remove original
-	for _, ent in pairs( ents.FindByClass("point_viewcontrol") ) do
-
-		-- Proxy entity which will receive inputs
-		local proxy = ents.Create("jazz_view_control")
-
-		-- Copy keyvalues to proxy entity
-		for k,v in pairs( ent.stored_keyvalues ) do
-			proxy:SetKeyValue(k, v)
-		end
-
-		-- Spawn proxy and remove original entity
-		proxy:Spawn()
-		ent:Remove()
-
-	end
+	-- Original point_viewcontrol is no longer named, all inputs target proxy
+	if key == "targetname" then return "" end
 
 end)
+
+
+hook.Add("OnEntityCreated", "view_control_proxy", function( ent )
+
+	-- Only operate on point_viewcontrols
+	if ent:GetClass() != "point_viewcontrol" then return end
+
+	-- Do not convert if this point_viewcontrol is being created by a jazz_view_control
+	if LOCK_CREATE_VIEWCONTROL then return end
+
+	-- Remove old point_viercontrol after it has been converted to jazz_view_control
+	timer.Simple(1, function() ent:Remove() end)
+
+end )

@@ -6,7 +6,7 @@ local LOCK_CREATE_VIEWCONTROL = false
 
 function ENT:Initialize()
 
-	--MsgC( Color(100,255,255), "****INITIALIZE jazz_view_control*****\n" )
+	MsgC( Color(100,255,255), "****INITIALIZE jazz_view_control*****\n" )
 
 	-- List of controllers this proxy manages
 	self.controllers = {}
@@ -150,6 +150,8 @@ end
 
 function ENT:OnRemove()
 
+	MsgC( Color(100,255,255), "****REMOVE jazz_view_control*****\n" )
+
 	-- Clean up and remove all managed point_viewcontrols under this proxy
 	self:DropControllers()
 
@@ -186,6 +188,8 @@ local function CreateViewControlProxy()
 
 end
 
+local INITED_POST_ENTITY = false
+
 hook.Add("EntityKeyValue", "view_control_proxy", function( ent, key, value )
 
 	if ent:GetClass() != "point_viewcontrol" then return end
@@ -196,6 +200,9 @@ hook.Add("EntityKeyValue", "view_control_proxy", function( ent, key, value )
 	-- Store all original string-based keyvalues for point_viewcontrol entities
 	ent.stored_keyvalues = ent.stored_keyvalues or {}
 	ent.stored_keyvalues[key] = value
+
+	-- Do not do in-line creation unless the map has spawned fully
+	if not INITED_POST_ENTITY then return end
 
 	-- Create a proxy for this point_viewcontrol to copy keyvalues to
 	ent.proxy = ent.proxy or CreateViewControlProxy()
@@ -210,7 +217,6 @@ hook.Add("EntityKeyValue", "view_control_proxy", function( ent, key, value )
 
 end)
 
-
 hook.Add("OnEntityCreated", "view_control_proxy", function( ent )
 
 	-- Only operate on point_viewcontrols
@@ -219,7 +225,40 @@ hook.Add("OnEntityCreated", "view_control_proxy", function( ent )
 	-- Do not convert if this point_viewcontrol is being created by a jazz_view_control
 	if LOCK_CREATE_VIEWCONTROL then return end
 
-	-- Remove old point_viercontrol after it has been converted to jazz_view_control
-	timer.Simple(1, function() ent:Remove() end)
+	if INITED_POST_ENTITY then 
+
+		-- Remove old point_viercontrol after it has been converted to jazz_view_control
+		timer.Simple(1, function() print("REMOVE POINT_VIEWCONTROL") ent:Remove() end)
+
+	end
 
 end )
+
+hook.Add("InitPostEntity", "view_control_proxy", function()
+
+	-- Remove any existing proxies in the off case we have any
+	for _, ent in pairs( ents.FindByClass("jazz_view_control") ) do
+		ent:Remove()
+	end
+
+	-- Find all point_viewcontrols and create proxies, remove original
+	for _, ent in pairs( ents.FindByClass("point_viewcontrol") ) do
+
+		-- Proxy entity which will receive inputs
+		local proxy = ents.Create("jazz_view_control")
+
+		-- Copy keyvalues to proxy entity
+		for k,v in pairs( ent.stored_keyvalues ) do
+			proxy:SetKeyValue(k, v)
+		end
+
+		-- Spawn proxy and remove original entity
+		proxy:Spawn()
+		ent:Remove()
+
+	end
+
+	-- Map has spawned, do in-line creation for any new point_viewcontrols
+	INITED_POST_ENTITY = true
+
+end) 

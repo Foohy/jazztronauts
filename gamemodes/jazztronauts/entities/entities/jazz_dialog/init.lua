@@ -14,11 +14,11 @@ function ENT:Initialize()
 	self.script = ""
 
 	-- Handle if players disconnect mid-dialog so we aren't waiting on them
-	hook.Add( "player_disconnect", self, function( data )
+	hook.Add( "player_disconnect", self, function(self, data )
 		self:PlayerEndDialog(data.userid and Player(data.userid))
 	end )
 
-	hook.Add("JazzDialogFinished", self, function(ply, script, markseen)
+	hook.Add("JazzDialogFinished", self, function(self, ply, script, markseen)
 		self:PlayerEndDialog(ply, script, markseen)
 	end )
 
@@ -77,31 +77,30 @@ function ENT:StartDialog( activator, caller, data )
 	self.ActivePlayers = self.ActivePlayers or {}
 	for _, v in pairs(targets) do
 		dialog.Dispatch( self:GetScript(), v, self:GetCameraReference() )
-		self.ActivePlayers[v] = true
+		self.ActivePlayers[v:SteamID64()] = true
 	end
-
-	self.ActivePlayerCount = table.Count(self.ActivePlayers)
 end
 
 -- Called when a player is no longer in a dialog started from this entity
 -- If dialog is null, they disconnected mid-dialog
 function ENT:PlayerEndDialog(ply, dialog, markseen)
 	if not self.ActivePlayers then return end
-	if IsValid(ply) and self.ActivePlayers[ply] then
-		self.ActivePlayers[ply] = nil
+	local oldCount = table.Count(self.ActivePlayers)
+
+	local ply64 = IsValid(ply) and ply:SteamID64()
+	if IsValid(ply) and self.ActivePlayers[ply64] then
+		self.ActivePlayers[ply64] = nil
 		self:TriggerOutput("OnPlayerFinished", ply)	
 	end
 
 	-- Remove NULL players, just in case they slipped through
 	for k, v in pairs(self.ActivePlayers) do
-		if not IsValid(k) then self.ActivePlayers[k] = nil end
+		local p = player.GetBySteamID64(k)
+		if not IsValid(p) then self.ActivePlayers[k] = nil end
 	end
 
-	local oldCount = self.ActivePlayerCount
-	self.ActivePlayerCount = table.Count(self.ActivePlayers)
-
 	-- If we're not waiting on any more players, fire off event that everyone finished
-	if oldCount > 0 and self.ActivePlayerCount == 0 then
+	if oldCount > 0 and table.Count(self.ActivePlayers) == 0 then
 		self:TriggerOutput("OnEveryoneFinished", self)	
 	end
 end

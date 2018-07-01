@@ -6,8 +6,8 @@ AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "mapgen.lua" )
 AddCSLuaFile( "mapcontrol.lua" )
 
-concommand.Add("jazz_rollmap", function(ply, cmd, args, argstr)
-    if mapcontrol.IsInHub() then
-        mapcontrol.RollMap()
-    end
-end )
+-- Network total shard count once
+local tbl = nettable.Create("jazz_shard_info", nettable.TRANSMIT_ONCE)
+local collected, total = progress.GetMapShardCount()
+tbl["collected"] = collected
+tbl["total"] = total

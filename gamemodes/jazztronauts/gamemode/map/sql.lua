@@ -161,7 +161,7 @@ function UpdateMapSession(mapname)
 
 	-- Ensure the current session matches up with the current mapname
 	if not curSession or curSession.filename != string.lower(mapname) then return false end
-	print("Updating session for " .. curSession.filename .. " (sessionid: " .. curSession.id .. ")")
+	--print("Updating session for " .. curSession.filename .. " (sessionid: " .. curSession.id .. ")")
 
 	local updateStr = "UPDATE jazz_maphistory " ..
 		"SET endtime = " .. os.time() .. " " ..

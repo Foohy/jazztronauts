@@ -147,6 +147,7 @@ end
 
 DialogCallbacks.Paint = function(_dialog)
 	if _dialog.open == 0 then return end
+	if not IsValid(_dialog.textpanel) then return end
 	if hook.Call("OnJazzDialogPaintOverride", GAMEMODE, _dialog) then return end
 
 	local speaker, speakername = GetCurrentSpeaker()

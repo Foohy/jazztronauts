@@ -2,6 +2,11 @@ module( "converse", package.seeall )
 ResetConvos()
 
 EVENT_PRIORITY = 4
+SUPER_PRIORITY = 6
+
+local function hasSeen(ply, script)
+    return unlocks.IsUnlocked("scripts", ply, script) 
+end
 
 local function addMissionAuto(mid, npcid)
     local convoid = mid - npcid * 1000 -- Mission IDs are created as npcid * 1000 + mid
@@ -17,7 +22,7 @@ local function addMissionAuto(mid, npcid)
     local eventscript = name .. ".event" .. convoid .. ".begin"
     Add(eventscript, function(ply, talknpc)
         if talknpc != npcid then return false end
-        if unlocks.IsUnlocked("scripts", ply, eventscript) then return false end
+        if hasSeen(ply, eventscript) then return false end
         
         local completed = missions.GetCompletedMissions(ply)
         return completed[mid]
@@ -32,3 +37,15 @@ end
 
 -- Add in manual, conditional conversations
 -- Add(id, script, conditionFunc, isRepeat)
+
+
+-- On map startup, manually invoke the intro script
+if SERVER then
+    local introTutScript = "jazz_bar_intro.begin"
+    hook.Add("OnClientInitialized", "JazzCheckPlayerIntroDialog", function(ply)
+        if not mapcontrol.IsInHub() then return end
+        if hasSeen(ply, introTutScript) then return end
+        
+        dialog.Dispatch(introTutScript, ply)
+    end )
+end

@@ -59,7 +59,7 @@ net.Receive("dialog_dispatch", function(len, ply)
 	local markseen = net.ReadBit() == 1
 
 	--TODO: Broadcast on dialog finished event?
-	local script = util.NetworkIDToString(scriptid)
+	local script = NameFromScriptID(scriptid)
 
 	hook.Call("JazzDialogFinished", GAMEMODE, ply, script, markseen)
 end )

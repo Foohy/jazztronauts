@@ -369,7 +369,7 @@ function SetCallbackTable(tbl)
 end
 
 function InformScriptFinished(entrypoint, seen)
-	local scriptid = util.NetworkStringToID(entrypoint)
+	local scriptid = ScriptIDFromName(entrypoint)
 	if not scriptid then return false end
 
 	net.Start( "dialog_dispatch" )

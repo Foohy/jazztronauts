@@ -1,0 +1,30 @@
+begin:
+    pssst, %%%hey kid
+    &begin2
+
+begin2:
+    waddup welcome to the bar
+    player:
+	&resp1:
+		show me around
+	&resp2:
+		this ain't my first rodeo
+
+resp1:
+    aight cool
+    &resp1a
+
+resp1a:
+    we've got it all
+    insert more in depth shit here
+    &exit1
+
+resp2:
+    wow look at you brainiac over here
+    &exit1
+
+exit1:
+    alright i'll let ya loose, don't break anything
+    *mark_seen*
+    &exit
+

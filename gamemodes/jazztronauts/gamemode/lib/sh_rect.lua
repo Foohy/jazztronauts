@@ -4,6 +4,7 @@ Rect = nil
 Box = nil
 IsBox = nil
 IsRect = nil
+TextRect = nil
 
 DOCK_LEFT = 0x1
 DOCK_RIGHT = 0x2
@@ -50,14 +51,64 @@ function bmeta:Move(x,y) self.x0 = self.x0 + x self.y0 = self.y0 + y self.x1 = s
 function rmeta:GetMin() return self.x, self.y end
 function rmeta:GetMax() return self.x + self.w, self.y + self.h end
 
+function rmeta:SetMin(x,y) 
+	self.w = math.max( self.w - ( x - self.x ), 0 )
+	self.h = math.max( self.h - ( y - self.h ), 0 )
+	self.x = x
+	self.y = y
+end
+
+function rmeta:SetMax(x,y) 
+	self.w = math.max( x - self.x, 0 )
+	self.h = math.max( y - self.y, 0 )
+end
+
 function bmeta:GetMin() return self.x0, self.y0 end
 function bmeta:GetMax() return self.x1, self.y1 end
+
+function bmeta:SetMin(x,y) self.x0 = x self.y0 = y end
+function bmeta:SetMax(x,y) self.x1 = x self.y1 = y end
 
 function rmeta:GetSize() return self.w, self.h end
 function bmeta:GetSize() return self.x1 - self.x0, self.y1 - self.y0 end
 
 function rmeta:Unpack(...) return self.x, self.y, self.w, self.h, ... end
 function bmeta:Unpack(...) return self.x0, self.y0, self.x1, self.y1, ... end
+
+local function SetClip( a, enable )
+
+	local a_minx, a_miny = a:GetMin()
+	local a_maxx, a_maxy = a:GetMax()
+
+	render.SetScissorRect( a_minx, a_miny, a_maxx, a_maxy, enable )
+
+end
+
+rmeta.SetClip = SetClip
+bmeta.SetClip = SetClip
+
+local function Clamp( a, b )
+
+	if not IsBox(a) and not IsRect(a) then return end
+	if not IsBox(b) and not IsRect(b) then return end
+
+	local a_minx, a_miny = a:GetMin()
+	local a_maxx, a_maxy = a:GetMax()
+	local b_minx, b_miny = b:GetMin()
+	local b_maxx, b_maxy = b:GetMax()
+
+	if a_minx < b_minx then a:SetMin( b_minx, a_miny ) end
+	if a_miny < b_miny then a:SetMin( a_minx, b_miny ) end
+
+	if a_maxx > b_maxx then a:SetMax( b_maxx, a_maxy ) end
+	if a_maxy > b_maxy then a:SetMax( a_maxx, b_maxy ) end
+
+	return a
+
+end
+
+rmeta.Clamp = Clamp
+bmeta.Clamp = Clamp
 
 local function Remap( a, b, x, y, clamped )
 
@@ -152,6 +203,15 @@ bmeta.ContainsPoint = ContainsPoint
 
 IsRect = function(rect) return getmetatable(rect) == rmeta end
 IsBox = function(box) return getmetatable(box) == bmeta end
+
+TextRect = function(text, font)
+
+	surface.SetFont( font or "DermaDefault" )
+	local w,h = surface.GetTextSize( text )
+
+	return Rect(0,0,w,h)
+
+end
 
 Rect = function(x,y,w,h)
 

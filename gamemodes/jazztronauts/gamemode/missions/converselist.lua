@@ -38,7 +38,7 @@ SUPER_PRIORITY )
 
 -- Once they've gotten enough shards, do this one, it's even more important
 AddNPC("jazz_bar_shardall.begin", missions.NPC_BAR, function(ply, talknpc)
-    return mapgen.GetTotalGeneratedShards() >= mapgen.GetTotalRequiredShards()
+    return mapgen.GetTotalCollectedShards() >= mapgen.GetTotalRequiredShards()
 end,
 SUPER_PRIORITY + 1)
 
@@ -51,7 +51,7 @@ if SERVER then
         
         -- See if we've got any intro scripts lined up to play
         local startScript = GetNextScript(ply, missions.NPC_BAR)
-        if not dialog.IsValid(startScript) then return end
+        if not dialog.IsScriptValid(startScript) then return end
 
         -- Set it off if we do
         dialog.Dispatch(startScript, ply)

@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$surfaceprop" "metal"
+	"$model" 1
+	"$baseTexture" 		"Models/jazztronauts/zak/podium_sheet"
+}

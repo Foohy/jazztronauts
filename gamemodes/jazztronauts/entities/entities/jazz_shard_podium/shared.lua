@@ -38,7 +38,7 @@ function ENT:Initialize()
 	--self:Activate()
 	--self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
-	self:PhysicsInitBox(Vector(-8,-8,0), Vector(8,8,40))
+	self:PhysicsInitBox(Vector(-4,-4,0), Vector(8,8,36))
 	self:SetMoveType( MOVETYPE_NONE )
 	self:SetSolid( SOLID_NONE )
 	self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
@@ -239,7 +239,9 @@ function ENT:DrawTranslucent()
 
 
 		if IsValid( self:GetFakeOwner() ) then
+			render.OverrideDepthEnable( true, false )
 			self:DrawScreen()
+			render.OverrideDepthEnable( false, false )
 		end
 
 	end

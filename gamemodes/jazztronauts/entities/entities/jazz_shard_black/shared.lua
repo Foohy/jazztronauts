@@ -219,8 +219,14 @@ function ENT:CheckPodiums()
 
         if not IsValid(k) then
 
-            v:Close()
-            v.used = true
+            if not v.checked then
+
+                v:Close()
+                v.used = true
+                v.checked = true
+                self:OnPodiumUsed( v )
+
+            end
 
         end
 

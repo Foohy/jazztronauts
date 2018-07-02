@@ -133,6 +133,7 @@ function meta:_UpdateMatrix()
 	self.world_matrix:Rotate( self.angles )
 
 	self.world_screen_matrix = self.world_matrix * self.screen_matrix
+	return self
 
 end
 
@@ -152,8 +153,8 @@ function meta:SetAngles( angles )
 
  end
 
-function meta:SetSize( width, height ) self.width = width  self.height = height end
-function meta:SetResolution( width, height ) self.xres = width  self.yres = height end
+function meta:SetSize( width, height ) self.width = width  self.height = height self:_UpdateMatrix() end
+function meta:SetResolution( width, height ) self.xres = width  self.yres = height self:_UpdateMatrix() end
 
 function meta:GetPos() return self.origin end
 function meta:GetAngles() return self.angles end

@@ -271,17 +271,20 @@ function ENT:SetupVoidLighting()
     render.FogColor(180, 169, 224)
 end
 
-function ENT:GetPortalAngles()
+function ENT:GetPortalPosAng()
+    local angles = self:GetAngles()
     if IsValid(self:GetBus()) then 
         local bang = self:GetBus():GetAngles() 
         if self:GetIsExit() then 
             bang:RotateAroundAxis(bang:Up(), 180)
         end
 
-        return bang
+        angles = bang
     end
 
-    return self:GetAngles()
+    local pos = self:GetPos() + self:GetAngles():Up() * self.Size/2 + angles:Up() * -self.Size/2
+
+    return pos, angles
 end
 
 function ENT:OnPortalRendered()
@@ -309,7 +312,7 @@ function ENT:DrawInsidePortal()
 
     self:SetupVoidLighting()
 
-    local portalAng = self:GetPortalAngles()
+    local portalPos, portalAng = self:GetPortalPosAng()
     local center = self:GetPos() + portalAng:Up() * self.Size/2
     local ang = Angle(portalAng)
     ang:RotateAroundAxis(ang:Up(), -90)
@@ -356,7 +359,7 @@ end
 -- Draws doubles of things that are in the normal world too
 -- (eg. the Bus, seats, other players, etc.)
 function ENT:DrawInteriorDoubles()
-    local portalAng = self:GetPortalAngles()
+    local portalPos, portalAng = self:GetPortalPosAng()
 
     -- Define our own lighting environment for this
     render.SuppressEngineLighting(true)
@@ -365,7 +368,7 @@ function ENT:DrawInteriorDoubles()
     -- Draw background
     render.FogMode(MATERIAL_FOG_NONE) -- Disable fog so we can get those deep colors
 
-    self.VoidTunnel:SetPos(self:GetPos())
+    self.VoidTunnel:SetPos(portalPos)
     self.VoidTunnel:SetAngles(portalAng)
     self.VoidTunnel:SetupBones()
     self.VoidTunnel:SetModelScale(0.34)
@@ -410,7 +413,7 @@ function ENT:DrawInteriorDoubles()
     render.FogMode(MATERIAL_FOG_LINEAR)
     
     -- Draw the wiggly wobbly road into the distance
-    self.VoidRoad:SetPos(self:GetPos())
+    self.VoidRoad:SetPos(portalPos)
     self.VoidRoad:SetAngles(portalAng)
     self.VoidRoad:SetupBones()
     self.VoidRoad:DrawModel()

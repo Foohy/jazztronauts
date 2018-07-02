@@ -1,0 +1,9 @@
+begin:
+    holy shit
+    &begin2
+
+begin2:
+    you fucking did it
+    *mark_seen*
+    &exit
+

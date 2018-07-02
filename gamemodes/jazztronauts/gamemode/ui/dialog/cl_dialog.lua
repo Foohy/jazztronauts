@@ -243,7 +243,7 @@ function ScriptCallback(cmd, data)
 	end
 end
 
-local function Update( deltatime )
+function Update( deltatime )
 
 	DT( deltatime )
 
@@ -253,9 +253,6 @@ local function Update( deltatime )
 end
 
 function PaintAll()
-
-	Update( FrameTime() )
-
 	InvokeEvent("Paint", _dialog)
 end
 

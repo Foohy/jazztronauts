@@ -16,3 +16,9 @@ function GM:HUDPaint()
 	propfeed.Paint()
 
 end
+
+hook.Add("Think", "JazzTickDialog", function()
+	
+	dialog.Update( FrameTime() )
+
+end )

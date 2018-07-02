@@ -34,6 +34,24 @@ function AddMission(mid, script, mcond)
     }
 end
 
+local function hasSeen(ply, script)
+    return unlocks.IsUnlocked("scripts", ply, script) 
+end
+
+-- Just add some additional conditions for NPC dialog
+-- Namely, that it's to the correct NPC and it hasn't been seen before
+function AddNPC(script, npcid, conditionFunc, priority)
+
+    local extendedFunc = function(ply, talknpc)
+        if talknpc != npcid then return false end
+        if hasSeen(ply, script) then return false end
+
+        return conditionFunc(ply, talknpc)
+    end
+
+    Add(script, extendedFunc, priority)
+end
+
 function Add(script, conditionFunc, priority)
     table.insert(Convos,
     {

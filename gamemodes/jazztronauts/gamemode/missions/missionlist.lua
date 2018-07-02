@@ -8,6 +8,7 @@ AddNPC("NPC_CAT_SING", "Singer")
 AddNPC("NPC_CAT_PIANO", "Piano Man")
 AddNPC("NPC_CAT_CELLO", "Cellist")
 AddNPC("NPC_NARRATOR", "")
+AddNPC("NPC_BAR", "")
 
 -- Utility function for giving a player a monetary reward
 local function GrantMoney(amt)

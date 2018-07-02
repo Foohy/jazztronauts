@@ -62,6 +62,8 @@ function Create(name, transmitMode)
         sentData = {},
         transmitMode = transmitMode or TRANSMIT_AUTO
     }
+
+    return nettables[name].data
 end
 
 local function diffTable(new, old)

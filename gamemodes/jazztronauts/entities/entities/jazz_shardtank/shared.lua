@@ -10,7 +10,6 @@ ENT.AnimationActivated = false
 
 function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "CollectedShards")
-	self:NetworkVar("Int", 1, "TotalShards")
 end
 
 if SERVER then
@@ -22,7 +21,6 @@ if SERVER then
         self:SetSequence(self:LookupSequence("Fill_Tank"))
 
         self:SetCollectedShards(progress.GetMapShardCount())
-        self:SetTotalShards(100) -- #TODO??
     end
 
 else
@@ -106,7 +104,7 @@ else
 
     function ENT:GetCompletePercent()
         local c = self:GetCollectedShardCount()
-        local t = self.GetTotalShards and self:GetTotalShards() or 0
+        local t = mapgen.GetTotalRequiredShards()
 
         return c * 1.0 / t
     end
@@ -232,7 +230,7 @@ else
             render.Clear(c.r, c.g, c.b, 255)
             cam.Start2D()
                 local ctext = self:GetCollectedShardCount() .. " shards"
-                local ntext = (self.GetTotalShards and self:GetTotalShards() or "") .. " needed"
+                local ntext = mapgen.GetTotalRequiredShards() .. " needed"
 
                 draw.SimpleText(ctext, "JazzShardTankFont", sizeX / 2, sizeY / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
                 draw.SimpleText(ntext, "JazzShardTankSubtextFont", sizeX / 2, sizeY / 1.5, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)  

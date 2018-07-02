@@ -3,11 +3,25 @@ module( 'mapgen', package.seeall )
 SpawnedShards = SpawnedShards or {}
 InitialShardCount = InitialShardCount or 0
 
+local shardsNeededConVar = CreateConVar("jazz_total_shards", 100, { FCVAR_NOT_CONNECTED, FCVAR_REPLICATED }, "The total number of shards needed to finish the game. Cannot be changed in-game.")
+
 -- No two shards can ever be closer than this
 local MinShardDist = 500
 
 function GetShardCount()
 	return table.Count(SpawnedShards), InitialShardCount
+end
+
+function GetTotalCollectedShards()
+    return (nettable.Get("jazz_shard_info") or {})["collected"] or 0
+end
+
+function GetTotalRequiredShards()
+    return shardsNeededConVar:GetInt()
+end
+
+function GetTotalGeneratedShards()
+    return (nettable.Get("jazz_shard_info") or {})["total"] or 0
 end
 
 function GetShards()

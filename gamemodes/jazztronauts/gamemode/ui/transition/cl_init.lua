@@ -9,25 +9,34 @@ local horse = CreateMaterial( "horse2", "UnlitGeneric",
 local starttime = CurTime()
 local transitioning = 0
 local rate = .75
+local shoulddrawlate = true
 
-function transitionOut(delay)
-	if delay ~= nil then
-		timer.Simple( delay, function() surface.PlaySound( "jazztronauts/slide.wav" ) end )
-	else
-		surface.PlaySound( "jazztronauts/slide.wav" )
+function transitionOut(delay, nosound, drawearly)
+	if not nosound then
+		if delay ~= nil then
+			timer.Simple( delay, function() surface.PlaySound( "jazztronauts/slide.wav" ) end )
+		else
+			surface.PlaySound( "jazztronauts/slide.wav" )
+		end
 	end
+
 	transitioning = -1
 	starttime = CurTime() + (delay or 0)
+	shoulddrawlate = not drawearly
 end
 
-function transitionIn(delay)
-	if delay ~= nil then
-		timer.Simple( delay, function() surface.PlaySound( "jazztronauts/slide_reverse.wav" ) end )
-	else
-		surface.PlaySound( "jazztronauts/slide_reverse.wav" )
+function transitionIn(delay, nosound, drawearly)
+	if not nosound then
+		if delay ~= nil then
+			timer.Simple( delay, function() surface.PlaySound( "jazztronauts/slide_reverse.wav" ) end )
+		else
+			surface.PlaySound( "jazztronauts/slide_reverse.wav" )
+		end
 	end
+
 	transitioning = 1
 	starttime = CurTime() + (delay or 0)
+	shoulddrawlate = not drawearly
 end
 
 local function getTransitionAmount()
@@ -57,7 +66,7 @@ if convar_drawtransition:GetBool() then
 	end
 end
 
-hook.Add("PostRenderVGUI", "transitions", function()
+local function drawTransition()
 
 	local amount = getTransitionAmount()
 
@@ -108,5 +117,18 @@ hook.Add("PostRenderVGUI", "transitions", function()
 	surface.DrawRect( box.x0, box.y1, box.x1 - box.x0, ScrH() - box.y1 )
 
 	render.OverrideBlendFunc( false )
+end
 
+hook.Add("PostRenderVGUI", "jazzCatTransitionLate", function()
+	if not shoulddrawlate then return end
+
+	drawTransition()
 end)
+
+hook.Add("PreDrawHUD", "jazzCatTransition", function()
+	if shoulddrawlate then return end
+
+	cam.Start2D()
+	drawTransition()
+	cam.End2D()
+end )

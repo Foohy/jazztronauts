@@ -114,7 +114,7 @@ dialog.RegisterFunc("wait", function(d, time)
 end)
 
 dialog.RegisterFunc("txout", function(d, nowait)
-    transitionOut()
+    transitionOut(0, nil, true)
     local nowait = tobool(nowait)
 
     while !nowait and isTransitioning() do
@@ -123,7 +123,7 @@ dialog.RegisterFunc("txout", function(d, nowait)
 end)
 
 dialog.RegisterFunc("txin", function(d, nowait)
-    transitionIn()
+    transitionIn(0, nil, true)
     local nowait = tobool(nowait)
 
     while !nowait and isTransitioning() do

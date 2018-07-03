@@ -134,20 +134,24 @@ hook.Add("ShouldDrawLocalPlayer", "JazzDrawLocalPlayerDialog", function()
 	if renderPlayerCutIn then return true end
 end )
 
+local function GetSpeakerName(ent)
+	if not IsValid(ent) then return "nil" end
+
+	-- Allow entities to override their visual name/npcid
+	local npcid = ent.JazzDialogID or (ent.GetNPCID and ent:GetNPCID())
+	local name = ent.JazzDialogName or missions.GetNPCPrettyName(npcid) or ent:GetName()
+	return string.upper(name)
+end
+
 local function GetCurrentSpeaker()
 	local speaker = dialog.GetSpeaker()
 	if not IsValid(speaker) then return nil, "nil" end
-
-	-- Allow entities to override their visual name/npcid
-	local npcid = speaker.JazzDialogID or (speaker.GetNPCID and speaker:GetNPCID())
-	local name = speaker.JazzDialogName or missions.GetNPCPrettyName(npcid) or speaker:GetName()
-	name = string.upper(name)
 
 	if speaker == dialog.GetFocus() and IsValid(focusProxy) then
 		speaker = focusProxy
 	end
 
-	return speaker, name
+	return speaker, GetSpeakerName(speaker)
 end
 
 DialogCallbacks.Paint = function(_dialog)

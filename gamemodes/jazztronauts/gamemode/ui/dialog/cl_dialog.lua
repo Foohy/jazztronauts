@@ -282,16 +282,20 @@ function StartGraph(cmd, skipOpen, options, delay)
 	end
 
 	if _dialog.nodeiter != nil then
+		local wasOpen = State() and State() != STATE_IDLE
+
 		PrintSpeedScale = 1.0
 
 		SetText()
 		_dialog.text = ""
 		_dialog.waitdata = nil
-
+		
 		skipOpen = skipOpen or GetParam("SKIP_OPEN") != nil
 		State(skipOpen and STATE_OPENED or STATE_OPENING, delay)
 		
-		InvokeEvent("DialogStart", _dialog)
+		if not wasOpen then
+			InvokeEvent("DialogStart", _dialog)
+		end
 
 		if skipOpen then _dialog.nodeiter() end
 	end

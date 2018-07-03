@@ -10,12 +10,21 @@ util.AddNetworkString("JazzRequestChatStart")
 function ENT:Initialize()
     self:SetModel(self.Model)
     local mins, maxs = self:GetModelBounds()
-
-    self:PhysicsInitBox(mins, maxs)
     self:SetCollisionBounds(mins, maxs)
+    mins:Rotate(self:GetAngles())
+    maxs:Rotate(self:GetAngles())
+    self:PhysicsInitBox(mins, maxs)
+
+    
     self:SetMoveType(MOVETYPE_NONE)
+    self:SetSolid(SOLID_BBOX)
 
     self:SetUseType(SIMPLE_USE)
+
+    local phys = self:GetPhysicsObject()
+    if IsValid(phys) then
+        phys:EnableMotion(false)
+    end
 
     self:SetIdleAnim(self.IdleAnim)
     self:SetNPCID(self.NPCID)

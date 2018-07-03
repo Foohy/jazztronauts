@@ -33,6 +33,7 @@ local CatCamOffset = Vector(-35, 60, 0):GetNormal() * 70
 -- We try to not need these, but sometimes it's just easier
 local CamOffsets = {
 	["models/krio/jazzcat1.mdl"] = {pos = Vector(0, 0, 12), offset = Vector(-36, -60, 0):GetNormal() * 70},
+	["models/andy/bartender/cat_bartender.mdl"] = {pos = Vector(0, 15, 0), offset = Vector(-60, 0, -36):GetNormal() * 90},
 	["models/props_c17/oildrum001_explosive.mdl"] = { pos = Vector(0, 0, 40), offset = CatCamOffset },
 	["models/pizza_steve/pizza_steve.mdl"] = { pos = Vector(0, 0, -23), offset = CatCamOffset * 1.1 }
 }
@@ -102,6 +103,8 @@ local function RenderEntityCutIn(ent, x, y, w, h)
 	local bone = ent:LookupBone("ValveBiped.Bip01_Neck1")	
 	bone = bone or ent:LookupBone("ValveBiped.Bip01_Head1")
 	bone = bone or ent:LookupBone("Head")
+	bone = bone or ent:LookupBone("rig_cat:j_head")
+
 	if bone and ent:GetBonePosition(bone) != ent:GetPos() then
 		headpos = ent:GetBonePosition(bone)
 	elseif ent:IsPlayer() then

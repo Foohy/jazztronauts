@@ -28,13 +28,13 @@ chatmenu.showperc = 1.0
 
 function ENT:GetMenuPosAng(ply)
     local ang = self:GetAngles()
-    ang:RotateAroundAxis(ang:Forward(), 90)
-    ang:RotateAroundAxis(ang:Right(), 90)
+    ang:RotateAroundAxis(ang:Forward(), -90)
+    ang:RotateAroundAxis(ang:Right(), -90)
 
 
-    local offset = self:GetAngles():Up() * (chatmenu.flipChat and 65 or 30)
-    local right = self:GetAngles():Right()
-    offset = offset + self:GetAngles():Forward() * 0
+    local offset = ang:Up() * (chatmenu.flipChat and 65 or 30)
+    local right = ang:Right()
+    offset = offset + ang:Forward() * 0
     if not chatmenu.flipChat then
         local fwdAng = (self:GetPos() - ply:EyePos()):Angle()
         fwdAng.p = 0

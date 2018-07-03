@@ -1,16 +1,25 @@
 begin:
-    Waddup. nobody wrote this yet.
+    *slam Waddup. nobody wrote this yet.*
+    &beginagain
+
+beginagain:
+    haha wow sure would suck if this got stuck on your screen
     &exit
 
 begin1:
     Hey it's been a while how've y*emitsound ambient/materials/door_hit1.wav*-
     *slam [CRASH THROUGH DOOR]**shake 0.25*
-    *setskin 7* *emitsound npc/metropolice/gear1.wav*%*emitsound npc/metropolice/gear2.wav*%
+    *setskin focus 3* *emitsound npc/metropolice/gear1.wav*%*emitsound npc/metropolice/gear2.wav*%
     *slam FUCK.* *emitsound npc/metropolice/gear3.wav*% BAIL.
     *emitsound npc/metropolice/takedown.wav*"ＴＡＫＥ ＨＩＭ ＤＯＷＮ" *punch**emitsound npc/vort/foot_hit.wav**fadeblind**dsp 37*
-    *setskin 0*
+    *setskin focus 0*
     &exit
 
 begin4:
     thanks for doing my grocery shopping
+    &exit
+
+begin32:
+    WOW!!!!! it's*c 255 0 0* fucking nothing *c*
+    *c 50* go fuck yourself
     &exit

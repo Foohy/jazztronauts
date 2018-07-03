@@ -62,6 +62,45 @@ local function parsePosAng(...)
     return tblPosAng
 end
 
+local function FindNPCByName(name)
+    local lookid = missions.GetNPCID(name)
+    local npcs = ents.FindByClass("jazz_cat")
+    for _, v in pairs(npcs) do
+        if v.GetNPCID and v:GetNPCID() == lookid then 
+            return v
+        end
+    end
+end
+
+local sceneModels = {}
+local function removeSceneEntity(name)
+    if IsValid(sceneModels[name]) then
+        sceneModels[name]:SetNoDraw(true)
+        sceneModels[name] = nil
+    end
+end
+dialog.RegisterFunc("spawn", function(d, name, mdl)
+    sceneModels[name] = ManagedCSEnt(name, mdl)
+    sceneModels[name]:SetNoDraw(false)
+end)
+
+dialog.RegisterFunc("remove", function(d, name)
+    removeSceneEntity(name)
+end)
+
+dialog.RegisterFunc("clear", function(d)
+    ResetScene()
+end)
+
+local function FindByName(name)
+    if not name then return nil end
+    if name == "player" then return LocalPlayer() end
+    if name == "focus" then return dialog.GetFocus() end
+    if IsValid(sceneModels[name]) then return sceneModels[name] end
+
+    return FindNPCByName(name)
+end
+
 dialog.RegisterFunc("player", function(d, time)
     return LocalPlayer():GetName()
 end)
@@ -116,37 +155,28 @@ dialog.RegisterFunc("show", function(d, time)
     d.open = 1
 end)
 
-local sceneModels = {}
-local function removeSceneEntity(name)
-    if IsValid(sceneModels[name]) then
-        sceneModels[name]:SetNoDraw(true)
-        sceneModels[name] = nil
-    end
-end
-dialog.RegisterFunc("spawn", function(d, name, mdl)
-    sceneModels[name] = ManagedCSEnt(name, mdl)
-    sceneModels[name]:SetNoDraw(false)
+dialog.RegisterFunc("setspeaker", function(d, name)
+    dialog.SetFocusProxy(FindByName(name))
 end)
 
-dialog.RegisterFunc("remove", function(d, name)
-    removeSceneEntity(name)
+dialog.RegisterFunc("setnpcid", function(d, name, npc)
+    local prop = FindByName(name)
+    if not IsValid(prop) then return end
+
+    -- npc can be the name or npcid, we support both
+    prop.JazzDialogID = tonumber(npc) or missions.GetNPCID(npc)
 end)
 
-dialog.RegisterFunc("clear", function(d)
-    ResetScene()
-end)
+dialog.RegisterFunc("setname", function(d, name, visualname)
+    local prop = FindByName(name)
+    if not IsValid(prop) then return end
 
-dialog.RegisterFunc("setproxy", function(d, name)
-    dialog.SetFocusProxy(name and sceneModels[name])
-end)
-
-dialog.RegisterFunc("setfocus", function(d, npc)
-    local npcid = tonumber(npc) or missions.GetNPCID(npc)
-    dialog.SetFocus(npcid and missions.FindNPCByID(npcid))
+    -- npc can be the name or npcid, we support both
+    prop.JazzDialogName = visualname
 end)
 
 dialog.RegisterFunc("setposang", function(d, name, ...)
-    local prop = sceneModels[name]
+    local prop = FindByName(name)
     if not IsValid(sceneModels[name]) then return end
 
     local posang = parsePosAng(...)
@@ -159,8 +189,8 @@ dialog.RegisterFunc("setposang", function(d, name, ...)
 end)
 
 dialog.RegisterFunc("setanim", function(d, name, anim, speed, finishIdleAnim)
-    local prop = sceneModels[name]
-    if not IsValid(sceneModels[name]) then return end
+    local prop = FindByName(name)
+    if not IsValid(prop) then return end
 
     prop:SetSequence(anim)
     prop:SetPlaybackRate(tonumber(speed) or 1)
@@ -171,6 +201,15 @@ dialog.RegisterFunc("setanim", function(d, name, anim, speed, finishIdleAnim)
     -- to the specified idle animation when finished
     prop.finishanim = finishIdleAnim
 end)
+
+dialog.RegisterFunc("setskin", function(d, name, skinid)
+    local skinid = tonumber(skinid) or 0
+    local prop = FindByName(name)
+
+    if IsValid(prop) then
+	    prop:SetSkin(skinid)
+    end
+end )
 
 local view = {}
 dialog.RegisterFunc("setcam", function(d, ...)
@@ -219,6 +258,31 @@ dialog.RegisterFunc("setfov", function(d, fov)
     view = view or {}
     view.fov = fov
 end)
+
+dialog.RegisterFunc("punch", function(d)
+    LocalPlayer():ViewPunch(Angle(45, 0, 0))
+end )
+
+dialog.RegisterFunc("emitsound", function(d, snd)
+    surface.PlaySound(snd)
+end )
+
+dialog.RegisterFunc("slam", function(d, ...)
+    return table.concat({...}, " ")
+end )
+
+dialog.RegisterFunc("shake", function(d, time)
+    util.ScreenShake(LocalPlayer():GetPos(), 8, 8, time or 1, 256)
+end )
+
+dialog.RegisterFunc("fadeblind", function(d)
+    LocalPlayer():ScreenFade(SCREENFADE.IN, color_white, 2, 2)
+end )
+
+dialog.RegisterFunc("dsp", function(d, dspid)
+    local dspid = tonumber(dspid) or 0
+    LocalPlayer():SetDSP(dspid, true)
+end )
 
 function ResetScene()
     for k, v in pairs(sceneModels) do

@@ -49,11 +49,13 @@ function GetNPCID(name)
 end
 
 function GetNPCName(id)
-    return NPCList[id] and NPCList[id].name or "Invalid"
+    if not id then return end
+    return NPCList[id] and NPCList[id].name
 end
 
 function GetNPCPrettyName(id)
-    return NPCList[id] and NPCList[id].prettyname or "Invalid"
+    if not id then return end
+    return NPCList[id] and NPCList[id].prettyname
 end
 
 function GetMissionInfo(id)

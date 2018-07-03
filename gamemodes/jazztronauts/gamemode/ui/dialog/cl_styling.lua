@@ -138,10 +138,15 @@ local function GetCurrentSpeaker()
 	local speaker = dialog.GetSpeaker()
 	if not IsValid(speaker) then return nil, "nil" end
 
-	local name = speaker.GetNPCID and string.upper(missions.GetNPCPrettyName(speaker:GetNPCID())) or speaker:GetName()
+	-- Allow entities to override their visual name/npcid
+	local npcid = speaker.JazzDialogID or (speaker.GetNPCID and speaker:GetNPCID())
+	local name = speaker.JazzDialogName or missions.GetNPCPrettyName(npcid) or speaker:GetName()
+	name = string.upper(name)
+
 	if speaker == dialog.GetFocus() and IsValid(focusProxy) then
 		speaker = focusProxy
 	end
+
 	return speaker, name
 end
 

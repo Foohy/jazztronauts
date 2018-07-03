@@ -65,7 +65,7 @@
 	input CancelAddon(void)  : "Turn off the selector, switching off all the fact screens."
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop("models/krio/jazzcat1.mdl") = jazz_cat : "Jazz Cat"
+@PointClass base(Targetname, Origin, Angles) studioprop("models/andy/bartender/cat_bartender.mdl") = jazz_cat : "Jazz Cat"
 [
     npcid(choices) : "Cat Character" : "1" =
     [

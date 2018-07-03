@@ -5,8 +5,8 @@ ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.AutomaticFrameAdvance = true
 
-ENT.Model = "models/krio/jazzcat1.mdl"
-ENT.IdleAnim = "standerino"
+ENT.Model = "models/andy/bartender/cat_bartender.mdl"
+ENT.IdleAnim = "idle"
 
 local function ClientRun(ply, str) if SERVER then ply:SendLua(str) else RunString(str, "JazzChatMenu") end end
 

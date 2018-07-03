@@ -158,11 +158,18 @@ dialog.RegisterFunc("setposang", function(d, name, ...)
     end
 end)
 
-dialog.RegisterFunc("setanim", function(d, name, anim)
+dialog.RegisterFunc("setanim", function(d, name, anim, speed, finishIdleAnim)
     local prop = sceneModels[name]
     if not IsValid(sceneModels[name]) then return end
 
     prop:SetSequence(anim)
+    prop:SetPlaybackRate(tonumber(speed) or 1)
+
+    prop.starttime = CurTime()
+
+    -- If finish anim is specified, this animation won't loop and will return
+    -- to the specified idle animation when finished
+    prop.finishanim = finishIdleAnim
 end)
 
 local view = {}
@@ -260,7 +267,19 @@ end )
 hook.Add("Think", "JazzTickClientsideAnims", function()
     for k, v in pairs(sceneModels) do
         if IsValid(v) then
-            v:SetCycle(CurTime())
+            local time = CurTime() - (v.starttime or 0)
+            local length = v:SequenceDuration(v:GetSequence())
+            local p = v:GetPlaybackRate() * time / length
+
+            v:SetCycle(p)
+
+            -- Handle non-looping animations, reset to specified idle
+            if p >= 1.0 and v.finishanim then
+                v:SetSequence(v.finishanim)
+                v:SetPlaybackRate(1.0)
+                v.starttime = CurTime()
+                v.finishanim = nil
+            end
         end
     end
 end )

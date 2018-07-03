@@ -62,7 +62,7 @@ resp1b:
         Drama, then?
 
 resp1c:
-    *setanim cat idle* **setskin 2*Like*setanim cat gesture_sweep* I said, not my story to tell.%*setskin 0*
+    *setanim cat idle* **setskin 2*Like*setanim cat gesture_sweep 1.0 idle* I said, not my story to tell.%*setskin 0*
     It's not anything particularly scandalous,% just a silly thing 
     that I'd feel rather %%*setskin 1*catty%%*setskin 0* talking about behind their backs.
     &resp1d
@@ -82,7 +82,7 @@ resp1e:
 
 ###### Branch 2
 resp2a:
-    The jury-rigged*setanim cat gesture_sweep*  Combine machinery with a giant CRT connected 
+    The jury-rigged*setanim cat gesture_sweep 1.0 idle*  Combine machinery with a giant CRT connected 
     to it, I assume?%% *setskin 1*Yes,% it does stand out,%% doesn't it.
     &resp2b
 
@@ -92,7 +92,7 @@ resp2b:
     &resp2c
 
 resp2c:
-    *setskin 2**setanim cat gesture_sweep* Back before we had it,%% we had to manually drive up and down 
+    *setskin 2**setanim cat gesture_sweep 1.0 idle* Back before we had it,%% we had to manually drive up and down 
     Voidway 66 trying to find a place to salvage,% hoping any 
     given wormhole would be worthwhile.
     &resp2d
@@ -104,7 +104,7 @@ resp2d:
     
 resp2e:
     Then another guest wired some gizmo they had to it,%
-    and then *setanim cat gesture_sweep* another,%% and another,%% a little bit at a time%
+    and then *setanim cat gesture_sweep 1.0 idle* another,%% and another,%% a little bit at a time%
     until we were left with that hulking mass out there.%%
     To be honest,%*setskin 3* I would not know how to repair it if we needed to.
     &resp2f
@@ -114,13 +114,13 @@ resp2f:
 
 ###### Branch 3
 resp3a:
-    *setskin 1**setanim cat gesture_sweep* Of course it is.%%% Please,% take as much time as you need,% 
+    *setskin 1**setanim cat gesture_sweep 1.0 idle* Of course it is.%%% Please,% take as much time as you need,% 
     and let me know when you'd like a new drink.
     &exit
 
 ###### Merge point
 merge1a:
-    *setskin 0**setanim cat gesture_sweep* In any event,%% it's come a long way from the empty room that it once was.%%
+    *setskin 0**setanim cat gesture_sweep 1.0 idle* In any event,%% it's come a long way from the empty room that it once was.%%
     I'll admit,% hearing laughter and commotion coming from 
     the camp again does fill me with a sort of pride. 
     &merge1b
@@ -130,11 +130,11 @@ merge1b:
     &merge1c
 merge1c:
     *setskin 0*I hope you will be comfortable here during your stay.%%
-    Please,%*setanim cat gesture_sweep*  don't hesitate to let me know if you need anything.
+    Please,%*setanim cat gesture_sweep 1.0 idle*  don't hesitate to let me know if you need anything.
     %%*setskin 3* Ah, one other*setskin 0* thing.%.%.
     &merge1d
 merge1d:
-    This isn't required of you,%*setanim cat gesture_jab*  but can I ask you to spend some time 
+    This isn't required of you,%*setanim cat gesture_jab 1.0 idle*  but can I ask you to spend some time 
     with the rest of my peers?%%%*setskin 1* They won't admit it,% but they do 
     enjoy the company%.%.%.*setskin 0*and exposure to different worldviews 
     couldn't hurt them either.

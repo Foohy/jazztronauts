@@ -38,7 +38,14 @@ function ManagedCSEnt( id, model, ragdoll )
 	meta.__index = function( t, k )
 		if k == "Get" then return rawget(t, "Get") end
 		if k == "ent" then return rawget(t, "Instance") end
-		return WrappedEntityMeta[k]
+
+		-- Wrapped entity meta takes priority,
+		-- But still allow retrieve of underlying ent's keyvals
+		if WrappedEntityMeta[k] then
+			return WrappedEntityMeta[k]
+		else
+			return rawget(t, "Instance")[k]
+		end
 	end
 
 	meta.__newindex = function( t, k, v )

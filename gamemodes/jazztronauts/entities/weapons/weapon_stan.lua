@@ -45,15 +45,17 @@ SWEP.TopSpeed 				= 2000
 local storeStan = jstore.Register(SWEP, 4000, { type = "tool" })
 
 -- Create 3 items to be purchased one after the other that control range
-local storeRange = jstore.RegisterSeries("stan_range", 2000, 3, { 
+local storeRange = jstore.RegisterSeries("stan_range", 2000, 10, { 
 	name = "Range", 
 	requires = storeStan, 
-	type = "upgrade"
+	type = "upgrade",
+	priceMultiplier = 2,
 })
-local storeSpeed = jstore.RegisterSeries("stan_speed", 1000, 3, { 
+local storeSpeed = jstore.RegisterSeries("stan_speed", 1000, 10, { 
 	name = "Speed", 
 	requires = storeStan, 
-	type = "upgrade"
+	type = "upgrade",
+	priceMultiplier = 2,
 })
 
 function SWEP:Initialize()

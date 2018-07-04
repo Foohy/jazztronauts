@@ -15,6 +15,36 @@ module( "jstore", package.seeall )
 local list_name = "store"
 unlocks.Register(list_name)
 
+concommand.Add("jazz_debug_printitems", function(ply, cmd, args)
+    if not Items then 
+        print("No items registered")
+        return
+    end
+
+    print("====== Items ======")
+    for k, v in pairs(Items) do
+        if v.baseseries then continue end
+        print(v.name)
+        print("", "unlock: ", k)
+        print("", "type: ", v.type)
+        print("", "price: ", "$" .. string.Comma(v.price))
+        if v.requires then
+            print("", "requires: ", v.requires)
+        end
+    end
+    if not Series then return end
+
+    print("\n====== Series ======")
+    for k, v in pairs(Series) do
+        print(k)
+        print("", "count: ", GetSeriesMax(k))
+        print("", "price range: ")
+        for _, v in pairs(Series[k]) do
+            print("", "", "$" .. string.Comma(Items[v].price))
+        end
+    end
+end)
+
 -- Register name and pricing information with a specific unlock
 function Register(unlockName, price, props)
     if not Items then Items = {} end
@@ -24,8 +54,6 @@ function Register(unlockName, price, props)
         props.name = props.name or unlockName.PrintName or unlockName.ClassName
         unlockName = unlockName.ClassName or string.GetFileFromFilename(unlockName.Folder)
     end
-
-    print(unlockName)
 
     props = props or {}
     props.price = price
@@ -62,8 +90,11 @@ function RegisterSeries(baseUnlockName, basePrice, count, props)
         local newprops = table.Copy(props)
         table.Merge(newprops, itemprops)
 
+        local priceMultiplier = props.priceMultiplier or 1
+        local price = basePrice * math.pow(priceMultiplier, i - 1)
+
         -- Add a new unique item and store in repeats table for fast lookup
-        req = Register(unlock, basePrice, newprops)
+        req = Register(unlock, price, newprops)
         table.insert(Series[baseUnlockName], req)
     end
 
@@ -86,6 +117,12 @@ function GetSeries(ply, unlockName)
     end
 
     return 0
+end
+
+-- Get the maximum level a series can reach to
+function GetSeriesMax(baseSeries)
+    if not baseSeries or not Series[baseSeries] then return 0 end
+    return #Series[baseSeries]
 end
 
 -- Get a list of all registered 'series' type items
@@ -112,7 +149,7 @@ function GetRequirements(item)
 
         parent = GetItem(parent.requires)
     end
-    PrintTable(reqs)
+
     return table.Reverse(reqs)  
 end
 

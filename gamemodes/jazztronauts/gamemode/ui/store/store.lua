@@ -294,7 +294,7 @@ local function createListButton(parent, item)
             self:SetEnabled(false)
             price:Hide()
             self.Purchased = true
-            
+
         -- Locked, can't be purchased yet
         elseif not jstore.IsAvailable(LocalPlayer(), item.unlock) then
             self:SetEnabled(false)
@@ -307,6 +307,20 @@ local function createListButton(parent, item)
         else
             self:SetEnabled(true)
         end
+
+        
+        -- If upgrade, hide if already purchased and there's one after this
+        if item.baseseries then
+            local unlockedLevel = jstore.GetSeries(LocalPlayer(), item.baseseries)
+            local maxLevel = jstore.GetSeriesMax(item.baseseries)
+
+            if item.level == unlockedLevel + 1 or (item.level == maxLevel and unlockedLevel == maxLevel) then
+                self:Show()
+            else
+                self:Hide()
+            end
+        end
+            
     end
 
     -- Purchase

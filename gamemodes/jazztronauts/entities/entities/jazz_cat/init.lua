@@ -34,7 +34,7 @@ end
 
 function ENT:KeyValue( key, value )
 	if key == "idleanim" then
-		self:StoreOutput(key, value)
+		self.IdleAnim = value
 	end
 
     if key == "npcid" then

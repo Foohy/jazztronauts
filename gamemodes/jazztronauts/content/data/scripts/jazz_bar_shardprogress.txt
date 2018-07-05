@@ -1,0 +1,56 @@
+# Called once they've collected _A_ shard. Almost definitely will be on return from their first exploration
+begin1:
+    Good work! You've located some shards.
+    &begin1_2
+
+begin1_2:
+    You'll see these glowing wizardly interdimensional sugar crystals
+    peppered all over maps everyone has made. 
+    &begin1_3
+
+begin1_3:
+    We don't know what they do, but boy have they got power.
+    &begin1_4
+
+begin1_4:
+    We've installed this big ol' tank to crush them to a pulp 
+    and harvest their juicy interior, but honestly we haven't 
+    planned much more after that.
+    &begin1_5
+
+begin1_5:
+    Whatever they do, what could possibly go wrong by collecting more?
+    Keep it up.
+    *mark_seen*
+    &exit
+
+# Called once they've collected 25% of their needed shards
+begin25:
+    nice, I see you've been successfully finding some shards.
+    &begin25_2
+
+begin25_2:
+    you're already 1/4 of the way there, slow and steady.
+    *mark_seen*
+    &exit
+
+# 50% of needed shards
+begin50:
+    oh shit you're already halfway done?
+    &begin50_2
+
+begin50_2:
+    prouda ya
+    *mark_seen*
+    &exit
+
+# 100% of needed shards. Probably should be a cutscene showing where to go now that they can finished the game
+begin100:
+    holy shit
+    &begin100_2
+
+begin100_2:
+    you fucking did it
+    *mark_seen*
+    &exit
+

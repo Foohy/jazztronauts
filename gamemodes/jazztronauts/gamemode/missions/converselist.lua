@@ -36,8 +36,40 @@ AddNPC("jazz_bar_intro.begin", missions.NPC_BAR,  function(ply, talknpc)
 end,
 SUPER_PRIORITY )
 
+-- Collected _A_ shard
+AddNPC("jazz_bar_shardprogress.begin1", missions.NPC_BAR, function(ply, talknpc)
+    local cur, total =mapgen.GetTotalCollectedShards(), mapgen.GetTotalRequiredShards()
+    return cur > 0
+        and cur < math.Round(total * 0.25)
+end,
+SUPER_PRIORITY - 1)
+
+-- Collected 25% shards
+AddNPC("jazz_bar_shardprogress.begin25", missions.NPC_BAR, function(ply, talknpc)
+    local cur, total =mapgen.GetTotalCollectedShards(), mapgen.GetTotalRequiredShards()
+    return cur >= math.Round(total * 0.25)
+        and cur < math.Round(total * 0.50)
+end,
+SUPER_PRIORITY - 1)
+
+-- Collected 50% shards
+AddNPC("jazz_bar_shardprogress.begin50", missions.NPC_BAR, function(ply, talknpc)
+    local cur, total =mapgen.GetTotalCollectedShards(), mapgen.GetTotalRequiredShards()
+    return cur >= math.Round(total * 0.50)
+        and cur < math.Round(total * 0.75)
+end,
+SUPER_PRIORITY - 1)
+
+-- Collected 75% shards
+AddNPC("jazz_bar_shardprogress.begin75", missions.NPC_BAR, function(ply, talknpc)
+    local cur, total =mapgen.GetTotalCollectedShards(), mapgen.GetTotalRequiredShards()
+    return cur >= math.Round(total * 0.75)
+        and cur < math.Round(total * 1.00)
+end,
+SUPER_PRIORITY - 1)
+
 -- Once they've gotten enough shards, do this one, it's even more important
-AddNPC("jazz_bar_shardall.begin", missions.NPC_BAR, function(ply, talknpc)
+AddNPC("jazz_bar_shardall.begin100", missions.NPC_BAR, function(ply, talknpc)
     return mapgen.GetTotalCollectedShards() >= mapgen.GetTotalRequiredShards()
 end,
 SUPER_PRIORITY + 1)

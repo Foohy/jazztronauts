@@ -89,6 +89,8 @@ end
 
 -- Query and apply current upgrade settings to this weapon
 function SWEP:SetUpgrades()
+	if not IsValid(self.Owner) then return end
+
 	local rangeLevel = jstore.GetSeries(self.Owner, storeRange)
 	self.TeleportDistance = DefaultTeleportDistance + math.pow(rangeLevel, 2) * 1000
 

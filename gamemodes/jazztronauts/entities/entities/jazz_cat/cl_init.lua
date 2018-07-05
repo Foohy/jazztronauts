@@ -5,6 +5,8 @@ ENT.ChatFadeSpeed = 1.2
 
 -- How quickly to approach the look goal
 ENT.HeadLookSpeed = 3
+ENT.HeadLookBone = "rig_cat:j_head"
+ENT.HeadLookDistance = 400
 
 ENT.ChatFade = 0
 ENT.AttentionMarker = Material("materials/ui/jazztronauts/yes.png", "smooth")
@@ -106,19 +108,23 @@ end
 
 function ENT:UpdateHeadFollow()
     local maxang = math.cos(math.pi / 2)
-    local bone = self:LookupBone("rig_cat:j_head")
+    local bone = self:LookupBone(self.HeadLookBone)
+
+    local withinRange = (self:GetPos() - LocalPlayer():EyePos()):LengthSqr() < math.pow(self.HeadLookDistance, 2)
 
     self:SetupBones()
     local mat = self:GetBoneMatrix(bone)
 
     local goalAng = mat:GetAngles()
 
-    local lookAng = (mat:GetTranslation() - LocalPlayer():EyePos()):Angle()
-    lookAng:RotateAroundAxis(lookAng:Up(), 90)
-    lookAng:RotateAroundAxis(lookAng:Right(), 90)
+    if withinRange then
+        local lookAng = (mat:GetTranslation() - LocalPlayer():EyePos()):Angle()
+        lookAng:RotateAroundAxis(lookAng:Up(), 90)
+        lookAng:RotateAroundAxis(lookAng:Right(), 90)
 
-    if mat:GetRight():Dot(lookAng:Right()) > maxang then
-        goalAng = lookAng
+        if mat:GetRight():Dot(lookAng:Right()) > maxang then
+            goalAng = lookAng
+        end
     end
 
     self.CurFollowAngle = self.CurFollowAngle or goalAng
@@ -138,7 +144,7 @@ function ENT:Think()
 end
 
 function ENT:DrawModelFollow()
-    local bone = self:LookupBone("rig_cat:j_head")
+    local bone = self:LookupBone(self.HeadLookBone)
     local mat = self:GetBoneMatrix(bone)
     local default = mat:GetAngles()
     mat:SetAngles(self.CurFollowAngle or Angle())

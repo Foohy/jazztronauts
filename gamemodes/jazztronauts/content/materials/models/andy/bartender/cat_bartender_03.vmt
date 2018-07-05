@@ -1,15 +1,4 @@
 "VertexlitGeneric"
 {
 	"$basetexture" "models/andy/bartender/cat_bartender_pissed"
-	"$phong" "1"
-	"$phongexponent" "20"
-	"$phongboost" ".3"	
-	"$lightwarptexture" "models\krio\jazz_lightwarp"
-	"$phongfresnelranges"	"[.3 .5 .7]"
-	"$halflambert" "1"
-
-	// Rim lighting parameters
-	"$rimlight" "1"												
-	"$rimlightexponent" "4"										
-	"$rimlightboost" "1"	
 }

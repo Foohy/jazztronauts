@@ -1,0 +1,15 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/andy/singer/cat_singer_neutral"
+	"$phong" "1"
+	"$phongexponent" "20"
+	"$phongboost" ".3"	
+	"$lightwarptexture" "sunabouzu/lightwarp"
+	"$phongfresnelranges"	"[.3 1 .8]"
+	"$halflambert" "1"
+
+	// Rim lighting parameters
+	"$rimlight" "1"												
+	"$rimlightexponent" "4"										
+	"$rimlightboost" ".75"
+}

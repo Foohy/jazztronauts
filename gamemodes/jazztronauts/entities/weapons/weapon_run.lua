@@ -31,6 +31,8 @@ SWEP.Secondary.Ammo 		= "none"
 SWEP.Spawnable 				= true
 SWEP.RequestInfo			= {}
 
+-- List this weapon in the store
+local storeRun = jstore.Register(SWEP, 10000, { type = "tool" })
 
 function SWEP:Initialize()
 

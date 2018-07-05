@@ -3,6 +3,9 @@ include("shared.lua")
 -- How quickly the chat fades in and out
 ENT.ChatFadeSpeed = 1.2
 
+-- How quickly to approach the look goal
+ENT.HeadLookSpeed = 3
+
 ENT.ChatFade = 0
 ENT.AttentionMarker = Material("materials/ui/jazztronauts/yes.png", "smooth")
 ENT.QuestionMarker = Material("materials/ui/jazztronauts/question.png", "smooth")
@@ -61,8 +64,7 @@ function ENT:UpdateChatFade()
     self.ChatFade = math.Clamp(self.ChatFade + FrameTime() * self.ChatFadeSpeed * change, 0, 1)
 end
 
--- Check for mission changes
-function ENT:Think()
+function ENT:UpdateWorldMarker()
     local script, cond = converse.GetMissionScript(LocalPlayer(), self:GetNPCID())
     local actualscript = converse.GetNextScript(LocalPlayer(), self:GetNPCID())
 
@@ -100,27 +102,62 @@ function ENT:Think()
     end
 
     worldmarker.SetEnabled(self, icon != nil)
-    self:SetNextClientThink(CurTime() + 1.0)
+end
+
+function ENT:UpdateHeadFollow()
+    local maxang = math.cos(math.pi / 2)
+    local bone = self:LookupBone("rig_cat:j_head")
+
+    self:SetupBones()
+    local mat = self:GetBoneMatrix(bone)
+
+    local goalAng = mat:GetAngles()
+
+    local lookAng = (mat:GetTranslation() - LocalPlayer():EyePos()):Angle()
+    lookAng:RotateAroundAxis(lookAng:Up(), 90)
+    lookAng:RotateAroundAxis(lookAng:Right(), 90)
+
+    if mat:GetRight():Dot(lookAng:Right()) > maxang then
+        goalAng = lookAng
+    end
+
+    self.CurFollowAngle = self.CurFollowAngle or goalAng
+    self.CurFollowAngle = LerpAngle(FrameTime() * self.HeadLookSpeed, self.CurFollowAngle, goalAng)
+end
+
+
+function ENT:Think()
+    -- Check for mission changes
+    if not self.NextWorldMarkerThink or CurTime() > self.NextWorldMarkerThink then
+        self:UpdateWorldMarker()
+        self.NextWorldMarkerThink = CurTime() + 1
+    end
+    
+    -- Update head follow angle
+    self:UpdateHeadFollow()
+end
+
+function ENT:DrawModelFollow()
+    local bone = self:LookupBone("rig_cat:j_head")
+    local mat = self:GetBoneMatrix(bone)
+    local default = mat:GetAngles()
+    mat:SetAngles(self.CurFollowAngle or Angle())
+    self:SetBoneMatrix(bone, mat)
+
+    self:DrawModel()
+
+    mat:SetAngles(default)
+    self:SetBoneMatrix(bone, mat)
 end
 
 function ENT:Draw()
     if not self.GetNPCID then return end
+    if self.NoFollowPlayer then
+        self:DrawModel()
+    else
+        self:DrawModelFollow()
+    end
 
-    self:DrawModel()
-
-    local ang = self:GetAngles()
-    ang:RotateAroundAxis(ang:Forward(), 90)
-    ang:RotateAroundAxis(ang:Right(), 90)
-
-    local offset = self:GetAngles():Up() * 40
-    offset = offset + self:GetAngles():Forward() * -10
-    local right = self:GetAngles():Right()
-
-    -- Draw debug name above their head. TODO: This is lazy. Style cat models.
-    cam.Start3D2D(self:GetPos() + offset, ang, 0.1)
-        draw.DrawText(missions.GetNPCPrettyName(self:GetNPCID()), "SteamCommentFont", 0, 0, color_white, TEXT_ALIGN_CENTER)
-    cam.End3D2D()
-    
     -- Only the bartender has multiple options, everyone else just chats
     if self.ChatChoices and #self.ChatChoices > 0 then
         self:UpdateChatFade()
@@ -134,7 +171,6 @@ function ENT:Draw()
         local opt = self:GetSelectedOption(LocalPlayer(), self.ChatChoices)
         if self.LastOption != opt then
             self.LastOption = opt
-        
 
             LocalPlayer():EmitSound("buttons/lightswitch2.wav", 0, 175)
         end

@@ -25,11 +25,12 @@ function AddMission(id, npcid, mdata)
     MissionList[id] = mdata
 end
 
-function AddNPC(strname, prettyname)
+function AddNPC(strname, prettyname, mdl)
     local idx = table.insert(NPCList, 
     {
         name = strname,
-        prettyname = prettyname
+        prettyname = prettyname,
+        model = mdl
     })
     NPCListLookup[string.lower(strname)] = idx
 
@@ -56,6 +57,11 @@ end
 function GetNPCPrettyName(id)
     if not id then return end
     return NPCList[id] and NPCList[id].prettyname
+end
+
+function GetNPCInfo(id)
+    if not id then return end
+    return NPCList[id]
 end
 
 function GetMissionInfo(id)

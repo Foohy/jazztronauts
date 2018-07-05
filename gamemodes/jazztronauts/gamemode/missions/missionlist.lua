@@ -3,11 +3,11 @@ module( "missions", package.seeall )
 ResetMissions()
 
 NPC_COMPUTER = 666
-AddNPC("NPC_CAT_BAR", "Bartender")
-AddNPC("NPC_CAT_SING", "Singer")
-AddNPC("NPC_CAT_PIANO", "Piano Man")
-AddNPC("NPC_CAT_CELLO", "Cellist")
-AddNPC("NPC_NARRATOR", "")
+AddNPC("NPC_CAT_BAR", "Bartender", "models/andy/bartender/cat_bartender.mdl")
+AddNPC("NPC_CAT_SING", "Singer", "models/andy/singer/cat_singer.mdl")
+AddNPC("NPC_CAT_PIANO", "Pianist", "models/andy/pianist/cat_pianist.mdl")
+AddNPC("NPC_CAT_CELLO", "Cellist", "models/andy/cellist/cat_cellist.mdl")
+AddNPC("NPC_NARRATOR", "", "models/npc/cat.mdl")
 AddNPC("NPC_BAR", "")
 
 -- Utility function for giving a player a monetary reward

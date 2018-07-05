@@ -25,9 +25,12 @@ a5:
     i figure less gas this time is probably 
     healthier for everybody involved
     &exit
+
 idle:
 	whats good
-    %%%
+    &idle2
+
+idle2:
     oh, if you're worrying about me going sober this time %
     i finally found my emergency stash of bug spray the bartender locked up %
     so i'll be able to crutch out on cascading organ failure long enough to 

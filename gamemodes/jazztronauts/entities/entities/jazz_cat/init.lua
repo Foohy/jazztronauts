@@ -8,14 +8,18 @@ include("sh_chatmenu.lua")
 util.AddNetworkString("JazzRequestChatStart")
 
 function ENT:Initialize()
-    self:SetModel(self.Model)
+
+    -- Lookup corresponding npc model
+    local npcinfo = missions.GetNPCInfo(self.NPCID)
+    self:SetModel(npcinfo and npcinfo.model or self.Model)
+
+    -- The cats don't actually have a physics model so just make a box around em
     local mins, maxs = self:GetModelBounds()
     self:SetCollisionBounds(mins, maxs)
     mins:Rotate(self:GetAngles())
     maxs:Rotate(self:GetAngles())
     self:PhysicsInitBox(mins, maxs)
-
-    
+  
     self:SetMoveType(MOVETYPE_NONE)
     self:SetSolid(SOLID_BBOX)
 

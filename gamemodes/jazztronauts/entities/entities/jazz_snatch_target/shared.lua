@@ -65,7 +65,20 @@ if SERVER then
         
         -- 600 is pretty good for a more upgraded value
         -- 100 is a pretty good starting value
-        return 600.0 / math.pow(length, 1.1)
+        return 100.0 / math.pow(length, 1.1)
+    end
+
+    function ENT:GetPlayerMultiplier()
+        local playerSpeeds = 0
+        for _, v in pairs(self.PlayerList) do
+            if not IsValid(v) then continue end
+            local wep = v:GetWeapon("weapon_propsnatcher")
+            if not IsValid(wep) or v:GetActiveWeapon() != wep then continue end
+
+            playerSpeeds = playerSpeeds + (wep.WorldStealSpeed or 1)
+        end
+
+        return playerSpeeds
     end
 
     -- Overwritten
@@ -81,7 +94,9 @@ if SERVER then
 
     function ENT:UpdateSpeed()
         local brushsize = self:GetBrushSizeMultiplier()
-        self:SetSpeed(#self.PlayerList * brushsize)
+        local playerspeeds = self:GetPlayerMultiplier()
+        print(playerspeeds)
+        self:SetSpeed(playerspeeds * brushsize)
     end
 end
 

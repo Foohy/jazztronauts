@@ -67,13 +67,23 @@ local snatch2 = jstore.Register("snatch2", 50000, {
     requires = snatch1,
     type = "upgrade" 
 })
-local snatch3 = jstore.Register("snatch3", 10000, { 
+local snatch_world = jstore.Register("snatch_world", 10000, { 
     name = "Ultimate Aim", 
     cat = "Prop Snatcher", 
-	desc = "No matter where you aim, you're picking something up.",
+	desc = "No matter where you aim, you're picking something up. Hold right click to steal world brushes",
     requires = snatch1,
     type = "upgrade" 
 })
+local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 100, 10, { 
+	name = "World Stealing Speed", 
+	desc = "Steal the world 100% faster",
+	requires = snatch_world, 
+	type = "upgrade",
+	cat = "Prop Snatcher",
+	priceMultiplier = 10,
+})
+
+
 
 CreateConVar("jazz_debug_snatch_allups", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY }, "Temporarily enable all upgrades for snatcher")
 
@@ -97,6 +107,7 @@ end
 
 -- Query and apply current upgrade settings to this weapon
 function SWEP:SetUpgrades()
+	if not IsValid(self.Owner) then return end
 
 	local override = cvars.Bool("jazz_debug_snatch_allups", false)
 
@@ -107,7 +118,11 @@ function SWEP:SetUpgrades()
 	self.Primary.Automatic = unlocks.IsUnlocked("store", self.Owner, snatch2) or override
 
 	-- Tier III - World stealing
-	self.CanStealWorld = unlocks.IsUnlocked("store", self.Owner, snatch3) or override
+	self.CanStealWorld = unlocks.IsUnlocked("store", self.Owner, snatch_world) or override
+
+	-- How fast they can steal the world
+	self.WorldStealSpeed = jstore.GetSeries(self.Owner, snatch_world_speed)
+	self.WorldStealSpeed = self.WorldStealSpeed * 2
 end
 
 

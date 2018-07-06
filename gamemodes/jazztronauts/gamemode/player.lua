@@ -1,6 +1,8 @@
 include("player/player_hub.lua")
 include("player/player_explore.lua")
 
+if SERVER then include("player/sql.lua") end
+
 
 -- TODO: Move mechanism to own module
 local itemprice = 100

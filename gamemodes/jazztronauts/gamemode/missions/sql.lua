@@ -1,5 +1,3 @@
-include("../lib/sh_sql.lua")
-
 jsql.Register("jazz_active_missions", 
 [[
     steamid BIGINT NOT NULL,

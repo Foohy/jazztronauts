@@ -120,8 +120,10 @@ function FindOwningAddon(mapname)
 	if not mapname then return 0 end
 
 	-- First, try to see if we've cached the mapname/workshop association
-	local res = progress.GetMap(mapname)
-	if res and res.wsid != 0 then return res.wsid end
+    if progress then
+        local res = progress.GetMap(mapname)
+        if res and res.wsid != 0 then return res.wsid end
+    end
 
 	local addons = engine.GetAddons()
 

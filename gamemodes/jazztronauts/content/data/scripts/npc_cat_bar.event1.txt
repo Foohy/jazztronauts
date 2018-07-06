@@ -9,13 +9,13 @@ begin:
 	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
 	*setnpcid cat_bar npc_cat_bar*
 
-	*spawn cat_piano models/krio/jazzcat1.mdl*
+	*spawn cat_piano models/andy/pianist/cat_pianist*
 	*setnpcid cat_piano npc_cat_piano*
 
-	*spawn cat_cello models/krio/jazzcat1.mdl*
+	*spawn cat_cello models/andy/cellist/cat_cellist*
 	*setnpcid cat_cello npc_cat_cello*
 
-	*spawn cat_singer models/krio/jazzcat1.mdl*
+	*spawn cat_singer models/andy/singer/cat_singer*
 	*setnpcid cat_singer npc_cat_singer*
 
 	*spawn narrator models/npc/cat.mdl*

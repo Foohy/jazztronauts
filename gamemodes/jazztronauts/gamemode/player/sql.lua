@@ -12,6 +12,14 @@ jsql.Register("jazz_playerdata",
 	notes INT UNSIGNED NOT NULL DEFAULT 0 CHECK (notes >= 0)
 ]])
 
+jsql.Register("jazz_playerdata_persist", 
+[[
+	steamid BIGINT NOT NULL PRIMARY KEY,
+	resets INT UNSIGNED NOT NULL DEFAULT 0
+]])
+
+newgame.MarkPersistent("jazz_playerdata_persist")
+
 
 -- Change the player's note count, works for positive and negative values
 -- Negative values that put the player under 0 will fail the constraint and return false
@@ -74,4 +82,16 @@ function GetNotes(ply)
 	end
 
 	return 0
+end
+
+-- Get the total number of players that have played in this session
+-- Money is reset every time the map resets
+function GetTotalPlayers()
+    local sel = "SELECT COUNT(*) as count FROM jazz_playerdata"
+    local res = jsql.Query(sel)
+	if type(res) == "table" then 
+        return tonumber(res[1].count) or 0
+    end 
+
+    return 0
 end

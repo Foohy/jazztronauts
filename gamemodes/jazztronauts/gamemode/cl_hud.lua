@@ -5,7 +5,10 @@ local HideDelay = 2 //How many seconds to show the amt after it is done filling 
 local FillDelay = propfeed.StayDuration //Number of seconds before the money can begin filling
 local FadeSpeed = 900 //How fast to fade out
 
-local distFromSide = 8
+local distFromSide = ScreenScale(6)
+local coinDistance = ScreenScale(32)
+local coinSize = ScreenScale(20)
+local distFromTop = ScreenScale(7)
 
 //NON-MODIFIABLES
 local bgWidth = 15
@@ -18,32 +21,47 @@ local moneyFillVelocity = 1 //Amount of money to fill per frame. Adjusted based 
 local lastMoneyCount = 0
 local isFadingOut = false
 
+local catcoin = Material("materials/ui/jazztronauts/catcoin.png", "smooth")
+
 surface.CreateFont( "JazzNote",
 {
-	font		= "KG Shake it Off Chunky",
+	font		= "KG Shake it Off Chunky Mono",
 	size		= ScreenScale(20),
 	weight		= 1500
 })
 surface.CreateFont( "JazzNoteFill",
 {
+	font		= "KG Shake it Off Chunky Mono",
+	size		= ScreenScale(12),
+	weight		= 500,
+	antialias 	= true
+})
+surface.CreateFont( "JazzNoteMultiplier",
+{
 	font		= "KG Shake it Off Chunky",
-	size		= ScreenScale(10),
-	weight		= 500
+	size		= ScreenScale(12),
+	weight		= 1500,
+	antialias 	= true
 })
 
+local function drawTextRotated(text, font, x, y, color, rotation, maxWidth)
+	surface.SetFont(font)
+	local w, h = surface.GetTextSize(text)
+	local actualWidth = math.cos(math.rad(rotation)) * w
+	local scaleMult = math.min(1, maxWidth / actualWidth)
 
-local function addCommas( num )
-	local result = ""
+	local rotMat = Matrix()
+	rotMat:Translate(Vector(x, y, 0))
+	rotMat:Rotate(Angle(0, rotation, 0))
+	rotMat:Scale(Vector(1, 1, 1) * scaleMult)
+	rotMat:Translate(Vector(-x, -y, 0))
 
-	local sign, before, after = string.match( tostring(num), "^([%+%-]?)(%d*)(%.?.*)$")
 
-	while string.len( before ) > 3 do
-		result = "," .. string.sub( before, -3, -1 ) .. result 
-		before = string.sub( before, 1, -4 )
-	end 
-
-	return sign .. before .. result .. after 
-
+	cam.PushModelMatrix(rotMat)
+		surface.SetTextColor(color)
+		surface.SetTextPos(x - w/2, y - h/2)
+		surface.DrawText(text)
+	cam.PopModelMatrix()
 end
 
 local function DrawNoteCount()
@@ -67,15 +85,19 @@ local function DrawNoteCount()
 		CurAlpha = 200
 	end
 
+	-- Current multiplier for all earned money
+	local noteMultiplier = newgame.GetMultiplier()
+	local finalText = "$" .. string.Comma( VisualAmount )
+	
 	surface.SetFont( "JazzNote")
-	local finalText = "$" .. addCommas( VisualAmount ) .. " n"
 	bgWidth, bgHeight = surface.GetTextSize( finalText )
-	lastWidth = Lerp( FrameTime() * 10, lastWidth, bgWidth + 15 )
-	draw.RoundedBox( 4, ScrW() - (distFromSide + lastWidth ), 10, lastWidth, bgHeight + 10, Color( 0, 0, 0, CurAlpha ) )
+
+	lastWidth = Lerp( FrameTime() * 10, lastWidth, bgWidth + coinSize + ScreenScale(13) )
+	draw.RoundedBox( 4, ScrW() - (distFromSide + lastWidth), distFromTop, lastWidth, bgHeight, Color( 0, 0, 0, CurAlpha ) )
 	
 	//Draw how many money we have
 	local FinalAmountText = {}
-	FinalAmountText["pos"] = { ScrW() - distFromSide - 8, 16 }
+	FinalAmountText["pos"] = { ScrW() - distFromSide - coinSize - ScreenScale(10), distFromTop }
 	FinalAmountText["color"] = Color(255, 255, 255, CurAlpha)
 	FinalAmountText["text"] = finalText
 	FinalAmountText["font"] = "JazzNote"
@@ -94,7 +116,7 @@ local function DrawNoteCount()
 	text = text .. tostring( amt - VisualAmount )
 
 	if amt - VisualAmount != 0 then
-		draw.DrawText( text, "JazzNoteFill", ScrW() - distFromSide , bgHeight + 20, color, TEXT_ALIGN_RIGHT)
+		draw.DrawText( text, "JazzNoteFill", ScrW() - distFromSide, bgHeight + ScreenScale(6), color, TEXT_ALIGN_RIGHT)
 	end
 
 	if CurTime() > moneyFillDelay then
@@ -115,6 +137,19 @@ local function DrawNoteCount()
 		else 
 			VisualAmount = amt
 		end
+	end
+
+	-- Draw Cat Coin
+	surface.SetDrawColor(255, 255, 255)
+	surface.SetMaterial(catcoin)
+	surface.DrawTexturedRect(ScrW() - coinDistance, distFromTop, coinSize, coinSize)
+
+	-- Draw extra money multiplier
+	if noteMultiplier > 1 then 
+		local multCol = Color(108, 52, 0, 250)
+		drawTextRotated(noteMultiplier, "JazzNoteMultiplier", 
+			ScrW() - coinDistance / 2 - distFromSide, distFromTop + coinSize / 2 - ScreenScale(1), 
+			multCol, 0, coinSize/1.3)
 	end
 
 end

@@ -9,6 +9,7 @@ function Register(tblName, columns)
     Tables[tblName] = columns
 end
 
+-- Clear all registered tables
 function Reset(tbl)
     if tbl then 
         sql.Query(string.format("DROP TABLE IF EXISTS %s", tbl))
@@ -16,6 +17,16 @@ function Reset(tbl)
         for k, _ in pairs(Tables) do
             Reset(k)
         end
+    end
+end
+
+-- Clear all registered tables except the ones given
+function ResetExcept(tbls)
+    PrintTable(tbls)
+    for k, _ in pairs(Tables) do
+        if table.HasValue(tbls, k) then continue end
+        print("resettin' " .. k)
+        Reset(k)
     end
 end
 

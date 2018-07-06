@@ -13,7 +13,7 @@ AddNPC("NPC_BAR", "")
 -- Utility function for giving a player a monetary reward
 local function GrantMoney(amt)
     return function(ply)
-        ply:ChangeNotes(amt)
+        ply:ChangeNotes(amt * newgame.GetMultiplier())
     end
 end
 

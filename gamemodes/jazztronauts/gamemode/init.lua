@@ -2,15 +2,16 @@ jit.opt.start( 3 )
 jit.opt.start( "hotloop=36", "hotexit=60", "tryside=4" )
 
 include( "shared.lua" )
+include( "newgame/init.lua")
 include( "ui/init.lua" )
 include( "map/init.lua" )
 include( "missions/init.lua")
 include( "store/init.lua" )
 include( "snatch/init.lua" )
-
 include( "playerwait/init.lua")
-
 include( "lzma/lzma.lua")
+
+include( "player.lua" )
 
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_scoreboard.lua" )
@@ -19,6 +20,7 @@ AddCSLuaFile( "player.lua" )
 AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "missions/cl_init.lua" )
 AddCSLuaFile( "playerwait/cl_init.lua")
+AddCSLuaFile( "newgame/cl_init.lua")
 
 AddCSLuaFile( "cl_hud.lua" )
 
@@ -144,7 +146,7 @@ function GM:CollectShard(shard, ply)
 	if not left then return false end
 
 	-- Congrats to everyone
-	progress.ChangeNotesList(shard.JazzWorth)
+	progress.ChangeNotesList(shard.JazzWorth * newgame.GetMultiplier())
 end
 
 -- Called when prop is snatched from the level
@@ -158,6 +160,7 @@ function GM:CollectProp(prop, ply)
 
 	-- Collect the prop to the poop chute
 	if worth and worth > 0 then --TODO: Check if worth > 1 not 0
+		worth = worth * newgame.GetMultiplier()
 		local newCount = snatch.AddProp(ply, prop:GetModel(), worth)
 		propfeed.notify( prop, ply, newCount, worth)
 	end
@@ -200,6 +203,7 @@ function GM:CollectBrush(brush, players)
 
 	-- Collect the prop to the poop chute
 	if worth and worth > 0 then --TODO: Check if worth > 1 not 0
+		worth = worth * newgame.GetMultiplier()
 		for _, ply in pairs(players) do 
 			if not IsValid(ply) then continue end
 

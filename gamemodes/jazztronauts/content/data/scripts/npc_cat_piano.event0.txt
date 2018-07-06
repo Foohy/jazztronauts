@@ -1,0 +1,5 @@
+begin:
+	Scene not yet written. 
+	Move on to next side mission.
+	*mark_seen*
+	&exit

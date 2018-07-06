@@ -1,0 +1,226 @@
+SKIP_OPEN = true
+
+begin:
+    # Scene setup
+    *hide*
+    *txout*
+    *setfov 70*
+
+
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setnpcid cat_piano npc_cat_piano*
+
+	*spawn cat_singer models/andy/singer/cat_singer.mdl*
+	*setnpcid cat_singer npc_cat_singer*
+	
+	*spawn player_dummy playerboy*
+	*txin*
+	
+###### START
+	*setspeaker narrator*
+	>You could have sworn you saw the Pianist here just now...
+	&b1
+	
+b1:
+	*setspeaker npc_cat_singer*
+	Hurry up, hurry up!
+	They'll see you!
+	&b2
+	
+b2:
+	*setspeaker player_dummy*
+	Who are you talking abou-
+	&b3
+	
+b3:
+	*setspeaker narrator*
+	>The Singer dead sprints past both of you! 
+	On instinct, you dive into the hiding spot the pianist
+	is in.
+	
+	
+	player:
+	&resp1a:
+		Whatever this is, I'm not getting involved. (Exit)
+	&resp2a:
+		Wow. You look like shit.
+	&resp3a:
+		Why, exactly are we hiding from the singer?
+		
+###### Branch 1 (early exit)
+resp1a:
+	*setspeaker npc_cat_piano*
+	I see how it is. Leaving me to handle the consequences of my actions solo, huh?
+	I'll remember this when the revolution comes.
+	&resp1b
+	
+resp1b:
+	Get out of here, then. I owe you one, so I'll cover for you too. This time.
+	*mark_seen*
+	&exit
+	
+###### Branch 2 
+resp2a:
+	*setspeaker npc_cat_piano*
+	Rich words coming from an abomination in the face of 
+	a distraught and regretful god. 
+	Keep your voice down.
+	&resp3a
+	
+###### Branch 3 (also merge point)
+resp3a:
+	*setspeaker npc_cat_piano*
+	They know. I thought i'd timed it right, and they were conked out on top of
+	the bar, but no, this is the one fucking time they break routine and come to 
+	check on their glorified tamagotchi collection at the mewseum before the fifth nap.
+	They saw everything.
+	
+	player:
+	&resp4a:
+		Fifth nap?
+	&resp5a:
+		Gee, it's almost like your idea was... bad.
+	&resp6a:
+		Have fun with that. (exit)
+		
+###### Branch 4
+resp4a:
+	*setspeaker narrator*
+	>The Pianist stares at you. You stare back.
+	The Silence extends, and becomes crippilingly awkward.
+	A rich array of emotions cross over her face.
+	&resp4b
+	
+resp4b:
+	>It's almost like she's going through the five stages of grief in the 
+	thirty second conversational void as she evaluates your sense of
+	priorities. Then, her head bows, and she sighs.
+	&resp4c
+	
+resp4c:
+	*setspeaker npc_cat_piano*
+	Yes. The Singer takes nine naps a day.
+	They have designated spots for each.
+	
+	player:
+	&resp5a:
+		Gee, it's almost like your idea was... bad.
+	&resp1a:
+		Have fun with that. (exit)
+		
+###### Branch 5
+
+resp5a:
+	*setspeaker npc_cat_piano*
+	And I suppose none of your ideas have ever backfired PLAYERNAME, and you're
+	the sole clean and pure being in this universe who has never made a goddamn
+	mistake. Forgive me. I didn't know I was in the presence of the chosen one,
+	the saviour - 
+	&resp5b
+	
+resp5b:
+	*setspeaker narrator*
+	>The Pianist is getting worked up, as evident by the fact that her tail has
+	been lashing around more and more. And also the fact that she's basically 
+	just shouting at this point.
+	&resp5c
+	
+resp5c:
+	*setspeaker npc_cat_piano*
+	Oh, how I would ever have concluded that perhaps I had fucked up, were it not
+	for your astute commentary on my current state?
+	Truly, I am blessed!
+	&resp5d
+	
+resp5d:
+	*setspeaker narrator*
+	>The Singer appears to have drifted into view behind the Pianist.
+	
+	player:
+	&merge1:
+		Uh-
+	&merge1:
+		Hey, Pi-
+	&merge1:
+		Shut the fuc-
+		
+merge1:
+	*setspeaker narrator*
+	>The Singer sprints over to you both and....
+	ineffectually shoves the Pianist's shoulder. Their eyes are brimming
+	with tears, and they tap agitatedly at their tablet while bouncing
+	in clear distress.
+	&merge2
+	
+merge2:
+	*setspeaker npc_cat_singer*
+	>The Singer taps out a message: They are not mad,
+	they're just disappointed.
+	&merge3
+	
+merge3:
+	>...The singer pulls at their ears, tail trashing, tucks the tablet
+	under their left arm and flips the Pianist the double bird.
+	
+	They might actually be a bit mad.
+	&merge4
+	
+merge4:
+	*setspeaker npc_cat_piano*
+	Look, Pipes. 
+	I'm sorry you had to see that.
+	&merge5
+	
+merge5:
+	*setspeaker npc_cat_singer*
+	>The Singer chastises the Pianist for not listening.
+	The problem is not that they saw what happened in the mewseum.
+	It's the fact that it happened in the first place.
+	&merge6
+	
+merge6:
+	*setspeaker player_dummy*
+	>You get the feeling this is a pretty common conversation.
+	&merge7
+	
+merge7:
+	*setspeaker npc_cat_piano*
+	I was bored! I get antsy when i'm bored. And I listen! I didn't
+	cause any structural damage this time!
+	&merge8
+	
+merge8:
+	All your little pets will be good as new in no time.
+	The only harm done is to my bank account.
+	&merge9
+	
+merge9:
+	*setspeaker npc_cat_singer*
+	>The Singer makes a clear 'zip it' gesture at the Pianist.
+	&merge10
+	
+merge10:
+	>The Singer turns their attention to you. 
+	They write out an apology for the Pianist getting you involved in
+	a personal hissy fit, and sends you on your way.
+	&merge11
+	
+merge11:
+	*setspeaker narrator*
+	>As you leave, you look over your shoulder and see the Singer pass
+	the Pianist $2500 and give her a reassuring pat on the shoulder.
+	&merge12
+	
+merge12:
+	>The Pianist looks, for a moment, almost ashamed.
+	*mark_seen*
+	You decide that you've played your part here, and head back to the others.
+	&exit
+	
+	
+	
+	
+	
+
+
+	

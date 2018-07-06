@@ -1,6 +1,10 @@
 
 module( "newgame", package.seeall )
 
+ENDING_DESTRUCTION  = 1
+ENDING_PERFECTION   = 2
+ENDING_EQUILIBRIUM  = 3
+
 local nettbl = "jazz_newgame_info"
 
 if SERVER then
@@ -13,14 +17,18 @@ if SERVER then
 
     -- Reset the game, incrementing the reset counter and restarting from scratch
     -- Automatically reloads the tutorial map
-    function ResetGame()
+    function ResetGame(endType)
+        if not endType then 
+            ErrorNoHalt("Invalid ending type!")
+            return
+        end
 
         -- Mark every player that participated in this session
         -- #TODO: needed?
 
         -- Store this as a end-game reset
         local totalPlayers = progress.GetTotalPlayers()
-        ngsql.AddResetInfo(0, totalPlayers)
+        ngsql.AddResetInfo(endType, totalPlayers)
 
         -- Reset non-persistent sql stuff
         jsql.ResetExcept(GetPersistent())

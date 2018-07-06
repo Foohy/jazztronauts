@@ -99,3 +99,11 @@
 
 	input MovePlayers(void)  : "Moves players to this entity's origin"
 ]
+
+@SolidClass  base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazz_tv02.mdl") = jazz_trigger_group : "Jazz Group Trigger"
+[
+	output OnEveryoneInside(void) : "Fires when everybody is within the trigger."
+	output OnEveryoneNotInside(void) : "Fires when no longer everybody is in the trigger"
+	output OnPlayerEnter(void) : "Fires when a single player has entered the trigger"
+	output OnPlayerLeave(void) : "Fires when a single player has left the trigger"
+]

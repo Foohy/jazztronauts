@@ -1,6 +1,6 @@
+AddCSLuaFile()
 
 module( 'workshop', package.seeall )
-
 
 local function tagdepth(str) 
     if string.sub(str, 1, 3) == "div" then return 1 end
@@ -254,7 +254,7 @@ function DownloadGMA(wsid, func)
 	http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v0001/", body, 
 		OnGetCollectionDetails,	
 		function(errmsg)
-			func(nil, "GetCollectionDetails request failed: " .. errmsg)
+			func(nil, "GetCollectionDetails(" .. wsid .. ") request failed: " .. errmsg)
 		end
 	)
 end

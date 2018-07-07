@@ -67,7 +67,7 @@ if SERVER then
 
     -- Hook into player spawn, to mark temp players as no longer temporary
     hook.Add("PlayerInitialSpawn", "JazzUnmarkTempPlayer", function(ply)
-        tempPlayers[ply:SteamID64()] = nil
+        tempPlayers[ply:SteamID64() or "0"] = nil
     end)
 
     -- Check if there are players still in the process of connecting

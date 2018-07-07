@@ -320,6 +320,7 @@ DialogCallbacks.DialogStart = function(d)
 	end
 
 	dialog.SetFocusProxy(nil)
+	LocalPlayer().JazzDialogLastLockAngles = nil
 
 	if IsValid(d.textpanel) then
 		d.textpanel:Remove()
@@ -395,6 +396,7 @@ local DefaultKeys = { "MOUSE_LEFT", "KEY_SPACE", "KEY_ENTER", "IN_USE"}
 local wasSkipPressed = false
 local wasSkipPressedInDialog = false
 hook.Add("StartCommand", "JazzDialogLockPlayer", function(ply, usercmd)
+
 	-- Specific logic to make it so they must have RELEASED the skip key before
 	if not wasSkipPressedInDialog and not dialog.IsInDialog() then 
 		return 

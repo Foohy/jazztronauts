@@ -62,8 +62,9 @@ if CLIENT then
         self.JazzLastLockAngles = lock and (self.JazzLastLockAngles or self:EyeAngles())
     end
 
-    hook.Add("StartCommand", "JazzDialogLockPlayer", function(ply, usercmd)
+    hook.Add("StartCommand", "JazzLockPlayer", function(ply, usercmd)
         if not ply.JazzIsCurrentlyLocked then return end
+
         ply.JazzLastLockAngles = ply.JazzLastLockAngles or usercmd:GetViewAngles()
         usercmd:ClearMovement()
         usercmd:SetViewAngles(ply.JazzLastLockAngles)

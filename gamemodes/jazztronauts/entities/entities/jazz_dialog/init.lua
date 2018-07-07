@@ -77,7 +77,7 @@ function ENT:StartDialog( activator, caller, data )
 	self.ActivePlayers = self.ActivePlayers or {}
 	for _, v in pairs(targets) do
 		dialog.Dispatch( self:GetScript(), v, self:GetCameraReference() )
-		self.ActivePlayers[v:SteamID64()] = true
+		self.ActivePlayers[v:SteamID64() or "0"] = true
 	end
 end
 
@@ -87,7 +87,7 @@ function ENT:PlayerEndDialog(ply, dialog, markseen)
 	if not self.ActivePlayers then return end
 	local oldCount = table.Count(self.ActivePlayers)
 
-	local ply64 = IsValid(ply) and ply:SteamID64()
+	local ply64 = IsValid(ply) and (ply:SteamID64() or "0")
 	if IsValid(ply) and self.ActivePlayers[ply64] then
 		self.ActivePlayers[ply64] = nil
 		self:TriggerOutput("OnPlayerFinished", ply)	

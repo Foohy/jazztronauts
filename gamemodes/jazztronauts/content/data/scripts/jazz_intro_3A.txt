@@ -1,54 +1,61 @@
 ###### START
+
 begin1:
-*setfocus npc_cat_piano*
+spawngang() # SETUP
+*setposang cat_bar -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+*setposang cat_cello -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+*setposang cat_piano -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+*setposang cat_singer -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+
+*setspeaker cat_piano*
 Wow, I cannot believe that worked.
 &begin2
 
 begin2:
-*setfocus narrator*
+*setspeaker narrator*
 >The door opens slowly...
 ...there seems to be.... ..a trolley?
 In the bunker tunnel??
 &begin3
 
 begin3:
-*setfocus npc_cat_cello*
+*setspeaker cat_cello*
 we have such sights to show you
 &begin4
 
 begin4:
-*setfocus npc_cat_bar*
+*setspeaker cat_bar*
 Greetings! Don't try to move, 
 we have you trapped in a cutscene.
 &begin5
 
 begin5:
-*setfocus narrator*
+*setspeaker narrator*
 >As the Bartender talks, the Cellist begins
 nodding off in the drivers seat...
 No one else seems to notice...
 &begin6
 
 begin6:
-*setfocus npc_cat_bar*
+*setspeaker cat_bar*
 We are a peaceful group of individuals looking to expand
 our horizons. We would like to offer you a job!
 It pays well, and-
 &begin7
 
 begin7:
-*setfocus narrator*
+*setspeaker narrator*
 >The cellist full nods off, leaning forward to headbutt the
 horn, startling himself half-awake!
 &begin8
 
 begin8:
-*setfocus npc_cat_cello*
+*setspeaker cat_cello*
 AGHBLHB YOU'LL NEVER TAKE ME ALIVE
 &begin9
 
 begin9:
-*setfocus narrator*
+*setspeaker narrator*
 >The Cellist cranks a lever and the trolley lurches forward!
 
 You still can't move! It's going to hit you!
@@ -61,32 +68,32 @@ voices begin to become audible...
 &begin11
 
 begin11:
-*setfocus npc_cat_piano*
+*setspeaker cat_piano*
 Oh good. The Cellist didn't kill them.
 &begin12
 
 begin12:
-*setfocus npc_cat_bar*
+*setspeaker cat_bar*
 Well, I'd say no harm no foul, but you absolutely did harm.
 Apologize later.
 &begin13
 
 begin13:
-*setfocus npc_cat_cello*
+*setspeaker cat_cello*
 yeaaah sorry. i shouldn't have been operating heavy machinery
 for like, more reasons than usual.
 My bad.
 &begin14
 
 begin14:
-*setfocus narrator*
+*setspeaker narrator*
 >Your senses fade back into normalcy.
 You seem to both alive, and inside the vehicle the cats just
 hit you with.
 &begin15
 
 begin15:
-*setfocus npc_cat_bar*
+*setspeaker cat_bar*
 Ah you seem to be completely lucid now. Good!
 &begin16
 
@@ -96,20 +103,20 @@ It is abnormal for us, I assure you.
 &begin17
 
 begin17:
-*setfocus npc_cat_piano*
+*setspeaker cat_piano*
 Hey, start the trolley. Let's get out of this dump.
 Gotta get 'em oriented n' shit.
 &begin18
 
 begin18:
-*setfocus npc_cat_sing*
+*setspeaker cat_sing*
 >The Singer gives a textbook salute and starts
 messing with levers and switches at the front
 of the trolley.
 &begin19
 
 begin19:
-*setfocus npc_cat_bar*
+*setspeaker cat_bar*
 Well in any case, it's nice to meet you!
 Don't worry, we'll explain ourselves once we get back home.
     player:
@@ -122,7 +129,7 @@ Don't worry, we'll explain ourselves once we get back home.
 		there won't be a ransom-
 		
 begin20:
-*setfocus npc_cat_cello*
+*setspeaker cat_cello*
 NOPE NO TIME TO EXPLAIN HERE WE GOOOOOOOOOOOO!
 &exit
 

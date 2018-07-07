@@ -153,6 +153,7 @@ end
 
 local function GetCurrentSpeaker()
 	local speaker = dialog.GetSpeaker()
+	if not IsValid(speaker) then speaker = focusProxy end
 	if not IsValid(speaker) then return nil, "nil" end
 
 	if speaker == dialog.GetFocus() and IsValid(focusProxy) then

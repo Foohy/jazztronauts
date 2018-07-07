@@ -1,109 +1,119 @@
-AUTO_ADVANCE = 2.0 # Enable auto-advancing, and defines how long to wait before advancing
-PRINT_RATE = 1 # Default print rate for this file. 1 = normal speed, 0.5 half speed, 2 = double speed, etc.
+AUTO_ADVANCE = 1.5 # Enable auto-advancing, and defines how long to wait before advancing
+PRINT_RATE = 0.7 # Default print rate for this file. 1 = normal speed, 0.5 half speed, 2 = double speed, etc.
+SKIP_OPEN = true # Setup scene before opening the dialog. Opened manually.
 
 ###### START
 begin1:
-*setfocus npc_cat_cello*
+
+## Scene setup
+spawngang()
+*setposang cat_bar -4436.596680 -129.377289 1568.031250;setang -90 180 0.000000*
+*setposang cat_cello -4622.852051 -178.399460 1568.031250;setang -90 180 0.000000*
+*setposang cat_piano -4614.956055 -601.316711 1568.031250;setang -90 180 0.000000*
+*setposang cat_singer -4294.451172 -722.152283 1568.031250;setang -90 180 0.000000*
+
+*setspeaker cat_cello*
+*show 0.5* # Open the dialog once the scene is all set up, (0.5 seconds)
 holy shit look at this garbage 
 whoever made this place really phoned it in huh
 &begin2
 
 begin2:
-*setfocus narrator*
+*setspeaker narrator*
 >There are four... cats? On the stage??? 
 The one who just spoke starts kicking the monster corpse next to it.
 &begin3
 
 begin3:
-*setfocus npc_cat_piano*
+*setspeaker cat_piano*
 Dunno what you expected, it's pretty dead around here at this point. 
 The last place we looked? Could barely even call that a map.
 &begin4
 
 begin4:
-*setfocus npc_cat_cello*
+*setspeaker cat_cello*
 dont you fuckin dare blaspheme dm_juicyasszone.bsp
 it had a vision
 &begin5
 
 begin5:
-*setfocus narrator*
+*setspeaker narrator*
 >One of the cats quietly crawls out from under the corpse and 
 dusts themselves off. They very excitedly run over to a fourth cat,
 and presents them a strange object...
 &begin6
 
 begin6:
-*setfocus npc_cat_bar*
+*setspeaker cat_bar*
 Ah, a shard! Keen eyes as always.
 &begin7
 
 begin7:
-*setfocus npc_cat_sing*
+*setspeaker cat_sing*
 >The cat bashfully looks down and starts fidgeting.
 &begin8
 
 begin8:
-*setfocus npc_cat_piano*
+*setspeaker cat_piano*
 Tch. I can't believe we're doing grunt work.
 &begin9
 
 begin9:
-*setfocus npc_cat_cello*
+*setspeaker cat_cello*
 yea this is peasent shit. why are we even bothering with this again
 &begin10
 
 begin10:
-*setfocus npc_cat_bar*
+*setspeaker cat_bar*
 Well, as I recall, you were the one so very insistent on making
 our last guests leave.
 &begin11
 
 begin11:
-*setfocus npc_cat_cello*
+*setspeaker cat_cello*
 oh sure i'm the bad guy here, not the one who threatened to,
 and i quote
 'floss their teeth with their spines'
 &begin12
 
 begin12:
-*setfocus npc_cat_piano*
+*setspeaker cat_piano*
 They'd have been useful for once.
 &begin13
 
 begin13:
-*setfocus npc_cat_bar*
+*setspeaker cat_bar*
 Oh come now, they were perfectly fine. Besides we got a bargain 
 on them, didn't we?
 Take five, get one free!
 &begin14
 
 begin14:
-*setfocus narrator*
+*setspeaker narrator*
 >The Cellist and Pianist both turn from scowling at each other, 
 to glaring at the Bartender. Before the argument can go anywhere,
 the silent cat starts waving their arms around.
 &begin15
 
 begin15:
-*setfocus npc_cat_cello*
+*setspeaker cat_cello*
 hey you two can brood about your hangups later
 pipes over there found a way forward
 &begin16
 
 begin16:
-*setfocus npc_cat_piano*
+*setspeaker cat_piano*
 Oh, sure, just remove yourself from the equation.
 Fine, let's go.
 &begin17
 
 begin17:
-*setfocus npc_cat_bar*
+*setspeaker cat_bar*
 Onward!
 &begin18
 
 begin18:
-*setfocus narrator*
+*setspeaker narrator*
 >The cats all point a gun at the wall. 
 A few seconds later they dissapear!
 &begin19

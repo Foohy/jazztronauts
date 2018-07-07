@@ -1,59 +1,65 @@
 ###### START
 setup1:
-*setfocus narrator*
+spawngang() # SETUP
+*setposang cat_bar -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+*setposang cat_cello -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+*setposang cat_piano -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+*setposang cat_singer -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+
+*setspeaker narrator*
 > ...A gun seems to have fallen from a hole in the ceiling.
 &begin1
 
 
 begin1:
-*setfocus npc_cat_piano*
+*setspeaker cat_piano*
 Nice job, asshole. Can't believe you tripped over a corpse.
 How many times have we had to step around dead bodies now?
 &begin2
 
 begin2:
-*setfocus npc_cat_cello*
+*setspeaker cat_cello*
 not as many times as you've had to
 i ain't the one who busts skulls, hell i'm probably too 
 blitzed to throw a punch without hitting myself right now
 &begin3
 
 begin3: 
-*setfocus npc_cat_bar*
+*setspeaker cat_bar*
 I'm stunned.
 &begin4
 
 begin4:
-*setfocus npc_cat_cello*
+*setspeaker cat_cello*
 quit being a shitty actor and help me up, jackass
 %%%%%%
 wait... goD DAMNIT
 &begin5
 
 begin5:
-*setfocus npc_cat_piano*
+*setspeaker cat_piano*
 Did you actually hurt yourself?
 Hang on, let me break out the medi-
 &begin6
 
 begin6:
-*setfocus npc_cat_cello*
+*setspeaker cat_cello*
 i dropped my prop snatcher down the fuckin grate
 &begin7
 
 begin7:
-*setfocus npc_cat_bar*
+*setspeaker cat_bar*
 Oh dear. We'd best find a way down, then.
 &begin8
 
 begin8:
-*setfocus npc_cat_piano*
+*setspeaker cat_piano*
 We'd better. Things ain't cheap.
 C'mon dumbass, let's go.
 &begin9
 
 begin9:
-*setfocus narrator*
+*setspeaker narrator*
 >3 sets of footsteps, accompanied by the sound of
 a person being dragged across the floor, fades
 away overhead... 

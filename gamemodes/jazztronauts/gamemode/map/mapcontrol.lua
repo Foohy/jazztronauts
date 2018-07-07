@@ -14,7 +14,7 @@ function GetMap()
 end
 
 function IsInHub()
-	return game.GetMap() == GetHubMap() or game.GetMap() == "jazz_apartments"
+	return game.GetMap() == GetHubMap()
 end
 
 function IsInGamemodeMap()

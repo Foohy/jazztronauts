@@ -1,6 +1,6 @@
 "VertexlitGeneric"
 {
-	"$basetexture" "models/sunabouzu/jazzRoomDetail_A"
+	"$basetexture" "models/sunabouzu/jazzroomdetail_A"
 	"$nodecal" 1
 	$selfillum 1
 }

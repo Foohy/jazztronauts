@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "sunabouzu/jazzwood04_a"
+	"$envmapmask" "sunabouzu/jazzwood04_s"
+	"$surfaceprop" "Wood_Solid"
+	"%keywords" "jazz"
+	"$envmapcontrast" 1
+	"$envmapsaturation" 1
+}

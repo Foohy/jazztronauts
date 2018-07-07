@@ -1,0 +1,15 @@
+"UnlitGeneric"
+{
+	"$basetexture" "sunabouzu/jazzraysatlus"
+	"$additive" 1
+	"$nodecal" 1
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$baseTextureTransform"
+			"texturescrollrate" .2
+			"texturescrollangle" 180
+		}
+	}
+}

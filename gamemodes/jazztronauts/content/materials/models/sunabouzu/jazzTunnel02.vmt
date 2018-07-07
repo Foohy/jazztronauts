@@ -1,7 +1,0 @@
-"UnlitGeneric"
-{
-	"$basetexture" "sunabouzu/jazzFadeToBlack"
-	"$nocull" 1
-	"$nodecal" 1
-	"$translucent" 1
-}

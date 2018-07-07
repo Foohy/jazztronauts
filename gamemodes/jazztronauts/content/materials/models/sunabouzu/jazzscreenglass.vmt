@@ -1,0 +1,11 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/jazzscreenglass"
+	"$additive" 1
+	"$envmapcontrast" 1
+	"$envmapsaturation" .2
+	"$nocull" 1
+	"$nodecal" 1
+    	"$envmap" "env_cubemap"
+	"$envmaptint" .85 .85 .85
+}

@@ -1,0 +1,15 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/jazzshard_shell"
+	"$bumpmap" "models/sunabouzu/flat_normal"
+	"$nodecal" 1
+	$phong 1
+        $phongexponent 4
+        $phongboost .2
+        $phongtint "[1 1 1]"
+        $halflambert 0
+        $phongfresnelranges "[.4 .1 1]"
+	$rimlight "1"
+	$rimlightexponent "20"
+	$rimlightboost "0.5"	
+}

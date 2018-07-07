@@ -1,6 +1,6 @@
 "VertexlitGeneric"
 {
-	"$basetexture" "models/sunabouzu/jazzbooth_A"
+	"$basetexture" "models/sunabouzu/jazzbooth_a"
 	"$envmapmask" "models/sunabouzu/jazzbooth_s"
 	"$surfaceprop" "carpet"
 	"%keywords" "jazz"

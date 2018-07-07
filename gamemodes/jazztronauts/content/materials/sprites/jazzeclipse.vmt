@@ -1,0 +1,8 @@
+"Sprite"
+{
+	"$spriteorientation" "vp_parallel"
+	"$basetexture" "particle/jazzeclipse"
+	$translucent 1
+//	$Additive 1
+	$depthblend 1
+}

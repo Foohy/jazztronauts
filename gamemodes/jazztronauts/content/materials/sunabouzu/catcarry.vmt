@@ -1,0 +1,19 @@
+"UnlitGeneric"
+{
+	"$basetexture" "sunabouzu/catcarry"
+	"$surfaceprop" "silent"
+	"%keywords" "jazz"
+	"$alphatest" 1
+	"$nocull" 1
+	"$nodecal" 1
+	"$nolod" 1
+"Proxies" 
+{ 
+"AnimatedTexture" 
+{ 
+"animatedTextureVar" "$basetexture" 
+"animatedTextureFrameNumVar" "$frame" 
+"animatedTextureFrameRate" ".5" 
+}
+} 
+}

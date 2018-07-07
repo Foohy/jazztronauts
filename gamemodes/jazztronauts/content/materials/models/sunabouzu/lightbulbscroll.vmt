@@ -1,0 +1,15 @@
+"UnlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/lightbulbscroll"
+	"$nodecal" 1
+
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$baseTextureTransform"
+			"texturescrollrate" 5
+			"texturescrollangle" 45
+		}
+	}
+}

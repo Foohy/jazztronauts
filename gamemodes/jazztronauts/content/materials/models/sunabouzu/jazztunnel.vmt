@@ -1,0 +1,13 @@
+"UnlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/jazztunnel"
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$baseTextureTransform"
+			"texturescrollrate" .05
+			"texturescrollangle" -90
+		}
+	}
+}

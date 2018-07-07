@@ -1,7 +1,7 @@
 "VertexlitGeneric"
 {
 	"$basetexture" "models/sunabouzu/thumbnail_case"
-	"$bumpmap" "models/sunabouzu/thumbnail_case_N"
+	"$bumpmap" "models/sunabouzu/thumbnail_case_n"
 	"$nocull" 1
 	"$phong" "1"
 	"$phongexponent" "1"

@@ -1,0 +1,18 @@
+"UnlitGeneric"
+{
+	"$basetexture" "sunabouzu/jazz_basinwater"
+	"$surfaceprop" "silent"
+	"%keywords" "jazz"
+	"$additive" 1
+	"$nocull" 1
+	"$nodecal" 1
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$baseTextureTransform"
+			"texturescrollrate" .01
+			"texturescrollangle" -90
+		}
+	}
+}

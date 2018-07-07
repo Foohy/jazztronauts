@@ -1,0 +1,7 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/jazzivy_A"
+	"$nocull" 1
+	"$nodecal" 1
+	"$selfillum" 1
+}

@@ -1,0 +1,31 @@
+"UnlitGeneric"
+{
+	"$basetexture" "sunabouzu/jazzswirl03"
+	"$surfaceprop" "silent"
+	"%keywords" "jazz"
+	"$additive" 1
+	"$nocull" 1
+	"$nodecal" 1
+
+       "$angle" 0.0
+        "$translate" "[0.0 0.0]"
+        "$center" "[0.5 0.5]"
+
+        "Proxies"
+        {
+            "LinearRamp"
+            {
+                "rate" 3.5
+                "initialValue" 0.0
+                "resultVar" "$angle"
+            }
+
+            "TextureTransform"
+            {
+                "translateVar" "$translate"
+                "rotateVar" "$angle"
+                "centerVar" "$center"
+                "resultVar" "$basetexturetransform"
+            }
+        }
+}

@@ -1,0 +1,8 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "sunabouzu/jazzwallpaper03_A"
+	"$envmapmask" "sunabouzu/jazzwallpaper02_S"
+	"$surfaceprop" "plaster"
+	"$envmapcontrast" 1
+	"$envmapsaturation" 1
+}

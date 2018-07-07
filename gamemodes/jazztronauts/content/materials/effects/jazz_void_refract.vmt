@@ -1,7 +1,7 @@
 "Refract"
 {
     "$basetexture" "effects/jazz_void_tooltex"
-    "$normalmap" "sunabouzu/JazzShell_dudv"
+    "$normalmap" "sunabouzu/jazzshell_dudv"
     "$refracttint" "[1 1 1]"
     "$additive" 0
     "$vertexcolor" 1

@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "sunabouzu/jazzdarken"
+	"$surfaceprop" "silent"
+	"%keywords" "jazz"
+	"$nocull" 1
+	"$nodecal" 1
+	"$translucent" 1
+}

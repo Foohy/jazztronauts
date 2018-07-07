@@ -1,0 +1,11 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/sunabouzu/jazzbigtv_A"
+	"$bumpmap" "models/sunabouzu/jazzbigtv_N"
+	"$phong" "1"
+	"$phongexponent" "1"
+	"$phongboost" "3"
+	$phongfresnelranges		"[ .25 .5 .5]"
+	$halflambert 1
+
+}

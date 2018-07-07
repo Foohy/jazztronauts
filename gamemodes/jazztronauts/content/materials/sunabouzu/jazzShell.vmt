@@ -1,7 +1,0 @@
-"UnlitGeneric"
-{
-	"$basetexture" "sunabouzu/jazzShell"
-	"$surfaceprop" "Glass"
-	"$additive" 1
-	"$nocull" 1
-}

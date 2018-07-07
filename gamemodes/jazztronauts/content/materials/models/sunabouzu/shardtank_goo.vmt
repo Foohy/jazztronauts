@@ -1,6 +1,6 @@
 "UnlitGeneric"
 {
-	"$basetexture" "models/sunabouzu/jazzShard_core"
+	"$basetexture" "models/sunabouzu/jazzshard_core"
 	"$nodecal" 1
 	"Proxies"
 	{

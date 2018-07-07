@@ -1,0 +1,16 @@
+"UnlitGeneric"
+{
+	"$basetexture" "sunabouzu/jazzlake03"
+	"%keywords" "jazz"
+	"$additive" 1
+	"$nocull"	1
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$baseTextureTransform"
+			"texturescrollrate" .01
+			"texturescrollangle" 60
+		}
+	}
+}

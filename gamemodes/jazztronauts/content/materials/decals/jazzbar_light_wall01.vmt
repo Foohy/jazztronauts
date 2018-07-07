@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$basetexture" "decals/jazzbar_light_wall01"
+	"%keywords" "jazz"
+	"$decal" 1
+	"$additive" 1
+}

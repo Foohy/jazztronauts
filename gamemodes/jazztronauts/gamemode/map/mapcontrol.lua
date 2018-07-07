@@ -22,6 +22,14 @@ function IsInGamemodeMap()
 	return pref == "jazz"
 end
 
+function GetIntroMap()
+	return "jazz_intro"
+end
+
+function GetEndMap()
+	return "jazz_ending"
+end
+
 function GetHubMap()
 	return "jazz_bar"
 end

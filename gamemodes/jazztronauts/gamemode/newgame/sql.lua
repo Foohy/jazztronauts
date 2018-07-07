@@ -6,6 +6,12 @@ jsql.Register("jazz_reset_info",
     time NUMERIC NOT NULL DEFAULT 0
 ]])
 
+jsql.Register("jazz_global_state", 
+[[
+    key TEXT PRIMARY KEY,
+	value TEXT
+]])
+
 newgame.MarkPersistent("jazz_reset_info")
 
 local newgame = {}
@@ -47,6 +53,34 @@ function newgame.GetResetCount()
     end 
 
     return 0
+end
+
+function newgame.SetGlobal(key, value)
+    local add = "REPLACE INTO jazz_global_state (key, value) VALUES "
+        .. string.format("(%s, %s)", SQLStr(key), SQLStr(value))
+
+    return jsql.Query(add) != false
+end
+
+function newgame.GetGlobal(key)
+        local query = "SELECT value FROM jazz_global_state "
+            .. string.format("WHERE key=%s", SQLStr(key))
+    local res = jsql.Query(query)
+    if not type(res) == "table" then return nil end
+
+    return res[1] and res[1].value
+end
+
+function newgame.GetGlobalState()
+    local query = "SELECT * FROM jazz_global_state"
+    local res = jsql.Query(query)
+
+    if not type(res) == "table" then return {} end
+    local tbl = {}
+    for _, v in pairs(res) do
+        tbl[v.key] = v.value
+    end
+    return tbl
 end
 
 return newgame

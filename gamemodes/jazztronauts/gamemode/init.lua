@@ -59,6 +59,7 @@ end
 function GM:Initialize()
 	self.BaseClass:Initialize()
 
+
 	SetIfDefault("sv_loadingurl", "host.foohy.net/public/Documents/Jazz/")
 	SetIfDefault("sv_gravity", "800")
 	SetIfDefault("sv_airaccelerate", "150")
@@ -68,9 +69,51 @@ function GM:Initialize()
 	mapcontrol.SetupMaps()
 
 	-- Add the current map's workshop pack to download
-	-- Usually this is automatic, but because we're doing some manualy mounting, it doesn't happen
+	-- Usually this is automatic, but because we're doing some manual mounting, it doesn't happen
 	local wsid = workshop.FindOwningAddon(game.GetMap()) or 0
 	if wsid != 0 then resource.AddWorkshop(wsid) end
+end
+
+function GM:InitPostEntity()
+	self.BaseClass:InitPostEntity()
+
+	-- Check if the current map makes sense for where we are in the story
+	-- If not (and returns false), we're changing level to the correct one
+	if false and not self:CheckGamemodeMap() then
+		return 
+	end
+end
+
+-- Given a certain global state, we want to 100% force whether or not we should be on a map
+-- For example, on a fresh restart, always start at the tutorial
+function GM:CheckGamemodeMap()
+	local curMap = game.GetMap()
+
+	-- Haven't finished intro yet, changelevel to intro
+	if not tobool(newgame.GetGlobal("finished_intro")) then
+		if curMap != mapcontrol.GetIntroMap() then
+			mapcontrol.Launch(mapcontrol.GetIntroMap())
+			print("CHANGEEEEEEEEE PLACESSSSSSSSSSSSSSS")
+			return false
+		end
+
+	-- Changelevel'd back to intro? WHy?
+	elseif curmap == mapcontrol.GetIntroMap() then
+		mapcontrol.Launch(mapcontrol.GetHubMap())
+		return false
+	end
+
+	-- Don't let them changelevel to the Ending Level until they've got enough shards
+	-- OR if they've already seen the ending
+	local hasEnded = tobool(newgame.GetGlobal("ending_type"))
+	local collected, required = mapgen.GetTotalCollectedShards(), mapgen.GetTotalRequiredShards()
+	if curMap == mapcontrol.GetEndMap() and (collected < required or hasEnded) then
+		mapcontrol.Launch(mapcontrol.GetHubMap())
+		return false
+	end
+
+	-- No map change occurring
+	return true
 end
 
 function GM:JazzMapStarted()
@@ -85,6 +128,11 @@ function GM:JazzMapStarted()
 		v:UnLock()
 		v:KillSilent()
 		v:Spawn()
+	end
+
+	-- If intro map, mark as played
+	if game.GetMap() == mapcontrol.GetIntroMap() then
+		newgame.SetGlobal("finished_intro", true)
 	end
 end
 

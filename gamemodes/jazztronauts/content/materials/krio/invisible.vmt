@@ -1,0 +1,15 @@
+"VertexLitGeneric"
+{
+// File Created by Wall Worm ( http://dev.wallworm.com )
+	// Get Wall Worm Pro to remove this comment ( https://wallworm.com/store/index.php?route=product/product&product_id=54 )
+
+// BEGIN Color
+	"$color2" "{203.0 37.0 5.0}"
+	"$basetexture" "krio/invisible"
+	$transclucent 1
+	$alphatest 1
+// END Color
+
+	"%keywords" "wallworm,apartmentblankteledoor001"
+
+}

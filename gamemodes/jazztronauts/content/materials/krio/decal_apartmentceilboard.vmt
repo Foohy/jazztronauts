@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	// Original shader: DecalBaseTimesLightmapAlphaBlend
+	"$translucent" 1
+	"$basetexture" "krio/decal_apartmentceilboard"
+	"$decal" 1
+	"$decalscale" 0.50
+}

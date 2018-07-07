@@ -1,4 +1,9 @@
 STYLE = horror
+OPEN_RATE = 1000000
+CLOSE_RATE = 1000000
+PRINT_RATE = 999
+HIDE_MOUSE = true
+ADVANCE_KEYS = IN_USE, MOUSE_LEFT
 
 wallobserve1:
     holy FUCK that's a *c 0 255 0*wall
@@ -6,6 +11,45 @@ wallobserve1:
 
 wallobserve2:
     WHAT THE FUCK ANOTHER *c 0 255 0*WALL
+    &exit
+
+doorinspectlocked1:
+    It's locked.
+    
+    &exit
+
+doorinspectlocked2:
+    2
+
+    &doorinspectlocked3
+
+doorinspectlocked3:
+    3
+    
+    &exit
+
+
+closetinspect1:
+    Just an ordinary closet. Something is preventing it from being opened.
+    &closetinspect2
+closetinspect2:
+    Can't really make out what's... *wait 1* *emitsound physics/wood/wood_deepimpact1.wav**shake 0.15* *wait 0.2* *emitsound physics/wood/wood_deepimpact2.wav**shake 0.15* *wait 1* *emitsound physics/wood/wood_deepimpact2.wav* *shake 0.15* *wait 0.1*
+    &exit
+
+closetinspectafter1:
+    
+    Maybe it's best to leave this alone, after all.
+    &exit
+
+    
+intermission:
+    *emitsound elevator/music/elevator_20.mp3*
+    welcome to *c 150 25 25*intermission *wait 15.5*  *c 255 255 255*y%%%%%%e%%%%%%a%%%%%%h, *wait 0.8* *c 150 25 25*i%%%%%%n%%%%%%t%%%%%%e%%%%%%r%%%%%%%%%%%%m%%%%%%i%%%%%%s%%%%%%s%%%%%%i%%%%%%o%%%%%%n
+    &exit
+
+
+brokenshelf1:
+    my dick fell off 
     &exit
 
 wallobserve3:

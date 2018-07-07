@@ -3,12 +3,12 @@ local left = ScreenScale(200)
 local top = ScreenScale(100)
 
 surface.CreateFont( "JazzDialogGimmickFont", {
-	font = "Silent Hell of Cheryl",
-	extended = false,
-	size = ScreenScale(15),
-	weight = 500,
-	antialias = true,
-    outline = true
+    font = "Palatino Linotype",
+    extended = false,
+    size = ScreenScale(20),
+    weight = 500,
+    antialias = false,
+    shadow = true,
 } )
 
 hook.Add("OnJazzDialogCreatePanel", "JazzDoDumbSilentHillDialogGimmickTextPanel", function(richText)

@@ -1,0 +1,10 @@
+LightmappedGeneric
+{
+	"$basetexture"	"krio/apartmentfloor1_diffuse"
+	"$surfaceprop"	"wood"
+	"$envmap" "env_cubemap"
+	"$envmapcontrast" 1
+	"$envmapsaturation" .1
+	"$envmaptint" "[ .06 .06 .06 ]"
+	"$bumpmap"		"krio/apartmentfloor1_normal"
+}

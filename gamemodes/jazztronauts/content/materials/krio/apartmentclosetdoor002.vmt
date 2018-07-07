@@ -1,0 +1,17 @@
+"VertexLitGeneric"
+{
+// File Created by Wall Worm ( http://dev.wallworm.com )
+	// Get Wall Worm Pro to remove this comment ( https://wallworm.com/store/index.php?route=product/product&product_id=54 )
+
+// BEGIN Textures
+	$basetexture "krio/apartmentclosetdoor002_A"
+	$envmapmask "krio/apartmentclosetdoor002_spec"
+// END Textures
+	"$envmap" "env_cubemap"
+	"$envmaptint" .4 .4 .4
+	"$reflectivity" "[ 1  1  1]"
+
+
+	"%keywords" "wallworm,apartmentclosetdoor002"
+
+}

@@ -343,7 +343,7 @@ if CLIENT then
         end
     end
 
-    local eclipseMat = Material("sprites/jazzEclipse")
+    local eclipseMat = Material("sprites/jazzeclipse")
     function ENT:OnPortalRendered()
         local t = self:GetExplodeTime() - self.StartDestroyDelay
         if t > 0 then
@@ -400,7 +400,7 @@ if CLIENT then
             local fade = math.min(1, t * 0.25)
             render.SetBlend(Lerp(fade, 0, 1))
             render.SetColorModulation(1, 0, 0)
-			tunnel:SetMaterial("sunabouzu/JazzLake02")
+			tunnel:SetMaterial("sunabouzu/Jazzlake02")
 			tunnel:SetAngles(Angle(0, 0, 90))
 			tunnel:DrawModel()
             render.SetColorModulation(1, 1, 1)

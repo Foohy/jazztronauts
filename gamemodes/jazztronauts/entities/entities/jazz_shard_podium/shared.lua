@@ -184,7 +184,7 @@ function ENT:OnRemove()
 
 end
 
-local eclipseMat = Material("sprites/jazzEclipse")
+local eclipseMat = Material("sprites/jazzeclipse")
 
 function ENT:Draw()
 

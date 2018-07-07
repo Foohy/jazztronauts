@@ -380,12 +380,12 @@ function ENT:DrawInteriorDoubles()
     render.SetColorModulation(1, 1, 1)
     
     -- Now two more times with each of sun's groovy additive jazz materials
-    //self.VoidTunnel:SetMaterial("sunabouzu/jazzLake01")
+    //self.VoidTunnel:SetMaterial("sunabouzu/jazzlake01")
     //self.VoidTunnel:DrawModel()
 
     -- Blend in so it doesn't all of a sudden pop into the jazz void
 
-    self.VoidTunnel:SetMaterial("sunabouzu/jazzLake02")
+    self.VoidTunnel:SetMaterial("sunabouzu/jazzlake02")
     self.VoidTunnel:DrawModel()
 
     -- Draw a fixed border to make it look like cracks in the wall

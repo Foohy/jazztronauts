@@ -37,7 +37,7 @@ local refractParams = {
 }
 
 local refract = CreateMaterial("RefractStaticMesh" .. FrameNumber(), "Refract", refractParams)
-local surfaceMaterial = Material("sunabouzu/JazzShell")
+local surfaceMaterial = Material("sunabouzu/Jazzshell")
 
 function ENT:DrawTranslucent()
 	--[[local mtx = Matrix()

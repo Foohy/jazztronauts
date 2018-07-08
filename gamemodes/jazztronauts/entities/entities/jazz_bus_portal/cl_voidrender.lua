@@ -12,6 +12,7 @@ convar_resscale = CreateClientConVar("jazz_void_resolution_scale", "1.0", true, 
 
 -- Void rendering parameters 
 local surfaceMaterial = Material("sunabouzu/JazzShell") //glass/reflectiveglass002 brick/brick_model
+overlayColor = Color(255, 255, 255, 255)
 
 void_prop_count = 10
 void_prop_side = math.ceil(math.pow(void_prop_count, 1/3.0))
@@ -39,6 +40,14 @@ end
 
 function GetVoidOverlay()
 	return void_mat, surfaceMaterial
+end
+
+function SetOverlayColor(col)
+	overlayColor = col
+end
+
+function GetOverlayColor()
+	return overlayColor
 end
 
 local function SharedRandomVec(seed)
@@ -351,7 +360,8 @@ hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 	-- Draw again with overlay
 	render.MaterialOverride(surfaceMaterial)
 	render.SetMaterial(surfaceMaterial)
-	render.SetColorModulation(1,1,1)
+	render.SetColorModulation(overlayColor.r / 255.0, overlayColor.g / 255.0, overlayColor.b / 255.0)
+	//render.SetBlend((overlayColor.a or 255) / 255.0)
 
 	PurgeRender()
 
@@ -361,7 +371,8 @@ hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 	end
 	render.MaterialOverride(nil)
 	render.SuppressEngineLighting(false)
-
+	render.SetColorModulation(1,1,1)
+	render.SetBlend(1.0)
 	--DrawProps()
 
 	//renderBrushLines()

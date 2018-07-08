@@ -280,9 +280,7 @@ function ENT:OnRemove()
     if self.SuckSoundNear then self.SuckSoundNear:Stop() end
 
     if CLIENT then
-        local _, surfaceMat = jazzvoid.GetVoidOverlay()
-        surfaceMat:SetFloat("$alpha", 1)
-        surfaceMat:SetVector("$color", Vector(1, 1, 1))
+        jazzvoid.SetOverlayColor(Color(255, 255, 255))
     end
 
 end
@@ -381,9 +379,8 @@ if CLIENT then
             -- Begin changing the overlay tint sprite to be more delightfully devilish
             local _, surfaceMat = jazzvoid.GetVoidOverlay()
             local col = LerpVector(t, Vector(1,1,1), Vector(1.0, 0.60, 0.1))
-            local alpha = Lerp(t * 0.1, 1, 0.2)
-            surfaceMat:SetFloat("$alpha", alpha)
-	        surfaceMat:SetVector("$color", col)
+            col.a = Lerp(t * 0.1, 1, 0.4)
+            jazzvoid.SetOverlayColor(col)
         end
     end
 

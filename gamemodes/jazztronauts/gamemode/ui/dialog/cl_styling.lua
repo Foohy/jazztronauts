@@ -439,7 +439,7 @@ end)
 
 
 
--- Mark this script's entrypoint as 'seen', used for some other systems
+-- Set the color of all upcoming text
 dialog.RegisterFunc("c", function(d, r, g, b, a)
 	if not r or not g then
 		r = DialogColor.r

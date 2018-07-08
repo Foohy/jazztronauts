@@ -41,7 +41,7 @@ local TOK_WAIT = 3
 local TOK_JUMP = 4
 local TOK_EQUAL = 5
 local TOK_NEWLINE = 6
-local TOK_EMTPY = 7
+local TOK_EMPTY= 7
 
 local function ChopRight(str, findstr)
 	local pos = str:find(findstr)
@@ -133,7 +133,7 @@ function CompileScript(script)
 
 	local cmds = {}
 	local toks = script.tokens
-	local notok = {tok="", type = TOK_EMTPY}
+	local notok = {tok="", type = TOK_EMPTY}
 	local entries = {}
 	local entry = nil
 	local jump_parent = nil

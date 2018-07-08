@@ -9,7 +9,7 @@ a1:
 	
 a2:
 	Not feeling that at this juncture though, so let's talk about what you
-	can get for me:       Chairs.
+	can get for me\:*c 255 0 0*       Chairs.
 	&a3
 
 a3:
@@ -24,7 +24,7 @@ a4:
 
 a5:
 	People out there have too much stuff; time on their hands; and no sense of aesthetics. 
-	It's shameful. You're gonna redistribute that wealthy to where it belongs:
+	It's shameful. You're gonna redistribute that wealthy to where it belongs\:
 	under my fluffy ass.
 	&a6
 	

@@ -352,3 +352,90 @@ end )
 hook.Add("GetMotionBlurValues", "JazzDisableMblurDialg", function(h, v, f, r)
     if dialog.IsInDialog() then return 0, 0, 0, 0 end
 end )
+
+
+-- Background music
+local bgmeta = {}
+
+function bgmeta:OnReady(channel, err, errname)
+    if not channel then 
+        self.failure = true 
+        ErrorNoHalt("Failed to play background music " .. self.song .. "\n" .. errname .. "\n") 
+        return 
+    end
+    if channel.endtime then return end -- Already fading out
+
+    channel:SetVolume(0)
+    channel:EnableLooping(true)
+    channel:Play()
+    self.channel = channel
+    self.fadetime = self.fadein + RealTime()
+end
+
+function bgmeta:Stop(fade)
+    fade = fade or 0
+    self.fadeout = fade
+    self.fadetime = fade + RealTime()
+end
+
+function bgmeta:Update()
+    if not IsValid(self.channel) then return not self.failure end
+
+    local volume = 0
+    if self.fadeout then
+        local perc = self.fadeout > 0 and (self.fadetime - RealTime()) / self.fadeout or -1
+        volume = perc * self.maxvol
+    elseif self.fadein then
+        local perc = self.fadein > 0 and (self.fadetime - RealTime()) / self.fadein or 0
+        volume = (1 - perc) * self.maxvol
+    end
+
+    if volume < 0 then
+        self.channel:Stop()
+        return false
+    end
+
+    self.channel:SetVolume(math.Clamp(volume, 0, 1))
+    return true
+end
+
+bgmeta.__index = bgmeta
+
+local curBGMusic = nil
+local activeMusic = {}
+local function playBGMusic(song, volume, fadein)
+
+    -- Stop any existing songs
+    StopBGMusic(fadein)
+
+    -- Construct our new song object
+    local newsong = setmetatable({song = song, maxvol = volume, fadein = fadein }, bgmeta)
+    sound.PlayFile(song, "noblock", function(...) newsong:OnReady(...) end)
+
+    -- add 2 list
+    table.insert(activeMusic, newsong)
+    curBGMusic = newsong
+end
+
+function StopBGMusic(fadeout)
+    if not curBGMusic then return end
+
+    curBGMusic:Stop(fadeout)
+    curBGMusic = nil
+end
+
+hook.Add("Think", "JazzDialogBGMusicThink", function()
+    for k, v in pairs(activeMusic) do
+        if not v:Update() then
+           table.remove(activeMusic, k) 
+        end 
+    end
+end )
+
+dialog.RegisterFunc("bgmplay", function(d, song, volume, fadetime)
+    playBGMusic(song, tonumber(volume) or 1.0, tonumber(fadetime) or 0.0)
+end )
+
+dialog.RegisterFunc("bgmstop", function(d, fadetime)
+    StopBGMusic(fadetime)
+end )

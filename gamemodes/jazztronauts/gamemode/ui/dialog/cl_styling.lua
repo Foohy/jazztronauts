@@ -335,6 +335,7 @@ DialogCallbacks.DialogEnd = function(d)
 	gui.EnableScreenClicker(false)
 	dialog.InformScriptFinished(d.entrypoint, d.seen)
 	dialog.ResetView()
+	dialog.StopBGMusic(1.5)
 	dialog.SetFocusProxy(nil)
 	LocalPlayer().JazzDialogLastLockAngles = nil
 

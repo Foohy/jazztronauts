@@ -22,7 +22,7 @@ begin:
 ##shot4 - bar establish shot setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000
 
 ##shot5 - player shot setpos -2881.998047 3002.636719 71.382820;setang 1.064988 -54.895622 0.000000
-	*emitsound sound\jazztronauts\music\events\allspice.mp3*
+	*bgmplay sound/jazztronauts/music/events/allspice.mp3 1.0 2.0*
     *setcam setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000*
 	*txin*
     *wait .5*

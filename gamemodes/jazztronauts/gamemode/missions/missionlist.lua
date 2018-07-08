@@ -104,24 +104,10 @@ AddMission(2, NPC_CAT_CELLO, {
     -- The accept function for what props count towards the mission
     -- Can be as broad or as specific as you want
     Filter = function(mdl) 
-        return string 
-        
-        MatchesAny(mdl, {
-            "models/props_c17/FurnitureBoiler001a.mdl",
-            "models/props_c17/oildrum001_explosive.mdl",
-            "models/props_junk/plasticbucket001a.mdl",
+        return MatchesAny(mdl, {
             "models/props_junk/metal_paintcan001a.mdl",
-            "models/props_junk/propane_tank001a.mdl",
-            "models/props_junk/PropaneCanister001a.mdl",
-            "models/Gibs/HGIBS.mdl",
-            "models/props_junk/garbage_glassbottle001a.mdl",
-            "models/props_junk/glassjug01.mdl",
-            "models/props_junk/garbage_plasticbottle002a.mdl",
-            "models/props_junk/garbage_plasticbottle001a.mdl",
-            "models/props_junk/gascan001a.mdl",
-            "models/props_lab/crematorcase.mdl",
-            "models/props/cs_office/water_bottle.mdl",
-            "models/sunabouzu/noir_bottle.mdl"
+            "models/props_junk/metal_paintcan001b.mdl",
+            "models/props/cs_militia/paintbucket01.mdl" 
         })
     end,
 

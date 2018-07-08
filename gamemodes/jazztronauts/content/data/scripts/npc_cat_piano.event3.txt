@@ -1,0 +1,273 @@
+SKIP_OPEN = true
+
+begin:
+    # Scene setup
+    *txout*
+	*hide*
+    *setfov 70*
+
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setnpcid cat_piano npc_cat_piano*
+
+	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	*setnpcid cat_cello npc_cat_cello*
+	
+	*spawn player_dummy playerboy*
+	*txin*
+
+###### START	
+	*setspeaker narrator*
+	*show*
+	>The Pianist appears to be doing situps in the performance hall.
+	
+	She notices you pretty quickly.
+	&b1
+	
+b1:
+	*setspeaker cat_piano*
+	You.
+	
+	I've been waiting for you to show up. C'mere, and lower your voice.
+	&b2
+	
+b2:
+	Listen, PLAYERNAME. We've been through a lot together. 
+	We've bonded over the acquisition of suspended-animation takeout.
+	And I just decided that means we're friends now.
+	&b3
+	
+b3:
+	I know, it's a lot to take in, remember to breathe.
+	My trust is not lightly bewtowed, but I think you've earned it.
+	But we should not forget our origins.
+	&b4
+	
+b4:
+	So, we're gonna cement this friendship in an aptly symbolic and
+	appropriate way:
+	Which is a very fancy and roundabout way of me telling you that we're gonna
+	steal more shit for me.
+	player:
+	&r1a1:
+		I don't like the look in your eye and I don't want to cause another incident
+		with the Singer. So i'm gonna have to pass on whatever you've got planned here. (exit)
+	&r2a1:
+		Or, and hear me out here - we could sit down, have a drink, and talk about
+		our feelings and shared interests?
+	&r3a1:
+		I fucking live to steal.
+		
+		
+###### BRANCH 1 (early exit)
+r1a1:
+	*setspeaker cat_piano*
+	Well, piss. I hadn't really planned for tha, but.
+	I respect your autonomy, pal. Go be 'reliable' or whatever boring thing you
+	have in mind instead, if that's what you really want to do.
+	*mark_seen*
+	&exit
+	
+###### BRANCH 2 
+r2a1:
+	*setspeaker cat_piano*
+	>The Pianist stares at you, head tilted to one side. 
+	You can almost see the wheels turning in her head before she shakes it and grins.
+	&r2a2
+
+r2a2:
+	We don't have that kind of relationship, buddy.
+	Our relationship is based on a different kind of give and take.
+	The kind where you take shit from other people and give it to me.
+	player:
+	&r1a1:
+		I don't like the look in your eye and I don't want to cause another incident
+		with the Singer. So i'm gonna have to pass on whatever you've got planned here. (exit)
+	&r3a1:
+		I fucking live to steal.
+		
+###### BRANCH 3 (Also merge point)
+r3a1:
+	*setspeaker cat_piano*
+	>The Pianist claps her hands together and beams, tail lashing in excitement.
+	&r3a2
+	
+r3a2:
+	*setspeaker cat_piano*
+	Hell fucking yeah you do.
+	&r3a3
+
+r3a3:
+	I'm gonna lift the package myself, I just need you to be my lookout.
+	And our mark is a fucking moron with no spacial awareness to speak of.
+	It's an easy job. C'mon let's move.
+	&m1
+	
+m1:
+*hide*
+*txout*
+*txin*
+*wait .4*
+*show*
+	*setspeaker narrator*
+	>The Bar Samsara, Cellist's Room....
+	
+	The Cellist is inside, surrounded by... substances. He looks pretty 
+	unconscious.
+	&m2
+	
+m2:
+	>The Pianist holds up her paw, then points at the Cellist's... workbench?
+	The range of paraphernalia on display is both a marvel, and a probable violation
+	of pretty much every drug law there is.
+	&m3
+	
+m3:
+	>She turns to you, and speaks in a barely audible whisper.
+	&m4
+	
+m4:
+	*setspeaker cat_piano*
+	Okay. Here's the deal.
+	In, out. Ten seconds, tops.
+	
+	I'm after that.
+	&m5
+
+m5:
+	camera cuts to show a joint on a table here
+	I know how this motherfucker works. All those high concept, probably explosive
+	materials?
+	
+	That's the soft shit.
+	&m6
+	
+m6:
+	*setspeaker cat_piano*
+	And I want to get.
+	
+	Fucked. Up.
+	&m7
+
+m7:
+	*setspeaker cat_piano*
+	I don't wanna be able to think for a week and I want to make really stupid
+	life choices. You justt watch for him twitching.
+	player:
+	&m8:
+		Why don't you just ask h-
+	&m8:
+		This is a really bad id-
+	&m8:
+		You're gonna go blind you kn-
+		
+m8:
+	*setspeaker narrator*
+	>The Pianist ignores you, stalking twoards the bench. She carefully steps around the 
+	soused Cellist, and the discarded... stuff... surrounding him.
+	&m9
+	
+m9:
+	*setspeaker narrator*
+	>Her tail rigid behind her, she leans in...
+	and in...
+	and...
+	got it!
+	&m10
+	
+m10:
+	*setspeaker narrator*
+	>The Cellist starts to stir and you frantically signal for your heist partner to get
+	out of there. The two of you retreat to a secluded corner to share the spoils.
+	&m11
+	
+m11:
+*hide*
+*txout*
+*txin*
+*wait .25*
+*show*
+	*setspeaker cat_piano*
+	We fucking did it. We have scored, the Good Shit.
+	He knows that I know he hides the hard stuff, so of course he left it out in the
+	open as something obvious and innocuous. Cellist is smarter than he looks, you know.
+	&m12
+	
+m12:
+	*setspeaker narrator*
+	>She lights the thing with a blowtorch, which is the kind of excessive action you have
+	come to expect. She takes a deep drag, ears flattening against her head and pupils
+	dialating.
+	&m13
+	
+m13:
+	*setspeaker cat_piano*
+	Yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeah.
+	
+	>You smell something... floral? Is that lavender? And camomile?
+	&m14
+	
+m14:
+	*setspeaker cat_piano*
+	The contract of friendship is sealed.
+	
+	>The Pianist's eyes go blank, and she falls backward onto the floor.
+	&m15
+	
+m15:
+	*setspeaker narrator*
+	>Nudging her lightly, you establish that she's not dead. 
+	Moments later, snoring confirms that she's just fast asleep.
+	The air smells delightful.
+	&m16
+	
+m16:
+	*setspeaker narrator*
+	As you turn to leave her to her nap, the Cellist steps into view and 
+	squats beside her.
+	&m17
+	
+m17:
+	*setspeaker cat_cello*
+	fucking knew that'd work
+	she always assumes i have the capacity for mind games and pysches herself out
+	into doing something predictable.
+	thanks for enabling her.
+	&m18
+	
+m18:
+	*setspeaker cat_cello*
+	oh, it's probably worth noting she didn't actually get my Good Shit
+	you'd be able to tell if she did by the constant screaming
+	&m19
+	
+m19:
+	*setspeaker cat_cello*
+	i just rolled a blunt full of aromatherapy stuff i stole from bed bath and beyond
+	it seems to be working. now maybe she'll sleep for more than an hour and wake up
+	chill and give us all some peace and quiet for a day or two.
+	&m20
+	
+m20:
+	*setspeaker narrator*
+	>The Cellist nods to himself, cleary satisfied, and leaves.
+	*mark_seen*
+	Bemused, you snub out the joint and leave the sleeping cat be.
+	&exit
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

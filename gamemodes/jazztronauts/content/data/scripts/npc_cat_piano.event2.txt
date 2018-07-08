@@ -21,6 +21,7 @@ begin:
 	*spawn player_dummy playerboy*
 	*txin*
 	
+	
 ###### START
 	*setspeaker narrator*
 	*show*

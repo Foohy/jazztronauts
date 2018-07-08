@@ -1,5 +1,256 @@
+SKIP_OPEN = true
+
 begin:
-	Scene not yet written. 
-	Move on to next side mission.
+    # Scene setup
+    *txout*
+    *setfov 70*
+
+	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
+	*setnpcid cat_bar npc_cat_bar*
+
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setnpcid cat_piano npc_cat_piano*
+	
+	*spawn player_dummy playerboy*
+	*txin*
+
+###### START	
+	*setspeaker narrator*
+	>The Pianist and the Bartender are having a chat at the samsara...
+	&b1
+	
+b1:
+	*setspeaker cat_piano*
+	-All I'm saying is, we'd probably get more customers through here if there was a 
+	place to cut loose. Don't get me wrong I love the aesthetic we have but it's so...
+	&b2
+	
+b2:
+	...Serence.
+	&b3
+	
+b3:
+	*setspeaker cat_bar*
+	An interesting proposal that I would entertain, if not for the fact that I know
+	what your concept of "cutting loose" us.
+	It's very difficult to get blood out of tile grout, you know.
+	&b4
+	
+b4:
+	>The Bartender notices you and waves, visibly relieved.
+	&b5
+	
+b5:
+	Ah, PLAYERNAME! Welcome, have a seat. Would you care for a snickerdoodle? I can-
+	&b6
+	
+b6:
+	*setspeaker cat_piano*
+	>The Pianist slams her paw down on the bar and turns to face you, eyes narrowing.
+	&b7
+	
+b7:
+	You. Back me up here.
+	This place would be infinitely more appealing if there was room for activities more
+	stimulating than meditation or erudite conversation.
+	&b8
+	
+b8:
+	Something to get the blood pumpin.
+	
+	Like a coliseum.
+	
+	player:
+	&r1a1:
+		I prefer my blood pumping inside my body. 
+		I'll take a snickerdoodle to go, though. (Exit)
+	&r2a1:
+		Okay, excellent suggestion, but hear me out here: Dance fighting.
+		All of the thrill, none of the murder.
+	&r3a1:
+		If the floor is sand you don't need to worry about blood in the grout!
+	
+	
+###### Branch 1 (early exit)
+r1a1:
+	*setspeaker cat_piano*
+	>The Pianist rolls her eyes.
+	&r1a2
+	
+r1a2:
+	Nobody appreciates my artistic vision. We've got the bread, we need the circus.
+	History is on my side here.
+	&r1a3
+	
+r1a3:
+	*setspeaker cat_bar*
+	>The Bartender pushes the plate of cookies over to you, beaming.
+	&r1a4
+	
+r1a4:
+	Thank you for your custom, PLAYERNAME.
+	
+	>She turns her attention back to the Pianist and puts a paw over her face.
+	&r1a5
+	
+r1a5:
+	Pianist. We've talked about this.
+	
+	Plenty of establishments manage to thrive without having a dedicated avenue for
+	ritual combat. We have no need-
+	&r1a6
+	
+r1a6:
+	*setspeaker narrator*
+	>They resume normal conversation. You decide to grab your cookies and bounce.
 	*mark_seen*
 	&exit
+	
+###### Branch 2
+r2a1:
+	*setspeaker cat_piano*
+	>The Pianist stares at you. Her head tilts to one side.
+	Her blank expression makes it difficult to tell if she's thinking about your
+	suggestion, or mapping out the optimal way to dismember you.
+	&r2a2
+	
+r2a2:
+	No.
+	&r2a3
+	
+r2a3:
+	*setspeaker cat_bar*
+	I don't know, I find the idea quite charming. And there would be no need to build
+	an additional venue to facilitate it. We have plenty of space!
+	I could have the singer make us a nice banner, put out some pamphlets...
+	&r2a4
+	
+r2a4:
+	*setspeaker cat_piano*
+	I cannot believe you're taking this seriously.
+	&r2a5
+	
+r2a5:
+	*setspeaker cat_bar*
+	>The Bartender appears to be in deep thought. She claps, brightening.
+	&r2a6
+	
+r2a6:
+	Oh! We could let the clintele vote on the theme.
+	Community participation!
+	&r2a7
+	
+r2a7:
+	*setspeaker cat_piano*
+	>The Pianist slams her head on the bar.
+	
+	...it was pretty loud too...
+	&r2a8
+	
+r2a8:
+	I'm going to die.
+	You're going to find me one day under a table with a little epitaph carved into 
+	the blade of the axe you won't let me use. And all it'll say is "Here lies the 
+	Pianist. Died of boredom"
+	&m1
+	
+###### Branch 3
+r3a1:
+	*setspeaker cat_piano*
+	See!
+	Now we're cooking with gas.
+	This one gets it.
+	&r3a2
+	
+r3a2:
+	Nice sand floor, elevated seats to reduce the chance of being slapped in the
+	face by a stray hand... pretzels...
+	&r3a3
+	
+r3a3:
+	We'd finally have a fuckin' use for all the Singer's toys, too.
+	It's genius.
+	&r3a4
+	
+r3a4:
+	*setspeaker cat_bar*
+	Sand gets everywhere, Pianist. I know you're excited, but you have to think about
+	the practical consequences of these things. Do you really want to have to spend
+	five hours trying to get all the viscera soaked grit out of your fur?
+	&r3a5
+	
+r3a5:
+	*setspeaker cat_piano*
+	Yes.
+	&m1
+	
+	
+###### MERGE BACK TO COMMON ROUTE
+m1:
+	*setspeaker cat_bar*
+	...I'm sorry, but i'm afraid I will have to continue to veto the idea of a coliseum.
+	For one thing, all ethical concerns aside, trying to get planning permission for
+	that sort of thing would be an unending nightmare.
+	&m2
+	
+m2:
+	And for the other concern, I can't help but fell you would end up... killing all
+	of our customers.
+	
+	Am I wrong?
+	&m3
+	
+m3:
+	*setspeaker cat_piano*
+	...No.
+	&m4
+	
+m4:
+	*setspeaker cat_bar*
+	I didn't think so. 
+	
+	I know it's a chore, but you'll have to find some 
+	other way to entertain yourself.
+	&m5
+	
+m5:
+	*setspeaker cat_piano*
+	Fine.
+	&m6
+	
+m6:
+	>The Pianist knocks back the rest of her drink.
+	Then she grabs a pawful of snickerdoodles and stalks off.
+	&m7
+	
+m7:
+	*setspeaker cat_bar*
+	>The Bartender turns her attention back to you, and smiles.
+	&m8
+	
+m8:
+	Now, what can I get you?
+	*mark_seen*
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

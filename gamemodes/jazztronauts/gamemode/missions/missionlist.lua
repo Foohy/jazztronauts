@@ -241,3 +241,13 @@ AddMission(3, NPC_CAT_PIANO, {
     Prerequisites = { IndexToMID(2, NPC_CAT_PIANO)  },
     OnCompleted = GrantMoney(2500)
 })
+
+AddMission(4, NPC_CAT_PIANO, {
+    Instructions = "Find a horse statue",
+    Filter = function(mdl) 
+        return mdl == "models/props_c17/statue_horse.mdl"
+    end,
+    Count = 1,
+    Prerequisites = { IndexToMID(3, NPC_CAT_PIANO)  },
+    OnCompleted = GrantMoney(2500)
+})

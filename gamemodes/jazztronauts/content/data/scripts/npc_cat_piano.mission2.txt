@@ -27,7 +27,7 @@ a4:
 	&a5
 	
 a5:
-	Which is where you come in, playername, my dear pal. I happen to know that
+	Which is where you come in, *player*, my dear pal. I happen to know that
 	our mutual friend the Singer has a weakness for fast food. So, you're gonna
 	help me put on a feast. 
 	&a6

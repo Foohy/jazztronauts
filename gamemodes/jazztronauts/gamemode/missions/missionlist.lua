@@ -104,10 +104,24 @@ AddMission(2, NPC_CAT_CELLO, {
     -- The accept function for what props count towards the mission
     -- Can be as broad or as specific as you want
     Filter = function(mdl) 
-        return MatchesAny(mdl, {
+        return string 
+        
+        MatchesAny(mdl, {
+            "models/props_c17/FurnitureBoiler001a.mdl",
+            "models/props_c17/oildrum001_explosive.mdl",
+            "models/props_junk/plasticbucket001a.mdl",
             "models/props_junk/metal_paintcan001a.mdl",
-            "models/props_junk/metal_paintcan001b.mdl",
-            "models/props/cs_militia/paintbucket01.mdl" 
+            "models/props_junk/propane_tank001a.mdl",
+            "models/props_junk/PropaneCanister001a.mdl",
+            "models/Gibs/HGIBS.mdl",
+            "models/props_junk/garbage_glassbottle001a.mdl",
+            "models/props_junk/glassjug01.mdl",
+            "models/props_junk/garbage_plasticbottle002a.mdl",
+            "models/props_junk/garbage_plasticbottle001a.mdl",
+            "models/props_junk/gascan001a.mdl",
+            "models/props_lab/crematorcase.mdl",
+            "models/props/cs_office/water_bottle.mdl",
+            "models/sunabouzu/noir_bottle.mdl"
         })
     end,
 
@@ -123,13 +137,19 @@ AddMission(2, NPC_CAT_CELLO, {
 })
 
 AddMission(3, NPC_CAT_CELLO, {
-    Instructions = "Collect 10 chemicals",
+    Instructions = "Collect 10 random chemicals",
     Filter = function(mdl) 
         return MatchesAny(mdl, {
             "models/props_junk/garbage_plasticbottle001a.mdl",
             "models/props_junk/garbage_plasticbottle002a.mdl",
+            "models/props_junk/garbage_plasticbottle003a.mdl",
             "models/props_junk/plasticbucket001a.mdl",
-            "models/props_junk/glassjug01.mdl" 
+            "models/props_junk/glassjug01.mdl",
+            "models/props_lab/crematorcase.mdl",
+            "models/props_lab/jar01a.mdl",
+            "models/props_lab/jar01b.mdl",
+            "models/props/de_train/biohazardtank.mdl",
+            "models/props/de_train/biohazardtank_dm_10.mdl"
         })
     end,
     Count = 10,
@@ -176,5 +196,62 @@ AddMission(0, NPC_CAT_BAR, {
     end,
     Count = 10,
     Prerequisites = nil,
+    OnCompleted = GrantMoney(2500)
+})
+
+
+/*
+===========================
+    Pianist Missions
+===========================
+*/
+AddMission(0, NPC_CAT_PIANO, {
+    Instructions = "Find 5 chairs",
+    Filter = function(mdl) 
+        return string.match(mdl, "chair") and
+            not string.match(mdl, "chunk") and
+            not string.match(mdl, "gib") and
+            not string.match(mdl, "damage")
+    end,
+    Count = 5,
+    Prerequisites = nil,
+    OnCompleted = GrantMoney(2500)
+})
+
+AddMission(1, NPC_CAT_PIANO, {
+    Instructions = "Steal 10 headcrabs",
+    Filter = function(mdl) 
+        return MatchesAny(mdl, {
+            "models/headcrab.mdl",
+            "models/headcrabblack.mdl",
+            "models/headcrabclassic.mdl"
+        })
+    end,
+    Count = 10,
+    Prerequisites = { IndexToMID(0, NPC_CAT_PIANO)  },
+    OnCompleted = GrantMoney(2500)
+})
+
+AddMission(2, NPC_CAT_PIANO, {
+    Instructions = "Find 20 boxes of chinese takeout",
+    Filter = function(mdl) 
+        return mdl == "models/props_junk/garbage_takeoutcarton001a.mdl"
+    end,
+    Count = 20,
+    Prerequisites = { IndexToMID(1, NPC_CAT_PIANO)  },
+    OnCompleted = GrantMoney(2500)
+})
+
+AddMission(3, NPC_CAT_PIANO, {
+    Instructions = "Borrow 30 vending machines",
+    Filter = function(mdl) 
+        return MatchesAny(mdl, {
+            "models/props/cs_office/vending_machine.mdl",
+            "models/props_interiors/vendingmachinesoda01a_door.mdl",
+            "models/props_interiors/vendingmachinesoda01a.mdl"
+        })
+    end,
+    Count = 30,
+    Prerequisites = { IndexToMID(2, NPC_CAT_PIANO)  },
     OnCompleted = GrantMoney(2500)
 })

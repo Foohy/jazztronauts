@@ -1,29 +1,37 @@
 accept:
-    okay so turns out gasoline has way more shit in it than just butane, %%
-    and that soaking bud in crude oil does not % in fact % 
-    make hash that could give God couch lock, %% 
-    it just makes it explode when you try cooking it down
+    oh right you live here now,%% 
+	we kidnapped you,%%%
+	that was a thing we did
     &a2
 a2:
-    i suppose the adrenaline and endorphins secondary to 
-    getting tempered glass acupuncture of the face counted as 
-    getting high though %% so I'm gonna chalk that one down as something to revisit
+    u%h%h%h%h
     &a3
 a3:
-    problem is %% my stash of Good Shit is still basically zeroed out %
-    but luckily for everybody here that has a vested interest in not having 
-    their endocrine system snorted out of desperation %% i've got an old 
-    fallback recipe that is significantly less likely to explode 
-    when someone doesn't say the right sutra when picking it up
+    look,%% I don't get much practice with small talk so if you don't mind
+	%%i'll just skip to the part where i need something from you%
+	because using people is my comfort zone
+	&a3b
+	
+a3b:
+	i'm still low on the Good Shit% and i'm looking to hoard up for the
+	winter of my discontent with sobriety.
     &a4
+
 a4:
-    i've got basically everything on hand % 
-    but i'll need ten beer bottles and two gas cans to finish the recipe
-    *start 1*
+    luckily for you%% i've already taken care of most of the esoteric
+	shit% but i may have drank an entire case of natty light this morning
+	because i forgot it was a vital part of the necessary ingredience
     &a5
 a5:
-    i figure less gas this time is probably 
-    healthier for everybody involved
+    well.%%
+	forgot is a strong word.% it's more that my ability to care was stunted
+	below the level necessary to stop me.
+	&a6
+	
+a6:
+	what i'm saying is your job is to go get me two dozen beer bottles to
+	replace that case before i end up snorting something else
+	vital to the process *start 1*
     &exit
 
 idle:
@@ -32,18 +40,22 @@ idle:
 
 idle2:
     oh, if you're worrying about me going sober this time %
-    i finally found my emergency stash of bug spray the bartender locked up %
-    so i'll be able to crutch out on cascading organ failure long enough to 
+    i finally found my emergency stash of bug spray the bartender locked up 
+    &idle3
+	
+idle3:
+	I'll be able to crutch out on cascading organ failure long enough to 
     keep me going until you get me that stuff i asked for
-
-    &exit
+	&exit
 
 turnin:
-    alright kick ass y'all aint bad at this now i get why rich people hire minions
+    alright kick ass y'all aint bad at this %%
+	now i get why rich people hire minions
     &t1
 t1:
-    now i can put the finishing touches on this here moonshine and i'll be safe 
-    from the horrible specter of metacognition for the next couple months or so
+    now i can put the finishing touches on this here moonshine and 
+	i'll be safe from the horrible specter of metacognition for 
+	the next couple months or so
     &t2
 t2:
     go get yourself something nice with this

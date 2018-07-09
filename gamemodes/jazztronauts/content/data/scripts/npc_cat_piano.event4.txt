@@ -1,0 +1,196 @@
+SKIP_OPEN = true
+
+begin:
+    # Scene setup
+    *txout*
+	*hide*
+    *setfov 70*
+
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setnpcid cat_piano npc_cat_piano*
+
+	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	*setnpcid cat_cello npc_cat_cello*
+	
+	*spawn player_dummy playerboy*
+	*txin*
+
+###### START	
+	*setspeaker narrator*
+	>The Barsamsara.... the Bartender and Pianist are here.
+	
+	Though the Pianist appears to be dead, facedown on the bar.
+	Wait, no she's moving.
+	&b1
+	
+b1:
+	*setspeaker cat_piano*
+	Y'know. I envy you, PLAYERNAME. At first I thought maybe I hate you?
+	But, I did some talking to the Bartender, and I realized it's a different feeling.
+	&b2
+	
+b2:
+	*setspeaker cat_piano*
+	I don't wanna kill you, for one thing, although I did think about it
+	for a while. Normally I end up breakin' things I hate, y'see.
+	&b3
+	
+b3:
+	*setspeaker cat_piano*
+	But no. S'envy.
+	
+	You can do whatever you want.
+	player:
+	&r1a1:
+		Well, I know I don't want any part in this. 
+		We'll talk when you're sober, 'kay? (Exit)
+	&r2a1:
+		Thanks for not trying to kill me, I think?
+	&r3a1:
+		Are you...okay?
+		
+###### Branch 1 (early exit)
+r1a1:
+	*setspeaker narrator*
+	>The Pianist appears to have fallen asleep, judging by the snoring. 
+	The Bartender gives you a firm nod.
+	&r1a2
+	
+r1a2:
+	*setspeaker cat_bar*
+	Don't worry, I'll make sure she's taken care of.
+	&r1a3
+	
+r1a3:
+	*setspeaker cat_bar*
+	The Pianist likes you, you know. That's rather rare.
+	Thank you for being her friend, PLAYERNAME.
+	*mark_seen*
+	&exit
+	
+###### Branch 2
+r2a1:
+	*setspeaker cat_piano*
+	Buddy, if I'd decided to, there would be no try. You'd be a pile of
+	gibs floatin' in the lake. But I don't wanna kill you. 
+	Like it better when you're alive. You make me like...
+	&r2a2
+	
+r2a2:
+	*setspeaker cat_piano*
+	Smile.
+	And wanna be a fuckin'. Uhhh. Better person and shit.
+	
+	Sometimes.
+	player:
+	&r1a1:
+		Well, I know I don't want any part in this. 
+		We'll talk when you're sober, 'kay? (Exit)
+	&r3a1:
+		Are you...okay?
+		
+###### Branch 3
+r3a1:
+	*setspeaker cat_piano*
+	>She laughs, sharp and sudden like glass breaking.
+	&r3a2
+	
+r3a2:
+	*setspeaker cat_piano*
+	I am many fuckin' things, PLAYERNAME, but at no point am I "okay".
+	You ever have days where you just stop fuckin' thinking?
+	&r3a3
+	
+r3a3:
+	*setspeaker cat_piano*
+	That never goes away for me. It's my natural state of being.
+	I can't take a shit without planning it advance.
+	&r3a4
+
+r3a4:
+	*setspeaker cat_piano*
+	Tryin' to find a way around it. Might take up some new.
+	Hobby. Somethin' stupid an' dangerous.
+	Figure I won't be able to think then, y'know?
+	&r3a5
+	
+r3a5:
+	*setspeaker cat_piano*
+	I'm overthinking trying not to overthink fuck my 
+	entire life with a rusty rake.
+	&r3a6
+	
+r3a6:
+	*setspeaker cat_piano*
+	PLAYERNAME. 
+	You're good at like.
+	Doin' shit on impulse.
+	How do?
+	player:
+	&m1:
+		Well-
+	&m1:
+		Fuck, I-
+	&m1:
+		Uhhhhhhhhhh-
+		
+###### Merge 
+m1:
+	*setspeaker narrator*
+	>The Pianist's head slams down on the bar counter.
+	
+	...she appears to have passed out.
+	&m2
+	
+m2:
+	*setspeaker cat_bar*
+	>The Bartender walks over to the Pianist, and pats her on the head.
+	&m3
+	
+m3:
+	*setspeaker cat_bar*
+	Ah.
+	There she goes.
+	&m4
+	
+m4:
+	*setspeaker narrator*
+	>The Bartender sizes you up for a while, then sighs.
+	&m5
+	
+m5:
+	*setspeaker cat_bar*
+	The Pianist can't play anymore. Not like she used to. 
+	Once she was capable of the most delightful improvisations on the piano,
+	it was a marvel to watch.
+	&m6
+	
+m6:
+	*setspeaker cat_bar*
+	But shortly after the last group like your left us, she just...
+	lost that ability. It's been very distressing for her.
+	&m7
+	
+m7:
+	*setspeaker cat_bar*
+	Thank you for being her friend. You've brought her more comfort in
+	a short time than I've been able to for years. I have no words for how
+	deeply I appreciate that.
+	&m8
+	
+m8:
+	*setspeaker cat_bar*
+	Don't worry, I'll make sure she's taken care of.
+	*mark_seen*
+	&exit
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+	

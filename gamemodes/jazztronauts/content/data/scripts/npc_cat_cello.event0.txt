@@ -15,3 +15,6 @@ begin:
 ###### START
 	*setspeaker narrator*
 	*show*
+	NOTHING HERE  YET MOVE ONTO NEXT MISSION
+	*mark_seen*
+	&exit

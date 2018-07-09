@@ -1,0 +1,121 @@
+accept:
+	Hey. Sorry if I was.
+	You know.
+	Weird. Earlier.
+	&a1
+	
+a1:
+	>She rubs the back of her head, avoiding eye contact.
+	&a2
+	
+a2:
+	I don't really remember much other than ramblin about not killing you.
+	I'm a bit of a lightweight and I drank about uhhh sixty perfect more 
+	than it needs to get me goddamn plastered.
+	&a3
+	
+a3:
+	But you can rest assured that I was being legit and have zero intention
+	of putting you on ice.
+	&a4
+	
+a4:
+	I've been trying uh, meditation.
+	Gives me a lot of time to think. 
+	On purpose, I mean.
+	&a5
+	
+a5:
+	I feel like I owe the Singer a more substantial apology than a bribe
+	of shitty takeout. So I'm gonna need your larceny skills again, PLAYERNAME.
+	This is The Big One.
+	&a6
+	
+a6:
+	I need you to get me 3 metro cops. For the mewseum. They dont have any,
+	and it'll mean a lot to em'. Of course, I'll compensate you for you
+	for your efforts. *start 5*
+	
+	
+idle:
+	Hey.
+	Don't worry I'm not gonna give you any shit if you haven't finished the job
+	yet, this and the horse thing were niche asks, I know.
+	&i1
+	
+i1:
+	I reckon this'll be the last time I need you to do this sort of thing, my
+	"frivolous hiring fees" budget is running a little low and i'll need to see
+	our fence before I can make any more poor fiscal descisions.
+	&i2
+	
+i2:
+	But I do want to say that. 
+	I really appreciate all the help you've been giving me.
+	Your company, too.
+	It's been.
+	&i3
+	
+i3:
+	Nice.
+	
+	Anyway. Let me know when we're good to go yeah?
+	&exit
+
+turnin:
+	Turn in dialogue. 
+	Maybe needs a re-write for Reasons.
+	See narrative doc for Edit Suggestion.
+	*finish 5*
+	&exit
+
+
+
+
+
+
+
+
+
+
+	*hide*
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setnpcid cat_piano npc_cat_piano*
+
+	*spawn cat_singer models/andy/singer/cat_singer.mdl*
+	*setnpcid cat_singer npc_cat_singer*
+	
+	*spawn player_dummy playerboy*
+	*txout*
+	*txin*
+	*wait .5*
+	*show*
+	*setspeaker cat_piano*
+	Ah, sweet you're back. 
+	Okay' Singer.
+	Close your eyes.
+	&t1
+	
+t1:
+	*setspeaker narrator*
+	>The Singer closes their eyes. While they bounce up and down, the Pianist
+	walks the Metrocops over and arranges them in a line in front of them.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

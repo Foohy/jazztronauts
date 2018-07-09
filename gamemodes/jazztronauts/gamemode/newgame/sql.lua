@@ -75,7 +75,7 @@ function newgame.GetGlobalState()
     local query = "SELECT * FROM jazz_global_state"
     local res = jsql.Query(query)
 
-    if not type(res) == "table" then return {} end
+    if type(res) != "table" then return {} end
     local tbl = {}
     for _, v in pairs(res) do
         tbl[v.key] = v.value

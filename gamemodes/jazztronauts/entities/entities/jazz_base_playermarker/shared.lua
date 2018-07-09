@@ -138,7 +138,7 @@ if SERVER then
     end
     
     function ENT:ValidPlayer(ply)
-        return IsValid(ply)
+        return IsValid(ply) and ply:Alive()
     end
     
     function ENT:HasEnoughPlayers()

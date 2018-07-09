@@ -95,7 +95,7 @@ if SERVER then
     function ENT:UpdateSpeed()
         local brushsize = self:GetBrushSizeMultiplier()
         local playerspeeds = self:GetPlayerMultiplier()
-        print(playerspeeds)
+
         self:SetSpeed(playerspeeds * brushsize)
     end
 end

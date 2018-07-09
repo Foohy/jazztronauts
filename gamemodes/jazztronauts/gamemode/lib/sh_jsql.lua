@@ -1,3 +1,6 @@
+AddCSLuaFile()
+if CLIENT then return end
+
 module( 'jsql', package.seeall )
 
 /*

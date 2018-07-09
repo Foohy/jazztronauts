@@ -59,7 +59,7 @@ function SWEP:Deploy()
 end
 
 function SWEP:Cleanup()
-	if SERVER then
+	if SERVER and self.OldRunSpeed then
 		self.Owner:SetRunSpeed(self.OldRunSpeed)
 		self.Owner:SetWalkSpeed(self.OldWalkSpeed)
 		self.Owner:SetJumpPower(self.OldJumpPower)

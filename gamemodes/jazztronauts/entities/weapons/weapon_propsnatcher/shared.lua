@@ -725,6 +725,7 @@ end )
 
 function SWEP:Think() 
 	if not SERVER then return end
+	
 	if self:IsSecondaryAttacking() then
 		local curMarker = self:GetCurSnatchMarker()
 		if not IsValid(curMarker) then 
@@ -735,6 +736,7 @@ function SWEP:Think()
 				newMarker:AddPlayer(self.Owner)
 				self:SetCurSnatchMarker(newMarker)
 				newMarker:RegisterOnActivate(function()
+					if not IsValid(self) or not self.GetCurSnatchMarker then return end
 					if self:GetCurSnatchMarker() != newMarker then return end
 					if not IsValid(self.Owner) then return end
 

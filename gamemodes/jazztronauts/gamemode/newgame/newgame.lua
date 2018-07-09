@@ -1,4 +1,4 @@
-
+AddCSLuaFile()
 module( "newgame", package.seeall )
 
 ENDING_DESTRUCTION  = 1
@@ -36,6 +36,7 @@ if SERVER then
 
         -- Reset non-persistent sql stuff
         jsql.ResetExcept(GetPersistent())
+        unlocks.ClearAll()
 
         -- Changelevel to intro again
         mapcontrol.Launch(mapcontrol.GetIntroMap())

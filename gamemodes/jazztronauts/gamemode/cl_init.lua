@@ -1,6 +1,6 @@
 include( "shared.lua" )
 
-include( "newgame/init.lua")
+include( "newgame/cl_init.lua")
 include( "map/cl_init.lua")
 include( "ui/cl_init.lua" )
 include( "missions/cl_init.lua" )

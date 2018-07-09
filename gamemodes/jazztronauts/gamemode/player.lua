@@ -1,5 +1,6 @@
 include("player/player_hub.lua")
 include("player/player_explore.lua")
+include("player/sh_spectate.lua")
 
 if SERVER then include("player/sql.lua") end
 

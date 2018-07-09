@@ -93,6 +93,20 @@ function ENT:Initialize()
 	end
 end
 
+-- Automatically sit the provided player down into an available seat
+function ENT:SitPlayer(ply)
+	if not IsValid(ply) then return false end
+
+	for _, v in pairs(self.Seats) do
+		if IsValid(v) and not IsValid(v:GetDriver()) then
+			ply:EnterVehicle(v)
+			return true
+		end
+	end
+
+	return false
+end
+
 function ENT:CheckLaunch()
 	if self:GetNumOccupants() >= player.GetCount() then
 		self:EmitSound( "jazz_bus_idle", 90, 150 )

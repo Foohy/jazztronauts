@@ -27,20 +27,20 @@ if SERVER then
 
 
 	hook.Add("EntityKeyValue", "hacking", function( ent, key, value )
-
 		if ent:GetName() == proxy_name then return value end
 
 		-- Every output, we're going to store some additional info that we can look up later
 		-- This way we can hook into each output and listen for events
 		if string.Left( key, 2 ) == "On" then
-
+			print(ent, key, value)
 			ent.JazzIOEvents = ent.JazzIOEvents or {}
-			ent.JazzIOEvents[key] = {
+			ent.JazzIOEvents[key] = ent.JazzIOEvents[key] or {}
+
+			table.insert(ent.JazzIOEvents[key], {
 				key = key, 
 				value = value, 
 				outdata = ParseOutput(value)
-			}
-
+			})
 		end
 
 	end )
@@ -63,9 +63,11 @@ if SERVER then
 		for _, v in pairs(ents.GetAll()) do
 			if not v.JazzIOEvents then continue end
 
-			for _, keyval in pairs(v.JazzIOEvents) do
-				local outputStr = string.format("%s %s,JazzForward_%s,,0,-1", keyval.key, proxy_name, keyval.key)
-				v:Fire("AddOutput", outputStr) 
+			for _, outputs in pairs(v.JazzIOEvents) do
+				for _, keyval in pairs(outputs) do
+					local outputStr = string.format("%s %s,JazzForward_%s,,0,-1", keyval.key, proxy_name, keyval.key)
+					v:Fire("AddOutput", outputStr)
+				end
 			end
 
 		end
@@ -74,7 +76,7 @@ if SERVER then
 	hook.Add("PostCleanupMap", "hackingcleanup", SetupIOListener)
 
 	hook.Add("AcceptInput", "hacking", function( ent, input, activator, caller, value )
-
+		print(ent, input, activator, caller, value)
 		if not IsValid( caller ) then
 			print("Unknown caller for: " .. tostring(input))
 			if IsValid( activator ) then
@@ -416,6 +418,9 @@ local function PointAlongEdges( edges, total_length, frac )
 		acc_length = acc_length + length
 	end
 
+	print("PointAlongEdges Bad Case")
+	print(total_length, frac)
+	PrintTable(edges)
 end
 
 local function PointAlongLine( line, frac )
@@ -584,8 +589,8 @@ local function UpdateBlips()
 	end
 end
 
-hook.Add( "PostRender", "hacker_vision", function()
-	if true then return end
+hook.Add( "HUDPaint", "hacker_vision", function()
+	--if true then return end
 
 	if map:IsLoading() then return end
 
@@ -634,8 +639,15 @@ hook.Add( "PostRender", "hacker_vision", function()
 
 				for _, blip in pairs( v.blips ) do
 					local line = v.lines[blip.target]
-					local dt = blip.speed * (CurTime() - blip.t) / line.length
+					local dt = 0
+					if line.length > 0 then
+						dt = blip.speed * (CurTime() - blip.t) / line.length
+					end
 					local pulse = PointAlongLine( line, dt % 1 )
+					if not pulse then 
+						print("sdjklsd", pulse)
+						continue
+					end
 					gfx.renderBox( pulse, Vector(-2,-2,-2), Vector(2,2,2), Color(255,255,255,255) )
 					for _, edge in pairs( line.edges ) do
 						gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), Color(80,255,80), Color(80,255,80), 20 * (1-dt))

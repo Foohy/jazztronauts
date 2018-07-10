@@ -121,7 +121,7 @@ function SWEP:SetUpgrades()
 	self.CanStealWorld = unlocks.IsUnlocked("store", self.Owner, snatch_world) or override
 
 	-- How fast they can steal the world
-	self.WorldStealSpeed = jstore.GetSeries(self.Owner, snatch_world_speed)
+	self.WorldStealSpeed = jstore.GetSeries(self.Owner, snatch_world_speed) + 1
 	self.WorldStealSpeed = self.WorldStealSpeed * 2
 end
 
@@ -725,7 +725,7 @@ end )
 
 function SWEP:Think() 
 	if not SERVER then return end
-	
+
 	if self:IsSecondaryAttacking() then
 		local curMarker = self:GetCurSnatchMarker()
 		if not IsValid(curMarker) then 

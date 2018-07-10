@@ -1,7 +1,5 @@
 AddCSLuaFile()
 
-if true then return end
-
 local function GetIndexMapping()
 
 	local indices = {}
@@ -12,41 +10,45 @@ if SERVER then
 
 	local proxy_name = "__jazz_io_proxy"
 
-	for k,v in pairs( ents.GetAll() ) do
-		if v:MapCreationID() ~= -1 then
-			--print( v:MapCreationID() )
-		end
-	end
-
 	util.AddNetworkString("input_fired")
 
-	local entity_store = {}
+	local function ParseOutput( str )
+
+		if type( str ) ~= "string" then return end
+
+		local args = {}
+		for w in string.gmatch(str .. ",","(.-),") do
+			table.insert( args, w )
+		end
+
+		return args
+
+	end
+
 
 	hook.Add("EntityKeyValue", "hacking", function( ent, key, value )
 
 		if ent:GetName() == proxy_name then return value end
 
+		-- Every output, we're going to store some additional info that we can look up later
+		-- This way we can hook into each output and listen for events
 		if string.Left( key, 2 ) == "On" then
 
-			local map = bsp2.GetCurrent()
-			local indexed = map and map.entities[ ent:MapCreationID() - 1234 ]
-			local name = indexed and (indexed.name or indexed.classname) or "<what is " .. ent:MapCreationID() .. ">"
-
-			--print( "ReRoute: " .. tostring( ent:GetName() or ent:GetClassName() ) .. "[" .. name .. "]" .. " : " .. key .. " => " .. tostring( value ))
-
-			value = string.Replace( value, ",", "FWDCMA" )
-
-			return proxy_name .. ",Forward," .. value
-
-			--ReRoute: breakable2[<what is -1>] : OnBreak => breakable_spawner_2s,ForceSpawn,,2,-1
+			ent.JazzIOEvents = ent.JazzIOEvents or {}
+			ent.JazzIOEvents[key] = {
+				key = key, 
+				value = value, 
+				outdata = ParseOutput(value)
+			}
 
 		end
 
 	end )
 
-	hook.Add("InitPostEntity", "hacking", function()
 
-		print("****INIT POST ENTITY****")
+	local function SetupIOListener()
+
+		print("****SetupIOListener****")
 
 		local io_proxy = ents.FindByClass("jazz_io_proxy")[1]
 		if not IsValid( io_proxy ) then
@@ -56,7 +58,20 @@ if SERVER then
 			io_proxy:Spawn()
 		end
 
-	end )
+		-- Go through every entity, and for each output we create an additional output to fire that event 
+		-- To our IO proxy. It then listens to those events and forwards them to the client
+		for _, v in pairs(ents.GetAll()) do
+			if not v.JazzIOEvents then continue end
+
+			for _, keyval in pairs(v.JazzIOEvents) do
+				local outputStr = string.format("%s %s,JazzForward_%s,,0,-1", keyval.key, proxy_name, keyval.key)
+				v:Fire("AddOutput", outputStr) 
+			end
+
+		end
+	end
+	hook.Add("InitPostEntity", "hacking", SetupIOListener)
+	hook.Add("PostCleanupMap", "hackingcleanup", SetupIOListener)
 
 	hook.Add("AcceptInput", "hacking", function( ent, input, activator, caller, value )
 
@@ -570,7 +585,6 @@ local function UpdateBlips()
 end
 
 hook.Add( "PostRender", "hacker_vision", function()
-
 	if true then return end
 
 	if map:IsLoading() then return end

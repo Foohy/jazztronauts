@@ -169,7 +169,8 @@ function GM:GenerateJazzEntities()
 		snatch.SpawnProxies()
 
 		-- Calculate worth of each map-spawned prop
-		mapgen.CalculatePropValues(30000)
+		-- Mo' players = mo' money
+		mapgen.CalculatePropValues(15000 * player.GetCount())
 	end
 
 end

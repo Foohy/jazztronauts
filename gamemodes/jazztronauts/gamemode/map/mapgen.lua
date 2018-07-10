@@ -220,7 +220,20 @@ if SERVER then
     
     -- Calculate the size of this map and how many shards it's worth
     function CalculateShardCount()
-        return 8 -- #TODO
+        local curmap = bsp2.GetCurrent()
+        if not curmap then return 8 end -- ??
+
+        local winfo = curmap.entities and curmap.entities[1]
+        if not winfo then return 8 end
+
+        local maxs, mins = Vector(winfo.world_maxs), Vector(winfo.world_mins)
+
+        -- Calculate only area, ignoring Z because people make bigass fucking skyboxes
+        local area = math.sqrt(math.pow(maxs.x - mins.x, 2) + math.pow(maxs.y - mins.y, 2))
+        print(area)
+        -- Shard count dependent on map size
+        local shardcount = math.max(1, math.Remap(area, 8000, 100000, 4, 24))
+        return math.ceil(shardcount)
     end
 
     function CalculatePropValues(mapWorth)

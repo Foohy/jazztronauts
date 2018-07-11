@@ -95,7 +95,7 @@
 
 @PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_checkpoint : "Jazz Player Checkpoint"
 [
-	TeleportRadius(integer) : "Teleport Radius": "0": "Radius around the origin to randomly pepper in players"
+	TeleportRadius(integer) : "Teleport Radius": 0 : "Radius around the origin to randomly pepper in players"
 
 	input MovePlayers(void)  : "Moves players to this entity's origin"
 ]

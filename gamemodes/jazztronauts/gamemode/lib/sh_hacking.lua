@@ -6,25 +6,25 @@ local function GetIndexMapping()
 
 end
 
+local function ParseOutput( str, event )
+
+	if type( str ) ~= "string" then return end
+
+	local args = { event }
+	for w in string.gmatch(str .. ",","(.-),") do
+		table.insert( args, w )
+	end
+
+	if args[2] == "" then return nil end
+
+	return args
+end
+
 if SERVER then 
 
 	local proxy_name = "__jazz_io_proxy"
 
 	util.AddNetworkString("input_fired")
-
-	local function ParseOutput( str )
-
-		if type( str ) ~= "string" then return end
-
-		local args = {}
-		for w in string.gmatch(str .. ",","(.-),") do
-			table.insert( args, w )
-		end
-
-		return args
-
-	end
-
 
 	hook.Add("EntityKeyValue", "hacking", function( ent, key, value )
 		if ent:GetName() == proxy_name then return value end
@@ -64,8 +64,10 @@ if SERVER then
 			if not v.JazzIOEvents then continue end
 
 			for _, outputs in pairs(v.JazzIOEvents) do
-				for _, keyval in pairs(outputs) do
-					local outputStr = string.format("%s %s,JazzForward_%s,,0,-1", keyval.key, proxy_name, keyval.key)
+
+				-- For each output, create the duplicate with the data param the index into the full output data table
+				for k, keyval in pairs(outputs) do
+					local outputStr = string.format("%s %s,JazzForward_%s,%d,0,-1", keyval.key, proxy_name, keyval.key, k)
 					v:Fire("AddOutput", outputStr)
 				end
 			end
@@ -76,38 +78,12 @@ if SERVER then
 	hook.Add("PostCleanupMap", "hackingcleanup", SetupIOListener)
 
 	hook.Add("AcceptInput", "hacking", function( ent, input, activator, caller, value )
-		print(ent, input, activator, caller, value)
 		if not IsValid( caller ) then
 			print("Unknown caller for: " .. tostring(input))
 			if IsValid( activator ) then
 				print("But activator was: " .. tostring(activator) )
 			end
 		end
-
-		--print(tostring(caller:GetName()) .. " => " .. tostring(ent:GetName()) .. " [" .. input .. "]: Activator was: " .. tostring(activator:GetName() or activator) .. " value: " .. tostring(value) )
-
-		/*if IsValid(ent) and IsValid(caller) then
-
-			local name = ent:GetName()
-			local target_index = ent:MapCreationID() - 1234
-			local caller_index = caller:MapCreationID() - 1234 --really garry?
-
-			--print(tostring(caller))
-
-			--[[for k, v in pairs( ents.GetAll() ) do
-				if v == caller then
-					print( tostring(caller), " ", k, tostring(caller:GetPos()), caller:MapCreationID() - 1234 )
-				end
-			end]]
-
-			net.Start( "input_fired" )
-			net.WriteInt( target_index, 32 )
-			net.WriteInt( caller_index, 32 )
-			net.WriteString( input )
-			net.Send( player.GetAll() )
-
-		end*/
-
 	end )
 
 	return
@@ -122,6 +98,24 @@ local hacker_vision = CreateMaterial("HackerVision" .. FrameNumber(), "UnLitGene
 	["$model"] = 0,
 	["$additive"] = 0,
 })
+
+local function getToolTexture(texture)
+	return CreateMaterial("HackerTool_" .. texture, "UnlitGeneric", {
+		["$basetexture"] = "tools/tools" .. texture,
+		["$vertexcolor"] = 1,
+		["$vertexalpha"] = 1,
+		["$model"] = 1,
+		["$additive"] = 1,
+		["$nocull"] = 0,
+		["$alpha"] = 0.5
+	})
+end
+
+local tooltextures = {
+	["trigger_*"] = getToolTexture("trigger"),
+	["func_button"] = getToolTexture("hint"),
+	["func_button_timed"] = getToolTexture("hint")
+}
 
 local io_functions = {
 	logic_auto = {
@@ -380,19 +374,6 @@ local function EntsByName( name )
 
 end
 
-local function ParseOutput( event, str )
-
-	if type( str ) ~= "string" then return end
-
-	local args = { event }
-	for w in string.gmatch(str .. ",","(.-),") do
-		table.insert( args, w )
-	end
-
-	if args[2] == "" then return nil end
-	return args
-
-end
 
 local function GetMajorAxis( v )
 	local best = 0
@@ -460,6 +441,58 @@ local function FormLines( startpos, endpos )
 
 end
 
+local function getBrushes(node)
+	local brushes = {}
+	if node then
+		if node.children then
+			for _, v in pairs(node.children) do
+				table.Add(brushes, getBrushes(v))
+			end
+		end
+
+		if node.brushes then
+			for _, b in pairs(node.brushes) do
+				table.insert(brushes, b)
+			end
+		end
+	end
+
+	return brushes
+end
+
+local function createBrushMesh(material, brushes)
+
+	-- Update the current mesh
+	local bmesh = ManagedMesh(material)
+	local vertices = {}
+
+	-- Add vertices for every side
+	local to_brush = Vector() --brush.center
+	for _, brush in pairs(brushes) do
+		for _, side in pairs(brush.sides) do
+			if not side.winding then continue end
+
+			local texinfo = side.texinfo
+			local texdata = texinfo.texdata
+			side.winding:Move( to_brush )
+			side.winding:EmitMesh(texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_brush, vertices)
+			side.winding:Move( -to_brush )
+		end
+	end
+
+	-- Combine into single mesh
+	bmesh:BuildFromTriangles(vertices)
+	return bmesh
+end
+
+local function lookupBrushMaterial(classname)
+	for k, v in pairs(tooltextures) do
+		if string.find(classname, k) then return v end
+	end
+
+	return nil
+end
+
 local function PrepGraph()
 
 	local graph = {}
@@ -493,7 +526,7 @@ local function PrepGraph()
 			gent.blips = {}
 
 			for _, out in pairs( ent.outputs or {} ) do
-				table.insert( gent.outputs, ParseOutput( out[1], out[2] ) )
+				table.insert( gent.outputs, ParseOutput( out[2], out[1] ) )
 			end
 
 			--[[for _, out in pairs( v.outputs ) do
@@ -504,6 +537,41 @@ local function PrepGraph()
 				local targetlist = EntsByName( out[2] )
 				gent.targets[ out[2] ] = targetlist
 				gent.has_targets = true
+			end
+
+			-- Render triggers
+			local brushMaterial = ent.model and lookupBrushMaterial(ent.classname)
+			if brushMaterial then
+				local modelent = ManagedCSEnt("hackergun_" .. gent.index, ent.model)
+				modelent:SetPos(ent.origin)
+				local min, max = modelent:GetModelBounds()
+				modelent:SetRenderBounds(min, max)
+				modelent:SetNoDraw(true) -- #TODO: Set to false, let engine handle it?
+
+				local brushes = {}
+				if ent.bmodel then
+					brushes = getBrushes(ent.bmodel.headnode)
+
+					for _, v in pairs(brushes) do
+						v:CreateWindings()
+					end
+				end
+
+				modelent.JazzBrushMesh = createBrushMesh(brushMaterial, brushes)
+				modelent.JazzBrushMaterial = brushMaterial
+				modelent.JazzBrushMatrix = Matrix()
+
+				function modelent:RenderOverride()
+					local mtx = self.JazzBrushMatrix 
+					mtx:SetTranslation(self:GetPos() )
+					mtx:SetAngles(self:GetAngles() )
+					cam.PushModelMatrix(mtx)
+						render.SetMaterial(self.JazzBrushMaterial)
+						render.SetColorModulation(1, 1, 1)
+						self.JazzBrushMesh:Draw()
+					cam.PopModelMatrix()
+				end
+				gent.model = modelent
 			end
 
 			table.insert( graph, gent )
@@ -589,8 +657,18 @@ local function UpdateBlips()
 	end
 end
 
+local function startsWith(str, test)
+	if #str < #test then return false end
+
+	for i=1, #test do
+		if str[i] != test[i] then return false end
+	end
+
+	return true
+end
+
 hook.Add( "HUDPaint", "hacker_vision", function()
-	--if true then return end
+	-- if true then return end
 
 	if map:IsLoading() then return end
 
@@ -637,6 +715,12 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 
 			for k,v in pairs( graph ) do
 
+				-- Draw brushes
+				if v.model then 
+					v.model:DrawModel()
+				end
+
+				-- Draw blips
 				for _, blip in pairs( v.blips ) do
 					local line = v.lines[blip.target]
 					local dt = 0
@@ -644,10 +728,6 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 						dt = blip.speed * (CurTime() - blip.t) / line.length
 					end
 					local pulse = PointAlongLine( line, dt % 1 )
-					if not pulse then 
-						print("sdjklsd", pulse)
-						continue
-					end
 					gfx.renderBox( pulse, Vector(-2,-2,-2), Vector(2,2,2), Color(255,255,255,255) )
 					for _, edge in pairs( line.edges ) do
 						gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), Color(80,255,80), Color(80,255,80), 20 * (1-dt))

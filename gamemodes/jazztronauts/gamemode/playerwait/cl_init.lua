@@ -30,7 +30,9 @@ end
 local cmx = 0
 local cmy = 0
 
-whiteboard.Get(0):RequestFlush()
+hook.Add("InitPostEntity", "JazzFlushWhiteboardJoin", function()
+    whiteboard.Get(0):RequestFlush()
+end)
 
 local drawing = false
 local function DrawWhiteboard()

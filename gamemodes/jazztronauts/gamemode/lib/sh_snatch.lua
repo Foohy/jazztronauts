@@ -185,12 +185,10 @@ local function emptySide(side)
 	return !side.texinfo or side.texinfo.texdata.material == "TOOLS/TOOLSNODRAW"
 end
 
-local idx = 0
 function meta:AppendBrushToMapMesh(brush)
 	
 	-- Update the current mesh
-	current_mesh.mesh = ManagedMesh( "propsnatcher_voidmesh" .. CurTime() .. "_" .. idx, void_mat)
-	idx = idx + 1
+	current_mesh.mesh = ManagedMesh(void_mat)
 
 	-- Add vertices for every side
 	local to_brush = brush.center
@@ -218,7 +216,6 @@ function meta:AppendBrushToMapMesh(brush)
 	end
 end
 
-next_brush_mesh_id = next_brush_mesh_id or 0
 local vec_one = Vector(1, 1, 1)
 function meta:RunWorld( brush_id )
 
@@ -262,10 +259,8 @@ function meta:RunWorld( brush_id )
 
 		//print( texdata.material )
 
-		next_brush_mesh_id = next_brush_mesh_id + 1
-
 		if self.mode then
-			side.winding:CreateMesh( "brushpoly_" .. next_brush_mesh_id, material, texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_center )
+			side.winding:CreateMesh( material, texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_center )
 		end
 	end
 

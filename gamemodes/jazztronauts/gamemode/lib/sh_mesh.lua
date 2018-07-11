@@ -4,6 +4,8 @@ if SERVER then return end
 _MESH_POOL = _MESH_POOL or {}
 _MESH_REF_COUNTERS = _MESH_REF_COUNTERS or {}
 
+_MESH_UNIQUE_IDX = _MESH_UNIQUE_IDX or 1
+
 --[[for k,v in pairs(_MESH_POOL) do
 	v:Destroy()
 end
@@ -22,10 +24,10 @@ for k, v in pairs( FindMetaTable("IMesh") ) do
 
 end
 
-function ManagedMesh( id, material )
+function ManagedMesh( material, id )
 
 	local mesh = {}
-	mesh.Instance = AllocMesh( id, material )
+	mesh.Instance = AllocMesh( material, id )
 	mesh.GC = GCHandler( FreeMesh, rawget(mesh, "Instance") )
 	mesh.Get = function( self )
 		return rawget(self, "Instance")
@@ -46,9 +48,17 @@ function ManagedMesh( id, material )
 
 end
 
-local default_mesh_material = Material( "editor/wireframe" )
-AllocMesh = function( id, material )
+function GenerateUniqueID()
+	local id = "ManagedMesh_UniqueIDX_" .. _MESH_UNIQUE_IDX .. FrameNumber()
+	_MESH_UNIQUE_IDX =_MESH_UNIQUE_IDX + 1
+	return id
+end
 
+local default_mesh_material = Material( "editor/wireframe" )
+AllocMesh = function( material, id )
+	if not id then
+		id = GenerateUniqueID()
+	end
 	material = material or default_mesh_material
 	local entry = tostring(id) .. tostring(material)
 	if _MESH_POOL[entry] ~= nil then

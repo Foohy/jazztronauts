@@ -626,8 +626,8 @@ function meta:EmitMesh(texmatrix, lmmatrix, width, height, offset, meshVerts )
 end
 
 local default_mesh_material = Material( "editor/wireframe" )
-function meta:CreateMesh(id, material, texmatrix, lmmatrix, width, height, offset )
-	self.mesh = ManagedMesh( id, material )
+function meta:CreateMesh(material, texmatrix, lmmatrix, width, height, offset )
+	self.mesh = ManagedMesh(material )
 
 	mesh.Begin( self.mesh:Get(), MATERIAL_TRIANGLES, #self.points - 2 )
 		self:EmitMesh( texmatrix, lmmatrix, width, height, offset)

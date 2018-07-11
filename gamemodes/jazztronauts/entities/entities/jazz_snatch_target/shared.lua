@@ -101,7 +101,6 @@ if SERVER then
 end
 
 if CLIENT then
-    JazzSnatchMeshIndex = JazzSnatchMeshIndex or 1
 
     -- Void material, but zero refraction on it
     -- This is so we don't get any z-fighting/flickering when shaking the brush
@@ -156,9 +155,7 @@ if CLIENT then
             local texdata = texinfo.texdata
             local material = matOverride or Material( texdata.material )
 
-            local meshid = "propsnatcher_voidmesh" .. brush_id .. "_" .. JazzSnatchMeshIndex
-            side.winding:CreateMesh( meshid, material, texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_center )
-            JazzSnatchMeshIndex = JazzSnatchMeshIndex + 1
+            side.winding:CreateMesh(material, texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_center )
         end
 
         -- Also set render bounds to match

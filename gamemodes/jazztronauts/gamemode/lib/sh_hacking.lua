@@ -657,18 +657,10 @@ local function UpdateBlips()
 	end
 end
 
-local function startsWith(str, test)
-	if #str < #test then return false end
-
-	for i=1, #test do
-		if str[i] != test[i] then return false end
-	end
-
-	return true
-end
+local hackEnable = CreateClientConVar("jazz_debug_hackerview", "0", false, false, "Toggle drawing the hacker gun view")
 
 hook.Add( "HUDPaint", "hacker_vision", function()
-	-- if true then return end
+	if not hackEnable:GetBool() then return end
 
 	if map:IsLoading() then return end
 

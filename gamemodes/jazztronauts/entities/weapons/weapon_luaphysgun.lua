@@ -819,7 +819,7 @@ if CLIENT then
 	end
 
 	hook.Add("PostDrawTranslucentRenderables", "fphysgun_fx", function()
-		if true then return false end //Disabled for now
+		if true then return end //Disabled for now
 		for _,ply in pairs(player.GetAll()) do
 
 			local weapon = ply:GetActiveWeapon()

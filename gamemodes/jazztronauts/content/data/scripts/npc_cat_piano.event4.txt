@@ -25,7 +25,7 @@ begin:
 	
 b1:
 	*setspeaker cat_piano*
-	Y'know. I envy you, PLAYERNAME. At first I thought maybe I hate you?
+	Y'know. I envy you, *player*. At first I thought maybe I hate you?
 	But, I did some talking to the Bartender, and I realized it's a different feeling.
 	&b2
 	
@@ -64,7 +64,7 @@ r1a2:
 r1a3:
 	*setspeaker cat_bar*
 	The Pianist likes you, you know. That's rather rare.
-	Thank you for being her friend, PLAYERNAME.
+	Thank you for being her friend, *player*.
 	*mark_seen*
 	&exit
 	
@@ -97,7 +97,7 @@ r3a1:
 	
 r3a2:
 	*setspeaker cat_piano*
-	I am many fuckin' things, PLAYERNAME, but at no point am I "okay".
+	I am many fuckin' things, *player*, but at no point am I "okay".
 	You ever have days where you just stop fuckin' thinking?
 	&r3a3
 	
@@ -122,7 +122,7 @@ r3a5:
 	
 r3a6:
 	*setspeaker cat_piano*
-	PLAYERNAME. 
+	*player*. 
 	You're good at like.
 	Doin' shit on impulse.
 	How do?

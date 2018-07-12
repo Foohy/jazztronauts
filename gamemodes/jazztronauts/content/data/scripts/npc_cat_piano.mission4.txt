@@ -32,7 +32,7 @@ a4:
 a5:
 	So! I'm going to pay you an exorbinant finders fee, and you're going to get me 
 	something flashy enough to wipe my sins from the Cellist's barely functional
-	short term memory: 
+	short term memory\: 
 	A Massive Horse Statue. *start 4*
 	&exit
 	

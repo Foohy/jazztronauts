@@ -15,7 +15,7 @@ a2:
 a3:
 	Nah chill, it's an archival tool or some shit. The Singer made it.
 	You might have already noticed, but some places you crash into 
-	have creature shaped shells that do things like: walk; 
+	have creature shaped shells that do things like\: walk; 
 	try to kill you; or pretend to be alive.
 	&a4
 	

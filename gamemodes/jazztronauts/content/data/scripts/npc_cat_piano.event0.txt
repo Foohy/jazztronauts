@@ -10,12 +10,17 @@ begin:
 
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
 	*setnpcid cat_piano npc_cat_piano*
+
+	*spawn narrator models/npc/cat.mdl*
+	*setnpcid narrator npc_narrator*
 	
 	*spawn player_dummy playerboy*
-	*txin*
 
-###### START	
+	*txin*
+	
+###### START
 	*setspeaker narrator*
+	*show 0.5*
 	>The Pianist and the Bartender are having a chat at the samsara...
 	&b1
 	
@@ -41,7 +46,7 @@ b4:
 	&b5
 	
 b5:
-	Ah, PLAYERNAME! Welcome, have a seat. Would you care for a snickerdoodle? I can-
+	Ah, *player*! Welcome, have a seat. Would you care for a snickerdoodle? I can-
 	&b6
 	
 b6:
@@ -65,7 +70,7 @@ b8:
 		I prefer my blood pumping inside my body. 
 		I'll take a snickerdoodle to go, though. (Exit)
 	&r2a1:
-		Okay, excellent suggestion, but hear me out here: Dance fighting.
+		Okay, excellent suggestion, but hear me out here\: Dance fighting.
 		All of the thrill, none of the murder.
 	&r3a1:
 		If the floor is sand you don't need to worry about blood in the grout!
@@ -88,7 +93,7 @@ r1a3:
 	&r1a4
 	
 r1a4:
-	Thank you for your custom, PLAYERNAME.
+	Thank you for your custom, *player*.
 	
 	>She turns her attention back to the Pianist and puts a paw over her face.
 	&r1a5

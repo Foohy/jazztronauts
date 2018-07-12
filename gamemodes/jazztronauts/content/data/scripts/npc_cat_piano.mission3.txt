@@ -9,7 +9,7 @@ a1:
 	I don't need a sycophant patting me on the shoulder and telling me my performance
 	at dinner was sublime. And I don't want to talk about it, either, before you get
 	any ideas.
-	&a2:
+	&a2
 
 a2:
 	If you want to help me out, get me thirty vending machines because our supply of

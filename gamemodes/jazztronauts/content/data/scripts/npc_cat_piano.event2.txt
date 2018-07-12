@@ -32,7 +32,7 @@ begin:
 	
 b1:
 	*setspeaker cat_piano*
-	Oh, hey playername. I wasn't sure if you were coming. But I figured,
+	Oh, hey *player*. I wasn't sure if you were coming. But I figured,
 	who turns down free food, right?
 	So I set a place.
 	
@@ -106,7 +106,7 @@ r3a3:
 	
 r3a4:
 	*setspeaker cat_bar*
-	Say, playername. Have you ever played a round of G-
+	Say, *player*. Have you ever played a round of G-
 	&r3a5
 	
 r3a5:
@@ -234,7 +234,7 @@ m4:
 m5:
 	*setspeaker cat_bar*
 	I better go find her.
-	Thank you for joining us, playername,
+	Thank you for joining us, *player*,
 	it was delightful.
 	&exit
 

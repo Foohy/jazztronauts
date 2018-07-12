@@ -113,7 +113,7 @@ resp4c:
 
 resp5a:
 	*setspeaker npc_cat_piano*
-	And I suppose none of your ideas have ever backfired PLAYERNAME, and you're
+	And I suppose none of your ideas have ever backfired *player*, and you're
 	the sole clean and pure being in this universe who has never made a goddamn
 	mistake. Forgive me. I didn't know I was in the presence of the chosen one,
 	the saviour - 

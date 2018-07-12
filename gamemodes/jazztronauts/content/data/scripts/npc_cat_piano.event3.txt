@@ -31,7 +31,7 @@ b1:
 	&b2
 	
 b2:
-	Listen, PLAYERNAME. We've been through a lot together. 
+	Listen, *player*. We've been through a lot together. 
 	We've bonded over the acquisition of suspended-animation takeout.
 	And I just decided that means we're friends now.
 	&b3
@@ -44,7 +44,7 @@ b3:
 	
 b4:
 	So, we're gonna cement this friendship in an aptly symbolic and
-	appropriate way:
+	appropriate way\:
 	Which is a very fancy and roundabout way of me telling you that we're gonna
 	steal more shit for me.
 	player:

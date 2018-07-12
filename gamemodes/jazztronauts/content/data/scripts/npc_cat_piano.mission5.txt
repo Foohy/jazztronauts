@@ -27,7 +27,7 @@ a4:
 	
 a5:
 	I feel like I owe the Singer a more substantial apology than a bribe
-	of shitty takeout. So I'm gonna need your larceny skills again, PLAYERNAME.
+	of shitty takeout. So I'm gonna need your larceny skills again, *player*.
 	This is The Big One.
 	&a6
 	

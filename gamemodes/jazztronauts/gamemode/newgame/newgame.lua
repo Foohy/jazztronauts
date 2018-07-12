@@ -31,7 +31,7 @@ if SERVER then
         -- #TODO: needed?
 
         -- Store this as a end-game reset
-        local totalPlayers = progress.GetTotalPlayers()
+        local totalPlayers = jazzmoney.GetTotalPlayers()
         ngsql.AddResetInfo(endType, totalPlayers)
 
         -- Reset non-persistent sql stuff

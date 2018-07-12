@@ -170,7 +170,7 @@ function GM:GenerateJazzEntities()
 
 		-- Calculate worth of each map-spawned prop
 		-- Mo' players = mo' money
-		mapgen.CalculatePropValues(15000 * player.GetCount())
+		mapgen.CalculatePropValues(15000)
 	end
 
 end
@@ -194,8 +194,8 @@ function GM:CollectShard(shard, ply)
 	local left, total = mapgen.CollectShard(ply, shard)
 	if not left then return false end
 
-	-- Congrats to everyone
-	progress.ChangeNotesList(shard.JazzWorth * newgame.GetMultiplier())
+	-- Go you
+	ply:ChangeNotes(shard.JazzWorth * newgame.GetMultiplier())
 end
 
 -- Called when prop is snatched from the level

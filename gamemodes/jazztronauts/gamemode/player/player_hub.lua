@@ -42,9 +42,8 @@ end
 
 local meta = FindMetaTable("Player")
 function meta:ChangeNotes(delta) 
-    if progress.ChangeNotes(self, delta) then 
-        self:SetNotes(progress.GetNotes(self))
-        print(progress.GetNotes(self))
+    if jazzmoney.ChangeNotes(self, delta) then 
+        self:SetNotes(jazzmoney.GetNotes(self))
         return true 
     end
 
@@ -52,7 +51,7 @@ function meta:ChangeNotes(delta)
 end
 
 function meta:RefreshNotes()
-    self:SetNotes(progress.GetNotes(self))
+    self:SetNotes(jazzmoney.GetNotes(self))
 end
 
 if CLIENT then

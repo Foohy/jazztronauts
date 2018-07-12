@@ -48,7 +48,7 @@ end
 
 function ENT:GetScript()
 
-	return self.dialogscript
+	return string.lower(self.dialogscript)
 
 end
 

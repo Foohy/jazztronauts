@@ -194,8 +194,8 @@ function GM:CollectShard(shard, ply)
 	local left, total = mapgen.CollectShard(ply, shard)
 	if not left then return false end
 
-	-- Congrats to everyone
-	progress.ChangeNotesList(shard.JazzWorth * newgame.GetMultiplier())
+	-- Go you
+	ply:ChangeNotes(shard.JazzWorth * newgame.GetMultiplier())
 end
 
 -- Called when prop is snatched from the level

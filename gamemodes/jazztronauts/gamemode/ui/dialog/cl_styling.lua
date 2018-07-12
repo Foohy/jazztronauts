@@ -392,7 +392,7 @@ local function AnyKeysDown(keys)
 	return false
 end
 
-local DefaultKeys = { "MOUSE_LEFT", "KEY_SPACE", "KEY_ENTER", "IN_USE"}
+local DefaultKeys = { "MOUSE_LEFT", "KEY_SPACE", "KEY_ENTER" }
 
 local wasSkipPressed = false
 local wasSkipPressedInDialog = false

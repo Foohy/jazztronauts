@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "decals/standhereidiots"
+	$decal 1
+	"%keywords" "jazz"
+	"$alphatest" 1
+}

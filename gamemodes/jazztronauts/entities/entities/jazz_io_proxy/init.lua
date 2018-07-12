@@ -30,7 +30,6 @@ function ENT:AcceptInput( name, activator, caller, data )
 				local target_index = v:MapCreationID() - 1234
 				local caller_index = caller:MapCreationID() - 1234 --really garry?
 
-				print("firing output: ", v, name, prefix, inputName)
 				net.Start( "input_fired" )
 					net.WriteInt( target_index, 32 )
 					net.WriteInt( caller_index, 32 )

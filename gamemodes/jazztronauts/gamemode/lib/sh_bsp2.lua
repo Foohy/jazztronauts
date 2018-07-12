@@ -29,6 +29,8 @@ end )]]
 
 AddProcess( "Linking", function( data )
 
+	if data[LUMP_VERTEXES] then task.Yield("sub", "vertices") end
+
 	local verts = data[LUMP_VERTEXES]
 	for k, edge in pairs( ( verts and data[LUMP_EDGES] ) or {} ) do
 		edge[1] = verts[edge[1]+1]
@@ -36,17 +38,23 @@ AddProcess( "Linking", function( data )
 		task.YieldPer(10000, "progress")
 	end
 
+	if data[LUMP_SURFEDGES] then task.Yield("sub", "edges") end
+
 	local edges = data[LUMP_EDGES]
 	for k, surfedge in pairs( ( edges and data[LUMP_SURFEDGES] ) or {} ) do
 		data[LUMP_SURFEDGES][k] = surfedge > 0 and edges[surfedge+1] or { edges[-surfedge+1][2], edges[-surfedge+1][1] }
 		task.YieldPer(10000, "progress")
 	end
 
+	if data[LUMP_TEXDATA] then task.Yield("sub", "texdata") end
+
 	for k, texdata in pairs( data[LUMP_TEXDATA] or {} ) do
 		texdata.material = data[LUMP_TEXDATA_STRING_DATA] and data[LUMP_TEXDATA_STRING_DATA][texdata.nameStringTableID+1]
 		texdata.nameStringTableID = nil
 		task.YieldPer(10000, "progress")
 	end
+
+	if data[LUMP_TEXINFO] then task.Yield("sub", "texinfo") end
 
 	for k, texinfo in pairs( data[LUMP_TEXINFO] or {} ) do
 		texinfo.id = k
@@ -55,6 +63,8 @@ AddProcess( "Linking", function( data )
 	end
 
 	local facelist = data[LUMP_FACES] or data[LUMP_ORIGINALFACES]
+
+	if facelist then task.Yield("sub", "faces") end
 
 	for k, node in pairs( data[LUMP_NODES] or {} ) do
 		node.id = k
@@ -77,6 +87,8 @@ AddProcess( "Linking", function( data )
 		node.is_node = true
 	end
 
+	if data[LUMP_BRUSHSIDES] then task.Yield("sub", "brushsides") end
+
 	for k, side in pairs( data[LUMP_BRUSHSIDES] or {} ) do
 		side.id = k
 		side.plane = data[LUMP_PLANES] and data[LUMP_PLANES][side.planenum+1]
@@ -84,7 +96,10 @@ AddProcess( "Linking", function( data )
 
 		side.texinfo = data[LUMP_TEXINFO] and data[LUMP_TEXINFO][side.texinfo+1]
 		side.dispinfo = data[LUMP_DISPINFO] and data[LUMP_DISPINFO][side.dispinfo+1]
+		task.YieldPer(10000, "progress")
 	end
+
+	if data[LUMP_BRUSHSIDES] and data[LUMP_BRUSHES] then task.Yield("sub", "brushes") end
 
 	local blib = brush
 	for k, brush in pairs( ( data[LUMP_BRUSHSIDES] and data[LUMP_BRUSHES] ) or {} ) do
@@ -99,23 +114,35 @@ AddProcess( "Linking", function( data )
 			side.dispinfo = origside.dispinfo
 			side.bevel = origside.bevel != 0
 			newbrush:Add( side )
-			task.YieldPer(10000, "progress")
+			task.YieldPer(5000, "progress")
 		end
 
-		newbrush:CreateWindings()
-		newbrush.center = (newbrush.min + newbrush.max) / 2
 		data[LUMP_BRUSHES][k] = newbrush
 	end
+
+	if data[LUMP_BRUSHSIDES] and data[LUMP_BRUSHES] then task.Yield("sub", "create brush windings") end
+
+	for k, brush in pairs( ( data[LUMP_BRUSHSIDES] and data[LUMP_BRUSHES] ) or {} ) do
+		brush:CreateWindings()
+		brush.center = (brush.min + brush.max) / 2
+		task.YieldPer(200, "progress")
+	end
+
+	if data[LUMP_LEAFFACES] then task.Yield("sub", "leaffaces") end
 
 	for k, leafface in pairs( data[LUMP_LEAFFACES] or {} ) do
 		data[LUMP_LEAFFACES][k] = facelist and facelist[leafface+1]
 		task.YieldPer(10000, "progress")
 	end
 
+	if data[LUMP_LEAFBRUSHES] then task.Yield("sub", "leafbrushes") end
+
 	for k, leafbrush in pairs( data[LUMP_LEAFBRUSHES] or {} ) do
 		data[LUMP_LEAFBRUSHES][k] = data[LUMP_BRUSHES] and data[LUMP_BRUSHES][leafbrush+1]
 		task.YieldPer(10000, "progress")
 	end
+
+	if data[LUMP_LEAFS] then task.Yield("sub", "leafs") end
 
 	for k, leaf in pairs( data[LUMP_LEAFS] or {} ) do
 		leaf.id = k
@@ -136,6 +163,7 @@ AddProcess( "Linking", function( data )
 			if bit.band( v.contents, CONTENTS_DETAIL ) ~= 0 then
 				leaf.has_detail_brushes = true
 			end
+			task.YieldPer(10000, "progress")
 		end
 
 		leaf.mins = Vector(leaf.mins[1], leaf.mins[2], leaf.mins[3])
@@ -143,6 +171,8 @@ AddProcess( "Linking", function( data )
 		leaf.is_leaf = true
 		leaf.is_node = false
 	end
+
+	if data[LUMP_LEAFS] then task.Yield("sub", "faces and originalfaces") end
 
 	for _, lump in pairs( { data[LUMP_FACES], data[LUMP_ORIGINALFACES] }) do
 	for k, face in pairs( lump ) do
@@ -162,9 +192,11 @@ AddProcess( "Linking", function( data )
 		for i = face.firstPrimID+1, face.firstPrimID + face.numPrims do
 			table.insert( face.edges, data[LUMP_PRIMITIVES] and data[LUMP_PRIMITIVES][i] )
 			task.YieldPer(10000, "progress")
-		end		
+		end
 	end
 	end
+
+	if data[LUMP_LEAFS] then task.Yield("sub", "models") end
 
 	for k, model in pairs( data[LUMP_MODELS] or {} ) do
 		model.id = k
@@ -384,6 +416,10 @@ local function LoadBSP( bsp, path, callback )
 			Msg("LOADING: " .. string.upper(name) .. " : " .. count .. " " )
 		end
 
+		function t:sub(name)
+			Msg("\n\t" .. string.upper(name))
+		end
+
 		function t:progress()
 			Msg(".")
 		end
@@ -407,7 +443,7 @@ if SERVER then
 	print("SERVER LOADING BSP...")
 end
 
---_G["LOADED_BSP"] = nil
+--if CLIENT then _G["LOADED_BSP"] = nil end
 if _G["LOADED_BSP"] == nil then
 	_G["LOADED_BSP"] = LoadBSP( game.GetMap(), nil, SERVER and BLOCK_THREAD or function()
 

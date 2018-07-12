@@ -155,7 +155,7 @@ merge1:
 	
 merge2:
 	*setspeaker npc_cat_singer*
-	>The Singer taps out a message: They are not mad,
+	>The Singer taps out a message\: They are not mad,
 	they're just disappointed.
 	&merge3
 	

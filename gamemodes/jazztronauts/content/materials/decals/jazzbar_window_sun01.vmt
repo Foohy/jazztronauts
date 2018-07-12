@@ -1,7 +1,4 @@
-"UnlitGeneric"
+"DecalModulate"
 {
 	"$basetexture" "decals/jazzbar_window_sun01"
-	"%keywords" "jazz"
-	"$decal" 1
-	"$additive" 1
 }

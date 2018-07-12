@@ -1,0 +1,26 @@
+"VertexLitGeneric"
+{
+// File Created by Wall Worm ( http://dev.wallworm.com )
+	// Get Wall Worm Pro to remove this comment ( https://wallworm.com/store/index.php?route=product/product&product_id=54 )
+
+// BEGIN Textures
+	$basetexture "krio/velvetrope_diffuse"
+
+
+
+	"$basemapalphaphongmask"	"1"
+	"$phong" "1"
+	"$phongexponent" "1"
+	"$phongboost" "0.2"
+	"$phongfresnelranges"	"[.2 .2 .2]"
+//	"$lightwarptexture" "krio/lightwarp"
+	"$rimlight" "1"
+	"$rimlightboost" "0"
+	"$rimlightexponent" "1"
+
+// END Textures
+
+
+	"%keywords" "wallworm,velvetrope001"
+
+}

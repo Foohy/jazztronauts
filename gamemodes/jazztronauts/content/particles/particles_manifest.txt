@@ -10,4 +10,5 @@ particles_manifest
 	"file"		"particles/vortigaunt_fx.pcf"
 	"file"		"particles/rocket_fx.pcf"
 	"file"		"particles/jazztronauts_particles.pcf"
+	"file"		"particles/jazztronauts_kp.pcf"
 }

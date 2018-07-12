@@ -92,10 +92,10 @@ function SWEP:SetUpgrades()
 	if not IsValid(self.Owner) then return end
 
 	local rangeLevel = jstore.GetSeries(self.Owner, storeRange)
-	self.TeleportDistance = DefaultTeleportDistance + math.pow(rangeLevel, 2) * 1000
+	self.TeleportDistance = DefaultTeleportDistance + math.pow(rangeLevel, 2) * 300
 
 	local speedLevel = jstore.GetSeries(self.Owner, storeSpeed)
-	self.SpeedRate = DefaultSpeed + speedLevel * 1000
+	self.SpeedRate = DefaultSpeed + speedLevel * 300
 
 	-- # of skulls == # of upgrades
 	self.ProngCount = DefaultProngCount + rangeLevel + speedLevel

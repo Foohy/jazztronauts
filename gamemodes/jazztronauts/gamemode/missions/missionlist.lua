@@ -210,7 +210,12 @@ AddMission(1, NPC_CAT_PIANO, {
         return MatchesAny(mdl, {
             "models/headcrab.mdl",
             "models/headcrabblack.mdl",
-            "models/headcrabclassic.mdl"
+            "models/headcrabclassic.mdl",
+            
+            -- Let em steal the heads off zombies
+            "models/zombie/classic.mdl",
+            "models/zombie/poison.mdl",
+            "models/zombie/fast.mdl"
         })
     end,
     Count = 10,

@@ -22,9 +22,9 @@ function meta:Init()
 
 end
 
-function meta:Add(p)
+function meta:Add(p, mutable)
 
-	table.insert( self.points, Vector(p) )
+	self.points[#self.points+1] = mutable and p or Vector(p)
 
 end
 
@@ -45,11 +45,11 @@ function meta:Clear()
 
 end
 
-function meta:Copy()
+function meta:Copy(mutable)
 
 	local new = Winding()
-	for k,v in pairs( self.points ) do
-		new:Add( Vector( v ) )
+	for i=1, #self.points do
+		new:Add( self.points[i], mutable )
 	end
 	return new
 
@@ -69,77 +69,79 @@ local function roundfix(nc, dist, v)
 	return v
 end
 
+local __side_list = {}
+for i=1, 100 do __side_list[i] = { dist = 0, side = SIDE_ON } end
+
 local function buildSidesFromPoints(w, plane, epsilon)
 
-	local counts = {0,0,0}
-	local sides = {}
+	local has_front = false
+	local has_back = false
 
 	for i=1, #w.points do
 		local dot = w.points[i]:Dot( plane.normal ) - plane.dist
-		local d = {
-			dist = dot,
-			side = SIDE_ON,
-		}
+		local d = __side_list[i]
 
+		d.dist = dot
 		if dot > epsilon then 
 			d.side = SIDE_FRONT
+			has_front = true
 		elseif dot < -epsilon then
 			d.side = SIDE_BACK
+			has_back = true
+		else
+			d.side = SIDE_ON
 		end
-		counts[d.side] = counts[d.side] + 1
-		table.insert( sides, d )
 	end
 
-	sides[#w.points+1] = sides[1]
+	local first = __side_list[1]
+	local last = __side_list[#w.points+1]
+	last.dist = first.dist
+	last.side = first.side
 
-	return sides, counts
+	return __side_list, has_front, has_back
 
 end
 
 --returns [ front, back ] windings
 function meta:Split(plane, epsilon)
 
-	local sides, counts = buildSidesFromPoints( self, plane, epsilon or winding_epsilon )
+	local sides, has_front, has_back = buildSidesFromPoints( self, plane, epsilon or winding_epsilon )
 
-	if counts[ SIDE_FRONT ] == 0 then return nil, self:Copy() end
-	if counts[ SIDE_BACK ] == 0 then return self:Copy(), nil end
+	if not has_front then return nil, self:Copy() end
+	if not has_back then return self:Copy(), nil end
 
 	local front = Winding()
 	local back = Winding()
 
 	for i=1, #self.points do
 
-		repeat
-		
-			local p1 = self.points[i]
+		local p1 = self.points[i]
 
-			if sides[i].side == SIDE_ON then
+		if sides[i].side == SIDE_ON then
 
-				front:Add( p1 )
-				back:Add( p1 )
-				break
+			front:Add( p1 )
+			back:Add( p1 )
+			continue
 
-			end
+		end
 
-			if sides[i].side == SIDE_FRONT then front:Add(p1) end
-			if sides[i].side == SIDE_BACK then back:Add(p1) end
+		if sides[i].side == SIDE_FRONT then front:Add(p1) end
+		if sides[i].side == SIDE_BACK then back:Add(p1) end
 
-			if sides[i+1].side == SIDE_ON or sides[i+1].side == sides[i].side then
-				break
-			end
+		if sides[i+1].side == SIDE_ON or sides[i+1].side == sides[i].side then
+			continue
+		end
 
-			local p2 = self.points[ (i % #self.points) + 1 ]
-			local dot = sides[i].dist / ( sides[i].dist - sides[i+1].dist )
-			local mid = Vector( 0, 0, 0 )
+		local p2 = self.points[ (i % #self.points) + 1 ]
+		local dot = sides[i].dist / ( sides[i].dist - sides[i+1].dist )
+		local mid = Vector( 0, 0, 0 )
 
-			mid.x = roundfix( plane.normal.x, plane.dist, p1.x + dot * (p2.x - p1.x) )
-			mid.y = roundfix( plane.normal.y, plane.dist, p1.y + dot * (p2.y - p1.y) )
-			mid.z = roundfix( plane.normal.z, plane.dist, p1.z + dot * (p2.z - p1.z) )
+		mid.x = roundfix( plane.normal.x, plane.dist, p1.x + dot * (p2.x - p1.x) )
+		mid.y = roundfix( plane.normal.y, plane.dist, p1.y + dot * (p2.y - p1.y) )
+		mid.z = roundfix( plane.normal.z, plane.dist, p1.z + dot * (p2.z - p1.z) )
 
-			front:Add( mid )
-			back:Add( mid )
-
-		until true
+		front:Add( mid )
+		back:Add( mid )
 
 	end
 
@@ -149,42 +151,37 @@ end
 
 function meta:Clip(plane, epsilon)
 
-	local sides, counts = buildSidesFromPoints( self, plane, epsilon or winding_epsilon )
+	local sides, has_front, has_back = buildSidesFromPoints( self, plane, epsilon or winding_epsilon )
 
-	if counts[ SIDE_FRONT ] == 0 then self:Clear() return end
-	if counts[ SIDE_BACK ] == 0 then return end
+	if not has_front then self:Clear() return end
+	if not has_back then return end
 
 	local front = Winding()
 
 	for i=1, #self.points do
-
-		repeat
 		
-			local p1 = self.points[i]
+		local p1 = self.points[i]
 
-			if sides[i].side == SIDE_ON then
+		if sides[i].side == SIDE_ON then
 
-				front:Add( p1 )
-				break
+			front:Add( p1, true )
+			continue
 
-			end
+		end
 
-			if sides[i].side == SIDE_FRONT then front:Add(p1) end
-			if sides[i+1].side == SIDE_ON or sides[i+1].side == sides[i].side then
-				break
-			end
+		if sides[i].side == SIDE_FRONT then front:Add(p1) end
+		if sides[i+1].side == SIDE_ON or sides[i+1].side == sides[i].side then
+			continue
+		end
 
-			local p2 = self.points[ (i % #self.points) + 1 ]
-			local dot = sides[i].dist / ( sides[i].dist - sides[i+1].dist )
-			local mid = Vector( 0, 0, 0 )
+		local p2 = Vector( self.points[ (i % #self.points) + 1 ] )
+		local dot = sides[i].dist / ( sides[i].dist - sides[i+1].dist )
 
-			mid.x = roundfix( plane.normal.x, plane.dist, p1.x + dot * (p2.x - p1.x) )
-			mid.y = roundfix( plane.normal.y, plane.dist, p1.y + dot * (p2.y - p1.y) )
-			mid.z = roundfix( plane.normal.z, plane.dist, p1.z + dot * (p2.z - p1.z) )
+		p2:Sub(p1)
+		p2:Mul(dot)
+		p2:Add(p1)
 
-			front:Add( mid )
-
-		until true
+		front:Add( p2, true )
 
 	end
 
@@ -357,7 +354,7 @@ function meta:RemoveColinearPoints()
 		v1:Normalize()
 		v2:Normalize()
 		if v1:Dot(v2) < 0.999 then
-			w:Add( self.points[i+1] )
+			w:Add( self.points[i+1], true )
 		end
 
 	end
@@ -380,7 +377,7 @@ function meta:RemoveEqualPoints(epsilon)
 	for i=1, #self.points do
 
 		if (self.points[i] - w.points[#w.points]):Length() > epsilon then
-			w:Add( self.points[i] )
+			w:Add( self.points[i], true )
 		end
 
 	end
@@ -638,8 +635,9 @@ function meta:CreateMesh(material, texmatrix, lmmatrix, width, height, offset )
 
 end
 
-local function FindMajorAxis(normal)
+local function FindMajorAxis(plane)
 
+	local normal = plane.normal
 	local max = -winding_big_range
 	local x = 0
 	for i=1, 3 do
@@ -649,29 +647,30 @@ local function FindMajorAxis(normal)
 			max = v
 		end
 	end
+
 	return x
 
 end
 
-local function VecMA(v,s,b,o)
-
-	o.x = v.x + b.x * s
-	o.y = v.y + b.y * s
-	o.z = v.z + b.z * s
-
-end
-
+local __up_vector = Vector(0,0,0)
+local __left_vector = Vector(0,0,0)
+local __x_vector = Vector(1,0,0)
+local __z_vector = Vector(0,0,1)
+local __zero_vector = Vector(0,0,0)
 
 function BaseWinding(plane)
 
-	local major = FindMajorAxis( plane.normal )
+	-- We cache base windings since a lot of brushsides may share the same plane ( co-planar )
+	if plane._basewinding then return plane._basewinding:Copy(true) end
+
+	local major = FindMajorAxis( plane )
 	if major == 0 then error("BaseWinding - No major axis for plane") end
 
-	local up = Vector(0,0,0)
-	if major == 3 then up.x = 1 else up.z = 1 end
+	local up = __up_vector
+	up:Set( major == 3 and __x_vector or __z_vector )
 
 	local v = up:Dot( plane.normal )
-	VecMA( up, -v, plane.normal, up )
+	up:Add( plane.normal * -v )
 	up:Normalize()
 
 	local origin = plane.normal * plane.dist
@@ -680,17 +679,24 @@ function BaseWinding(plane)
 	up:Mul( winding_big_range )
 	right:Mul( winding_big_range )
 
-	local w = Winding()
-
 	--print(origin - up, up, up:Dot(right), up:Dot(plane.normal))
 
-	w:Add( origin - right + up )
-	w:Add( origin + right + up )
-	w:Add( origin + right - up )
-	w:Add( origin - right - up )
+	local left = __left_vector
+	left:Set(__zero_vector)
+	left:Sub(right)
+	left:Add(origin)
+	right:Add(origin)
+
+	local w = Winding()
+	w:Add( left + up, true )
+	w:Add( right + up, true )
+	w:Add( right - up, true )
+	w:Add( left - up, true )
+
+	plane._basewinding = w
 
 	--w:Check()
 
-	return w
+	return w:Copy(true)
 
 end

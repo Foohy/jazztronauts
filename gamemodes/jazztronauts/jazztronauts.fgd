@@ -107,3 +107,11 @@
 	output OnPlayerEnter(void) : "Fires when a single player has entered the trigger"
 	output OnPlayerLeave(void) : "Fires when a single player has left the trigger"
 ]
+
+
+@PointClass base(Targetname, Origin, Angles) iconsprite("editor/env_shooter.vmt") = jazz_concommand : "Jazz Console Command Executer"
+[
+	Concommand(string)	: "Console Command" : "" : "Command to run on the server."
+	
+	input RunCommand(void)  : "Executes the console command on the server."
+]

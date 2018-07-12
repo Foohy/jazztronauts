@@ -256,7 +256,7 @@ if SERVER then
             if not count then continue end
 
             local worth = (mapWorth / table.Count(counts)) / count
-            v.JazzWorth = worth
+            v.JazzWorth = math.max(1, worth)
         end
         
     end

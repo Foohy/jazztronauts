@@ -170,7 +170,7 @@ function GM:GenerateJazzEntities()
 
 		-- Calculate worth of each map-spawned prop
 		-- Mo' players = mo' money
-		mapgen.CalculatePropValues(15000 * player.GetCount())
+		mapgen.CalculatePropValues(15000)
 	end
 
 end

@@ -70,7 +70,7 @@ local function roundfix(nc, dist, v)
 end
 
 local __side_list = {}
-for i=1, 100 do __side_list[i] = { dist = 0, side = SIDE_ON } end
+for i=1, 100 do __side_list[i] = {} end
 
 local function buildSidesFromPoints(w, plane, epsilon)
 
@@ -80,6 +80,8 @@ local function buildSidesFromPoints(w, plane, epsilon)
 	for i=1, #w.points do
 		local dot = w.points[i]:Dot( plane.normal ) - plane.dist
 		local d = __side_list[i]
+
+		if not d then __side_list[i] = {} d = __side_list[i] end
 
 		d.dist = dot
 		if dot > epsilon then 

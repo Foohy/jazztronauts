@@ -1,0 +1,38 @@
+"VertexLitGeneric"
+{
+// File Created by Wall Worm ( http://dev.wallworm.com )
+	// Get Wall Worm Pro to remove this comment ( https://wallworm.com/store/index.php?route=product/product&product_id=54 )
+
+// BEGIN Textures
+	$basetexture "krio/bong001_diffuse"
+	$selfillummask "krio/bong001_emissive"
+
+
+	"$basemapalphaphongmask" "1"
+
+	"$envmap" "env_cubemap"
+
+	"$basemapalphaenvmapmask" 1 
+	"$lightwarptexture" "krio/lightwarp"
+	"$envmaptint" "[.2 .2 .2]"
+
+	
+	"$phong" "1"
+	"$phongexponent" "60"
+	"$phongboost" "20"	
+//	"$phongfresnelranges" "[.6 2 5]"
+	"$phongfresnelranges" "[0.25 0.5 1]"
+	
+	"$rimlight" "1"
+	"$rimlightexponent" "4"	
+	"$rimlightboost" "1"
+	$selfillum 1
+
+	
+
+// END Textures
+
+
+	"%keywords" "wallworm,bong001"
+
+}

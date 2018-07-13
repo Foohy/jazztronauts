@@ -1,15 +1,16 @@
 "VertexlitGeneric"
 {
 	"$basetexture" "models/andy/pianist/cat_pianist_neutral"
+
 	"$phong" "1"
-	"$phongexponent" "20"
+	"$phongexponent" "10"
 	"$phongboost" ".3"	
 	"$lightwarptexture" "sunabouzu/lightwarp"
-	"$phongfresnelranges"	"[.3 1 .8]"
-	"$halflambert" "1"
+	"$phongfresnelranges"	"[.3 1 8]"
+	"$halflambert" "0"
 
 	// Rim lighting parameters
-	"$rimlight" "1"												
-	"$rimlightexponent" "4"										
-	"$rimlightboost" ".75"
+	"$rimlight" "1"												// To enable rim lighting (requires phong)
+	"$rimlightexponent" "4"										// Exponent for phong component of rim lighting	
+	"$rimlightboost" "2"	
 }

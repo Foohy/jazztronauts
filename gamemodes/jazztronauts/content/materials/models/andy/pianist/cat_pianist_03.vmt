@@ -1,6 +1,6 @@
 "VertexlitGeneric"
 {
-	"$basetexture" "models/andy/bartender/cat_bartender_shock"
+	"$basetexture" "models/andy/pianist/cat_pianist_angry"
 
 	"$phong" "1"
 	"$phongexponent" "10"

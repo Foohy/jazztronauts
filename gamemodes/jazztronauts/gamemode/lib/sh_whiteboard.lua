@@ -95,6 +95,9 @@ local colors = {
 	Color(100,100,255),
 }
 
+local function getColor(i)
+	return HSVToColor(i * 45, 1, 1)
+end
 
 if CLIENT then
 
@@ -175,7 +178,7 @@ if CLIENT then
 			elseif cmd.c == MSG_LINE_TO then
 				local lx, ly = cursor.x, cursor.y
 				cursor.x, cursor.y = virtual_coord_space:Remap( rect, cmd.x, cmd.y )
-				surface.SetDrawColor( colors[ cmd.uid + 1 ] )
+				surface.SetDrawColor( getColor(cmd.uid + 1))
 				--surface.DrawLine( lx, ly, cursor.x, cursor.y )
 				local dx = (cursor.x - lx)
 				local dy = (cursor.y - ly)
@@ -214,7 +217,7 @@ if CLIENT then
 			if dt < 1 then
 				if lc.c == MSG_MOVE_TO or lc.c == MSG_LINE_TO then
 					local x,y = virtual_coord_space:Remap( rect, lc.x, lc.y )
-					local colx = colors[ lc.uid + 1 ]
+					local colx = getColor(lc.uid + 1)
 					local col = Color(colx.r,colx.g,colx.b,255* (1-dt) )
 					draw.SimpleText( v:Nick(), "Trebuchet18", x,y,col )
 					surface.SetDrawColor( col )
@@ -507,7 +510,7 @@ if CLIENT then
 		local function cursor(x,y)
 			--surface.SetDrawColor(255,255,255,80)
 
-			local colx = colors[ LocalPlayer():EntIndex() + 1 ]
+			local colx = getColor(LocalPlayer():EntIndex() + 1)
 			surface.SetDrawColor( Color(colx.r,colx.g,colx.b,255*alpha) )
 			local out = math.sin( (1-alpha) * math.pi / 2 )
 

@@ -32,9 +32,10 @@ a5:
 	&a6
 	
 a6:
-	I need you to get me 3 metro cops. For the mewseum. They dont have any,
+	I need you to get me 3 metro cops. *start 5* For the mewseum. They dont have any,
 	and it'll mean a lot to em'. Of course, I'll compensate you for you
-	for your efforts. *start 5*
+	for your efforts. 
+	&exit
 	
 	
 idle:
@@ -63,46 +64,168 @@ i3:
 	&exit
 
 turnin:
-	Turn in dialogue. 
-	Maybe needs a re-write for Reasons.
-	See narrative doc for Edit Suggestion.
-	*finish 5*
-	&exit
-
-
-
-
-
-
-
-
-
 
 	*hide*
+	*txout*
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
 	*setnpcid cat_piano npc_cat_piano*
 
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setnpcid cat_singer npc_cat_singer*
 	
+	*spawn metrocop_model models\police.mdl*
+	*setnpcid metrocop_model Metrocop*
+	
 	*spawn player_dummy playerboy*
-	*txout*
 	*txin*
 	*wait .5*
 	*show*
-	*setspeaker cat_piano*
-	Ah, sweet you're back. 
-	Okay' Singer.
-	Close your eyes.
+	*setspeaker narrator*
+	>The Pianist is sitting in a booth with one of the metrocops you found.
+	...the pianist is looking around awkwardly. 
+	She notices you and waves you over.
 	&t1
 	
 t1:
+	*setspeaker cat_piano*
+	Oh, cool, you're back.
+	They made it before you did, we had a Chat.
+	&t2
+	
+t2:
 	*setspeaker narrator*
-	>The Singer closes their eyes. While they bounce up and down, the Pianist
-	walks the Metrocops over and arranges them in a line in front of them.
+	The metrocop gives you a wave while the Pianist puts a briefcase
+	on the table.
+	*finish 5*
+	...Looks like your pay is NUMBER this time!
+	&t3
 	
+t3:
+	*setspeaker cat_piano*
+	A long time ago we had someone here who like. 
+	Helped. The Singer, with, their project?
+	And they left.
+	&t4
 	
+t4:
+	*setspeaker cat_piano*
+	And I feel. Maybe. I was partially responsible for that.
+	So I talked to the, people, you brought back.
+	This guy here took me up on an employment offer.
+	&t5
 	
+t5:
+	*setspeaker cat_piano*
+	After some...
+	
+	Haggling.
+	&t6
+	
+t6:
+	*setspeaker Metrocop*
+	So, you getting the perks they promise you?
+	&t7
+	
+t7:
+	*setspeaker cat_piano*
+	Chill.
+	I added the dental.
+	&t8
+	
+t8:
+	*setspeaker Metrocop*
+	Yep, this was definitely the best career choice I've ever made.
+	       insert camera hold of pianist Clearly Mad here
+	Beats the shit out of my last job.
+	&t9
+	
+t9:
+	*setspeaker cat_piano*
+	Oh my god can you,
+	stop,
+	talking.
+	&t10
+	
+t10:
+	*setspeaker Metrocop*
+	You're in a helluva mood. Quit your bellyaching.
+	&t11
+	
+t11:
+	*setspeaker cat_piano*
+	This was the worst idea I've ever had.
+	&t12
+	
+t12:
+	*setspeaker Metrocop*
+	Your wife doesn't like me, does she?
+	&t13
+	
+t13:
+	*setspeaker cat_piano*
+	OKAY YOU KNOW WHA-
+	&t14
+	
+t14:
+	*setspeaker cat_singer*
+	>The Singer comes skidding to a halt in front of the Metrocop!
+	They put their arms out to shield them!
+	&t15
+	
+t15:
+	*setspeaker cat_piano*
+	>The Pianist wrangles her fury back into its box and shakes off the
+	tension in the air.
+	&t16
+	
+t16:
+	*setspeaker cat_piano*
+	Hey.
+	Uh.
+	It's okay.
+	&t17
+	
+t17:
+	*setspeaker narrator*
+	Camera hold of the Singer giving the pianist side eye
+	*setspeaker cat_piano*
+	No, really. Uh. I.
+	I talked, to this guy? And we found you a new assistant.
+	Paid and everything. Even dental.
+	&t18
+	
+t18:
+	*setspeaker narrator*
+	Camera hold of more side eye from the singer.
+	*setspeaker Metrocop*
+	This is everything I hoped it would be.
+	&t19
+	
+t19:
+	*setspeaker cat_singer*
+	>The Singer beams. They take out their tablet and tap out a message:
+	"THANK YOU SO MUCH IM SO PROUD OF YOU!!!"
+	&t20
+	
+t20:
+	*setspeaker cat_piano*
+	Uh, well. Yeah.
+	Sorry.
+	About the headcrab, thing.
+	&t21
+	
+t21:
+	*setspeaker cat_singer*
+	>The Singer hugs the Pianist. She clearly has no idea how to deal with
+	this. 
+	After a few moments, the Singer waves and you two and walks twoards the mewseum,
+	chatting with the Metrocop.
+	&t22
+	
+t22:
+	*setspeaker cat_piano*
+	...Thanks.
+	&exit
 	
 	
 	

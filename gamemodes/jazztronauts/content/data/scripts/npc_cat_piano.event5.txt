@@ -1,0 +1,258 @@
+SKIP_OPEN = true
+
+begin:	
+	*setspeaker cat_piano*
+	Hey. Do you have a minute?
+	I really. Want to talk.
+	I need a personal favour.
+	&b1
+	
+b1:
+	*setspeaker narrator*
+	>This is the last Event in the Pianist's quest line.
+	It may take you a while to watch, you can come back to it
+	without penalty if you are in a hurry.
+	player:
+	&r1a1:
+		Hey, sorry this is a bad time. I'll be back later. (Exit)
+	&r2a1:
+		Maaaybe. If I'm not getting paid in hard cash though I'm gonna
+		need to be paid in kind and that means you need to steal me like
+		five trays of snickerdoodles.
+	&r3a1:
+		Sure.
+
+###### Branch 1 EARLY EXIT		
+r1a1:
+	Oh! Sure.
+	I'll uh. Still be here.
+	&exit
+
+###### BRANCH 2	
+r2a1:
+	*setspeaker cat_piano*
+	>She laughs, then taps her chin as if she's weighing up your
+	demands for a moment.
+	&r2a2
+	
+r2a2:
+	Yeah, I can work with those terms and conditions. 
+	Hell, I'll bake the things myself.
+	&r2a3
+	
+r2a3:
+	Wait.%%%%%% No.
+	I can't bake and I'm banned from operating the oven anyway.
+	I'll throw in the drink of your choice instead.
+	So, are you in?
+	player:
+	&r1a1:
+		Actually this is a bad time. I'll be back later. (Exit)
+	&r3a1:
+		Sure.
+	
+		
+###### BRANCH 3		
+r3a1:
+	*setspeaker cat_piano*
+	Thanks. 
+	Follow me. 
+	And uh, watch your step.
+	&m1
+
+m1:		
+###### SCENE SETUP
+    *txout*
+	*hide*
+    *setfov 70*
+
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setnpcid cat_piano npc_cat_piano*
+	
+	*spawn player_dummy playerboy*
+	*txin*
+
+###### START	
+	*setspeaker narrator*
+	>The Pianist takes you to a... custom level?
+	It's sure something. The Pianist walks further into
+	the room.
+	&m2
+	
+m2:
+	*setspeaker cat_piano*
+	>The Pianist sits on the edge of the plinth and kicks her legs 
+	back and forth. After a good fifteen seconds she gets up and shrugs.
+	&m3
+	
+m3:
+	*setspeaker cat_piano*
+	So.
+	What do you think?
+	I made this place myself.
+	player:
+	&r4a1:
+		That thing in the ground. Is that a jellyfish or Art?
+	&r5a1:
+		It's uh. It's. Uh. Yeah.
+	&r5a1:
+		I can tell.
+	
+###### BRANCH 4 
+r4a1:
+	*setspeaker cat_piano*
+	>She blinks, and her face scrunches up like she just bit into something sour.
+	&r4a2
+	
+r4a2:
+	What? No. It's a piano.
+	I mean, it's fucking terrible, which is why I just stole this one.
+	     make pianist gesture in a direction that has real piano. maybe camera hold on it.
+	&r4a3
+	
+r4a3:
+	But I thought I got the shape mostly right!
+	God. Fuck.
+	What do you think of the rest?
+	player:
+	&r5a1:
+		It's uh. It's. Uh. Yeah.
+	&r5a1:
+		I can definitely tell that you made all this.
+		
+###### BRANCH 5
+r5a1:
+	*setspeaker cat_piano*
+	>She crumples. Anger, frustration, and despair flash over her face before
+	she buries it in her paws.
+	&r5a2
+	
+r5a2:
+	*setspeaker cat_piano*
+	It's awful.
+	You can say it, I know it is.
+	&r5a3
+	
+r5a3:
+	I do this every time. I try and learn some new skill because I can't do
+	the one thing I'm actually good at anymore, and because I'm not 
+	immediately Great at it I give up.
+	&r5a4
+	
+r5a4:
+	I guess I keep hoping there's a stack overflow level with self-loathing
+	and the next time I try something I'll find the limiter's off and I can
+	relax and create again.
+	&r5a5
+	
+r5a5:
+	This was the first thing I tried. After it happened. 
+	I don't know if the Bartender told you or not, but ages ago something..
+	Snapped. I can't play the piano anymore.
+	&r5a6
+	
+r5a6:
+	So I tried to make my own space where I could practice without feeling 
+	like I was letting everyone down. 
+	What use is a jazz Pianist who can't improvise?
+	&r5a7
+	
+r5a7:
+	It didn't fucking work. Scavenging made it worse. We went to so many
+	places that were about as well put together as the Cellist's suit
+	and I wanted to burn them to the ground.
+	&r5a8
+	
+r5a8:
+	I don't understand how people can make stuff like this-
+	pianist gestures and then the camera holds on a section of the 
+	map.
+	&r5a9
+	
+r5a9:
+	-and put it out into the world! Cluttering the universe with first drafts.
+	It takes me weeks of practice before I can work up the confidence to show
+	my friends and you've seen what happens. It's trash.
+	It's all trash.
+	&r5a10
+	
+r5a10:
+	*setspeaker cat_piano*
+	I don't even know why I wanted to show you this.
+	This is what happens when I don't plan shit.
+	It's worthless.
+	player:
+	&n1:
+		I'm glad you showed it to me anyway.
+	&n1:
+		The important thing is that you haven't stopped trying.
+		
+n1:
+	*setspeaker cat_piano*
+	Bringing you here was a mistake.
+	I'm sorry I wasted your time.
+	&n2
+	
+n2:
+	>She goes silent for a long time, then slams her paw down on the keys.
+	
+	I might as well just give u-
+	&n3
+
+n3:
+	>The Pianist stops mid work and stares down at her paw as the accidental
+	chord resonantes through the room. Tears well and then spill unchecked
+	down her cheeks as she hits the keys again.
+	&n4
+	
+n4:
+	> As you take a seat on the lone chair, she plays another chord, then another,
+	and the brightest smile you've ever seen from her dawns on her face.
+	&n5:
+	
+n5:
+	this word bubble is probably gonna be entierly stage directions, and the pianist
+	playing a song. at the end of the camera cuts and the song, show the following dialogue
+	so the player knows to click to continue
+	*setspeaker cat_piano*
+	Right. That's why I brought you here.
+	&n6
+	
+n6:
+	Because I can't plan shit around you. Things just happen.
+	
+	Let's go back to the bar. I've got some good news for the others.
+	&n7
+	
+n7:
+	*setspeaker cat_piano*
+	PLAYERNAME.
+	Thank you for being my friend.
+	player:
+	&pianistconclude:
+		Thanks for being mine.
+		
+&pianistconclude:
+	>The two of you quietly head back the bar. *mark_seen*
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+	
+	

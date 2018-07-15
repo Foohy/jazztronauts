@@ -1,0 +1,264 @@
+SKIP_OPEN = true
+
+begin:
+    # Scene setup
+    *hide*
+    *txout*
+    *setfov 70*
+
+	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	*setnpcid cat_cello npc_cat_cello*
+	
+	*spawn player_dummy playerboy*
+	*txin*
+	
+###### START
+	*setspeaker narrator*
+	*show*
+	>The Cellist is sprawled out in a booth. He looks down for the 
+	count. In front of him, is a shot glass that appears to be 
+	All Colors.
+	&b1
+	
+b1:
+	*setspeaker narrator*
+	>The glass looks like somebody distilled both the visuals of,
+	and all of the illicit substances at, a Pink Floyd laser light show.
+	Must be the Good Shit.
+	&b2
+	
+b2:
+	*setspeaker cat_cello*
+	>The Cellist opens his eyes blearily.
+	&b3
+	
+b3:
+	*setspeaker cat_cello*
+	alright if you aren't some sort of phantasmal horror waiting to shapeshift
+	into one of my innermost fears to torment me in the liminal space between
+	consciousness and death, idk, stare blankly or something.
+	&b4
+	
+b4:
+	*hide .1*
+	camera cut to the players blank ass face here
+	*show .1*
+	*setspeaker cat_cello*
+	that's the spirit
+	&b5
+	
+b5:
+	*setspeaker cat_cello*
+	now that i have established it is in fact you i'm talking to and not one of
+	my many hallucinatory ghosts of once and future christmas, i've been meaning
+	to tell you that i appreciate your work getting me the ingredients for the
+	Good Shit together.
+	&b6
+	
+b6:
+	*setspeaker cat_cello*
+	i'm not sure what was in that gasoline, or that beer for that matter,
+	but god damn if this isn't the best batch i've had in a while. maybe it was
+	"essence of subcontracted manual labor"
+	&b7
+	
+b7:
+	but i digress.
+	i've been meaning to give you a reward more substantial than arbitrary
+	anarcho-corporate scrip. Namely,
+	
+	>The Cellist pushes the glass across the table twoards you...
+	&b8
+	
+b8:
+	*setspeaker cat_cello*
+	if you're interested you can take a sip of the fruit of your labor.
+	player:
+	&r1a1:
+		What else is in there, exactly?
+	&r2a1:
+		What does it do?
+	&r3a1:
+		(SLAM THAT SHIT)
+	&r4a1:
+		I appreciate it but while I love dying and being dead I'm making
+		and exception here. (exit)
+		
+###### BRANCH 4 EARLY EXIT
+r4a1:
+	*setspeaker cat_cello*
+	s'aright. suit yourself.
+	
+	...what?
+	&r4a2
+	
+r4a2:
+	you expected me to make a scene over that? naw man, this shit ain't D.A.R.E.
+	unless you're as much of a trainwreck as me it's entierly reasonable to look
+	at a glass that looks like some sort of fourth dimensional clown tears and go
+	fuck that shit i'm out.
+	&r4a3
+	
+r4a3:
+	i mean it leaves more for me too but that's secondary, i swear.
+	
+	y'all have a nice day now.
+	&exit
+	
+###### BRANCH 1
+r1a1:
+	*setspeaker cat_cello*
+	okay i'll be real with you. much like sausage, politics, and legacy codebases,
+	you're gonna be way happier not knowing.
+	player:
+	&r2a1:
+		What does it do?
+	&r3a1:
+		(SLAM THAT SHIT)
+	&r4a1:
+		I appreciate it but while I love dying and being dead I'm making
+		and exception here. (exit)
+		
+###### BRANCH 2
+r2a1:
+	*setspeaker cat_piano*
+	uhhh. yo ever read one of those articles where it's a trip report of some
+	dumb motherfucker who took like fifteen things at irresponsible doses and
+	like a couple of them weren't even drugs
+	&r2a2
+	
+r2a2:
+	start there and think bigger, if you drank that whole glass.
+	one sip should be a little more manageable.
+	maybe.
+	player:
+	&r1a1:
+		What else is in there, exactly?
+	&r3a1:
+		(SLAM THAT SHIT)
+	&r4a1:
+		I appreciate it but while I love dying and being dead I'm making
+		and exception here. (exit)
+		
+###### BRANCH 3
+r3a1:
+	*setspeaker narrator*
+	>The next segment is designed to be as visually awful to look at, on purpose.
+	If you get motion sickness, epilepsy, or any other conditions to view, you
+	may safely skip it.
+	player:
+	&placeholder:
+		Yes, I would like to skip the trippy visuals.
+	&m1:
+		No, i'm here to get FUCKED UP responsibly.
+	
+###### MERGE POINT
+
+m1:
+	*setspeaker narrator*
+	>You take the glass and down it. Kinda burns like tequila.
+	
+	...nothing's happened yet.
+	player:
+	&m2:
+		So how long does this take to do anything?
+		
+m2:
+	insert slam cut to weird trippy visuals here, setcam to a part of the map
+	that is Just Void or something. after playing in the space this shows up,
+	*setspeaker cat_cello*
+	MTSgovOvnKEwnPO5o3HtoT9inlOjpzI0qUxtMaIwn2IxVUIjVT5iqPOao25hLFOfnJH=
+	player:
+	&m3:
+		oh god what the fuck
+	&m3:
+		(literally just constant screaming )
+	&m3:
+		LIBERATE TUTEMET EX INFERIS
+m3:
+	*setspeaker cat_cello*
+	nT9frFOmnTy0VUyiqFqlMFOwLKOuLzkyVT9zVTAioKOl
+	MJuyoaAcLzkyVUAjMJIwnPO0nTS0W3ZtLFOhMKpto25y
+	&m4
+	
+m4:
+	q2ScqPjtMTyxVUyiqFOuL3E1LJkfrFOgLJ5uM2HtqT8tMzyaqKWyVT91qPObo3pt
+	qT8tqJ5yozAlrKO0VUEbnKZ/VUqyoTjtMT9hMFO5o3Htp2S1L3xtLzSmqTSlMP4=
+	use rest of bubble for drug camera cuts and finishing touches.
+	&m5
+	
+m5:
+	*setspeaker cat_cello*
+	holy fuck you're alive?
+	&m6
+	
+m6:
+	i mean, not that I expected that to kill you, of course, but uh,
+	that hit you pretty hard. i wasn't sure you were ever gonna get up.
+	not many people do.
+	&m7
+	
+m7:
+	you... you have potential. the potential to make horrifying life choices
+	with relative impunity. sit at my feet, and i will show you a world that
+	you should never visit, because i am not an example for anybody.
+	player:
+	&m8:
+		Hrrgblh?
+	&m8:
+		Grblghreb.
+	&m8:
+		hhrrrghhhhh
+		
+m8:
+	*setspeaker cat_cello*
+	okay maybe your're gonna need some dry time though.
+	come on, let's get you on your feet.
+	&m9
+	
+m9:
+	*setspeaker narrator*
+	>The Cellist helps you up and walks helps you walk over to the bar... *mark_seen*
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

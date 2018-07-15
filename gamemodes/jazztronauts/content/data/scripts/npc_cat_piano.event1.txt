@@ -57,7 +57,6 @@ resp1a:
 	
 resp1b:
 	Get out of here, then. I owe you one, so I'll cover for you too. This time.
-	*mark_seen*
 	&exit
 	
 ###### Branch 2 

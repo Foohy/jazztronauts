@@ -5,6 +5,8 @@
 
 // BEGIN Textures
 	$basetexture "krio/apartmentfridge001_a"
+	$envmap "env_cubemap"
+	"$envmaptint" "[.7 .7 .7]"
 // END Textures
 
 

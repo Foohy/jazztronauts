@@ -59,6 +59,7 @@ end
 function GM:Initialize()
 	self.BaseClass:Initialize()
 
+	game.SetGlobalState( "gordon_invulnerable", GLOBAL_DEAD )
 
 	SetIfDefault("sv_loadingurl", "host.foohy.net/public/Documents/Jazz/")
 	SetIfDefault("sv_gravity", "800")

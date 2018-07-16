@@ -205,11 +205,12 @@ local function DrawPropEntry(item,x,y, dt, highlight, custom)
 	end
 
 	local tx = x + left_align
+	local name = IsValid(item.ply) and item.ply:GetName() or ""
 	surface.SetFont("PropFeed_Name")
 	surface.SetTextColor( MulAlpha(highlight and color_text_generic2 or color_text_name1, text_alpha) )
 	surface.SetTextPos( x+left_align,y+top_align )
-	surface.DrawText( item.ply:Nick() )
-	tx = tx + surface.GetTextSize( item.ply:Nick() ) + ScreenScale(2)
+	surface.DrawText( name )
+	tx = tx + surface.GetTextSize( name ) + ScreenScale(2)
 
 	surface.SetFont("PropFeed_Generic1")
 	surface.SetTextColor( MulAlpha(highlight and color_text_generic2 or color_text_generic1, text_alpha) )

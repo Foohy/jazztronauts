@@ -108,7 +108,10 @@ function ENT:SitPlayer(ply)
 end
 
 function ENT:CheckLaunch()
+	if self.CommittedToLeaving then return end
+
 	if self:GetNumOccupants() >= player.GetCount() then
+		self.CommittedToLeaving = true
 		self:EmitSound( "jazz_bus_idle", 90, 150 )
 		util.ScreenShake(self:GetPos(), 10, 5, 1, 1000)
 

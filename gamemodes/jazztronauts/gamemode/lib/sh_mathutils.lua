@@ -146,3 +146,29 @@ end
 function MulAlpha(color, a)
 	return Color(color.r, color.g, color.b, color.a * a)
 end
+
+local function fit(x)
+	return 1 - 0.5*x + 0.1665831*x^2 - 0.04136174*x^3 + 0.007783141*x^4 - 0.0008936082*x^5
+end
+
+function Bounce(t, speed, decay, fdecay, upshot)
+	local decay = math.max(decay or 1.6, 0.0001)
+	speed = speed or 1.0 / 4.0
+	local freqDecay = math.Clamp(fdecay or .6, 0.0001, 2.0)
+	local coef = 1 / fit(freqDecay)
+
+	if not upshot then t = t + speed * .5 end --upshot
+	local root = speed / (speed - freqDecay * t / coef)
+
+	if root < 0 then return 0 end
+
+	local idf = 1.0 / freqDecay
+	local i = math.floor(math.log(root) * idf)
+	local duration = speed / math.exp( i * freqDecay )
+	local offset = idf * coef * speed * (1 - math.exp( -i * freqDecay ))
+	local amplitude = 1 / math.exp(i * decay)
+
+	t = ( t - offset ) / duration
+	--t = t - offset / duration
+	return t * ( 1 - t ) * 4 * amplitude
+end

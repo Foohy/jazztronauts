@@ -30,7 +30,7 @@ SWEP.MaxRange 				= 700
 SWEP.CloseRange				= 250
 
 -- Tier 1 settings
-local AimConeDefault 		= 0
+local AimConeDefault 		= 3
 SWEP.AutoAimCone			= AimConeDefault
 
 -- Tier 2 settings

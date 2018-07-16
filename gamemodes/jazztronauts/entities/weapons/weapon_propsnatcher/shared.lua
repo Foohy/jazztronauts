@@ -35,7 +35,7 @@ SWEP.AutoAimCone			= AimConeDefault
 
 -- Tier 2 settings
 SWEP.MinFireDelay 			= 0.1 -- Min delay to fire when at full blast
-SWEP.WarmUpTime				= 5 -- How long it takes to get to full blast
+SWEP.WarmUpTime				= 1 -- How long it takes to get to full blast
 
 SWEP.Spawnable 				= true
 SWEP.RequestInfo			= {}

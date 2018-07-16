@@ -48,9 +48,7 @@ if CLIENT then
         return rev
     end
 
-    hook.Add("NetTableUpdated", "dialogBuildReverseScriptLookup", function(name, changed, removed)
-        if name != "dialog_script_ids" then return end
-
+    nettable.Hook("dialog_script_ids", "dialogBuildReverseScriptLookup", function(changed, removed)
         reverseLookup = buildReverseLookup(nettable.Get("dialog_script_ids"))
     end )
 

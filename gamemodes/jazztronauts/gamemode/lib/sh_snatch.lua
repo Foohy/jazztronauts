@@ -766,8 +766,7 @@ elseif CLIENT then
 
 	-- Run only once when the client first joins and downloads the stolen brush list
 	-- Almost always the map will still be loading, but it doesn't hurt being optimistic
-	hook.Add("NetTableUpdated", "snatchUpdateWorldBrushBackup", function(name, changed, removed)
-		if name != "snatch_removed_brushes" then return end
+	nettable.Hook("snatch_removed_brushes", "snatchUpdateWorldBrushBackup", function(changed, removed)
 		if map:IsLoading() then return end
 		
 		stealBrushesInstant(changed)

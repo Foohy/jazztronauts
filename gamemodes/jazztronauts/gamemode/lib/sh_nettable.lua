@@ -10,6 +10,7 @@ TRANSMIT_MANUAL = 2 -- Changes must be manually broadcasted
 TRANSMIT_ONCE   = 3 -- Changes are only broadcasted once for each player
 
 nettables = nettables or {}
+hooks = hooks or {}
 broadcastinterval = 0.2
 
 local nextBroadcast = 0
@@ -42,10 +43,18 @@ ReadVars =
 	[TYPE_COLOR]	= function ()	return net.ReadColor() end,
 }
 
-function Get(name)
-    if not nettables[name] then return nil end
+local function CallHook(name, ...)
+    if not hooks[name] then return end
 
-    return nettables[name].data
+    for _, v in pairs(hooks[name]) do
+        if v then v( ... ) end
+    end
+end
+
+function Get(name)
+    if not nettables[name] then return {} end
+
+    return nettables[name].data or {}
 end
 
 function Set(name, tbl)
@@ -54,17 +63,24 @@ function Set(name, tbl)
     nettables[name].data = tbl
 end
 
-function Create(name, transmitMode)
+function Create(name, transmitMode, updateRate)
     print("Creating new nettable " .. name)
     nettables[name] = 
     {
         data = {},
         sentData = {},
-        transmitMode = transmitMode or TRANSMIT_AUTO
+        transmitMode = transmitMode or TRANSMIT_AUTO,
+        updateRate = updateRate or broadcastinterval
     }
 
     return nettables[name].data
 end
+
+function Hook(name, id, func)
+    hooks[name] = hooks[name] or {}
+    hooks[name][id] = func
+end
+
 
 local function diffTable(new, old)
     local changed = {}
@@ -165,7 +181,7 @@ if SERVER then
         if not IsValid(ply) and not fullupdate then
             nettable.sentData = table.Copy(nettable.data)
 
-            hook.Call("NetTableUpdated", GAMEMODE, name, changed, removed)
+            CallHook(name, changed, removed)
         end
     end
 
@@ -183,7 +199,9 @@ if SERVER then
 
         for k, v in pairs(nettables) do
             if v.transmitMode != TRANSMIT_AUTO then continue end
+            if v.lastTransmit and v.lastTransmit + v.updateRate >= CurTime() then continue end
 
+            v.lastTransmit = CurTime()
             Broadcast(k)
         end
     end )
@@ -216,7 +234,7 @@ if CLIENT then
             tableRemoveKeys(nettables[name].data, removed)
         end
 
-        hook.Call("NetTableUpdated", GAMEMODE, name, changed, removed)
+        CallHook(name, changed, removed)
     end )
 
 end

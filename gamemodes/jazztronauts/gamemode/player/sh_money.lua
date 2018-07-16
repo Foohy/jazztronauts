@@ -28,6 +28,8 @@ if SERVER then
 
     -- Force an update to make sure everyone's client numbers are accurate
     local function UpdateTotal()
+        GetTotal(true)
+
         -- Update datatables on everyone
         for _, v in pairs(player.GetAll()) do
             v:RefreshNotes()

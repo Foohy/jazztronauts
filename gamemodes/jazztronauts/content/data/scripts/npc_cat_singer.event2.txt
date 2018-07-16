@@ -1,0 +1,167 @@
+begin:
+
+###### SCENE SETUP
+	*hide*
+	*txout*
+		
+	*spawn cat_singer models/andy/singer/cat_singer*
+	*setnpcid cat_singer npc_cat_singer*
+	
+	*spawn player_dummy playerboy*
+	*txin*
+	*show*
+	
+###### START
+	*setspeaker narrator*
+	> The Bar Samsara... somber as usual.       %%%%%%%%%%%...?%%%
+	&b1
+	
+b1:
+	*setspeaker cat_singer*
+	> You see the Singer en route back to the Mewseum and head over to say hi.
+	When they notice you, their tail puffs and they whip the little dino plush
+	behind their back.
+	&b2
+	
+b2:
+	> They seem very interested in the floor suddenly.
+	player:
+	&r1a1:
+		If you don't want me to see it, that's cool.
+		See you later, yeah? (exit)
+	&r2a1:
+		Oh shit was that a brontosaurus? I love bronto's.
+	&r3a1:
+		It's okay, I'm not gonna give you shit or anything.
+		
+###### BRANCH 1 EARLY EXIT
+r1a1:
+	*setspeaker cat_singer*
+	> They smile, and nod. You watch them leave with a spring in their step, and they
+	don't bother trying to hide the dino as they do.
+	&exit
+	
+
+###### BRANCH 2 
+r2a1:
+	*setspeaker cat_singer*
+	> Hesitantly, they nod, and take out their tablet. They possess a great deal of
+	admiration for the humble brontosaurus. It's their favourite dinosaur.
+	&r2a2
+
+r2a2:
+	> Seemingly delighted that you're still listening, they tell you that the name
+	has been an intense source of drama in palentologist circles.
+	&r2a3
+	
+r2a3:
+	> Apparently the guy who discovered them found a second set of bones after naming
+	the new thing the Apatosaurus, Assumed this second set was a new species of even
+	BIGGER dinosaurs, Then they thought that wasn't true for a while and then it was
+	and then not again???
+	&r2a4
+	
+r2a4:
+	> The Singer beams. "Now it's a GENUS rather than just one species so there's like
+	three dinosaurs that get the subtitle of THUNDER LIZARD!!!! How fucking rad 
+	is that???? (≈✪ᆽ✪≈)♡” 
+	&r2a5
+	
+r2a5:
+	> They seem a little less self-conscious now.
+	&r1a1:
+		If you don't want me to see it, that's cool.
+		See you later, yeah? (exit)
+	&r3a1:
+		It's okay, I'm not gonna give you shit or anything.
+	
+###### BRANCH 3
+r3a1:
+	*setspeaker cat_singer*
+	> Slowly, they pull the plush out from behind their back.
+	close up shot of dino toy
+	> It's fucking adorable.
+	&r3a2
+	
+r3a2:
+	>Tucking the brontosaurus under their arm, the Singer tells you that it was a 
+	gift from one of the six people that stayed here before you did.
+	&r3a3
+	
+r3a3:
+	> They were a dear friend.
+	&r3a4
+	
+r3a4:
+	> It has a lot of sentimental value, but is no substitute for their company\:
+	"It gets sort of lonely around here sometimes. And taking care of the Mewseum
+	it much more work when it's jsut me (=^._.^=)” 
+	&r3a5
+	
+r3a5:
+	> The Singer stares off into the distance for a moment and then visibly snaps
+	themselves out of it to smile at you. They tell you that they really appreciate
+	the help you've been giving them so far and that it's been nice to have time
+	to catalogue properly.
+	&r3a6
+
+r3a6:
+	> They let you touch the bronto plushie.
+	&r3a7
+	
+r3a7:
+	> It's so fucking soft holy shit.
+	&r3a8
+	
+r3a7:
+	> The Singer bounces and tells you they'll have more work for you later but
+	for now they've really gotta catch some Z's.
+	&end
+	
+end:
+	*setspeaker narrator*
+	> The Singer yawns, and jumps onto the top of the bar. They curl up
+	with the dino plush and zonk out pretty quick. 
+	You decide to head back. *mark_seen*
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

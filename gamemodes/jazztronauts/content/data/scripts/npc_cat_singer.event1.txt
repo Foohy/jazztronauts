@@ -1,0 +1,196 @@
+begin:
+
+###### SCENE SETUP
+	*hide*
+	*txout*
+		
+	*spawn cat_singer models/andy/singer/cat_singer*
+	*setnpcid cat_singer npc_cat_singer*
+	
+	*spawn player_dummy playerboy*
+	*txin*
+	*show*
+	
+###### START
+	*setspeaker narrator*
+	> The Mewseum is quiet as usual.
+	Except for the Singer, who is tapping away at their tablet in
+	front of one of those dolls you got for them.
+	&b1
+	
+b1:
+	> You approach the Singer, but for once they don't immediately look up when
+	you get close. In fact, they don't seem to have noticed your presence at all.
+	You hunker down in front of them and wave.
+	&b2
+	
+b2:
+	*setspeaker cat_singer*
+	> The Singer startles and nearly drops their tablet. After fumbling to catch it,
+	they beam at you and wave back.
+	&b3
+	
+b3:
+	> A hurried message is presented\: "Hi sorry I get super fucking out of it when 
+	I'm cataloguing!!! It's really relaxing.../ᐠ. ퟑ.ᐟ\ I thought after your hard work 
+	helping me get these you might like to help me enter their descriptions for 
+	my archives, maybe.
+	player:
+	&r1a1:
+		That sound suspiciously like a nerd activity and I don't want to have to seal myself
+		inside a locker sarcophagus of shame, sorry. (exit)
+	&r2a1:
+		Can I name them?
+	&r3a1:
+		Sure, happy to help.
+		
+
+###### BRANCH 1 EARLY EXIT
+r1a1:
+	*setspeaker cat_singer*
+	> The Singer grins and shakes their head. They don't blame you for being uninterested,
+	but hope you'll drop by some other time and open your heart to the concept of learning.
+	&r1a2
+	
+r1a2:
+	> Only cops don't read, they tell you.
+	&exit
+	
+###### BRANCH 2 
+r2a1:
+	*setspeaker cat_singer*
+	> The Singer claps, eyes shining with delight. Of course you can name them. They don't
+	know why they didn't think of doing this before. They congratulate you on having the
+	natural knack for Good Life Choices.
+	&r2a2
+	
+r2a2:
+	> They are absolutely going to go back and name the other ones.
+	Fuck yeah.
+		player:
+	&r1a1:
+		That sound suspiciously like a nerd activity and I don't want to have to seal myself
+		inside a locker sarcophagus of shame, sorry. (exit)
+	&r3a1:
+		Sure, happy to help.
+		
+###### BRANCH 3
+r3a1:
+	*setspeaker cat_singer*
+	> The Singer fist pumps the air with delight. They pat the floor next to them and invite
+	you to consider the doll in front of you.
+	&r3a2
+	
+r3a2:
+	camera closeup on that awful doll model from hl2
+	> Your job, they tell you, is to describe that doll. In case it ever gets lose, or a 
+	disabled guest wants to know what's on display.
+	player:
+	&goodanswer:
+		Cursed Seer Camilla, a heavily damaged and dirt crusted porcelain baby doll missing it's left
+		arm and both eyes, wearing a white nappy. Camilla has a serene expression.
+	&decentanswer:
+		A haunted ass doll named Sweet Baby Babbette that looks like it literally cried its eyes out
+		and is responsible for at least six movies and a tv show reboot.
+	&ananswer:
+		Nannette was a cheerful child with a perpetual smile but one day she died in mysterious
+		circumstances. Soon after her parents noticed that her doll began to rattle and shake in the
+		middle of the night, and even knock things off shelves! Despite this she has a healing engergy
+		and can cure most diseases if she likes you but be careful not to-
+
+###### GOOD ANSWER
+goodanswer:
+	*setspeaker cat_singer*
+	> The Singer claps their paws together and bounces. You're apparently a natrual at this.
+	That's almost exactly what they would have entered! Except the name, they thing the doll
+	looks more like an Amelia Cobbler, but they enjoy your choice too!
+	&m1
+	
+###### HEY, NOT BAD
+decentanswer:
+	*setspeaker cat_singer*
+	> While not exactly what they had in mind, it's a very good start!
+	They make some adjustments to your entry that describe the physical apperance of the doll,
+	and give you a paws up for the description of its demeanor.
+	&m1
+	
+###### C'MON DUDE
+ananswer:
+	*setspeaker cat_singer*
+	>The Singer stares at you.
+	&an1
+	
+an1:
+	> They seem to be heavily considering what to write in response, eventually settling on\:
+	"While that's creative and very engaging!!! It doesn't really. Say. Anything. About what
+	the doll looks like. And also is claiming it's a medical device???? Which, It's super not.
+	BUT!!!!!!! That was a very good first attempt!!!"
+	&an2
+	
+an2:
+	>They erase the part about Nannette being able to cure diseases and adds a description
+	of the physical appearance of the doll. They compliment your vivid imagination and
+	world building.
+	&m1
+	
+###### MERGE POINT
+m1:
+	*setspeaker cat_singer*
+	> The Singer thanks you for your help, you've given them some good ideas on how to
+	make each entry individual, even if the item is virtually identical.
+	&m2
+	
+m2:
+	> Before you leave, they pat your arm and pass your \$25 in exchange for your time
+	and service!
+	&m3
+	
+m3:
+	> You leave them to their work, as the Mewseum welcomes its new residents. *mark_seen*
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

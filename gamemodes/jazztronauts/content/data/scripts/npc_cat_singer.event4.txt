@@ -1,0 +1,57 @@
+begin:
+
+###### SCENE SETUP
+	*hide*
+	*txout*
+		
+	*spawn cat_singer models/andy/singer/cat_singer*
+	*setnpcid cat_singer npc_cat_singer*
+	
+	*spawn cat_panist models/andy/singer/cat_pianist*
+	*setnpcid cat_pianist npc_cat_pianist*
+	
+	*spawn cat_cellist models/andy/singer/cat_cellist*
+	*setnpcid cat_cellist npc_cat_cellist*
+	
+	*spawn player_dummy playerboy*
+	*txin*
+	*show*
+	
+###### START
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

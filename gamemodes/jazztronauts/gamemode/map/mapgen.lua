@@ -40,9 +40,14 @@ function CanSnatch(ent)
     if ent:GetClass() == "jazz_static_proxy" then return true end
     if ent:GetClass() == "physics_cannister" then return true end
 
-    if ent:IsWeapon() and ent:GetParent() and ent:GetParent():IsPlayer() then return false end
+    -- Weapons held by players
+    if ent:IsWeapon() and IsValid(ent:GetParent()) and ent:GetParent():IsPlayer() then return false end
+
+    -- Local player weapons
     if CLIENT and ent:IsWeapon() and ent:IsCarriedByLocalPlayer() then return false end
-    //if SERVER and not IsValid(ent:GetPhysicsObject()) then return false end
+
+    -- Bus seats
+    if ent:IsVehicle() and IsValid(ent:GetParent()) and string.find(ent:GetParent():GetClass(), "jazz_") then return false end
 
     if ent:GetClass() == "hunter_flechette" then return true end
 	if ent:GetClass() == "prop_physics" then return true end

@@ -26,6 +26,11 @@ function GM:PhysgunPickup(ply, ent)
         return false
     end
 
+    -- Don't let players pick up the shards
+    if string.find(ent:GetClass(), "jazz_shard") then 
+        return false 
+    end
+
     return self.BaseClass:PhysgunPickup(ply, ent)
 end 
 

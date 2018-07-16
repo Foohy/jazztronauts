@@ -90,6 +90,7 @@ if SERVER then
 end
 
 local map = bsp2.GetCurrent()
+local g_cull = frustum.New()
 
 local hacker_vision = CreateMaterial("HackerVision" .. FrameNumber(), "UnLitGeneric", {
 	["$basetexture"] = "concrete/concretefloor001a",
@@ -428,12 +429,30 @@ local function FormLines( startpos, endpos )
 		if base:Distance( endpos ) < 1 then break end
 	end
 
+	local min = Vector(0,0,0)
+	local max = Vector(0,0,0)
+
+	ResetBoundingBox( min, max )
+
+	for _, e in pairs( edges ) do
+		AddPointToBoundingBox( e[1], min, max )
+		AddPointToBoundingBox( e[2], min, max )
+	end
+
+	local expand = 5
+	for i=1, 3 do
+		min[i] = min[i] - expand
+		max[i] = max[i] + expand
+	end
+
 	return {
 		--[[edges = {
 			{ startpos, midpos, },
 			{ midpos, midpos2 },
 			{ midpos2, endpos },
 		},]]
+		min = min,
+		max = max,
 		edges = edges,
 		center = PointAlongEdges( edges, total_length, .5 ),
 		length = total_length,
@@ -664,11 +683,17 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 
 	if map:IsLoading() then return end
 
+	local dc_lines = 0
+	local dc_models = 0
+	local dc_blips = 0
+
 	if not graph then
 		local b,e = pcall( PrepGraph )
 		if not b then print(e)
 		else graph = e end
 	end
+
+	g_cull:FromPlayer( LocalPlayer() )
 
 	--if true then return end
 
@@ -708,13 +733,28 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 			for k,v in pairs( graph ) do
 
 				-- Draw brushes
-				if v.model then 
-					v.model:DrawModel()
+				if v.model then
+					if g_cull:TestEntity( v.model ) then
+						v.model:DrawModel()
+						dc_models = dc_models + 1
+					end
+				end
+				
+				for target, l in pairs( v.lines ) do
+					l.visible = g_cull:TestAABB( l.min, l.max )
+					if l.visible then
+						dc_lines = dc_lines + 1
+
+						for _, edge in pairs( l.edges ) do
+							gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), line_color, line_color, 5)
+						end
+					end
 				end
 
 				-- Draw blips
 				for _, blip in pairs( v.blips ) do
 					local line = v.lines[blip.target]
+					if not line.visible then continue end
 					local dt = 0
 					if line.length > 0 then
 						dt = blip.speed * (CurTime() - blip.t) / line.length
@@ -724,12 +764,7 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 					for _, edge in pairs( line.edges ) do
 						gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), Color(80,255,80), Color(80,255,80), 20 * (1-dt))
 					end
-				end
-				
-				for target, l in pairs( v.lines ) do
-					for _, edge in pairs( l.edges ) do
-						gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), line_color, line_color, 5)
-					end
+					dc_blips = dc_blips + 1
 				end
 
 				local angle = Angle(0,0,0)
@@ -786,5 +821,9 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 	if not b then print( e ) end
 
 	cam.End2D()
+
+	draw.SimpleText("Lines drawn: " .. dc_lines,nil,10,10,Color(255,100,100))
+	draw.SimpleText("Models drawn: " .. dc_models,nil,10,20,Color(255,100,100))
+	draw.SimpleText("Blips drawn: " .. dc_blips,nil,10,30,Color(255,100,100))
 
 end)

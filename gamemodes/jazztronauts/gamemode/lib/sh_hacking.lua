@@ -677,6 +677,7 @@ local function UpdateBlips()
 end
 
 local hackEnable = CreateClientConVar("jazz_debug_hackerview", "0", false, false, "Toggle drawing the hacker gun view")
+local hackCullDistance = CreateClientConVar("jazz_hack_cull_far", 10000, true, true, "Far plane of hacker view culling")
 
 hook.Add( "HUDPaint", "hacker_vision", function()
 	if not hackEnable:GetBool() then return end
@@ -695,7 +696,7 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 		else graph = e end
 	end
 
-	g_cull:FromPlayer( LocalPlayer() )
+	g_cull:FromPlayer( LocalPlayer(), 10, hackCullDistance:GetInt() )
 
 	--if true then return end
 

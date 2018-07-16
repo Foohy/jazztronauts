@@ -7,8 +7,8 @@ module( "task", package.seeall )
 local TASK_TIME_SLICE = 0.008
 local HITCH_THESHOLD = 0.05
 local MAX_TASK_ITERATIONS = 100000
-local TASK_HITCH_DETECTION = false
-local TASK_PRIORITIZATION = false
+local TASK_HITCH_DETECTION = true
+local TASK_PRIORITIZATION = true
 
 tasks = tasks or {}
 g_task = g_task or nil

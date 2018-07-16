@@ -342,9 +342,10 @@ local function LoadStructArray2( f, ar, struct, cb )
 
 end
 
-local function LoadMDL( mdl_path )
+local function LoadMDL( mdl_path, fast )
 
 	local base = mdl_path:sub(1, -4)
+	local yield_rate = fast and 1000 or 200
 
 	local f_mdl = file.Open( base .. "mdl", "rb", "GAME" )
 	if not f_mdl then return nil end
@@ -367,6 +368,8 @@ local function LoadMDL( mdl_path )
 			model.meshes = LoadStructArray2( f_mdl, model.meshes, mdl_mesh, function( l, at )
 				OffsetArray( l.flexes, at )
 			end )
+
+			task.YieldPer(yield_rate, "progress")
 		end
 	end
 
@@ -381,8 +384,9 @@ local function LoadMDL( mdl_path )
 
 end
 
-local function LoadVTX( mdl_path )
+local function LoadVTX( mdl_path, fast )
 
+	local yield_rate = fast and 500 or 100
 	local base = mdl_path:sub(1, -4)
 
 	local f_vtx = file.Open( base .. "dx90.vtx", "rb", "GAME" )
@@ -465,13 +469,13 @@ local function LoadVTX( mdl_path )
 						group.vertices = {}
 
 						f_vtx:Seek( strip_base )
-						for x=1, group.numStrips do table.insert( group.strips, vtx_stripheader.read( f_vtx ) ) end
+						for x=1, group.numStrips do task.YieldPer(yield_rate, "progress") group.strips[#group.strips+1] = vtx_stripheader.read( f_vtx ) end
 
 						f_vtx:Seek( index_base )
-						for x=1, group.numIndices do table.insert( group.indices, UINT16.read( f_vtx ) ) end
+						for x=1, group.numIndices do task.YieldPer(yield_rate, "progress") group.indices[#group.indices+1] = UINT16.read( f_vtx ) end
 
 						f_vtx:Seek( vertex_base )
-						for x=1, group.numVerts do table.insert( group.vertices, vtx_vertex.read( f_vtx ) ) end
+						for x=1, group.numVerts do task.YieldPer(yield_rate, "progress") group.vertices[#group.vertices+1] = vtx_vertex.read( f_vtx ) end
 
 					end
 
@@ -494,9 +498,11 @@ local function LoadVTX( mdl_path )
 
 end
 
-local function LoadVVD( mdl_path )
+local function LoadVVD( mdl_path, fast )
 
 	local base = mdl_path:sub(1, -4)
+	local yield_rate_v = fast and 200 or 100
+	local yield_rate_f = fast and 1000 or 400
 
 	local f_vvd = file.Open( base .. "vvd", "rb", "GAME" )
 	if not f_vvd then return nil end
@@ -515,6 +521,7 @@ local function LoadVVD( mdl_path )
 		for i=1, header.numFixups do
 
 			table.insert( fixups, vvd_fixup.read( f_vvd ) )
+			task.YieldPer(yield_rate_f, "progress")
 
 		end
 
@@ -527,6 +534,7 @@ local function LoadVVD( mdl_path )
 	for i=1, header.numLODVertices[1] do
 
 		table.insert( vertices, vvd_vertex.read( f_vvd ) )
+		task.YieldPer(yield_rate_v, "progress")
 
 	end
 
@@ -535,6 +543,7 @@ local function LoadVVD( mdl_path )
 	for i=1, header.numLODVertices[1] do
 
 		table.insert( tangents, VECTOR4.read( f_vvd ) )
+		task.YieldPer(yield_rate_v, "progress")
 
 	end
 
@@ -550,6 +559,7 @@ local function LoadVVD( mdl_path )
 			if fixup.lod < 0 then continue end
 
 			for i=1, fixup.numVertices do
+				task.YieldPer(yield_rate_f, "progress")
 				corrected[ i + target ] = vertices[ i + fixup.sourceID ]
 			end
 
@@ -575,7 +585,7 @@ local white_color = Color(255,255,255,255)
 --PrintTable2(mdl.bodyparts)
 
 local wire_boxes = {}
-local debug_gridding = true
+local debug_gridding = false
 local debug_grid_time = 0
 
 hook.Add( "PostDrawOpaqueRenderables", "dbgbox", function() 
@@ -659,6 +669,7 @@ local function UnifyNormals( vvd, mdl )
 	for _, vert in pairs( vvd.vertices ) do
 
 		local bin = insert( vert )
+		task.YieldPer(500, "progress")
 
 	end
 
@@ -676,6 +687,8 @@ local function UnifyNormals( vvd, mdl )
 
 			common:Add( bin.verts[i].normal )
 			bin.verts[i].unified = common
+
+			task.YieldPer(500, "progress")
 
 		end
 
@@ -717,6 +730,7 @@ local function CreateMesh( vvd, vtx, mdl )
 		local col = colors[ index % #colors + 1 ]
 
 		local test = 14
+			task.YieldPer(1000, "progress")
 
 		--if v0.weights.bone[1] == test and v1.weights.bone[1] == test and v2.weights.bone[1] == test then
 
@@ -771,11 +785,38 @@ local function CreateMesh( vvd, vtx, mdl )
 
 end
 
-local function LoadModel( model )
+local size_cache = {}
+function GetModelFootprint( model )
 
-	local vtx = LoadVTX( model )
-	local vvd = LoadVVD( model )
-	local mdl = LoadMDL( model )
+	if model == nil then return 0 end
+
+	model = model:sub(1, -4)
+
+	if size_cache[model] then return size_cache[model] end
+
+	local vtx = file.Open( model .. "vtx", "rb", "GAME" )
+	local vvd = file.Open( model .. "vvd", "rb", "GAME" )
+
+	local size = (vvd and vvd:Size() or 0) * 2 + (vtx and vtx:Size() or 0)
+
+	if vtx then vtx:Close() end
+	if vvd then vvd:Close() end
+
+	size_cache[model] = size
+	return size
+
+end
+
+local function LoadModel( model, fast )
+
+	task.Yield("section", "VTX")
+	local vtx = LoadVTX( model, fast )
+
+	task.Yield("section", "VVD")
+	local vvd = LoadVVD( model, fast )
+
+	task.Yield("section", "MDL")
+	local mdl = LoadMDL( model, fast )
 
 	if not vtx then print("Failed to load .dx90.vtx for model: " .. tostring( model )) return end
 	if not vvd then print("Failed to load .vvd for model: " .. tostring( model )) return end
@@ -789,13 +830,14 @@ local function LoadModel( model )
 
 end
 
-function MakeExpandedModel( model, material )
+function MakeExpandedModel( model, material, fast )
 
-	local vvd, vtx, mdl = LoadModel( model )
+	local vvd, vtx, mdl = LoadModel( model, fast )
 	if not vvd then return nil end
 
+	task.Yield("section", "UNIFY")
 	UnifyNormals( vvd, mdl )
-	local mesh_tris = CreateMesh( vvd, vtx, mdl )
+	local mesh_tris = CreateMesh( vvd, vtx, mdl, fast )
 	local mesh_material = CreateMaterial( "meshmaterial", "VertexLitGeneric", {
 		["$basetexture"] = "color/white",
 		["$model"] = 1,
@@ -804,6 +846,7 @@ function MakeExpandedModel( model, material )
 		["$vertexcolor"] = 1
 	} )
 
+	task.Yield("section", "MESH")
 	local test_mesh = nil
 	if not test_mesh then
 		test_mesh = ManagedMesh(mesh_material )

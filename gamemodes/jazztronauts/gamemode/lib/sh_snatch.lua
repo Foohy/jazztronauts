@@ -8,6 +8,8 @@ end
 
 module( "snatch", package.seeall )
 
+local debug_resnatch = false
+
 removed_brushes = removed_brushes or {}
 local waitingBrushes = {}
 
@@ -325,15 +327,23 @@ function meta:StartProp( prop, owner, kill, delay )
 	if self.real.doing_removal then return false end
 
 	self.position = self.real:GetPos()
-	self.real.doing_removal = true
+	if not debug_resnatch then
+		self.real.doing_removal = true
+	end
 
 	-- If proxy, save to list of stolen props
 	if self.real.IsProxy then
-		removed_staticprops[self.real:GetID()] = true
+		if not debug_resnatch then
+			removed_staticprops[self.real:GetID()] = true
+		end
+		--delay = (delay or 0) + 60
 	end
 
 	SV_SendPropSceneToClients( self )
-	SV_HandleEntityDestruction( self.real, owner, kill, delay )
+
+	if not debug_resnatch then
+		SV_HandleEntityDestruction( self.real, owner, kill, delay )
+	end
 
 	return true
 
@@ -363,6 +373,8 @@ end
 
 local expanded_models = {}
 local expanded_props = {}
+local next_prop_proxy_id = 0
+local load_locks = {}
 
 function meta:RunStaticProp( propid, propproxy )
 	if SERVER then return end
@@ -381,27 +393,69 @@ function meta:RunStaticProp( propid, propproxy )
 		return
 	end
 
-	-- Grab prop data
 	local mdl = pdata.model
-	if not expanded_models[mdl] then
-		expanded_models[mdl] = MakeExpandedModel(mdl, nil )
+
+	if mdl == nil then return end
+
+	local me = self
+	local t = task.New( function()
+
+		-- Grab prop data
+		MsgC(Color(100,255,100), "I want to load: " .. tostring(mdl) .. "\n")
+
+		while load_locks[mdl] do
+			MsgC(Color(100,255,100), "Load lock: " .. tostring(mdl) .. "\n")
+			task.Sleep(.1)
+		end
+
+		MsgC(Color(100,160,255), "I begin loading: " .. tostring(mdl) .. "\n")
+
+		local b,e = pcall(function()
+			if not expanded_models[mdl] or debug_resnatch then
+				load_locks[mdl] = true
+				expanded_models[mdl] = MakeExpandedModel(mdl, nil, true )
+				load_locks[mdl] = false
+			end
+		end)
+
+		if expanded_models[mdl] == nil then return end
+
+		task.Yield("snatch")
+
+	end, 4 )
+
+	function t:progress()
+		Msg(".")
 	end
 
-	if expanded_models[mdl] == nil then return end
+	function t:section( sec )
+		MsgC(Color(255,100,255), "\n\nENTER SECTION: " .. tostring(sec) .. "\n\n")
+	end
 
-	local mtx = Matrix()
-	mtx:SetTranslation( pdata.origin )
-	mtx:SetAngles( pdata.angles )
+	function t:snatch()
 
-	table.insert( expanded_props, {
-		mesh = expanded_models[mdl],
-		mtx = mtx,
-	})
+		local mtx = Matrix()
+		mtx:SetTranslation( pdata.origin )
+		mtx:SetAngles( pdata.angles )
 
-	if IsValid(propproxy) then
-		self.vel = Vector()
-		self.avel = Vector()
-		self:RunProp(propproxy)
+		me.time = CurTime()
+
+		table.insert( expanded_props, {
+			mesh = expanded_models[mdl],
+			mtx = mtx,
+		})
+
+		next_prop_proxy_id = next_prop_proxy_id + 1
+		propproxy = ManagedCSEnt("cl_static_prop_proxy" .. mdl .. next_prop_proxy_id, mdl)
+
+		if IsValid(propproxy) then
+			propproxy:SetPos( pdata.origin )
+			propproxy:SetAngles( pdata.angles )
+			me.vel = Vector()
+			me.avel = Vector()
+			me:RunProp(propproxy)
+		end
+
 	end
 	//hook.Call( "HandlePropSnatch", GAMEMODE, self )
 end
@@ -747,6 +801,77 @@ elseif CLIENT then
 		local loadPropsTask = task.New(stealVoid, 1, brushids, propids)
 	end
 
+	local function precacheMapProps()
+
+		local added = {}
+		local to_load = {}
+		for k,v in pairs(map.props or {}) do
+
+			if not added[v.model] then
+				added[v.model] = true
+				table.insert(to_load, v.model)
+			end
+
+		end
+
+		table.sort(to_load, function(a,b)
+			return GetModelFootprint(a) > GetModelFootprint(b)
+		end)
+
+		local function run_async(mdl)
+
+			local t = task.New( function()
+
+				-- Grab prop data
+				MsgC(Color(100,255,100), "I want to load: " .. tostring(mdl) .. "\n")
+
+				while load_locks[mdl] do
+					MsgC(Color(100,255,100), "Load lock: " .. tostring(mdl) .. "\n")
+					task.Sleep(.1)
+				end
+
+				MsgC(Color(100,160,255), "I begin loading: " .. tostring(mdl) .. "\n")
+
+				local b,e = pcall(function()
+					if not expanded_models[mdl] or debug_resnatch then
+						load_locks[mdl] = true
+						expanded_models[mdl] = MakeExpandedModel(mdl, nil, false )
+						load_locks[mdl] = false
+					end
+				end)
+
+				if expanded_models[mdl] == nil then return end
+
+				task.Yield("snatch")
+
+			end, 1 )
+
+			function t:progress()
+				Msg(".")
+			end
+
+			function t:section( sec )
+				MsgC(Color(255,100,255), "\n\nENTER SECTION: " .. tostring(sec) .. "\n\n")
+			end
+
+			function t:OnFinished()
+				if #to_load > 0 then
+					local nextmdl = to_load[1]
+					table.remove( to_load, 1 )
+					run_async( nextmdl )
+				end
+			end
+
+		end
+
+		local first = to_load[1]
+		table.remove( to_load, 1 )
+		run_async( first )
+
+	end
+
+	--precacheMapProps()
+
 	hook.Add("JazzSnatchMapReady", "snatchUpdateNetworkedBrushSpawn", function()
 		local brushes = nettable.Get("snatch_removed_brushes")
 
@@ -762,7 +887,10 @@ elseif CLIENT then
 		table.Merge(allProps, waitingProps or {})
 
 		stealCurrentVoid(allBrushes, allProps)
+		precacheMapProps()
 	end )
+
+	--precacheMapProps()
 
 	-- Run only once when the client first joins and downloads the stolen brush list
 	-- Almost always the map will still be loading, but it doesn't hurt being optimistic

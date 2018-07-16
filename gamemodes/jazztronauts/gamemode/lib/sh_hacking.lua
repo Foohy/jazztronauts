@@ -687,6 +687,8 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 	local dc_models = 0
 	local dc_blips = 0
 
+	local box_extent = Vector(2,2,2)
+
 	if not graph then
 		local b,e = pcall( PrepGraph )
 		if not b then print(e)
@@ -727,34 +729,35 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 			local line_color = Color(20,120,20)
 
 			for k,v in pairs( graph ) do
-				gfx.renderBox( v.pos, Vector(-2,-2,-2), Vector(2,2,2), Color(100,100,100) )
+				v.visible = false
+				if #v.lines == 0 then v.visible = g_cull:TestBox(v.pos, box_extent) end
+				for target, l in pairs( v.lines ) do
+					if g_cull:TestAABB( l.min, l.max ) then
+						dc_lines = dc_lines + 1
+
+						for _, edge in pairs( l.edges ) do
+							gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), line_color, line_color, 5)
+						end
+						v.visible = true
+					end
+				end
 			end
 
 			for k,v in pairs( graph ) do
 
 				-- Draw brushes
 				if v.model then
-					if g_cull:TestEntity( v.model ) then
+					--if g_cull:TestEntity( v.model ) then
 						v.model:DrawModel()
 						dc_models = dc_models + 1
-					end
+					--end
 				end
-				
-				for target, l in pairs( v.lines ) do
-					l.visible = g_cull:TestAABB( l.min, l.max )
-					if l.visible then
-						dc_lines = dc_lines + 1
 
-						for _, edge in pairs( l.edges ) do
-							gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), line_color, line_color, 5)
-						end
-					end
-				end
+				if not v.visible then continue end
 
 				-- Draw blips
 				for _, blip in pairs( v.blips ) do
 					local line = v.lines[blip.target]
-					if not line.visible then continue end
 					local dt = 0
 					if line.length > 0 then
 						dt = blip.speed * (CurTime() - blip.t) / line.length
@@ -766,6 +769,8 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 					end
 					dc_blips = dc_blips + 1
 				end
+
+				gfx.renderBox( v.pos, Vector(-2,-2,-2), Vector(2,2,2), Color(100,100,100) )
 
 				local angle = Angle(0,0,0)
 				local p0 = EyePos()

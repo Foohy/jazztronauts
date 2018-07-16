@@ -206,7 +206,7 @@ function CompileScript(script)
 		i = i + 1
 	until i > #toks
 
-	for _, entry in pairs(entries) do 
+	for _, entry in pairs(entries) do
 		TrimNewlines(entry)
 		script.entries[entry.data] = entry
 		entry.data = nil
@@ -395,8 +395,12 @@ function LoadScripts()
 		local ext = script:sub(script:find(".txt"), -1)
 		local name = script:sub(0, -ext:len() - 1)
 		if ext == ".txt" and name ~= "macros" then
-			local result = LoadScript( name, "data/scripts/" .. script )
-			if result then table.insert(compiled, result) end
+			local st, result = pcall( LoadScript, name, "data/scripts/" .. script )
+			if not st then
+				ErrorNoHalt("Failed to load script: " .. name .. " [" .. script .. "]")
+			else 
+				if result then table.insert(compiled, result) end
+			end
 		end
 	end
 

@@ -15,7 +15,7 @@ a1:
 	&a2
 	
 a2:
-	> "We'll see together it'll be a journey of discovery :･ﾟ✧\(=✪ ᆺ ✪=)/:･ﾟ✧
+	> "We'll see together it'll be a journey of discovery \:･ﾟ✧\(=✪ ᆺ ✪=)/\:･ﾟ✧
 	This is the last job I'll be able to give, so I'll be sure it's your biggest
 	haul yet!!!"
 	&a3

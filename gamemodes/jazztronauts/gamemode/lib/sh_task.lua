@@ -72,6 +72,34 @@ function Sleep( seconds, ... )
 
 end
 
+function WaitFor( other, ... )
+
+	if g_task ~= nil then
+		assert( getmetatable(other) == meta )
+		if not other.running then return end
+		for _, w in pairs(other.waiters) do 
+			if w == g_task then ErrorNoHalt("Already waiting on task") return end
+		end
+		local inf = debug.getinfo( 2 )
+		g_task.currentline = inf.currentline
+		g_task.sleep = SysTime() + 999999 --basically forever ok?
+		g_task.waitcount = ( g_task.waitcount or 0 ) + 1
+		table.insert( other.waiters, g_task )
+		return coroutine.yield( ... )
+	end
+
+end
+
+meta.__newindex = function( self, k, v )
+
+	if type(v) == "function" and rawget(self, "work") ~= nil then
+		rawset( self.hooks, k, v )
+		return
+	end
+	rawset( self, k, v )
+
+end
+
 function meta:Init( work, priority, ... )
 
 	priority = math.max( priority or TASK_PRIORITY_DEFAULT, 0 )
@@ -88,11 +116,19 @@ function meta:Init( work, priority, ... )
 	self.co = coroutine.create( self.work )
 	self.count = 0
 	self.hooks = {}
+	self.waiters = {}
+	self.running = true
 
 	table.insert( tasks, self )
-	return self.hooks
+	return self
 
 end
+
+function meta:GetStartTime() return self.start end
+function meta:GetPriority() return self.priority end
+function meta:IsFinished() return not self.running end
+function meta:IsSleeping() return self.sleep > SysTime() end
+function meta:IsWaiting() return self.waitcount and self.waitcount > 0 end
 
 local function IsTaskAsleep( task )
 
@@ -102,7 +138,7 @@ end
 
 local function GetPriorityValue( task )
 
-	if IsTaskAsleep( task ) then return -1 end
+	if task:IsSleeping() then return -1 end
 	return ( SysTime() - task.lastCycle ) * task.priority
 
 end
@@ -117,7 +153,25 @@ local function SortTasks()
 
 end
 
+local function WakeWaiters( task )
+
+	for _, w in pairs( task.waiters ) do
+
+		w.waitcount = math.max((w.waitcount or 0) - 1, 0)
+		if w.waitcount == 0 then
+			w.sleep = 0
+		end
+
+	end
+	task.waiters = nil
+
+end
+
 local function RemoveTask( task )
+
+	task.running = false
+
+	WakeWaiters( task )
 
 	if #tasks > 0 and tasks[1] == task then
 		table.remove( tasks, 1 )
@@ -197,7 +251,7 @@ local function ProcessTasks()
 		local task_begin = SysTime()
 
 		local run = tasks[1]
-		if IsTaskAsleep( run ) then 
+		if run:IsSleeping() then 
 			task_slept = true
 		elseif ResumeTask( run ) then
 			task_died = true 
@@ -266,6 +320,58 @@ end
 hook.Add("Think", "ProcessTasks", ProcessTasks)
 
 if CLIENT then
+
+	--[[local function BigTask()
+
+		print("Starting the big task")
+		for i=1, 30 do
+			local x = 5
+			for j=1, 10000000 do
+				x = x + 5
+				x = x - 5
+				x = x * 2
+				x = x / 2
+				if j % 10000 == 1 then task.Yield() end
+			end
+			task.Yield()
+
+			print(i, x)
+		end
+
+	end
+
+	local t0 = task.New( BigTask, 1 )
+
+	local function BigTask2()
+
+		print("Starting the big task 2")
+		for i=1, 40 do
+			local x = 5
+			for j=1, 10000000 do
+				x = x + 5
+				x = x - 5
+				x = x * 2
+				x = x / 2
+				if j % 10000 == 1 then task.Yield() end
+			end
+			task.Yield()
+
+			print(i, x)
+		end
+
+	end
+
+	local t1 = task.New( BigTask2, 1 )
+
+	local function SmallTask()
+		print("Starting the small task, but let's wait for that big task")
+		task.WaitFor( t0 )
+		task.WaitFor( t1 )
+		print("Hey, I'm the small task")
+		print("I think we're done boys")
+	end
+
+	local t2 = task.New( SmallTask, 1 )]]
 
 	--[[local function myTask( test )
 

@@ -1,0 +1,6 @@
+"UnlitGeneric"
+{
+	"$basetexture" "sunabouzu/tutorials/credits_coders"
+	"$alphatest" 1
+	"$nodecal" 1
+}

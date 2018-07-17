@@ -1,13 +1,13 @@
 accept:
     oh right you live here now,%% 
-	we kidnapped you,%%%
+	we hired you,%%%
 	that was a thing we did
     &a2
 a2:
     u%h%h%h%h
     &a3
 a3:
-    look,%% I don't get much practice with small talk so if you don't mind
+    look,%% i don't get much practice with small talk so if you don't mind
 	%%i'll just skip to the part where i need something from you%
 	because using people is my comfort zone
 	&a3b
@@ -44,7 +44,7 @@ idle2:
     &idle3
 	
 idle3:
-	I'll be able to crutch out on cascading organ failure long enough to 
+	i'll be able to crutch out on cascading organ failure long enough to 
     keep me going until you get me that stuff i asked for
 	&exit
 

@@ -3,14 +3,14 @@ accept:
     &a1
 a1:
     listen the rest of the idiots around here might have like, 
-	%%reasons%%%%, well thought out justifications, %%%%
+	%%reasons%%%%,	 well thought out justifications, %%%%
     or like gripping passion plays that speak to a deeper 
 	meaning about humanity %%%%
     &a1b
 	
 a1b:
 
-   Y'know, to disguise their constant requests to have 
+   y'know, to disguise their constant requests to have 
    stupid bullshit delivered to them like its sketchy takeout 
    (sometimes it may in fact be sketchy takeout)
    &a2
@@ -26,8 +26,8 @@ a3:
     &a4
 
 a4:
-    in exchange I'll hook you up with some of the good shit if that's 
-	your thing, %%and if you're straight edge i guess I can work with that
+    in exchange i'll hook you up with some of the good shit if that's 
+	your thing, %%and if you're straight edge i guess i can work with that
     %%%yknow im p sure that's what they said to CM Punk right before 
 	Mickey Gall fed him his own lungs
     &a5
@@ -41,7 +41,7 @@ a5:
     &exit
 
 idle:
-    *setskin focus focus 3*
+    *setskin 3*
 	lets see here,% cup of coconut oil,%% cup of gasoline,
 	%%%cup and a half of%.%.%.
     oh you're back already?

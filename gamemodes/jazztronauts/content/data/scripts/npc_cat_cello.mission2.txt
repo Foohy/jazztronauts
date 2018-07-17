@@ -1,75 +1,59 @@
-accept:
-    ah, just the disposable, interchangeable mass of.%.%.%
-    whatever you are that I was looking for
+﻿accept:
+    okay so I've got my moonshine, %%
+    i've indoctrinated an apprentice, %%
+    that's% basically my entire hierarchy of needs met
     &a2
 a2:
-    y'all ever talk to an interior painter about their job? %%
-    shit's harder than you'd think from the commercials
+    its time to self-actualize by chugging random bottles 
+	given to me by strangers
     &a3
 a3:
-    like%% you'd think all you do is crack open a can of Bougie Beige% and 
-    do a zoom shot of a paint roller covering about three foot of wall and bam 
-    you're in an immaculately stenciled dining room with trim that 
-	changes color in different lighting
+    y'see most people's bodies are temples\;%%%
+    evolutionary pressure has transformed mine into an autoclave
+    in a desperate attempt to survive
     &a4
 a4:
-    then you take the thing home and suddenly you gotta deal with %color theory% 
-    and %dry times% and %masking tape% and %viscosity% and 
-	%the fact that wood breathes%
+    this allows %(and requires)% me to pursue novel forms of intoxication
+    in ways that would ordinarily be considered particularly 
+	overengineered suicide attempts
     &a5
 a5:
-    like consider the phrasing of that shit you make an 
-    entire standing structure of chopped and pressed plant corpses 
-    and that shits still going hundreds of years after death, 
-    literal physical intake of air as it expands and contracts.
-	&a5b
-	
-a5b:
-    like%% think if you stuck% a million dudes in a cement mixer% and 
-    poured out meat mortar and if you listened real close at night% 
-    you could hear them beneath that thin skin of latex and oil
+    the problem is trying to figure out a way to synthesize those experiences 
+    outside of the laboratory of my nightmare funhouse biology, but we'll
+    burn that bridge when we come to it.
     &a6
+	
 a6:
-    countless death rattles stretched out into infinity in a single 
-    monstrous chorus as the walls themselves pulse to the rhythm of a heart 
-    they lost long ago, straining against color designed 
-	to be overlooked and forgotten
-    &a7
-a7:
-    completely unrelatedly %%
-    I need about five cans of paint %
-    so if you could bring those by the next time you're here 
-	that'd be swell
+    for now %%i'm gonna need a shit-ton of random chemicals.%
+    buckets, %% jugs, %%bottles, %%mysterious glowing cubes, %%whatever.%%%
+    ten of ‘em should be a good start
     *start 2*
     &exit
 
 idle:
-    you got that paint yet?
+    listen when i said give me anything %
+    i meant give me %a%n%y%t%h%i%n%g% %%%%and yet here you are %
+    with a distinct lack of thing
     &i2
 i2:
-    damn%%%%
-    well%% I'd appreciate bein' snappy with this one %%
-    cause% I've got a project going%% and I really need the paint before
-    I can get anything else done with it
+    step up your game
     &exit
 
 turnin:
-    oh shit the paint, %% nice, %% now I can continue my project
+    excellent this should do for uh
     &t1
 t1:
-    *finish 2*
-    >The Cellist pops the lid and huffs deeply before 
-	starting to play the cello.
-    &t2b
-	
-t2b:
-	>It sounds... normal? 
-	As normal as a cat playing a cellist can sound, anwyays.
-	&t2
-	
+    i mean%% realistically speaking%% about an hour or two
+    &t2
 t2:
-    what
-    %%%%%%
-    you thought i was going to paint a house with this? %%%
-    what do you take me for %% somebody functional
+    but look% it's the thought that counts
+    &t3
+t3:
+    here,%% take this for your trouble
+    *finish 2*
+    &t4
+t4:
+    in the meantime %i'm gonna do a kegstand of whatever's in this 
+    one and see if i can't find all those colors only 
+	mantis shrimp can see
     &exit

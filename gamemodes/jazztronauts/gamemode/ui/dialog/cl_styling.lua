@@ -147,7 +147,7 @@ local function GetSpeakerName(ent)
 
 	-- Allow entities to override their visual name/npcid
 	local npcid = ent.JazzDialogID or (ent.GetNPCID and ent:GetNPCID())
-	local name = ent.JazzDialogName or missions.GetNPCPrettyName(npcid) or ent:GetName()
+	local name = ent.JazzDialogName or missions.GetNPCPrettyName(npcid) or (ent.GetName and ent:GetName()) or ent:GetClass()
 	return string.upper(name)
 end
 

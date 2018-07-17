@@ -60,6 +60,18 @@ local function onSnatchInfoReady()
 	hook.Call("JazzSnatchMapReady", GAMEMODE)
 end
 
+-- Add loading state info to map loading
+local loadTask = map:GetLoadTask()
+if loadTask then
+	function loadTask:chunk(name, count)
+		loadicon.PushLoadState("LOADING: " .. string.upper(name))
+	end
+
+	function loadTask:chunkdone(name, count, tab)
+		loadicon.PopLoadState()
+	end
+end
+
 hook.Add( "CurrentBSPReady", "snatchReady", onSnatchInfoReady )
 
 if SERVER then
@@ -772,33 +784,62 @@ elseif CLIENT then
 
 
 	local function stealBrushes(brushes)
+		local total = table.Count(brushes)
+		local cur = 0
 		for k, v in pairs(brushes) do
+			cur = cur + 1
 			if removed_brushes[k] then continue end
 			
 			-- Steal the brush, but don't bother with any effects
 			New( {} ):RunWorld( k )
-			task.YieldPer(5)
+			task.YieldPer(5, "brushesprogress", cur, total)
 		end
+		task.Yield("brushesdone")
 	end
 
 	local function stealStaticProps(propids)
+		local total = table.Count(propids)
+		local cur = 0
 		for k, v in pairs(propids) do
+			cur = cur + 1
 			if removed_staticprops[k] then continue end
 			
 			-- Steal the prop, but don't bother with any effects
 			New( {} ):RunStaticProp( k )
 
-			task.YieldPer(5)
+			task.YieldPer(5, "propsprogress", cur, total)
 		end
+
+		task.Yield("propsdone")
 	end
 
 	local function stealCurrentVoid(brushids, propids)
 		local function stealVoid(brushids, propids)
+			loadicon.PushLoadState("Loading stolen brushes")
 			stealBrushes(brushids)
+
+			loadicon.PushLoadState("Loading stolen static props")
 			stealStaticProps(propids)
 		end
 
 		local loadPropsTask = task.New(stealVoid, 1, brushids, propids)
+		function loadPropsTask:brushesprogress(num, total)
+			local ldstr = string.format("LOADING: Stolen brushes: %d/%d (%d%%)", num, total, math.Round(num * 100 / total))
+			loadicon.SetLoadState(ldstr)
+		end
+
+		function loadPropsTask:propsprogress(num, total)
+			local ldstr = string.format("LOADING: Stolen static props: %d/%d (%d%%)", num, total, math.Round(num * 100 / total))
+			loadicon.SetLoadState(ldstr)
+		end
+
+		function loadPropsTask:brushesdone()
+			loadicon.PopLoadState()
+		end
+
+		function loadPropsTask:propsdone()
+			loadicon.PopLoadState()
+		end
 	end
 
 	local function precacheMapProps()
@@ -821,6 +862,7 @@ elseif CLIENT then
 		local function run_async(mdl)
 
 			local t = task.New( function()
+				loadicon.PushLoadState("LOADING: " .. tostring(mdl))
 
 				-- Grab prop data
 				MsgC(Color(100,255,100), "I want to load: " .. tostring(mdl) .. "\n")
@@ -839,6 +881,8 @@ elseif CLIENT then
 						load_locks[mdl] = false
 					end
 				end)
+
+				loadicon.PopLoadState()
 
 				if expanded_models[mdl] == nil then return end
 

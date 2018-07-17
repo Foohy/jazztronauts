@@ -24,6 +24,7 @@ include("sh_nettable.lua")
 include("sh_unlocks.lua")
 include("sh_worldcanvas.lua")
 include("sh_workshop.lua")
+include("sh_loadicon.lua")
 
 include("sh_poly.lua")
 include("sh_brush.lua")

@@ -16,6 +16,7 @@ function GM:HUDPaint()
 	--radar.Paint()
 	propfeed.Paint()
 	jnametag.Paint()
+	loadicon.Paint()
 end
 
 hook.Add("Think", "JazzTickDialog", function()

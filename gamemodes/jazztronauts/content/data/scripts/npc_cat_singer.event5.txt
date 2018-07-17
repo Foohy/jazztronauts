@@ -1,0 +1,239 @@
+begin:
+
+###### SCENE SETUP
+	*hide*
+	*txout*
+		
+	*spawn cat_singer models/andy/singer/cat_singer*
+	*setnpcid cat_singer npc_cat_singer*
+	
+	*spawn cat_bar models/andy/singer/cat_bartender*
+	*setnpcid cat_bar npc_cat_bartender*
+	
+	*spawn player_dummy playerboy*
+	*txin*
+	*show*
+	
+###### START
+	*setspeaker narrator*
+	> ...Somehow you've been stuck packing novelty hula dolls into this crate.
+	The Cellist insisted it was important. Ah well, it's nearly done.
+	Just as you bend down to take another armful or dolls, the Mewseum 
+	door opens behind you.
+	&b1
+	
+b1:
+	*setspeaker cat_singer*
+	> It's the Singer! They wave with their free hand and hurry over towards you.
+	They're clearly excited about something, and don't notice the half filled crate
+	in their path. You call out, but it's too late!
+	&b2
+	
+b2:
+	*setspeaker narrator*
+	> The Singer trips over a hula doll! They flail wildly on the way down, 
+	and catch the dinosaur plush on a nail sticking out of the crate!
+	&b3
+	
+b3:
+	> The Singer hit the floor pretty hard... and there's.. fluff in the air?
+	You peak over the crate and see the Singer cradling a knee. They
+	notice the dino plush on the floor, ripped and mangled.
+	&b4
+	
+b4:
+	*setspeaker cat_singer*
+	> The Singer stares down at the torn dinosaur plus in their paws and tears
+	leak down their face, a profound aura of deep sorrow settling over them.
+	&b5
+	
+b5:
+	> You hurry over and they dont look up at you.
+	&b6
+	
+b6:
+	*setspeaker narrator*
+	>This is the last Event in the Singers's quest line.
+	It may take you a while to watch, you can come back to it
+	without penalty if you are in a hurry.
+	player:
+	&r1a1:
+		Hey, hey it'll be okay. I need to finish something, and then we'll 
+		get some supplies and fix 'em up. (exit)
+	&r2a1:
+		Sure, it looks rough. But it's gonna make a bitching scar.
+	&r3a1:
+		C'mon. It's okay, I'll help you fix it.
+		
+###### BRANCH 1 EARLY EXIT
+r1a1:
+	*setspeaker cat_singer*
+	> Slowly they nod. The plush is pulled close to their chest, and you get the 
+	feeling they aren't going anywhere until you come back.
+	&exit
+	
+###### BRANCH 2
+r2a1:
+	*setspeaker cat_singer*
+	> Their head jerks upward, and for a moment their expression is one of numb
+	confusion before the tears stop flowing. They wipe their eyes with their jacket
+	sleeve, and the tiniest smile flickers on their face.
+	&r2a2
+	
+r2a2:
+	> They pull out their tablet, thankfully unharmed, and slowly tap our a response\:
+	"thank you. that made me feel better."
+	&r2a3
+	
+r2a3:
+	> Their next message is even shorter as tears threaten again\:
+	"dont know what 2 do"
+	player:
+	&r1a1:
+		Hey, hey it'll be okay. I need to finish something, and then we'll 
+		get some supplies and fix 'em up. (exit)
+	&r3a1:
+		C'mon. It's okay, I'll help you fix it.
+		
+###### BRANCH 3
+r3a1:
+	*setspeaker cat_singer*
+	> They blink. Their reactions seem far slower than normal as they reach for their
+	tablet. It's like all the bubble and spark has drained out of them.
+	&r3a2
+	
+r3a2:
+	> They message they show you is just one word\: "ok"
+	&r3a3
+	
+r3a3:
+	*hide*
+	*txout*
+	*setspeaker narrator*
+	change camera to closeup of dino plush on booth
+	*txin*
+	*wait 2*
+	*show*
+	> You give the Singer sidelong glances as you set out the needle and thread you pulled
+	out of the Mewseum's digital archives. They're huddled up and starting intently at the
+	gash in the side of the plush with a morose expression.
+	&m1
+	
+m1:
+	> You've gotta nail this.
+	&m2
+	
+m2:
+	*setspeaker cat_singer*
+	> While you're carefully pushing the filling back into the wound where it belongs, the
+	Singer takes out their tablet and places it on the table between you so you can just 
+	see as they type.
+	&m3
+	
+m3:
+	> "youve probably been wondering why i dont talk out loud like the rest for a 
+	while now. especially given my name. i appreciate very much that you didnt pry.
+	&m4
+	
+m4:
+	> "a long time ago i saw something amazing. It was so beautiful, I gasped to 
+	catch my breath and find the words to describe it."
+	&m5
+	
+m5:
+	> The Singer smiles, and their tapping gets a little more confident.
+	&m6
+	
+m6:
+	> "But when I opened my mouth, nothing came out. I was lost for words.
+	There was no way I could do justice to what I witnessed."
+	&m7
+	
+m7:
+	> "It utterly overwhelmed me with how incredible it was. I'd lost my words
+	before, but only for a little while. We kept expecting I'd find them again."
+	&m8
+	
+m8:
+	> "But I didn't. And that was okay!!! Everyone was so understanding, even if we 
+	didn't perform after that... I felt bad sometimes. Like a burden. Bartender
+	told me to cut that shit out pretty fast when she found out!"
+	&m9
+	
+m9:
+	> "I've always seen beauty and potential in things the rest didn't, and I knew that
+	made me kind of weird. But I don't mind, because it means I see all the good
+	in people too!!!"
+	&m10
+	
+m10:
+	*setspeaker narrator*
+	> You have finished fixing the plush. The Singer bounces in their seat and grabs it
+	ip, inspecting your neat fabric-flesh suture work. They pull at their ears, hug you,
+	and pull at their ears again.
+	&m11
+	
+m11:
+	> They flap their hands under their face and seem almost distressed, until something
+	changes. They tap out another message for you.
+	&m12
+	
+m12:
+	*setspeaker cat_singer*
+	> Come with me. I don't have words for how much this means to me. But I can show 
+	you another way, I think.
+	&m13
+	
+m13:
+	*setspeaker narrator*
+	cutscene here of the singer giving a small recital in the performance hall
+	> After the final note rings in the air, they come over and clasp both your
+	hands before pulling out the tablet again.
+	&m14
+	
+m14:
+	*setspeaker cat_singer*
+	> "Thank you so much my dear, dear friend for fixing Emily!!!!!"
+	&m15
+	
+m15:
+	> "And for listening and letting my be myself! Maybe I can start finding where 
+	I lost my words again now  \(=✪ ᆺ ✪=)/"
+	player:
+	&end:
+		I'll help you look. But it's okay if you don't. Those words look just fine.
+		
+end:
+	*setspeaker narrator*
+	You share a pleasent moment with the Singer. *mark_seen*
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

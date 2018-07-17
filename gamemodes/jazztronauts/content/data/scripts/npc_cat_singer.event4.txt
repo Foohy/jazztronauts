@@ -7,20 +7,113 @@ begin:
 	*spawn cat_singer models/andy/singer/cat_singer*
 	*setnpcid cat_singer npc_cat_singer*
 	
-	*spawn cat_panist models/andy/singer/cat_pianist*
-	*setnpcid cat_pianist npc_cat_pianist*
-	
-	*spawn cat_cellist models/andy/singer/cat_cellist*
-	*setnpcid cat_cellist npc_cat_cellist*
+	*spawn cat_bar models/andy/singer/cat_bartender*
+	*setnpcid cat_bar npc_cat_bartender*
 	
 	*spawn player_dummy playerboy*
 	*txin*
 	*show*
 	
 ###### START
+	*setspeaker narrator*
+	> Passing by the bar, you spot the Singer and the Bartender.
+	&b1
 	
+b1:
+	*setspeaker narrator*
+	> The Bartender is reading whatever the Singer has written on their tablet
+	with great rapture. Her expression shifts into a broad smile, and the
+	Singer claps.
+	&b2
 	
+b2:
+	*setspeaker cat_bar*
+	That's fantastic! I'm very impressed at the tremendous strides your program
+	has made in such a short time since you've had the aid of our guest.
+	&b3
 	
+b3:
+	Speaking of which, welcome! Take a seat, and I'll mix you something up.
+	Free of charge, since you've been such an invaluable research assistant
+	for the Singer.
+	player:
+	&r1a1:
+		Sorry, I just wanted to say hi. I'll take a rain check on that, though. (exit)
+	&r2a1:
+		If i'm a research assistant I expect to be credited on the paper when you
+		release your findings to CATScan or something.
+	&r3a1:
+		Cheers. So what's up?
+		
+###### BRANCH 1 EARLY EXIT
+r1a1:
+	*setspeaker cat_singer*
+	The Singer smiles and waves as you head off, and the Bartender salutes you with an
+	empty glass. They immediately return to their conversation and you hear something
+	about an 'ascension program' as you walk away.
+	&exit
+	
+###### BRANCH 2
+r2a1:
+	*setspeaker cat_singer*
+	> The Singer looks legitimately offended and then opens up their thesis-in-progress
+	to show that you have in fact already been credited in full as a research partner.
+	player:
+	&r1a1:
+		Sorry, I just wanted to say hi. I'll take a rain check on that, though. (exit)
+	&r3a1:
+		Cheers. So what's up?
+	
+###### BRANCH 3
+r3a1:
+	*setspeaker cat_singer*
+	> The Singer pats the seat next to them, sliding the tablet over so you can share in
+	the conversation. Apparently they have been telling the Bartender all about the 
+	behaviours they've observed from the new Mewseum resident you acquired for them,
+	and of some new behaviours older subjects have displayed in response.
+	&r3a2
+	
+r3a2:
+	> The Singer runs a program in which they expose the NPC's to different things you
+	have stolen to see whether there's any changes in their routines. At present, they're
+	essentially animatronics. They have no reaction on any level to stimuli outside of
+	pre-programmed behaviours.
+	&m1
+	
+m1:
+	*setspeaker cat_bar*
+	I must say, *player*, you've been reminding us of someone we used to know as of late.
+	It's been delightful.
+	&m2
+	
+m2:
+	*setspeaker cat_singer*
+	> The Singer agrees. It has been wonderful having help with the Mewseum again. Their
+	last helper was also very good at finding, niche, objects. They recount the time in which
+	their assistant spent three weeks trawling the Voidway searching for a specific level
+	trigger that the Singer had theorized could revolutionize the Mewseum's storage system.
+	&m3
+	
+m3:
+	> They preen as you read this, as it was a correct hypothesis.
+	&m4
+	
+m4:
+	*setspeaker cat_bar*
+	They were always just as excited about the potential as you were.
+	&m5
+	
+m5:
+	Thank you, *player*.
+	We've all greatly appreciated your presence and assistance here.
+	&m6
+	
+m6:
+	*setspeaker cat_singer*
+	> The Singer bounces in their seat as they nod. They're very thankful to count you
+	among their friends. You share a plate of exceptionally good pastriest and a couple
+	of drinks, and it's time well spent. *mark_seen*
+	&exit
 	
 	
 	

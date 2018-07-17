@@ -115,3 +115,8 @@
 	
 	input RunCommand(void)  : "Executes the console command on the server."
 ]
+
+@PointClass base(Targetname, Origin, Angles) studioprop() = jazz_factscreen : "Jazz Random Fact Screen"
+[
+	factname(string) : "Fact Name" : : "Override what fact this will display. Optional"
+]

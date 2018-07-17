@@ -246,7 +246,7 @@ function GM:CollectBrush(brush, players)
 		return
 	end
 
-	maxmaterial = string.lower(maxmaterial)
+	maxmaterial = string.lower(maxmaterial):gsub("_[+-]?%d+_[+-]?%d+_[+-]?%d+$",""):gsub("^maps/[%w_]+/","")
 	print("COLLECTED BRUSH: " .. maxmaterial)
 	local worth = math.max(1, math.Round(math.sqrt(maxarea) * 0.1))
 	print(worth)

@@ -303,6 +303,10 @@ function meta:IsLoading()
 
 end
 
+function meta:GetLoadTask()
+	return self.__task
+end
+
 BLOCK_THREAD = 0x1234ABCD
 
 if SERVER then
@@ -421,12 +425,14 @@ local function LoadBSP( bsp, path, callback )
 		end
 
 		function t:progress()
-			Msg(".")
+			-- Msg(".")
 		end
 
 		function t:chunkdone( name, count, tab )
 			Msg("DONE\n")
 		end
+
+		bspdata.__task = t
 
 	else
 

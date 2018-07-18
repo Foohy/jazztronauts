@@ -72,11 +72,11 @@ function Sleep( seconds, ... )
 
 end
 
-function WaitFor( other, ... )
+function Await( other, ... )
 
 	if g_task ~= nil then
 		assert( getmetatable(other) == meta )
-		if not other.running then return end
+		if not other.running then return other.result end
 		for _, w in pairs(other.waiters) do 
 			if w == g_task then ErrorNoHalt("Already waiting on task") return end
 		end
@@ -160,6 +160,7 @@ local function WakeWaiters( task )
 		w.waitcount = math.max((w.waitcount or 0) - 1, 0)
 		if w.waitcount == 0 then
 			w.sleep = 0
+			w.queuedparams = task.result
 		end
 
 	end
@@ -214,9 +215,7 @@ local function ResumeTask( task )
 		local duration = SysTime() - task.start
 		print( ("Task Finished: %0.2fs"):format( duration ) )
 		
-		if result then
-			--print( unpack(result) )
-		end
+		task.result = result
 		RemoveTask( task )
 		dead = true
 
@@ -232,7 +231,14 @@ local function ResumeTask( task )
 
 end
 
+local LastProcessTime = 0
 local function ProcessTasks()
+	-- HACK: To keep things playable for listen servers
+	-- Only update once per frame (the server otherwise simulates multiple ticks per frame)
+	if SERVER and not game.IsDedicated() then
+		if RealTime() == LastProcessTime then return end
+		LastProcessTime = RealTime()
+	end
 
 	if #tasks == 0 then return end
 
@@ -365,8 +371,8 @@ if CLIENT then
 
 	local function SmallTask()
 		print("Starting the small task, but let's wait for that big task")
-		task.WaitFor( t0 )
-		task.WaitFor( t1 )
+		task.Await( t0 )
+		task.Await( t1 )
 		print("Hey, I'm the small task")
 		print("I think we're done boys")
 	end

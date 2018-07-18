@@ -1,5 +1,5 @@
 AddCSLuaFile()
-DEFINE_BASECLASS( "player_default" )
+DEFINE_BASECLASS( "player_sandbox" )
 
 local PLAYER = {}
 

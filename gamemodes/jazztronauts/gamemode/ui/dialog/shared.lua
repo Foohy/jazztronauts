@@ -412,7 +412,7 @@ local scripttimes = {}
 local nexthotreloadcheck = 0
 local function CheckHotReload()
 	if nexthotreloadcheck > CurTime() then return end
-	nexthotreloadcheck = CurTime() + 1
+	nexthotreloadcheck = CurTime() + 30
 
 	local needsreload = false
 	local scripts, _ = file.Find( "data/scripts/*", "THIRDPARTY" )
@@ -430,6 +430,9 @@ local function CheckHotReload()
 
 end
 hook.Add( "Think", "JazzScriptCheckHotReload", CheckHotReload )
+concommand.Add("jazz_debug_refreshscripts", function()
+	CheckHotReload()
+end )
 
 function GetGraph()
 

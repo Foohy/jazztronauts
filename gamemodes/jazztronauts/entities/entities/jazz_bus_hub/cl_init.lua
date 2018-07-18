@@ -6,8 +6,8 @@ ENT.ScreenScale = .1
 
 ENT.CommentOffset = Vector(-200, 12, 0)
 
-ENT.BusWidth = 70
-ENT.BusLength = 248
+ENT.BusWidth = 75
+ENT.BusLength = 280
 
 surface.CreateFont( "SteamCommentFont", {
 	font      = "KG Shake it Off Chunky",

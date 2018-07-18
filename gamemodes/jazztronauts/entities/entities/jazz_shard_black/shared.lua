@@ -1,4 +1,3 @@
--- Board that displays currently selected maps
 AddCSLuaFile()
 
 ENT.Type = "anim"
@@ -44,9 +43,6 @@ PrecacheParticleSystem( "jazzEclipseBG" )
 
 function ENT:Initialize()
 
-    self.podiums = {}
-    self.approached = false
-
     self.BrushMaxDestroyRadius = math.huge
     self.BrushDestroyInterval = 0.04 --0.04
     self.RemoveDelay = 5
@@ -63,189 +59,27 @@ function ENT:Initialize()
     hook.Add("JazzPostDrawVoidSky", self, function() self:OnPostVoidSkyRendered() end)
     hook.Add("RenderScreenspaceEffects", self, function() self:OnRenderScreenspaceEffects() end)
 
+    -- Vote podium entity
+    self.VotePodium = self:CreateVotePodium()
+
     self.BaseClass.Initialize( self )
 
 end
 
-function ENT:MakePodium( ply, offset, angles )
-
+function ENT:CreateVotePodium()
     if not SERVER then return end
-    if self.podiums[ply] then print( "ALREADY HAS: " .. tostring(ply) ) return end
 
-    local ent = ents.Create("jazz_shard_podium")
-    ent:SetPos( self:GetPos() + offset )
-    ent:SetAngles( angles or Angle(0,0,0) )
-    ent:SetFakeOwner( ply )
-    ent:Spawn()
-
-    print("MAKE PODIUM: " .. tostring(ply) .. " : " .. tostring(offset))
-
-    ent.parent = self
-    ent.Use = function( self, ply )
-
-        if ply ~= self:GetFakeOwner() then 
-            self:EmitSound( Sound("buttons/button10.wav") )
-            return 
-        end
-
-        self:Close()
-        self.used = true
-
-        self.parent:OnPodiumUsed( self )
-
-    end
-
-    self.podiums[ply] = ent
-
-end
-
-function ENT:OnAllPodiumsUsed()
-
-    for _, ent in pairs( self.podiums ) do
-
-        ent:Lower()
-
-    end
-
-    timer.Simple( 1, function()
-
-        self.BaseClass.Touch( self, self.who_found )
-
+    local votium = ents.Create("jazz_vote_podiums")
+    votium:SetPos(self:GetPos())
+    votium:SetAngles(self:GetAngles())
+    votium:Spawn()
+    votium:Activate()
+    votium:SetParent(self)
+    votium:StoreActivatedCallback(function(who_found)
+        self.BaseClass.Touch(self, who_found)
     end )
 
-end
-
-function ENT:OnPodiumUsed( ent )
-
-    local all_used = true
-    for _, ent in pairs( self.podiums ) do
-
-        if not ent.used then all_used = false break end
-
-    end
-
-    if all_used then
-
-        if not IsValid( self.who_found ) then
-
-            local players = player.GetAll()
-            self.who_found = players[math.random(1,#players)]
-
-        end
-
-        self:OnAllPodiumsUsed()
-
-    end
-
-end
-
-function ENT:ClearPodiums()
-
-    for _, ent in pairs( self.podiums ) do
-
-        ent:Remove()
-
-    end
-    self.podiums = {}
-
-end
-
-function ENT:OnApproached( ply )
-
-    local ply_pos = ply:GetPos()
-    local my_pos = self:GetPos()
-    local radius = 50
-    local add_angle = (2 * math.pi) / #player.GetAll()
-    local base_angle = math.atan2( ply_pos.y - my_pos.y, ply_pos.x - my_pos.x )
-    local angle = base_angle
-    local delay = 0
-    local add_delay = 1
-
-    local function get_offset()
-        return Vector( math.cos(angle) * radius, math.sin(angle) * radius, 0 )
-    end
-
-    self:MakePodium( ply, get_offset(), Angle( 0, angle * RAD_2_DEG, 0 ) )
-
-    for k,v in pairs( player.GetAll() ) do
-
-        if v == ply then continue end
-
-        angle = angle + add_angle
-        delay = delay + add_delay
-
-        local offset = get_offset()
-        local ang = Angle( 0, angle * RAD_2_DEG, 0 )
-        timer.Simple(delay, function()
-            self:MakePodium( v, offset, ang )
-        end)
-
-    end
-
-    self.who_found = ply
-
-end
-
-function ENT:HandleApproach()
-
-    local approach_dist = 500
-    local approach_dist_sqr = approach_dist*approach_dist
-    local min_dist = approach_dist_sqr
-    local who = nil
-    for _, ply in pairs( player.GetAll() ) do
-
-        local dist = (ply:GetPos() - self:GetPos()):LengthSqr()
-        if dist < min_dist then
-
-            min_dist = approach_dist
-            who = ply
-
-        end
-
-    end
-
-    if who ~= nil then
-
-        self:OnApproached( who )
-        self.approached = true
-
-    end
-
-end
-
-function ENT:CheckPodiums()
-
-    for k,v in pairs( self.podiums ) do
-
-        if not IsValid(k) then
-
-            if not v.checked then
-
-                v:Close()
-                v.used = true
-                v.checked = true
-                self:OnPodiumUsed( v )
-
-            end
-
-        end
-
-    end
-
-end
-
-function ENT:ThinkPodiums()
-
-    if not self.approached then
-
-        self:HandleApproach()
-
-    else
-
-        self:CheckPodiums()
-
-    end
-
+    return votium
 end
 
 function ENT:SetupDataTables()
@@ -274,13 +108,16 @@ end
 function ENT:OnRemove()
 
     self.BaseClass.OnRemove(self)
-    self:ClearPodiums()
 
     if self.SuckSound then self.SuckSound:Stop() end
     if self.SuckSoundNear then self.SuckSoundNear:Stop() end
 
     if CLIENT then
         jazzvoid.SetOverlayColor(Color(255, 255, 255))
+    end
+
+    if IsValid(self.VotePodium) then
+        self.VotePodium:Remove()
     end
 
 end
@@ -300,14 +137,6 @@ function ENT:DrawDynLight()
 end
 
 function ENT:Touch(ply)
-
-end
-
-if SERVER then
-
-    function ENT:Think()
-        self:ThinkPodiums()
-    end
 
 end
 

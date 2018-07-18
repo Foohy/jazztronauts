@@ -104,6 +104,10 @@
 [
 	output OnEveryoneInside(void) : "Fires when everybody is within the trigger."
 	output OnEveryoneNotInside(void) : "Fires when no longer everybody is in the trigger"
+
+	output OnInsideEmpty(void) : "Fires when NOBODY is within the trigger."
+	output OnInsideNotEmpty(void) : "Fires if we were empty but SOMEBODY entered the trigger."
+
 	output OnPlayerEnter(void) : "Fires when a single player has entered the trigger"
 	output OnPlayerLeave(void) : "Fires when a single player has left the trigger"
 ]
@@ -119,4 +123,15 @@
 @PointClass base(Targetname, Origin, Angles) studioprop() = jazz_factscreen : "Jazz Random Fact Screen"
 [
 	factname(string) : "Fact Name" : : "Override what fact this will display. Optional"
+]
+
+@PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_vote_podiums : "Jazz Vote Podium Circle"
+[
+	ApproachRadius(integer) : "Approach Radius": 500 : "The radius at which the podiums spawn from the ground when a player approaches."
+	PodiumRadius(integer) : "Podium Spawn Radius" : 50 : "How close to the center the podiums spawn in a circle."
+
+	input Reset(void)  : "Reset to our initial, hidden state, removing podiums."
+
+	output OnActivated(void) : "Fires when all players have voted and the podiums sink into the ground"
+	output OnApproached(void) : "Fires when a player enters the activation range, showing our podiums"
 ]

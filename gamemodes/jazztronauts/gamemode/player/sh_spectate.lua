@@ -123,6 +123,15 @@ if SERVER then
 
     end
 
+    function GM:SetupPlayerVisibility(ply, viewEntity)
+        if ply:GetObserverMode() == OBS_MODE_NONE then return end 
+
+        local curtarget = getSpawnEntity(ply)
+        if IsValid(curtarget) then
+            AddOriginToPVS(curtarget:GetPos())
+        end
+    end
+
 end
 
 -- Draw spectate stuff

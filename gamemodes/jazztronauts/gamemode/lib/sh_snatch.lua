@@ -383,8 +383,30 @@ function meta:RunProp( prop )
 
 end
 
-local expanded_models = {}
-local expanded_props = {}
+local staticPropsInView = {}
+local function ensureExpandedProp(propinfo)
+	local prop = propinfo.csent
+
+	-- Recreate static prop
+	if not IsValid(prop) then
+		prop = ClientsideModel(propinfo.mdl)
+	end
+
+	-- Set position to match where we want to test
+	prop:SetPos( propinfo.mtx:GetTranslation())
+	prop:SetAngles( propinfo.mtx:GetAngles() )
+	prop.propinfo = propinfo
+
+	-- Override rendering to render the expanded prop mesh later on
+	function prop:RenderOverride()
+		staticPropsInView[#staticPropsInView + 1] = self.propinfo
+	end
+
+	propinfo.csent = prop
+end
+
+expanded_models = expanded_models or {}
+expanded_props = expanded_props or {}
 local next_prop_proxy_id = 0
 local load_locks = {}
 
@@ -452,10 +474,16 @@ function meta:RunStaticProp( propid, propproxy )
 
 		me.time = CurTime()
 
-		table.insert( expanded_props, {
+		local propTbl = {
+			mdl = mdl,
 			mesh = expanded_models[mdl],
 			mtx = mtx,
-		})
+		}
+
+		table.insert( expanded_props, propTbl)
+
+		-- Create a clientside entity that draws the expanded prop
+		ensureExpandedProp(propTbl)
 
 		next_prop_proxy_id = next_prop_proxy_id + 1
 		propproxy = ManagedCSEnt("cl_static_prop_proxy" .. mdl .. next_prop_proxy_id, mdl)
@@ -944,34 +972,46 @@ elseif CLIENT then
 		stealBrushesInstant(changed)
 	end )
 
+
+	-- Static props can sometimes disappear out from under us, so keep tabs on them
+	local nextCheck = 0
+	hook.Add("Think", "snatch_static_props_check", function()
+		if CurTime() < nextCheck then return end
+		nextCheck = CurTime() + 10
+
+		for k, v in pairs(expanded_props) do
+			ensureExpandedProp(v)
+		end
+	end)
+
+
 	hook.Add("PostDrawTranslucentRenderables", "drawsnatchstaticprops2", function()
 		local a,b = jazzvoid.GetVoidOverlay()
 
-		for k,v in pairs( expanded_props ) do
+		-- Void render
+		render.SetMaterial( a )
+		for k,v in pairs( staticPropsInView ) do
 
-			render.SetMaterial( a )
 			cam.PushModelMatrix( v.mtx )
 			v.mesh:Draw()
 			cam.PopModelMatrix()
 
 		end
 
-	end )
-	/*
-	hook.Add("PostDrawOpaqueRenderables", "drawsnatchstaticprops", function()
+		-- Outline
+		render.SetMaterial( b )
+		for k,v in pairs( staticPropsInView ) do
 
-		--[[local a,b = jazzvoid.GetVoidOverlay()
-
-		for k,v in pairs( expanded_props ) do
-
-			render.SetMaterial( a )
 			cam.PushModelMatrix( v.mtx )
 			v.mesh:Draw()
 			cam.PopModelMatrix()
 
-		end]]
+		end
 
-	end )*/
+		table.Empty(staticPropsInView)
+
+	end )
+
 		
 	net.Receive("remove_prop_scene", CL_RecvPropSceneFromServer)
 

@@ -28,6 +28,27 @@ if SERVER then
             v:Fire(inp, param)
         end
     end )
+
+    util.AddNetworkString( "dialog_requestpvs" )
+    net.Receive("dialog_requestpvs", function(len, ply)
+        if not IsValid(ply) or not mapcontrol.IsInGamemodeMap() then 
+            print("*setcam* will only add to PVS in gamemode maps!")
+            return 
+        end
+        local pos = net.ReadVector()
+        ply.JazzDialogPVS = pos
+    end )
+
+    hook.Add("JazzDialogFinished", "JazzRemoveDialogPVS", function(ply, script, mark)
+        ply.JazzDialogPVS = nil
+    end)
+
+    hook.Add("SetupPlayerVisibility", "JazzAddDialogPVS", function(ply, view)
+        if ply.JazzDialogPVS then
+            AddOriginToPVS(ply.JazzDialogPVS)
+        end
+    end )
+
 end
 
 if not CLIENT then return end
@@ -225,6 +246,11 @@ dialog.RegisterFunc("setcam", function(d, ...)
     view.endtime = nil
     view.origin = posang.pos
     view.angles = posang.ang
+
+    -- Tell server to load in the specific origin into our PVS
+    net.Start("dialog_requestpvs")
+        net.WriteVector(posang.pos)
+    net.SendToServer()
 
 end)
 

@@ -86,7 +86,8 @@ function FetchComments(addon, func)
 			func(comm)
 		end, 
 		function() 
-			print("Failed to get workshop comments") 
+			print("Failed to get workshop comments")
+			func({})
 		end
 	)
 end
@@ -157,6 +158,12 @@ function FileInfo(itemid, func)
 			print("Published file details received...")
 			local json = util.JSONToTable(resp)
 			local addoninfo = tryGetValue(json, "response", "publishedfiledetails", 1)
+
+			-- Copy the formatting of steamworks.FileInfo
+			if addoninfo then
+				addoninfo.owner = addoninfo.creator
+				addoninfo.id = itemid
+			end
 
 			func(addoninfo, (not addoninfo) and "Unable to parse json: \n" .. resp or nil)
 		end,

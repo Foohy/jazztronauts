@@ -85,9 +85,22 @@ function ENT:CancelAddon()
 	*/
 end
 
+function ENT:BuildMapFacts(map, wsid)
+	self.FactTask = factgen.GetMapFacts(map, wsid)
+	self.FactMap = map
+
+	function self.FactTask.OnFinished(tself, time, facts)
+		if not IsValid(self) or map != self.FactMap then return end
+
+		factgen.SetFacts(facts)
+	end
+end
+
 function ENT:SelectAddon(wsid)
 
 	mapcontrol.SetSelectedMap(nil) -- Tell the current bus to leave
+	factgen.ClearFacts() -- No more facts
+
 	self:SetSelectedWorkshopID(wsid or 0)
 
 	if not wsid or wsid == 0 then
@@ -142,12 +155,16 @@ function ENT:SelectAddon(wsid)
 		-- Not implemented, but yknow, let em dream
 		if success then
 			self:TriggerOutput("OnMapAnalyzed", self)
+	
+			-- Start grabbing Map Facts:tm:
+			self:BuildMapFacts(mapcontrol.GetSelectedMap(), wsid)
 		end
 	end
 
 	-- Attempt to mount the given addon (cache-aware)
 	self.CurrentlyScanning = wsid
 	mapcontrol.InstallAddon(wsid, onMounted, onPreDecompress)
+
 end
 
 function ENT:Use(activator, caller)

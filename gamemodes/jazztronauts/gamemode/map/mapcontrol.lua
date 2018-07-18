@@ -83,6 +83,10 @@ if SERVER then
 		return maps
 	end
 
+	function GetSelectedMap()
+		return curSelected.map
+	end
+
 	-- Update the new selected map
 	function SetSelectedMap(newMap)
 		if newMap == curSelected.map then return end

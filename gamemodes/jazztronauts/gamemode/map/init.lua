@@ -1,6 +1,7 @@
 include("sql.lua")
 include("mapcontrol.lua")
 include("mapgen.lua")
+include("factgen/sh_facts.lua")
 
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "mapgen.lua" )

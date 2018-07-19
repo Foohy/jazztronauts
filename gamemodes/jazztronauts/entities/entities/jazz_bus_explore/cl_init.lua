@@ -38,9 +38,14 @@ net.Receive("jazz_bus_explore_voideffects", function(len, ply)
 	local bus = net.ReadEntity()
 	local startTime = net.ReadFloat()
 
+	-- Queried elsewhere for certain effects
+	if IsValid(bus) then
+		bus.IsLaunching = true
+	end
+
 	local waitTime = math.max(0, startTime - CurTime())
 	timer.Simple(waitTime, function()
-		if bus then 
+		if IsValid(bus) then 
 			surface.PlaySound(bus.VoidMusicName)
 		end
 	end )
@@ -49,7 +54,7 @@ net.Receive("jazz_bus_explore_voideffects", function(len, ply)
 	transitionOut(fadeWaitTime + 8)
 	
 	timer.Simple(fadeWaitTime, function()
-		if bus and LocalPlayer():InVehicle() then 
+		if IsValid(bus) and LocalPlayer():InVehicle() then 
 			local fadelength = bus.VoidMusicFadeEnd - bus.VoidMusicFadeStart
 			LocalPlayer():ScreenFade(SCREENFADE.OUT, color_white, fadelength, 15)
 		end

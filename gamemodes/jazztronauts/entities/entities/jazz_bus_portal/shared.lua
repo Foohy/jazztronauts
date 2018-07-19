@@ -23,6 +23,7 @@ ENT.VoidModels = {
     "models/player/skeleton.mdl"
 }
 
+ENT.VoidSpeedTunnelModel = "models/sunabouzu/bustunnel.mdl"
 ENT.VoidSphereModel = "models/hunter/misc/sphere375x375.mdl"
 ENT.VoidBorderModel = "models/sunabouzu/bus_brokenwall.mdl"
 ENT.VoidRoadModel = "models/sunabouzu/jazzroad.mdl"
@@ -405,6 +406,7 @@ function ENT:DrawInteriorDoubles()
             self.VoidBorder:SetMaterial(overlay:GetName())
             self.VoidBorder:DrawModel()
         end
+
         render.FogMode(MATERIAL_FOG_LINEAR)
         render.OverrideDepthEnable(false)
     end
@@ -417,6 +419,20 @@ function ENT:DrawInteriorDoubles()
     self.VoidRoad:SetAngles(portalAng)
     self.VoidRoad:SetupBones()
     self.VoidRoad:DrawModel()
+
+    
+    -- Render speedy tunnel
+    if self.Broken and self:GetIsExit() and IsValid(self:GetBus()) and self:GetBus().IsLaunching then
+        local mat = Matrix()
+        mat:SetScale(Vector(8, 1, 8))
+        local SpeedTunnel = ManagedCSEnt("bus_portal_speedtunnel", self.VoidSpeedTunnelModel)
+        SpeedTunnel:SetNoDraw(true)
+        SpeedTunnel:SetPos(self:GetPos())
+        SpeedTunnel:SetAngles(self:GetAngles())
+        SpeedTunnel:EnableMatrix("RenderMultiply", mat)
+        SpeedTunnel:DrawModel()
+    end
+
 
 
     -- Draw bus

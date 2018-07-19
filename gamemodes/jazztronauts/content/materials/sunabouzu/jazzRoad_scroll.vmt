@@ -1,0 +1,16 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "models/sunabouzu/jazzRoad"
+	"$surfaceprop" "Concrete"
+	"%keywords" "jazz"
+
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$baseTextureTransform"
+			"texturescrollrate" .75
+			"texturescrollangle" -90
+		}
+	}
+}

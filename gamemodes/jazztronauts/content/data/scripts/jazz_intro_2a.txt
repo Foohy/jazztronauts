@@ -1,213 +1,170 @@
-###### START
+AUTO_ADVANCE = 1.5 # Enable auto-advancing, and defines how long to wait before advancing
+PRINT_RATE = 0.7 # Default print rate for this file. 1 = normal speed, 0.5 half speed, 2 = double speed, etc.
+SKIP_OPEN = true # Setup scene before opening the dialog. Opened manually.
 
 begin1:    
 spawngang() # SETUP
-*setposang cat_bar -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
-*setposang cat_cello -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
-*setposang cat_piano -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
-*setposang cat_singer -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
-
+*setposang cat_bar setpos -13710.177734 -2197.684814 995.031250;setang -90 180.0 0.000000*
+*setposang cat_cello setpos -13525.564453 -2201.192139 995.031250;setang -90 48.527863 0.000000*
+*setposang cat_piano setpos -13609.130859 -2194.377686 995.031250;setang -90 288 0.000000*
+*setposang cat_singer setpos -13497.522461 -2040.211182 995.031250;setang -90 142.066315 0.000000*
 *setspeaker cat_bar*
-Still no sign of that prop snatcher, eh?
-Ah well. It happens.
+*setanim cat_bar bartender_search*
+*setcam setpos -13731.064453 -2133.894043 1013.371338;setang -10.711855 -53.004662 0.000000*
+*show .4*
+Still*bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0* no sign of that prop snatcher,% eh?%%
+Ah*setskin cat_bar 2* well.%*setskin cat_bar 0* It happens.
 &begin2
 
 begin2:
 *setspeaker cat_piano*
-Yes it happens.
-And each time it's the cellist who loses them.
+Yes% it happens.%%
+And each time%*setcam setpos -13561.711914 -2139.091064 1050.501587;setang 4.441590 -96.009224 0.000000* it's the cellist who loses*setanim cat_piano gesture_facepalm 1 idle* them.%%
 I wonder why.
 &begin3
 
 begin3:
 *setspeaker cat_cello*
-same
+*setcam setpos -13559.854492 -2171.333984 1038.833496;setang -1.757542 -41.924026 0.000000*
+*setanim cat_cello gesture_shrug 1 idle*
+same%%
 &begin4
 
 begin4:
 *setspeaker cat_piano*
-That was rhet-
+*setcam setpos -13571.149414 -2157.019287 1042.542480;setang 9.023558 -135.240448 0.000000*
+That*setskin cat_piano 2*%*setanim cat_piano gesture_anger 1 idle* was rhet-
 &begin5
 
 begin5:
 *setspeaker narrator*
->The Pianist pauses, visibly tries to calm herself
-as the Cellist's grin grows wider, then snaps anyway.
+*setcam setpos -13609.158203 -1964.928223 1061.693237;setang 9.233204 -80.556320 0.000000*
+>The Pianist pauses,%%%*setskin cat_piano 0* visibly tries to calm herself
+as *setskin cat_cello 1*the Cellist's grin grows wider,%%%*setskin cat_piano 2* then snaps anyway.
 &begin6
 
 begin6:
 *setspeaker cat_piano*
+*setcam setpos -13571.149414 -2157.019287 1042.542480;setang 9.023558 -135.240448 0.000000*
+*setanim cat_piano gesture_shock 1 idle*
 MAKING JOKES ABOUT BEING THE PROBLEM 
-DOESN't MAKE YOU NOT THE PROBLEM.
-If we had five wheels, you'd be the sixth.
+DOESN't*setanim cat_piano gesture_anger 1 idle* MAKE YOU NOT THE PROBLEM.%%%%*setskin cat_piano 0*
+If we had five wheels,%% you'd be the sixth.
 &begin7
 
 begin7:
 *setspeaker cat_cello*
-ohhhh hell yeah some motherfuckers trying to serve up a
-plate of beef carcaccio in my house, better saddle up
+*setcam setpos -13559.854492 -2171.333984 1048.833496;setang -1.757542 -41.924026 0.000000*
+ohh%h%h hell *setanim cat_cello gesture_laugh 1 idle*yeah some motherfuckers*setskin cat_cello 2* trying to serve up a
+plate of beef carcaccio in my house,% better *setanim cat_cello gesture_jab 1 idle* saddle up
 cause it's about to get real salty in here
 &begin8
 
 begin8:
 *setspeaker cat_cello*
-hey remember that time you accidentally tore a player in
+hey%% remember*setskin cat_cello 0* that time you*setanim cat_cello gesture_confuse 1 idle* accidentally tore a player in
 half trying to save them from a combine apc that didn't even
 have player collision enabled
-&begin9
-
-begin9:
-*setspeaker narrator*
->The Pianist restrains herself again.
-Barely.
 &begin11
 
 begin11:
 *setspeaker cat_piano*
-Fuck you, that doesn't count. That happened years ago when
-we had barely any idea how this shitty game engine works.
+*setcam setpos -13571.149414 -2157.019287 1050.542480;setang 9.023558 -135.240448 0.000000*
+Fuck*setskin cat_piano 2* you,%%*setanim cat_piano gesture_anger 1 idle*  that doesn't count.%%*setskin cat_piano 0* That happened years ago when
+we had barely*setanim cat_piano gesture_shrug 1 idle* any idea how this shitty game engine works.
 &begin12
 
 begin12:
 *setspeaker cat_cello*
-you tore a dude in half trying to get him out of danger he 
-was not in. because the cars were ghosts.
-you got spooked by ghost cars.
-&begin13
-
-begin13:
-*setspeaker narrator*
->The Pianist leans in to argue, eye twitching.
+*setcam setpos -13559.854492 -2171.333984 1040.833496;setang -1.757542 -41.924026 0.000000*
+you*setskin cat_cello 2*%*setanim cat_cello gesture_exchange 1 idle* tore a dude in half trying to get him out of danger he 
+was not in.% because the cars*setskin cat_cello 0* were ghosts.%%
+you*setskin cat_cello 1* got*setanim cat_cello gesture_clap 1 idle* spooked by ghost cars.
 &begin14
 
 begin14:
 *setspeaker cat_piano*
-Yeah and you somehow managed to lose a guest in fucking flatgrass.
+*setcam setpos -13571.149414 -2157.019287 1052.542480;setang 9.023558 -135.240448 0.000000*
+Yeah% and*setskin cat_piano 1* you somehow managed*setanim cat_piano gesture_disagree 1 idle* to lose a guest in fucking% flatgrass.
 &begin15
 
 begin15:
 *setspeaker cat_cello*
-in my defense i was sober at the time
+*setcam setpos -13556.934570 -2136.531006 1054.415039;setang 8.544407 -100.501335 0.000000*
+in*setskin cat_cello 0* my*setanim cat_cello gesture_shrug 1 idle* defense i was sober at the time
 &begin16
 
 begin16:
 *setspeaker cat_piano*
-Oh mY GOD
+O*setanim cat_piano gesture_anger 1 idle*h*setskin cat_piano 2* mY GOD
 &begin17
 
 begin17:
 *setspeaker narrator*
->The two cats start shouting at each other, it's mostly insults and
-wild accusations at this point. The Bartender has her back to 
-the you,she seems to be busy seaching a shelf.
-&begin18
+*setcam setpos -13634.369141 -1805.863525 1055.647705;setang 2.375210 -82.293320 0.000000*
+>The two*setanim cat_singer singer_survey* cats start shouting wild insults and 
+accusations at each other.%
 
-begin18:
->The Singer is just checking out the room. Shelves, that bit of 
-vent up there, the group of players watching them 
-from behind a window, etc etc
+>The Singer looks around.%.%.% and looks right at the window.
 &begin19
 
 begin19:
->Wait... The Singer is staring right at you!
-You've been spotted!
+> It appears you've been spotted.
 &begin20
 
 begin20:
-*setspeaker cat_sing*
->The Singer puts their paw to their mouth, and whistles very loudly!
-The two cats stop arguing immediately and clutch their ears!
+*setspeaker cat_singer*
+*setcam setpos -13527.917969 -2076.759033 1042.751953;setang 18.037712 51.332397 0.000000*
+>The Singer*setanim cat_singer singer_whistle 1 idle* puts their paw to their mouth, and whistles very loudly!%*setcam setpos -13474.255859 -1953.788574 1055.059326;setang 3.460600 -105.256134 0.000000*
+The two cats*setanim cat_piano gesture_shock* stop*setanim cat_cello gesture_shock* arguing immediately and clutch their ears!
 &begin21
 
 begin21:
 *setspeaker cat_piano*
-Fuck! Ow! How do you do that so loudly!? 
-What!? Do you want!?!?
+*setcam setpos -13556.934570 -2136.531006 1054.415039;setang 8.544407 -100.501335 0.000000*
+Fuck!*setskin cat_piano 0* Ow!*setanim cat_piano gesture_anger* How do you do*setskin cat_piano 2* that so loudly!?%% 
+What!?%% Do you want!?!?
 &begin22
 
 begin22:
 *setspeaker cat_sing*
->The Singer points frantically in your direction!
-%%%%%%%%%%%%%%%%%%%
+*setcam setpos -13634.369141 -1805.863525 1055.647705;setang 2.375210 -82.293320 0.000000*
+>The Singer*setskin cat_piano 0* points*setskin cat_cello 0* frantically*setskin cat_bar 0* in*setskin cat_singer 0* your direction!
+%%%%%%
 You've definitely been spotted!
 &begin23
 
 begin23:
 *setspeaker cat_bar*
-Ah. Would you look at what we have here?
+Ah.*setanim cat_bar gesture_clap 1 idle* Would*setskin cat_bar 1* you look at what we have here? *setcam setpos -13597.536133 -1903.968750 1056.031250;setang 2.475661 96.035400 0.000000*
 &begin24
 
 begin24:
-Guests.
+*setposang cat_bar setpos -13724.885742 -2105.620850 1006.031250;setang -90 335.829369 0.000000*
+*setposang cat_cello setpos -13579.467773 -2108.930420 1000.031250;setang -90 5.801361 0.000000*
+*setposang cat_piano setpos -13656.136719 -2104.135498 1000.031250;setang -90 20.847992 0.000000*
+*setposang cat_singer setpos -13546.133789 -2053.541260 1000.031250;setang -90 33.252113 0.000000*
+*setcam setpos -13689.892578 -2052.613770 1055.993286;setang 2.525014 -122.990868 0.000000*
+Guests!
 &begin25
 
 begin25:
-*setspeaker narrator*
->All of the cats have a grin on their face...
+*setspeaker cat_piano*
+*setcam setpos -13721.875000 -2032.966309 1048.535278;setang 6.028872 -51.775673 0.000000*
+Or competition.*setskin cat_piano 1* You want me to-?
 &begin26
 
 begin26:
-*setspeaker cat_piano*
-So? Should I handle it?
-Because I've been itching to try out a new-
+*setspeaker cat_bar*
+No,%*setanim cat_bar gesture_disagree 1 idle* no%*setskin cat_bar 0* I've a better idea.%% You there!%*setcam setpos -13689.892578 -2052.613770 1055.993286;setang 2.525014 -122.990868 0.000000* Through the window!%*setanim cat_bar gesture_jab 1 idle* We've a proposition
+to make.%*setcam setpos -13634.369141 -1805.863525 1055.647705;setang 2.375210 -82.293320 0.000000* The end of these tunnels is just*setanim cat_bar gesture_sweep 1 idle* a little ways ahead -% if you'll
+meet us there,%*setskin cat_bar 1* we'll give you the details.
 &begin27
 
 begin27:
-*setspeaker cat_bar*
->The bartender puts their paw into the air, stopping the Pianist
-immediately.
-&begin28
-
-begin28:
-No, no. That is no way to treat honored guests.
-%%%%
-...Cellist?
-&begin29
-
-begin29:
 *setspeaker narrator*
->The Pianist and Singer both look moderately surprised 
-by this development.
-&begin30
+>The*setskin cat_bar 0* Bartender turns*tweencam 3 setpos -13591.134766 -1879.317261 1049.972168;setang 3.453386 99.459183 0.000000* and walks out of view, 
+the other cats following after with only a moment's confusion.%%%
 
-begin30:
-*setspeaker cat_cello*
-yeah boss?
-&begin31
-
-begin31:
-*setspeaker narrator*
->The Bartender Flips a set of keys over to the Cellist.
-%%%%%
-The Pianist and Singer now look actively worried.
-&begin32
-
-begin32:
-*setspeaker cat_bar*
-You know what to do.
-&begin33
-
-begin33:
-*setspeaker cat_cello*
->The cellist gives an awful salute and staggers
-out of the room.
-&begin34
-
-begin34:
-*setspeaker cat_bar*
-Everyone else with me.
-&begin35
-
-begin35:
-*setspeaker narrator*
->They give a quick nod, and just like earlier,
-dissapear without a trace...
-&begin36
-
-begin36:
->Well, this ain't good. 
-You should probably stay on your toes from this point on.
+Well that was weird.% Might as well hear what they have to say,% though%%, right?
 &exit
-
-
-###### END OF EVENT

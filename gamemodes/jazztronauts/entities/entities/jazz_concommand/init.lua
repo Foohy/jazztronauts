@@ -18,7 +18,7 @@ end
 
 function ENT:RunCommand( activator, caller, data )
 
-	RunConsoleCommand(self.Concommand)
+	RunConsoleCommand(unpack(string.Split(self.Concommand, " ")))
 
 end
 

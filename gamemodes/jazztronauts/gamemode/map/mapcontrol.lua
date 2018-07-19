@@ -119,7 +119,8 @@ if SERVER then
 	end
 
 
-	function Launch(mapname)	
+	function Launch(mapname)
+		newmap.SetGlobal("last_map", game.GetMap())
 		playerwait.SavePlayers()
 		RunConsoleCommand("changelevel", mapname)
 	end

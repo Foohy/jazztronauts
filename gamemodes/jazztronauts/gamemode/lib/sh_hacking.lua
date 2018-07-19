@@ -32,7 +32,6 @@ if SERVER then
 		-- Every output, we're going to store some additional info that we can look up later
 		-- This way we can hook into each output and listen for events
 		if string.Left( key, 2 ) == "On" then
-			print(ent, key, value)
 			ent.JazzIOEvents = ent.JazzIOEvents or {}
 			ent.JazzIOEvents[key] = ent.JazzIOEvents[key] or {}
 
@@ -77,6 +76,7 @@ if SERVER then
 	hook.Add("InitPostEntity", "hacking", SetupIOListener)
 	hook.Add("PostCleanupMap", "hackingcleanup", SetupIOListener)
 
+	/*
 	hook.Add("AcceptInput", "hacking", function( ent, input, activator, caller, value )
 		if not IsValid( caller ) then
 			print("Unknown caller for: " .. tostring(input))
@@ -85,6 +85,7 @@ if SERVER then
 			end
 		end
 	end )
+*/
 
 	return
 end

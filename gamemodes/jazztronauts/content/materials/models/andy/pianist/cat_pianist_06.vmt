@@ -1,6 +1,6 @@
-"VertexlitGeneric"
+"LightmappedGeneric"
 {
-	"$basetexture" "models/andy/singer/cat_singer_mad"
+	"$basetexture" "models/andy/pianist/cat_pianist_relief"
 	"$phong" "1"
 	"$phongexponent" "10"
 	"$phongboost" ".3"	

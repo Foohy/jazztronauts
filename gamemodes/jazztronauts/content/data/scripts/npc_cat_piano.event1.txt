@@ -19,12 +19,13 @@ begin:
 ###### START
 	*setspeaker narrator*
 	*show*
-	>You could have sworn you saw the Pianist here just now...
+	>You could have sworn you saw the Pianist here just now%.%.%.%
 	&b1
 	
 b1:
-	*setspeaker npc_cat_singer*
-	Hurry up, hurry up!
+	*setspeaker cat_piano*
+	*setskin cat_piano 2*
+	Hurry up,% hurry up!%%
 	They'll see you!
 	&b2
 	
@@ -35,8 +36,9 @@ b2:
 	
 b3:
 	*setspeaker narrator*
-	>The Singer dead sprints past both of you! 
-	On instinct, you dive into the hiding spot the pianist
+	*setskin cat_piano 0*
+	>The Singer dead sprints past both of you!%% 
+	On instinct,% you dive into the hiding spot the pianist
 	is in.
 	
 	
@@ -51,28 +53,36 @@ b3:
 ###### Branch 1 (early exit)
 resp1a:
 	*setspeaker npc_cat_piano*
-	I see how it is. Leaving me to handle the consequences of my actions solo, huh?
+	*setskin cat_piano 2*
+	*setanim cat_piano gesture_anger 1 idle*
+	I see how it is.%% Leaving me to handle the consequences of my actions solo,% huh? *setskin cat_piano 3*%%
 	I'll remember this when the revolution comes.
 	&resp1b
 	
 resp1b:
-	Get out of here, then. I owe you one, so I'll cover for you too. This time.
+	*setskin cat_piano 0*
+	*setanim cat_piano gesture_exchange 1 idle*
+	Get out of here,% then.%% I owe you one,% so I'll cover for you too.%%% This time.
 	&exit
 	
 ###### Branch 2 
 resp2a:
 	*setspeaker npc_cat_piano*
+	*setskin cat_piano 3*
+	*setanim cat_piano gesture_anger 2 idle*
 	Rich words coming from an abomination in the face of 
-	a distraught and regretful god. 
+	a distraught and regretful god.%%%*setskin cat_piano 0* 
 	Keep your voice down.
 	&resp3a
 	
 ###### Branch 3 (also merge point)
 resp3a:
 	*setspeaker npc_cat_piano*
-	They know. I thought i'd timed it right, and they were conked out on top of
-	the bar, but no, this is the one fucking time they break routine and come to 
-	check on their glorified tamagotchi collection at the mewseum before the fifth nap.
+	*setskin cat_piano 4*
+	*setanim cat_piano gesture_facepalm*
+	They know.%%% I thought i'd timed it right,%% and they were conked out on top of
+	the bar,% but no,% this is the one %*setanim cat_piano gesture_anger 1 idle*f*setskin cat_piano 2*ucking% time they break routine and come to 
+	check on their glorified tamagotchi collection at the mewseum before the fifth nap.%%%%*setanim cat_piano gesture_sigh 1 idle*
 	They saw everything.
 	
 	player:
@@ -86,20 +96,24 @@ resp3a:
 ###### Branch 4
 resp4a:
 	*setspeaker narrator*
-	>The Pianist stares at you. You stare back.
-	The Silence extends, and becomes crippilingly awkward.
-	A rich array of emotions cross over her face.
+	*setskin cat_piano 3*
+	>The Pianist stares at you.%%% You stare back.%%%%
+	The Silence extends,%% and becomes crippilingly awkward.%%%%
+	A rich*setskin cat_piano 1* array of e*setskin cat_piano 2*motions cross over her face.
 	&resp4b
 	
 resp4b:
-	>It's almost like she's going through the five stages of grief in the 
-	thirty second conversational void as she evaluates your sense of
-	priorities. Then, her head bows, and she sighs.
+	*setskin cat_piano 3*
+	>It's almost lik*setanim cat_piano gesture_shock 1 idle*e she's going thro*setskin cat_piano 0*ugh the five stages of grief in the 
+	thirty sec*setskin cat_piano 1*ond conversati*setanim cat_piano gesture_embarass 1 idle*onal void as she evaluat*setskin cat_piano 2*es your sense of
+	prioriti*setskin cat_piano 4*es.%%*setanim cat_piano gesture_sigh 1 idle* Then, her head bows, and she sighs.
 	&resp4c
 	
 resp4c:
 	*setspeaker npc_cat_piano*
-	Yes. The Singer takes nine naps a day.
+	*setskin cat_piano 0*
+	*setanim cat_piano gesture_agree 1 idle*
+	Yes.%% The Singer takes nine naps a day.%%%
 	They have designated spots for each.
 	
 	player:
@@ -112,24 +126,27 @@ resp4c:
 
 resp5a:
 	*setspeaker npc_cat_piano*
-	And I suppose none of your ideas have ever backfired *player*, and you're
+	*setskin cat_piano 1*
+	And I suppose none of your ideas have ever*setanim cat_piano gesture_shrug* backfired *player*, and you're
 	the sole clean and pure being in this universe who has never made a goddamn
-	mistake. Forgive me. I didn't know I was in the presence of the chosen one,
+	mistake.%%% Forgive me.%*setanim cat_piano gesture_jab 1 idle* I*setskin cat_piano 2* didn't know I was in the presence of the chosen one,
 	the saviour - 
 	&resp5b
 	
 resp5b:
 	*setspeaker narrator*
-	>The Pianist is getting worked up, as evident by the fact that her tail has
-	been lashing around more and more. And also the fact that she's basically 
+	*setanim cat_piano gesture_anger 1 idle*
+	>The Pianist is getting worked up,% as ev*setanim cat_piano gesture_jab1 idle*ident by the fact that her tail has
+	been lashing around more and more.%%% And also the fact tha*setanim cat_piano gesture_laugh 1 idle*t she's basically 
 	just shouting at this point.
 	&resp5c
 	
 resp5c:
 	*setspeaker npc_cat_piano*
-	Oh, how I would ever have concluded that perhaps I had fucked up, were it not
-	for your astute commentary on my current state?
-	Truly, I am blessed!
+	*setanim cat_piano gesture_shrug*
+	Oh,% how I would ever have concluded that perhaps I had fucked up,%% were it not
+	for your astute commentary on my current state?%%%*setanim cat_piano gesture_clap 1 idle*
+	Truly,% I am blessed!
 	&resp5d
 	
 resp5d:
@@ -146,9 +163,10 @@ resp5d:
 		
 merge1:
 	*setspeaker narrator*
-	>The Singer sprints over to you both and....
-	ineffectually shoves the Pianist's shoulder. Their eyes are brimming
-	with tears, and they tap agitatedly at their tablet while bouncing
+	*setskin cat_singer 2*
+	>The Singer sprints over to you both and%.%.%.%.%%%*setskin cat_singer 6*
+	ineffectually shoves the Pianist's shoulder.%% Their eyes are brimming
+	with tears,% and they tap agitatedly at their tablet while bouncing
 	in clear distress.
 	&merge2
 	
@@ -159,23 +177,26 @@ merge2:
 	&merge3
 	
 merge3:
-	>...The singer pulls at their ears, tail trashing, tucks the tablet
-	under their left arm and flips the Pianist the double bird.
-	
+	>%.%.%.%The singer pulls*setanim cat_singer gesture_anger 1 idle* at their ears,% tail trashing,*setanim cat_singer 2* tucks the tablet
+	under their left arm and flips the Pianist the double bird. 
+	%%%%%
 	They might actually be a bit mad.
 	&merge4
 	
 merge4:
 	*setspeaker npc_cat_piano*
-	Look, Pipes. 
+	*setskin cat_piano 3*
+	*setanim cat_piano gesture_disagree 1 idle*
+	Look,%% Pipes.%%%*setskin cat_piano 0*
 	I'm sorry you had to see that.
 	&merge5
 	
 merge5:
 	*setspeaker npc_cat_singer*
-	>The Singer chastises the Pianist for not listening.
-	The problem is not that they saw what happened in the mewseum.
-	It's the fact that it happened in the first place.
+	*setanim cat_singer gesture_anger 1 idle*
+	>The Singer chastises the Pianist for not listening.%%%
+	The problem is not that they saw what happened in the mewseum.%
+	It's the*setanim cat_singer gesture_sigh 1 idle* fact that it happened in the first place.
 	&merge6
 	
 merge6:
@@ -185,17 +206,19 @@ merge6:
 	
 merge7:
 	*setspeaker npc_cat_piano*
-	I was bored! I get antsy when i'm bored. And I listen! I didn't
+	*setanim cat_piano gesture_shrug 1 idle*
+	I was bored!%% I get antsy when i'm bored.%%% And I listen!%%%% I didn't
 	cause any structural damage this time!
 	&merge8
 	
 merge8:
-	All your little pets will be good as new in no time.
+	All your little pets will be good as new in no time.%%%*setskin cat_piano 1*
 	The only harm done is to my bank account.
 	&merge9
 	
 merge9:
 	*setspeaker npc_cat_singer*
+	*setanim cat_singer gesture_anger 1 idle*
 	>The Singer makes a clear 'zip it' gesture at the Pianist.
 	&merge10
 	

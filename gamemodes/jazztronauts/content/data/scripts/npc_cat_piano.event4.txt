@@ -17,27 +17,30 @@ begin:
 
 ###### START	
 	*setspeaker narrator*
-	>The Barsamsara.... the Bartender and Pianist are here.
+	*setskin cat_piano 3*
+	*setskin cat_bar 0*
+	>The Bar Samsara%.%.%.%.%%% the Bartender and Pianist are here.%%%
 	
-	Though the Pianist appears to be dead, facedown on the bar.
-	Wait, no she's moving.
+	Though the Pianist appears to be dead,% facedown on the bar.%%%%
+	Wait,% no% she's moving.
 	&b1
 	
 b1:
 	*setspeaker cat_piano*
-	Y'know. I envy you, *player*. At first I thought maybe I hate you?
-	But, I did some talking to the Bartender, and I realized it's a different feeling.
+	Y'know.%%% I envy you,% *player*.%%%%%
+	At first I thought maybe I hate you?%%
+	But,% I did some talking to the Bartender,%% and I realized it's a different feeling.
 	&b2
 	
 b2:
 	*setspeaker cat_piano*
-	I don't wanna kill you, for one thing, although I did think about it
-	for a while. Normally I end up breakin' things I hate, y'see.
+	I don't wanna kill you,% for one thing,%% although I did think about it
+	for a while.%%% Normally I end up breakin' things I hate,% y'see.
 	&b3
 	
 b3:
 	*setspeaker cat_piano*
-	But no. S'envy.
+	But no.%%% S'envy.%%%%%
 	
 	You can do whatever you want.
 	player:
@@ -52,34 +55,37 @@ b3:
 ###### Branch 1 (early exit)
 r1a1:
 	*setspeaker narrator*
-	>The Pianist appears to have fallen asleep, judging by the snoring. 
+	>The Pianist appears to have fallen asleep,% judging by the snoring.%%%*setanim cat_bar gesture_agree 1 idle* 
 	The Bartender gives you a firm nod.
 	&r1a2
 	
 r1a2:
 	*setspeaker cat_bar*
-	Don't worry, I'll make sure she's taken care of.
+	*setanim cat_bar gesture_confused 1 idle*
+	Don't worry,% I'll make sure she's taken care of.
 	&r1a3
 	
 r1a3:
 	*setspeaker cat_bar*
-	The Pianist likes you, you know. That's rather rare.
-	Thank you for being her friend, *player*.
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_agree 1 idle*
+	The Pianist likes you,% you know.%%%*setskin cat_bar 0* That's rather rare.%%%%*setanim cat_bar gesture_exchange 1 idle*
+	Thank you for being her friend,% *player*.
 	*mark_seen*
 	&exit
 	
 ###### Branch 2
 r2a1:
 	*setspeaker cat_piano*
-	Buddy, if I'd decided to, there would be no try. You'd be a pile of
-	gibs floatin' in the lake. But I don't wanna kill you. 
-	Like it better when you're alive. You make me like...
+	Buddy,%% if I'd decided to,%% there would be no try.%%% You'd be a pile of
+	gibs floatin' in the lake.%% But I don't wanna kill you.%%% 
+	Like it better when you're alive.% You make me like%.%.%.
 	&r2a2
 	
 r2a2:
 	*setspeaker cat_piano*
-	Smile.
-	And wanna be a fuckin'. Uhhh. Better person and shit.
+	Smile.%%%%
+	And wanna be a fuckin'.%% U%h%h%h%.%%% Better person%% and shit.%%%%%%
 	
 	Sometimes.
 	player:
@@ -92,40 +98,41 @@ r2a2:
 ###### Branch 3
 r3a1:
 	*setspeaker cat_piano*
-	>She laughs, sharp and sudden like glass breaking.
+	>She laughs,%% sharp and sudden like glass breaking.
 	&r3a2
 	
 r3a2:
 	*setspeaker cat_piano*
-	I am many fuckin' things, *player*, but at no point am I "okay".
+	I am many fuckin' things,%% *player*,%%%% 
+	but at no point am I "okay".%%%%
 	You ever have days where you just stop fuckin' thinking?
 	&r3a3
 	
 r3a3:
 	*setspeaker cat_piano*
-	That never goes away for me. It's my natural state of being.
+	That never goes away for me.%%% It's my natural state of being.%%%%
 	I can't take a shit without planning it advance.
 	&r3a4
 
 r3a4:
 	*setspeaker cat_piano*
-	Tryin' to find a way around it. Might take up some new.
-	Hobby. Somethin' stupid an' dangerous.
-	Figure I won't be able to think then, y'know?
+	Tryin' to find a way around it.% Might take up some new.%%
+	Hobby.% Somethin' stupid an' dangerous.%%%%
+	Figure I won't be able to think then,% y'know?
 	&r3a5
 	
 r3a5:
 	*setspeaker cat_piano*
-	I'm overthinking trying not to overthink fuck my 
+	I'm overthinking trying not to overthink% fuck my 
 	entire life with a rusty rake.
 	&r3a6
 	
 r3a6:
 	*setspeaker cat_piano*
-	*player*. 
-	You're good at like.
-	Doin' shit on impulse.
-	How do?
+	*player*.%%% 
+	You're good at like.%%%%
+	Doin' shit on impulse.%%
+	How do?%%%%%
 	player:
 	&m1:
 		Well-
@@ -137,50 +144,58 @@ r3a6:
 ###### Merge 
 m1:
 	*setspeaker narrator*
-	>The Pianist's head slams down on the bar counter.
+	>The Pianist's head slams down on the bar counter.%%
 	
-	...she appears to have passed out.
+	%.%.%.%she appears to have passed out.
 	&m2
 	
 m2:
 	*setspeaker cat_bar*
-	>The Bartender walks over to the Pianist, and pats her on the head.
+	>The Bartender walks over to the Pianist,%%%*setanim cat_bar gesture_exchange 1 idle* and pats her on the head.
 	&m3
 	
 m3:
 	*setspeaker cat_bar*
-	Ah.
+	*setskin cat_bar 3*
+	Ah.%%%%%%*setskin cat_bar 0*
 	There she goes.
 	&m4
 	
 m4:
 	*setspeaker narrator*
-	>The Bartender sizes you up for a while, then sighs.
+	*setskin cat_bar 2*
+	>The Bartender sizes you up for a while,%%*setskin cat_bar 4*%*setanim cat_bar gesture_sigh 1 idle* then sighs.
 	&m5
 	
 m5:
 	*setspeaker cat_bar*
-	The Pianist can't play anymore. Not like she used to. 
-	Once she was capable of the most delightful improvisations on the piano,
-	it was a marvel to watch.
+	*setskin cat_bar 0*
+	*setanim cat_bar gesture_disagree 1 idle*
+	The Pianist can't play anymore.%%% Not like she used to.%%%% 
+	Once she was capable of*setanim cat_bar gesture_foldarms 1 idle* the*setskin cat_bar 4* most delightful improvisations on the piano,%
+	i*setskin cat_bar 0*t was a marvel to watch.
 	&m6
 	
 m6:
 	*setspeaker cat_bar*
-	But shortly after the last group like your left us, she just...
-	lost that ability. It's been very distressing for her.
+	But shortly after the last group like*setskin cat_bar 4* your left us,% she just%.%.%.%%%
+	lost that*setskin cat_bar 0* ability.%%%*setanim cat_bar gesture_disagree 1 idle* It's been very distressing for her.
 	&m7
 	
 m7:
 	*setspeaker cat_bar*
-	Thank you for being her friend. You've brought her more comfort in
-	a short time than I've been able to for years. I have no words for how
+	*setskin cat_bar 4*
+	*setanim cat_bar gesture_agree 1 idle*
+	Thank you for being her friend.%%%*setskin cat_bar 0* You've brought her more comfort in
+	a short time than I've been able to for years.%%%%%*setskin cat_bar 1* I have no words for how
 	deeply I appreciate that.
 	&m8
 	
 m8:
 	*setspeaker cat_bar*
-	Don't worry, I'll make sure she's taken care of.
+	*setskin cat_bar 0*
+	*setanim cat_bar gesture_agree 1 idle*
+	Don't worry,% I'll make sure she's taken care of.
 	*mark_seen*
 	&exit
 		

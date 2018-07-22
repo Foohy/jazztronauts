@@ -4,8 +4,9 @@ begin:
 	*hide*
 	*txout*
 		
-	*spawn cat_singer models/andy/singer/cat_singer*
-	*setnpcid cat_singer npc_cat_singer*
+	*spawn cat_singer models/andy/singer/cat_singer.mdl*
+	*setposang cat_singer -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
+	*setnpcid cat_singer npc_cat_sing*
 	
 	*spawn player_dummy playerboy*
 	*txin*
@@ -13,87 +14,108 @@ begin:
 	
 ###### START
 *setspeaker narrator*
-	> The Mewseum... 
-	The Singer is here, tapping away at their tablet.
+	> The Mewseum%.%.%.%%% 
+	The Singer is here,% tapping away at their tablet.
 	&b1
 	
 b1:
 	*setspeaker cat_singer*
-	> As you approach, the Singer's ears perk up. They turn, and wave when
-	they recognize you. Beckoning, they invite you over.
+	> As you approach,% the Singer's ears*setskin cat_singer 4* perk up.%% They tur*setskin cat_singer 0*n,% and wave 
+	when they*setanim cat_singer gesture_exchange 1.2 idle* recognize you.%%% Beckoning,% t*setskin cat_singer 1*hey invite you over.
 	&b2
 	
 b2:
-	> They rest a paw against their chin of a moment, before making a sweeping
-	gesture around the room and tapping out a short message for you.
-	&b3:
+	*setskin cat_singer 4*
+	*setanim cat_singer gesture_confused .69 idle*
+	> They rest a paw against their chin of a moment,%%*setanim cat_singer gesture_sweep 1 idle* be*setskin cat_singer 0*fore making a 
+	sweeping gesture around the room and tapping out a 
+	short message for you.
+	&b3
 	
 b3:
-	> Turning the tablet around, they're clearly trying to take the Bartender's
-	earlier tip about not bouncing while you read into consideration. After seeing
-	you squint in confustion at the bedazzled, glimmering font... 
-	they change it to comic sans.
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_laugh 1 idle*
+	> Turning the tablet around,% they're clearly trying to take the Bartender's
+	earlier tip about not bouncing while you read into consideration.%%%%*setskin cat_singer 0* 
+	After seeing you squint in confustion at the bedazzled,% 
+	glimmering font%.%.%.%%%*setskin cat_singer 3* they change it to comic sans.
 	&b4
 	
 b4:
-	> Much better. This time you have no problem parsing the message\:
-	"HI!!! WELCOME TO THE MEWSEUM!!"
+	*setskin cat_singer 0*
+	> Much better.%% This time you have no problem parsing the message\:%%%
+	"HI!!!%% WELCOME TO THE MEWSEUM!!"
 	&b5
 	
 b5:
-	> A pause, followed by an apparently realization that this doesnt explain anything\:
-	
-	"This is where I archive a copy of everything you steal for us!!! \:･ﾟ✧\(=✪ ᆺ ✪=)/\:･ﾟ✧”
+	> A pause,% followed by an apparently r*setskin cat_singer 5*ealization*setanim cat_singer gesture_shock 1 idle* that 
+	this doesnt ex*setskin cat_singer 0*plain anything\:%%%*setanim cat_singer gesture_exchange 1.3 idle*
+	\"This is where I archive a copy of everything you steal for us!!!\”
 	player:
 	&r1a1:
-		Sorry, I hate learning. I have somewhere else to be. (Exit)
+		Sorry,% I hate learning.%%% I have somewhere else to be. (Exit)
 	&r2a1:
 		I'm guessing you named it.
 	&r3a1:
-		...Why?
+		%.%.%.%%%Why?
 		
 ###### BRANCH 1 EARLY Exit
 r1a1:
 	*setspeaker cat_singer*
-	> The Singer informs you that while they think that's a very sad attitude, they
-	understand and hope you come back some other time.
+	*setskin cat_singer 6*
+	*setanim cat_singer gesture_shock 1 idle*
+	> The Singer informs you that while they think that's a 
+	very sad attitude,% they understand and hope you 
+	come back some other time.*setskin cat_singer 0*
 	&exit
 	
 ###### BRANCH 2 
 	
 r2a1:
 	*setspeaker cat_singer*
-	> The Singer blinks, then shakes their head. Apparently they'd just called it The
-	Museum originally, but the Bartender suggested the change.
+	*setskin cat_singer 4*
+	> The Singer blinks,*setskin cat_singer 0* then shakes *setanim cat_singer gesture_disagree 1 idle*their head.%%%% 
+	Apparently they'd just called it The Museum originally,% 
+	but the Bartender suggested the change.
 	&r2a2
 	
 r2a2:
-	> The Singer bounces in place and adds to the last message\: "It made her so happy!!!
-	The others will never admit it and don't you dare tell them I told you
-	but they like it too ₍⸍.ʷ̣̫.⸌₎”
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_laugh 1 idle*
+	> The Singer bounces in place and adds to the last message\:%% 
+	"It made her so happy!!!%%%%
+	The others will never*setanim cat_singer gesture_shrug 1 idle* admit it and don't you dare tell them*setskin cat_singer 0* I told you
+	but they like it too”
 	&r2a3
 	
 r2a3:
-	> They put a paw to their mouth in the universal 'shhhh' signal.
+	*setskin cat_singer 4*
+	*setanim cat_singer gesture_foldarms 1 idle*
+	> They put a paw to th*setskin cat_singer 3*eir mouth in the universal 'shhhh' signal.
 	&r2a4
 	
 r2a4:
-	> They then tell you that "snitches get stitches" so it appears that they were 
-	entierly serious.
+	*setanim cat_singer gesture_jab 1 idle*
+	> They then tell you that "snitches get stitches" so it appears that 
+	they were entierly serious.
 	player:
 	&r1a1:
-		Sorry, I hate learning. I have somewhere else to be. (Exit)
+		Sorry,% I hate learning.%% I have somewhere else to be. (Exit)
 	&r3a1:
-		...Why?
+		%.%.%.%%%Why?
 	
 	
 r3a1:
 	*setspeaker cat_singer*
-	> The Singer looks perturbed. Apparently they get this question a lot.
-	They're considering making a sign.
+	*setskin cat_singer 5*
+	*setanim cat_singer gesture_shock 1 idle*
+	> The Singer looks perturbed.%% Apparently they get this question a lot.%%%*setanim cat_singer gesture_confused 1 idle*
+	Th*setskin cat_singer 4*ey're considering making a sign.
 	&r3a2
 	
 r3a2:
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_exchange 1 idle*
 	> They gesture for you to follow them.
 	&m1
 	
@@ -104,59 +126,80 @@ m1:
 	*txin*
 	*wait .15*
 	*setspeaker narrator*
+	*setskin cat_singer 0*
 	*show*
-	> The Singer has taken you over to the npc_combine playpen.
-	...there's a bunch of combine soldiers walking in place and falling over.
+	> The Singer has taken you over to the npc_combine playpen.%%%
+	%%.%.%.%there's a bunch of combine soldiers walking in place and falling over.
 	&m2
 	
 ###### CAMERA SHOULD IMPLY A FIRST PERSON PERSPECTIVE FOR NEXT BIT
 	
 m2:
 	*setspeaker cat_singer*
-	> They tell you to look at the things behind the glass.
-	     camera change from looking at singer in fp, to display case in fp
-	> Closer.
+	> They tell you to look at the things behind the glass.%%%%
+	> Closer.%%%%
 	*setfov 70*
 	> Closer.
 	&m3
 	
 m3:
-	*setfov 50* *emitsound sound/physics/glass/glass_sheet_impact_soft3.wav" %%% *setfov 60* %%%%
+	*setfov 50* 
+	*emitsound sound/physics/glass/glass_sheet_impact_soft3.wav" %%% 
+	*setfov 60* %%%%
 	> Not that close.
 	&m4
 	
 ###### Back to third person perspective here.
 	
 m4:
-	> The Singer beams at you. "Aren't they amazing???" they ask via tablet,
-	as you watch one of the NPC's fall over and continue trying to execute their walk cycle.
+	*setanim cat_singer gesture_laugh 1 idle*
+	> The Singer beams at you.*setskin cat_singer 1* "Aren't they amazing???" 
+	they ask via tablet,%% as you watch one of the NPC's fall 
+	over and continue trying to execute their walk cycle.
 	&m5
 	
 m5:
-	> Apparently for as long as the cats have been stripping places along Voidway 66 for parts,
-	the Singer has been dedicated to preserving at least one of every unique thing
-	they find. The Mewseum has a whole extra pocket dimension full of stuff that's not cool
-	enough to display.
+	*setskin cat_singer 0*
+	*setanim cat_singer gesture_clap 1 idle*
+	> Apparently for as long as the cats have been stripping places along 
+	Voidway 66 for parts,% the Singer has been dedicated to preserving at 
+	least one of every unique thing they find.
+	&m5b
+	
+m5b:
+	*setanim cat_singer gesture_agree 1 idle* 
+	The Mewseum has a whole extra pocket dimension full of stuff 
+	that's not cool enough to display.
 	&m6
 	
 m6:
-	> Seeing your unchanging expression, they sigh.
-	"It didn't seem RIGHT to just destroy the hard work of everyone who helped make
-	these places in the first place forever!!"
+	*setskin cat_singer 2*
+	> Seeing your unchanging express*setskin cat_singer 4*ion,%%*setanim cat_singer gesture_sigh* they sigh.%%
+	"It didn't see*setskin cat_singer 2*m RIGHT to just destroy the hard work of everyone 
+	who h*setanim cat_singer gesture_shrug 1 idle*elped make these places 
+	in the first place forever!!"
 	&m7
 	
 m7:
-	> Plus sometimes they find neat shit. Or food supplies. Imagine, they tell you,
+	*setskin cat_singer 3*
+	*setanim cat_singer gesture_confused 1 idle*
+	> Plus sometimes they find neat shit.%%%% 
+	Or food supplies.%%*setanim cat_singer gesture_laugh 1 idle* Imagine,% they tell you,%%
 	having the ability to clone your favorite snack on demand.
 	&m8
 	
 m8:
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_exchange 1.5 idle*
 	> THAT is the true, secret power of the Mewseum.
 	&m9
 	
 m9:
-	> Apparently they need to finish up the entry for that stuff you brought back,
-	but they'd be happy to hand out later! *mark_seen*
+	*setskin cat_singer 0*
+	*setanim cat_singer gesture_agree 1 idle*
+	> Apparently they need to finish up the entry for that 
+	stuff you brought back,%% but they'd be happy to 
+	hang out later! *mark_seen*
 	&exit
 
 	

@@ -7,15 +7,19 @@ begin:
     *setfov 70*
 
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	*setposang cat_cello setpos -2907.271484 2958.740967 40.096825;setang -90 10.601639 0.000000*
 	*setnpcid cat_cello npc_cat_cello*
 
 	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
+	*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
 	*setnpcid cat_bar npc_cat_bar*
 
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setposang cat_piano setpos -2907.271484 2958.740967 40.096825;setang -90 10.601639 0.000000*
 	*setnpcid cat_piano npc_cat_piano*
 
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
+	*setposang cat_singer -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
 	*setnpcid cat_singer npc_cat_singer*
 	
 	*spawn player_dummy playerboy*
@@ -46,14 +50,15 @@ b1:
 	&r1a1:
 		Thanks, but i'll take mine to go. I've got stuff to do. (Exit)
 	&r2a1:
-		I don't actually know how old that stuff is, you know. I mean, I sniffed it, but.
+		I don't actually know how old that stuff is, you know. 
+		I mean, I sniffed it, but.
 		Are you sure you want to eat that?
 	&r3a1:
 		I will literally never turn down free food.
 		
 ###### Branch 1 Early Exit
 r1a1:
-	*setspeaker narrator*
+	*setspeaker cat_piano*
 	*setskin cat_piano 3*
 	*setanim cat_piano gesture_embarass 1 idle*
 	>The Pianist looks,% momentarily,%% crestfallen.*setskin cat_piano 0*
@@ -63,8 +68,8 @@ r1a2:
 	*setspeaker cat_piano*
 	*setskin cat_piano 1*
 	*setanim cat_piano gesture_agree 1 idle*
-	Oh.%%% Sure.% I know how it is,% being a busy interdimensional thief.%%*setanim cat_piano gesture_exchange 1 idle* I saved some wonton
-	soup for you,% try not to stain the trolley seat.
+	Oh.%%% Sure.% I know how it is,% being a busy interdimensional thief.%%*setanim cat_piano gesture_exchange 1 idle* 
+	I saved some wonton soup for you,% try not to stain the trolley seat.
 	&r1a3
 	
 r1a3:
@@ -80,9 +85,10 @@ r2a1:
 	*setspeaker cat_cello*
 	*setskin cat_cello 1*
 	*setanim cat_cello gesture_exchange 1 idle*
-	it's fiiiine.%%% what's the worst that could happen?% it's not like life or death has any 
-	meaning beyond what you give it so*setanim gesture_sweep cat_cello 1 idle* sit down grab some chopsticks and join us in embracing
-	the culinary void that is takeout of incredibly dubious origin.
+	it's fiiiine.%%% what's the worst that could happen?% it's not like life or death 
+	has any meaning beyond what you give it so*setanim gesture_sweep cat_cello 1 idle* sit down grab 
+	some chopsticks and join us in embracing the culinary void that 
+	is takeout of incredibly dubious origin.
 	&r2a2
 	
 r2a2:
@@ -106,7 +112,8 @@ r3a1:
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_clap 1 idle*
 	*setanim cat_piano gesture_clap 1 idle*
-	>The Pianist and Singer clap their hands together.*setskin cat_piano 3* The Pianist looks*setanim cat_piano gesture_embarass 1 idle* embarrassed and
+	>The Pianist and Singer clap their hands together.*setskin cat_piano 3* 
+	The Pianist looks*setanim cat_piano gesture_embarass 1 idle* embarrassed and
 	seems to be pretending she did that to kill a bug.%%%
 	You let her think it worked.
 	&r3a2
@@ -133,9 +140,9 @@ r3a4:
 r3a5:
 	*setspeaker cat_piano*
 	*setskin cat_piano 0*
-	*setanim cat_piano gesture_anger 1 idle*
-	SO ABOUT WHY I CALLED YOU ALL HERE TODAY.
-	I found something.*setanim cat_piano gesture_agree 1 idle* S*setskin cat_piano 1*omething, cool.
+	*setanim cat_piano gesture_anger 2.5 idle*
+	SO ABOUT WHY I CALLED YOU ALL HERE TODAY.%%%%%
+	I found something.*setanim cat_piano gesture_agree 1.2 idle* S*setskin cat_piano 1*omething, cool.
 	&r3a6
 	
 r3a6:
@@ -148,7 +155,7 @@ r3a6:
 	
 r3a7:
 	*setspeaker cat_piano*
-	*setanim cat_piano gesture_jab 1 idle*
+	*setanim cat_piano gesture_jab 1.7 idle*
 	Firstly,% you're repressing my free spirit with that rule and I resent it.%%%
 	Secondly,%%*setanim cat_piano gesture_disagree 1 idle* it's*setskin cat_piano 4* not a cha*setskin cat_piano 1*insaw.%%% 
 	It's something better.
@@ -156,7 +163,7 @@ r3a7:
 
 r3a8:
 	*setspeaker narrator*
-	*setskin cat_cellist 0*
+	*setskin cat_cello 0*
 	*setanim cat_piano gesture_exchange 1 idle*
 	>The Pianist produces a Recorder from her jacket pocket,%%
 	and places it on the table.
@@ -166,11 +173,11 @@ r3a8:
 
 r3a9:
 	*setspeaker cat_cello*
-	*setanim cat_cellist gesture_shrug 1 idle*
-	wee%e%e%e%e%eell it was nice hanging out with y'all t*setanim cat_cellist gesture_agree 1 idle*hanks for the food but i need
-	to find literally anywhere else to be at this point in time so uh if you'll excuse
-	me a bucket*setanim cat_cellist gesture_laugh 1 idle* full of liquid nitrogen has an appointment with my face in about,%
-	thirty seconds
+	*setanim cat_cello gesture_shrug 1 idle*
+	wee%e%e%e%e%eell it was nice hanging out with y'all t*setanim cat_cello gesture_agree 1 idle*hanks for the food but 
+	i need to find literally anywhere else to be at this point in time so uh if 
+	you'll excuse me a bucket*setanim cat_cello gesture_laugh 1.4 idle* full of liquid nitrogen has 
+	an appointment with my face in about,%thirty seconds
 	&r3a10
 
 r3a10:
@@ -182,12 +189,11 @@ r3a10:
 
 r3a11:
 	*setspeaker cat_cello*
-	*setskin cat_cellist 2*
-	*setanim cat_cellist gesture_sigh 1 idle*
-	like we don't all know how this is gonna go you mean
-	%%%%%%
-	no*setanim cat_cellist gesture_disagree 1 idle* thanks i'm out i am perfectly capable of destroying my inner,% middle,% and 
-	outer ears on my own
+	*setskin cat_cello 0*
+	*setanim cat_cello gesture_sigh 1 idle*
+	like we don't all know how this is gonna go you mean%%%%%%
+	no*setanim cat_cello gesture_disagree 1 idle* tha*setskin cat_cello 2*nks i'm out i am perfectly capable of destroying my 
+	inner,% middle,% and outer ears on my own
 	&r3a12	
 	
 r3a12:
@@ -195,20 +201,20 @@ r3a12:
 	*setskin cat_singer 0*
 	>The Singer puts their tablet on the table.%%%%*setskin cat_singer 1*
 	
-	They*setanim cat_singer gesture_agree 1 idle* point at the Cellist's chair.
+	They*setanim cat_singer gesture_exchange 2 idle* point at the Cellist's chair.
 	&r3a13	
 	
 r3a13:
 	*setspeaker cat_cello*
 	*setskin cat_cello 4*
-	*setanim cat_cello gesture_facepalm 1 idle*
+	*setanim cat_cello gesture_facepalm 1.3 idle*
 	c'mon pipes,%% really?%%%%
-	you're gonna*setskin cat_cellist 2* let her do this to herself?
+	you're gonna*setskin cat_cello 2* let her do this to herself?
 	&r3a14
 
 r3a14:
 	*setspeaker cat_singer*
-	*setanim cat_singer gesture_anger 1 idle*
+	*setanim cat_singer gesture_anger 2 idle*
 	> The Singer points more emphatically.
 	&r3a15	
 
@@ -249,37 +255,38 @@ r3a18:
 m1:
 	*setspeaker cat_cello*
 	*mark_seen*
-	*setanim cat_cello gesture_shrug 1 idle*
+	*setanim cat_cello gesture_shrug 1.2 idle*
 	not to say i told you so,%% but i absolutely told you so%%%%
-	just call me fuckin'% cassandra because nobody takes my portents of doom
-	seriously and this happens EVERY TIME
+	just call me fuckin'% cassandra because nobody takes my portents of 
+	doom seriously and this happens EVERY TIME
 	&m2
 	
 m2:
 	*setspeaker cat_singer*
 	*setskin cat_singer 2*
-	*setanim cat_singer gesture_disagree 1 idle*
+	*setanim cat_singer gesture_disagree 1.3 idle*
 	>The Singer frowns.%%% They liked it.
 	&m3
 	
 m3:
 	*setspeaker cat_cello*
 	*setskin cat_cello 0*
-	*setanim cat_cello gesture_jab 1 idle*
-	oh of course you liked it%%% you're a supportive friend which means as much as
-	having your first*setanim cat_cello gesture_sigh 1 idle* ever crayon scribble hung up on the fridge
+	*setanim cat_cello gesture_jab 2.5 idle*
+	oh of course you liked it%%% you're a supportive friend which means as 
+	much as having your first*setanim cat_cello gesture_sigh 1 idle* ever crayon scribble hung 
+	up on the fridge
 	&m4
 	
 m4:
 	*setspeaker cat_bar*
 	*setskin 2*
-	*setanim cat_bar gesture_anger 1 idle*
-	>The Bartender*setskin cat_bar 0* stands up.
+	*setanim cat_bar gesture_anger 2.4 idle*
+	>The Bartender stands up.*setskin cat_bar 0*
 	&m5
 	
 m5:
 	*setspeaker cat_bar*
-	I better go find her.%%*setanim cat_bar gesture_agree 1 idle*
+	I better go find her.%%*setanim cat_bar gesture_agree 1.5 idle*
 	Thank you for joining us,% *player*,%
 	it was delightful.
 	&exit

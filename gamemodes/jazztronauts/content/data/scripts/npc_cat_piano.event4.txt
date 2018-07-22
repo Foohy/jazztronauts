@@ -7,10 +7,12 @@ begin:
     *setfov 70*
 
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setposang cat_piano setpos -2907.271484 2958.740967 40.096825;setang -90 10.601639 0.000000*
 	*setnpcid cat_piano npc_cat_piano*
 
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
-	*setnpcid cat_cello npc_cat_cello*
+	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
+	*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
+	*setnpcid cat_bar npc_cat_bar*
 	
 	*spawn player_dummy playerboy*
 	*txin*
@@ -19,6 +21,7 @@ begin:
 	*setspeaker narrator*
 	*setskin cat_piano 3*
 	*setskin cat_bar 0*
+	*show*
 	>The Bar Samsara%.%.%.%.%%% the Bartender and Pianist are here.%%%
 	
 	Though the Pianist appears to be dead,% facedown on the bar.%%%%
@@ -29,7 +32,8 @@ b1:
 	*setspeaker cat_piano*
 	Y'know.%%% I envy you,% *player*.%%%%%
 	At first I thought maybe I hate you?%%
-	But,% I did some talking to the Bartender,%% and I realized it's a different feeling.
+	But,% I did some talking to the Bartender,%% 
+	and I realized it's a different feeling.
 	&b2
 	
 b2:
@@ -162,18 +166,16 @@ m3:
 	&m4
 	
 m4:
-	*setspeaker narrator*
 	*setskin cat_bar 2*
 	>The Bartender sizes you up for a while,%%*setskin cat_bar 4*%*setanim cat_bar gesture_sigh 1 idle* then sighs.
 	&m5
 	
 m5:
-	*setspeaker cat_bar*
 	*setskin cat_bar 0*
 	*setanim cat_bar gesture_disagree 1 idle*
 	The Pianist can't play anymore.%%% Not like she used to.%%%% 
-	Once she was capable of*setanim cat_bar gesture_foldarms 1 idle* the*setskin cat_bar 4* most delightful improvisations on the piano,%
-	i*setskin cat_bar 0*t was a marvel to watch.
+	Once she was capable of*setanim cat_bar gesture_foldarms 1 idle* the*setskin cat_bar 4* most delightful improvisations on 
+	the piano,% i*setskin cat_bar 0*t was a marvel to watch.
 	&m6
 	
 m6:

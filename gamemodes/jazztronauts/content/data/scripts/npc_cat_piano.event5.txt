@@ -1,6 +1,11 @@
 SKIP_OPEN = true
 
-begin:	
+
+begin:
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setposang cat_piano setpos -2907.271484 2958.740967 40.096825;setang -90 10.601639 0.000000*
+	*setnpcid cat_piano npc_cat_piano*
+	*show*	
 	*setspeaker cat_piano*
 	Hey.%%% Do you have a minute?%%
 	I really.%%%% Want to talk.%
@@ -24,6 +29,7 @@ b1:
 
 ###### Branch 1 EARLY EXIT		
 r1a1:
+	*setspeaker cat_piano*
 	*setanim cat_piano gesture_shock 1 idle*
 	*setskin cat_piano 3*
 	Oh!%%%% Sure.*setskin cat_piano 0*%%
@@ -80,10 +86,12 @@ m1:
 	
 	*spawn player_dummy playerboy*
 	*txin*
+	*wait .15*
 
 ###### START	
 	*setspeaker narrator*
-	>The Pianist takes you to a%.%.%.%%% custom level?
+	*show*
+	>The Pianist takes you to a%.%.%.%%% custom level?%%%%
 	It's sure something.%% The Pianist walks further into
 	the room.
 	&m2
@@ -114,7 +122,8 @@ m3:
 r4a1:
 	*setspeaker cat_piano*
 	*setskin cat_piano 4*
-	>She blinks,%%%%*setskin cat_piano 0* and her face scrunches*setskin cat_piano 3* up like she just bit into something sour.
+	>She blinks,%%%%*setskin cat_piano 0* and her face scrunches*setskin cat_piano 3* up like she 
+	just bit into something sour.
 	&r4a2
 	
 r4a2:
@@ -199,10 +208,10 @@ r5a8:
 	
 r5a9:
 	*setskin cat_piano 2*
-	*setanim cat_piano gesture_shock 1 idle*
-	-and put it out into the world!%%%%% Cluttering the*setanim cat_piano gesture_anger 1 idle* universe with first drafts.%
-	It takes me weeks of practice*setanim cat_piano gesture_disagree 1 idle* before I can work up the confidence to show
-	my friends and*setanim cat_piano gesture_anger 1 idle* you've seen what happens.%%%%*setskin cat_piano 0* It's trash.%%%%%%%%*setskin cat_piano 3*
+	*setanim cat_piano gesture_shock 1.5 idle*
+	-and put it out into the world!%%%%% Cluttering the*setanim cat_piano gesture_anger 2 idle* universe with first drafts.%
+	It takes me weeks of practice*setanim cat_piano gesture_disagree 1.45 idle* before I can work up the confidence to 
+	show my friends and*setanim cat_piano gesture_anger 2 idle* you've seen what happens.%%%%*setskin cat_piano 0* It's trash.%%%%%%%%*setskin cat_piano 3*
 	It's all trash.
 	&r5a10
 	
@@ -233,18 +242,19 @@ n2:
 
 n3:
 	*setspeaker narrator*
-	>The Pianist stops mid work and stares down at her paw as the accidental
-	chord resonantes through the room.%%%*setskin cat_piano 3* Tears well and then spill unchecked
-	down her cheeks as she hits the keys again.
+	>The Pianist stops mid work and stares down at her paw as the 
+	accidental chord resonantes through the room.%%%*setskin cat_piano 3* 
+	Tears well and then spill unchecked down her cheeks as 
+	she hits the keys again.
 	&n4
 	
 n4:
-	> As you take a seat on the lone chair,%%% she plays another chord,% then another,%%%*setskin cat_piano 5*
-	and the brightest smile you've ever seen from her dawns on her face.
-	&n5:
-######### use next word bubble to cutscene out the pianist playing a song	
+	> As you take a seat on the lone chair,%%% she plays another chord,% 
+	then another,%%%*setskin cat_piano 5* and the brightest smile 
+	you've ever seen from her dawns on her face.
+	&n5
+	
 n5:
-
 	*setspeaker cat_piano*
 	*setskin cat_piano 1*
 	Right.%%%%% That's why I brought you here.
@@ -265,7 +275,7 @@ n7:
 	&pianistconclude:
 		Thanks for being mine.
 		
-&pianistconclude:
+pianistconclude:
 	>The two of you quietly head back the bar. *mark_seen*
 	&exit
 	

@@ -4,14 +4,17 @@ begin:
 	*hide*
 	*txout*
 		
-	*spawn cat_singer models/andy/singer/cat_singer*
-	*setnpcid cat_singer npc_cat_singer*
+	*spawn cat_singer models/andy/singer/cat_singer.mdl*
+	*setposang cat_singer -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
+	*setnpcid cat_singer npc_cat_sing*
 	
-	*spawn cat_panist models/andy/singer/cat_pianist*
-	*setnpcid cat_pianist npc_cat_pianist*
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setposang cat_piano setpos -2907.271484 2958.740967 40.096825;setang -90 10.601639 0.000000*
+	*setnpcid cat_piano npc_cat_piano*
 	
-	*spawn cat_cellist models/andy/singer/cat_cellist*
-	*setnpcid cat_cellist npc_cat_cellist*
+	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	*setposang cat_cello setpos -2907.271484 2958.740967 40.096825;setang -90 10.601639 0.000000*
+	*setnpcid cat_cello npc_cat_cello*
 	
 	*spawn player_dummy playerboy*
 	*txin*
@@ -19,15 +22,17 @@ begin:
 	
 ###### START
 	*setspeaker narrator*
-	> The Home Base... 
-	It's the usual scene. Map browsing, quiet lazing about, the hum of the shard tank...
-	Might not be a bad chance to sneak in a nap- *emitsound sound/weapons/mortar/mortar_shell_incoming1.wav*%% -?
-	Fuck was that sound?
+	> The Home Base%.%.%.%%% 
+	It's the usual scene.%% Map browsing,% quiet lazing about,% 
+	the hum of the shard tank%.%.%.%% Might not be a bad chance 
+	to sneak in a nap- *emitsound weapons/mortar/mortar_shell_incoming.wav*%% -?%%% Fuck was that sound?
 	&b1
 	
 b1:
-	*shake 3* *emitsound sound/weapons/mortar/mortar_explode3.wav* > !!!! Something exploded??
-	It came in the direction of the Performance Hall... 
+	*shake 3* 
+	*emitsound weapons/mortar/mortar_explode3.wav* 
+	> !!!!%% Something exploded??%%%
+	It came in the direction of the Performance Hall%.%.%.%%% 
 	You decide to check it out.
 	&b2
 	
@@ -37,145 +42,208 @@ b2:
 	*txin*
 	*wait .1*
 	*show*
-	> You make it to the Performance Hall relatively quickly as you w-
-	...wait did  the Cellist fly past you just now? You turn around to see
+	> You make it to the Performance Hall relatively quickly as you w-%%%
+	%.%.%.%wait did  the Cellist fly past you just now?%%%% You turn around to see
 	what launched him and see the Pianist charging after the Cellist!
 	&b3
 	
 b3:
-	> Well this suddenly makes a lot more sense. The Singer walks up next to you
-	as you finish putting 1 and 1 together. This must be pretty common if they
+	> Well this suddenly makes a lot more sense.%%% 
+	The Singer walks up next to you as you finish putting 
+	1 and 1 together.%% This must be pretty common if they
 	aren't freaking out.
 	&b4
 	
 b4:
 	*setspeaker cat_piano*
-	I wasn't done talking, so get back here you clay-brained asshead and apologize!
+	*setskin cat_piano 2*
+	*setanim cat_piano gesture_anger 2 idle*
+	I wasn't done talking,% so get back here you 
+	clay-brained asshead and apologize!
 	player:
 	&r1a1:
-		Uh. I'll just be, leaving, now. (Exit)
+		Uh.%% I'll just be,% leaving,%% now. (Exit)
 	&m1:
 		That was creative.
 	&m1:
-		You nearly hit me, you know.
+		You nearly hit me,%% you know.
 	
 	
 ###### BRANCH 1 EARLY Exit
 r1a1:
 	*setspeaker cat_cello*
-	good idea you probably don't recover from injuries incompatible with life nearly as 
+	*setskin cat_cello 0*
+	*setanim cat_cello gesture_agree 1 idle*
+	good idea you probably don't recover from 
+	injuries incompatible with life nearly as 
 	fast as i do or at all come to think of it
 	&r1a2
 	
 r1a2:
 	*setspeaker cat_singer*
-	> The Singer tells you not to worry about it as you pass.
+	*setskin cat_singer 0*
+	*setanim cat_singer gesture_exchange 1 idle*
+	> The Singer tells you not to worry about it as you pass by.%%
 	They have this under control.
 	&exit
 	
 ###### BRANCH 2 
 m1:
 	*setspeaker cat_cello*
-	i am a cat of incredibly specific principles and i refuse to apologize for the Truth
-	and the Truth is that the limp bizkit cover of behind blue eyes is the objectively
-	superior version
+	*setskin cat_cello 2*
+	*setanim cat_cello gesture_disagree 1 idle*
+	i am a cat of incredibly specific principles%% and i refuse to apologize for 
+	the Truth%%%*setskin cat_cello 1* and the Truth is that*setanim cat_cello gesture_confused 1 idle* the limp bizkit cover of 
+	behind blue eyes is the objectively superior version
 	&m2
 	
 m2:
 	*setspeaker cat_piano*
-	> The Pianist is pretty obviously pissed about this.
+	*setskin cat_piano 4*
+	*setanim cat_piano gesture_anger 1 idle*
+	> The Pianist*setskin cat_piano 2* is pretty obviously pissed about this.
 	&m3
 	
 m3:
 	*setspeaker cat_singer*
-	> Blithely ignoring the crackling tension in the air, the Singer starts tapping away
-	on their tablet.
+	*setskin cat_singer 0*
+	*setanim cat_singer gesture_sweep 1 idle*
+	> Blithely ignoring the crackling tension in the air,%% 
+	the Singer starts tapping away on their tablet.
 	&m4
 	
 m4:
 	*setspeaker narrator*
-	> Surprisingly enough, this act alone is enough to make the Pianist AND the Cellist
-	look visibly mortified.
+	*setskin cat_cello 2*
+	*setanim cat_cello gesture_shock 1 idle*
+	*setskin cat_piano 3*
+	*setanim cat_piano gesture_embarass 1 idle*
+	> Surprisingly enough,%% this act alone is enough to make the 
+	Pianist AND the Cellist look visibly mortified.
 	&m5
 	
 m5:
 	*setspeaker cat_singer*
-	> They hold it straight above their head when they've finished so all three of you can
-	see the screen\: "I was sleeping motherfuckers so now we're going to have a Talk about
-	healthy conflict resolution （=Φ ω Φ=)”
+	*setskin cat_singer 2*
+	*setanim cat_singer gesture_exchange 1 idle*
+	> They hold it straight above their head when they've finished so 
+	all three of you can see the screen\:%%%*setskin cat_singer 3* 
+	"I was sleeping motherfuckers so now we're going to have a 
+	Talk about healthy conflict resolution (￣ー￣) "
 	&m6
 	
 m6:
 	*setspeaker cat_cello*
-	aw c'mon pipes i have through absolutely no fault of my own been grevously injured
-	and assaulted and i for one implore you to consider the fact that you only compound
-	my emotional and physical pain with your use of shit like （=Φ ω Φ=)
+	*setanim cat_cello gesture_sigh*
+	aw c'mon pipes i have through absolutely no fault of my own been 
+	grevously injured and assaulted%%%% and i for one implore you to 
+	consider the fact that you only compound my emotional and 
+	physical pain with your use of shit like (￣ー￣)
 	&m7
 	
 m7:
 	*setspeaker cat_piano*
-	How the fuck did you say-
+	*setskin cat_piano 0*
+	*setanim cat_piano gesture_shock 1.6 idle*
+	How the fuck did you say-%%%%%*setanim cat_piano gesture_sigh 1 idle*
 	
 	Nevermind.
 	&m8
 	
 m8:
-	Look it's fine. You told me to ask for an apology when the Cellist does something 
-	stupid and I did. He didn't give it.
+	*setskin cat_piano 1*
+	*setanim cat_piano gesture_confused 1 idle*
+	Look it's fine.%%% You told me to ask for an apology when the 
+	Cellist does something stupid and I did.%%%%*setanim cat_piano gesture_shrug 1 idle* 
+	He*setskin cat_piano 0* didn't give it.
 	&m9
 	
 m9:
 	*setspeaker cat_cello*
-	having a different and scientifically correct opinion isn't doing something stupid 
-	but i can sure tell you what is as soon as i remember the fancy latin name for 
-	whatever logical fallacy involves throwing explosives at the other debater
+	*setskin cat_cello 2*
+	*setanim cat_cello gesture_anger 1 idle*
+	having a different and scientifically correct opinion isn't doing 
+	something stupid%%%% but i can sure tell you what is as soon as i 
+	remember the fancy*setanim cat_cello gesture_confused 1 idle* latin name for whatever*setskin cat_cello 0* logical fallacy 
+	involves throwing explosives at the other debater
 	&m10
 	
 m10:
 	*setspeaker cat_singer*
-	> The Singer sighs. 
+	*setskin cat_singer 4*
+	*setanim cat_singer gesture_sigh 1 idle*
+	> The Singer sighs.%%%%%*setskin cat_singer 2* 
 	The other two immediately avert their eyes.
 	&m11
 	
 m11:
-	> They give the Cellist and Pianist a reassuring pat on the arm before typing out a 
-	longer message\: 
+	*setskin cat_singer 0*
+	*setanim cat_singer gesture_exchange 1 idle*
+	> They give the Cellist and Pianist a reassuring pat on 
+	the arm before typing out a longer message\: 
 	&m12
 	
 m12:
-	> "You both have so much in common I wish you'd talk things out instead of escalating!!
-	You could have had a really neat discussion about the merits of the things you like but
-	noooooo straight to property damage. Why are you Like This."
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_agree .75 idle*
+	> "You both have so much in common I wish you'd talk things out 
+	instead of escalating!!%%% You could have had a really neat discussion 
+	about the merits of the things you*setskin cat_singer 2* like*setanim cat_singer gesture_anger 1.5 idle* but noooooo straight to 
+	property damage.%%*setskin cat_singer 4*%%*setskin cat_singer 0*%% Why are you Like This."
 	&m13
 	
 m13:
 	*setspeaker cat_cello*
+	*setskin cat_cello 1*
+	*setanim cat_cello gesture_laugh 1 idle*
 	i for one blame socie-
 	&m14
 	
 m14:
 	*setspeaker cat_singer*
-	> The Singer, having somehow shut the Cellist up, informs him that he is far from blameless,
-	specifically tried to provoke the Pianist with inflammatory statements, and shout cut it the
-	fuck out. Frankly, it's the kind of behaviour they'd expect from kittens.
+	*setskin cat_singer 2*
+	*setanim cat_singer gesture_jab 1.3 idle*
+	*setskin cat_cello 2*
+	*setanim cat_cello gesture_embarass 1 idle*
+	> The Singer,% having somehow shut the Cellist up,%%% informs 
+	him that he is far from blameless,%% specifically tried to provoke 
+	the Pianist with inflammatory statements,%*setanim cat_singer gesture_disagree 1.4 idle* and should cut it the
+	fuck out. 
+	&m14b
+	
+m14b:
+	*setskin cat_singer 4
+	*setanim cat_singer gesture_facepalm 1 idle*
+	> Frankly,%%% it's the kind of*setskin cat_singer 2* behaviour they'd 
+	expect from kittens.
 	&m15
 	
 m15:
 	*setspeaker cat_cello*
-	...i'm sorry.
+	*setskin cat_cello 4*
+	%%.%.%.%*setskin cat_cello 2*i'm sorry.
 	&m16
 	
 m16:
 	*setspeaker cat_piano*
-	Yeah, uh. 
+	*setskin cat_piano 3*
+	*setanim cat_piano gesture_embarass 1 idle*
+	Yeah,% uh.%%%% 
 	Sorry.
 	&m17
 	
 m17:
 	*setspeaker narrator*
-	> They give both cats a hug and tell you to find them later for another job before
-	hopping up on top of the booth and curling up to resume their nap. The Cellist and
-	the Pianist go their seperate ways, each looking thoroughly chastised. *mark_seen*
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_clap 1 idle*
+	> They give both cats a hug and tell you to find them 
+	later for another job before hopping up on top of the booth 
+	and curling up to resume their nap.*setskin cat_singer 0*
+	&m17b
+		
+m17b:
+	> The Cellist and the Pianist go their seperate ways,%% 
+	each looking thoroughly chastised. *mark_seen*
 	&exit
 	
 	

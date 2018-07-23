@@ -42,8 +42,6 @@ local function ClipPortal( portal, node, list, depth )
 	local front = node.children[1]
 	local back = node.children[2]
 
-	task.YieldPer(800, "progress")
-
 	local side = portal:PlaneSide( node.plane )
 	if side == poly.SIDE_ON then
 
@@ -77,7 +75,7 @@ end
 
 function GetAllSubNodes( node, list )
 
-	task.YieldPer(800, "progress")
+	task.YieldPer(800)
 	if node.is_leaf then return end
 	list[#list+1] = node
 	GetAllSubNodes( node.children[1], list )
@@ -87,7 +85,14 @@ end
 
 function BuildPortals()
 
-	task.Sleep(1)
+	loadicon.PushLoadState("Portal Generation")
+	if map:IsLoading() then
+		task.Await( map:GetLoadTask() )
+	end
+
+	--if map.leafs[1].portals ~= nil then return true end
+
+	--task.Sleep(1)
 	MsgC(Color(50,190,255), "Building Portals")
 
 	for k,v in pairs( map.leafs ) do v.portals = {} end
@@ -95,7 +100,10 @@ function BuildPortals()
 	local nodes = {}
 	GetAllSubNodes( map.models[1].headnode, nodes )
 
-	for _, node in pairs( nodes ) do
+	local count = #nodes
+	for k, node in pairs( nodes ) do
+
+		task.Yield("progress", k, count)
 
 		local portal = poly.BaseWinding(node.plane)
 		portal.leafs = {}
@@ -110,9 +118,12 @@ function BuildPortals()
 			end
 		end
 
+		--task.YieldPer(1000)
+
 	end
 
 	MsgC(Color(50,190,255), "Done\n")
+	loadicon.PopLoadState()
 
 end
 
@@ -120,10 +131,9 @@ if true then return end
 
 local portalvis = task.New( BuildPortals, 1 )
 
-function portalvis:progress()
-	MsgC(Color(50,190,255), ".")
+function portalvis:progress(num, count)
+	loadicon.SetLoadState( ("%i/%i"):format(num, count) )
 end
-
 
 local function FindLeaf( pos, node )
 
@@ -144,7 +154,39 @@ local function FindLeaf( pos, node )
 
 end
 
-print("***FINISHED PORTAL CLIP***")
+local function AreLeafsAdjacent(a, b)
+
+	for k,v in pairs( a.portals ) do
+		if v.leafs[1] == b or v.leafs[2] == b then return true end
+	end
+	return false
+
+end
+
+local function AreLeafsConnected(a, b, visited)
+
+	visited = visited or {}
+	visited[a] = true
+
+	if AreLeafsAdjacent(a,b) then return true end
+
+	local connection = false
+
+	for k,v in pairs( a.portals ) do
+
+		for _, l in pairs( v.leafs ) do
+			if l == a then continue end
+
+			if not visited[l] then
+				connection = connection or AreLeafsConnected(l, b, visited)
+			end
+		end
+
+	end
+
+	return connection
+
+end
 
 local function RenderLeafPortals( leaf )
 
@@ -154,15 +196,33 @@ local function RenderLeafPortals( leaf )
 
 end
 
-local non_sky_renders = false
-hook.Add("PostDrawOpaqueRenderables", "poi", function( depth, sky )
+--[[for k,v in pairs( ents.FindByClass("jazz_shard") ) do
 
-	if not sky then non_sky_renders = true end
-	if sky and non_sky_renders then return end
+	v.leaf = FindLeaf( v:GetPos() )
+
+end]]
+
+local non_sky_renders = false
+hook.Add("PostDrawOpaqueRenderables", "render_leaf_test", function( depth, sky )
+
+	--if not sky then non_sky_renders = true end
+	--if sky and non_sky_renders then return end
 
 	if not portalvis:IsFinished() then return end
+	--print("DRAW DA LEAFS")
 
-	local leaf = FindLeaf( EyePos() )
+	local leaf = FindLeaf( LocalPlayer():GetPos() )
+
+	--[[local count = 0
+	for k,v in pairs( ents.FindByClass("jazz_shard") ) do
+
+		if not AreLeafsConnected( v.leaf, leaf ) then
+			count = count + 1
+		end
+
+	end
+	print(count .. " shards are not obtainable by the player, they are in disconnected leafs!")]]
+
 
 	--[[for k,v in pairs( leaf.portals ) do
 		for _, l in pairs( v.leafs ) do
@@ -170,7 +230,7 @@ hook.Add("PostDrawOpaqueRenderables", "poi", function( depth, sky )
 		end
 	end]]
 
-	for k,v in pairs( leaf.portals ) do
+	for k,v in pairs( leaf.portals or {} ) do
 		v:Render(#v.leafs > 2 and Color(255,255,100) or Color(100,255,100))
 	end
 

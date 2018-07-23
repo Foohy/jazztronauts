@@ -50,6 +50,31 @@ function Plane(x,y,z,dist)
 
 end
 
+local _saabbcenter = Vector(0,0,0)
+local _saabbextent = Vector(0,0,0)
+function TestBoxPlane( plane, mins, maxs, expand )
+
+	_saabbcenter:Set( mins )
+	_saabbcenter:Add( maxs )
+	_saabbcenter:Mul( .5 )
+
+	_saabbextent:Set( maxs )
+	_saabbextent:Sub( _saabbcenter )
+
+	local absNormal = Vector(plane.normal)
+	absNormal.x = math.abs(absNormal.x)
+	absNormal.y = math.abs(absNormal.y)
+	absNormal.z = math.abs(absNormal.z)
+
+	local x = _saabbextent:Dot(absNormal) + ( expand or 0 )
+	local d = _saabbcenter:Dot(plane.normal) - plane.dist
+
+	if math.abs(d) < x then return 0 end
+	if d > x then return 1 end
+	return -1
+
+end
+
 local boundsMin = Vector( 99999, 99999, 99999 )
 local boundsMax = Vector( -99999, -99999, -99999 )
 function ResetBoundingBox(min,max)

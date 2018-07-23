@@ -23,14 +23,24 @@ local function CopyLeafList( portal )
 
 end
 
-local function ClipPortal( portal, node, depth )
+local function ClipPortal( portal, node, list, depth )
+
 	depth = depth or 0
 
-	local front = node.children[1]
-	local back = node.children[2]
 	local function checkLeaf(l)
 		return bit.band(l.contents, CONTENTS_SOLID + CONTENTS_GRATE + CONTENTS_WINDOW + CONTENTS_DETAIL + CONTENTS_PLAYERCLIP) == 0
 	end
+
+	if node.is_leaf then
+		if checkLeaf( node ) then
+			portal.leafs[#portal.leafs+1] = node
+			list[#list+1] = portal
+		end
+		return
+	end
+
+	local front = node.children[1]
+	local back = node.children[2]
 
 	task.YieldPer(800, "progress")
 
@@ -38,90 +48,40 @@ local function ClipPortal( portal, node, depth )
 	if side == poly.SIDE_ON then
 
 		local frontlist = {}
-		local backlist = {}
 
-		if front.is_leaf then
-			if checkLeaf( front ) then
-				portal.leafs[#portal.leafs+1] = front
-				frontlist = {portal}
-			end
-		else
-			for _, v in pairs( ClipPortal( portal, front, depth + 1 ) ) do
-				frontlist[#frontlist+1] = v
-			end
-		end
-
+		ClipPortal( portal, front, frontlist, depth + 1 )
 		for _, p in pairs( frontlist ) do
-
-			if back.is_leaf then
-				if checkLeaf( back ) then
-					p.leafs[#p.leafs+1] = back
-					backlist[#backlist+1] = p
-				end
-			else
-				for _, v in pairs( ClipPortal( p, back, depth + 1 ) ) do 
-					backlist[#backlist+1] = v 
-				end
-			end
-
+			ClipPortal( p, back, list, depth + 1 )
 		end
-
-		return backlist
-
 
 	elseif side == poly.SIDE_FRONT then
 
-		if front.is_leaf then
-			if checkLeaf( front ) then
-				portal.leafs[#portal.leafs+1] = front
-				return {portal}
-			end
-			return {}
-		else
-			return ClipPortal( portal, front, depth + 1 )
-		end
+		ClipPortal( portal, front, list, depth + 1 )
 
 	elseif side == poly.SIDE_BACK then
 
-		if back.is_leaf then
-			if checkLeaf( back ) then
-				portal.leafs[#portal.leafs+1] = back
-				return {portal}
-			end
-			return {}
-		else
-			return ClipPortal( portal, back, depth + 1 )
-		end
+		ClipPortal( portal, back, list, depth + 1 )
 
 	else
 
-		local wfront, wback = portal:Split( node.plane, nil, true )
-		wfront.leafs = CopyLeafList(portal)
-		wback.leafs = CopyLeafList(portal)
+		local pfront, pback = portal:Split( node.plane, nil, true )
+		pfront.leafs = CopyLeafList(portal)
+		pback.leafs = CopyLeafList(portal)
 
-		local res = {}
-		if front.is_leaf then
-			if checkLeaf( front ) then
-				wfront.leafs[#wfront.leafs+1] = front
-				res = {wfront}
-			end
-		else
-			res = ClipPortal( wfront, front, depth + 1 )
-		end
-
-		if back.is_leaf then
-			if checkLeaf( back ) then
-				wback.leafs[#wback.leafs+1] = back
-				res[#res+1] = wback
-			end
-		else
-			for _, p in pairs( ClipPortal( wback, back, depth + 1 ) ) do
-				res[#res+1] = p
-			end
-		end
-		return res
+		ClipPortal( pfront, front, list, depth + 1 )
+		ClipPortal( pback, back, list, depth + 1 )
 
 	end
+
+end
+
+function GetAllSubNodes( node, list )
+
+	task.YieldPer(800, "progress")
+	if node.is_leaf then return end
+	list[#list+1] = node
+	GetAllSubNodes( node.children[1], list )
+	GetAllSubNodes( node.children[2], list )
 
 end
 
@@ -130,19 +90,22 @@ function BuildPortals()
 	task.Sleep(1)
 	MsgC(Color(50,190,255), "Building Portals")
 
-	for k,v in pairs( map.leafs ) do
-		v.portals = {}
-	end
+	for k,v in pairs( map.leafs ) do v.portals = {} end
 
-	for _, node in pairs( map.nodes ) do
+	local nodes = {}
+	GetAllSubNodes( map.models[1].headnode, nodes )
+
+	for _, node in pairs( nodes ) do
 
 		local portal = poly.BaseWinding(node.plane)
 		portal.leafs = {}
 
-		for _, v in pairs( ClipPortal( portal, map.models[1].headnode ) ) do
+		local fragments = {}
+		ClipPortal( portal, map.models[1].headnode, fragments ) 
+		for _, v in pairs( fragments ) do
 			if #v.leafs >= 2 then
 				for _, l in pairs( v.leafs ) do
-					table.insert( l.portals, v )
+					l.portals[#l.portals+1] = v
 				end
 			end
 		end
@@ -191,9 +154,11 @@ local function RenderLeafPortals( leaf )
 
 end
 
+local non_sky_renders = false
 hook.Add("PostDrawOpaqueRenderables", "poi", function( depth, sky )
 
-	--if sky then return end
+	if not sky then non_sky_renders = true end
+	if sky and non_sky_renders then return end
 
 	if not portalvis:IsFinished() then return end
 

@@ -308,6 +308,76 @@ function meta:GetLoadTask()
 	return self.__task
 end
 
+function meta:GetLeaf( pos, node )
+
+	node = node or self.models[1].headnode
+	if node.is_leaf then return node end
+
+	local d = node.plane.normal:Dot( pos ) - node.plane.dist
+	return self:GetLeaf( pos, node.children[d > 0 and 1 or 2] )
+
+end
+
+local check_nop = function() return true end
+function meta:GetBoxLeafs( list, mins, maxs, expand, check, node )
+
+	check = check or check_nop
+	node = node or self.models[1].headnode
+	if node.is_leaf then
+		if check( node ) then
+			list[#list+1] = node
+		end
+		return
+	end
+
+	local test = TestBoxPlane( node.plane, mins, maxs, expand )
+
+	if test == 0 then
+		self:GetBoxLeafs( list, mins, maxs, expand, check, node.children[1] )
+		self:GetBoxLeafs( list, mins, maxs, expand, check, node.children[2] )
+	else
+		self:GetBoxLeafs( list, mins, maxs, expand, check, node.children[test == -1 and 2 or 1] )
+	end
+
+end
+
+function meta:GetAdjacentLeafs( leaf, list, check )
+
+	self:GetBoxLeafs( list, leaf.mins, leaf.maxs, 10, function(l) 
+		if l == leaf then return false end
+		if check and not check(l) then return false end
+		return true
+	end )
+
+end
+
+function meta:AreLeafsConnected(a, b, check, visited)
+
+	if check and not check(a) then return false end
+	if a == b then return true end
+
+	visited = visited or {}
+	visited[a] = true
+
+	local connection = false
+	local adjacent = {}
+	self:GetAdjacentLeafs( a, adjacent, check )
+	for _, l in pairs( adjacent ) do
+		if l == b then return true end
+	end
+
+	for _, l in pairs( adjacent ) do
+		if l == a then continue end
+
+		if not visited[l] then
+			connection = connection or self:AreLeafsConnected(l, b, check, visited)
+		end
+	end
+
+	return connection
+
+end
+
 BLOCK_THREAD = 0x1234ABCD
 
 if SERVER then

@@ -476,7 +476,7 @@ BSP.StaticPropLump_t[5] = Struct({
 	FLOAT.fademindist,
 	FLOAT.fademaxdist,
 
-	VECTOR.lightingorigin,
+	IVECTOR.lightingorigin,
 	FLOAT.forcedfadescale,
 })
 
@@ -495,7 +495,7 @@ BSP.StaticPropLump_t[6] = Struct({
 	FLOAT.fademindist,
 	FLOAT.fademaxdist,
 
-	VECTOR.lightingorigin,
+	IVECTOR.lightingorigin,
 	FLOAT.forcedfadescale,
 
 	UINT16.mindxlevel,
@@ -517,7 +517,7 @@ BSP.StaticPropLump_t[7] = Struct({
 	FLOAT.fademindist,
 	FLOAT.fademaxdist,
 
-	VECTOR.lightingorigin,
+	IVECTOR.lightingorigin,
 	FLOAT.forcedfadescale,
 
 	UINT16.mindxlevel,
@@ -541,7 +541,7 @@ BSP.StaticPropLump_t[8] = Struct({
 	FLOAT.fademindist,
 	FLOAT.fademaxdist,
 
-	VECTOR.lightingorigin,
+	IVECTOR.lightingorigin,
 	FLOAT.forcedfadescale,
 
 	UINT8.mincpulevel,
@@ -567,7 +567,7 @@ BSP.StaticPropLump_t[9] = Struct({
 	FLOAT.fademindist,
 	FLOAT.fademaxdist,
 
-	VECTOR.lightingorigin,
+	IVECTOR.lightingorigin,
 	FLOAT.forcedfadescale,
 
 	UINT8.mincpulevel,
@@ -593,7 +593,7 @@ BSP.StaticPropLump_t[10] = Struct({
 	FLOAT.fademindist,
 	FLOAT.fademaxdist,
 
-	VECTOR.lightingorigin,
+	IVECTOR.lightingorigin,
 	FLOAT.forcedfadescale,
 
 	UINT8.mincpulevel,
@@ -835,7 +835,9 @@ BSP.Readers[LUMP_DISP_VERTS] = StructLump( LUMP_DISP_VERTS, BSP.DispVert_t )
 BSP.Readers[LUMP_DISP_LIGHTMAP_SAMPLE_POSITIONS] = NOT_IMPLEMENTED( LUMP_DISP_LIGHTMAP_SAMPLE_POSITIONS )
 
 BSP.Readers[LUMP_GAME_LUMP] = function( f, header )
+
 	f:Seek( header.lumps[LUMP_GAME_LUMP+1].offset )
+
 	local lumps = BSP.GameLumpHeader_t.read( f )
 	local proplump = lumps["prps"]
 
@@ -852,6 +854,7 @@ BSP.Readers[LUMP_GAME_LUMP] = function( f, header )
 			local dict = BSP.StaticPropDictLump_t.read( f )
 			local leafs = BSP.StaticPropLeafLump_t.read( f )
 			local props = Struct({ INT32.count, struct.props["count"] }, { returns = "props" }).read( f )
+
 			for k, prop in pairs( props ) do
 				prop.model = dict[ prop.proptype + 1 ]
 				prop.leaf = leafs[ prop.firstleaf + 1 ]

@@ -105,12 +105,12 @@ local function buildSidesFromPoints(w, plane, epsilon)
 end
 
 --returns [ front, back ] windings
-function meta:Split(plane, epsilon)
+function meta:Split(plane, epsilon, mutable)
 
 	local sides, has_front, has_back = buildSidesFromPoints( self, plane, epsilon or winding_epsilon )
 
-	if not has_front then return nil, self:Copy() end
-	if not has_back then return self:Copy(), nil end
+	if not has_front then return nil, mutable and self or self:Copy() end
+	if not has_back then return mutable and self or self:Copy(), nil end
 
 	local front = Winding()
 	local back = Winding()
@@ -121,29 +121,28 @@ function meta:Split(plane, epsilon)
 
 		if sides[i].side == SIDE_ON then
 
-			front:Add( p1 )
-			back:Add( p1 )
+			front:Add( p1, mutable )
+			back:Add( p1, mutable )
 			continue
 
 		end
 
-		if sides[i].side == SIDE_FRONT then front:Add(p1) end
-		if sides[i].side == SIDE_BACK then back:Add(p1) end
+		if sides[i].side == SIDE_FRONT then front:Add( p1, mutable ) end
+		if sides[i].side == SIDE_BACK then back:Add( p1, mutable ) end
 
 		if sides[i+1].side == SIDE_ON or sides[i+1].side == sides[i].side then
 			continue
 		end
 
-		local p2 = self.points[ (i % #self.points) + 1 ]
+		local p2 = Vector( self.points[ (i % #self.points) + 1 ] )
 		local dot = sides[i].dist / ( sides[i].dist - sides[i+1].dist )
-		local mid = Vector( 0, 0, 0 )
 
-		mid.x = roundfix( plane.normal.x, plane.dist, p1.x + dot * (p2.x - p1.x) )
-		mid.y = roundfix( plane.normal.y, plane.dist, p1.y + dot * (p2.y - p1.y) )
-		mid.z = roundfix( plane.normal.z, plane.dist, p1.z + dot * (p2.z - p1.z) )
+		p2:Sub(p1)
+		p2:Mul(dot)
+		p2:Add(p1)
 
-		front:Add( mid )
-		back:Add( mid )
+		front:Add( p2, mutable )
+		back:Add( p2, mutable )
 
 	end
 
@@ -188,14 +187,6 @@ function meta:Clip(plane, epsilon)
 	end
 
 	self.points = front.points
-
-end
-
---maybe?
-function meta:Chop(plane)
-
-	local front, back = self:Split( plane, winding_epsilon )
-	return front
 
 end
 
@@ -282,8 +273,7 @@ function meta:PlaneSide(plane)
 			if front then return SIDE_CROSS end
 			back = true
 
-		else
-		--elseif d > winding_epsilon then
+		elseif d > winding_epsilon then
 
 			if back then return SIDE_CROSS end
 			front = true

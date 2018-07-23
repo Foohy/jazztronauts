@@ -16,7 +16,7 @@ begin:
 	*setnpcid cat_cello npc_cat_cello*
 
 	*spawn cat_singer models/andy/singer/cat_singer*
-	*setnpcid cat_singer npc_cat_singer*
+	*setnpcid cat_singer npc_cat_sing*
 
 	*spawn narrator models/npc/cat.mdl*
 	*setnpcid narrator npc_narrator*

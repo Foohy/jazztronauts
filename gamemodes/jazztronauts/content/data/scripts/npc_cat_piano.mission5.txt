@@ -71,7 +71,7 @@ turnin:
 	*setnpcid cat_piano npc_cat_piano*
 
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
-	*setnpcid cat_singer npc_cat_singer*
+	*setnpcid cat_singer npc_cat_sing*
 	
 	*spawn metrocop_model models\police.mdl*
 	*setnpcid metrocop_model Metrocop*

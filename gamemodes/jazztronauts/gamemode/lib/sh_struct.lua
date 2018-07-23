@@ -230,6 +230,12 @@ VECTOR = decl_type(
 	12
 )
 
+IVECTOR = decl_type(
+	function(f) return Vector( INT32.read(f), INT32.read(f), INT32.read(f) ) end,
+	function(f, v) INT32.write(f, v.x) INT32.write(f, v.y) INT32.write(f, v.z) end,
+	12
+)
+
 VECTOR4 = decl_type(
 	function(f) return Vector4( FLOAT.read(f), FLOAT.read(f), FLOAT.read(f), FLOAT.read(f) ) end,
 	function(f, v) FLOAT.write(f, v.x) FLOAT.write(f, v.y) FLOAT.write(f, v.z) FLOAT.write(f, v.w) end,
@@ -240,6 +246,18 @@ QANGLE = decl_type(
 	function(f) return Angle( FLOAT.read(f), FLOAT.read(f), FLOAT.read(f) ) end,
 	function(f, v) FLOAT.write(f, v.x) FLOAT.write(f, v.y) FLOAT.write(f, v.z) end,
 	12
+)
+
+IQANGLE = decl_type(
+	function(f) return Angle( INT32.read(f), INT32.read(f), INT32.read(f) ) end,
+	function(f, v) INT32.write(f, v.x) INT32.write(f, v.y) INT32.write(f, v.z) end,
+	12
+)
+
+IFLOAT = decl_type(
+	function(f) return INT32.read(f) end,
+	function(f,v) return INT32.write(f, v) end,
+	4
 )
 
 VECTOR2D = Struct({

@@ -68,7 +68,7 @@ end
 
 function Start( text, delay )
 
-	_dialog.text = text
+	_dialog.text = utf8.force(text)
 	SetText()
 	State( STATE_OPENING, delay )
 
@@ -106,9 +106,15 @@ local inits = {
 	[STATE_OPENED] = function(d) SetText() d.rate = 12 d.nodeiter() end,
 	[STATE_PRINTING] = function(d)
 		d.rate = 60 * GetSpeedScale()
-		local numc = math.Clamp(math.Round(FrameTime() * d.rate), 1, #d.text)
-		AppendText(d.text:sub(1, numc))
-		d.text = d.text:sub(numc + 1,-1)
+
+		-- Already done if no text to append
+		if #d.text == 0 then return end
+
+		local numc = math.Clamp(math.Round(FrameTime() * d.rate), 1, utf8.len(d.text))
+		local nextbyte = utf8.offset(d.text, numc) or (#d.text + 1)
+
+		AppendText(d.text:sub(1, nextbyte - 1))
+		d.text = nextbyte and d.text:sub(nextbyte, -1) or ""
 	end,
 	[STATE_DONEPRINTING] = function(d)
 		d.nodeiter()
@@ -221,11 +227,11 @@ function ScriptCallback(cmd, data)
 		//CalcTextRect( data )
 	end
 	if cmd == CMD_PRINT then
-		_dialog.text = data
+		_dialog.text = utf8.force(data)
 		State( STATE_PRINTING )
 	end
 	if cmd == CMD_NEWLINE then
-		_dialog.text = "\n"
+		_dialog.text = utf8.force("\n")
 		State( STATE_PRINTING )
 	end
 	if cmd == CMD_WAIT then

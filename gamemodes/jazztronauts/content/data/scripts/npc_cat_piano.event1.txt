@@ -5,15 +5,15 @@ begin:
     *hide*
     *txout*
     *setfov 70*
-
-
+	*bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0*
+	*setcam setpos 161.692474 78.846161 67.458260;setang 2.528261 101.374802 0.000000*
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
-	*setposang cat_piano setpos -2907.271484 2958.740967 40.096825;setang -90 10.601639 0.000000*
+	*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 150 0.000000*
 	*setnpcid cat_piano npc_cat_piano*
 
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
-	*setposang cat_singer -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
-	*setnpcid cat_singer npc_cat_singer*
+	*setposang cat_singer setpos 301.032990 230.946976 -256;setang -90 240 0.000000*
+	*setnpcid cat_singer npc_cat_sing*
 	
 	*spawn player_dummy playerboy*
 	*txin*
@@ -25,6 +25,7 @@ begin:
 	&b1
 	
 b1:
+	*tweencam .5 setpos 161.692474 78.846161 67.458260;setang 2.288681 69.091377 0.000000*
 	*setspeaker cat_piano*
 	*setskin cat_piano 2*
 	*setanim cat_piano gesture_anger 1 idle*
@@ -41,9 +42,9 @@ b3:
 	*setspeaker narrator*
 	*setskin cat_piano 0*
 	*setanim cat_piano gesture_shock 1 idle*
-	>The Singer dead sprints past both of you!%%% 
+	>The Singer dead sprints past both of you!%%%*setcam setpos 299.437592 130.605087 45.050888;setang 0.911092 42.797482 0.000000* 
 	On instinct,% you dive into the hiding spot the pianist
-	is in.
+	is in.*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 210 0.000000*
 	
 	
 	player:
@@ -74,6 +75,7 @@ resp1b:
 	
 ###### Branch 2 
 resp2a:
+	*setcam setpos 350.197205 174.538849 54.377182;setang 2.288677 88.377617 0.000000*
 	*setspeaker cat_piano*
 	*setskin cat_piano 3*
 	*setanim cat_piano gesture_anger 2 idle*
@@ -84,6 +86,7 @@ resp2a:
 	
 ###### Branch 3 (also merge point)
 resp3a:
+	*setcam setpos 299.437592 130.605087 45.050888;setang 0.911092 42.797482 0.000000*
 	*setspeaker cat_piano*
 	*setskin cat_piano 4*
 	*setanim cat_piano gesture_facepalm*
@@ -105,7 +108,7 @@ resp4a:
 	*setspeaker cat_piano*
 	*setskin cat_piano 3*
 	>The Pianist stares at you.%%% You stare back.%%%%
-	The Silence extends,%% and becomes crippilingly awkward.%%%%
+	The Silence extends,%% and becomes crippilingly awkward.%%%%*setcam setpos 350.197205 174.538849 54.377182;setang 2.288677 88.377617 0.000000*
 	A rich*setskin cat_piano 1* array of e*setskin cat_piano 2*motions cross over her face.
 	&resp4b
 	
@@ -117,6 +120,7 @@ resp4b:
 	&resp4c
 	
 resp4c:
+	*setcam setpos 299.437592 130.605087 45.050888;setang 0.911092 42.797482 0.000000*
 	*setspeaker cat_piano*
 	*setskin cat_piano 0*
 	*setanim cat_piano gesture_agree 1 idle*
@@ -132,6 +136,7 @@ resp4c:
 ###### Branch 5
 
 resp5a:
+	*setcam setpos 350.197205 174.538849 54.377182;setang 2.288677 88.377617 0.000000*
 	*setspeaker cat_piano*
 	*setskin cat_piano 1*
 	And I suppose none of your ideas have ever*setanim cat_piano gesture_shrug* backfired *player*, and you're
@@ -141,14 +146,16 @@ resp5a:
 	&resp5b
 	
 resp5b:
+	*setcam setpos 299.437592 130.605087 45.050888;setang 0.911092 42.797482 0.000000*
 	*setspeaker narrator*
 	*setanim cat_piano gesture_anger 1 idle*
-	>The Pianist is getting worked up,% as ev*setanim cat_piano gesture_jab1 idle*ident by the fact that her tail 
+	>The Pianist is getting worked up,% as ev*setanim cat_piano gesture_jab 1 idle*ident by the fact that her tail 
 	has been lashing around more and more.%%% And also the fact tha*setanim cat_piano gesture_laugh 1 idle*t 
 	she's basically just shouting at this point.
 	&resp5c
 	
 resp5c:
+	*setcam setpos 350.197205 174.538849 54.377182;setang 2.288677 88.377617 0.000000*
 	*setspeaker cat_piano*
 	*setanim cat_piano gesture_shrug*
 	Oh,% how I would ever have concluded that perhaps I had fucked up,%% 
@@ -157,6 +164,8 @@ resp5c:
 	&resp5d
 	
 resp5d:
+	*setposang cat_singer setpos 225.003738 239.833725 0;setang -90 240 0.000000*
+	*setcam setpos 347.364136 39.186989 73.691208;setang 8.877127 84.903648 0.000000*
 	*setspeaker narrator*
 	>The Singer appears to have drifted into view behind the Pianist.
 	
@@ -169,16 +178,19 @@ resp5d:
 		Shut the fuc-
 		
 merge1:
+	*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 112 0.000000*
+	*setposang cat_singer setpos 301.032990 230.946976 0;setang -90 240 0.000000*
 	*setspeaker narrator*
 	*setskin cat_singer 2*
 	*setskin cat_piano 0*
-	>The Singer sprints over to you both and%.%.%.%.%%%*setskin cat_singer 6*
+	>The Singer sprints over to you both and%.%.%.%.%%%*setskin cat_singer 6*%*setcam setpos 309.501709 128.670517 52.932980;setang 7.546001 81.787277 0.000000*
 	ineff*setanim cat_singer gesture_anger 1 idle*ectually shoves the Pianist's shoulder.%% Their eyes are brimming
 	with tears,% and they tap agitatedly at their tablet while bouncing
 	in clear distress.
 	&merge2
 	
 merge2:
+	*setcam setpos 340.657898 181.261932 49.324711;setang 3.312768 127.402878 0.175000*
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_sigh 1.3 idle*
 	>The Singer taps out a message\:%%%*setskin cat_singer 0* 
@@ -186,6 +198,7 @@ merge2:
 	&merge3
 	
 merge3:
+	*setcam setpos 309.501709 128.670517 52.932980;setang 7.546001 81.787277 0.000000*
 	*setskin cat_singer 2*
 	>%.%.%.%The singer pulls*setanim cat_singer gesture_anger 2.6 idle* at their ears,% tail trashing,*setanim cat_singer gesture_exchange 2 idle* tucks the tablet
 	under their left arm and flips the Pianist the double bird. 
@@ -210,12 +223,14 @@ merge5:
 	&merge6
 	
 merge6:
+	*setcam setpos 174.627869 25.783129 62.657158;setang 3.902751 41.340088 0.000000*
 	*setspeaker player_dummy*
 	*setskin cat_singer 2*
 	>You get the feeling this is a pretty common conversation.
 	&merge7
 	
 merge7:
+	*setcam setpos 309.501709 128.670517 52.932980;setang 7.546001 81.787277 0.000000*
 	*setspeaker cat_piano*
 	*setskin cat_piano 0*
 	*setanim cat_piano gesture_shrug 1 idle*
@@ -230,12 +245,14 @@ merge8:
 	&merge9
 	
 merge9:
+	*setcam setpos 340.657898 181.261932 49.324711;setang 3.312768 127.402878 0.175000*
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_anger 2 idle*
 	>The Singer makes a clear 'zip it' gesture at the Pianist.
 	&merge10
 	
 merge10:
+	*setcam setpos 309.501709 128.670517 52.932980;setang 7.546001 81.787277 0.000000*
 	*setskin cat_singer 4*
 	*setanim cat_singer gesture_sigh 1.5 idle*
 	>The Singer turns their attention to*setskin cat_singer 0* you.%%% 
@@ -244,6 +261,7 @@ merge10:
 	&merge11
 	
 merge11:
+	*setcam setpos 174.627869 25.783129 62.657158;setang 3.902751 41.340088 0.000000*
 	*setspeaker narrator*
 	*setskin cat_singer 0*
 	*setskin cat_piano 3*

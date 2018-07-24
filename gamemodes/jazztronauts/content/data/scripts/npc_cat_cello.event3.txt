@@ -1,0 +1,325 @@
+SKIP_OPEN = true
+
+begin:
+    # Scene setup
+    *hide*
+    *txout*
+    *setfov 70*
+
+	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	*setnpcid cat_cello npc_cat_cello*
+	*txin*
+	
+###### START
+	*setspeaker cat_cello*
+	oh, it's you.
+	&b1
+	
+b1:
+	you're really starting to become a fixture around here, huh.
+	makes the whole place feel more alive. haven't had so much
+	hustle and/or blustle in... a long time.
+	&b2
+	
+b2:
+	*setspeaker narrator*
+	> The Cellist trails off, and looks blankly into the distance for a few
+	moments before snapping out of it.
+	&b3
+	
+b3:	
+	*setspeaker cat_cello*
+	oh, don't mind me, i was just spacing out.
+	old memories.
+	what can i do for you?
+	player:
+	&m1:
+		I was thinking of coming to take you up on that 
+		offer to hand out and bullshit.
+	&r2a1:
+		I was gonna chat, but if you're not up for it,
+		I can just sit with you for a while.
+		
+###### BRANCH 2
+r2a1:
+	*setspeaker narrator*
+	> The Cellist looks at you for a long moment,
+	visibly sizing you up, guardedly.
+	&r2a2
+	
+r2a2:
+	*setspeaker cat_cello*
+	i appreciate the sentiment, but i ain't one for sitting around awkwardly
+	starin' at somebody. you wanna hang out it's gonna be easier for me if
+	we talk, capiche?
+	player:
+	&r1a1:
+		Sure, no problem. 
+		So long as you're cool with it.
+	&leave:
+		Sure, I got some errands to take care of first though.
+		Be back later. (EXIT)
+
+###### NESTED EARLY EXIT		
+leave:
+	*setspeaker cat_cello*
+	'k
+	see ya around
+	&exit
+		
+		
+###### BRANCH 1
+r1a1:
+	*setspeaker cat_cello*
+	pfff look at this nerd worrying about my dumb ass.
+	i'm fin as i ever am, s'all good.
+	&m1
+	
+	
+###### MERGE POINT
+m1:
+	*setspeaker cat_cello*
+	let's see, what's been on my mind lately... i mean, 
+	aside from the drugs, those are a given.
+	&m2
+	
+m2:
+	*setspeaker cat_cello*
+	...Caravaggio.
+	&m3
+	
+m3:
+	y'see last time we spent entierly too much time on artists who were
+	mostly functional people and that's erasure of complete disasters
+	who happen to be extremely skiled in their chosen field, also
+	known as my kind of people
+	&m4
+	
+m4:
+	and boy fucking howdy was caravaggio supreme fuckmaster of being just
+	an absolute catastrophe, like even his first biographers were like
+	damn this dude didn't have issues he had periodicals
+	&m5
+	
+m5:
+	now granted since these were old biographies of a famous guy who
+	also did a whole lof of crimes they're also full of blatant lies
+	and unprovable assertions so most of what we know about the guy
+	needs to be taken with a pinch of salt
+	&m6
+	
+m6:
+	but like one of the hard facts we do have is that caravaggio had
+	a criminal record that included committing manslaughter over a love
+	triangle where the other two corners were a prostitute and her pimp
+	so it's not hard to believe he was a bit of a character.
+	player:
+	&m7:
+		What else was on the guy's rap sheet?
+		
+m7:
+	*setspeaker cat_cello*
+	oh jeez where to even start. petty theft, told a cop to shove a 
+	dagger up their ass, allegedly murdered another cop, constantly
+	started arguments that escalated into public brawls, carried a 
+	sword around in public daring people to start shit...
+	&m8
+	
+m8:
+	...argued with clergy over proper portrayal of religious figures,
+	showed the apostles and the virgin mary as incredibly improverished
+	people as a pointed political statement when the church started 
+	getting shitty about poor people after the counter-reformation...
+	&m9
+	
+m9:
+	...hung around with criminals and prostitutes, hired said prostitutes
+	to model for his paintings to abuse a legal loophole, fucked those
+	prostitutes while on the clock for said paintings, eventually 
+	murdered a dude over one of those prostitutes...
+	&m10
+	
+m10:
+	...unproven but believable assertions he slept with men (which was 
+	illegal for some reason???), painted the man he probably fucked as
+	cupid, made a poem that called a rival who accused him of sodomy
+	the equivalent of Johnny Ballsack in italian...
+	&m11
+	
+m11:
+	...beat the shit out of a waiter who gave him artichokes with butter
+	instead of oil, took a shit on the doorstep of his landlord when she
+	changed his locks, fled the country when charged with murder, joined
+	a holy order to get a papal pardon for murder...
+	&m12
+	
+m12:
+	...attempted to kill one of the members of that holy order with a 
+	pistol over an argument the day before he would have been included,
+	got thrown out of the order after busting out of their prison,
+	got arrested for forged papers, and died mysteriously after that.
+	player:
+	&m13:
+		Holy shit.
+		
+m13:
+	*setspeaker cat_cello*
+	i consider him to be \#goals tbh
+	player:
+	&r3a1:
+		What's up with that "died mysteriously" part?
+	&r4a1:
+		How did this guy have any time to do art?
+		
+###### honestly the better question is how he managed to last that long, the way he lived.
+r3a1:
+	*setspeaker cat_cello*
+	well, his biographies and contemporary accounts are full of
+	different testimonies. some say he died of heatsroke or
+	chronically bad health while on a trip,- 
+	&r3a2
+		
+r3a2:	
+	-while another guy points he had been beaten half to death
+	a year earlier by unknown assailants.
+	&r3a4
+	
+r3a4:
+	that plus some other circumstantial accounts indicate he may have
+	been whacked by a bunch of crusader hitmen. one of the other 
+	popular ideas is that lead-based paints were popular at the
+	time and he might have died of chronic lead poisoning.
+	&r3a5
+	
+r3a5:
+	this is mostly backed up by the fact that long term lead poisoning
+	can make you unpredictable and violent and the body most people
+	are pretty sure was his has a shit-ton of lead in the skeleton.
+	&r3a6
+	
+r3a6:
+	i'm predisposed to believe that one because there is something
+	deeply resonant about the idea that his artistic drive was the direct
+	cause of a slow death by poisoning that drove him to self destructive
+	fits that caused him to seek solace in what was killing him.
+	&n1
+
+	
+###### a reasonable question
+r4a1:
+	*setspeaker cat_cello*
+	oh he did plenty of incredibly impressive things. giant goddamn paintings,
+	lighting techniques so refined and influential he damn near became
+	synonymous with the term chiaroscuro-
+	&r4a2
+	
+r4a2:
+	put it this way\: he got away with being a douchebag for so long because
+	he was a ridiculously talented painter that rich people paid to make
+	stuff for them and they didn't like having their staff have to deal
+	with things like prison very often
+	&r4a3
+	
+r4a3:
+	of course after his death people he'd been a prick to shat on his 
+	legacy so hard that he practially disappeared in the minds of art
+	hisotrians for 400 years even through people like rembrandt owed
+	an arm and a leg to his techniques
+	&r4a4
+	
+r4a4:
+	...if you believe in the idea that nobody ever dies until their name's
+	spoken for the last time you gotta wonder what it felt like for 
+	people like him. what would it feel like in that gap between people
+	calling your name? what would it be like to come back from there?
+	&n1
+	
+###### CARAVAGGIO TRULY WAS, BORN AND RAISED
+n1:
+	*setspeaker cat_cello*
+	ehhn. starting to get a sore throat from all this yammering.
+	gonna go hit the hay in my room which in this instance actually is
+	a metaphor for sleep and not some sort of arcane reference
+	to drug use.
+	&n2
+	
+n2:
+	been nice chatting with you, though.
+	see you around. *mark_seen*
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

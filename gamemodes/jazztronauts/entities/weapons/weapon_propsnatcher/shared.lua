@@ -26,8 +26,10 @@ SWEP.Secondary.Ammo 		= "none"
 
 -- General settings
 SWEP.ReticleCircleMaterial 	= Material("ui/jazztronauts/circle")
-SWEP.MaxRange 				= 700
-SWEP.CloseRange				= 250
+local LongRangeDefault 		= 300
+local ShortRangeDefault 	= 175
+SWEP.MaxRange 				= LongRangeDefault
+SWEP.CloseRange				= ShortRangeDefault
 
 -- Tier 1 settings
 local AimConeDefault 		= 3
@@ -54,24 +56,38 @@ SWEP.MissSounds = {
 	Sound("jazztronauts/snatch/snatch_miss02.wav"),
 }
 
-local snatch1 = jstore.Register("snatch1", 10000, { 
-    name = "Auto Aim", 
-    cat = "Prop Snatcher", 
-	desc = "Automatically aim to target props within the on-screen capture radius.",
-    type = "upgrade" 
+local snatch_cone = jstore.RegisterSeries("snatch_cone", 20000, 10, { 
+	name = "Aim Cone", 
+	desc = "Increase the radius of your center aim cone, so you can see and steal with minimal effort.",
+	type = "upgrade",
+	cat = "Prop Snatcher",
+	priceMultiplier = 1.5,
 })
-local snatch2 = jstore.Register("snatch2", 50000, { 
+local snatch_range = jstore.RegisterSeries("snatch_range", 10000, 10, { 
+	name = "Steal Range", 
+	desc = "Increase the range from which you can steal things.",
+	type = "upgrade",
+	cat = "Prop Snatcher",
+	priceMultiplier = 1.5,
+})
+local snatch2 = jstore.Register("snatch2", 10000, { 
     name = "Auto-Auto Aim", 
     cat = "Prop Snatcher", 
 	desc = "Hold down left click to automate picking up many props at a time.",
-    requires = snatch1,
     type = "upgrade" 
 })
+
 local snatch_world = jstore.Register("snatch_world", 10000, { 
     name = "Ultimate Aim", 
     cat = "Prop Snatcher", 
 	desc = "No matter where you aim, you're picking something up. Hold right click to steal world brushes",
-    requires = snatch1,
+    type = "upgrade" 
+})
+local snatch_multi = jstore.Register("snatch_multi", 50000, { 
+    name = "Multi Tasking", 
+    cat = "Prop Snatcher", 
+	desc = "Multi-task by being able to both steal world brushes and props at the same time",
+    requires = snatch_world,
     type = "upgrade" 
 })
 local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 100, 10, { 
@@ -112,7 +128,12 @@ function SWEP:SetUpgrades()
 	local override = cvars.Bool("jazz_debug_snatch_allups", false)
 
 	-- Tier I - Aim in cone upgrade
-	self.AutoAimCone = (unlocks.IsUnlocked("store", self.Owner, snatch1) or override) and 10 or AimConeDefault
+	self.AutoAimCone = AimConeDefault + jstore.GetSeries(self.Owner, snatch_cone) * 3.3
+
+	-- Steal range
+	local rangeLevel = jstore.GetSeries(self.Owner, snatch_range)
+	self.MaxRange 	= LongRangeDefault + rangeLevel * 150
+	self.CloseRange = ShortRangeDefault + rangeLevel * 25
 
 	-- Tier II - Automatic fire upgrade
 	self.Primary.Automatic = unlocks.IsUnlocked("store", self.Owner, snatch2) or override
@@ -123,6 +144,9 @@ function SWEP:SetUpgrades()
 	-- How fast they can steal the world
 	self.WorldStealSpeed = jstore.GetSeries(self.Owner, snatch_world_speed) + 1
 	self.WorldStealSpeed = self.WorldStealSpeed * 2
+
+	-- Allow multi-tasking?
+	self.CanMultitask = unlocks.IsUnlocked("store", self.Owner, snatch_multi) or override
 end
 
 
@@ -440,8 +464,8 @@ if SERVER then
 
 			swep:RemoveWorld( net.ReadVector(), snatchobj )
 
-		else
-
+		elseif swep:IsAcceptingProps() then
+			
 			swep:RemoveEntity( net.ReadEntity(), snatchobj )
 
 		end
@@ -593,6 +617,10 @@ function SWEP:DrawHUD()
 	surface.SetMaterial(self.ReticleCircleMaterial)
 	surface.DrawTexturedRect(ScrW() / 2 - size/2, ScrH() / 2 - size/2, size, size)
 
+	local totalRadius = (ScrW() / 2) * math.tan(math.rad(90 - pfov/2)) * math.tan(math.rad(self.AutoAimCone))
+	local totalSize = totalRadius * 2.55
+	surface.DrawTexturedRect(ScrW() / 2 - totalSize/2, ScrH() / 2 - totalSize/2, totalSize, totalSize)
+
 	-- Draw player count if we're grabbing a brush
 	if IsValid(curMarker) and curMarker.GetNumPlayers and curMarker:GetNumPlayers() > 1 then
 		local numPlayers = curMarker:GetNumPlayers()
@@ -628,6 +656,14 @@ function SWEP:GetPrimaryShootDelay()
 	local p = (CurTime() - self.StartShootTime) / self.WarmUpTime
 
 	return math.max(0, (1 - p) * 0.50) + self.MinFireDelay
+end
+
+function SWEP:IsAcceptingProps()
+	return not IsValid(self:GetCurSnatchMarker(newMarker)) or self.CanMultitask
+end
+
+function SWEP:CanPrimaryAttack()
+	return self:IsAcceptingProps()
 end
 
 function SWEP:PrimaryAttack()

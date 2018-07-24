@@ -354,7 +354,16 @@ local function getHeaderName(item)
     return nil
 end
 
-local function createCategoryButton(parent, item)
+local function createSpacerPanel(parent)
+    local panel = vgui.Create("DPanel")
+    panel:SetBackgroundColor(bgColor)
+    panel:SetHeight(10)
+    panel:SetPaintBackground(true)
+
+    return panel
+end
+
+local function createCategoryButton(parent, item, createSpacer)
     if not parent.Categories then parent.Categories = {} end
 
     -- #TODO: This probably doesn't handle enough cases. 
@@ -375,6 +384,10 @@ local function createCategoryButton(parent, item)
         layout:Add(header)
 
         parent.Categories[category] = layout
+    end
+
+    if createSpacer then
+        layout:Add(createSpacerPanel())
     end
 
     -- Add the button to purchase the item itself
@@ -480,13 +493,28 @@ function OpenUpgradeStore()
     table.sort(items, function(a, b)
         local ab, bb = getBaseItem(a), getBaseItem(b)
 
+        -- All series-based items go to bottom
+        if tobool(ab.baseseries) != tobool(bb.baseseries) then return bb.baseseries != nil end
+        
+        -- Sort by # of requirements, easily purchaseable up top
         if ab.numreqs < bb.numreqs then return true end
         if ab.numreqs > bb.numreqs then return false end
+
+        -- Sort by name
         return ab.name > bb.name
     end )
 
+    local hasRecurringSpacer = false
     for k, v in pairs(items) do
-        local btn = createCategoryButton(layout, v)
+        -- Insert a small spacer element to separate recurring from non-recurring upgrades
+        -- Assumes that recurring upgrades are sorted after normal ones
+        local createSpacer = false
+        if not hasRecurringSpacer and k > 1 and v.baseseries then
+            hasRecurringSpacer = true
+            createSpacer = true
+        end
+
+        local btn = createCategoryButton(layout, v, createSpacer)
         
         btn:RefreshState()
         table.insert(layout.Buttons, btn)

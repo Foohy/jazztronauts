@@ -85,7 +85,8 @@ local function addButton(parent, item)
     img:Dock(LEFT)
     img:DockMargin(margin, margin, margin, margin)
     img:SetKeepAspect(true)
-    img:SetImage("scripted/breen_fakemonitor_1")
+    print(item.icon)
+    img:SetImage(item.icon)
 
     -- Optional "NEW" informative marker
     local newImg = vgui.Create("DImage", img)
@@ -114,7 +115,7 @@ local function addButton(parent, item)
     desc:SetFont("JazzStoreDescription")
     desc:SetTextColor(textColor)
     desc:SetContentAlignment(8)
-    desc:SetText("This is a pretty good description, except that it actually says nothing at all. Gotcha.")
+    desc:SetText(item.desc or "")
     desc:SetWrap(true)
     desc:SetAutoStretchVertical(true)
     desc:SetMultiline(true)
@@ -140,6 +141,8 @@ local function addButton(parent, item)
 
     -- Update current button state with unlock status
     btn.RefreshState = function()
+        local tooltip = item.desc or ""
+
         -- Already purchased
         if unlocks.IsUnlocked("store", LocalPlayer(), item.unlock) then
             btn:SetIcon("icon16/accept.png")
@@ -150,13 +153,15 @@ local function addButton(parent, item)
             btn:SetEnabled(false)
 
             if item.requires then
-                btn:SetTooltip("Requires " .. item.requires)
+                tooltip = tooltip .. "\n" .. "REQUIRES " .. string.upper(item.requires)
             end
 
         -- Ready to buy
         else
             btn:SetEnabled(true)
         end
+
+        btn:SetTooltip(tooltip)
 
         -- Newly available
         btn:SetIsNew(IsItemNewlyAffordable(item.unlock))
@@ -288,7 +293,7 @@ local function createListButton(parent, item)
    
     -- Set the state of the button given store unlock status
     function btn:RefreshState()
-
+        local tooltip = item.desc or ""
         -- Already purchased
         if unlocks.IsUnlocked("store", LocalPlayer(), item.unlock) then
             self:SetEnabled(false)
@@ -300,7 +305,7 @@ local function createListButton(parent, item)
             self:SetEnabled(false)
 
             if item.requires then
-                self:SetTooltip("Requires " .. item.requires)
+                tooltip = tooltip .. "\n" .. "REQUIRES" .. string.upper(item.requires)
             end
 
         -- Ready to buy
@@ -308,6 +313,7 @@ local function createListButton(parent, item)
             self:SetEnabled(true)
         end
 
+        self:SetTooltip(tooltip)
         
         -- If upgrade, hide if already purchased and there's one after this
         if item.baseseries then
@@ -455,13 +461,31 @@ function OpenStore()
 
 end
 
+local function getBaseItem(item)
+    if item.baseseries then
+        local itm = jstore.GetSeriesList()[item.baseseries]
+        if itm and itm[1] then return jstore.GetItem(itm[1]) end
+    end
+
+    return item
+end
+
 function OpenUpgradeStore()
     local frame, layout = createStoreFrame("Upgrades")
 
     -- Create a button for each store item
-    -- Sort the items by number of requirements
+    -- Sort the items by number of requirements, and then by name
+    -- Use the #reqs of the first item for series upgrades
     local items = GetStoreItems("upgrades")
-    for k, v in SortedPairsByMemberValue(items, "numreqs") do
+    table.sort(items, function(a, b)
+        local ab, bb = getBaseItem(a), getBaseItem(b)
+
+        if ab.numreqs < bb.numreqs then return true end
+        if ab.numreqs > bb.numreqs then return false end
+        return ab.name > bb.name
+    end )
+
+    for k, v in pairs(items) do
         local btn = createCategoryButton(layout, v)
         
         btn:RefreshState()

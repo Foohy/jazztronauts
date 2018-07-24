@@ -51,13 +51,18 @@ function Register(unlockName, price, props)
 
     -- unlockName can be a string or a SWEP/ENT table
     if type(unlockName) == "table" then
-        props.name = props.name or unlockName.PrintName or unlockName.ClassName
-        unlockName = unlockName.ClassName or string.GetFileFromFilename(unlockName.Folder)
+        local classname = unlockName.ClassName or (unlockName.Folder and string.GetFileFromFilename(unlockName.Folder))
+        props.name = props.name or unlockName.PrintName or classname
+        props.desc = props.desc or unlockName.Purpose
+        props.icon = props.icon or "vgui/entities/" .. classname
+
+        unlockName = classname
     end
 
     props = props or {}
     props.price = price
     props.unlock = unlockName -- For completeness
+    props.icon = props.icon or "scripted/breen_fakemonitor_1"
 
     -- Calc the # of requisite items needed
     -- Later on we'll sort by this

@@ -6,6 +6,7 @@ SWEP.Base 					= "weapon_basehold"
 SWEP.PrintName 		 		= "Stan"
 SWEP.Slot		 	 		= 0
 SWEP.Category				= "Jazztronauts"
+SWEP.Purpose				= "Teleport through solid walls, brushes, and playerclips by summoning the power of Stan" 
 
 SWEP.ViewModel		 		= "models/weapons/c_stan.mdl"
 SWEP.WorldModel				= ""
@@ -48,12 +49,14 @@ local storeStan = jstore.Register(SWEP, 4000, { type = "tool" })
 local storeRange = jstore.RegisterSeries("stan_range", 2000, 10, { 
 	name = "Range", 
 	requires = storeStan, 
+	desc = "Increases range and depth of walls to travel through",
 	type = "upgrade",
 	priceMultiplier = 2,
 })
 local storeSpeed = jstore.RegisterSeries("stan_speed", 1000, 10, { 
 	name = "Speed", 
 	requires = storeStan, 
+	desc = "Decreases warm up time",
 	type = "upgrade",
 	priceMultiplier = 2,
 })

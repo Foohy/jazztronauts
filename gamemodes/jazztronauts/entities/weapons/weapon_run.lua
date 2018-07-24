@@ -6,6 +6,7 @@ SWEP.Base 					= "weapon_basehold"
 SWEP.PrintName 		 		= "Run"
 SWEP.Slot		 	 		= 0
 SWEP.Category				= "Jazztronauts"
+SWEP.Purpose				= "Jump higher and run faster"
 
 SWEP.ViewModel		 		= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
@@ -59,7 +60,7 @@ function SWEP:Deploy()
 end
 
 function SWEP:Cleanup()
-	if SERVER and self.OldRunSpeed then
+	if SERVER and self.OldRunSpeed and IsValid(self.Owner) then
 		self.Owner:SetRunSpeed(self.OldRunSpeed)
 		self.Owner:SetWalkSpeed(self.OldWalkSpeed)
 		self.Owner:SetJumpPower(self.OldJumpPower)

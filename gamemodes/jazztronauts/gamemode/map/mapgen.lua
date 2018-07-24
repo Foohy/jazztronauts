@@ -182,11 +182,113 @@ if SERVER then
         return false
     end
 
-    local function findValidSpawn(ent)
+    local spawnpoints = {
+        "info_player_start",
+        "info_player_deathmatch",
+        "info_player_rebel",
+
+        "info_player_counterterrorist",
+        "info_player_terrorist",
+
+        "info_player_axis",
+        "info_player_allies",
+
+        "gmod_player_start",
+
+        "info_player_teamspawn",
+        "ins_spawnpoint",
+        "aoc_spawnpoint",
+        "dys_spawn_point",
+        "info_player_pirate",
+        "info_player_viking",
+        "info_player_knight",
+        "diprip_start_team_blue",
+        "diprip_start_team_red",
+        "info_player_red",
+        "info_player_blue",
+        "info_player_coop",
+        "info_player_human",
+        "info_player_zombie",
+        "info_player_zombiemaster",
+        "info_survivor_position",
+    }
+
+    -- Entities that facilitate transporting players
+    local teleports = {
+        ["trigger_teleport"] = "target",
+        ["jazz_door"] = "TeleportName",
+        ["theater_door"] = "TeleportName",
+
+        -- some maps use these for cutscenes, let them override?
+        --["point_teleport"] = "", -- itself is the point
+    }
+
+    local function getPotentialPlayerPositions()
+        local positions = {}
+
+        -- Spawnpoints
+        for _, pt in pairs(spawnpoints) do
+            for _, v in pairs(ents.FindByClass(pt)) do
+                positions[#positions + 1] = v:GetPos()
+            end
+        end
+
+        -- Teleports
+        for name, dest in pairs(teleports) do
+            for _, ent in pairs(ents.FindByClass(name)) do
+                -- No destination keyvalue, so itself is the destination
+                if #dest == 0 then 
+                    positions[#positions + 1] = ent:GetPos()
+                else
+                    local destName = ent:GetKeyValues()[dest] or ent[dest]
+                    if not destName or #destName == 0 then continue end
+
+                    -- Add in all destination ents with matching name
+                    for _, v in pairs(ents.FindByName(destName)) do
+                        positions[#positions + 1] = v:GetPos()
+                    end
+                end
+            end
+        end
+
+        return positions
+    end
+
+    local function getPositionLeafs(map)
+        local positions = getPotentialPlayerPositions()
+        local leaves = {}
+        
+        for _, v in pairs(positions) do
+            local leaf = map:GetLeaf( v )
+            if not leaf or leaves[leaf] then continue end
+            leaves[leaf] = true
+        end
+
+        return table.GetKeys(leaves)
+    end
+
+    -- Check if this shard is actually reachable by the player at all
+    -- There must be some sort of connecting leaf between the player and shard
+    local function isPlayerReachable(ent, map, leafs)
+        local function checkLeaf(l)
+            return bit.band(l.contents, CONTENTS_SOLID + CONTENTS_GRATE + CONTENTS_WINDOW + CONTENTS_DETAIL + CONTENTS_PLAYERCLIP) == 0
+        end
+
+        local shard_leaf = map:GetLeaf( ent:GetPos() )
+        for _, v in pairs(leafs) do
+            if map:AreLeafsConnected(shard_leaf, v, checkLeaf) then
+                return true
+            end
+        end
+
+        return false
+    end
+
+    local function findValidSpawn(ent, map, leafs)
         local pos = ent:GetPos() + Vector(0, 0, 16)
 
         -- If moving the entity that small amount up puts it out of the world -- nah
-        if !util.IsInWorld(pos) then return nil end
+        if not util.IsInWorld(pos) then return nil end
 
         -- If the point is inside something solid -- also nah
         if maskAny(util.PointContents(pos), CONTENTS_PLAYERCLIP, CONTENTS_SOLID, CONTENTS_GRATE) then return end
@@ -195,8 +297,11 @@ if SERVER then
         if isWithinTrigger(ent) then return end
 
         -- Check if they're near a suspicious amount of sky
-        if !checkAreaTrace(pos, ent:GetAngles()) then return end
+        if not checkAreaTrace(pos, ent:GetAngles()) then return end
 
+        -- Goal spot must be reachable from the players
+        if not isPlayerReachable(ent, map, leafs) then return end
+        
         return { pos = pos, ang = ent:GetAngles() }
     end
 
@@ -266,11 +371,11 @@ if SERVER then
         
     end
 
-    function GetSpawnPoint(ent)
+    function GetSpawnPoint(ent, map, leafs)
         if !IsValid(ent) or !ent:CreatedByMap() then return nil end
         if isInSkyBox(ent) then return nil end -- god wouldn't that suck
 
-        return findValidSpawn(ent)
+        return findValidSpawn(ent, map, leafs)
     end
 
     -- Depending on the map, there might be certain entities that automatically
@@ -291,6 +396,63 @@ if SERVER then
         return mindist
     end
 
+    local function sharditer(seed, preferredSpawns)
+        local validSpawns = {}
+        preferredSpawns = preferredSpawns or {}
+        local entIter = nil
+        local c = 0
+
+        -- Set up generator seed + ent random pairs iter
+        math.randomseed(seed)
+        entIter, entState = RandomPairs(ents.GetAll())
+        prefIter, prefState = RandomPairs(preferredSpawns)
+   
+        -- Build a list of possible bsp leaves the player might start in
+        local map = bsp2.GetCurrent()
+        local leafs = getPositionLeafs(map)
+
+        return function()
+            local posang = nil
+
+            -- Try spawning a 'preferred' shard first
+            local _, pref = prefIter(prefState)
+            if pref then 
+                c = c + 1
+                posang = pref 
+            end
+
+            -- For normal shards, go randomly through map ents to find random spawns
+            -- Not all entities have a valid spawn, so go until we find one (or run out)
+            while not posang do
+
+                -- Grab a random entity
+                local _, ent = entIter(entState)
+                if not ent then break end
+                if not IsValid(ent) then continue end
+
+                -- Find it's corresponding spawn point
+                local newposang = GetSpawnPoint(ent, map, leafs)
+                if not newposang then continue end
+
+                -- Ensure it's not next to a previously spawned shard
+                local mindist2 = MinShardDist^2
+                if minDistance2(newposang, preferredSpawns) > mindist2 and
+                   minDistance2(newposang, validSpawns) > mindist2
+                then 
+                    posang = newposang
+                    c = c + 1
+                    break
+                end
+            end
+
+            -- Store as valid spawn
+            table.insert(validSpawns, posang)
+
+            -- Give them the next-found shard position
+            if posang then return c, posang end
+        end
+    end
+
     function GenerateShards(count, seed, shardtbl)
         for _, v in pairs(SpawnedShards) do
             if IsValid(v) then v:Remove() end
@@ -302,32 +464,12 @@ if SERVER then
         -- Get preferred spawns, if there are any
         local preferredSpawns = GetPreferredSpawns(seed) or {}
 
-        -- Go through every _map_ entity, filter bad spots, and go from there
-        local validSpawns = {}
-        for _, v in pairs(ents.GetAll()) do
-            local posang = GetSpawnPoint(v)
-
-            -- Bad spawnpoints are nil and are not eligible to spawn at
-            if posang != nil  then
-
-                -- Ensure this position isn't already near a spawnpoint
-                local mindist2 = MinShardDist^2
-                if minDistance2(posang, preferredSpawns) > mindist2 and
-                   minDistance2(posang, validSpawns) > mindist2
-                then 
-                    table.insert(validSpawns, posang)
-                end
-            end
-        end
-
         -- Select count random spawns and go
         local n = 0
         local function registerShard(posang)
             count = count - 1
             if count < 0 then return false end
             n = n + 1
-
-            print(minDistance2(posang, validSpawns))
 
             -- Create a new shard only if it hasn't been collected
             local shard = nil
@@ -339,14 +481,9 @@ if SERVER then
             return true
         end
 
-        -- Spawn as many high priority shards as we can
-        for k, v in RandomPairs(preferredSpawns) do
-            if not registerShard(v) then break end
-        end
-
-        -- Fill up the rest
-        for k, v in RandomPairs(validSpawns) do   
-            if not registerShard(v) then break end
+        for count, posang in sharditer(seed, preferredSpawns) do
+            print(count, posang)
+            if not registerShard(posang) then break end
         end
 
         InitialShardCount = n

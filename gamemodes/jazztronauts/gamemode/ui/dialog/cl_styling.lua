@@ -86,12 +86,16 @@ local function drawPlayer(ply)
 		return 
 	end
 
-	pac.ForceRendering(true)
-	pac.Think()
-	pac.PostDrawOpaqueRenderables()
-	pac.PostDrawTranslucentRenderables()
+	pac.ForceRendering(true) 
+	pac.ShowEntityParts(ply)
+	pac.RenderOverride(ply, "opaque")
+	pac.RenderOverride(ply, "translucent", true)
 	ply:DrawModel()
 	pac.ForceRendering(false)
+end
+
+local function isPlayer(ply)
+	return ply:IsPlayer() or ply == LocalPlayer().JazzDialogProxy
 end
 
 local renderPlayerCutIn = false
@@ -110,7 +114,7 @@ local function RenderEntityCutIn(ent, x, y, w, h)
 
 	if bone and ent:GetBonePosition(bone) != ent:GetPos() then
 		headpos = ent:GetBonePosition(bone)
-	elseif ent:IsPlayer() then
+	elseif isPlayer(ent) then
 		headpos = ent:GetPos() + entangs:Up() * 60
 	end
 
@@ -127,7 +131,7 @@ local function RenderEntityCutIn(ent, x, y, w, h)
 
 	renderPlayerCutIn = ent == LocalPlayer()
 	cam.Start3D(pos, ang, 25, x, y, w, h)
-		if ent:IsPlayer() then
+		if isPlayer(ent) then
 			drawPlayer(ent)
 		else
 			ent.NoFollowPlayer = true
@@ -156,11 +160,16 @@ local function GetCurrentSpeaker()
 	if not IsValid(speaker) then speaker = focusProxy end
 	if not IsValid(speaker) then return nil, "nil" end
 
+	-- Allow entities to have their own passive proxies
+	if speaker.JazzDialogProxy then
+		--speaker = speaker.JazzDialogProxy
+	end
+
 	if speaker == dialog.GetFocus() and IsValid(focusProxy) then
 		speaker = focusProxy
 	end
 
-	return speaker, GetSpeakerName(speaker)
+	return speaker, GetSpeakerName(speaker), isPlayer(speaker)
 end
 
 DialogCallbacks.Paint = function(_dialog)
@@ -168,8 +177,7 @@ DialogCallbacks.Paint = function(_dialog)
 	if not IsValid(_dialog.textpanel) then return end
 	if hook.Call("OnJazzDialogPaintOverride", GAMEMODE, _dialog) then return end
 
-	local speaker, speakername = GetCurrentSpeaker()
-	local localspeaker = speaker == LocalPlayer()
+	local speaker, speakername, localspeaker = GetCurrentSpeaker()
 
 	local open = math.sin( _dialog.open * math.pi / 2 )
 	open = math.sqrt(open)

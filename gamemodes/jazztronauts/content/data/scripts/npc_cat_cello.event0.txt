@@ -8,8 +8,9 @@ begin:
 
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setnpcid cat_cello npc_cat_cello*
-	
-	*spawn player_dummy playerboy*
+
+	*setposang player 164.076263 208.491150 64.031250;setang 9.295440 49.176609 0.000000*
+
 	*txin*
 	
 ###### START

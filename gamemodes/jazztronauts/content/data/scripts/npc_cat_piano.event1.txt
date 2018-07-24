@@ -14,12 +14,13 @@ begin:
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos 301.032990 230.946976 -256;setang -90 240 0.000000*
 	*setnpcid cat_singer npc_cat_sing*
-	
-	*spawn player_dummy playerboy*
+
+	*setposang player 164.076263 208.491150 64.031250;setang 9.295440 49.176609 0.000000*
+
 	*txin*
 	
 ###### START
-	*setspeaker narrator*
+	*setspeaker player*
 	*show*
 	>You could have sworn you saw the Pianist here just now%.%.%.%
 	&b1
@@ -34,12 +35,12 @@ b1:
 	&b2
 	
 b2:
-	*setspeaker player_dummy*
+	*setspeaker player*
 	Who are you talking abou-
 	&b3
 	
 b3:
-	*setspeaker narrator*
+	*setspeaker player*
 	*setskin cat_piano 0*
 	*setanim cat_piano gesture_shock 1 idle*
 	>The Singer dead sprints past both of you!%%%*setcam setpos 299.437592 130.605087 45.050888;setang 0.911092 42.797482 0.000000* 
@@ -147,7 +148,7 @@ resp5a:
 	
 resp5b:
 	*setcam setpos 299.437592 130.605087 45.050888;setang 0.911092 42.797482 0.000000*
-	*setspeaker narrator*
+	*setspeaker player*
 	*setanim cat_piano gesture_anger 1 idle*
 	>The Pianist is getting worked up,% as ev*setanim cat_piano gesture_jab 1 idle*ident by the fact that her tail 
 	has been lashing around more and more.%%% And also the fact tha*setanim cat_piano gesture_laugh 1 idle*t 
@@ -166,7 +167,7 @@ resp5c:
 resp5d:
 	*setposang cat_singer setpos 225.003738 239.833725 0;setang -90 240 0.000000*
 	*setcam setpos 347.364136 39.186989 73.691208;setang 8.877127 84.903648 0.000000*
-	*setspeaker narrator*
+	*setspeaker player*
 	>The Singer appears to have drifted into view behind the Pianist.
 	
 	player:
@@ -180,7 +181,7 @@ resp5d:
 merge1:
 	*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 112 0.000000*
 	*setposang cat_singer setpos 301.032990 230.946976 0;setang -90 240 0.000000*
-	*setspeaker narrator*
+	*setspeaker player*
 	*setskin cat_singer 2*
 	*setskin cat_piano 0*
 	>The Singer sprints over to you both and%.%.%.%.%%%*setskin cat_singer 6*%*setcam setpos 309.501709 128.670517 52.932980;setang 7.546001 81.787277 0.000000*
@@ -224,7 +225,7 @@ merge5:
 	
 merge6:
 	*setcam setpos 174.627869 25.783129 62.657158;setang 3.902751 41.340088 0.000000*
-	*setspeaker player_dummy*
+	*setspeaker player*
 	*setskin cat_singer 2*
 	>You get the feeling this is a pretty common conversation.
 	&merge7
@@ -262,7 +263,7 @@ merge10:
 	
 merge11:
 	*setcam setpos 174.627869 25.783129 62.657158;setang 3.902751 41.340088 0.000000*
-	*setspeaker narrator*
+	*setspeaker player*
 	*setskin cat_singer 0*
 	*setskin cat_piano 3*
 	*setanim cat_singer gesture_exchange 1 idle*

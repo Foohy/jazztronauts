@@ -94,6 +94,52 @@ local function FindNPCByName(name)
 end
 
 local sceneModels = {}
+
+local function GetPlayerOutfits(ply)
+    local outfits = {}
+    local parts = pac.GetLocalParts and pac.GetLocalParts() or pac.UniqueIDParts[ply:UniqueID()]
+    for k, v in pairs(parts) do
+        if not v:HasParent() then
+            table.insert(outfits, v:ToTable())
+        end
+    end
+
+    return outfits
+end
+
+function CreatePlayerProxy()
+    local ent = ManagedCSEnt("dialog_player_proxy", LocalPlayer():GetModel())
+    ent:SetPos(LocalPlayer():GetPos())
+    ent:SetAngles(LocalPlayer():GetAngles())
+    ent:SetNoDraw(false)
+    LocalPlayer().JazzDialogProxy = ent
+    function ent:GetName()
+        return LocalPlayer():GetName()
+    end
+
+    print("Creating player proxy")
+    if pac then 
+        local actual = ent:Get()
+        pac.SetupENT(actual)
+        local outfits = GetPlayerOutfits(LocalPlayer())
+        for k, v in pairs(outfits) do
+            actual:AttachPACPart(v)
+        end
+
+        function actual:RenderOverride()
+            pac.ForceRendering(true)
+            pac.ShowEntityParts(self)
+            pac.RenderOverride(self, "opaque")
+            pac.RenderOverride(self, "translucent", true)
+            self:DrawModel()
+            pac.ForceRendering(false)
+        end
+    end
+
+    ent:SetSequence("idle_all_01")
+    return ent
+end
+
 local function removeSceneEntity(name)
     if IsValid(sceneModels[name]) then
         sceneModels[name]:SetNoDraw(true)
@@ -115,9 +161,15 @@ end)
 
 local function FindByName(name)
     if not name then return nil end
-    if name == "player" then return LocalPlayer() end
     if name == "focus" then return dialog.GetFocus() end
     if IsValid(sceneModels[name]) then return sceneModels[name] end
+
+    -- Lazy-create player object
+    if name == "player" then
+        local plyobj = CreatePlayerProxy()
+        sceneModels[name] = plyobj
+        return plyobj
+    end
 
     return FindNPCByName(name)
 end
@@ -247,6 +299,9 @@ dialog.RegisterFunc("setcam", function(d, ...)
     view.curpos = posang.pos
     view.curang = posang.ang
 
+    -- Only create the player proxy if we modify the camera
+    FindByName("player")
+
     -- Tell server to load in the specific origin into our PVS
     net.Start("dialog_requestpvs")
         net.WriteVector(posang.pos)
@@ -336,8 +391,12 @@ function ResetView(instant)
     end
 end
 
+local function viewOverwritten()
+    return view and (view.curpos or view.fov or view.curang)
+end
+
 hook.Add("CalcView", "JazzDialogView", function(ply, origin, angles, fov, znear, zfar)
-    if not (view and (view.curpos or view.fov or view.curang)) then return end
+    if not viewOverwritten() then return end
 
     -- I don't feel like re-simulating screen shake/view punch
     -- So just copy the difference between what would've been the player view and their actual eye pos
@@ -361,9 +420,16 @@ hook.Add("CalcView", "JazzDialogView", function(ply, origin, angles, fov, znear,
     view.origin = view.curpos and view.curpos + offset  
     view.angles = view.curang and view.curang + angoff
 
-    view.drawviewer = true
+    view.drawviewer = false
     return view
 end )
+
+-- Hide drawing viewmodel if we're overriding their view in a dialog sequence
+hook.Add("PreDrawViewModel", "JazzDisableDialogViewmodel", function(vm, ply, wep)
+    if not viewOverwritten() then return end
+
+    return true
+end)
 
 hook.Add("Think", "JazzTickClientsideAnims", function()
     for k, v in pairs(sceneModels) do

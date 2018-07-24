@@ -12,11 +12,11 @@ begin:
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
 	*setnpcid cat_piano npc_cat_piano*
 	
-	*spawn player_dummy playerboy*
+	*setposang player 164.076263 208.491150 64.031250;setang 9.295440 49.176609 0.000000*
 	*txin*
 	
 ###### START
-	*setspeaker narrator*
+	*setspeaker player*
 	*show*
 	>The Cellist appears to be ranting about something at the Pianist,
 	who appears to be enjoying this about as much as someone cornered
@@ -33,13 +33,13 @@ b1:
 	
 b2:
 	*setspeaker cat_piano*
-	That's fascinating, Cellist, but oh HEY PLAYERNAME wants to talk to you, 
+	That's fascinating, Cellist, but oh HEY *player* wants to talk to you, 
 	and man, i'm really into this conversation, but i'd hate to be so rude as 
 	to take up all your time, so...
 	&b3
 	
 b3:
-	*setspeaker narrator*
+	*setspeaker player*
 	>The Pianist notices you gawking, and senses her chance to escape.
 	player:
 	&b4:
@@ -57,7 +57,7 @@ b4:
 	&b5
 	
 b5:
-	*setspeaker narrator*
+	*setspeaker player*
 	>The Pianist sprints out of the room past the player, leaving you and the Cellist.
 	He watches her run off with a stoned, smug smile before turning to look at you.
 	player:
@@ -69,7 +69,7 @@ b5:
 
 ###### BRANCH 2 EARLY EXIT		
 r2a1:
-	*setspeaker narrator*
+	*setspeaker player*
 	>Trusting your flight or fight instincts, you adopt a runners pose and dead sprint
 	in any direction that will let you not have this conversation.
 	&exit

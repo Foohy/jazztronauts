@@ -244,8 +244,8 @@ dialog.RegisterFunc("setcam", function(d, ...)
 
     view = view or {}
     view.endtime = nil
-    view.origin = posang.pos
-    view.angles = posang.ang
+    view.curpos = posang.pos
+    view.curang = posang.ang
 
     -- Tell server to load in the specific origin into our PVS
     net.Start("dialog_requestpvs")
@@ -265,16 +265,16 @@ dialog.RegisterFunc("tweencam", function(d, time, ...)
     end
 
     if view then 
-        view.startpos = view.origin
-        view.startang = view.angles
+        view.startpos = view.curpos
+        view.startang = view.curang
         view.goalpos = posang.pos
         view.goalang = posang.ang
         view.endtime = CurTime() + time
         view.tweenlen = time
     else
         view = {}
-        view.origin = posang.pos
-        view.angles = posang.ang
+        view.curpos = posang.pos
+        view.curang = posang.ang
     end
 end)
 
@@ -337,20 +337,31 @@ function ResetView(instant)
 end
 
 hook.Add("CalcView", "JazzDialogView", function(ply, origin, angles, fov, znear, zfar)
-    if not (view and (view.origin or view.fov or view.angles)) then return end
+    if not (view and (view.curpos or view.fov or view.curang)) then return end
+
+    -- I don't feel like re-simulating screen shake/view punch
+    -- So just copy the difference between what would've been the player view and their actual eye pos
+    -- And assume this is the result of those
+    local offset = ply:EyePos() - origin
+    local angoff = ply:EyeAngles() - angles
 
     -- Maybe do some tweening
     if view.endtime then
         local p = 1 - math.Clamp((view.endtime - CurTime()) / view.tweenlen, 0, 1)
 
-        view.origin = LerpVector(p, view.startpos, view.goalpos)
-        view.angles = LerpAngle(p, view.startang, view.goalang)
+        view.curpos = LerpVector(p, view.startpos, view.goalpos)
+        view.curang = LerpAngle(p, view.startang, view.goalang)
 
         if p >= 1 then
             view.endtime = nil
         end
     end
 
+    -- If view/angles overwritten, re-apply cam shake
+    view.origin = view.curpos and view.curpos + offset  
+    view.angles = view.curang and view.curang + angoff
+
+    view.drawviewer = true
     return view
 end )
 

@@ -409,11 +409,7 @@ function LoadScripts()
 end
 
 local scripttimes = {}
-local nexthotreloadcheck = 0
 local function CheckHotReload()
-	if nexthotreloadcheck > CurTime() then return end
-	nexthotreloadcheck = CurTime() + 30
-
 	local needsreload = false
 	local scripts, _ = file.Find( "data/scripts/*", "THIRDPARTY" )
 	for _, script in pairs( scripts ) do
@@ -429,7 +425,12 @@ local function CheckHotReload()
 	end
 
 end
-hook.Add( "Think", "JazzScriptCheckHotReload", CheckHotReload )
+
+local nexthotreloadcheck = 0
+hook.Add( "Think", "JazzScriptCheckHotReload", function()
+	if nexthotreloadcheck > CurTime() then return end
+	nexthotreloadcheck = CurTime() + 30
+end )
 concommand.Add("jazz_debug_refreshscripts", function()
 	CheckHotReload()
 end )

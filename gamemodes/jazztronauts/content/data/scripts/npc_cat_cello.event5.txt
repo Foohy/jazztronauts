@@ -1,0 +1,442 @@
+SKIP_OPEN = true
+
+begin:
+    # Scene setup
+    *hide*
+    *txout*
+    *setfov 70*
+
+	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
+	*setnpcid cat_bar npc_cat_bar*
+
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setnpcid cat_piano npc_cat_piano*
+
+	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	*setnpcid cat_cello npc_cat_cello*
+
+	*spawn cat_singer models/andy/singer/cat_singer.mdl*
+	*setnpcid cat_singer npc_cat_sing*
+
+	*txin*
+	
+###### START
+	*setspeaker narrator*
+	> The Bar Samsara... ...huh.
+	3 of the cats are here, and they look surprisingly worried. This
+	is concerning.
+	&b1
+
+b1:
+	*setspeaker cat_piano*
+	There you are.
+	Listen, the Cellist needs your help.
+	&b2
+	
+b2:
+	*setspeaker cat_bar*
+	He came in here a little while ago drinking something, and got 
+	more agitated until he threw the empty glass across the room and
+	stormed out.
+	&b3
+	
+b3:
+	If this has to do with all those milk cartons he somehow
+	happened to find, I think I know what's wrong.
+	&b4
+	
+b4:
+	I won't mince words. The Cellist is not well, and he keeps putting
+	all his hopes on magic cures and instant solutions. I think his 
+	latest attempt just failed.
+	&b5
+	
+b5:
+	Such failures are rarely good for his state of mind to 
+	begin with, but combined with his recent mood...
+	&b6
+	
+b6:
+	*setspeaker cat_singer*
+	> The Singer anxiously explains that the Cellist won't listen to
+	any of them, not even when the Singer tried to make it clear they
+	were more concerened than upset with a peace offering of a
+	weighted blanket covered in weed leaf decals.
+	&b7
+	
+b7:
+	> "If he won't listen to us then maybe he'll listen to you??
+	He's talked to you more than he's talked to anyone else we've
+	met in a Really Long Time even though he was on a downswing!!!
+	That's really impressive!!! "
+	&b8
+	
+b8:
+	*setspeaker narrator*
+	> This is the last event in the Cellist's questline. You may
+	want to give the other players a heads up that you'll be busy
+	for a bit, if you continue.
+	&b9
+	
+b9:
+	*setspeaker narrator*
+	> Additionally, the following scene contains a more serious 
+	depiction of the Cellist's many issues. An option has been 
+	provided below to skip it and read a summary instead, if you
+	would prefer to avoid playing through it. No penalty.
+	player:
+	&m1:
+		Point me where I need to go.
+	&r1a1:
+		I'll go make sure he's alright. (Read Summary)
+	&r2a1:
+		I need some time before that kind of talk. 
+		I'll be back when I'm ready. (exit)
+
+
+###### OPTIONAL SUMMARY. Y'know the one we have in case someone who has these same issues plays our game.
+###### so that they don't get reminded of the shit that they are attempting to forget about via escapism and videogames.
+###### please don't be weird about inclusivity features, if you are reading this file purely to try and own us for doing this.		
+r1a1:
+	*hide*
+	*txout*
+	*setspeaker narrator*
+	*wait .1*
+	*show*
+	Upon reaching the roof, the Cellist lashes out at you in anger,
+	thinking you're there only to pity him or give him hollow
+	platitudes, before apologizing for losing his temper again.
+	&r1a2
+	
+r1a2:
+	He explains the reasons for his substance abuse (primarily self-
+	loathing), and dismissively writes himself off as a lost cause 
+	only kept around by the other cats out of pity, and just wants them 
+	to throw him out already so he can finish self-destructing.
+	&r1a3
+	
+r1a3:
+	Upon being pressed, he admits he knows they care, but hates himself
+	for disappointing them when he relapses into bad habits while they 
+	try to help, and tries to push them away for their own good, as he
+	thinks that will make them stop hurting themselves for him.
+	&r1a4
+	
+r1a4:
+	You explain that deliberately shutting his friends out only causes 
+	them more pain in the long run, as they're willing to accept slip-ups
+	and instability to help their friend get better, but shutting them out
+	and making them watch him fall apart is like torture in comparison.
+	&r1a5
+	
+r1a5:
+	Realizing this makes the Cellist's emotional dam break, and he falls
+	apart crying. You sit with him until he calms down, both of you knowing
+	his problems are far from resolved, but he now understands what
+	his friends are trying to do, and will let them help. *mark_seen*
+	&exit
+	
+###### EARLY EXIT
+r2a1:
+	*setspeaker cat_bar*
+	That's perfectly understandable, but please, once you're
+	ready, come back as soon as you can.
+	&exit
+	
+###### MERGE Point
+m1:
+	*setspeaker cat_piano*
+	He's on the patio that overlooks the lake. 
+	&m2
+	
+m2:
+	*setspeaker cat_singer*
+	> "You’re gonna do great, I know it! ✧/ᐠ-ꞈ-ᐟ\"
+	&m3
+	
+m3:
+	*setspeaker cat_bar*
+	Thank you.
+	&m4
+	
+m4:
+	*hide*
+	*txout*
+	*setspeaker narrator*
+	*txin*
+	*show*
+	i suppose you think you're here to help me.
+	&m5
+	
+m5:
+	to say something magical that takes all of the shit on my soul
+	away, to channel mr. rogers and give me a nice three minute pep
+	talk that reminds me it's okay to be sad sometimes and not know
+	how to handle it and that it'll be okay some time soon
+	&m6
+	
+m6:
+	do you realize how many fucking times i've heard what you want
+	to say to me? are you so naive to think that no, clearly, all
+	he needs is to think properly and hear the right words and 
+	surely he'll turn his whole life around?
+	&m7
+	
+m7:
+	that he doesn't know he's a failure? do you have the slightest
+	fucking idea of who you are talking to? of WHAT you are talking
+	to? do you have ANY IDEA what you're advising?
+	&m8
+	
+m8:
+	i don't WANT help! i don't WANT to be pitied by a fucking
+	useless ephemeral piece of shit like you!
+	
+	i'm...    i...
+	&m9
+
+m9:
+	I'm sorry *player*.
+	I'm just so tired of being so tired.
+	player:
+	&concern:
+		Look, if you need space right now, I'll give it to you, but i'm
+		concerned about you.
+	&others:
+		The others are all worried sick about you.
+	&yoga:
+		I know everybody suggests it, but have you tried-
+
+###### RESPONSE 1		
+concern:
+	*setspeaker cat_cello*
+	I... I appreciate the offer. And the concern. But I don't know what 
+	I need right now.
+	&concern1
+	
+concern1:
+	...Well. I do know what I think I need, but enough of me's still 
+	stubborn enough to dig its heels in on the matter.
+	So I take the next best option.
+	&n1
+	
+###### RESPONSE 2
+others:
+	*setspeaker cat_cello*
+	Hah. More like worried sick OF me. They didn't even bother coming
+	up with you, did they? I know what the lot of them really think of
+	me, even if they don't admit it to themselves. It's just a matter
+	of time until they get sick of rebuilding torched bridges.
+	&n1
+	
+###### RESPONSE 3
+yoga:
+	*setspeaker cat_cello*
+	Please, I know you want to help, but I promise you I've tried
+	meditation, I've tried exercise, I've tried mindfulness, I've
+	tried every god damn granola hippie mom yoga program that exists.
+	None of it can fix that I, fundamentally, am the problem.
+	&n1
+	
+	
+###### MERGE
+n1:
+	*setspeaker cat_cello*
+	You think I fled this far into altered states for fun? No, it's
+	because I can't fucking stand myself. Being alone in my head,
+	with everything clear, with nothing between me and myself...
+	nobody could pitch me a more convincing Hell.
+	&n2
+	
+n2:
+	Maybe you can understand that. I really hope you don't. But the
+	funny thing about running from your problems is that you eventually
+	have to run as fast as you can just to stay in the same place.
+	&n3
+	
+n3:
+	That's what happened to me until I got...
+	lucky's not the right word.
+	&n4
+	
+	
+n4:
+	Years ago, I saw everything. Whatever I did, whatever I was on,
+	whatever my frame of mind was, it all aligned. I could see
+	everything in its place. I can't even describe what I saw and
+	felt, because I can't remember it anymore.
+	&n5
+	
+n5:
+	In that fleeting glimpse, that trip that lasted ten thousand
+	years in the span of a heartbeat, I was finally comfortable in
+	my own skin. I knew where I belonged. I knew where everything
+	was going, what things were building up twoards...
+	&n6
+	
+n6:
+	...and then I crashed.
+	&n7
+	
+n7:
+	It all was stripped from me as I came down. That sense of oneness,
+	that fulfillment, all of it gone except the echo of what it felt
+	like. I was left with nothing but that memory. That mockery.
+	&n8
+	
+n8:
+	I needed to see it all again.
+	To feel it again.
+	To escape again.
+	&n9
+	
+n9:
+	And that let me to what you see now. A burnt-out drug-addled wreck
+	chasing a mirage. It's been so long i'm not even sure if that 
+	memory is real anymore, or some gaslight phantom my mind's come
+	up with to justify its self-destruction.
+	&n10
+	
+n10:
+	I'm useless. I don't contribute anything to this crew anymore.
+	I'm just a wallowing piece of shit coasting on old glories and 
+	sympathies until they realize-
+	&n11
+	
+n11:
+	-realize that I'm more trouble than I'm worth,
+	and that I'll never live up to my "potential", 
+	and then they'll throw me out on my ass.
+	&n12
+	
+n12:
+	So just, leave me alone. Let me destroy what's left of me in peace.
+	If there's nothing left of me to care, or there's anybody left to
+	care for me...
+	&n13
+	
+n13:
+	.....that's all I can hope for anymore.
+	player:
+	&n14:
+		Are you trying to convince me of that, or yourself?
+		
+n14:
+	*setspeaker cat_cello*
+	....
+	player:
+	&n15:
+		I don't pretend to know what you're going through, but I can tell you\:
+		you're wrong about your friends. They see you hurting, and want to help.
+		
+n15:
+	*setspeaker cat_cello*
+	And when they try I just end up hurting them back. You saw what happened with
+	the Singer. They didn't deserve that shit. None of them do. I care about 
+	them too much to see them go through that.
+	player:
+	&n16:
+		So you think that hurting them on purpose makes up for hurting 
+		them on accident?
+	
+n16:
+	*setspeaker cat_cello*
+	.......
+	player:
+	&n17:
+		Shutting them out only hurts them more, not less. They keep holding their hands out 
+		for you even when they get burned sometimes. They know what they're dealing with.
+		They know you want help. They care about you enough to wait for you.
+		
+n17:
+	*setspeaker cat_cello*
+	.............
+	player:
+	&n18:
+		Take our hand.
+		
+n18:
+	*setspeaker narrator*
+	> With that, something inside the Cellist finally breaks open, and he
+	slumps to the ground as a wail tears itself free from his throat. You
+	sit with him as his sobbing wracks his body, arm around his shoulder,
+	hand on his.
+	&n19
+	
+n19:
+	> You sit with him until his tears are all spent. You both know how
+	long his road will be, and how many times he'll stumble. 
+	Habits don't change overnight-
+	&n20
+	
+n20:
+	-But any long trip feels shorter with good friends to share it with,
+	and the Cellist has finally realized it's time to let
+	some walk with him. *mark_seen*
+	&exit
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

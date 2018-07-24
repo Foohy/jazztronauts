@@ -119,9 +119,10 @@ end
 
 function GM:JazzMapStarted()
 	print("MAP STARTED!!!!!!!")
-	if not mapcontrol.IsInGamemodeMap() then
+	local isIntro = game.GetMap() == mapcontrol.GetIntroMap() 
+	if not mapcontrol.IsInGamemodeMap() or isIntro then
 		game.CleanUpMap()
-		self:GenerateJazzEntities()
+		self:GenerateJazzEntities(isIntro)
 	end
 
 	-- Unlock and respawn everyone
@@ -137,33 +138,34 @@ function GM:JazzMapStarted()
 	end
 end
 
-function GM:GenerateJazzEntities()
+function GM:GenerateJazzEntities(noshards)
 
 	if not mapcontrol.IsInHub() then
-	
-		-- Add current map to list of 'started' maps
-		local map = progress.GetMap(game.GetMap())
+		if not noshards then
+			-- Add current map to list of 'started' maps
+			local map = progress.GetMap(game.GetMap())
 
-		-- If the map doesn't exist, try to generate as many shards as we can
-		-- Then store that as the map's worth
-		if not map or tonumber(map.seed) == 0 then	
-			print("Brand new map")
-			local shardworth = mapgen.CalculateShardCount()
-			local seed = math.random(0, 100000)
-			shardworth = mapgen.GenerateShards(shardworth, seed) -- Not guaranteed to make all shards
+			-- If the map doesn't exist, try to generate as many shards as we can
+			-- Then store that as the map's worth
+			if not map or tonumber(map.seed) == 0 then	
+				print("Brand new map")
+				local shardworth = mapgen.CalculateShardCount()
+				local seed = math.random(0, 100000)
+				shardworth = mapgen.GenerateShards(shardworth, seed) -- Not guaranteed to make all shards
 
-			map = progress.StartMap(game.GetMap(), seed, shardworth)
-		-- Else, spawn shards, but only the ones that haven't been collected
-		else
-			map = progress.StartMap(game.GetMap()) -- Start a new session, but keep existin mapgen info
-			local shards = progress.GetMapShards(game.GetMap())
-			local generated = mapgen.GenerateShards(#shards, tonumber(map.seed), shards)
+				map = progress.StartMap(game.GetMap(), seed, shardworth)
+			-- Else, spawn shards, but only the ones that haven't been collected
+			else
+				map = progress.StartMap(game.GetMap()) -- Start a new session, but keep existin mapgen info
+				local shards = progress.GetMapShards(game.GetMap())
+				local generated = mapgen.GenerateShards(#shards, tonumber(map.seed), shards)
 
-			if #shards > generated then
-				print("WARNING: Generated less shards than we have data for. Did the map change?")
-				-- Probably mark those extra shards as collected I guess?
+				if #shards > generated then
+					print("WARNING: Generated less shards than we have data for. Did the map change?")
+					-- Probably mark those extra shards as collected I guess?
+				end
+				
 			end
-			
 		end
 
 		-- Spawn static prop proxy entities

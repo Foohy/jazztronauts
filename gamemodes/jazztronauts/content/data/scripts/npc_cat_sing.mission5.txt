@@ -1,0 +1,108 @@
+###### singer and pianist are sitting together
+
+accept:
+	> The Singer waves you over as usual and the Pianist cracks open an eye to 
+	look you up and down before returning to her meditation. The Singer sticks
+	their tongue out at her and passes over the tablet with your 
+	mission brief\:
+	&a1
+	
+a1:
+	> This one is a bit weird even by the standard you've come to expect\:
+	"Hey so this is the last thing I need to finally test a theory I've been developing
+	for actual years!!!! If you can get me NUMBER radio's, I should be able to make
+	some motherfucking magic happen. Hopefully. Maybe." *start 5*
+	&a2
+	
+a2:
+	> "We'll see together it'll be a journey of discovery \:･ﾟ✧\(\=✪ ᆺ ✪\=)/\:･ﾟ✧
+	This is the last job I'll be able to give, so I'll be sure it's your biggest
+	haul yet!!!"
+	&a3
+	
+a3:
+	> The Singer tells you that they've really enjoyed working with you and hope
+	you'll stick around for a while, before settling in to meditate with 
+	the Pianist.
+	&exit
+	
+	
+	
+idle:
+	*setspeaker narrator*
+	> When you approach the Singer, the Pianist raises a paw.
+	&i1
+	
+i1:
+	*setspeaker cat_piano*
+	They're sleeping.
+	You got The Goods yet?
+	&i2
+	
+i2:
+	Wait that was a stupid question, as you aren't toting the contents of an 
+	ancient ass AV store on your person.
+	&i3
+	
+i3:
+	I don't know why they want you to rob grandpa's radioshack but I'm sure there's
+	some lofty intellectual goal behind it. Whatever it is, thanks for helping them out.
+	I haven't seen the Singer so excited for a really long time. They like everyone, but
+	I think they really enjoy your company.
+	&i4
+	
+i4:
+	They;ll be sad when you leave.
+	&Exit
+
+turnin:
+	> When the Singer sees you, they light up with joy. They're nearly vibrating with how
+	fast they're bouncing. After handing over your pay of NUMBER, they take the radios
+	inside the Mewseum and gesture for you to follow. *finish 5*
+	&t1
+	
+t1:
+	> The Singer claps and goes around to each of the NPC's. They seem to be checking in
+	with them somehow, but it's hard to tell exactly what they're doing. When they're
+	satisfied, they trot over to stand beside you and pull out their tablet.
+	&t2
+	
+t2:
+	> They inform you that they're looking for any anomalous response, and have tried a
+	variety of different enrichment activities to try and encourage this. Then, they press
+	a button on their tablet.
+	&t3
+	
+t3:
+	sequence here of the singer blasting Que Chevere at an npc. they have no reaction.
+	> The Singer's shoulders slump. 
+	They turn away and start to open a door.
+	&t4
+	
+t4:
+	*setspeaker narrator*
+	this is a combine soldier talking\:
+	Hey, can you turn that down? I have a headache.
+	&t5
+	
+t5:
+	*setspeaker cat_singer*
+	> The Singer nearly drops their tablet in shock, and immediately turns off the radios.
+	They apologize to the NPC who spoke, and you both hurry out of the Mewseum.
+	&t6
+	
+t6:
+	> The Singer is actually crying with joy. They tell you that they will never be able to
+	fully express how much you've helped them and their research out, and thanks to your help
+	they're going to be able to fulfil a promise to an old friend. They'd like to talk later,
+	if you have the time.
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	

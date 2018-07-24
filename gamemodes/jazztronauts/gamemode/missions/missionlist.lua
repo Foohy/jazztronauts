@@ -256,3 +256,109 @@ AddMission(4, NPC_CAT_PIANO, {
     Prerequisites = { IndexToMID(3, NPC_CAT_PIANO)  },
     OnCompleted = GrantMoney(2500)
 })
+
+AddMission(5, NPC_CAT_PIANO, {
+    Instructions = "Find 3 metro police",
+    Filter = function(mdl) 
+        return mdl == "models/Police.mdl"
+    end,
+    Count = 3,
+    Prerequisites = { IndexToMID(4, NPC_CAT_PIANO)  },
+    OnCompleted = GrantMoney(2500)
+})
+
+/*
+===========================
+    Singer Missions
+===========================
+*/
+AddMission(0, NPC_CAT_SING, {
+    Instructions = "Find 10 document binders",
+    Filter = function(mdl) 
+        return string.match(mdl, "binder") or
+            string.match(mdl, "filecabinet") or
+            string.match(mdl, "file_cabinet")
+    end,
+    Count = 10,
+    Prerequisites = nil,
+    OnCompleted = GrantMoney(2500)
+})
+
+AddMission(1, NPC_CAT_SING, {
+    Instructions = "Find 5 toy dolls",
+    Filter = function(mdl) 
+        return MatchesAny(mdl, {
+            "models/props_lab/huladoll.mdl",
+            "models/props_c17/doll01.mdl",
+            "models/maxofs2d/companion_doll.mdl"
+        })
+    end,
+    Count = 5,
+    Prerequisites = { IndexToMID(0, NPC_CAT_SING)  },
+    OnCompleted = GrantMoney(2500)
+})
+
+AddMission(2, NPC_CAT_SING, {
+    Instructions = "Find 15 radiators to keep things warm",
+    Filter = function(mdl) 
+        return string.match(mdl, "radiator")
+    end,
+    Count = 15,
+    Prerequisites = { IndexToMID(1, NPC_CAT_SING)  },
+    OnCompleted = GrantMoney(2500)
+})
+
+AddMission(3, NPC_CAT_SING, {
+    Instructions = "Find 10 potted plants",
+    Filter = function(mdl) 
+        return MatchesAny(mdl, {
+            "models/props/de_inferno/claypot03.mdl",
+            "models/props/de_inferno/pot_big.mdl",
+            "models/props/de_inferno/potted_plant1.mdl",
+            "models/props/de_inferno/potted_plant2.mdl",
+            "models/props/de_inferno/potted_plant3.mdl",
+            "models/props/cs_office/plant01.mdl",
+            "models/props_lab/cactus.mdl",
+            "models/props_junk/terracotta01.mdl"
+        })
+    end,
+    Count = 10,
+    Prerequisites = { IndexToMID(2, NPC_CAT_SING)  },
+    OnCompleted = GrantMoney(2500)
+})
+
+AddMission(4, NPC_CAT_SING, {
+    Instructions = "Kidnap Alyx",
+    Filter = function(mdl) 
+        return MatchesAny(mdl, {
+            "models/alyx.mdl",
+            "models/alyx_ep2.mdl",
+            "models/alyx_interior.mdl",
+            "models/alyx_intro.mdl",
+            "models/player/alyx.mdl"
+        })
+    end,
+    Count = 1,
+    Prerequisites = { IndexToMID(3, NPC_CAT_SING)  },
+    OnCompleted = GrantMoney(2500)
+})
+
+AddMission(5, NPC_CAT_SING, {
+    Instructions = "Steal some radios",
+    Filter = function(mdl) 
+        return MatchesAny(mdl, {
+            "models/infra/props_clutter/cheap_radio.mdl",
+            "models/infra/props_clutter/radiophone.mdl",
+            "models/props/cs_office/radio.mdl",
+            "models/props_lab/citizenradio.mdl",
+            "models/props_radiostation/radio_antenna01.mdl"
+        })
+    end,
+    Count = 10,
+    Prerequisites = { IndexToMID(4, NPC_CAT_SING)  },
+    OnCompleted = GrantMoney(2500)
+})
+
+
+
+

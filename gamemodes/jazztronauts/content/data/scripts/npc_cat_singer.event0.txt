@@ -3,12 +3,17 @@ begin:
 ###### SCENE SETUP
 	*hide*
 	*txout*
-		
+	*setfov 70*
+	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1 2.0*
+	*setcam setpos 3538.873779 7408.384277 97.349792;setang 2.355879 148.264664 0.000000*
+	*spawn metrocopidiot models/police.mdl"
+	*setposang metrocopidiot setpos 4370.006836 6167.892578 0;setang 0 -91.389297 0.000000*
+	*setanim metrocopidiot walk_all*
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
-	*setposang cat_singer -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
+	*setposang cat_singer setpos 2793.226563 7960.495117 0;setang -90 225 0.000000*
 	*setnpcid cat_singer npc_cat_sing*
-	
 	*spawn player_dummy playerboy*
+	######*setposang player setpos 2911.817383 7921.412109 64.031250;setang 12.627135 166.505203 0.000000*
 	*txin*
 	*show*
 	
@@ -19,12 +24,14 @@ begin:
 	&b1
 	
 b1:
+	*setcam setpos 2815.425049 7859.031250 36.395782;setang 0.438521 79.219254 0.000000* ###### CAT AND PLAYER
 	*setspeaker cat_singer*
 	> As you approach,% the Singer's ears*setskin cat_singer 4* perk up.%% They tur*setskin cat_singer 0*n,% and wave 
 	when they*setanim cat_singer gesture_exchange 1.2 idle* recognize you.%%% Beckoning,% t*setskin cat_singer 1*hey invite you over.
 	&b2
 	
 b2:
+	*setcam setpos 2819.321533 7934.137207 43.848587;setang 3.253592 118.690002 0.000000* #### SINGER ALONE
 	*setskin cat_singer 4*
 	*setanim cat_singer gesture_confused .69 idle*
 	> They rest a paw against their chin of a moment,%%*setanim cat_singer gesture_sweep 1 idle* be*setskin cat_singer 0*fore making a 
@@ -33,6 +40,7 @@ b2:
 	&b3
 	
 b3:
+	*setcam setpos 2815.425049 7859.031250 36.395782;setang 0.438521 79.219254 0.000000* ###### CAT AND PLAYER
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_laugh 1 idle*
 	> Turning the tablet around,% they're clearly trying to take the Bartender's
@@ -43,7 +51,7 @@ b3:
 	
 b4:
 	*setskin cat_singer 0*
-	> Much better.%% This time you have no problem parsing the message\:%%%
+	> Much better.%% This time you have no problem parsing the message\:%%%*setcam setpos 2819.321533 7934.137207 43.848587;setang 3.253592 118.690002 0.000000* #### SINGER ALONE
 	"HI!!!%% WELCOME TO THE MEWSEUM!!"
 	&b5
 	
@@ -53,14 +61,18 @@ b5:
 	\"This is where I archive a copy of everything you steal for us!!!\”
 	player:
 	&r1a1:
+		*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
 		Sorry,% I hate learning.%%% I have somewhere else to be. (Exit)
 	&r2a1:
+		*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
 		I'm guessing you named it.
 	&r3a1:
+		*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
 		%.%.%.%%%Why?
 		
 ###### BRANCH 1 EARLY Exit
 r1a1:
+	*setcam setpos 2819.321533 7934.137207 43.848587;setang 3.253592 118.690002 0.000000* #### SINGER ALONE
 	*setspeaker cat_singer*
 	*setskin cat_singer 6*
 	*setanim cat_singer gesture_shock 1 idle*
@@ -72,6 +84,7 @@ r1a1:
 ###### BRANCH 2 
 	
 r2a1:
+	*setcam setpos 2819.321533 7934.137207 43.848587;setang 3.253592 118.690002 0.000000* #### SINGER ALONE
 	*setspeaker cat_singer*
 	*setskin cat_singer 4*
 	> The Singer blinks,*setskin cat_singer 0* then shakes *setanim cat_singer gesture_disagree 1 idle*their head.%%%% 
@@ -80,6 +93,7 @@ r2a1:
 	&r2a2
 	
 r2a2:
+	*setcam setpos 2815.425049 7859.031250 36.395782;setang 0.438521 79.219254 0.000000* ###### CAT AND PLAYER
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_laugh 1 idle*
 	> The Singer bounces in place and adds to the last message\:%% 
@@ -89,6 +103,7 @@ r2a2:
 	&r2a3
 	
 r2a3:
+	*setcam setpos 2819.321533 7934.137207 43.848587;setang 3.253592 118.690002 0.000000* #### SINGER ALONE
 	*setskin cat_singer 4*
 	*setanim cat_singer gesture_foldarms 1 idle*
 	> They put a paw to th*setskin cat_singer 3*eir mouth in the universal 'shhhh' signal.
@@ -100,12 +115,15 @@ r2a4:
 	they were entierly serious.
 	player:
 	&r1a1:
+		*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
 		Sorry,% I hate learning.%% I have somewhere else to be. (Exit)
 	&r3a1:
+		*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
 		%.%.%.%%%Why?
 	
 	
 r3a1:
+	*setcam setpos 2819.321533 7934.137207 43.848587;setang 3.253592 118.690002 0.000000* #### SINGER ALONE
 	*setspeaker cat_singer*
 	*setskin cat_singer 5*
 	*setanim cat_singer gesture_shock 1 idle*
@@ -123,20 +141,24 @@ r3a2:
 m1:
 	*hide*
 	*txout*
+	*setcam setpos 3593.667725 6683.125488 68.456795;setang 2.405043 -25.433838 0.000000*
+	*setposang cat_singer setpos 4176.487305 6288.590820 0;setang -90 0 0.000000*
+	######*setposang player setpos 4178.473633 6427.166992 64.031250;setang 19.388601 -88.558807 0.000000*
 	*txin*
 	*wait .15*
 	*setspeaker narrator*
 	*setskin cat_singer 0*
 	*show*
-	> The Singer has taken you over to the npc_combine playpen.%%%
+	> The Singer has taken you over to the npc_combine playpen.%%%%%
 	%%.%.%.%there's a bunch of combine soldiers walking in place and falling over.
 	&m2
 	
 ###### CAMERA SHOULD IMPLY A FIRST PERSON PERSPECTIVE FOR NEXT BIT
 	
 m2:
+	*setcam setpos 4177.395996 6357.103027 64.031250;setang 16.806452 -90.218063 0.000000*
 	*setspeaker cat_singer*
-	> They tell you to look at the things behind the glass.%%%%
+	> They tell you to look at the things behind the glass.%%%%*tweencam 1 setpos 4177.395996 6357.103027 64.031250;setang 0.035854 -44.271908 0.000000*%%%
 	> Closer.%%%%
 	*setfov 70*
 	> Closer.
@@ -144,7 +166,7 @@ m2:
 	
 m3:
 	*setfov 50* 
-	*emitsound sound/physics/glass/glass_sheet_impact_soft3.wav" %%% 
+	*emitsound physics/glass/glass_sheet_impact_soft3.wav" %%% 
 	*setfov 60* %%%%
 	> Not that close.
 	&m4
@@ -152,6 +174,7 @@ m3:
 ###### Back to third person perspective here.
 	
 m4:
+	*setcam setpos 3965.816895 6339.972168 64.046211;setang -0.363447 7.983169 0.000000*
 	*setanim cat_singer gesture_laugh 1 idle*
 	> The Singer beams at you.*setskin cat_singer 1* "Aren't they amazing???" 
 	they ask via tablet,%% as you watch one of the NPC's fall 
@@ -159,6 +182,8 @@ m4:
 	&m5
 	
 m5:
+	*setcam setpos 3310.753662 5280.324219 8.292404;setang -10 -25 0.000000*
+	*tweencam 20 setpos 3442.382080 5558.235352 8.292404;setang -10 -25 0.000000*
 	*setskin cat_singer 0*
 	*setanim cat_singer gesture_clap 1 idle*
 	> Apparently for as long as the cats have been stripping places along 
@@ -173,6 +198,7 @@ m5b:
 	&m6
 	
 m6:
+	*setcam setpos 3965.816895 6339.972168 64.046211;setang -0.363447 7.983169 0.000000*
 	*setskin cat_singer 2*
 	> Seeing your unchanging express*setskin cat_singer 4*ion,%%*setanim cat_singer gesture_sigh* they sigh.%%
 	"It didn't see*setskin cat_singer 2*m RIGHT to just destroy the hard work of everyone 
@@ -181,6 +207,7 @@ m6:
 	&m7
 	
 m7:
+	*setcam setpos 4157.589844 6339.635254 38.136181;setang -4.516154 -56.943005 0.000000*
 	*setskin cat_singer 3*
 	*setanim cat_singer gesture_confused 1 idle*
 	> Plus sometimes they find neat shit.%%%% 
@@ -195,6 +222,7 @@ m8:
 	&m9
 	
 m9:
+	*setcam setpos 3965.816895 6339.972168 64.046211;setang -0.363447 7.983169 0.000000*
 	*setskin cat_singer 0*
 	*setanim cat_singer gesture_agree 1 idle*
 	> Apparently they need to finish up the entry for that 

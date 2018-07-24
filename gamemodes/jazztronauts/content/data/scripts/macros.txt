@@ -19,7 +19,7 @@ complex_name(v0,v1,v2) first:v0 second:v1 compound(v2): oncat(v2)
 spawnbartender() *spawn cat_bar models/andy/bartender/cat_bartender.mdl**setnpcid cat_bar npc_cat_bar*
 spawnpianist() *spawn cat_piano models/andy/pianist/cat_pianist.mdl**setnpcid cat_piano npc_cat_piano*
 spawncellist() *spawn cat_cello models/andy/cellist/cat_cellist.mdl**setnpcid cat_cello npc_cat_cello*
-spawnsinger() *spawn cat_singer models/andy/singer/cat_singer.mdl**setnpcid cat_singer npc_cat_singer*
+spawnsinger() *spawn cat_singer models/andy/singer/cat_singer.mdl**setnpcid cat_singer npc_cat_sing*
 spawnnarrator() *spawn narrator models/npc/cat.mdl**setnpcid narrator npc_narrator*
 
 spawngang() spawncellist()spawnbartender()spawnpianist()spawnsinger()spawnnarrator()

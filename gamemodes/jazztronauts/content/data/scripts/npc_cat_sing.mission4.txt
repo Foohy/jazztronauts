@@ -1,0 +1,80 @@
+###### the accept phase of this mission requires camera work
+
+accept:
+	> The Singer waves you over and invites you to contemplate the water
+	with them for a little while.
+	&a1
+	
+a1:
+	> They thank you again for the help with the pots earlier, and inform you
+	that the early experiments are promising. Thanks to some vigorous application
+	of fertilizer they, borrowed, from the Cellist's supplies, the first shoots
+	have already appeared!
+	&a2
+	
+a2:
+	> They also apologize for your having to witness the tiff between the Pianist and
+	the Cellist. The squabbles have been less frequent since you arrived, and involved
+	less wanton destruction, but they know how sound can carry through the bar.
+	&a3
+	
+a3:
+	> The Singer stares over the water, then shakes their head and passes you your
+	mission briefing\: "This time I'm not going to ask anything too weird of you,
+	I promise!! Really this one is pretty pedestrian. I need you to find an instance
+	of Alyx."
+	&a4
+	
+a4:
+	> They further elaborate that wile there's a fairly robust collection of entities
+	in the Mewseum, they found reference to an npc named Alyx that appears to be 
+	relatively uncommon and thus needs to be preserved in a hurry. You'll be paid at a 
+	premium for tracking one down. *start 4*
+	&exit
+	
+	
+idle:
+	> The Singer doesn't stir when you approach, but their tablet has been left in reach
+	for you. A short message informs you that they're more tired than normal because of all
+	the excitement around the bar, and that they hope you don't find their frequent naps rude.
+	They inform you that you should feel free to wake them once you've found an Alyx.
+	&i1
+	
+i1:
+	> There's a nice picture of them giving a big smile and holding up a board with "You
+	can do it!!!!" scribbled on it attached to the end of the message.
+	&exit
+
+turnin:
+	> You're a little unsure how to best wake the Singer, so you settle for hunkering
+	down and lightly poking their paw. When this doesn't pay dividends, you have no choice.
+		camera close up on singers foot pads
+	> You poke the beans.
+	&t1
+	
+t1:
+	> The Singer grabs their tablet, beaming, and quickly writes out a message to the effect
+	of if you ever wake them up like that again they will not be held responsible for the
+	sick new facial scar you'll be sporting.
+	&t2
+	
+t2:
+	> They thank you for your work, and their tablet dings. This is apparently the signal 
+	that the Alyx arrived at the Mewseum intact, and NUMBER is transferred to your account
+	for your efforts! *finish 4*
+	&t3
+	
+t3:
+	> They encourage you to just call their name the next time you need to wake them up.
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

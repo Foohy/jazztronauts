@@ -1,0 +1,213 @@
+begin:
+
+###### SCENE SETUP
+	*hide*
+	*txout*
+		
+	*spawn cat_singer models/andy/singer/cat_singer.mdl*
+	*setposang cat_singer -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
+	*setnpcid cat_singer npc_cat_sing*
+	
+	*spawn player_dummy playerboy*
+	*txin*
+	*show*
+	
+###### START
+	*setspeaker narrator*
+	> The Bar Samsara%.%.%.%% somber as usual.
+	%%%%%.%.%.%?%%%
+	&b1
+	
+b1:
+	> You see the Singer en route back to the Mewseum 
+	and head over to say hi.
+	&b1b
+	
+b1b:
+	*setspeaker cat_singer*
+	*setskin cat_singer 2*
+	*setanim cat_singer gesture_shock 1.5 idle*
+	When they notice you,%% their tail puffs and 
+	they whip*setanim cat_singer gesture_anger 3 idle* the little dino plush behind their back.
+	&b2
+	
+b2:
+	*setskin cat_singer 5*
+	> They seem very interested in the floor suddenly.
+	player:
+	&r1a1:
+		If you don't want me to see it,% that's cool.%%%
+		See you later, yeah? (exit)
+	&r2a1:
+		Oh shit was that a brontosaurus? 
+		I love bronto's.
+	&r3a1:
+		It's okay,%% I'm not gonna give you shit or anything.
+		
+###### BRANCH 1 EARLY EXIT
+r1a1:
+	*setspeaker cat_singer*
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_agree 1.5 idle*
+	> They smile,%% and nod.%%% 
+	You watch them leave with a spring in their step,% 
+	and they don't bother trying to hide the dino as they do.
+	&exit
+	
+
+###### BRANCH 2 
+r2a1:
+	*setspeaker cat_singer*
+	*setskin cat_singer 5*
+	*setanim cat_singer gesture_agree .8 idle*
+	> Hesitantly,%% they nod,% and take out their tablet.%%%*setskin cat_singer 0* 
+	They possess a great deal of admiration for the humble brontosaurus.%%*setskin cat_singer 1* 
+	It's their favourite dinosaur.
+	&r2a2
+
+r2a2:
+	*setskin cat_singer 0*
+	*setanim cat_singer gesture_clap 1.4 idle*
+	> Seemingly delighted that you're still listening,%% 
+	they tell you that the*setanim cat_singer gesture_sweep 1 idle* name has been an intense source of 
+	drama in palentologist circles.
+	&r2a3
+	
+r2a3:
+	*setskin cat_singer 3*
+	*setanim cat_singer gesture_shock 1.5 idle*
+	> Apparently the guy who discovered them found a second set of*setanim cat_singer gesture_clap 1.3 idle* 
+	bones after naming the new thing the Apatosaurus, Assumed this*setskin cat_singer 0* 
+	second set was a new species of even BIGGER dinosaurs,*setanim cat_singer gesture_confused 1.2 idle* Then they 
+	thought that wasn't true for a while and then*setanim cat_singer gesture_shrug 1 idle* it was and then not again??
+	&r2a4
+	
+r2a4:
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_laugh 1.3 idle*
+	> The Singer beams.%%% "Now it's*setskin cat_singer 0* a GENUS rather than just one 
+	species so there's like three dinosaurs that get the subtitle 
+	of THUNDER LIZARD*setanim cat_singer gesture_clap 1 idle*!!!!%%%*setskin cat_singer 1* How fucking rad is that???? ” 
+	&r2a5
+	
+r2a5:
+	> They seem a little less self-conscious now.
+	player:
+	&r1a1:
+		If you don't want me to see it,% that's cool.%%%
+		See you later, yeah? (exit)
+	&r3a1:
+		It's okay,%% I'm not gonna give you shit or anything.
+	
+###### BRANCH 3
+r3a1:
+	*setspeaker cat_singer*
+	*setskin cat_singer 2*
+	*setanim cat_singer gesture_exchange .75 idle*
+	> Slowly,%% they pull the plush out from behind their back.%%%%*setskin cat_singer 1*
+	close up shot of dino toy
+	> It's fucking adorable.
+	&r3a2
+	
+r3a2:
+	*setanim cat_singer gesture_exchange 2 idle*
+	*setskin cat_singer 0*
+	>Tucking the brontosaurus under their arm,%% the Singer tells 
+	you that it was a gift from one*setanim cat_singer gesture_sweep 1 idle* of the six people that 
+	stayed here before you did.
+	&r3a3
+	
+r3a3:
+	*setskin cat_singer 7*
+	> They were a dear friend.%%%%
+	&r3a4
+	
+r3a4:
+	*setskin cat_singer 0*
+	*setanim cat_singer gesture_disagree .75 idle*
+	> It has a lot of sentimental value,% but is no substitute 
+	for their company\:%%%% "It gets sort of lonely around here 
+	sometimes.%% And taking care of the Mewseum is much more 
+	work when it's just me ( ._.) "
+	&r3a5
+	
+r3a5:
+	*setanim cat_singer singer_survey 1 idle*
+	> The Singer stares off into the distance for a moment 
+	and then*setanim cat_singer gesture_disagree 2 idle* visibly snaps themselves*setskin cat_singer 1* out of it 
+	to smile at you.
+	&r3a5b
+	
+r3a5b:
+	*setskin cat_singer 0*
+	*setanim cat_singer gesture_agree 1 idle*
+	> They tell you that they really appreciate
+	the help you've been giving them so far and that*setskin cat_singer 1* 
+	it's been nice to have time to catalogue properly.
+	&r3a6
+
+r3a6:
+	*setskin cat_singer 3*
+	*setanim cat_singer singer_showshard*
+	> They let you touch the bronto plushie.
+	&r3a7
+	
+r3a7:
+	> It's so fucking soft holy shit.
+	&r3a8
+	
+r3a7:
+	*setskin cat_signer 1*
+	*setanim cat_singer gesture_laugh 1 idle*
+	> The Singer bounces and tells you they'll have more 
+	work for you later but for now they've really *setskin cat_singer 0*
+	gotta catch some Z's.
+	&end
+	
+end:
+	*setspeaker narrator*
+	> The Singer yawns, and jumps onto the top of the bar.%% 
+	They curl up with the dino plush and zonk out pretty quick.%%%% 
+	You decide to head back. *mark_seen*
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

@@ -1,0 +1,217 @@
+begin:
+
+###### SCENE SETUP
+	*hide*
+	*txout*
+		
+	*spawn cat_singer models/andy/singer/cat_singer.mdl*
+	*setposang cat_singer -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
+	*setnpcid cat_singer npc_cat_sing*
+	
+	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
+	*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
+	*setnpcid cat_bar npc_cat_bar*
+	
+	*spawn player_dummy playerboy*
+	*txin*
+	*show*
+	
+###### START
+	*setspeaker narrator*
+	> Passing by the bar, you spot the Singer and the Bartender.
+	&b1
+	
+b1:
+	*setspeaker narrator*
+	*setskin cat_bar 0*
+	*setanim cat_bar gesture_foldarms .75 idle*
+	> The Bartender is reading whatever the Singer has written on 
+	their tablet with great rapture.%%% Her expression shifts into a 
+	broad smile*setskin cat_bar 1*,%*setanim cat_bar gesture agree 1 idle* and*setskin cat_singer 1* the*setanim cat_singer gesture_clap 1 idle* Singer claps.
+	&b2
+	
+b2:
+	*setspeaker cat_bar*
+	*setanim cat_bar gesture_sweep 1 idle*
+	That's fantastic!%%%*setskin cat_bar 0* I'm*setanim cat_bar gesture_agree 1 idle* very impressed at the tremendous strides 
+	your program has made in such a short time since you've had 
+	the aid of our guest.
+	&b3
+	
+b3:
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_exchange 2 idle*
+	Speaking of which,% welcome!%%*setskin cat_bar 0* Take a seat,%*setanim cat_bar gesture_sweep 1 idle* and I'll mix you 
+	something up.%% Free of charge,% since you've been such an 
+	invaluable research assistant for the Singer.
+	player:
+	&r1a1:
+		Sorry, I just wanted to say hi. 
+		I'll take a rain check on that, though. (exit)
+	&r2a1:
+		If i'm a research assistant I expect to be credited 
+		on the paper when you release your findings to 
+		CATScan or something.
+	&r3a1:
+		Cheers. So what's up?
+		
+###### BRANCH 1 EARLY EXIT
+r1a1:
+	*setspeaker cat_singer*
+	*setskin cat_bar 1*
+	*setskin cat_singer 1*
+	The Singer smiles and waves as you head off,% and the 
+	Bartender salutes you with an empty glass. 
+	&r1a2
+	
+r1a2:
+	*setskin cat_bar 0*
+	*setskin cat_singer 0*
+	They immediately return to their conversation and you hear 
+	something about an 'ascension program' as you walk away.
+	&exit
+	
+###### BRANCH 2
+r2a1:
+	*setspeaker cat_singer*
+	*setskin cat_singer 2*
+	*setanim cat_singer gesture_shock 1.7 idle*
+	> The Singer looks legitimately offended and then opens*setskin cat_singer 0* up their 
+	thesis-in-progress to show that you*setanim cat_singer gesture_agree 1 idle* have in fact already been 
+	credited in full as a research partner.
+	player:
+	&r1a1:
+		Sorry,% I just wanted to say hi.%%%% 
+		I'll take a rain check on that drink,% though. (exit)
+	&r3a1:
+		Cheers.%% So what's up?
+	
+###### BRANCH 3
+r3a1:
+	*setspeaker cat_singer*
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_exchange 1.4 idle*
+	> The Singer pats the seat next to them,%% sliding the tablet 
+	over so you can share in the conversation.*setskin cat_singer 0* 
+	&r3a1b
+	
+r3a1b:
+	*setskin cat_singer 4*
+	*setanim cat_singer gesture_foldarms .7 idle*
+	> Apparently they have been telling the Bartender all about the 
+	behaviours they've observed from the new Mewseum resident you 
+	acquired for them,%%%*setskin cat_singer 0* and of some new behaviours older 
+	subjects have displayed in response.
+	&r3a2
+	
+r3a2:
+	*setanim cat_singer gesture_jab .85 idle*
+	*setskin cat_singer 0*
+	> The Singer runs a program in which they expose the NPC's to 
+	different things you have stolen to*setanim cat_singer gesture_confused .9 idle* see whether there's any 
+	changes in their routines. 
+	&r3a2b
+	
+r3a2b:
+	*setanim cat_singer gesture_shrug 1 idle*
+	> At present, they're essentially animatronics.%%%%*setanim cat_singer gesture_sigh .85 idle* 
+	They have no reaction on any level to stimuli outside of
+	pre-programmed behaviours.
+	&m1
+	
+m1:
+	*setspeaker cat_bar*
+	*setskin cat_bar 4*
+	*setanim cat_bar gesture_confused 1 idle*
+	I must say,%% *player*,%%%%*setskin cat_bar 0* 
+	you've been reminding us of someone we used to know as 
+	of late.%%%*setanim cat_bar gesture_agree 1 idle* It's been delightful.
+	&m2
+	
+m2:
+	*setspeaker cat_singer*
+	*setanim cat_singer gesture_agree 1.3 idle*
+	> The Singer agrees.%%% It has been wonderful*setskin cat_singer 1* having*setanim cat_singer gesture_clap 1 idle* help with 
+	the Mewseum again.%% Their last helper was also very*setanim cat_singer gesture_laugh 1 idle* good at 
+	finding,% niche,%% objects.*setskin cat_singer 0* 
+	&m2b
+	
+m2b:
+	*setskin cat_singer 4*
+	*setanim cat_singer gesture_foldarms .7 idle*
+	They recount the time in which their assistant spent three 
+	weeks trawling the Voidway searching for a specific level
+	trigger that the Singer had theorized could revolutionize 
+	the Mewseum's storage system.*setskin cat_singer 0*
+	&m3
+	
+m3:
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_agree 1 idle*
+	> They preen as you read this,%% as it 
+	was a correct hypothesis.*setskin cat_singer 0*
+	&m4
+	
+m4:
+	*setspeaker cat_bar*
+	*setskin cat_bar 0*
+	*setanim cat_bar gesture_shrug 1 idle*
+	They were always just as excited about 
+	the potential as you were.
+	&m5
+	
+m5:
+	Thank you, *player*.
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_confused 1 idle*
+	We've all greatly appreciated your presence 
+	and assistance here.*setskin cat_bar 0*
+	&m6
+	
+m6:
+	*setspeaker cat_singer*
+	*setskin cat_singer 0*
+	*setanim cat_singer gesture_agree 1.4 idle*
+	> The Singer bounces in their seat as they nod.%%%*setanim cat_singer gesture_laugh 1 idle*	
+	They're very thankful to count you among their friends. 
+	&m7
+	
+m7:
+	*setspeaker narrator*
+	You share a plate of exceptionally good pastriest and a couple
+	of drinks,%% and it's time well spent. *mark_seen*
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

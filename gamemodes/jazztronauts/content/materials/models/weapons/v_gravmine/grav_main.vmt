@@ -1,7 +1,7 @@
 "VertexlitGeneric"
 {
 	"$basetexture" "models/weapons/v_gravmine/grav_main"
-	"$bumpmap" "models/weapons/v_gravmine/grav_main_N"
+//	"$bumpmap" "models/weapons/v_gravmine/grav_main_N"
 	"$phong" "1"
 	"$phongboost" "1"
 	"$phongexponent" 10

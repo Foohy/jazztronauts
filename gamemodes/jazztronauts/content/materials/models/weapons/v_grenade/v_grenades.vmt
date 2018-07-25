@@ -1,7 +1,7 @@
 "VertexlitGeneric"
 {
 	"$basetexture" "models/weapons/v_grenade/v_grenades"
-	"$bumpmap" "models/weapons/v_grenade/v_grenades_normal"
+//	"$bumpmap" "models/weapons/v_grenade/v_grenades_normal"
 	 "$envmap" "env_cubemap"
    	 "$envmapsaturation" .5
   	  "$model" 1

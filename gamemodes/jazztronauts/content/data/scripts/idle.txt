@@ -1,12 +1,95 @@
-begin:
-    *slam Waddup. nobody wrote this yet.*
-    &beginagain
+begin1:
+    *setauto 0*
+    condition:
+    &itsthattime:
+        local d \= date("\*t")
+        return d.hour \=\=4 and d.min \=\= 20
+	&bar_bark1:
+        return maybe(6, 1)
+	&bar_bark2:
+        return maybe(6, 2)
+    &bar_bark3:
+        return maybe(6, 3)
+    &bar_bark4:
+        return maybe(6, 4)
+    &bar_bark5:
+        return maybe(6, 5)
+    &bar_bark6:
+        return maybe(6, 6)
 
-beginagain:
-    haha wow sure would suck if this got stuck on your screen
+bar_bark1:
+    *setauto*
+    Delightful to see you, as always. Can I get you anything?%
     &exit
 
-begin1:
+bar_bark2:
+    *setauto*
+    Oh! I didn’t see you there. Have you seen the Cellist about? 
+    I’m concerned he may be planning a heist. 
+    I store the decanted shard essence in crystal form, you see…%
+    &exit
+
+bar_bark3:
+    *setauto*
+    The Pianist seems much more relaxed these days. 
+    You’ve had quite the effect on her, you know.%
+    &exit
+
+bar_bark4: 
+    *setauto*
+    The Singer has been telling me about your exploits assisting them 
+    with their research. I haven’t seen them smile so much in a long time.%
+    &exit
+
+bar_bark5:  
+    *setauto*
+    I keep thinking about the Band. I wonder if they’d 
+    be open to a creative collaboration one day?%
+    &exit
+
+bar_bark6: 
+    *setauto*
+    The Bar Samsara hasn’t been so alive for an age. 
+    I hope this is the start of something good, for all of us. %
+    &exit
+
+itsthattime:
+    *setauto 0*
+    *setrate 0.40*
+    *bgmplay sound/jazztronauts/music/events/its_that_time.mp3*
+    %%%
+    woah you're never gonna believe what time it is% man%%%
+    oh god%%
+    it's *c 0 155 0*4\:20*c* man%%%
+    ho   ho   ho %% aughhhhh
+    &itsthattime2
+itsthattime2:
+    *setauto 0*
+    *setrate 0.40*
+    AUUUUUUUUGGGHHHHGGGGHHHHHHHHHHHHHHHHHHH%%
+    YEHHHHHHHHGGGGHHHHHHH%
+    IT'S *c 0 155 0*4\:20*c* MAN %%
+    HO HO %% HOOOOO%
+    &itsthattime3
+itsthattime3:
+    *setauto 0*
+    *setrate 0.40*
+    HOOOOOO%%
+    HEY MOM GUESS WHAT IT'S *c 0 155 0*4\:20*c*%
+    HAHAAH HAA%%
+    HA % HAAAAAAA
+    &itsthattime4
+
+itsthattime4:
+    *setauto 0*
+    *c 0 155 0*%
+    *setrate 0.21*
+    HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    *bgmstop*
+    &exit
+
+
+begin12:
     Hey it's been a while how've y*emitsound ambient/materials/door_hit1.wav*-
     *slam [CRASH THROUGH DOOR]**shake 0.25*
     *setskin focus 3* *emitsound npc/metropolice/gear1.wav*%*emitsound npc/metropolice/gear2.wav*%

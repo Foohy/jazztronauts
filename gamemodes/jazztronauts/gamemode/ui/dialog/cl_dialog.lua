@@ -43,6 +43,9 @@ local _dialog = {
 module("dialog")
 
 PrintSpeedScale = 1.0
+PrintCommandScale = 1.0
+
+AutoAdvanceTime = nil
 
 Init()
 
@@ -173,7 +176,6 @@ Time = function( newtime )
 end
 
 State = function( newstate, wait )
-
 	if not newstate then return _dialog.state end
 
 	if wait then
@@ -206,6 +208,14 @@ local function QueueWait(cmd, data)
 	if advanceTime then
 		if cmd != "exit" then
 			State(STATE_OPENED, advanceTime)
+			for k, v in pairs(data) do 
+				print(k, v) 
+				if type(v) == "table" then
+					for kk, vv in pairs(v) do
+						print(" ", kk, vv)
+					end
+				end
+			end
 			return data
 		else
 			return State(STATE_CLOSING, advanceTime)
@@ -219,7 +229,42 @@ local function QueueWait(cmd, data)
 	end
 end
 
+local conditionEnv = 
+{
+	print = print,
+	math = math,
+	newgame = newgame,
+	resetcount = newgame.GetResetCount,
+	state = newgame.GetGlobal,
+	unlocked = function(key, value) return unlocks.IsUnlocked(key, LocalPlayer(), value) end,
+	money = jazzmoney,
+	time = os.time,
+	date = os.date,
+	maybe = function(odds, test) return math.Round(util.SharedRandom("shared", 1, odds, FrameNumber())) == test end
+}
+
+local function ProcessConditionalOptions(data)
+
+	for k, v in ipairs(data) do
+		local func = CompileString(v.data[1].data, "dialog_conditional")
+		if not func then continue end
+
+		debug.setfenv(func, conditionEnv)
+		local succ, res = pcall(func)
+		if succ and res then
+			print("DOING CONDITION: ", v.data[1].data)
+			local jmpdata = v.data[#v.data]
+			return QueueWait(jmpdata.cmd, jmpdata.data)
+		elseif not succ then
+			ErrorNoHalt("Dialog condition failed:\n" .. res .. "\n")
+		end
+	end
+
+	ErrorNoHalt("BAD DIALOG CONDITION: CONDITIONAL WITHOUT ANY TRUE CONDITIONS\n")
+end
+
 function ScriptCallback(cmd, data)
+	print(cmd, data)
 	if cmd == CMD_JUMP then
 		return QueueWait(cmd, data)
 	end
@@ -238,7 +283,12 @@ function ScriptCallback(cmd, data)
 		State( STATE_PRINTING, .2 )
 	end
 	if cmd == CMD_OPTIONLIST then
-		InvokeEvent("ListOptions", data)
+
+		if data.data.conditional then 
+			return ProcessConditionalOptions(data.data)
+		else
+			InvokeEvent("ListOptions", data)
+		end
 	end
 	if cmd == CMD_EXIT then
 		return QueueWait(cmd, data)
@@ -291,6 +341,9 @@ function StartGraph(cmd, skipOpen, options, delay)
 		local wasOpen = State() and State() != STATE_IDLE
 
 		PrintSpeedScale = 1.0
+		PrintCommandScale = 1.0
+
+		AutoAdvanceTime = nil
 
 		SetText()
 		_dialog.text = ""
@@ -314,12 +367,20 @@ function SkipText()
 	PrintSpeedScale = math.huge
 end
 
+function SetDialogRate(r)
+	PrintCommandScale = r
+end
+
+function SetAutoAdvanceTime(t)
+	AutoAdvanceTime = t
+end
+
 function GetSpeedScale()
-	return PrintSpeedScale * (tonumber(GetParam("PRINT_RATE")) or 1)
+	return PrintCommandScale * PrintSpeedScale * (tonumber(GetParam("PRINT_RATE")) or 1)
 end
 
 function GetDialogAdvanceTime()
-	return tonumber(GetParam("AUTO_ADVANCE"))
+	return tonumber(GetParam("AUTO_ADVANCE")) or AutoAdvanceTime
 end
 
 -- Continue onto the next page of dialog
@@ -408,3 +469,11 @@ end )
 RegisterFunc("mark_seen", function(d)
 	d.seen = true
 end )
+
+RegisterFunc("setrate", function(d, r)
+	SetDialogRate(tonumber(r) or 1.0)
+end)
+
+RegisterFunc("setauto", function(d, t)
+	SetAutoAdvanceTime(tonumber(t))
+end)

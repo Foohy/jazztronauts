@@ -181,12 +181,13 @@ function CompileScript(script)
 			entry = {}
 			entry.type = ENTRY_NORMAL
 			entry.data = t.tok
-			if t.tok ~= "player" then
-				jump_parent = entry
-				table.insert(entries, entry)
-			else
+			if t.tok == "player" or t.tok == "condition" then
+				entry.conditional = t.tok == "condition"
 				if jump_parent ~= nil then table.insert(jump_parent, {cmd=CMD_OPTIONLIST, data=entry}) end
 				jump_parent = entry
+			else
+				jump_parent = entry
+				table.insert(entries, entry)
 			end
 			i = i + 1
 
@@ -384,7 +385,7 @@ function LoadMacros()
 end
 
 function LoadScripts()
-
+	print("Loading dialog scripts...")
 	LoadMacros()
 
 	--print("Loading scripts...")
@@ -425,16 +426,16 @@ local function CheckHotReload()
 	end
 
 end
-
-local nexthotreloadcheck = 0
-hook.Add( "Think", "JazzScriptCheckHotReload", function()
-	if nexthotreloadcheck > CurTime() then return end
-	nexthotreloadcheck = CurTime() + 30
-end )
-concommand.Add("jazz_debug_refreshscripts", function()
-	CheckHotReload()
-end )
-
+if CLIENT then
+	local nexthotreloadcheck = 0
+	hook.Add( "Think", "JazzScriptCheckHotReload", function()
+		if nexthotreloadcheck > CurTime() then return end
+		nexthotreloadcheck = CurTime() + 30
+	end )
+	concommand.Add("jazz_debug_refreshscripts", function()
+		LoadScripts()
+	end )
+end
 function GetGraph()
 
 	return g_graph
@@ -462,19 +463,21 @@ function EnterNode(cmd, callback)
 	stepfunc = function()
 
 		if not cmd then return nil end
+		local jump = nil
 		if cmd.cmd == CMD_OPTIONLIST then
 
-			callback(CMD_OPTIONLIST, cmd, stepfunc)
+			jump = callback(CMD_OPTIONLIST, cmd, stepfunc)
 			for _, opt in ipairs(cmd.data) do
 				callback(CMD_OPTION, opt, stepfunc)
 			end
 
 		else
 
-			local jump = callback(cmd.cmd, cmd.data)
-			if jump and #jump > 0 then cmd = jump[1] return end
+			jump = callback(cmd.cmd, cmd.data)
 
 		end
+
+		if jump and #jump > 0 then cmd = jump[1] return end
 
 		cmd = cmd.next
 		return cmd

@@ -512,7 +512,7 @@ local function LoadVVD( mdl_path, fast )
 	local vertices = {}
 	local tangents = {}
 
-	PrintTable( header )
+	--PrintTable( header )
 
 	if header.numFixups > 0 then
 
@@ -525,7 +525,7 @@ local function LoadVVD( mdl_path, fast )
 
 		end
 
-		PrintTable( fixups )
+		--PrintTable( fixups )
 
 	end
 
@@ -618,8 +618,8 @@ local function UnifyNormals( vvd, mdl )
 	max.y = math.ceil( max.y / grid_res ) * grid_res
 	max.z = math.ceil( max.z / grid_res ) * grid_res
 
-	print( tostring( min ) )
-	print( tostring( max ) )
+	--print( tostring( min ) )
+	--print( tostring( max ) )
 
 	local grid_lookup = {}
 
@@ -673,7 +673,7 @@ local function UnifyNormals( vvd, mdl )
 
 	end
 
-	print( #vvd.vertices .. " in " .. #bins .. " bins")
+	--print( #vvd.vertices .. " in " .. #bins .. " bins")
 
 	for _, bin in pairs( bins ) do
 
@@ -696,7 +696,7 @@ local function UnifyNormals( vvd, mdl )
 
 	end
 
-	print("TOOK: " .. ( SysTime() - start ) )
+	--print("TOOK: " .. ( SysTime() - start ) )
 
 end
 

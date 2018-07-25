@@ -435,14 +435,14 @@ function meta:RunStaticProp( propid, propproxy )
 	local t = task.New( function()
 
 		-- Grab prop data
-		MsgC(Color(100,255,100), "I want to load: " .. tostring(mdl) .. "\n")
+		--MsgC(Color(100,255,100), "I want to load: " .. tostring(mdl) .. "\n")
 
 		while load_locks[mdl] do
 			MsgC(Color(100,255,100), "Load lock: " .. tostring(mdl) .. "\n")
 			task.Sleep(.1)
 		end
 
-		MsgC(Color(100,160,255), "I begin loading: " .. tostring(mdl) .. "\n")
+		--MsgC(Color(100,160,255), "I begin loading: " .. tostring(mdl) .. "\n")
 
 		local b,e = pcall(function()
 			if not expanded_models[mdl] or debug_resnatch then
@@ -459,11 +459,11 @@ function meta:RunStaticProp( propid, propproxy )
 	end, 4 )
 
 	function t:progress()
-		Msg(".")
+		--Msg(".")
 	end
 
 	function t:section( sec )
-		MsgC(Color(255,100,255), "\n\nENTER SECTION: " .. tostring(sec) .. "\n\n")
+		--MsgC(Color(255,100,255), "\n\nENTER SECTION: " .. tostring(sec) .. "\n\n")
 	end
 
 	function t:snatch()
@@ -893,14 +893,14 @@ elseif CLIENT then
 				loadicon.PushLoadState("LOADING: " .. tostring(mdl))
 
 				-- Grab prop data
-				MsgC(Color(100,255,100), "I want to load: " .. tostring(mdl) .. "\n")
+				--MsgC(Color(100,255,100), "I want to load: " .. tostring(mdl) .. "\n")
 
 				while load_locks[mdl] do
-					MsgC(Color(100,255,100), "Load lock: " .. tostring(mdl) .. "\n")
+					--MsgC(Color(100,255,100), "Load lock: " .. tostring(mdl) .. "\n")
 					task.Sleep(.1)
 				end
 
-				MsgC(Color(100,160,255), "I begin loading: " .. tostring(mdl) .. "\n")
+				--MsgC(Color(100,160,255), "I begin loading: " .. tostring(mdl) .. "\n")
 
 				local b,e = pcall(function()
 					if not expanded_models[mdl] or debug_resnatch then
@@ -919,11 +919,11 @@ elseif CLIENT then
 			end, 1 )
 
 			function t:progress()
-				Msg(".")
+				--Msg(".")
 			end
 
 			function t:section( sec )
-				MsgC(Color(255,100,255), "\n\nENTER SECTION: " .. tostring(sec) .. "\n\n")
+				--MsgC(Color(255,100,255), "\n\nENTER SECTION: " .. tostring(sec) .. "\n\n")
 			end
 
 			function t:OnFinished()

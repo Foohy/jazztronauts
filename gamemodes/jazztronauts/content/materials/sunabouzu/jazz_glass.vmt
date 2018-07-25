@@ -3,6 +3,10 @@
 	"$basetexture" "sunabouzu/jazz_glass"
 	"$surfaceprop" "Glass"
 	"%keywords" "jazz"
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[.33 .18 .2]"
+	"$envmapcontrast"	.25
+	"$envmapsaturation" 1
 	"$additive" 1
 	"$nocull" 1
 }

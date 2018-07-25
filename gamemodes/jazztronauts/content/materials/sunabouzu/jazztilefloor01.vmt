@@ -2,11 +2,12 @@
 {
 	"$basetexture" "sunabouzu/jazztilefloor01_a"
 	"$bumpmap" "sunabouzu/jazztilefloor01_n"
+	$ssbump 1
 	"$surfaceprop" "Tile"
 	"$envmap" "env_cubemap"
 	"$envmaptint" "[ 0.5 0.5 0.5 ]"
-	"$envmapcontrast"	.5
-	"$envmapsaturation" .5
+	"$envmapcontrast"	2.2
+	"$envmapsaturation" 1
 	"$normalmapalphaenvmapmask" 1
 	"%keywords" "jazz"
 }

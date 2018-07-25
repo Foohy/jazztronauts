@@ -4,6 +4,8 @@
 	"$envmapmask" "sunabouzu/jazzwood04_s"
 	"$surfaceprop" "Wood_Solid"
 	"%keywords" "jazz"
-	"$envmapcontrast" 1
-	"$envmapsaturation" 1
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[.33 .18 .2]"
+	"$envmapcontrast"	1.5
+	"$envmapsaturation" .15
 }

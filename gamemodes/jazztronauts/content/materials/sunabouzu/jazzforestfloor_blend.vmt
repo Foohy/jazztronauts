@@ -10,7 +10,5 @@
 	"$surfaceprop" "Rock"
 	"$surfaceprop2" "Dirt"
 	$blendmodulatetexture "sunabouzu/jazzblendmodulate"
-	$envmap env_cubemap
-	$envmaptint "[ .8 .8 .8]"
 	"%keywords" "jazz"
 }

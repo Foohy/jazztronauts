@@ -2,11 +2,12 @@
 {
 	"$basetexture" "sunabouzu/jazzwoodfloor02_a"
 	"$bumpmap" "sunabouzu/jazzwoodfloor02_n"
+	$ssbump 1
 	"$surfaceprop" "Wood_Solid"
 	"$envmap" "env_cubemap"
 	"$normalmapalphaenvmapmask" 1
-	"$envmapcontrast" 1
-	"$envmapsaturation" .7
-	"$envmaptint" "[ .72 .72 .72 ]"
+	"$envmapcontrast" 1.5
+	"$envmapsaturation" 1
+	"$envmaptint" "[.33 .1 .2]"
 	"%keywords" "jazz"
 }

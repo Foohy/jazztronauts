@@ -2,14 +2,11 @@
 {
 	"$basetexture" "sunabouzu/jazzconcretefloor02_A"
 	"$bumpmap" "sunabouzu/jazzconcretefloor02_N"
+	$ssbump 1
 	"$surfaceprop" "Concrete"
         "$detail" "sunabouzu/jazznoise"
 	"$detailscale" "3"
 	"$detailblendfactor" .3
 	"$detailblendmode" 0
-	"$envmap" "env_cubemap"
-	"$envmaptint" "[ .1 .1 .1 ]"
-	"$normalmapalphaenvmapmask" 1
 	"%keywords" "jazz"
-	"$envmapsaturation" .3
 }

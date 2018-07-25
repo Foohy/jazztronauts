@@ -2,6 +2,12 @@
 {
 	"$basetexture" "sunabouzu/jazzceiling_A"
 	"$bumpmap" "sunabouzu/jazzceiling_N"
+	$ssbump 1
 	"$surfaceprop" "plastic"
+	$normalmapalphaenvmapmask 1
+	"$envmap" "env_cubemap"
+  	"$envmaptint" "[.8 .6 .75]"
+	"$envmapcontrast"	1
+	"$envmapsaturation" 1
 	"%keywords" "jazz"
 }

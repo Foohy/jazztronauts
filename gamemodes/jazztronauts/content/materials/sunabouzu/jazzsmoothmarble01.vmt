@@ -4,7 +4,7 @@
 	"$surfaceprop" "Tile"
 	"%keywords" "jazz"
 	$envmap env_cubemap
-	$envmaptint "[.5 .5 .5]"
+	$envmaptint "[.1 .1 .1]"
 	"$envmapcontrast" .25
 	"$envmapsaturation" .4
 }

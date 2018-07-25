@@ -2,6 +2,7 @@
 {
 	"$basetexture" "sunabouzu/jazzbrickwall03_A"
 	"$bumpmap" "sunabouzu/jazzbrickwall02_N"
+	$ssbump 1
 	"$surfaceprop" "Brick"
         "$detail" "sunabouzu/jazznoise"
 	"$detailscale" "6"

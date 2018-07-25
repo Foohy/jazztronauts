@@ -1,8 +1,0 @@
-"LightmappedGeneric"
-{
-	"$basetexture" "decals/overlay_light_guide"
-	"$decal" 1
-	"$selfillum" 1
-	"%keywords" "theater"
-	"$decalscale" .125
-}

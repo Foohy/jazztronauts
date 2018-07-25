@@ -680,8 +680,14 @@ end
 local hackEnable = CreateClientConVar("jazz_debug_hackerview", "0", false, false, "Toggle drawing the hacker gun view")
 local hackCullDistance = CreateClientConVar("jazz_hack_cull_far", 10000, true, true, "Far plane of hacker view culling")
 
+module("hacking", package.seeall)
+
+local function ShouldDrawHackerview()
+	return hackEnable:GetBool() or hook.Call("JazzShouldDrawHackerview", GAMEMODE)
+end
+
 hook.Add( "HUDPaint", "hacker_vision", function()
-	if not hackEnable:GetBool() then return end
+	if not ShouldDrawHackerview() then return end
 
 	if map:IsLoading() then return end
 

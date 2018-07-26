@@ -9,11 +9,17 @@ ENT.CommentOffset = Vector(-200, 12, 0)
 ENT.BusWidth = 70
 ENT.BusLength = 248
 
-
+local destRTWidth = 256
+local destRTHeight = 256
 function ENT:Initialize()
-
+	self.IRT = irt.New("jazz_bus_destination_explore", destRTWidth, destRTHeight )
+	self.DestMat = self.IRT:GetUnlitMaterial()
+	self:UpdateDestinationMaterial()
 end
 
+function ENT:UpdateDestinationMaterial()
+	JazzRenderDestinationMaterial(self, "the bar")
+end
 
 function ENT:StartLaunchEffects()
 	print("Starting clientside launch")
@@ -23,7 +29,10 @@ function ENT:StartLaunchEffects()
 end
 
 function ENT:Draw()
+	self:UpdateDestinationMaterial()
+	render.MaterialOverrideByIndex(2, self.DestMat)
 	self:DrawModel()
+	render.MaterialOverrideByIndex(1, nil)
 end
 
 function ENT:Think()

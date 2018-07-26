@@ -30,7 +30,7 @@ surface.CreateFont( "SmallHeaderFont", {
 
 surface.CreateFont( "SelectMapFont", {
 	font      = "KG Shake it Off Chunky",
-	size      = 100,
+	size      = 130,
 	weight    = 700,
 	antialias = true
 })

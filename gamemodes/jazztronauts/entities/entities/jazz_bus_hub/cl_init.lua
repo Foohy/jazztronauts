@@ -4,9 +4,9 @@ ENT.ScreenHeight = 0
 ENT.ScreenWidth = ENT.ScreenHeight * 1.80
 ENT.ScreenScale = .1
 
-ENT.CommentOffset = Vector(-200, 12, 0)
+ENT.CommentOffset = Vector(-160, 16, 0)
 
-ENT.BusWidth = 75
+ENT.BusWidth = 71
 ENT.BusLength = 280
 
 surface.CreateFont( "SteamCommentFont", {
@@ -23,8 +23,19 @@ surface.CreateFont( "SteamAuthorFont", {
 	antialias = true
 })
 
+surface.CreateFont( "JazzDestinationFont", {
+	font      = "Dancing Script",
+	size      = 65,
+	weight    = 700,
+	antialias = true
+})
 
+local destRTWidth = 256
+local destRTHeight = 256
 function ENT:Initialize()
+	self.IRT = irt.New("jazz_bus_destination", destRTWidth, destRTHeight )
+	self.DestMat = self.IRT:GetUnlitMaterial()
+	self:UpdateDestinationMaterial()
 	self:RefreshWorkshopInfo()
 end
 
@@ -63,6 +74,7 @@ function ENT:RefreshWorkshopInfo()
 
 			local function parseComment(cmt, width) 
 				if not cmt then return end
+
 				return markup.Parse(
 					"<font=SteamCommentFont>" .. cmt.message .. "</font>\n " 
 					.."<font=SteamAuthorFont> -" .. cmt.author .. "</font>",
@@ -70,7 +82,7 @@ function ENT:RefreshWorkshopInfo()
 			end
 
 			-- Select 2 random comments for the side and back of the bus
-			self.Description = parseComment(self:TableSharedRandom(comments), 1700)
+			self.Description = parseComment(self:TableSharedRandom(comments), 1400)
 			self.BackBusComment = parseComment(self:TableSharedRandom(comments, 1), 1400)
 		end )
 
@@ -90,10 +102,38 @@ local function ProgressString(col, total)
 	return col .. "/" .. total .. " shards"
 end
 
+-- HOLY FUCK MAKE THESE INHERIT ALREADY
+function JazzRenderDestinationMaterial(self, dest)
+	self.IRT:Render(function()
+		cam.Start2D()
+			surface.SetDrawColor(HSVToColor(RealTime() * 20 % 360, .7, 0.4))
+			surface.DrawRect(0, 0, destRTWidth, destRTHeight)
+			surface.SetFont("JazzDestinationFont")
+			local w, h = surface.GetTextSize(dest)
+			local mwidth = destRTWidth - 10
+			local mat = Matrix()
+			if w > mwidth then
+				mat:Scale(Vector(mwidth/w, 1, 1))
+			end
+			mat:Translate(Vector(0, destRTHeight/2,0))
+			mat:Scale(Vector(1, 5, 1))
+			mat:Translate(Vector(0, -destRTHeight/2,0))
+
+			cam.PushModelMatrix(mat)
+				draw.SimpleText(dest, "JazzDestinationFont", destRTWidth/2, destRTHeight/2 - h * 0.1, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			cam.PopModelMatrix()
+		cam.End2D()
+	end)
+end
+
+function ENT:UpdateDestinationMaterial()
+	JazzRenderDestinationMaterial(self, self:GetDestination())
+end
+
 function ENT:DrawSideInfo()
 	local ang = self.Entity:GetAngles()
 	local pos = self.Entity:GetPos() - ang:Forward() * self.BusWidth
-	pos = pos + ang:Up() * 80
+	pos = pos + ang:Up() * 76
 	
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 90 )
@@ -109,19 +149,19 @@ function ENT:DrawSideInfo()
 		if self.ThumbnailMat then
 			surface.SetMaterial(self.ThumbnailMat)
 			surface.SetDrawColor(255, 255, 255, 255)
-			surface.DrawTexturedRect(-256, -70, 456, 456)
+			surface.DrawTexturedRect(-156, 0, 356, 356)
 		end
 
 		if self.Title then
-			draw.SimpleText( self.Title, "SmallHeaderFont", 220, 0, Color(255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+			draw.SimpleText( self.Title, "SmallHeaderFont", 220, 160, Color(255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
 		end
-		draw.SimpleText( self:GetDestination(), "SelectMapFont", 220, 60, Color(255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+		draw.SimpleText( self:GetDestination(), "SelectMapFont", 220, 0, Color(255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
 
 		if self:GetMapProgress() > 0 then
 			local coll, total = self:FromProgressMask(self:GetMapProgress())
 			local str = ProgressString(coll, total)
 			local col = coll == total and Color(243, 235, 0, 255) or color_white
-			draw.SimpleText(str, "SmallHeaderFont", 220, 130, col, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+			draw.SimpleText(str, "SmallHeaderFont", 220, 195, col, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
 		end
 
 		if self.Description then
@@ -159,7 +199,10 @@ function ENT:DrawRearInfo()
 end
 
 function ENT:Draw()
+	self:UpdateDestinationMaterial()
+	render.MaterialOverrideByIndex(2, self.DestMat)
 	self:DrawModel()
+	render.MaterialOverrideByIndex(1, nil)
 
 	self:DrawSideInfo()
 	self:DrawRearInfo()

@@ -1,14 +1,19 @@
 
 module( 'mapcontrol', package.seeall )
-
+local defaultMapHost = ""
 local localonly = CreateConVar("jazz_localmaps_only", 0, FCVAR_ARCHIVE, "Only use maps currently mounted on the server for map rolling.")
+local maphost = CreateConVar("jazz_workshop_collection", "", FCVAR_ARCHIVE, "Override the source of what random maps to pull from.\n"
+	.. "Can be either a URL to a text file, listing each workshop addon by id\n"
+	.. "Or a workshop collection ID itself.")
+
+concommand.Add("jazz_clear_cache", function()
+	ClearCache()
+end, 
+nil, "Clears the temporary cache of downloaded map files")
 
 curSelected = curSelected or {}
-
-//curSelected = curSelected or ""
---mapList = mapList or {}
---mapIDs = mapIDs or {} -- Store generated unique id lookups for a map
 addonList = addonList or {}
+
 function GetMap()
 	return curSelected.map
 end
@@ -127,8 +132,8 @@ if SERVER then
 
 	-- Given a workshop id, try to download and mount it 
 	-- if it hasn't already been downloaded/mounted
+	local cachepath = "jazztronauts/cache"
 	function InstallAddon(wsid, finishFunc, decompFunc)
-		local cachepath = "jazztronauts"
 		file.CreateDir(cachepath)
 		local dlpath = cachepath .. "/" .. wsid .. ".dat"
 		
@@ -171,6 +176,13 @@ if SERVER then
 				finishFunc(files)
 			end )
 		end)
+	end
+
+	function ClearCache()
+		local files = file.Find(cachepath, "DATA")
+		for _, v in pairs(files) do
+			file.Delete(cachepath .. "/" .. v)
+		end
 	end
 
 	local function GetExternalMapAddons()

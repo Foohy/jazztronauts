@@ -26,6 +26,8 @@ CMD_OPTION = "option"
 CMD_OPTIONLIST = "optionlist"
 CMD_EXIT = "exit"
 
+local ScriptPath = "data/scripts/"
+
 local g_graph = {}
 
 function DetermineLineEnd(line)
@@ -304,7 +306,7 @@ local PreProcessLine = function(x) return x end
 function LoadScript(name, filename)
 	--print("Load", name, filename)
 
-	local data = file.Open( filename, "r", "THIRDPARTY" )
+	local data = file.Open( filename, "r", "GAME" )
 	local lines = {}
 	local script = {
 		tokens = {},
@@ -326,7 +328,7 @@ end
 
 function LoadMacros()
 
-	local macros = file.Open( "data/scripts/macros.txt", "r", "THIRDPARTY" )
+	local macros = file.Open( ScriptPath .. "macros.txt", "r", "GAME" )
 	if macros == nil then ErrorNoHalt("Macros not loaded!") return end
 
 	local macrolist = {}
@@ -389,7 +391,7 @@ function LoadScripts()
 	LoadMacros()
 
 	--print("Loading scripts...")
-	local scripts, _ = file.Find( "data/scripts/*", "THIRDPARTY" )
+	local scripts, _ = file.Find( ScriptPath .. "*", "GAME" )
 	local compiled = {}
 
 	for _, script in pairs( scripts ) do
@@ -412,9 +414,9 @@ end
 local scripttimes = {}
 local function CheckHotReload()
 	local needsreload = false
-	local scripts, _ = file.Find( "data/scripts/*", "THIRDPARTY" )
+	local scripts, _ = file.Find( ScriptPath .. "*", "GAME" )
 	for _, script in pairs( scripts ) do
-		local t = file.Time( "data/scripts/" .. script, "THIRDPARTY" )
+		local t = file.Time( ScriptPath .. script, "GAME" )
 		if scripttimes[script] and t > scripttimes[script] then
 			needsreload = true
 		end

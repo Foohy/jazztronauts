@@ -208,14 +208,6 @@ local function QueueWait(cmd, data)
 	if advanceTime then
 		if cmd != "exit" then
 			State(STATE_OPENED, advanceTime)
-			for k, v in pairs(data) do 
-				print(k, v) 
-				if type(v) == "table" then
-					for kk, vv in pairs(v) do
-						print(" ", kk, vv)
-					end
-				end
-			end
 			return data
 		else
 			return State(STATE_CLOSING, advanceTime)
@@ -264,7 +256,6 @@ local function ProcessConditionalOptions(data)
 end
 
 function ScriptCallback(cmd, data)
-	print(cmd, data)
 	if cmd == CMD_JUMP then
 		return QueueWait(cmd, data)
 	end

@@ -1,0 +1,8 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "sunabouzu/sax"
+	"$surfaceprop" "Flesh"
+	"$alphatest" 1
+	"$nocull" 1
+	"$nodecal" 1
+}

@@ -1,0 +1,16 @@
+"VertexLitGeneric"
+{
+	$model 1
+
+	$basetexture "models/matt/jazz_trolley_floor_d"	
+
+	$envmap "env_cubemap"
+	$envmapcontrast 1
+	$envmaptint "[.25 .25 .25]"
+
+	$phong 1
+	$phongexponent 4
+	$phongboost 16
+	$phongfresnelranges "[0 .55 .55]"
+}
+

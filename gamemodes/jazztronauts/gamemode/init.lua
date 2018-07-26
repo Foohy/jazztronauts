@@ -1,6 +1,9 @@
 jit.opt.start( 3 )
 jit.opt.start( "hotloop=36", "hotexit=60", "tryside=4" )
 
+include("sv_jazztronauts.lua")
+include("sv_resource.lua")
+
 include( "shared.lua" )
 include( "newgame/init.lua")
 include( "ui/init.lua" )

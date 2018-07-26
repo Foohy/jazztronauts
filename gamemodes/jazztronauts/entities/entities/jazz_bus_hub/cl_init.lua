@@ -25,7 +25,7 @@ surface.CreateFont( "SteamAuthorFont", {
 
 surface.CreateFont( "JazzDestinationFont", {
 	font      = "Dancing Script",
-	size      = 65,
+	size      = 53,
 	weight    = 700,
 	antialias = true
 })
@@ -110,17 +110,17 @@ function JazzRenderDestinationMaterial(self, dest)
 			surface.DrawRect(0, 0, destRTWidth, destRTHeight)
 			surface.SetFont("JazzDestinationFont")
 			local w, h = surface.GetTextSize(dest)
-			local mwidth = destRTWidth - 10
+			local mwidth = destRTWidth
 			local mat = Matrix()
 			if w > mwidth then
 				mat:Scale(Vector(mwidth/w, 1, 1))
+
+			else
+				mat:Translate(Vector(mwidth/2 - w/2, 0, 0))
 			end
-			mat:Translate(Vector(0, destRTHeight/2,0))
-			mat:Scale(Vector(1, 5, 1))
-			mat:Translate(Vector(0, -destRTHeight/2,0))
 
 			cam.PushModelMatrix(mat)
-				draw.SimpleText(dest, "JazzDestinationFont", destRTWidth/2, destRTHeight/2 - h * 0.1, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw.SimpleText(dest, "JazzDestinationFont", 0, h * -0.2, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 			cam.PopModelMatrix()
 		cam.End2D()
 	end)

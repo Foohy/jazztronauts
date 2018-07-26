@@ -7,3 +7,4 @@ addon_jazz_c1.json:1452627889
 gamemodes/jazztronauts/content/materials/krio/**
 gamemodes/jazztronauts/content/materials/models/**
 gamemodes/jazztronauts/content/materials/sunabouzu/**
+gamemodes/jazztronauts/content/materials/msx/**

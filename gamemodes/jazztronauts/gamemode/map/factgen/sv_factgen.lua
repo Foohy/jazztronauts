@@ -1,34 +1,5 @@
 module("factgen", package.seeall)
 
--- Create a task that is finished once a callback is called
--- While waiting, it simply sleeps indefinitely
-local function taskCreateCallback(func)
-    local t = nil
-    local results = {}
-    local done = false
-    local function doneFunc(...)
-        if t then 
-            t.sleep = 0 -- Wake up the thread
-        end 
-
-        results = { ... }
-        done = true
-    end
-
-    t = task.New(function() 
-        func(doneFunc)
-
-        -- Allow calls that exit immediately
-        if not done then
-            task.Sleep(999999)
-        end
-
-        return unpack(results)
-    end, 1)
-
-    return t
-end
-
 local function getComment(bsp)
     local winfo = bsp.entities and bsp.entities[1]
     if not winfo then return "Unknown" end
@@ -55,13 +26,12 @@ local function getMapSize(bsp)
 end
 
 local function getWorkshopFacts(wsid, addFact)
-    if not wsid then return end
+    print("----------------------", wsid, addFact)
+    if not wsid or wsid == 0 then return end
 
     -- Get workshop file info
-    local fileinfoTask = taskCreateCallback(function(done) 
-        workshop.FileInfo(wsid, function(info)
-            done(info)
-        end)
+    local fileinfoTask = task.NewCallback(function(done) 
+        workshop.FileInfo(wsid, done)
     end)
 
     local info = task.Await(fileinfoTask)
@@ -78,16 +48,14 @@ local function getWorkshopFacts(wsid, addFact)
         addFact("ws_screenshots", info.preview_url) --#TODO: How to grab ALL preview images?
 
         -- Fetch a random comment
-        local commentTask = taskCreateCallback(function(done) 
-            workshop.FetchComments(info, function(comments)
-                done(comments)
-            end)
+        local commentTask = task.NewCallback(function(done) 
+            workshop.FetchComments(info, done)
         end)
 
         local comments = task.Await(commentTask)
         if #comments > 0 then
             local comm = table.Random(comments)
-            addFact("random_comment", "\"" .. comm.message .. "\"\n-" .. comm.author)
+            addFact("comment", "\"" .. comm.message .. "\"\n-" .. comm.author)
         end
     end
 end
@@ -114,7 +82,7 @@ local function getBSPFacts(mapname, wsid, addFact)
     -- Now grab map facts
     addFact("map_size", "Map Size:\n" .. getMapSize(bsp))
     addFact("skybox", "Skybox:\n" .. getSkybox(bsp))
-    addFact("comment", "Comment:\n" .. getComment(bsp)) -- Almost all decompiled maps will have a comment
+    addFact("map_comment", "Map Metadata:\n" .. getComment(bsp)) -- Almost all decompiled maps will have a comment
     addFact("brush_count", "Brush Count:\n" .. table.Count(bsp.brushes or {}))
     addFact("static_props", "Static Props:\n" .. table.Count(bsp.props or {}))
     addFact("entity_count", "Entity Count:\n" .. table.Count(bsp.entities or {}))
@@ -122,6 +90,7 @@ local function getBSPFacts(mapname, wsid, addFact)
 end
 
 local function loadMapFacts(mapname, wsid)
+    wsid = wsid or 0
     local facts = {}
     local function addFact(name, fact) 
         facts[name] = fact

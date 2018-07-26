@@ -49,7 +49,7 @@ function ENT:SetPortalSequence(seqName, noreset)
 end
 
 function ENT:SetupDataTables()
-	self:NetworkVar("Int", 0, "SelectedWorkshopID")
+	self:NetworkVar("String", 0, "SelectedDestinationID")
 	self:NetworkVar("Int", 1, "ScanState")
 	self:NetworkVar("Int", 2, "FreezeTime")
 end
@@ -76,7 +76,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 end
 
 function ENT:CancelAddon()
-	self:SelectAddon(nil)
+	self:SelectDestination(nil)
 	self:SetPortalSequence("Close")
 	/*
 	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
@@ -96,14 +96,14 @@ function ENT:BuildMapFacts(map, wsid)
 	end
 end
 
-function ENT:SelectAddon(wsid)
+function ENT:SelectDestination(dest)
 
 	mapcontrol.SetSelectedMap(nil) -- Tell the current bus to leave
 	factgen.ClearFacts() -- No more facts
 
-	self:SetSelectedWorkshopID(wsid or 0)
+	self:SetSelectedDestinationID(dest or "")
 
-	if not wsid or wsid == 0 then
+	if not dest then
 		self:SetScanState(SCAN_IDLE)
 		self.CurrentlyScanning = nil
 		return 
@@ -114,13 +114,29 @@ function ENT:SelectAddon(wsid)
 	self:TriggerOutput("OnMapSelected", self)
 
 	local function onPreDecompress()
-		print(FrameTime())
 		self:SetFreezeTime(CurTime() + 4 + FrameTime())
 		return 4.0 + FrameTime()
 	end
 
+	local function setActiveMap(mapname, wsid)
+		mapcontrol.SetSelectedMap(mapname)
+
+		self:TriggerOutput("OnMapDownloaded", self, mapname and 1 or 0)
+		self:SetPortalSequence("Settle")
+
+		-- At this point we'd start analyzing the map (bsp magic)
+		-- Not implemented, but yknow, let em dream
+		if mapname then
+			self:TriggerOutput("OnMapAnalyzed", self)
+	
+			-- Start grabbing Map Facts:tm:
+			self:BuildMapFacts(mapname, wsid)
+		end
+	end
+
 	local function onMounted(files, msg)
-		if self.CurrentlyScanning != wsid then return end
+		if self.CurrentlyScanning != dest then return end
+		local wsid = tonumber(dest)
 		self.CurrentlyScanning = nil
 		self:SetFreezeTime(0)
 
@@ -139,7 +155,6 @@ function ENT:SelectAddon(wsid)
 			-- Make sure there was actually maps added!!
 			if #newMaps > 0 then
 				success = true
-				mapcontrol.SetSelectedMap(table.Random(newMaps))
 			else
 				print("Addon id " .. wsid .. " contains no maps at all!!")
 			end
@@ -148,29 +163,25 @@ function ENT:SelectAddon(wsid)
 			self:SetScanState(SCAN_FAILED_NETWORK)
 		end
 
-		self:TriggerOutput("OnMapDownloaded", self, success and 1 or 0)
-		self:SetPortalSequence("Settle")
-
-		-- At this point we'd start analyzing the map (bsp magic)
-		-- Not implemented, but yknow, let em dream
-		if success then
-			self:TriggerOutput("OnMapAnalyzed", self)
-	
-			-- Start grabbing Map Facts:tm:
-			self:BuildMapFacts(mapcontrol.GetSelectedMap(), wsid)
-		end
+		setActiveMap(table.Random(newMaps), wsid)
 	end
 
 	-- Attempt to mount the given addon (cache-aware)
-	self.CurrentlyScanning = wsid
-	mapcontrol.InstallAddon(wsid, onMounted, onPreDecompress)
+	self.CurrentlyScanning = dest
+	local wsid = tonumber(dest)
+	if wsid then
+		mapcontrol.InstallAddon(wsid, onMounted, onPreDecompress)
+	else
+		self:SetScanState(SCAN_COMPLETE)
+		setActiveMap(dest)
+	end
 
 end
 
 function ENT:Use(activator, caller)
 
 	timer.Simple(0, function() 
-		if self:GetSelectedWorkshopID() != 0 then
+		if #self:GetSelectedDestinationID() > 0 then
 			self:CancelAddon() 
 		else
 			ents.FindByClass("jazz_hub_browser")[1]:SelectCurrentAddon()
@@ -256,10 +267,10 @@ end
 function ENT:Think()
 	self:IntermissionThink()
 
-	local wsid = self:GetSelectedWorkshopID()
-	if self.LastWorkshopID != wsid then
-		self.LastWorkshopID = wsid
-		self:RefreshThumbnail(wsid)
+	local dest = self:GetSelectedDestinationID()
+	if self.LastDestinationID != dest then
+		self.LastDestinationID = dest
+		self:RefreshThumbnail(dest)
 	end
 
 	local rGoal = (EyePos() - self:GetPos()):Angle()
@@ -275,21 +286,25 @@ function ENT:Think()
 	self:UpdateRenderTarget()
 end
 
-function ENT:RefreshThumbnail(wsid)
+function ENT:RefreshThumbnail(dest)
 	self.ThumbnailMat = nil
 	self.AddonTitle = ""
+	local wsid = tonumber(dest)
+	if wsid then
+		steamworks.FileInfo( wsid, function( result ) 
+			if !IsValid(self) or !result then return end
 
-	steamworks.FileInfo( wsid, function( result ) 
-		if !IsValid(self) or !result then return end
+			self.AddonTitle = result.title
 
-		self.AddonTitle = result.title
+			workshop.FetchThumbnail(result, function(material)
+				if !self then return end
 
-		workshop.FetchThumbnail(result, function(material)
-			if !self then return end
-
-			self.ThumbnailMat = material
+				self.ThumbnailMat = material
+			end )
 		end )
-	end )
+	else
+		self.ThumbnailMat = nil
+	end
 end
 
 function ENT:GetScanStateString()

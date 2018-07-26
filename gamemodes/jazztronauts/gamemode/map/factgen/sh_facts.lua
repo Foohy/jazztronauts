@@ -73,9 +73,14 @@ end
 if CLIENT then
     Callbacks = Callbcaks or {}
     CombinedFacts = CombinedFacts or {}
+    ActiveFacts = ActiveFacts or {}
 
     function GetFacts()
         return CombinedFacts
+    end
+
+    function GetActiveFactIDs()
+        return ActiveFacts
     end
 
     function GetFactByID(id)
@@ -94,6 +99,7 @@ if CLIENT then
 
     local function updateAllFacts()
         local combinedFacts = {}
+        local activeFacts = {}
         local factIds, factNames = nettable.Get("browser_factscreens"), nettable.Get("browser_factscreens_names")
 
         -- Must at least be same size
@@ -108,23 +114,29 @@ if CLIENT then
                 fact = v,
                 name = factNames[k]
             }
+
+            if #v > 0 then
+                activeFacts[#activeFacts + 1] = k
+            end
         end
 
-        return combinedFacts
+        return combinedFacts, activeFacts
     end
 
     nettable.Hook("browser_factscreens", "updateBrowserFactScreens", function(changed, removed)
-        local combined = updateAllFacts()
+        local combined, active = updateAllFacts()
         if combined then
             CombinedFacts = combined
+            ActiveFacts = active
             CallHooks()
         end
     end )
 
     nettable.Hook("browser_factscreens_names", "updateBrowserFactScreens", function(changed, removed)
-        local combined = updateAllFacts()
+        local combined, active = updateAllFacts()
         if combined then
             CombinedFacts = combined
+            ActiveFacts = active
             CallHooks()
         end
     end )

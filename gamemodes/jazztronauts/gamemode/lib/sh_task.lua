@@ -38,6 +38,36 @@ function New(...)
 
 end
 
+-- Create a task that is finished once a callback is called
+-- While waiting, it simply sleeps indefinitely
+function NewCallback(func)
+    local t = nil
+    local results = {}
+    local done = false
+    local function doneFunc(...)
+        if t then 
+            t.sleep = 0 -- Wake up the thread
+        end 
+
+        results = { ... }
+        done = true
+    end
+
+    t = task.New(function() 
+        func(doneFunc)
+
+        -- Allow calls that exit immediately
+        if not done then
+            task.Sleep(999999)
+        end
+
+        return unpack(results)
+    end, 1)
+
+    return t
+end
+
+
 function YieldPer( x, ... )
 
 	if g_task ~= nil then

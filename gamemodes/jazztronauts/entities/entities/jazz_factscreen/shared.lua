@@ -227,7 +227,12 @@ function ENT:Think()
 end
 
 function ENT:GetRealFactID()
-    return (self:GetFactID() % table.Count(factgen.GetFacts())) + 1
+    local active = factgen.GetActiveFactIDs()
+    if active[self:GetFactID()] then
+        return self:GetFactID()
+    end
+
+    return active[(self:GetFactID() % #active) + 1]
 end
 
 function ENT:UpdateFactMaterial()

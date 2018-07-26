@@ -1,8 +1,15 @@
 
 module( 'mapcontrol', package.seeall )
-local defaultMapHost = ""
-local localonly = CreateConVar("jazz_localmaps_only", 0, FCVAR_ARCHIVE, "Only use maps currently mounted on the server for map rolling.")
-local maphost = CreateConVar("jazz_workshop_collection", "", FCVAR_ARCHIVE, "Override the source of what random maps to pull from.\n"
+local defaultMapHost = "http://host.foohy.net/public/Documents/Jazz/addons.txt"
+local defaultAddonCache = "jazztronauts/addons.txt"
+local overrideAddonCache = "jazztronauts/addons_override.txt"
+
+local includeExternal = CreateConVar("jazz_include_external", 1, FCVAR_ARCHIVE, "Whether or not to include an external addon host. Used for searching all of workshop")
+local includeLocalAddons = CreateConVar("jazz_include_localaddon", 0, FCVAR_ARCHIVE, "Whether or not to include maps from locally installed addons. ")
+local includeLocalMaps = CreateConVar("jazz_include_localmap", 0, FCVAR_ARCHIVE, "Whether or not to include local loose maps in the maps folder.")
+
+local includeExternalHost = CreateConVar("jazz_include_external_host", defaultMapHost, FCVAR_ARCHIVE,
+	   "Override the source of what random maps to pull from.\n"
 	.. "Can be either a URL to a text file, listing each workshop addon by id\n"
 	.. "Or a workshop collection ID itself.")
 
@@ -60,6 +67,10 @@ if SERVER then
 
 	function GetRandomAddon()
 		return table.Random(addonList)
+	end
+
+	function IsWorkshopAddon(name)
+		return tonumber(name) != nil
 	end
 
 	-- Given a unique map id, roll to it
@@ -185,17 +196,13 @@ if SERVER then
 		end
 	end
 
-	local function GetExternalMapAddons()
+	local function GetExternalMapAddons(contents)
 		local addons = {}
-		local f = file.Open("data/jazztronauts/addons.txt", "r", "THIRDPARTY") -- TODO: Query external server?
 
-		if not f then return addons end
-
-		local line = f:ReadLine() 
-		while line do
-			table.insert(addons, tonumber(line))
-
-			line = f:ReadLine()
+		for line in string.gmatch(contents, "(.-)\n") do
+			local num = tonumber(line)
+			if not num then continue end
+			table.insert(addons, num)
 		end
 
 		return addons
@@ -209,37 +216,67 @@ if SERVER then
 		for _, v in pairs(addons) do
 			local found = file.Find("maps/*.bsp", v.title)
 			if #found > 0 then 
-				table.insert(valid, v)
+				table.insert(valid, v.wsid)
 			end
 		end
+
+		return valid
+	end
+
+	local function GetLocalMaps()
+		local maps = file.Find("maps/*.bsp", "GAME")
+		for k, v in pairs(maps) do
+			maps[k] = string.StripExtension(v)
+		end
+
+		return maps
 	end
 
 	-- Build a list of all addons that have maps installed
 	-- This list will become our entire possible sample range -- so it's gonna be big
-	function SetupMaps() 
-		--mapList = {}
-		--mapIDs = {}
-		addonList = localonly:GetBool() and GetLocalMapAddons() or GetExternalMapAddons()
+	local function setupMapTask()
+		local addons = {}
 
-		/*
-		local maps = file.Find("maps/*.bsp", "WORKSHOP") -- option: WORKSHOP
-
-		for _, v in pairs(maps) do
-			local map = string.StripExtension(v)
-			
-			table.insert(mapList, map)
-			
-			local mapid = GetMapID(map)
-			if mapIDs[mapid] then 
-				print("WARNING!!! THE FOLLOWING MAPS HAVE ID COLLISIONS: ")
-				print(map)
-				for _, v in pairs(mapIDs) do print(v) end
-				print("-------------------------------")
-				table.insert(mapIDs[mapid], map)
-			else
-				mapIDs[mapid] = { map }
+		local function insertAddons(newaddons)
+			for k, v in pairs(newaddons) do
+				addons[v] = true
 			end
-		end*/
+		end
+
+		if includeExternal:GetBool() then
+			local addonTask = task.NewCallback(function(done)
+				http.Fetch(includeExternalHost:GetString(), done, function(err) ErrorNoHalt(err .. "\n") done() end)
+			end )
+			local addonsStr = task.Await(addonTask)
+
+			if addonsStr then
+				-- Save this successful run
+				file.CreateDir(string.GetPathFromFilename(overrideAddonCache))
+				file.Write(overrideAddonCache, addonsStr)
+			else 
+				-- Try loading from their last successful download cache
+				addonsStr = file.Read(overrideAddonCache, "DATA")
+
+				-- Built in cache that comes with the game
+				addonsStr = addonsStr or file.Read(defaultAddonCache, "DATA")
+			end
+
+			insertAddons(GetExternalMapAddons(addonsStr or ""))
+		end
+
+		if includeLocalAddons:GetBool() then
+			insertAddons(GetLocalMapAddons())
+		end
+
+		if includeLocalMaps:GetBool() then
+			insertAddons(GetLocalMaps())
+		end
+
+		addonList = table.GetKeys(addons)
+	end
+
+	function SetupMaps()
+		task.New(setupMapTask, 1) -- ehh it'll get to it eventually
 	end
 
 	-- Spawn the exit bus's enterance portal at the specified position/angle.

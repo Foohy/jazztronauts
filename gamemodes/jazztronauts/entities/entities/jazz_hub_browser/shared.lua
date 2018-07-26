@@ -13,24 +13,11 @@ local outputs =
 	"OnAddonSelected"
 }
 
-concommand.Add("jazz_rolladdon", function(ply, cmd, args)
+concommand.Add("jazz_debug_browse", function(ply, cmd, args)
 	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
-		v:RollWorkshop()
+		v:BrowseToDestination(args[1])
 	end
 end )
-
-concommand.Add("jazz_selectaddon", function(ply, cmd, args)
-	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
-		v:SelectCurrentAddon()
-	end
-end)
-
-concommand.Add("jazz_canceladdon", function(ply, cmd, args)
-	for _, v in pairs(ents.FindByClass("jazz_hub_selector")) do
-		v:CancelAddon()
-	end
-end)
-
 
 function ENT:Initialize()
 	self:SetModel( self.Model )
@@ -54,7 +41,7 @@ function ENT:Initialize()
 		if m then
 			local wsid = workshop.FindOwningAddon(m.filename)
 			if wsid && wsid != 0 then
-				self:BrowseToWorkshop(wsid)
+				self:BrowseToDestination(wsid)
 			end
 		end
 	end
@@ -62,7 +49,7 @@ function ENT:Initialize()
 end
 
 function ENT:SetupDataTables()
-	self:NetworkVar("Int", 0, "AddonWorkshopID")
+	self:NetworkVar("String", 0, "DestinationID")
 	self:NetworkVar("Bool", 0, "IsOn")
 end
 
@@ -77,29 +64,38 @@ function ENT:RollWorkshop()
 	if not self:GetIsOn() then return end
 
 	local addon = mapcontrol.GetRandomAddon()
-	self:BrowseToWorkshop(addon)
+	self:BrowseToDestination(addon)
 end
 
-function ENT:BrowseToWorkshop(wsid)
-	self:SetAddonWorkshopID(0)
+function ENT:BrowseToDestination(dest)
+	self:SetDestinationID("")
 	self:EmitSound("buttons/lever7.wav", 75, 200)
 
-	workshop.FileInfo(wsid, function(body, err)
-		if err then print("Failed to get addon information: " .. err) end
-
+	local function setBrowsedTo(dest)
 		self:TriggerOutput("OnMapRolled", self)
-		self:SetAddonWorkshopID(wsid)
-	end)
+		self:SetDestinationID(dest or "-1")
+	end
+
+	if mapcontrol.IsWorkshopAddon(dest) then
+		workshop.FileInfo(dest, function(body, err)
+			if err then print("Failed to get addon information: " .. err) end
+
+			setBrowsedTo(dest)
+		end)
+	else
+		dest = file.Exists("maps/" .. dest .. ".bsp", "GAME") and dest or ""
+		setBrowsedTo(dest)
+	end
 end
 
 function ENT:SelectCurrentAddon()
-	if not self:GetIsOn() or self:GetAddonWorkshopID() == 0 then return end
+	if not self:GetIsOn() or #self:GetDestinationID() == 0 then return end
 
 	self:TriggerOutput("OnAddonSelected", self)
 
 	local sel = ents.FindByClass("jazz_hub_selector")
 	for _, v in pairs(sel) do
-		v:SelectAddon(self:GetAddonWorkshopID())
+		v:SelectDestination(self:GetDestinationID())
 	end
 
 	if #sel > 0 then
@@ -273,10 +269,10 @@ end
 
 function ENT:Think()
 
-	local wsid = self:GetAddonWorkshopID()
-	if self.LastWorkshopID != wsid then
-		self.LastWorkshopID = wsid
-		self:ChangeChannel(wsid)
+	local dest = self:GetDestinationID()
+	if self.LastDestinationID != dest then
+		self.LastDestinationID = dest
+		self:ChangeChannel(dest)
 	end
 
 	
@@ -293,29 +289,35 @@ function ENT:Think()
 	self:UpdateRenderTarget()
 end
 
-function ENT:ChangeChannel(wsid)
+function ENT:ChangeChannel(dest)
 	self.GoalNoise = 1.0
 	self.AddonName = ""
-	if wsid == 0 then return end
+	if #dest == 0 then return end
 
-	steamworks.FileInfo( wsid, function( result ) 
+	local wsid = tonumber(dest)
+	if wsid then
+		steamworks.FileInfo( wsid, function( result ) 
 
-		if !IsValid(self) then return end
-		self.ErrorChannel = result == nil
-		if self.ErrorChannel then 
-			print("Failed to get file info for wsid: " .. wsid)
-			return 
-		end
+			if !IsValid(self) then return end
+			self.ErrorChannel = result == nil
+			if self.ErrorChannel then 
+				print("Failed to get file info for wsid: " .. wsid)
+				return 
+			end
 
-		self.AddonName = result.title
-		workshop.FetchThumbnail(result, function(material)
-			if !self then return end
+			self.AddonName = result.title
+			workshop.FetchThumbnail(result, function(material)
+				if !self then return end
 
-			self.ErrorChannel = material == nil
-			self.AddonThumb = material
-			self.GoalNoise = self.ErrorChannel and 1 or 0
+				self.ErrorChannel = material == nil
+				self.AddonThumb = material
+				self.GoalNoise = self.ErrorChannel and 1 or 0
+			end )
 		end )
-	end )
+	else
+		self.ErrorChannel = true
+		self.AddonName = dest
+	end
 end
 
 function ENT:Draw()

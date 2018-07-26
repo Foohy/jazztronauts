@@ -1,0 +1,19 @@
+{
+	"title"		:	"Jazztronauts",
+	"type"		:	"gamemode",
+	"tags"		:	[ "fun", "cartoon" ],
+	"ignore"	:
+	[
+		".gitignore",
+		".git/*",
+		"*.yml",
+		"*.md",
+		"*.py",
+		"*.vmf",
+		"*.bat",
+		"*.tga",
+		"addon.gma",
+		"addon.jpg",
+		"other/*"
+	]
+}

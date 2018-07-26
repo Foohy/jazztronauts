@@ -197,10 +197,12 @@ end
 
 -- Whenever the facts update, trigger a re-render of fact materials
 -- Additionally activates the screen sweep animation
-factgen.Hook("updateBrowserFactScreens", function()
-    lastFactUpdate = CurTime()
-    updateFactMaterials()
-end )
+timer.Simple(0, function()
+    factgen.Hook("updateBrowserFactScreens", function()
+        lastFactUpdate = CurTime()
+        updateFactMaterials()
+    end )
+end)
 
 function ENT:Initialize()
 

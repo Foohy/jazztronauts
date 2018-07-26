@@ -45,6 +45,10 @@ local TOK_EQUAL = 5
 local TOK_NEWLINE = 6
 local TOK_EMPTY= 7
 
+local function lineitr(str)
+	return string.gmatch(str, "(.-)\n") 
+end
+
 local function ChopRight(str, findstr)
 	local pos = str:find(findstr)
 	if not pos then return str end
@@ -306,7 +310,7 @@ local PreProcessLine = function(x) return x end
 function LoadScript(name, filename)
 	--print("Load", name, filename)
 
-	local data = file.Open( filename, "r", "GAME" )
+	local contents = file.Read( filename, "GAME" )
 	local lines = {}
 	local script = {
 		tokens = {},
@@ -315,10 +319,10 @@ function LoadScript(name, filename)
 		name = name,
 	}
 
-	repeat
-		local line = PreProcessLine( data:ReadLine() )
+	for line in lineitr(contents) do
+		line = PreProcessLine(line)
 		if line then ParseLine(script, line:sub(0,-DetermineLineEnd(line))) end
-	until line == nil
+	end
 
 	CompileScript( script )
 
@@ -328,17 +332,15 @@ end
 
 function LoadMacros()
 
-	local macros = file.Open( ScriptPath .. "macros.txt", "r", "GAME" )
-	if macros == nil then ErrorNoHalt("Macros not loaded!") return end
+	local macros = file.Read( ScriptPath .. "macros.txt", "GAME" )
+	if macros == nil then ErrorNoHalt("Macros not loaded!\n") return end
 
 	local macrolist = {}
 
-	while true do
-		local line = macros:ReadLine()
-		if line == nil then break end
-
+	for line in lineitr(macros) do
 		line = line:Trim()
 		if line:len() == 0 or line[1] == "#" then continue end
+
 		local x,y,z = line:gmatch("([%w_]+)%s-(%b())%s+(.+)")()
 		if not x then x,z = line:gmatch("([%w_]+)%s+(.+)")() end
 
@@ -382,8 +384,6 @@ function LoadMacros()
 	MsgC( Color(255,255,255), test_string )
 	MsgC( Color(100,255,100), replace( test_string ))]]
 
-	macros:Close()
-
 end
 
 function LoadScripts()
@@ -400,7 +400,7 @@ function LoadScripts()
 		if ext == ".txt" and name ~= "macros" then
 			local st, result = pcall( LoadScript, name, "data/scripts/" .. script )
 			if not st then
-				ErrorNoHalt("Failed to load script: " .. name .. " [" .. script .. "]")
+				ErrorNoHalt("Failed to load script: " .. name .. " [" .. script .. "]\n" .. tostring(result) .. "\n")
 			else 
 				if result then table.insert(compiled, result) end
 			end

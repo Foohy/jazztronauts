@@ -74,6 +74,10 @@ end
 
 hook.Add( "CurrentBSPReady", "snatchReady", onSnatchInfoReady )
 
+function IsBrushStolen(brushid)
+	return removed_brushes[brushid] != nil
+end
+
 if SERVER then
 
 	--[[
@@ -193,6 +197,7 @@ function meta:StartWorld( position, owner, brushid )
 	//print("***SNATCH BRUSH: " .. brushid .. " ***")
 	SV_SendPropSceneToClients( self )
 
+	hook.Call("JazzBrushStolen", GAMEMODE, brushid)
 end
 
 local function emptySide(side)
@@ -356,6 +361,8 @@ function meta:StartProp( prop, owner, kill, delay )
 	if not debug_resnatch then
 		SV_HandleEntityDestruction( self.real, owner, kill, delay )
 	end
+
+	hook.Call("JazzPropStolen", GAMEMODE, prop)
 
 	return true
 

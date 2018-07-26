@@ -112,6 +112,15 @@
 	output OnPlayerLeave(void) : "Fires when a single player has left the trigger"
 ]
 
+@SolidClass base(Targetname, Origin, Angles) = jazz_trigger_theft : "Jazz Brush Theft Trigger"
+[
+	output OnInitialBrushStolen(void) : "Fires the first brush within this trigger has been stolen."
+	output OnBrushStolen(void) : "Fires every single time a brush has been stolen."
+	output OnThresholdHit(void) : "Fires when the threshold of stolen brushes has been hit"
+
+	StealThreshold(integer) : "Steal Threshold": 100 : "Percentage of brushes needed to be stolen for the OnThresholdHit output to fire. (0-100 where 50 is half brushes, 100 is all, etc.)"
+]
+
 
 @PointClass base(Targetname, Origin, Angles) iconsprite("editor/env_shooter.vmt") = jazz_concommand : "Jazz Console Command Executer"
 [

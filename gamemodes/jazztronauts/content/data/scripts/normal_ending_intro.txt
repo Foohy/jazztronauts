@@ -1,4 +1,6 @@
 ﻿CHARACTER = Cellist
+NO_FREEZE = true
+HIDE_MOUSE = true
 begin:
      *setspeaker narrator*
      HELLO IM A GARBAGE IDIOT WRITING THIS AT 3:30

@@ -1,60 +1,60 @@
-﻿CHARACTER = Podge
-
-     ---------------------------------------------------------------------    
-a1
+﻿   
+a1:
      *setspeaker podge*
      ‘sup. Welcome to the Center of the Universe.
      &a2
 
-a2
+a2:
      *setspeaker georff*
      Nice to see a new face.  
-     &a3
-   
-[A man pops up from behind a drum set]
+     &a2b
 
-a3
+a2b:
+	*setspeaker narrator*
+	> A man pops up from behind a drum set.
+
+a3:
      *setspeaker rungo*
      cheers, take a load off yeah?
      &a4
-a4
+a4:
      
      *setspeaker narrator*
      >This is not at all what you were expecting from any of this.
      &a5
 
-a5
+a5:
      *setspeaker podge*
      Oh you with the cats? Cool. Cool. Yeah, they come here once in a while 
      with a group of confused lookin video game blokes like you. We’re 
      used to it.
      &a6
 
-a6
+a6:
      *setspeaker narrator*
      >The other guitarist stops tuning and chimes in.
      &a7
 
-a7
+a7:
      *setspeaker rob*
      Hey as long as they’re enjoying themselves whatever, y’know? It’s 
      basically why we’re here.
      &a8
 
-a8
+a8:
      *setspeaker podge*
      You want any existential-like questions answered while we set up?
      Figure it's the least we can do to give back to the community after
      we've been subsumed by the fundamental forces of the cosmos.
      &a9
 
-a9
+a9:
      *setspeaker rungo*
      yeah go ahead mate, s’not a monkeys paw or anythin'. anyone can know 
      whatever they want, except space cops
      &a10
 
-a10
+a10:
      *setspeaker podge*
      So yeah, whatcha got on your mind?
      player:
@@ -69,26 +69,26 @@ happiness:
      Ah yeah we get this one a lot. 
      &h1
 
-h1
+h1:
      *setspeaker rungo*
      lesse it was uhhh rob’s turn i think. you want a beat?
      &h2
 
-h2
+h2:
      *setspeaker rob*
      Yeah sure.
      &h3
 
-h3
+h3:
      *setspeaker rungo*
      cheers
      &h4
-h4    
+h4:    
      *setspeaker narrator*
      >Rungo starts a drum solo of some sort. It’s pretty restrained.
      &h5
 
-h6
+h6:
      *setspeaker rob*
      Right, so, you can’t be happy all the time. Gotta have the other side
      of that coin or else it isn’t a coin right? It'd be some sorta 
@@ -96,32 +96,32 @@ h6
      reflection, thus making sadness and happiness identical experiences. 
      &h7
 
-h7     
+h7:     
      Thing is, ain’t one thing alone what validates a person, they’re big 
      dumb complicated meat machines that have a million different bits all 
      screaming for their attention. There ain't no one key to happiness
      because each and every person has their own unique lock to pop open.
      &h8
 
-h8
+h8:
      That don't mean there aren't some general bits that help most people.
      You need a spot that you feel safe in, you need something to do that 
      you find meaning in, and you need a band, people who see your real value. 
      Last one’s the tricky bit.
      &h9
 
-h9    
+h9:    
      Take a little time to appreciate the world around you. Try new things 
      when you can, even when it’s scary, but don't forget to keep yourself 
      safe neither. Don’t be a dick. And remember that no matter how bad 
      things might seem in the now, one day it’ll just be a memory.
      &h10
 
-h10
+h10:
      Man this always turns into a lecture don’t it? 
      &h11
 
-h11
+h11:
      *setspeaker georff*
      Yeah no worries Rob, we’ll figure out the perfect spiel for that 
      question one of these days.
@@ -137,46 +137,46 @@ purpose:
      with that time.
      &p1
 
-p1
+p1:
      *setspeaker rungo*
      can take a while. be mighty frustratin’. but it’s somethin’ we 
      can’t tell you.
      &p2
 
-p2
+p2:
      *setspeaker rob*
      Doesn’t have to be something grand or mysterious. Meanin’s 
      different for everyone. For some folk it’s dogs.
      &p3
 
-p3
+p3:
      *setspeaker georff*
      Bless ‘em. Cats, too. Animals are good, man.
      &p4
 
-p4
+p4:
      *setspeaker rob*
      Now that’s a universal truth.
      &p5
 
-p5
+p5:
      *setspeaker podge*
      At the end of the day, you gotta find what brings you joy. It 
      ain’t set in stone either. Might change from day to day.
      &p6
 
-p6
+p6:
      *setspeaker rungo*
      all I did was play drums for 20 years straight and look at me, 
      i’ve ascended as an enlightened being of raw light and warmth
      &p7
 
-p7
+p7:
      *setspeaker rob*
      It’s a good gig.
      &p8
 
-p8
+p8:
      *setspeaker podge*
      Yeah, can’t complain.
      &finale
@@ -209,21 +209,21 @@ stickybuns:
      you better believe we do mate
      &s1
 
-s1
+s1:
      *setspeaker rob*
      Alright, so, this here may not be a recipe you’ll see in a 
      restaurant with Michelin stars, but that don’t matter, cause food 
      doesn’t have to be fancy and unique to be special, yeah? 
      &s2
 
-s2
+s2:
      *setspeaker podge*
      I can’t promise you these sticky buns will blow your mind, but I 
      can tell you they mean a whole lot to someone, and they’d like 
      to share them with you as a way of saying thanks.
      &s3
 
-s3
+s3:
      *setspeaker rungo*
      alright so first things first you’re gonna want to start the evening 
      before the morning you want these. get a 9” by 13” baking pan, or a 
@@ -231,7 +231,7 @@ s3
      in the oven really
      &s4
 
-s4
+s4:
      *setspeaker georff*
      You’ll wanna grease up the inside. The classic way’s with a pat of butter, 
      but margarine or cooking spray’ll do you fine too. Then, take a pack of 18 
@@ -239,7 +239,7 @@ s4
      version used Rhodes brand if you can find 'em, but pick what you like.
      &s5
 
-s5
+s5:
      *setspeaker podge*
      Next, take a half cup of chopped pecans, half a cup of brown sugar, and half 
      a teaspoon of cinnamon, mix ‘em all up, and cover the rolls with the mix. 
@@ -247,33 +247,33 @@ s5
      most of the world does.
      &s6
 
-s6
+s6:
      *setspeaker rungo*
      you can leave out the pecans if you’ve got an allergy or don’t like ‘em 
      it’s a forgiving recipe really
      &s7
 
-s7
+s7:
      *setspeaker rob*
      Next thing you do is melt either a half stick or a full stick of butter, 
      or margarine if you prefer, and drizzle that all over the rolls. Depends 
      on how much sauce you want on the buns.
      &s8
 
-s8
+s8:
      *setspeaker georff*
      The right answer’s the full stick, by the way. Not that we’ll judge you 
      if you go with half. Maybe encourage you to live a little more though.
      &s9
 
-s9
+s9:
      *setspeaker rungo*
      so next thing you do is put that pan in a cold oven and let it sit overnight 
      so the rolls can thaw and deep flavor magic happens. trust me they just don’t  
      taste right if you try speedrunning it
      &s10
 
-s10
+s10:
      *setspeaker rob*
      In the morning, set the oven to 350 degrees fahrenheit - about 176 celsius - 
      and bake the rolls until they’re done to your taste. The window’s pretty wide, 
@@ -281,23 +281,23 @@ s10
      a bit overdone and crunchy at 35.
      &s11
 
-s11
+s11:
      *setspeaker podge*
      If you don’t know, try 20 minutes, with an extra five if they don’t seem 
      quite done. Ovens is finicky things.
      &s12
 
-s12
+s12:
      *setspeaker rungo*
      then you just take them out, pop them on a tray, and bob’s your uncle
      &s13
 
-s13
+s13:
      *setspeaker georff*
      Bomb-ass sticky buns.
      &s14
 
-s14
+s14:
      *setspeaker podge*
      And really, is there anything in life better?
      &finale
@@ -309,24 +309,21 @@ finale:
      so now you got a little more wisdom than you might’a had before, why 
      don’t you settle down with your mates?
      &f1
-f1
+f1:
      *setspeaker podge*
      S’not often we get the chance to perform for a crowd these days.
      &f2
 
-f2
+f2:
      *setspeaker georff*
      Yeah, kick back and take a load off. Time don’t pass here the same 
      as it does outside the Center. 
      &f3
 
-f3   
+f3:   
      *setspeaker rob*
-     Ay, Georff. Give us a beat. 
+     Ay, Georff. Give us a beat. ###### cutscene out fade to black here
      &exit
 
-[The band plays a prog rock song. Slowly zoom back until the view is of the player stood 
-flanked by two cats on each side, who are sat on the ground and enjoying the show. 
-Then basically play the intro in reverse, ideally timing it with whatever song is being played 
-so you return to Darkness on the last note. Maybe also roll credits? Then send ‘em back to the bar.]
+
 

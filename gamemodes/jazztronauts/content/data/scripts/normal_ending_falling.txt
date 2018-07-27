@@ -1,5 +1,5 @@
 ﻿CHARACTER = Bartender
-
+begin:
      *setspeaker cat_bar*
      That’s it! That’s everything!
      &a1
@@ -19,8 +19,9 @@ a2:
           &a3: Wait, we're WHAT!?
 	
 a3:
-     I DON'T SEE YOU SQUEEZIN THEM CHEEKS SOLDIER
-     &a4
+	*setspeaker cat_cello*
+    I DON'T SEE YOU SQUEEZIN THEM CHEEKS SOLDIER
+    &a4
 
 a4:
      *setspeaker narrator*
@@ -41,6 +42,7 @@ a6:
         &a7: (strangled screaming)
 
 a7:  >Falling...?
+		player:
         &a8: This is taking longer than I thought.
 
 a8:

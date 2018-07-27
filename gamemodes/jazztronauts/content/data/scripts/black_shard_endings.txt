@@ -1,5 +1,5 @@
 ﻿CHARACTER = Eclipse Cat
-
+begin:
      I am not happy.
      &a1
 	
@@ -27,31 +27,31 @@ a5:
           &a6: What did you do?
           &a6: Are you okay?
           &a6: Why didn't I steal any fucking holy water...?
-a6
+a6:
      I want it to stop.
      &a7
-
+a7:
      So I’m going to make it stop. 
      &a8
-
+a8:
      I’ve done it before.
      &a9
-
+a9:
      It’s satisfying. 
      &a10
-
+a10:
      For a moment.
      &a11
-
+a11:
      You’ve done it before. It’s how you got here.
      &a12
-
+a12:
      Help me.
      &a13
-
+a13:
      It will stop. Forever.
      &a14
-
+a14:
      It will be perfect.
      player:
           &badend: Sure, why not?
@@ -61,12 +61,12 @@ a6
 
 ### BAD END BOOGIE
 
-badend2 
+badend2: 
 
      Useless.
      &badend
 
-&badend
+&badend:
      It will all be perfect.
      &exit
 
@@ -75,47 +75,47 @@ badend2
 
 ### TRUE END TRUFFLE SHUFFLE
 
-trueend
+trueend:
     I do not understand.
     &t1
 
-[The trolley hurtles through the void/wall/offscreen and smacks into the eclipse cat with the cow catcher, 
+The trolley hurtles through the void/wall/offscreen and smacks into the eclipse cat with the cow catcher, 
 sends them hurtling out of view. Bartender is driving, Singer’s hanging out of the window, Pianist dangles out of the door 
 and stares in direction the eclipse cat was flung. If we can give the Pianist A Gun that’d be rad, if not that’s fine. 
-Cellist dangles out the other side of the door and has his hand outstretched] 
+Cellist dangles out the other side of the door and has his hand outstretched
 
 
-t1
+t1:
      *setspeaker cat_piano*
      MOVE. GET YOUR ASS IN GEAR AND GET ON THE TROLLEY!
      &t2
 
-t2
+t2:
      *setspeaker cat_cello*
      c’mon buddy we ain’t got all day and i am not dying before 
      i find out the wu tang secret
      &t3
 
-t3
+t3:
      *setspeaker cat_piano*
      BOSS IT’S TIME TO GO THAT THING IS BEING WEIRD AND I DIDN’T 
      HAVE TIME TO GRAB THE FLAMETHROWER.
      &t4
 
-[Cut to the eclipse cat floating in the void, some kind of messed up vfx of it maybe stretching and distorting like 
+Cut to the eclipse cat floating in the void, some kind of messed up vfx of it maybe stretching and distorting like 
 when a model gets all fucked up by twisting in ways it shouldn’t. Bartender reverses out of the hole she made and does a
 sick u-turn on the narrow strip of voidway track. The void should be all fucked up, maybe with the red shard effect? 
-As the trolley starts to go, everything gets shaky and the road starts to crack up.]
+As the trolley starts to go, everything gets shaky and the road starts to crack up.
 
-t4
+t4:
      *setspeaker cat_piano*
      Please fasten your seatbelt, shit may be about to get mildly messy. 
      &t5
 
 
-[Aaand the road gibs. Trolley starts to fall into the void, shot of the eclipse cat directly overhead flipping its shit.]
+Aaand the road gibs. Trolley starts to fall into the void, shot of the eclipse cat directly overhead flipping its shit.
 
-t5
+t5:
     *setspeaker cat_eclipse*
     Why Why Why WHy WHY yhW hWy hHYYhhHYh
      &t6
@@ -125,17 +125,17 @@ Shot from the side maybe as the trolley gracefully swandives into the void for a
 which stops freaking out and resolves into Ash. Ash dives after them, paw outstretched]
 
 
-t6
+t6:
      *setspeaker cat_piano*
      We’ve got a pursuer!
      &t7
 
-t7
+t7:
      *setspeaker cat_bar*
      I think you mean a purrsuer.
      &t8
 
-t8
+t8:
      *setspeaker cat_cello*
      oh my god fuck you now is not the time for-
      &t9
@@ -145,7 +145,7 @@ The void slowly fades back to its normal state as the trolley evens out onto a f
 the cats t-posing in the void be Ash.]
 
 
-t9
+t9:
      *setspeaker cat_ash*
      I do apologize for all the mess and inconvenience. 
      I’ve made a route back to your bar. 
@@ -154,13 +154,13 @@ t9
 [Shot of literally everyone in the trolley just like :I except the Bartender, who looks delighted/awed]
 
 
-t10
+t10:
      *setspeaker cat_singer*
      > The Singer holds up their tablet. They spell out their feelings in 
      massive, glittering comic sans : “WHO THE FUCK ARE YOU???”
      &t10
      ---------------------------------------------------------------------
-t11
+t11:
      *setspeaker cat_cello*
      uh yeah not to look a gift horse in its fucked up mouth but i did not 
      live as incomprehensibly long as i have without being generally 
@@ -168,7 +168,7 @@ t11
      mannered benefactors
      &t11
 
-t12
+t12:
      *cat_ash*
      I’m Ash. 
      &t13
@@ -176,40 +176,40 @@ t12
 [Ash hops down off the cow catcher onto the track beside the trolley. Waves. Turns around and starts walking back. 
 Change view back to interior of trolley. Beat.]
 
-t13
+t13:
      *setspeaker cat_bar*
      Oh. Ohhh. 
      &t14
 
-t14
+t14:
      Well, then. I expect we shall have a safe trip home.
      &t15
 
 [All the other cats turn around to look at the bartender. Squint. Sit]
 
-t14
+t14:
      *setspeaker cat_piano*
      So are we going to address the fact that you know them or?
-     &t15
+     &t14b
 
-t14
+t14b:
      *setspeaker cat_bar*
      I don’t know them. I know of them. Mainly via the extremely limited 
      documentation that they left behind with the machine, after creating 
      the Voidway. 
      &t15
 
-t15
+t15:
      It read like a confession, of sorts. An artisan who finished their 
      great work and found it did not confer the lifelong joy they expected. 
      &t16
 
-t16   
+t16:   
      From what I could tell from their frantic diary keeping, they felt 
      stuck in a stasis of sorts.
      &t17
 
-t17
+t17:
      They feared attempting to create anything new, lest it fall short of 
      their previous achievement, and wrestled constantly with the desire 
      to destroy what they had made so they could feel free again.
@@ -217,22 +217,22 @@ t17
 
 [Bartender looking pretty actually sad]   
 
-t18
+t18:
      I thought it broke them. 
      Maybe it did.
      &t19
 [The cats all look solemn. Pianist looks actively pained. Trolley pulls in to bar]
 
-t19
+t19:
      Now, is everyone alright? All limbs intact? 
      &t20
 [Cats nod, Bartender claps and smiles]
 
-t20
+t20:
      Then I think a celebration is due, don’t you?
      &t21
 
-t21
+t21:
      *setspeaker cat_piano*
      It’s not often something scares the shit out of me, so, yes a 
      “thank fuck we’re alive” party sounds ideal. 
@@ -240,7 +240,7 @@ t21
 
 [cut to the Cellist with a smear of white powder under his nose, with his pupils expanded to fill almost the entire white of his eyes]
 
-t22
+t22:
      *setspeaker cat_cello*
      sorry did you say something i was too busy attempting to erase 
      the memory of that sudden caress from the reaper’s bony fingers 
@@ -249,14 +249,14 @@ t22
 
 [Cut to player model for Judging Silence]
 
-t23
+t23:
      look i will make an attempt to stick to standard and known forms 
      of mind altering substances and do no more than fifty (50) doses 
      in a day but i’m gonna be real me and sobriety are gonna have to 
      dance an extended tango before i know if we’re gonna be a good fit
      &t24
 
-t25
+t25:
      *setspeaker cat_singer*
      > The Singer is delighted by the prospect of a party and announces 
      they will be bringing guests.
@@ -264,7 +264,7 @@ t25
 
 [fade to black]
 
-t27
+t27:
      *setspeaker narrator*
      > The next few hours are a blur. You sit on a barstool contemplating 
      the wall and your time here as the cats and NPCs rush around getting 
@@ -277,7 +277,7 @@ off to the side, Singer bouncing next to their assistant metrocop. The trolley p
 gets out. The Singer sprints over and drags them back to meet the other one, paws flapping. Focus on the glass 
 on the bar in front of the player and the Bartender looking at them with a Thoughtful expression]
 
-t29
+t29:
      *setspeaker cat_bar*
      Are you okay, <playername>? That was a close call back there.
      player:
@@ -287,7 +287,7 @@ t29
 
 ###RESPONSE 1
 
-r1
+r1:
      
      The urge to clear the canvas is seductive. It’s quick, easy, and 
      cathartic in the moment. I understand.
@@ -295,7 +295,7 @@ r1
 
 [Serious face]
 
-r1a
+r1a:
      But you should always try to remember that you’ll never know what 
      you or your work could mean to other people unless you keep it. 
      Unless you share it. 
@@ -306,40 +306,40 @@ r1a
 
 ###RESPONSE 2
 
-r2
+r2:
      Oh my, yes. Every day. Look around you. 
      &r2a
 
      [Pan around party, return]
-r2a
+r2a:
      The Bar Samara is my opus. I had no true purpose before we built this 
      place around a forgotten tool in the Voidway. It has honestly changed my 
      life.
      &r2b
 
-r2b
+r2b:
      We poured our hearts into this place. I do every time I step behind this bar. 
      &r2c
 
-r2c
+r2c:
      I often wonder whether I am already in a rut, and simply haven’t noticed yet. 
      If these days of quiet contentment will be a thing I resent in time for 
      ‘robbing’ me of time spent working on some other project.  
      &r2d
 
-r2d
+r2d:
      But so long as you are working toward happiness, no time is wasted. 
      &r2e
 
-r2e
+r2e:
      And I am happy. Not all the time, I have bad days like anyone. 
      &r2f
 
-r2f  
+r2f:  
      But the satisfaction in a display arranged just so? 
      &r2g
 
-r2g
+r2g:
      That, for me, for now, is happiness. And should that change, 
      I shall seek a different engagement.
      player:
@@ -351,16 +351,16 @@ r2g
 
 [Shocked expression resolving into chill]
 
-r3
+r3:
      A host who does not ensure the welfare of her honoured guests 
      is a poor one indeed. 
      &r3a
-r3a
+r3a:
      More than that, we’d have been awful friends if we just sat 
      on our paws and stayed home.
      &r3b
 
-r3b
+r3b:
      We were united in determination to get you out of there, 
      and so, we did.
      player:
@@ -370,13 +370,13 @@ r3b
 
 ### MERGE POINT
 
-t30
+t30:
      *setspeaker cat_piano*
      Hey, we were talking and we want to do something to show our appreciation 
      for everything you’ve done. Before you head off. 
      &t31
 
-t31
+t31:
      *setspeaker cat_cello*
      yeah everyone’s got their own path to walk and you’re welcome to hang 
      as long as you want but uh
@@ -386,7 +386,7 @@ t31
 
 [The Singer nods sadly.]
 
-t32
+t32:
      *setspeaker cat_singer*
      > The Singer holds up their tablet: “We’re settling down into this 
      business full time!!! Going legit. And thanks to your help with my 
@@ -394,20 +394,20 @@ t32
      needing to scavenge (=✪ᆽ✪=)”
      &t33
 
-t33
+t33:
     *setspeaker cat_cello*
     which is real fucking handy because some narc snitched on the bortles
     so the space cops busted their gig and they were our go-between to
     our fence so we cant move anything til they post bail
     &t34
 
-t34
+t34:
     *setspeaker cat_pianist*
     Oh and, uh, I dragged the piano out. You down for an impromptu 
     concert, boss?
     &t35
 
-t35
+t35:
     *setspeaker cat_bar*
     Nothing would make me happier.
     &exit

@@ -1,5 +1,5 @@
 ﻿CHARACTER = Eclipse Cat
-
+begin:
      Hello, <playername>.
      &a1
 	

@@ -1,5 +1,5 @@
-﻿CHARACTER = Eclipse Cat
-
+﻿CHARACTER = "Eclipse Cat"
+begin:
      I’ve seen everything. 
      &a1
 	

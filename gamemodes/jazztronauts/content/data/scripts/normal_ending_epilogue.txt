@@ -1,74 +1,71 @@
-﻿CHARACTER = Bartender
-
-    
-
-[Initiated by talking to the Bartender. Takes place at the bar, have the cats sit on the bar in a row, looking chill and happy.] 
-
+﻿###### technically 7th bartender event?
+begin:
     *setspeaker cat_bar*
     I do so adore visiting the Center. 
     &a1
 
-a1
+a1:
     *setspeaker cat_singer*
     > The Singer thinks they should all go more often, the band 
     seemed a little lonely this time. 
     &a2
 
-a2
+a2:
     *setspeaker cat_piano*
     Agreed. Signed and sealed. 
     &a3
 
-a3
+a3:
     *setspeaker cat_cello*
     yeah i could do with sandblasting the crust of existential
     despair off my brain more often 
     player:
-        %a4: How is the bar so pristine? Because I distinctly remember royally fucking it up.
+        &a4: How is the bar so pristine? Because I distinctly remember royally fucking it up.
 
-a4
+a4:
     *setspeaker cat_bar*
     To reach the Center, you must discard all earthly - or Voidly - attachments. Including 
     your attachments to yourself, which is what the shard juice is for. 
     &a5
 
-a5
+a5:
     *setspeaker cat_cello*
     turns out that the distilled essence of creativity can overload your neurons 
-    and temporarily render you a transcendent being that can transcend time and space
+    and temporarily render you a transcendent being that can see through time and space
     &a6
 
-a6
+a6:
     if you can’t use your own creative drive stolen is fine
     &a7
 
-a7
+a7:
     long story short we didn’t actually go anywhere physical we just sat in the bus and 
     went on a profound mental journey powered by all those shards you've been stealing
     &a8
 
-a8
+a8:
     *setspeaker cat_piano*
     Should have enough for twenty more visits, easy, thanks to your help gettin’ all 
     that shard goop ready. 
     &a9
 
-a9
+a9:
     *setspeaker cat_bar*
     Which I will be placing in the Singer's Mewseum vaults for safekeeping, before you 
     two get any ideas.
     &a10
 
-a10
+a10:
     *setspeaker cat_singer*
     > The Singer nods firmly, and narrows their eyes when both the Cellist and Pianist 
     start to object. They shut up immediately. 
     &a11
 
-a11
+a11:
     *setspeaker cat_bar*
     We are deeply grateful for your help, <playername>. It’s been such a long time 
-    since our last proper vacation. 
+    since our last proper vacation.
+	&a12	
 
 [If the player has not finished mission content (idfk how to code this)]
 

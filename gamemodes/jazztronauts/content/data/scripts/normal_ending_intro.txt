@@ -1,5 +1,5 @@
 ﻿CHARACTER = Cellist
-
+begin:
      *setspeaker narrator*
      HELLO IM A GARBAGE IDIOT WRITING THIS AT 3:30
      IN THE MORNING BECAUSE SANE HUMAN SLEEP SCHEDULES
@@ -12,3 +12,5 @@ a1:
      TEST IT USING THIS INSTEAD IF I DONT GET AROUND TO IT
      NAMASTE
      &exit
+	 
+######### And then daeren fucking died

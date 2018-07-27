@@ -1,5 +1,5 @@
 ﻿CHARACTER = Eclipse Cat
-
+begin:
      You can’t tell me anything new.
      &a1
 	

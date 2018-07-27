@@ -4,17 +4,18 @@ begin:
     # Scene setup
     *txout*
     *setfov 70*
-a1
+	*txin*
+a1:
     *setspeaker cat_piano*
     Gee. I wonder if someone in this room is excited for trash night.
     &a2
 
-a2
+a2:
     *setspeaker cat_singer*
     >The Singer nods enthusiastically.
     &a3
 
-a3
+a3:
     *setspeaker cat_piano*
     I know you are. That’s why I said it with that tone of voice. 
     I wasn’t actually aski-
@@ -22,56 +23,56 @@ a3
 
 [The VCR makes a lound CA CHUNK sound.]
 
-a4
+a4:
     *setspeaker cat_bar*
     Ah, there we go. Fully rewound! Let’s see what this tape has on it.
     &a5
 
-a5
+a5:
     *setspeaker cat_cello*
     personally i hope some brave hero is about to instruct my sorry ass 
     on proper stone cutting technique or some shit
     &a6
 
-a6
+a6:
     *setspeaker cat_piano*
     We should be so lucky.
     &a7
 
-a7
+a7:
     *setspeaker cat_cello*
     listen so long as it isn’t yet another mother fucking tae bo tape 
     i’ll be happy
     &a8
 
-a8
+a8:
     *setspeaker cat_singer*
     >The Singer points excitedly at the screen!
     &a9
 
-a9
+a9:
     *setspeaker narrator*
     >There is a logo for a production company on the screen. It’s a blue 
     hexagon that appears to be a stylized C and G merged. The word 
     ‘Cannon’ is below it.
     &a10
 
-a10
+a10:
     *setspeaker cat_cello*
     no fucking way
     &a11
 
-a11
+a11:
     *setspeaker cat_piano*
     Holy shit.
     &a12
 
-a12
+a12:
     *setspeaker cat_singer*
     Cocks their head, still excited.
     &a13
 
-a13
+a13:
     *setspeaker cat_bar*
     This will be interesting, if nothing else.
     player:
@@ -80,12 +81,12 @@ a13
 
 #### BRANCH 1
 
-branch1    
+branch1:   
     *setspeaker cat_piano*
     Yeah this is pretty rare. We’re lucky if we get a movie.
     &b1a
 
-b1a
+b1a:
     *setspeaker cat_cello*
     nevermind that it might be a movie where everyone is 100% definitely 
     hammered during the entirety of filming
@@ -93,56 +94,52 @@ b1a
 
 
 #### BRANCH 2 (EARLY EXIT)
-branch2
+branch2:
     *setspeaker cat_piano*
     Yeah that’s probably smarter than staying here. You should leave 
     before we turn feral.
     &exit
 
-FADE TO: BLACK
-    >....
-FADE FROM: BLACK
-
 ### BRANCH 3 (THE MOVIE)
 
-c1
+c1:
     *setspeaker narrator*
     > We’ve gotten past the credits, it was a lot of establishing shots 
     of golf courses. The mood is bleak.
     &c2
 
-c2
+c2:
     *setspeaker cat_cello*
     fucks sake are we sure this is a cannon films movie cause by now in 
     most of these someone’s gained ten pounds from all the bullets they’ve 
     been filled with, who put on Ingmar Bergman Presents: The PGA Tour
     &c3
 
-c3
+c3:
     *setspeaker narrator*
     >Suddenly, a Ninja appears behind a middle aged businessman attempting 
     to pitch out of the sandtrap on the 9th hole. This has taken a turn.
     &c4
 
-c4
+c4:
     *setspeaker cat_piano*
     Oh my god fuckin GET HIM FUCK THAT DUDE UP NINJA HELL YEA
     &c5
 
-c5
+c5:
     *setspeaker narrator*
     > As if spurred on by the Pianist, the Ninja takes the man’s golf ball, 
     and crushes it to dust in front of him with his bare hands before 
     punching and stabbing everyone in sight. 
     &c6
 
-c6
+c6:
     *setspeaker cat_cello*
     i would like to formally rescind my complaint and personally thank the 
     inventors of cocaine for everything i am seeing with my eyeballs right now
     &c7
 
-c7
+c7:
     *setspeaker narrator*
     > The… golf police? Seem to be after the Ninja now. Which is understandable.
     He straight up murders one of them with a shuriken, and the other 
@@ -150,12 +147,12 @@ c7
     &c8
 
     [cats all switch to their HOLY SHIT faces at once]
-c8
+c8:
     >...Holy shit, the Ninja whipped out a blowpipe and shot a dart into the 
     barrel of the cop’s gun as he fired, making it explode.
     &c9
 
-c9
+c9:
     *setspeaker cat_singer*
     > You have never seen the Singer this riled up. They’re shadow boxing in 
     their seat, and their tail is quite puffed out.
@@ -165,49 +162,49 @@ Fade to black
 
 Fade from black
 
-c10
+c10:
     *setspeaker narrator*
     > So far the Movie has been about 45 minutes of a Ninja owning rich people. 
     Frankly, it’s amazing.
     &c11
 
-c11
+c11:
     *setspeaker cat_bar*
     Ah, this reminds me of the good old days.
     &c12
 
-c12
+c12:
     *setspeaker narrator*
     > ...The Bartender seems to be talking about how the Ninja is currently in 
     a high speed police chase, and is on top of a police cruiser. He’s pulling 
     out his katana...
     &c13
 
-c13
+c13:
     *setspeaker cat_piano*
     Man c’mon I know where he’s going with this but that thing aint gonna-
     &c14
 
-c14
+c14:
     *setspeaker narrator*
     > The Ninja has just stabbed a police officer in the skull through the top 
     of their police cruiser. The officer driving the car does not appear to be 
     cool with any part of this.
     &c15
 
-c15
+c15:
     *setspeaker narrator*
     >Ah, problem solved. The Ninja blinded him by punching him in the eyes. With 
     a shuriken. Through the roof of the car. Again.
     &c16
 
-c16
+c16:
     *setspeaker cat_piano*
     Oh come the fuck on, there’s no way that this guy could puncture the steel of 
     a police car chassis, right? Back me up here, Singer.
     &c17
 
-c17
+c17:
     *setspeaker cat_singer*
     > The Singer has their tablet in their lap, with a txt doc that just says 
     “FUCK THE POLICE” on it. 72pt font, looks like Impact. Guess they’re 
@@ -218,25 +215,25 @@ Fade to black
 
 Fade from black
 
-c18
+c18:
     *setspeaker narrator*
     > There was a really dope car chase. The Ninja took down a helicopter by 
     jumping up to it and uppercutting the pilot. At any rate he’s surrounded 
     by like, 50 dead bodies.
     &c19
 
-c19
+c19:
     *setspeaker cat_bar*
     Well now. I’m sure this is all this movie had. Rather good though, 
     wouldn’t you agree?
     &c20
 
-c20
+c20:
     *setspeaker cat_piano*
     Yeah I got into it at the end. 
     &c21
 
-c21
+c21:
     *setspeaker narrator*
     > Oh wait something else is happening. Ah, the ninja is putting his hands 
     together and chanting...now he’s spinning in place...
@@ -244,30 +241,30 @@ c21
     the Ninja is drilling into the earth.
     &c22
 
-c22
+c22:
     *setspeaker cat_cello*
     yeah sure i’m pretty sure that’s how that works
     &c23
 
-c24
+c24:
     *setspeaker narrator*
     > Yep. The Ninja is now up to his neck in the earth. There’s an evil laugh 
     sound playing, and the Ninja seems waiting for more cops? It fades to black 
     shortly after, and the credits roll.
     &c25
 
-c25
+c25:
     *setspeaker cat_piano*
     Damn, that’s a hardcore ninja dude. Respect. Never enough blood for him.
     &c26
 
-c27
+c27:
     *setspeaker cat_cello*
     yo holy shit what if they made a movie where it was like a bloodthirsty 
     ninja but fuckin get this what if it was dracula and dracula’s a ninja now
     &c28
 
-c28
+c28:
     *setspeaker narrator*
     > The night devolves into enthusiastic chatting about the film, and B-movies
     in general. They don’t seem to remember that there’s more tapes to watch...

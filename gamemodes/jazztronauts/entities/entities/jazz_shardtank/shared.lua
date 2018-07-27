@@ -21,6 +21,29 @@ if SERVER then
         self:SetSequence(self:LookupSequence("Fill_Tank"))
 
         self:SetCollectedShards(progress.GetMapShardCount())
+
+        local ending, isended = newgame.GetGlobal("ending"), tobool(newgame.GetGlobal("ended"))
+
+        -- If above shard threshold, spawn the group vote to start endgame
+        if not ending and not isended and progress.GetMapShardCount() >= mapgen.GetTotalRequiredShards() then
+            local voter = ents.Create("jazz_vote_podiums")
+            voter:SetKeyValue("PodiumRadius", 100)
+            voter:SetKeyValue("ApproachRadius", self.ActivateRadius)
+            voter:SetPos(self:GetPos())
+            voter:Spawn()
+            voter:Activate()
+            voter:StoreActivatedCallback(function(who_found)
+                self:OnStartGoodEnd()
+            end )
+
+            self.EndgameVoter = voter
+        end
+    end
+
+    function ENT:OnStartGoodEnd()
+        newgame.SetGlobal("ending", newgame.ENDING_ASH)
+
+        mapcontrol.Launch(mapcontrol.GetEndMaps()[newgame.ENDING_ASH])
     end
 
 else

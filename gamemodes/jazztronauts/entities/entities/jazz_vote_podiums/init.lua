@@ -13,6 +13,10 @@ ENT.PodiumRadius = 50
 function ENT:Initialize()
     self.podiums = {}
     self:Reset()
+
+    hook.Add("PlayerInitialSpawn", self, function(self, ply)
+        self:NewPlayerSpawned(ply)
+    end)
 end
 
 function ENT:Reset()
@@ -48,6 +52,8 @@ end
 
 function ENT:OnRemove()
     self:ClearPodiums()
+
+    hook.Remove("PlayerInitialSpawn", self)
 end
 
 function ENT:Think()
@@ -120,6 +126,7 @@ function ENT:OnAllPodiumsUsed()
 
     timer.Simple(5, function()
         self:ClearPodiums()
+        self:Remove()
     end )
 end
 
@@ -156,6 +163,21 @@ function ENT:ClearPodiums()
     end
     self.podiums = {}
 
+end
+
+function ENT:NewPlayerSpawned(ply)
+    if not self.approached then return end
+
+    local function offset(radius, angle)
+        return Vector( math.cos(angle) * radius, math.sin(angle) * radius, 0 )
+    end
+
+    -- TODO: Eerily move podiums into place?
+    local angle = math.random(0, 2 * math.pi)
+    local ang = Angle( 0, angle * RAD_2_DEG, 0 )
+    local off = offset(self.PodiumRadius, angle)
+
+    self:MakePodium(ply, off, ang)
 end
 
 function ENT:OnApproached( ply )

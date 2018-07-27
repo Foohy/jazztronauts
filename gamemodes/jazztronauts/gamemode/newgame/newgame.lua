@@ -1,9 +1,8 @@
 AddCSLuaFile()
 module( "newgame", package.seeall )
 
-ENDING_DESTRUCTION  = 1
-ENDING_PERFECTION   = 2
-ENDING_EQUILIBRIUM  = 3
+ENDING_ASH         = 1
+ENDING_ECLIPSE     = 2
 
 local nettbl = "jazz_newgame_info"
 local glbtbl = "jazz_global_state"

@@ -38,8 +38,8 @@ function GetIntroMap()
 	return "jazz_intro"
 end
 
-function GetEndMap()
-	return "jazz_ending"
+function GetEndMaps()
+	return { "jazz_outro", "jazz_outro2" }
 end
 
 function GetHubMap()

@@ -51,6 +51,7 @@
 	output OnVomitStartEmpty(void) : "Fires when there has been a successful pull of the lever, but the player had no props."
 
 	input Vomit(void)  : "Begin vomiting props"
+	input StopVomit(void)  : "Stop vomiting props"
 ]
 
 

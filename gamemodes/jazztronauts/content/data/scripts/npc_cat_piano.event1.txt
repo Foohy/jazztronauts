@@ -54,7 +54,7 @@ b3:
 	&resp2a:
 		Wow. You look like shit.
 	&resp3a:
-		Why, exactly are we hiding from the singer?
+		Why, exactly are we hiding from the Singer?
 		
 ###### Branch 1 (early exit)
 resp1a:
@@ -91,9 +91,9 @@ resp3a:
 	*setspeaker cat_piano*
 	*setskin cat_piano 4*
 	*setanim cat_piano gesture_facepalm*
-	They know.%%% I thought i'd timed it right,%% and they were conked out on top
+	They know.%%% I thought I'd timed it right,%% and they were conked out on top
 	of the bar,% but no,% this is the one %*setanim cat_piano gesture_anger 2.2 idle*f*setskin cat_piano 2*ucking% time they break routine and 
-	come to check on their glorified tamagotchi collection at the mewseum 
+	come to check on their glorified tamagotchi collection at the Mewseum 
 	before the fifth nap.%%%%*setanim cat_piano gesture_sigh 1.5 idle* They saw everything.
 	
 	player:
@@ -109,7 +109,7 @@ resp4a:
 	*setspeaker cat_piano*
 	*setskin cat_piano 3*
 	>The Pianist stares at you.%%% You stare back.%%%%
-	The Silence extends,%% and becomes crippilingly awkward.%%%%*setcam setpos 350.197205 174.538849 54.377182;setang 2.288677 88.377617 0.000000*
+	The Silence extends,%% and becomes cripplingly awkward.%%%%*setcam setpos 350.197205 174.538849 54.377182;setang 2.288677 88.377617 0.000000*
 	A rich*setskin cat_piano 1* array of e*setskin cat_piano 2*motions cross over her face.
 	&resp4b
 	
@@ -219,7 +219,7 @@ merge5:
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_anger 2 idle*
 	>The Singer chastises the Pianist for not listening.%%%
-	The problem is not that they saw what happened in the mewseum.%
+	The problem is not that they saw what happened in the Mewseum.%
 	It's the*setanim cat_singer gesture_sigh 1 idle* f*setskin cat_singer 4*act that it happened in the first place.
 	&merge6
 	
@@ -235,7 +235,7 @@ merge7:
 	*setspeaker cat_piano*
 	*setskin cat_piano 0*
 	*setanim cat_piano gesture_shrug 1 idle*
-	I was bored!%% I get antsy when i'm bored.%%% And I listen!%%%% I didn't
+	I was bored!%% I get antsy when I'm bored.%%% And I listen!%%%% I didn't
 	cause any structural damage this time!
 	&merge8
 	
@@ -268,7 +268,7 @@ merge11:
 	*setskin cat_piano 3*
 	*setanim cat_singer gesture_exchange 1 idle*
 	>As you leave,%% you look over your shoulder and see the Singer pass
-	the*setanim cat_piano gesture_embarass 1 idle* Pianist $2500% and give her a reassuring pat on the shoulder.
+	the*setanim cat_piano gesture_embarass 1 idle* Pianist $2500 and give her a reassuring pat on the shoulder.
 	&merge12
 	
 merge12:

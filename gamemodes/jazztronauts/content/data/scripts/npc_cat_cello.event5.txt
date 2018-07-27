@@ -1,4 +1,4 @@
-SKIP_OPEN = true
+﻿SKIP_OPEN = true
 
 begin:
     # Scene setup
@@ -23,8 +23,7 @@ begin:
 ###### START
 	*setspeaker narrator*
 	> The Bar Samsara... ...huh.
-	3 of the cats are here, and they look surprisingly worried. This
-	is concerning.
+	Three of the cats are here, and they look surprisingly worried.
 	&b1
 
 b1:
@@ -36,12 +35,13 @@ b1:
 b2:
 	*setspeaker cat_bar*
 	He came in here a little while ago drinking something, and got 
-	more agitated until he threw the empty glass across the room and
-	stormed out.
+	more and more agitated until he threw the empty glass across the
+	room and stormed out.
 	&b3
-	
+
+##bartender scowls while goin like bitch i know what you did but continues neutrally after that	
 b3:
-	If this has to do with all those milk cartons he somehow
+	If this has to do with all those milk cartons he just so
 	happened to find, I think I know what's wrong.
 	&b4
 	
@@ -60,8 +60,8 @@ b6:
 	*setspeaker cat_singer*
 	> The Singer anxiously explains that the Cellist won't listen to
 	any of them, not even when the Singer tried to make it clear they
-	were more concerened than upset with a peace offering of a
-	weighted blanket covered in weed leaf decals.
+	were more concerned about him than upset with his outburst by giving
+	a peace offering of a weighted blanket covered in weed leaf decals.
 	&b7
 	
 b7:
@@ -83,7 +83,7 @@ b9:
 	> Additionally, the following scene contains a more serious 
 	depiction of the Cellist's many issues. An option has been 
 	provided below to skip it and read a summary instead, if you
-	would prefer to avoid playing through it. No penalty.
+	would prefer to avoid playing through it.
 	player:
 	&m1:
 		Point me where I need to go.
@@ -126,7 +126,7 @@ r1a4:
 	You explain that deliberately shutting his friends out only causes 
 	them more pain in the long run, as they're willing to accept slip-ups
 	and instability to help their friend get better, but shutting them out
-	and making them watch him fall apart is like torture in comparison.
+	and making them watch him fall apart is far worse in comparison.
 	&r1a5
 	
 r1a5:
@@ -271,7 +271,7 @@ n5:
 	In that fleeting glimpse, that trip that lasted ten thousand
 	years in the span of a heartbeat, I was finally comfortable in
 	my own skin. I knew where I belonged. I knew where everything
-	was going, what things were building up twoards...
+	was going, what things were building up towards...
 	&n6
 	
 n6:
@@ -291,8 +291,8 @@ n8:
 	&n9
 	
 n9:
-	And that let me to what you see now. A burnt-out drug-addled wreck
-	chasing a mirage. It's been so long i'm not even sure if that 
+	And that led me to what you see now. A burnt-out drug-addled wreck
+	chasing a mirage. It's been so long I'm not even sure if that 
 	memory is real anymore, or some gaslight phantom my mind's come
 	up with to justify its self-destruction.
 	&n10
@@ -316,17 +316,17 @@ n12:
 	&n13
 	
 n13:
-	.....that's all I can hope for anymore.
+	that's all I can hope for anymore.
 	player:
 	&n14:
 		Are you trying to convince me of that, or yourself?
 		
 n14:
 	*setspeaker cat_cello*
-	....
+	...
 	player:
 	&n15:
-		I don't pretend to know what you're going through, but I can tell you\:
+		I don't pretend to know what you're going through, but I can tell you
 		you're wrong about your friends. They see you hurting, and want to help.
 		
 n15:
@@ -341,7 +341,7 @@ n15:
 	
 n16:
 	*setspeaker cat_cello*
-	.......
+	......
 	player:
 	&n17:
 		Shutting them out only hurts them more, not less. They keep holding their hands out 
@@ -350,10 +350,10 @@ n16:
 		
 n17:
 	*setspeaker cat_cello*
-	.............
+	.........
 	player:
 	&n18:
-		Take our hand.
+		It's not too late to take their hands.
 		
 n18:
 	*setspeaker narrator*
@@ -366,11 +366,11 @@ n18:
 n19:
 	> You sit with him until his tears are all spent. You both know how
 	long his road will be, and how many times he'll stumble. 
-	Habits don't change overnight-
+	Habits don't change overnight, but any long trip feels shorter 
+	with good friends to share it with...
 	&n20
 	
 n20:
-	-But any long trip feels shorter with good friends to share it with,
 	and the Cellist has finally realized it's time to let
 	some walk with him. *mark_seen*
 	&exit

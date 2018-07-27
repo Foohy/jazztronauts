@@ -1,6 +1,6 @@
 ﻿accept:
     okay so I've got my moonshine, %%
-    i've indoctrinated an apprentice, %%
+    i've got an apprentice, %%
     that's% basically my entire hierarchy of needs met
     &a2
 a2:

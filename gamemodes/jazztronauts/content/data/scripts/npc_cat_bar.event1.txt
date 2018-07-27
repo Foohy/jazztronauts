@@ -70,9 +70,9 @@ begin4:
 resp1a:
 	*setspeaker cat_piano*
 	*setcam setpos -1497.595215 3103.203369 54.382309;setang -2.023108 -40.901863 0.000000*
-	Yeah they're right.% Zeus would either throw you into nerd prison 
-	with his dad,% or turn into a goat and fuck everyone who's 
-	ever cobbled your shoes. 
+	Yeah they're right.% Zeus would throw you into nerd prison 
+	with his dad,% or marry you off to his brother, or turn
+	into a swarm of bees and fuck a goat.
     &resp1b
 
 resp1b:
@@ -157,14 +157,14 @@ resp2h:
 	*setcam setpos -1396.263062 3081.129639 50.612041;setang 1.330953 152.403229 0.000000*
 	*show*
 	*setspeaker cat_cello*
-	.%.%.%Sorry.%% Go ahead pipes,% do your thing.	
+	.%.%.%sorry.%% go ahead pipes,% do your thing.	
 	*txout*
     &merge1a
 
 ###### Branch 3
 resp3a:
     *setspeaker cat_piano*
-	I don't blame you.% We'll  be out in a little while.
+	I don't blame you.% We'll be out in a little while.
     &exit
 
 ###### Merge point
@@ -187,7 +187,7 @@ merge1b:
 merge1c:
     >It seems more or less identical to regular blackjack except 
 	players can steal money from each other through rules that 
-	nobody's bothered explaining.
+	nobody's bothered explaining to you.
     &merge1d
 merge1d:
 	*setspeaker cat_cello*
@@ -273,8 +273,13 @@ resp4f:
 	Because you were all jealous of me being better at it!% 
 	Next% you're going to ban me from% remembering how probability works!
 	&resp4g
-	
+
 resp4g:
+	*setspeaker cat_bar*
+	Clearly, that's no impediment to success.
+	&resp4h
+	
+resp4h:
 	*setspeaker cat_cello*
 	hhheeeehhhh, come to butthead
 	&merge2a
@@ -327,7 +332,7 @@ resp5h:
 resp5i:
 	*setspeaker cat_cello*
 	*setcam setpos -1463.405396 3151.398438 45.466812;setang -2.768539 -89.936363 0.000000*
-	its cute that you still ask me why I do anything
+	it's cute that you still ask me why I do anything
 	&resp5j
 	
 resp5j:
@@ -366,14 +371,14 @@ merge2c:
 merge2d:
 	*setspeaker cat_piano*
 	I don't know what you expected.% 
-	There's not a lot of people that can pull one over him.%% 
+	There's not a lot of people that can pull one over her.%% 
 	Well, living people at least.
 	&merge2e
 	
 merge2e:
 	*setspeaker cat_cello*
 	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
-	yeah I bet lincoln could fuck him up in chess or something
+	yeah i bet lincoln could fuck him up in chess or something
 	&merge2f
 	
 merge2f:
@@ -383,13 +388,13 @@ merge2f:
 	&merge2g
 	
 merge2g:
-	Now,%% GO% on the other hand%.%.%.
+	Now,%% Go% on the other hand%.%.%.
 	&merge2h
 	
 merge2h:
 	*setspeaker cat_cello*
 	please.%% do not do this to me.% if i have to hear you talk 
-	about the deepest lore of GO one% more% time%% i am going to 
+	about the deepest lore of Go one% more% time%% i am going to 
 	have another aneurysm
 	&merge2i
 	

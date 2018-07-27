@@ -14,14 +14,14 @@ a1:
 	
 a2:
 	...This is a very roundabout way to say that I flushed fifteen bottles of what 
-	looked like essence and mulched clowns and psychological issues 
+	looked like essence of mulched clowns and psychological issues 
 	down the can, panicked immediately, and...
 	
 a3:
-	add face changes to imply a pained grimace here
+	[add face changes to imply a pained grimace here]
 	...Refilled them with engine oil and paint to hide the evidence.
 	
-	While he'll drink that and get blasted no problem anyways, i'm being plagued by
+	While he'll drink that and get blasted no problem anyways, I'm being plagued by
 	this thing books tell me is 'guilt'.
 	&a4
 	
@@ -38,7 +38,7 @@ a5:
 	
 idle:
 	Any luck? I know it's a big ask but I'd really appreciate it if you could do me this solid.
-	We're basically pulling a shitty reenactment of the siege of troy here, except instead of
+	We're basically pulling a shitty reenactment of the siege of Troy here, except instead of
 	killing him while he's busy gloating and his guard is down, I'll.
 	&i1
 	
@@ -88,7 +88,7 @@ t2:
 	
 t3:
 	*setspeaker cat_cello*
-	Sup.
+	sup.
 	player:
 	&t4:
 		Pianist fucked with your shit and felt bad so she got you a horse.

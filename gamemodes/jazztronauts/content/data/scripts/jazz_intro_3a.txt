@@ -38,14 +38,13 @@ begin3:
 begin4:
 	*setspeaker cat_cello*
 	*setcam setpos -13137.795898 -2601.063232 1083.550293;setang 6.508560 -90.737846 0.000000*
-	we have*setanim cat_cello gesture_clap 1 idle* such sights to show you.*setskin cat_cello 0*
+	we have*setanim cat_cello gesture_clap 1 idle* such% sights% to show you*setskin cat_cello 0*
 	&begin5
 	
 begin5:
 	*setspeaker cat_bar*
-	*setskin cat_bar 3*
 	*setcam setpos -13109.759766 -2500.667969 1047.233032;setang 5.670034 -70.822716 0.000000*
-	We*setanim cat_bar gesture_agree 1 idle* certainly do!%%*setskin cat_bar 0* Our offer is simple\:%% 
+	We*setanim cat_bar gesture_agree 1 idle* certainly do!%% Our offer is simple\:%% 
 	you may come back with us back to our abode,% and entertain a job offer from our cohort.% If you 
 	aren't interested upon hearing it,%you'll be free to go.*setskin cat_bar 1*%%*setanim cat_bar gesture_confused 1 idle* 
 	Are you willing to hear us out?

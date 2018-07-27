@@ -1,9 +1,9 @@
-###### the accept phase of this mission requires camera work
+﻿###### the accept phase of this mission requires camera work
 
 accept:
 	*setspeaker cat_singer*
 	> The Singer signals for you to keep your voice down as you approach.
-	The Cellist is snowring loudly next to them. They pat him on the head
+	The Cellist is snoring loudly next to them. They pat him on the head
 	and the snoring settles down into vaguely disgruntled mumbling.
 	&a1
 	
@@ -47,7 +47,7 @@ i1:
 
 turnin:
 	*setspeaker cat_cello*
-	Oh hey you're back with what pipes wanted
+	oh hey you're back with what pipes wanted
 	what was it this time, nice pillow for our tenants or someth-
 	&t1
 	

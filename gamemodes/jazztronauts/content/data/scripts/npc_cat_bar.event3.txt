@@ -1,0 +1,192 @@
+SKIP_OPEN = true
+
+begin:
+    # Scene setup
+    *txout*
+    *setfov 70*
+    ---------------------------------------------------------------------
+a1
+    *setspeaker narrator*
+    > The Bar Samsara... 
+    You’re chatting the twilight away with the Bartender.
+    &a2
+
+a2
+    *setspeaker cat_bar*
+    -shockingly, yes, you CAN make a soup stock out of crystallized bone 
+    marrow. The sheer richness...I wish I could offer you a-
+    &a3
+
+a3
+    *setspeaker narrator*
+    > The Mewseum door is kicked open! Intruder alert!!
+    ...oh, it’s just the Cellist.
+    player:
+         &a4: This ought to be good.
+         &leave: ha ha nope i'm out (exit)
+
+###EARLY EXIT
+
+leave
+    >You decide to slip out in the moment of distraction, and deal with
+    the Cellist's madness later.
+    &exit
+
+a4
+    >He staggers over to the bar and heaves himself down onto a stool. 
+    The Bartender smiles.
+    &a5
+
+a5
+    *setspeaker cat_bar*
+    Welcome. Would you like something to dri-
+    &a6
+
+a6
+    *setspeaker cat_cello*
+    > The Cellist slams a paw down on the counter, his head cast dramatically 
+    towards the earth. He snaps his head back and takes a drag off a... 
+    yep, yep that’s a vape he’s holding. It smells threateningly like 
+    strawberry.
+    &a7
+
+a7
+    *setspeaker cat_cello*
+    Bartender. i have a powerful thirst. give me...
+ 
+    ...a hot water on the rocks.
+    &a8
+
+a8
+    *setspeaker cat_bar*
+    Ah, of course! Right away.
+    &a9
+
+a9
+    *setspeaker narrator*
+    > The Bartender doesn’t seem to show any sign of any opinion about being 
+    told to serve up a drink made entirely of hot water and ice. 
+    &a10
+
+a10
+    >Actually, she’s somehow decanting steaming tap water from a faucet into a 
+    normal drinking glass full of ice that stubbornly refuses to melt. 
+    It’s impressive.
+    &a11
+
+a11
+    *setspeaker cat_bar*
+    Your hot water on the rocks, sir.
+    &a12
+
+a12
+    *setspeaker cat_cello*
+    >The Cellist stares at the glass of normal hot water with ice in it, 
+    momentarily looking annoyed, before regaining his smug expression and 
+    chugging it in one go.
+    &a13
+
+a13
+    *setspeaker cat_cello*
+    hm that’s funny i remember ordering a hot water on the rocks and appear 
+    to have gotten a tepid water on the pebbles instead. i ain’t leaving til 
+    you give me that real shit you got
+    &c1 ###look i'm lazy and i copied another event
+
+c1
+    *setspeaker cat_bar*
+    > The Bartender cocks her head. 
+    ...after a few seconds of dead silence she gasps.
+    &c2
+
+c2
+    Ah, of course! You meant to order it at a danger rating of Double Black 
+    Diamond. I do warn you it may be beyond even your remarkable ability 
+    to tolerate. 
+    &c3
+
+c3
+    *setspeaker cat_cello*
+    excuse me
+    &c4
+
+c4
+    did i just hear your punk ass question my ability to handle any of 
+    that weak shit you keep behind this counter
+    &c5
+
+c5
+    i bet you ain’t even got a double black diamond back there it’s 
+    probably some weak ass bunny slope shi-
+    &c6
+
+c6
+    *setspeaker narrator*
+    >The Cellist is cut off by the sound of the Bartender slamming a pot 
+    of hot water onto the Bar’s stove. She turns the temperature up to a 
+    setting marked “reckless abandon,” and reaches for a bucket with a 
+    warning label that reads “liquid nitrogen.”
+    &c7
+
+c7
+    *setspeaker cat_bar*
+    This will be only a few seconds sir, I hope you won’t mind the wait.
+    &c8
+
+c8
+    *setspeaker narrator*
+    >The Cellist stares at the seething pot of water with a poker face. 
+    It’s the face of a man who is about to die on some hill, for something 
+    no one is sure of.
+    &c9
+
+c9
+    >He manages to gather up the courage to open his mouth and speak, but
+    is cut off by the Bartender serving a glass in front of him.
+    &c10
+
+c10
+    >Just putting your hand near it makes it feel so cold that it feels 
+    almost identical to being on fire. Or maybe more like that weird moment 
+    your feet feel cold right before you realize you drew your bath 
+    way too hot.
+    &c11
+
+c11
+    *setspeaker cat_cello*
+    well played.
+    &c12
+
+c12
+    > The Cellist grips the glass with grim determination. You smell singed fur, 
+    and hear a sound unsettlingly like bacon frying.
+    &c13
+
+c13
+    *setspeaker cat_bar*
+    What are you...?
+    &c14
+
+c14
+    *setspeaker cat_cello*
+    a scar on the back is a swordsman’s greatest shame.
+    &c15
+
+c15
+    *setspeaker cat_bar*
+    Admirable.
+    &c16
+
+c16
+    *setspeaker cat_piano*
+    Oh come the fuck on, there’s no way that this guy could puncture the steel of 
+    a police car chassis, right? Back me up here, Singer.
+    &c17
+
+c17
+    *setspeaker narrator*
+    >The Cellist downs the drink in one gulp, and immediately falls off the chair 
+    and bursts into flames. The Bartender is clapping.
+
+    ...you decide to leave.*mark_seen*
+    &exit

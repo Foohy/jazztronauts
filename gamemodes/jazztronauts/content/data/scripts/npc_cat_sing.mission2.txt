@@ -1,4 +1,4 @@
-###### the accept phase of this mission requires camera work
+﻿###### the accept phase of this mission requires camera work
 
 accept:
 	> The Singer seems agitated, and the moment they spot you they hurry over.
@@ -34,14 +34,14 @@ i1:
 	
 i2:
 	*setspeaker cat_bar*
-	While they do not feel the temperature, or, anything else, by any 
+	While they do not feel the temperature, or anything else by any 
 	metric the Singer has been able to check via tests, they worry.
 
 turnin:
 	*setspeaker cat_singer*
 	> The Singer looks incredibly relieved. You help them wheel the radiators into
 	the Mewseum and set up alongside the NPC's, who do not react in any way to the
-	surge of warmth in the slightly chilly space. But the singer is happy, and you
+	surge of warmth in the slightly chilly space. But the Singer is happy, and you
 	reviece NUMBER for your efforts! *finish 2*
 	&t1
 	

@@ -85,7 +85,7 @@ you*setskin cat_cello 1* got*setanim cat_cello gesture_clap 1 idle* spooked by g
 begin14:
 *setspeaker cat_piano*
 *setcam setpos -13571.149414 -2157.019287 1052.542480;setang 9.023558 -135.240448 0.000000*
-Yeah% and*setskin cat_piano 1* you somehow managed*setanim cat_piano gesture_disagree 1 idle* to lose a guest in fucking% flatgrass.
+Okay fine% but you% somehow managed*setanim cat_piano gesture_disagree 1 idle* to lose a guest in fucking% flatgrass.
 &begin15
 
 begin15:

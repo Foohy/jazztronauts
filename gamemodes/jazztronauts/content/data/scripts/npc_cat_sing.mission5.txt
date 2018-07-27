@@ -1,4 +1,4 @@
-###### singer and pianist are sitting together
+﻿###### singer and pianist are sitting together
 
 accept:
 	> The Singer waves you over as usual and the Pianist cracks open an eye to 
@@ -10,7 +10,7 @@ accept:
 a1:
 	> This one is a bit weird even by the standard you've come to expect\:
 	"Hey so this is the last thing I need to finally test a theory I've been developing
-	for actual years!!!! If you can get me NUMBER radio's, I should be able to make
+	for actual years!!!! If you can get me NUMBER radios, I should be able to make
 	some motherfucking magic happen. Hopefully. Maybe." *start 5*
 	&a2
 	
@@ -45,14 +45,14 @@ i2:
 	&i3
 	
 i3:
-	I don't know why they want you to rob grandpa's radioshack but I'm sure there's
+	I don't know why they want you to rob grandpa's radio shack but I'm sure there's
 	some lofty intellectual goal behind it. Whatever it is, thanks for helping them out.
 	I haven't seen the Singer so excited for a really long time. They like everyone, but
 	I think they really enjoy your company.
 	&i4
 	
 i4:
-	They;ll be sad when you leave.
+	They'll be sad when you leave.
 	&Exit
 
 turnin:
@@ -94,7 +94,7 @@ t5:
 t6:
 	> The Singer is actually crying with joy. They tell you that they will never be able to
 	fully express how much you've helped them and their research out, and thanks to your help
-	they're going to be able to fulfil a promise to an old friend. They'd like to talk later,
+	they're going to be able to fulfill a promise to an old friend. They'd like to talk later,
 	if you have the time.
 	&exit
 	

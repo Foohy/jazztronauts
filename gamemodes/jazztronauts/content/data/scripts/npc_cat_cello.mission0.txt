@@ -21,7 +21,7 @@ a2:
 
 a3:
     i want to get %%%
-    fucked %%%% up %%%%%%
+    f%u%c%k%e%d% %% u%p% %%%%
     and %you% are gonna help me with that
     &a4
 
@@ -55,11 +55,11 @@ i2:
 i3:
 	i haven't been sober in seventeen years%% 
     and i %do %not% want to screw up this attempt 
-	to beat my record at the halfway mark %again
+	to beat my record at the halfway mark %%%again
 	&exit
 
 turnin:
-	oh thank god% i was beginning to perceive time as a linear series 
+	oh thank fuck% i was beginning to perceive time as a linear series 
     of cause and effect%%% that shit's terrifying
     &t2
 t2:
@@ -70,6 +70,6 @@ t3:
     i suggest you find somewhere else to be for the next few hours %
     unless you like living dangerously %%%and by living dangerously 
     i mean living dangerously close to class 1.1 explosive materials 
-	being hit with a hammer
+    being hit with a hammer
     
     &exit

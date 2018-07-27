@@ -74,7 +74,7 @@ begin9:
 *setcam setpos -4585.696289 -314.744690 1560.782227;setang 0.714805 54.894096 0.000000*
 *setanim cat_cello gesture_shrug 1 idle*
 *setskin cat_cello 2*
-yea this is peasent shit. %%why are we even bothering with this again
+yea this is peasant shit. %%why are we even bothering with this again
 &begin10
 
 begin10:

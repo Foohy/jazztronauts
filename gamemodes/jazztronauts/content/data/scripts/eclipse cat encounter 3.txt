@@ -1,0 +1,21 @@
+﻿CHARACTER = Eclipse Cat
+
+     I’ve seen everything. 
+     &a1
+	
+a1:
+     I’ve done, everything. 
+     &a2
+	
+a2:
+     I made.
+     &a3
+	
+a3:
+     Everything.
+     &a4
+	
+a4:
+     None of it mattered.
+     &exit
+	

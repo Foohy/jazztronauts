@@ -9,8 +9,8 @@ a1:
 	&a2
 	
 a2:
-	I don't really remember much other than ramblin about not killing you.
-	I'm a bit of a lightweight and I drank about uhhh sixty perfect more 
+	I don't really remember much other than rambling about not killing you.
+	I'm a bit of a lightweight and I drank about uhhh sixty percent more 
 	than it needs to get me goddamn plastered.
 	&a3
 	
@@ -32,7 +32,7 @@ a5:
 	&a6
 	
 a6:
-	I need you to get me 3 metro cops. *start 5* For the mewseum. They dont have any,
+	I need you to get me 3 metrocops. *start 5* For the Mewseum. They don't have any,
 	and it'll mean a lot to em'. Of course, I'll compensate you for you
 	for your efforts. 
 	&exit
@@ -46,7 +46,7 @@ idle:
 	
 i1:
 	I reckon this'll be the last time I need you to do this sort of thing, my
-	"frivolous hiring fees" budget is running a little low and i'll need to see
+	"frivolous hiring fees" budget is running a little low and I'll need to see
 	our fence before I can make any more poor fiscal descisions.
 	&i2
 	
@@ -82,7 +82,7 @@ turnin:
 	*show*
 	*setspeaker narrator*
 	>The Pianist is sitting in a booth with one of the metrocops you found.
-	...the pianist is looking around awkwardly. 
+	...the Pianist is looking around awkwardly. 
 	She notices you and waves you over.
 	&t1
 	
@@ -218,8 +218,8 @@ t21:
 	*setspeaker cat_singer*
 	>The Singer hugs the Pianist. She clearly has no idea how to deal with
 	this. 
-	After a few moments, the Singer waves and you two and walks twoards the mewseum,
-	chatting with the Metrocop.
+	After a few moments, the Singer waves and you two and walks towards the Mewseum,
+	chatting with the metrocop.
 	&t22
 	
 t22:

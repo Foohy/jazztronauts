@@ -53,7 +53,7 @@ turnin:
 	&t1
 	
 t1:
-	> The Singer grabs their tablet, beaming, and quickly writes out a message to the effect
+	> The Singer grabs their tablet, flustered, and quickly writes out a message to the effect
 	of if you ever wake them up like that again they will not be held responsible for the
 	sick new facial scar you'll be sporting.
 	&t2

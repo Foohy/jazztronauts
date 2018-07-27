@@ -17,7 +17,7 @@ begin:
 	*show*
 	>The Cellist is sprawled out in a booth. He looks down for the 
 	count. In front of him, is a shot glass that appears to be 
-	All Colors.
+	Every Color.
 	&b1
 	
 b1:
@@ -50,9 +50,9 @@ b4:
 b5:
 	*setspeaker cat_cello*
 	now that i have established it is in fact you i'm talking to and not one of
-	my many hallucinatory ghosts of once and future christmas, i've been meaning
-	to tell you that i appreciate your work getting me the ingredients for the
-	Good Shit together.
+	my many hallucinatory ghosts of the once and future christmas, i've been 
+	meaning to tell you that i appreciate your work getting me the ingredients 
+	for the Good Shit together.
 	&b6
 	
 b6:
@@ -67,7 +67,7 @@ b7:
 	i've been meaning to give you a reward more substantial than arbitrary
 	anarcho-corporate scrip. Namely,
 	
-	>The Cellist pushes the glass across the table twoards you...
+	>The Cellist pushes the glass across the table towards you.
 	&b8
 	
 b8:
@@ -81,28 +81,36 @@ b8:
 	&r3a1:
 		(SLAM THAT SHIT)
 	&r4a1:
-		I appreciate it but while I love dying and being dead I'm making
-		and exception here. (exit)
-		
-###### BRANCH 4 EARLY EXIT
+		I'm going to need to come back considerably more prepared to handle that stuff. (exit)
+	&r5a1:
+		Listen, I appreciate the offer, but I don't go for that sort of thing. (exit and complete)
+
+###### BRANCH 4
+
 r4a1:
+	*setspeaker cat_cello*
+	wise move. i'll be here psychically hollering at the anubis until you need me
+	&exit
+		
+###### BRANCH 5 EARLY COMPLETION FOR PEOPLE NOT COMFORTABLE WITH THE IDEA OF CASUAL EXTREME TURBO DRUG USE
+r5a1:
 	*setspeaker cat_cello*
 	s'aright. suit yourself.
 	
 	...what?
-	&r4a2
+	&r5a2
 	
-r4a2:
+r5a2:
 	you expected me to make a scene over that? naw man, this shit ain't D.A.R.E.
-	unless you're as much of a trainwreck as me it's entierly reasonable to look
+	unless you're as much of a trainwreck as me it's entirely reasonable to look
 	at a glass that looks like some sort of fourth dimensional clown tears and go
 	fuck that shit i'm out.
-	&r4a3
+	&r5a3
 	
-r4a3:
+r5a3:
 	i mean it leaves more for me too but that's secondary, i swear.
 	
-	y'all have a nice day now.
+	y'all have a nice day now.*mark_seen*
 	&exit
 	
 ###### BRANCH 1
@@ -116,20 +124,22 @@ r1a1:
 	&r3a1:
 		(SLAM THAT SHIT)
 	&r4a1:
-		I appreciate it but while I love dying and being dead I'm making
-		and exception here. (exit)
+		I'm going to need to come back considerably more prepared to handle that stuff. (exit)
+	&r5a1:
+		Listen, I appreciate the offer, but I don't go for that sort of thing. (exit and complete)
 		
 ###### BRANCH 2
 r2a1:
 	*setspeaker cat_piano*
-	uhhh. yo ever read one of those articles where it's a trip report of some
+	uhhh. you ever read one of those articles where it's a trip report of some
 	dumb motherfucker who took like fifteen things at irresponsible doses and
 	like a couple of them weren't even drugs
 	&r2a2
 	
 r2a2:
-	start there and think bigger, if you drank that whole glass.
+	start there and think bigger, if you drank a whole glass.
 	one sip should be a little more manageable.
+
 	maybe.
 	player:
 	&r1a1:
@@ -137,15 +147,16 @@ r2a2:
 	&r3a1:
 		(SLAM THAT SHIT)
 	&r4a1:
-		I appreciate it but while I love dying and being dead I'm making
-		and exception here. (exit)
+		I'm going to need to come back considerably more prepared to handle that stuff. (exit)
+	&r5a1:
+		Listen, I appreciate the offer, but I don't go for that sort of thing. (exit and complete)
 		
 ###### BRANCH 3
 r3a1:
 	*setspeaker narrator*
-	>The next segment is designed to be as visually awful to look at, on purpose.
-	If you get motion sickness, epilepsy, or any other conditions to view, you
-	may safely skip it.
+	>The next segment is designed to be visually awful to look at, on purpose.
+	If you get motion sickness, epilepsy, or any other condition triggered 
+	similarly, you may safely skip it.
 	player:
 	&placeholder:
 		Yes, I would like to skip the trippy visuals.
@@ -156,7 +167,8 @@ r3a1:
 
 m1:
 	*setspeaker narrator*
-	>You take the glass and down it. Kinda burns like tequila.
+	>You down the shot of the Good Shit. It tastes like someone fermented all
+	the different syrups in a soda machine and mixed them into a shot.
 	
 	...nothing's happened yet.
 	player:
@@ -167,35 +179,37 @@ m2:
 	insert slam cut to weird trippy visuals here, setcam to a part of the map
 	that is Just Void or something. after playing in the space this shows up,
 	*setspeaker cat_cello*
-	MTSgovOvnKEwnPO5o3HtoT9inlOjpzI0qUxtMaIwn2IxVUIjVT5iqPOao25hLFOfnJH=
+	wbk bmh've fhljy goagfgbys gvdr'f ynpcpkbr  
 	player:
 	&m3:
 		oh god what the fuck
 	&m3:
-		(literally just constant screaming )
+		(literally just constant screaming)
 	&m3:
 		LIBERATE TUTEMET EX INFERIS
 m3:
 	*setspeaker cat_cello*
-	nT9frFOmnTy0VUyiqFqlMFOwLKOuLzkyVT9zVTAioKOl
-	MJuyoaAcLzkyVUAjMJIwnPO0nTS0W3ZtLFOhMKpto25y
+	auvk dhgk usuc ji gb klru xhr gfpremvbj quyt hd ecssrr mrs zekr ah fnze gc 
+	hvcpavb wfvw
+	ybcrs cvoooejl gaah xlqirfhdlq e wbfg g'z walwqe uyh
+	jsoj sycx
 	&m4
 	
 m4:
-	q2ScqPjtMTyxVUyiqFOuL3E1LJkfrFOgLJ5uM2HtqT8tMzyaqKWyVT91qPObo3pt
-	qT8tqJ5yozAlrKO0VUEbnKZ/VUqyoTjtMT9hMFO5o3Htp2S1L3xtLzSmqTSlMP4=
-	use rest of bubble for drug camera cuts and finishing touches.
+	wq yyp hbbhqgc i fvrsyh hnjh qrin gvlq psmvbj kbwt csrnyi dbb'w 
+	brpiosuygill huw gs kvzo ruiie ghlfi os ghjs sn n rdgyc bnglq
+	[use rest of bubble for drug camera cuts and finishing touches.]
 	&m5
 	
 m5:
 	*setspeaker cat_cello*
-	holy fuck you're alive?
+	holy fuck you came out of that faster than i expected
 	&m6
 	
 m6:
-	i mean, not that I expected that to kill you, of course, but uh,
-	that hit you pretty hard. i wasn't sure you were ever gonna get up.
-	not many people do.
+	i mean from all the screaming i was figuring we were looking at a two or
+	three day long adventure that'd end with you getting sober and realizing
+	you bought a grand piano off ebay but that was only a few hours
 	&m7
 	
 m7:
@@ -212,7 +226,7 @@ m7:
 		
 m8:
 	*setspeaker cat_cello*
-	okay maybe your're gonna need some dry time though.
+	okay maybe you're gonna need some dry time though.
 	come on, let's get you on your feet.
 	&m9
 	

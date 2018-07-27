@@ -1,8 +1,8 @@
 accept:
-    in order to get something consistent and possibly marketable 
-    out of all this biochemical pachinko going on in my assorted 
-    organs i’ve realized i need a proper lab partner, somebody 
-    with a proper degree in
+    ah good you're here. in order to get something consistent 
+    and possibly marketable out of all this biochemical pachinko 
+    going on in my assorted organs i’ve realized i need a proper 
+    lab partner, somebody with a proper degree in
 	    &a2
 a2:
     uh

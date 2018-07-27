@@ -15,7 +15,7 @@ a2:
 	If you want to help me out, get me thirty vending machines because our supply of
 	fizzy shit and overpriced water is running low.
 	*start 3*
-	>she waves you away and resumes napping.
+	>She waves you away and resumes napping.
 	&exit
 	
 idle:

@@ -50,7 +50,7 @@ b3:
 	*setskin cat_piano 1*
 	*setanim cat_piano gesture_foldarms 1 idle*
 	I know, it's a lot to take in,% remember to breathe.%%
-	My trust is not lightly bewtowed,% but I think you've earned it.%%
+	My trust is not lightly bestowed,% but I think you've earned it.%%
 	But*setanim cat_piano gesture_disagree 1 idle* we should not forget our origins.
 	&b4
 	
@@ -64,8 +64,8 @@ b4:
 	player:
 	&r1a1:
 		I don't like the look in your eye and I don't want to cause 
-		another incident with the Singer. So i'm gonna have to 
-		pass on whatever you've got planned here. (exit)
+		another incident with the Singer. So I'm gonna have to 
+		pass on whatever you've got planned here. (exit and complete)
 	&r2a1:
 		Or, and hear me out here - we could sit down, have a drink, 
 		and talk about our feelings and shared interests?
@@ -81,7 +81,7 @@ r1a1:
 	*setanim cat_piano gesture_sigh 1 idle*
 	Well,% piss.%%% I hadn't really planned for that,% but.%%
 	I respect your autonomy,% pal.%% Go be 'rel*setanim cat_piano gesture_shrug 1 idle*iable' or whatever 
-	boring thing you have in mind instead,% if that's what you really want to do.
+	boring thing you have in mind instead,% if that's what you really want to do.*mark_seen*
 	&exit
 	
 ###### BRANCH 2 
@@ -105,7 +105,7 @@ r2a2:
 	&r1a1:
 		I don't like the look in your eye and I don't want to cause 
 		another incident with the Singer. So i'm gonna have to 
-		pass on whatever you've got planned here. (exit)
+		pass on whatever you've got planned here. (exit and complete)
 	&r3a1:
 		I fucking live to steal.
 		
@@ -130,7 +130,7 @@ r3a3:
 	*setskin cat_piano 0*
 	*setanim cat_piano gesture_sweep 1 idle*
 	I'm gonna lift the package myself,% I just need you to be my lookout.%%
-	And our mark is a*setanim cat_piano gesture_shrug 1 idle* fucking moron with no spacial awareness to speak of.%%%
+	And our mark is a*setanim cat_piano gesture_shrug 1 idle* fucking moron with no spatial awareness to speak of.%%%
 	It's an easy job.%*setanim cat_piano gesture_agree 1 idle* C'mon let's move.
 	&m1
 
@@ -208,7 +208,7 @@ m8:
 	*setposang cat_piano setpos -2860.124023 4046.866211 0;setang -90 6.9 0.000000*
 	*setcam setpos -2821.140869 3879.906006 83.275093;setang 12.118111 104.898827 0.000000
 	*setspeaker narrator*
-	>The Pianist ignores you,% stalking twoards the bench.
+	>The Pianist ignores you,% stalking towards the bench.
 	&m8b
 
 m8b:
@@ -266,7 +266,7 @@ m13:
 	*setspeaker cat_piano*
 	Yeeeeeeee%e%e%e%e%e%%e%e%e%e%e%eeeeeeeeeeeeah.%%%%
 	
-	>You smell something%.%.%.% floral?%%% Is that lavender?%%% And camomile?
+	>You smell something%.%.%.% floral?%%% Is that lavender?%%% And chamomile?
 	&m14
 	
 m14:
@@ -298,7 +298,7 @@ m17:
 	*setanim cat_cello gesture_shrug 1 idle*
 	fucking knew that'd work%%%%
 	she always assumes i have the capacity for mind games and 
-	pysches herself out into doing something predictable.%%%%*setanim cat_cello gesture_agree 1 idle*
+	psyches herself out into doing something predictable.%%%%*setanim cat_cello gesture_agree 1 idle*
 	thanks for enabling her.
 	&m18
 	

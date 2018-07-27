@@ -4,7 +4,7 @@ accept:
 	&a1
 	
 a1:
-	>The Pianist points at the Mewseum npc displays.
+	>The Pianist points at the Mewseum NPC displays.
 	&a2
 	
 a2:
@@ -42,7 +42,7 @@ idle:
 	&i1
 	
 i1:
-	>The Pianist points to the npc display.
+	>The Pianist points to the NPC display.
 	&i2
 	
 i2:
@@ -54,7 +54,7 @@ i2:
 	
 i3:
 	It's like cable TV. And since we don't have cable, I'm looking for some
-	wholesome empty entertaingment to relieve the unending, numbing boredom
+	wholesome empty entertainment to relieve the unending, numbing boredom
 	that plagues my existence. 
 	Do me a solid here?
 	&exit
@@ -74,7 +74,7 @@ t1:
 t2:
 	You might want to clear out for a bit. Once I put these bad boys in there
 	it's going to be noisy for a while. And if the Singer finds out they're not
-	going to be impressed that i'm playing rough with their toys.
+	going to be impressed that I'm playing rough with their toys.
 	&t3
 	
 t3:
@@ -84,7 +84,7 @@ t3:
 	&t4
 	
 t4:
-	>The Pianist walks into the mewseum with a smile on her face...
+	>The Pianist walks into the Mewseum with a smile on her face...
 	
 	Oh well. It's out of your hands now.
 	&exit

@@ -28,13 +28,13 @@ b1:
 	in summary, when Meat Loaf sings about 'that' in I Would Do Anything For
 	Love (But I Won't Do That), it should be readily apparent that he's referring
 	to a set of statements that amount to being a callous or unfaithful lover, you fool.
-	you impecile. you great ambulatory chode.
+	you imbecile. you great ambulatory chode.
 	&b2
 	
 b2:
 	*setspeaker cat_piano*
 	That's fascinating, Cellist, but oh HEY *player* wants to talk to you, 
-	and man, i'm really into this conversation, but i'd hate to be so rude as 
+	and man, I'm really into this conversation, but I'd hate to be so rude as 
 	to take up all your time, so...
 	&b3
 	
@@ -86,12 +86,12 @@ r1a2:
 	*setspeaker cat_cello*
 	...assuming you did you just saw that i'm right. assuming not, the statue that damn near
 	half the planet considers one of the pinnacles of an art form was made of a big-ass
-	chunk of flawed marnle that was just sorta laying around outside because it was shitty
+	chunk of flawed marble that was just sorta laying around outside because it was shitty
 	&r1a3
 	
 r1a3:
-	there's something profound to say in there somewhere but i
-	am too inebriated to bother trying.
+	there's something profound to say in there somewhere 
+	but i am too inebriated to bother trying.
 	&r1a4
 	
 r1a4:
@@ -108,7 +108,7 @@ r1a4:
 	&fairenough:
 		I have no early idea what you're talking about.
 		
-###### INCORRECT ANSWER
+###### INCORRECT ANSWER GET DUNKED
 owntheplayer:
 	*setspeaker cat_cello*
 	>The Cellist looks smug.
@@ -140,8 +140,8 @@ actual1:
 fairenough:
 	*setspeaker cat_cello*
 	y'know what thank you, it's refreshing to have someone just fucking say that for once
-	instead of trying to bullshit their way through a topic they know 
-	absolutely nothing about.
+	instead of trying to bullshit their way through a topic they know absolutely 
+	nothing about.
 	&fair1
 	
 fair1:
@@ -154,7 +154,7 @@ m1:
 	*setspeaker cat_cello*
 	so anyone who's so much as seen a single meme knows what the big important 
 	paintings on the ceiling of the sistine chapel look like right, but it takes a 
-	certain kind of dork to remember the other thing micehalangelo did in there
+	certain kind of dork to remember the other thing michelangelo did in there
 	&m2
 	
 m2:
@@ -164,9 +164,9 @@ m2:
 	&m3
 	
 m3:
-	now it is entierly possible to go on a big ol diatribe about the composition and the
-	use of color and the narratives created by the way the figures are arranged and 
-	drawing your eye around in a certain order
+	now it is entirely possible to go on a big ol diatribe about the composition and the
+	use of color and the narratives created by the way the figures are arranged and how
+	they draw your eye around in a certain order
 	&m4
 	
 m4:
@@ -177,7 +177,7 @@ m5:
 	and is way less funny than talking about all the people who got super mad
 	that mike drew a bunch of butts on a church wall
 
-	>The Cellist hits the blunt he's holding
+	>The Cellist hits the blunt he's holding.
 	&m6
 	
 m6:
@@ -203,13 +203,17 @@ m8:
 	&r5a1:
 		So why did nobody get mad at Adam being naked on the ceiling?
 		
-###### BRANCH 3
+###### BRANCH 3: AGREED
 r3a1:
 	*setspeaker cat_cello*
 	hell yeah it does.
-	&n1
-	
-###### BRANCH 4
+	player:
+	&r4a1:
+		How did Michelangelo get away with that?
+	&r5a1:
+		So why did nobody get mad at Adam being naked on the ceiling?
+
+###### BRANCH 4: I JUST WANTED AN EXCUSE TO CALL HIM BIGGIE
 r4a1:
 	well biggie bitched at the pope about it but the pope roasted his nuts by saying he
 	didn't have the jurisdiction to bail souls out of hell so he'd have to stay there
@@ -217,22 +221,22 @@ r4a1:
 	&r4a2
 	
 r4a2:
-	they painted clothes on everybody after mike bit it though because
-	they were cowards
+	they painted clothes on everybody after mike bit it though 
+	because they were cowards
 	&n1
 	
 	
-###### BRANCH 5
+###### BRANCH 5: HOT TAKES ON PRUDES AND NUDES
 r5a1:
 	*setspeaker cat_cello*
 	well you need to understand that for a very long period of time european art had a
-	strict divide between the concept of 'nude' and 'naked'
+	strict divide between the concept of 'nude' and 'naked' and adam was nude
 	&r5a2
 	
 r5a2:
 	'nude' referred to people imitating the greco-roman style of the idealized human
 	form presented without clothing for its aesthetic value, while 'naked' referred to
-	actually potraying a real person like they were anything but a controlled object
+	actually portraying a real person like they were anything but a controlled object
 	&r5a3
 	
 r5a3:
@@ -244,7 +248,7 @@ r5a3:
 ###### MERGE POINT 2
 n1:
 	*setspeaker cat_cello*
-	art is always most interesting when it's basically just extremely high elaborate
+	art is always most interesting when it's basically just extremely elaborate
 	high concept trolling is what im getting at. the french mastered that shit.
 	they had dudes ripping urinals off walls to display, painting prostitutes
 	as venus, the works
@@ -253,8 +257,8 @@ n1:
 n2:
 	the more elaborate and uptight and demanding a creative form is the more fun it
 	is when someone uses those rules to make a gigantic middle finger to gatekeeping
-	pricks. or just throws a brick in their window. 
-	both work.
+	pricks. 
+	or just throws a brick through their window. 		both work.
 	&n3
 	
 n3:

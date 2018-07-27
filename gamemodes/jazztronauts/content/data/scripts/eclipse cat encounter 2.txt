@@ -1,0 +1,18 @@
+﻿CHARACTER = Eclipse Cat
+
+     You can’t tell me anything new.
+     &a1
+	
+a1:
+     There’s nothing new to learn.
+     &a2
+	
+a2:
+     I’m tired of looking.
+     &a3
+	
+a3:
+     I’m so tired of looking.
+     &exit
+	
+	

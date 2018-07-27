@@ -17,7 +17,7 @@ a2:
 	&a3
 
 a3:
-	Believe it or not, making my friends cry is not actually a passtime
+	Believe it or not, making my friends cry is not actually a pastime
 	I enjoy. These days, anyway.
 	&a4
 	

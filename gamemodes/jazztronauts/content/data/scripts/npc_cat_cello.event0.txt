@@ -27,7 +27,7 @@ b1:
 b2:
 	> You take a few steps further into the hallway to check on 
 	the Cellist, but he staggers into view from around the corner. 
-	He kinda smells like gunpowder.
+	He smells like gunpowder, bong rips, and water softener.
 	&b3
 	
 b3:
@@ -40,7 +40,7 @@ b3:
 	
 b4:
 	i suppose the adrenaline and endorphins secondary to getting
-	tempered glass acupuncutre of the face counted as getting high
+	tempered glass acupuncture of the face counted as getting high
 	though so I'm gonna chalk that one down as something to revisit.
 	player:
 	&r1a1:
@@ -70,14 +70,14 @@ r1a2:
 r2a1:
 	*setspeaker cat_cello*
 	.......okay so are you actually blind or did you fail to notice the
-	entierty of my existence in the visual spectrum serves to telegraph
+	entirety of my existence in the visual spectrum serves to telegraph
 	the fact that i jailbroke my factory standard self preservation
 	instincts
 	&r2a2
 	
 r2a2:
 	like you know how people who grow up in the middle of nowhere get so
-	bored they end up inventing new pastimes based entierly on saying
+	bored they end up inventing new pastimes based entirely on saying
 	"hey y'all watch this" before doing something that voids the 
 	warranty on their limbs, organs, and/or skeleton
 	&r2a3
@@ -91,7 +91,7 @@ r2a3:
 ###### MERGE 1
 m1:
 	*setspeaker cat_cello*
-	but enough about me and my decidely singular life choices.
+	but enough about me and my decidedly singular life choices.
 	let's talk about you for a bit. it takes a certain sort of weirdo
 	to accept a job offer from a pack of weird cat gremlins from beyond
 	time and space. why'd you agree to this arrangement?
@@ -114,7 +114,7 @@ exploration:
 	
 exp1:
 	sixteen thousand vast and trunkless repos of maps
-	standing in the desert
+	stand in the desert
 	&exp2
 	
 exp2:
@@ -125,8 +125,8 @@ exp2:
 	&exp3
 	
 exp3:
-	or maybe you're the type who looks for the legends of the medium and
-	studies all the little parlor tricks and clever implementations they had.
+	maybe you're the type who looks for the legends of the medium and studies
+	all the little parlor tricks and clever implementations they had.
 	or you just rip them apart hoping to find some sort of distilled 
 	inspiration in all the pieces.
 	&exp4
@@ -143,8 +143,8 @@ comraderie:
 	
 comrad1:
 	...you're serious? huh. well in my case there's not much to tell, really.
-	i like long walks on the beach after fropping DMR, waking up in a garbage
-	can with a mostly uneaten bad of arby's, and finding new ways to 
+	i like long walks on the beach after dropping DMT, waking up in a garbage
+	can with a mostly uneaten bag of arby's, and finding new ways to 
 	confuse and disappoint the people i care about.
 	&comrad2
 	

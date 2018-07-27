@@ -1,5 +1,4 @@
 accept:
-    ---------------------------------------------------------------------
     *setskin 2*
     don’t- just, don’t say it. i know. i get it. i fucked up.
     &a2

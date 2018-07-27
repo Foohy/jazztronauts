@@ -1,0 +1,48 @@
+﻿CHARACTER = Bartender
+
+     *setspeaker cat_bar*
+     That’s it! That’s everything!
+     &a1
+	
+a1:
+     *setspeaker cat_piano*
+     HELL YES, TIME FOR THE FUN PART!
+     &a2
+	
+a2:
+     *setspeaker cat_cello*
+     i suggest you hold firmly onto both of your ass cheeks
+     because if riding the bus freaks you out swan diving 
+     directly into the Void is probably gonna make you shit
+     your entire skeleton out
+     player:
+          &a3: Wait, we're WHAT!?
+	
+a3:
+     I DON'T SEE YOU SQUEEZIN THEM CHEEKS SOLDIER
+     &a4
+
+a4:
+     *setspeaker narrator*
+     >You feel a sudden lurch in your stomach, and the whole
+     world breaks like a cheap wine glass! You're falling into
+     the Void!
+     player:
+	&a5: AAAAAAAAAAAAAAAGH
+
+a5: 
+     >You're falling past a thousand impossible worlds!
+     player:
+        &a6: (continued screaming)
+
+a6:
+     >Still fallin'!
+     player:
+        &a7: (strangled screaming)
+
+a7:  >Falling...?
+        &a8: This is taking longer than I thought.
+
+a8:
+     >Wait, when'd it get this dark?
+     &exit              

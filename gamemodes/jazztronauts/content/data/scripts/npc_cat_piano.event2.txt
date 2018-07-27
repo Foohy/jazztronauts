@@ -36,7 +36,7 @@ begin:
 	*show*
 	>This is where the Pianist said the party was.%%% You think.%%
 	All of the cats are here,% seated around the table.%% 
-	%.%.%.%the rotten chinese takeout you got is here too.
+	%.%.%.%the rotten takeout you got is here too.
 	&b1
 	
 b1:
@@ -157,7 +157,7 @@ r3a6:
 	*setspeaker cat_bar*
 	*setskin cat_piano 0*
 	*setskin cat_bar 2*
-	Pianist.%%%*setcam setpos -1450.820923 3049.278076 66.423630;setang 10.594172 112.317444 0.000000* No chainsaws in The Bar Samsara.%%%%*setskin cat_bar 4*
+	Pianist.%%%*setcam setpos -1450.820923 3049.278076 66.423630;setang 10.594172 112.317444 0.000000* No chainsaws in the Bar Samsara.%%%%*setskin cat_bar 4*
 	We'v*setskin cat_bar 0*e talked about this.
 	&r3a7
 	
@@ -174,7 +174,7 @@ r3a8:
 	*setspeaker narrator*
 	*setskin cat_cello 0*
 	*setanim cat_piano gesture_exchange 1 idle*
-	>The Pianist produces a Recorder from her jacket pocket,%%
+	>The Pianist produces a recorder from her jacket pocket,%%
 	and places it on the table.
 	%%%%%
 	The Cellist quickly stands up from his seat.
@@ -232,7 +232,7 @@ r3a14:
 r3a15:
 	*setcam setpos -1329.612915 3103.142334 94.227859;setang 14.996481 -171.855530 0.000000* ####### ALL 4
 	*setspeaker cat_cello*
-	>%.%.%.%%the cellist quietly sits down in his seat.
+	>%.%.%.%%the Cellist quietly sits down in his seat.
 	&r3a16
 	
 r3a16:
@@ -287,7 +287,7 @@ m3:
 	*setspeaker cat_cello*
 	*setskin cat_cello 0*
 	*setanim cat_cello gesture_jab 2.5 idle*
-	oh of course you liked it%%% you're a supportive friend which means as 
+	oh of course %you% liked it%%% you're a supportive friend which means as 
 	much as having your first*setanim cat_cello gesture_sigh 1 idle* ever crayon scribble hung 
 	up on the fridge
 	&m4

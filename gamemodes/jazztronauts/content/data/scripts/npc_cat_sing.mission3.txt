@@ -1,4 +1,4 @@
-###### the accept phase of this mission requires camera work
+﻿###### the accept phase of this mission requires camera work
 
 accept:
 	*setspeaker narrator*
@@ -72,7 +72,7 @@ turnin:
 	
 t1:
 	> You learn many tomato facts over the next ten minutes. Namely that there's a lot of 
-	tomatoes named after other fruits. Black cherry. Banana Legs. Green Grape.
+	tomatoes named after other fruits. Black Cherry. Banana Legs. Green Grape.
 	&t2
 	
 t2:

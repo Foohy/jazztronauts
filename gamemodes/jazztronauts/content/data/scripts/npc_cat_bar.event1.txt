@@ -378,7 +378,7 @@ merge2d:
 merge2e:
 	*setspeaker cat_cello*
 	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
-	yeah i bet lincoln could fuck him up in chess or something
+	yeah i bet lincoln could fuck her up in chess or something
 	&merge2f
 	
 merge2f:

@@ -416,10 +416,12 @@ hook.Add("StartCommand", "JazzDialogLockPlayer", function(ply, usercmd)
 	-- Before we clear buttons, we'll query em later
 	lastKeyDownFlag = usercmd:GetButtons()
 
-	ply.JazzDialogLastLockAngles = ply.JazzDialogLastLockAngles or usercmd:GetViewAngles()
-	usercmd:ClearMovement()
-	usercmd:ClearButtons()
-	usercmd:SetViewAngles(ply.JazzDialogLastLockAngles)
+	if not dialog.GetParam("NO_FREEZE") then
+		ply.JazzDialogLastLockAngles = ply.JazzDialogLastLockAngles or usercmd:GetViewAngles()
+		usercmd:ClearMovement()
+		usercmd:ClearButtons()
+		usercmd:SetViewAngles(ply.JazzDialogLastLockAngles)
+	end
 end )
 
 -- Hook into user input so they can optionally skip dialog, or continue to the next one

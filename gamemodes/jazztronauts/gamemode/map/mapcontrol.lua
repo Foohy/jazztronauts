@@ -198,8 +198,8 @@ if SERVER then
 
 	local function GetExternalMapAddons(contents)
 		local addons = {}
-
-		for line in string.gmatch(contents, "(.-)\n") do
+		
+		for line in string.gmatch(contents, "[^\r\n]+") do
 			local num = tonumber(line)
 			if not num then continue end
 			table.insert(addons, num)

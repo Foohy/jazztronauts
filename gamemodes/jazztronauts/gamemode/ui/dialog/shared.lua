@@ -46,7 +46,7 @@ local TOK_NEWLINE = 6
 local TOK_EMPTY= 7
 
 local function lineitr(str)
-	return string.gmatch(str, "(.-)\n") 
+	return string.gmatch(str, "[^\r\n]+") 
 end
 
 local function ChopRight(str, findstr)

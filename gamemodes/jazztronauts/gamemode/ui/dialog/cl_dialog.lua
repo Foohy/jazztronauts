@@ -229,6 +229,7 @@ local conditionEnv =
 	resetcount = newgame.GetResetCount,
 	state = newgame.GetGlobal,
 	unlocked = function(key, value) return unlocks.IsUnlocked(key, LocalPlayer(), value) end,
+	finishedmissions = function() return missions.PlayerCompletedAll(LocalPlayer()) end,
 	money = jazzmoney,
 	time = os.time,
 	date = os.date,

@@ -201,6 +201,13 @@ function GetCompletedMissions(ply, npcid, h)
     return completed
 end
 
+function PlayerCompletedAll(ply, npcid, h)
+    local hist = h or getPlayerHistory(ply)
+
+    return table.Count(GetAvailableMissions(ply, npcid, hist)) == 0 
+        and table.Count(GetActiveMissions(ply, npcid, h, false)) == 0
+end
+
 if SERVER then 
     util.AddNetworkString("jazz_missionupdate")
 

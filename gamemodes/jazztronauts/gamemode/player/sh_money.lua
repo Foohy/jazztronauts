@@ -48,6 +48,11 @@ if SERVER then
         return money.GetNotes(ply)
     end
 
+    -- Get the total number of players that participated in this session
+    function GetTotalPlayers()
+        return money.GetTotalPlayers()
+    end
+
     -- Player earned some money
     function AddNotes(ply, amt)
         if money.ChangeEarned(ply, math.max(0, amt)) then    

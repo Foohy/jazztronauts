@@ -22,10 +22,10 @@ if SERVER then
 
         self:SetCollectedShards(progress.GetMapShardCount())
 
-        local ending, isended = newgame.GetGlobal("ending"), tobool(newgame.GetGlobal("ended"))
+        local ended = tobool(newgame.GetGlobal("ended"))
 
         -- If above shard threshold, spawn the group vote to start endgame
-        if not ending and not isended and progress.GetMapShardCount() >= mapgen.GetTotalRequiredShards() then
+        if progress.GetMapShardCount() >= mapgen.GetTotalRequiredShards() or ended then
             local voter = ents.Create("jazz_vote_podiums")
             voter:SetKeyValue("PodiumRadius", 100)
             voter:SetKeyValue("ApproachRadius", self.ActivateRadius)
@@ -33,17 +33,21 @@ if SERVER then
             voter:Spawn()
             voter:Activate()
             voter:StoreActivatedCallback(function(who_found)
-                self:OnStartGoodEnd()
+                self:OnStartTravel()
             end )
 
             self.EndgameVoter = voter
         end
     end
 
-    function ENT:OnStartGoodEnd()
-        newgame.SetGlobal("ending", newgame.ENDING_ASH)
-
-        mapcontrol.Launch(mapcontrol.GetEndMaps()[newgame.ENDING_ASH])
+    function ENT:OnStartTravel()
+        local ending, isended = newgame.GetGlobal("ending"), tobool(newgame.GetGlobal("ended"))
+        if not isended then
+            newgame.SetGlobal("ending", newgame.ENDING_ASH)
+            mapcontrol.Launch(mapcontrol.GetEndMaps()[newgame.ENDING_ASH])
+        else -- NG+ Reset
+            newgame.ResetGame(tonumber(ending))
+        end
     end
 
 else
@@ -254,6 +258,9 @@ else
             cam.Start2D()
                 local ctext = self:GetCollectedShardCount() .. " shards"
                 local ntext = mapgen.GetTotalRequiredShards() .. " needed"
+                if newgame.GetGlobal("ended") then
+                    ntext = "NG+ Unlocked"
+                end
 
                 draw.SimpleText(ctext, "JazzShardTankFont", sizeX / 2, sizeY / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
                 draw.SimpleText(ntext, "JazzShardTankSubtextFont", sizeX / 2, sizeY / 1.5, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)  

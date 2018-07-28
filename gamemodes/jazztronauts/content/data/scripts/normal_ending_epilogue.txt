@@ -63,23 +63,34 @@ a10:
 
 a11:
     *setspeaker cat_bar*
-    We are deeply grateful for your help, <playername>. It’s been such a long time 
+    We are deeply grateful for your help, *player*. It’s been such a long time 
     since our last proper vacation.
-	&a12	
+    condition:
+    &complete1:
+        return finishedmissions()
+    &incomplete1:
+        return true	
 
-[If the player has not finished mission content (idfk how to code this)]
+incomplete1:
 
     We have more work for you, if you’re interested. 
+    &a12
 
-[If player has finished mission content (same)]
+complete1:
 
     It’s been a pleasure having you around, and you are of course welcome to stay 
     at the Bar Samsara as long as you like.
+    &a12
 
-a12
+a12:
     *setspeaker narrator*
-    You have unlocked New Game Plus! This mode will allow you to start the game 
-    fresh with a multiplier to cash earned in order to speed up the process of 
-    getting everything unlocked. It may have some bonus story content too...
-    &exit
+    You have unlocked *c 0 200 0*New Game Plus*c*! This mode will allow you to start 
+    the game fresh with a multiplier to cash earned.
+    It may have some bonus story content too...
+    &a13
 
+a13:
+    To begin anew, have you your group summon the shard tank one more 
+    time, resetting your progress and beginning and your *c 0 200 0*NG+*c* adventure.
+    *mark_seen*
+    &exit

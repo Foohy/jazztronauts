@@ -71,8 +71,17 @@ SUPER_PRIORITY - 1)
 -- Once they've gotten enough shards, do this one, it's even more important
 AddNPC("jazz_bar_shardall.begin100", missions.NPC_BAR, function(ply, talknpc)
     return mapgen.GetTotalCollectedShards() >= mapgen.GetTotalRequiredShards()
+        and not tobool(newgame.GetGlobal("ended"))
 end,
 SUPER_PRIORITY + 1)
+
+-- Start epilogue script for good ending
+AddNPC("normal_ending_epilogue.begin", missions.NPC_BAR, function(ply, talknpc)
+    return tonumber(newgame.GetGlobal("ending")) == newgame.ENDING_ASH
+        and tobool(newgame.GetGlobal("ended"))
+end,
+SUPER_PRIORITY + 1)
+
 
 
 -- On map startup, manually invoke NPC_BAR scripts

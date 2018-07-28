@@ -48,6 +48,11 @@ function SWEP:Initialize()
 end
 
 function SWEP:ShouldDrawHackerview()
+	if IsValid(self.Owner) and self.Owner != LocalPlayer() then
+		hook.Remove("JazzShouldDrawHackerview", self)
+		return
+	end
+	
 	return self.Owner == LocalPlayer() and self.Owner:GetActiveWeapon() == self
 end
 

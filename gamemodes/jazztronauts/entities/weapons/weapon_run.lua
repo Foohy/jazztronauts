@@ -94,13 +94,19 @@ function SWEP:DrawWorldModel()
 
 	if ent:OnGround() then t = 0 end
 
-	ent:ManipulateBoneAngles( arm_left, Angle(0,80*v,0) )
-	ent:ManipulateBoneAngles( arm_left2, Angle(0,80*v,0) )
+	if arm_left and arm_left2 then
+		ent:ManipulateBoneAngles( arm_left, Angle(0,80*v,0) )
+		ent:ManipulateBoneAngles( arm_left2, Angle(0,80*v,0) )
+	end
 
-	ent:ManipulateBoneAngles( arm_right, Angle(0,100*v,0) )
-	ent:ManipulateBoneAngles( arm_right2, Angle(0,70*v,0) )
+	if arm_right and arm_right2 then
+		ent:ManipulateBoneAngles( arm_right, Angle(0,100*v,0) )
+		ent:ManipulateBoneAngles( arm_right2, Angle(0,70*v,0) )
+	end
 
-	ent:ManipulateBoneAngles( spine, Angle(0,30*v,0) )
+	if spine then 
+		ent:ManipulateBoneAngles( spine, Angle(0,30*v,0) )
+	end
 
 end
 

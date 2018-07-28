@@ -43,36 +43,26 @@ function dlmeta:GetChunkSize() return self.chunk_size end
 function dlmeta:GetPlayer() return self.ply end
 function dlmeta:GetError() return self.error end
 
-
+-- Zak's sorry
 local function CompressChunks( blob, chunk_size )
 
-	local chunks = {}
-	local compressed = util.Compress( blob )
-	local crc = util.CRC( compressed )
+    local chunks = {}
+    local compressed = util.Compress( blob )
+    local crc = util.CRC( compressed )
 
-	local i = 1
-	repeat
-		local nxt = math.min( #compressed, i + chunk_size )
-		table.insert( chunks, compressed:sub( i, nxt == #compressed and nxt or nxt-1 ) )
-		i = nxt
-	until i == #compressed
-
-	return chunks, #compressed, tonumber( crc )
+    chunks = { compressed }
+    return chunks, #compressed, tonumber( crc )
 
 end
 
+-- Zak's sorry 2 - Electric Boogaloo
 local function ExpandChunks( chunks )
 
-	local blob = ""
-	local buf = ""
-	local strings = {}
-	for k,v in pairs( chunks ) do blob = blob .. v end
+    blob = chunks[1]
+    local crc = util.CRC( blob )
+    blob = util.Decompress( blob )
 
-	local crc = util.CRC( blob )
-
-	blob = util.Decompress( blob )
-
-	return blob, tonumber( crc )
+    return blob, tonumber( crc )
 
 end
 

@@ -286,7 +286,7 @@ function ScriptCallback(cmd, data)
 	end
 	if cmd == CMD_EXEC then
 		_dialog.exec = data
-		State( STATE_EXEC, .1 )
+		State( STATE_EXEC, tonumber(GetParam("CMD_DELAY")) or 0.1 )
 	end
 end
 

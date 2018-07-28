@@ -50,6 +50,11 @@ function GetOverlayColor()
 	return overlayColor
 end
 
+function SetOverlayRefract(amt)
+	void_mat:SetFloat("$refractamount", amt)
+end
+
+
 local function SharedRandomVec(seed)
 	return Vector(
 		util.SharedRandom("x", 0, 1, seed),
@@ -478,3 +483,8 @@ hook.Add( "PostRender", "snatch_props", function()
 	cam.End2D()
 
 end)
+
+dialog.RegisterFunc("voidbreak", function(d)
+	SetOverlayRefract(0)
+	SetOverlayColor(Color(0, 0, 0))
+end )

@@ -7,7 +7,7 @@
     "$vertexcolor" 1
     "$vertexalpha" 0
     "$refractamount" 0.03
-    "$bluramount" 2
+    "$bluramount" 0
     "$model" 1
     "$nocull" 1
 }

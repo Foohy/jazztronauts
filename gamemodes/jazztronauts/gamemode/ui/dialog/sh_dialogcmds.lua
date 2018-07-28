@@ -252,6 +252,7 @@ dialog.RegisterFunc("setposang", function(d, name, ...)
     local prop = FindByName(name)
     if not IsValid(sceneModels[name]) then return end
 
+    prop.endtime = nil
     local posang = parsePosAng(...)
     if posang.pos then
         prop:SetPos(posang.pos)
@@ -260,6 +261,22 @@ dialog.RegisterFunc("setposang", function(d, name, ...)
         prop:SetAngles(posang.ang)
     end
 end)
+
+dialog.RegisterFunc("tweenposang", function(d, name, time, ...)
+    local prop = FindByName(name)
+    if not IsValid(sceneModels[name]) then return end
+
+    local posang = parsePosAng(...)
+
+    prop.startpos = prop:GetPos()
+    prop.goalpos = posang.pos or prop:GetPos()
+
+    prop.startang = prop:GetAngles()
+    prop.goalang = posang.ang or prop:GetAngles()
+
+    prop.endtime = CurTime() + time
+    prop.tweenlen = time
+end )
 
 dialog.RegisterFunc("setanim", function(d, name, anim, speed, finishIdleAnim)
     local prop = FindByName(name)
@@ -356,13 +373,17 @@ dialog.RegisterFunc("shake", function(d, time)
     util.ScreenShake(LocalPlayer():GetPos(), 8, 8, time or 1, 256)
 end )
 
-dialog.RegisterFunc("fadeblind", function(d)
-    LocalPlayer():ScreenFade(SCREENFADE.IN, color_white, 2, 2)
+dialog.RegisterFunc("fadeblind", function(d, t)
+    LocalPlayer():ScreenFade(SCREENFADE.IN, color_white, 2, tonumber(t) or 2)
 end )
 
 dialog.RegisterFunc("dsp", function(d, dspid)
     local dspid = tonumber(dspid) or 0
     LocalPlayer():SetDSP(dspid, true)
+end )
+
+dialog.RegisterFunc("stopsound", function(d)
+    RunConsoleCommand("stopsound")
 end )
 
 function ResetScene()
@@ -395,6 +416,23 @@ local function viewOverwritten()
     return view and (view.curpos or view.fov or view.curang)
 end
 
+local function getTweenValues(obj)
+    if obj.endtime then
+        local p = 1 - math.Clamp((obj.endtime - CurTime()) / obj.tweenlen, 0, 1)
+
+        local pos = LerpVector(p, obj.startpos, obj.goalpos)
+        local ang = LerpAngle(p, obj.startang, obj.goalang)
+
+        if p >= 1 then
+            obj.endtime = nil
+        end
+
+        return pos, ang
+    end
+
+    return nil, nil
+end
+
 hook.Add("CalcView", "JazzDialogView", function(ply, origin, angles, fov, znear, zfar)
     if not viewOverwritten() then return end
 
@@ -405,15 +443,10 @@ hook.Add("CalcView", "JazzDialogView", function(ply, origin, angles, fov, znear,
     local angoff = ply:EyeAngles() - angles
 
     -- Maybe do some tweening
-    if view.endtime then
-        local p = 1 - math.Clamp((view.endtime - CurTime()) / view.tweenlen, 0, 1)
-
-        view.curpos = LerpVector(p, view.startpos, view.goalpos)
-        view.curang = LerpAngle(p, view.startang, view.goalang)
-
-        if p >= 1 then
-            view.endtime = nil
-        end
+    local newpos, newang = getTweenValues(view)
+    if newpos and newang then
+        view.curpos = newpos
+        view.curang = newang
     end
 
     -- If view/angles overwritten, re-apply cam shake
@@ -446,6 +479,13 @@ hook.Add("Think", "JazzTickClientsideAnims", function()
                 v:SetPlaybackRate(1.0)
                 v.starttime = CurTime()
                 v.finishanim = nil
+            end
+
+            -- Handle tweening
+            local newpos, newang = getTweenValues(v)
+            if newpos and newang then
+                v:SetPos(newpos)
+                v:SetAngles(newang)
             end
         end
     end

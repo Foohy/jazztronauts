@@ -212,6 +212,7 @@ DialogCallbacks.Paint = function(_dialog)
 	-- Draw dialog contents
 	_dialog.textpanel:SetPos(left, top)
 	_dialog.textpanel:SetSize(ScrW(), ScrH())
+	_dialog.textpanel:PaintManual()
 	/*
 	local lines = string.Explode( "\n", _dialog.printed )
 	for k, line in pairs(lines) do
@@ -305,6 +306,7 @@ local function CreateRichText()
 	local richText = vgui.Create("RichText")
 	richText:SetAutoDelete(false)
 	richText:SetVerticalScrollbarEnabled(false)
+	richText:SetPaintedManually(true)
 
 	function richText:PerformLayout()
 		self:SetFontInternal("JazzDialogFont")

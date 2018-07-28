@@ -162,3 +162,15 @@
 	output OnActivated(void) : "Fires when all players have voted and the podiums sink into the ground"
 	output OnApproached(void) : "Fires when a player enters the activation range, showing our podiums"
 ]
+
+@PointClass base(Targetname, Origin, Angles) studioprop() = mediaplayer_tv : "Plays media"
+[
+	output OnMediaStarted(void) : "Fired when media playback begins"
+	output OnQueueEmpty(void) : "Fired when all queued media finishes playing"
+
+	input AddPlayer(void) : "Adds the activator to the list of media listeners"
+	input RemovePlayer(void) : "Removes the activator from the list of media listeners"
+	input RemoveAllPlayers(void) : "Removes all players from the list of media listeners"
+	input PlayPauseMedia(void) : "Toggles the play or pause state of the current media"
+	input ClearMedia(void) : "Clears all queued and active media"
+]

@@ -9,7 +9,7 @@ local function Handle( scene )
 
 
 	--Create mingebag starter-kit
-	local guy = ManagedCSEnt( "mingeboy" .. nextEntityID, "models/Kleiner.mdl" )
+	local guy = ManagedCSEnt( "mingeboy" .. nextEntityID, "models/jazztronauts/zak/Boneless_Kleiner.mdl" )
 	local physcannon = ManagedCSEnt( "mingeboy" .. nextEntityID, "models/weapons/w_physics.mdl" )
 	nextEntityID = nextEntityID + 1
 
@@ -125,10 +125,9 @@ local function DrawScene( scene, voidrender )
 	scene.guy:EnableMatrix( "RenderMultiply", mtx )
 	scene.guy:SetAngles( guyangle )
 	scene.guy:SetPos( scene.guypos )
-	scene.guy:SetupBones()
 
 	--Get primo physgun location
-	local physpos = scene.guy:GetBonePosition( scene.guy:LookupBone( "ValveBiped.Bip01_Pelvis" ) )
+	local physpos = scene.guypos
 
 	--Attach physgun to guy
 	scene.physcannon:EnableMatrix( "RenderMultiply", mtx )
@@ -189,7 +188,7 @@ local function TickScene( scene )
 			local phys = ent:GetPhysicsObject()
 			if phys:IsValid() then
 
-				phys:ApplyForceCenter( Vector(0,0,800) * phys:GetMass() * FrameTime() )
+				phys:ApplyForceCenter( Vector(0,0,1000) * phys:GetMass() * FrameTime() )
 				phys:AddAngleVelocity( Vector(0,0,1000) * FrameTime() )
 
 			else
@@ -211,7 +210,7 @@ local function TickScene( scene )
 
 				local phys = ent:GetPhysicsObjectNum(i)
 
-				phys:ApplyForceCenter( Vector(0,0,800) * phys:GetMass() * FrameTime() )
+				phys:ApplyForceCenter( Vector(0,0,1000) * phys:GetMass() * FrameTime() )
 				phys:AddAngleVelocity( Vector(0,0,1000) * FrameTime() )
 
 			end

@@ -62,11 +62,10 @@ a14:
 ### BAD END BOOGIE
 
 badend2: 
+    Useless.
+    &badend
 
-     Useless.
-     &badend
-
-&badend:
+badend:
      It will all be perfect.
      &exit
 

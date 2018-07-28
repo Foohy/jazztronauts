@@ -19,7 +19,7 @@ local path = jazz.IsWorkshop() and mainAdd.mounted and mainAdd.title or "MOD"
 local filepath = "resource/fonts"
 
 -- Full qualify path for locally installed ones
-if path == "MOD" then
+if path != "MOD" then
     filepath = "gamemodes/jazztronauts/content/" .. filepath
 end
 

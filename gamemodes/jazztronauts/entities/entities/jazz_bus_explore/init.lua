@@ -218,9 +218,13 @@ function ENT:QueueTimedMusic()
 
 	self.RadioMusic:FadeOut(startTime)
 
+	local bshard = ents.FindByClass("jazz_shard_black")[1]
+	local isCorrupted = IsValid(bshard) and bshard:GetStartSuckTime() > 0
+
 	net.Start("jazz_bus_explore_voideffects")
 		net.WriteEntity(self)
 		net.WriteFloat(CurTime() + startTime)
+		net.WriteBool(isCorrupted)
 	net.Broadcast()
 end
 

@@ -83,8 +83,10 @@ function GM:InitPostEntity()
 
 	-- Check if the current map makes sense for where we are in the story
 	-- If not (and returns false), we're changing level to the correct one
-	if false and not self:CheckGamemodeMap() then
-		return 
+	local redirect = self:CheckGamemodeMap()
+	if redirect then print("=========== REDIRECT: " .. redirect) end
+	if redirect and false then
+		mapcontrol.Launch(redirect)
 	end
 end
 
@@ -92,32 +94,43 @@ end
 -- For example, on a fresh restart, always start at the tutorial
 function GM:CheckGamemodeMap()
 	local curMap = game.GetMap()
+	local lastMap = newgame.GetGlobal("last_map")
+	local unlocked = tobool(newgame.GetGlobal("unlocked_encounter"))
+	newgame.SetGlobal("unlocked_encounter", false)
 
 	-- Haven't finished intro yet, changelevel to intro
 	if not tobool(newgame.GetGlobal("finished_intro")) then
 		if curMap != mapcontrol.GetIntroMap() then
-			mapcontrol.Launch(mapcontrol.GetIntroMap())
-			print("CHANGEEEEEEEEE PLACESSSSSSSSSSSSSSS")
-			return false
+			return mapcontrol.GetIntroMap()
 		end
 
 	-- Changelevel'd back to intro? WHy?
 	elseif curmap == mapcontrol.GetIntroMap() then
-		mapcontrol.Launch(mapcontrol.GetHubMap())
-		return false
+		return mapcontrol.GetHubMap()
 	end
 
 	-- Don't let them changelevel to the Ending Level until they've got enough shards
 	-- OR if they've already seen the ending
-	local hasEnded = tobool(newgame.GetGlobal("ending_type"))
-	local collected, required = mapgen.GetTotalCollectedShards(), mapgen.GetTotalRequiredShards()
-	if curMap == mapcontrol.GetEndMap() and (collected < required or hasEnded) then
-		mapcontrol.Launch(mapcontrol.GetHubMap())
-		return false
+	local hasEnded = tobool(newgame.GetGlobal("ended"))
+	local endType = tonumber(newgame.GetGlobal("ending"))
+
+	--local collected, required = mapgen.GetTotalCollectedShards(), mapgen.GetTotalRequiredShards()
+	--local bcollected, brequired = mapgen.GetTotalCollectedBlackShards(), mapgen.GetTotalRequiredBlackShards()
+
+	local endmaps = mapcontrol.GetEndMaps()
+
+	-- If they're on the normal ending map, they must have enabled the ending
+	if curMap == endmaps[newgame.ENDING_ASH] and endType != newgame.ENDING_ASH then
+		return mapcontrol.GetHubMap()
+	end
+
+	-- Same with the true ending, must have set the correct ending type
+	if curMap == endmaps[newgame.ENDING_ECLIPSE] and endType != newgame.ENDING_ECLIPSE then
+		return mapcontrol.GetHubMap()
 	end
 
 	-- No map change occurring
-	return true
+	return nil
 end
 
 function GM:JazzMapStarted()

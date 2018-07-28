@@ -67,7 +67,7 @@ function GetMap(mapname)
 		info.corrupt = tonumber(info.corrupt)
 		return info
 	end
-	
+
 end
 
 -- Get a list of maps that have been started or completed
@@ -195,6 +195,18 @@ function GetMapShardCount(mapname)
 	if type(res) == "table" then
 		return tonumber(res[1].collected) or 0, tonumber(res[1].total) or 0
 	end
+end
+
+function GetMapBlackShardCount()
+	local check = "SELECT COUNT(*) as collected FROM jazz_mapgen "
+		.. "WHERE corrupt=" .. CORRUPT_STOLEN
+
+	local res = Query(check)
+	if type(res) == "table" then
+		return tonumber(res[1].collected) or 0
+	end
+
+	return 0
 end
 
 -- Mark a map as finished

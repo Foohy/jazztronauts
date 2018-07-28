@@ -38,6 +38,10 @@ function GetIntroMap()
 	return "jazz_intro"
 end
 
+function GetEncounterMap()
+	return "jazz_apartments"
+end
+
 function GetEndMaps()
 	return { "jazz_outro", "jazz_outro2" }
 end

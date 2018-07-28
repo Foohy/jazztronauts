@@ -4,6 +4,8 @@ SpawnedShards = SpawnedShards or {}
 InitialShardCount = InitialShardCount or 0
 
 local shardsNeededConVar = CreateConVar("jazz_total_shards", 100, { FCVAR_NOT_CONNECTED, FCVAR_REPLICATED }, "The total number of shards needed to finish the game. Cannot be changed in-game.")
+local blackShardsNeededConVar = CreateConVar("jazz_total_black_shards", 10, { FCVAR_NOT_CONNECTED, FCVAR_REPLICATED }, "The total number of shards needed to finish the game. Cannot be changed in-game.")
+
 
 -- No two shards can ever be closer than this
 local MinShardDist = 500
@@ -22,6 +24,14 @@ end
 
 function GetTotalGeneratedShards()
     return (nettable.Get("jazz_shard_info") or {})["total"] or 0
+end
+
+function GetTotalCollectedBlackShards()
+    return nettable.Get("jazz_shard_info")["corrupted_collected"] or 0
+end
+
+function GetTotalRequiredBlackShards()
+    return blackShardsNeededConVar:GetInt()
 end
 
 function GetShards()
@@ -279,6 +289,25 @@ if SERVER then
         return table.GetKeys(leaves)
     end
 
+    concommand.Add("jazz_debug_leaf_connected", function(ply, cmd, args)
+        local map = bsp2.GetCurrent()
+        local leafs = getPositionLeafs(map)
+        local function checkLeaf(l)
+            return bit.band(l.contents, CONTENTS_SOLID + CONTENTS_GRATE + CONTENTS_WINDOW + CONTENTS_DETAIL + CONTENTS_PLAYERCLIP) == 0
+        end
+        local test_leaf = map:GetLeaf(Entity(543):GetPos())
+        local shard_leaf = map:GetLeaf( ply:GetPos() )
+        for _, v in pairs(leafs) do
+            if map:AreLeafsConnected(shard_leaf, test_leaf, checkLeaf) then
+                print("true")
+                return
+            end
+        end
+
+        print("false")
+
+    end)
+
     -- Check if this shard is actually reachable by the player at all
     -- There must be some sort of connecting leaf between the player and shard
     local function isPlayerReachable(ent, map, leafs)
@@ -313,7 +342,7 @@ if SERVER then
 
         -- Goal spot must be reachable from the players
         if not isPlayerReachable(ent, map, leafs) then return end
-        
+
         return { pos = pos, ang = ent:GetAngles() }
     end
 

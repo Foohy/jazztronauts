@@ -12,3 +12,4 @@ local tbl = nettable.Create("jazz_shard_info", nettable.TRANSMIT_ONCE)
 local collected, total = progress.GetMapShardCount()
 tbl["collected"] = collected
 tbl["total"] = total
+tbl["corrupted_collected"] = progress.GetMapBlackShardCount()

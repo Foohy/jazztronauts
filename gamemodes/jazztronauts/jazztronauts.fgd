@@ -35,6 +35,12 @@
 	input Lock(void) : "Lock the door"
 ]
 
+@PointClass base(Targetname, Origin, Angles) studioprop() = jazz_door_eclipse : "False door that acts as a waypoint for eclipse cat encounters"
+[
+
+]
+
+
 @PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter : "Prop Poop Chute"
 [
 	output OnVomitEnd(void) : "Fires when props are finished vomiting"
@@ -169,7 +175,7 @@
 	[
 		"finished_intro" : "Fresh restart, whether or not they've finished the intro" 
 		"ended" : "Ending has been seen and the game is ready to be restarted for NG+" 
-		"unlocked_eclipse_apt" : "If enabled, allows safe travel to the eclipse cat horror apartment. Kicks out otherwise." 
+		"unlocked_encounter" : "If enabled, allows safe travel to the eclipse cat horror apartment. Kicks out otherwise." 
 		"black_shards" : "Enable the spawning of black shards in maps."
 	]
 

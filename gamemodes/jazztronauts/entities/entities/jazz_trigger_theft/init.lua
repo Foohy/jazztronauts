@@ -30,15 +30,15 @@ end
 -- Wait for the map info to be ready, then grab all the nearby brushes
 function ENT:WaitForMapInfo()
     if bsp2.GetCurrent().brushes then
-        self:GetInsideBrushes()
+        self:RefreshInsideBrushes()
     else
         hook.Add("JazzSnatchMapReady", self, function()
-            self:GetInsideBrushes()
+            self:RefreshInsideBrushes()
         end)
     end
 end
 
-function ENT:GetInsideBrushes()
+function ENT:RefreshInsideBrushes()
     local map = bsp2.GetCurrent()
     if not map.brushes then return end
 
@@ -52,8 +52,10 @@ function ENT:GetInsideBrushes()
             self.NearBrushes[k] = snatch.IsBrushStolen(k)
         end
     end
+end
 
-    print(table.Count(self.NearBrushes))
+function ENT:GetInsideBrushes()
+    return self.NearBrushes
 end
 
 function ENT:ContainsPoint(center)

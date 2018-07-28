@@ -1,6 +1,6 @@
 JazzVomitProps = JazzVomitProps or {}
 
-local Lifetime = 10
+local Lifetime = 5
 local FadeBegin = 2
 local PipeRadius = 40
 

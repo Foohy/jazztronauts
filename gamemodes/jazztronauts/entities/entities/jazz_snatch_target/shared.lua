@@ -89,7 +89,7 @@ if SERVER then
         yoink:SetMode(2)
 	    yoink:StartWorld(self:GetPos(), self:GetOwner(), self:GetBrushID())
 
-        GAMEMODE:CollectBrush(self.BrushInfo, self.PlayerList)
+        hook.Run("CollectBrush", self.BrushInfo, self.PlayerList)
     end
 
     function ENT:UpdateSpeed()

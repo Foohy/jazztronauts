@@ -226,11 +226,11 @@ function GM:CollectProp(prop, ply)
 	end
 end
 
-function GM:CollectBrush(brush, players)
+-- Calculate which side material of the brush we'll store
+-- Brushes can have a different material for each face, so just take the
+-- largest non-tool surface area
+function GM:GetPrimaryBrushMaterial(brush)
 
-	-- Calculate which side material of the brush we'll store
-	-- Brushes can have a different material for each face, so just take the
-	-- largest non-tool surface area
 	local maxmaterial = nil
 	local maxarea = -1
 	for _, v in pairs(brush.sides) do
@@ -252,9 +252,13 @@ function GM:CollectBrush(brush, players)
 	end
 
 	maxmaterial = string.lower(maxmaterial):gsub("_[+-]?%d+_[+-]?%d+_[+-]?%d+$",""):gsub("^maps/[%w_]+/","")
-	print("COLLECTED BRUSH: " .. maxmaterial)
-	local worth = math.max(1, math.Round(math.sqrt(maxarea) * 0.1))
-	print(worth)
+	return maxmaterial, maxarea
+end
+
+function GM:CollectBrush(brush, players)
+
+	local material, area = self:GetPrimaryBrushMaterial(brush)
+	local worth = math.max(1, math.Round(math.sqrt(area) * 0.1))
 
 	-- Collect the prop to the poop chute
 	if worth and worth > 0 then --TODO: Check if worth > 1 not 0
@@ -262,7 +266,7 @@ function GM:CollectBrush(brush, players)
 		for _, ply in pairs(players) do 
 			if not IsValid(ply) then continue end
 
-			local newCount = snatch.AddProp(ply, maxmaterial, worth, "brush")
+			local newCount = snatch.AddProp(ply, material, worth, "brush")
 			--propfeed.notify( prop, ply, newCount, worth)
 		end
 	end

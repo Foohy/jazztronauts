@@ -122,33 +122,37 @@ function SWEP:Initialize()
 end
 
 -- Query and apply current upgrade settings to this weapon
-function SWEP:SetUpgrades()
+function SWEP:SetUpgrades(overpowered)
 	if not IsValid(self.Owner) then return end
 
-	local override = cvars.Bool("jazz_debug_snatch_allups", false)
+	overpowered = overpowered or self.Overpowered or cvars.Bool("jazz_debug_snatch_allups", false)
 
 	-- Tier I - Aim in cone upgrade
 	self.AutoAimCone = AimConeDefault + jstore.GetSeries(self.Owner, snatch_cone) * 3.3
 
 	-- Steal range
-	local rangeLevel = jstore.GetSeries(self.Owner, snatch_range)
+	local rangeLevel = overpowered and 10 or jstore.GetSeries(self.Owner, snatch_range)
 	self.MaxRange 	= LongRangeDefault + rangeLevel * 150
 	self.CloseRange = ShortRangeDefault + rangeLevel * 25
 
 	-- Tier II - Automatic fire upgrade
-	self.Primary.Automatic = unlocks.IsUnlocked("store", self.Owner, snatch2) or override
+	self.Primary.Automatic = unlocks.IsUnlocked("store", self.Owner, snatch2) or overpowered
 
 	-- Tier III - World stealing
-	self.CanStealWorld = unlocks.IsUnlocked("store", self.Owner, snatch_world) or override
+	self.CanStealWorld = unlocks.IsUnlocked("store", self.Owner, snatch_world) or overpowered
 
 	-- How fast they can steal the world
-	self.WorldStealSpeed = jstore.GetSeries(self.Owner, snatch_world_speed) + 1
+	self.WorldStealSpeed = overpowered and math.huge or (jstore.GetSeries(self.Owner, snatch_world_speed) + 1)
 	self.WorldStealSpeed = self.WorldStealSpeed * 2
 
 	-- Allow multi-tasking?
-	self.CanMultitask = unlocks.IsUnlocked("store", self.Owner, snatch_multi) or override
+	self.CanMultitask = unlocks.IsUnlocked("store", self.Owner, snatch_multi) or overpowered
 end
 
+function SWEP:MakeOverpowered()
+	self.Overpowered = true
+	self:SetUpgrades(true)
+end
 
 function SWEP:SetupDataTables()
 	self.BaseClass.SetupDataTables( self )
@@ -194,8 +198,8 @@ function SWEP:RemoveEntity( ent, snatchobj )
 	if self:AcceptEntity( ent ) and not ent.doing_removal then
 		snatchobj:SetMode(1)
 		snatchobj:StartProp( ent, self:GetOwner(), self.KillsPeople )
-		GAMEMODE:CollectProp( ent, self:GetOwner() )
 
+		hook.Run("CollectProp", ent, self:GetOwner())
 	end
 
 end
@@ -713,6 +717,7 @@ function SWEP:CalcView(ply, pos, ang, fov)
 	if not IsValid(marker) or not marker.GetProgress or not marker.Brush then return end
 
 	local scale = getBrushScale(marker.Brush)
+	scale = math.max(0, scale - self.WorldStealSpeed * 0.000001)
 
 	self.PullShake = self.PullShake or 0
 	self.GoalShake = self.GoalShake or 0

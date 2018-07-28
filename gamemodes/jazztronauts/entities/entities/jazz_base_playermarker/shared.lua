@@ -28,7 +28,8 @@ end
 function ENT:ProgressThink()
     if not self.GetProgress or not self.GetSpeed then return end
 
-    self:SetProgress(self:GetProgress() + self:GetSpeed() * FrameTime())
+    local prog = self:GetProgress() + self:GetSpeed() * FrameTime()
+    self:SetProgress(math.Clamp(prog, 0, 1))
 end
 
 if CLIENT then
@@ -109,7 +110,7 @@ if SERVER then
         if self:GetSpeed() > 0 then 
             self:ProgressThink()
 
-            if self:GetProgress() > 1 then 
+            if self:GetProgress() >= 1 then 
                 self:ActivateMarker()
                 self:StartRemove()
             end

@@ -35,6 +35,8 @@ ENT.BrushMaxDestroyRadius = 300
 ENT.BrushDestroyInterval = 0.1
 ENT.SnatchMode = 2
 
+ENT.DrawOffset = Vector(0, 0, 0)
+
 ENT.ShardSound = "jazz_shard_idle"
 ENT.ShardNearSound = "jazz_shard_idle_near"
 
@@ -271,7 +273,7 @@ function ENT:Draw()
     self.DrawMatrix:Identity()
 
     local t = CurTime() + self.StartOffset
-    self.DrawMatrix:Translate(self:GetWavyTranslation(t))
+    self.DrawMatrix:Translate(self:GetWavyTranslation(t) + self.DrawOffset)
     self.DrawMatrix:Rotate( Angle(t, math.sin(t/2) * 360, math.cos(t/3) * 360))
     self.DrawMatrix:Scale(Vector(1, 1, 1) + 
     Vector(math.sin(t*2.5) * 0.1, math.cos(t*3) * 0.1, math.cos(t*4 + math.pi/2) * 0.1))

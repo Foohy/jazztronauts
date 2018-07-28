@@ -45,6 +45,7 @@ function ENT:Initialize()
 
     self.BrushMaxDestroyRadius = math.huge
     self.BrushDestroyInterval = 0.04 --0.04
+    self.DrawOffset = Vector(0, 0, 50)
     self.Models = 
     {
         "models/sunabouzu/jazzblackshard.mdl",
@@ -63,6 +64,9 @@ function ENT:Initialize()
 
     self.BaseClass.Initialize( self )
 
+    if SERVER then
+        self:SetTrigger(false)
+    end
 end
 
 function ENT:CreateVotePodium()
@@ -75,7 +79,7 @@ function ENT:CreateVotePodium()
     votium:Activate()
     votium:SetParent(self)
     votium:StoreActivatedCallback(function(who_found)
-        self.BaseClass.Touch(self, who_found)
+        self:Touch(who_found)
     end )
 
     return votium
@@ -91,6 +95,28 @@ end
 function ENT:SetupDataTables()
     self.BaseClass.SetupDataTables(self)
     self:NetworkVar("Float", 0, "StartSuckTime")
+end
+
+local function StealQuick()
+    local map = bsp2.GetCurrent()
+    for k, v in pairs(map.brushes) do
+        local yoink = snatch.New()
+        yoink:SetMode(0)
+        yoink:StartWorld( v.center, self, k )
+        task.YieldPer(1)
+    end
+end
+
+function ENT:GetNearbyBrushes()
+    local mapinfo = progress.GetMap(game.GetMap())
+    if mapinfo and mapinfo.corrupt == progress.CORRUPT_STOLEN then
+        task.New(StealQuick, 1)
+        self:SetStartSuckTime(CurTime())
+        self:SetIsFinished(true)
+        self.VotePodium:Remove()
+    else
+        self.BaseClass.GetNearbyBrushes(self)
+    end
 end
 
 function ENT:DestroyNearbyBrushesAndSelf(maxdist)
@@ -144,7 +170,10 @@ function ENT:DrawDynLight()
 end
 
 function ENT:Touch(ply)
+    self.BaseClass.Touch(self, ply)
 
+    -- Player collected black shard, this map is now corrupted
+    hook.Run("CollectBlackShard", self, ply)
 end
 
 if CLIENT then
@@ -248,6 +277,7 @@ if CLIENT then
 
     function ENT:OnPreVoidSkyRendered()
         local t = self:GetExplodeTime() - self.StartDestroyDelay
+
         if t > 0 then 
             t = CurTime() - t
 
@@ -310,6 +340,10 @@ if CLIENT then
     function ENT:Draw()
         if not self.IsFinished then
             self.BaseClass.Draw(self)
+        else
+            -- Just make sure the void stays spooky
+            local col = Vector(1.0, 0.60, 0.1, 0.4)
+            jazzvoid.SetOverlayColor(col)
         end
     end
 end

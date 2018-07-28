@@ -91,6 +91,14 @@ if SERVER then
         return worth
     end
 
+    function CollectBlackShard(ent)
+        local mapinfo = progress.GetMap(game.GetMap())
+        if not mapinfo or mapinfo.corrupt == progress.CORRUPT_NONE then return false end
+
+        progress.SetCorrupted(game.GetMap(), progress.CORRUPT_STOLEN)
+        return true
+    end
+
     function UpdateShardCount(ply)
         net.Start("jazz_shardcollect")
 			net.WriteUInt(#SpawnedShards, 16)
@@ -382,6 +390,30 @@ if SERVER then
         return findValidSpawn(ent, map, leafs)
     end
 
+    
+    local hullMin = Vector(-20, -20, 0)
+    local hullMax = Vector(20, 20, 50)
+
+
+    -- Just do a shitload of traces in an attempt to find a plausible center to the room
+    local function tryBlackShard(pos)
+
+        -- Dumb drop to floor check
+        local trDrop = util.TraceHull({
+            start = pos,
+            endpos = pos + Vector(0, 0, -1) * 1000000,
+            mins = hullMin,
+            maxs = hullMax
+        })
+
+        -- Check height?
+
+        if trDrop.StartSolid then return nil end
+        if trDrop.HitNonWorld then return nil end
+
+        return trDrop.HitPos
+    end
+
     -- Depending on the map, there might be certain entities that automatically
     -- Make for great shard spawn locations. These will take preference over 
     -- the default shard generation algorithm
@@ -455,6 +487,27 @@ if SERVER then
             -- Give them the next-found shard position
             if posang then return c, posang end
         end
+    end
+
+    -- Spawn black shards. Maybe. If no good places, or if it isn't feeling good today, will not make anything
+    function GenerateBlackShard(seed)
+        seed = seed or math.random(1, 1000)
+        math.randomseed(seed)
+
+        -- Try to find a good spot
+        for count, posang in sharditer(seed + 1231, preferredSpawns) do
+            local pos = tryBlackShard(posang.pos)
+            if pos then
+                local shard = ents.Create("jazz_shard_black")
+                shard:SetPos(pos)
+                shard:Spawn()
+                shard:Activate()
+
+                return true
+            end
+        end
+
+        return false
     end
 
     function GenerateShards(count, seed, shardtbl)

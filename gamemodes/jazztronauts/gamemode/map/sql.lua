@@ -1,12 +1,17 @@
 module( "progress", package.seeall )
 
+CORRUPT_NONE 		= 0 -- No black shards spawned
+CORRUPT_SPAWNED 	= 1 -- Black shard spawned, not stolen
+CORRUPT_STOLEN 		= 2 -- Black shard stolen, map is fully corrupted
+
 -- Stores map generation information about a specific map
 jsql.Register("jazz_mapgen", 
 [[
 	id INTEGER PRIMARY KEY,
 	filename VARCHAR(128) UNIQUE NOT NULL,
 	wsid INTEGER NOT NULL DEFAULT 0,
-	seed INTEGER NOT NULL DEFAULT 0
+	seed INTEGER NOT NULL DEFAULT 0,
+	corrupt INTEGER NOT NULL DEFAULT 0
 ]])
 
 -- Store specific map session data
@@ -57,7 +62,12 @@ function GetMap(mapname)
 
 	local res = Query(chkstr)
 
-	if type(res) == "table" then return res[1] end
+	if type(res) == "table" then 
+		local info = res[1]
+		info.corrupt = tonumber(info.corrupt)
+		return info
+	end
+	
 end
 
 -- Get a list of maps that have been started or completed
@@ -207,6 +217,17 @@ function CollectShard(mapname, shardid, ply)
 	if Query(altr) != false then
 		return GetMapShards(mapname)
 	end
+end
+
+function SetCorrupted(mapname, state)
+	local res = GetMap(mapname)
+	if (res == nil) then print("You must have started \"" .. mapname .. "\" before you can corrupt it.") return false end
+
+	local update = "UPDATE jazz_mapgen " ..
+		string.format("SET corrupt=%d ", state) ..
+		string.format("WHERE filename='%s'", mapname)
+
+	return Query(update) != false
 end
 
 --------------------------------------

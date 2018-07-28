@@ -167,7 +167,16 @@ function GM:GenerateJazzEntities(noshards)
 					print("WARNING: Generated less shards than we have data for. Did the map change?")
 					-- Probably mark those extra shards as collected I guess?
 				end
-				
+			end
+
+			-- Also, generate black shards if we're at that point
+			if tobool(newgame.GetGlobal("black_shards")) or map.corrupt > progress.CORRUPT_NONE then
+				local spawned = mapgen.GenerateBlackShard(map.seed)
+
+				-- If we generated a black shard but this map was corrupted, it sure is now
+				if map.corrupt <= progress.CORRUPT_NONE then
+					progress.SetCorrupted(game.GetMap(), progress.CORRUPT_SPAWNED)
+				end
 			end
 		end
 
@@ -202,6 +211,12 @@ function GM:CollectShard(shard, ply)
 
 	-- Go you
 	ply:ChangeNotes(shard.JazzWorth * newgame.GetMultiplier())
+end
+
+-- Called when somebody has collected a bad boy shard
+function GM:CollectBlackShard(shard, ply)	
+	local corr = mapgen.CollectBlackShard(shard)
+	print("Collecting black shard. Map corrupted now? ", corr)
 end
 
 -- Called when prop is snatched from the level

@@ -26,6 +26,7 @@ hook.Add("OnJazzDialogPaintOverride", "JazzDoDumbSilentHillDialogGimmickPaint", 
     local bottom = ScrH() - top
     _dialog.textpanel:SetPos(left, bottom)
 	_dialog.textpanel:SetSize(ScrW() - left*2, ScrH() - top*2)
+    _dialog.textpanel:PaintManual()
 
     return true
 end )

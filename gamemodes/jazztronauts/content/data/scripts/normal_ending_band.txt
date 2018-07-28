@@ -237,14 +237,21 @@ s4:
      but margarine or cooking spray’ll do you fine too. Then, take a pack of 18 
      frozen yeast rolls, and put ‘em right in, no need to defrost. The original 
      version used Rhodes brand if you can find 'em, but pick what you like.
+     &s4b
+
+s4b: 
+     This next part's a bit critical - you need a box of Jello Butterscotch mix. 
+     I know, I know, but we told you this wasn't fancy. The important bit is to 
+     NOT get the type that says "Instant." You need the "Cook and Serve" one. 
+     Trust me, the instant stuff turns the whole thing into a cement block.
      &s5
 
 s5:
      *setspeaker podge*
-     Next, take a half cup of chopped pecans, half a cup of brown sugar, and half 
-     a teaspoon of cinnamon, mix ‘em all up, and cover the rolls with the mix. 
-     Half a cup’s about 120ml for all of you who actually use the measuring system 
-     most of the world does.
+     Next, take the pudding mix, a half cup of chopped pecans, half a cup of 
+     brown sugar, and half a teaspoon of cinnamon, then mix ‘em all up, and 
+     cover the rolls with the mix. Half a cup’s about 120ml for all of you who 
+     actually use the measuring system most of the world does.
      &s6
 
 s6:

@@ -159,7 +159,7 @@ t10:
      > The Singer holds up their tablet. They spell out their feelings in 
      massive, glittering comic sans : “WHO THE FUCK ARE YOU???”
      &t10
-     ---------------------------------------------------------------------
+     
 t11:
      *setspeaker cat_cello*
      uh yeah not to look a gift horse in its fucked up mouth but i did not 
@@ -169,8 +169,10 @@ t11:
      &t11
 
 t12:
-     *cat_ash*
-     I’m Ash. 
+     *setspeaker cat_ash*
+     I’m Ash. I was Ash, too, but not the same Ash. Not until you came here.
+     Seeing that trolley...seeing you all together...
+     Thank you all for reminding me what it was all for.
      &t13
 
 [Ash hops down off the cow catcher onto the track beside the trolley. Waves. Turns around and starts walking back. 

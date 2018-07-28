@@ -45,7 +45,6 @@ function ENT:Initialize()
 
     self.BrushMaxDestroyRadius = math.huge
     self.BrushDestroyInterval = 0.04 --0.04
-    self.RemoveDelay = 5
     self.Models = 
     {
         "models/sunabouzu/jazzblackshard.mdl",
@@ -82,7 +81,15 @@ function ENT:CreateVotePodium()
     return votium
 end
 
+if SERVER then
+    function ENT:OnFinished()
+        if self.SuckSound then self.SuckSound:Stop() end
+        if self.SuckSoundNear then self.SuckSoundNear:Stop() end
+    end
+end
+
 function ENT:SetupDataTables()
+    self.BaseClass.SetupDataTables(self)
     self:NetworkVar("Float", 0, "StartSuckTime")
 end
 
@@ -168,11 +175,29 @@ if CLIENT then
         if t > 0 and t < self.StartDestroyDelay then
             util.ScreenShake(self:GetPos(), t, 5, 0.1, 4096)  
         end
+
+        -- Check for when finished so we can ease off effects too
+        if not self.StealFinished and self:GetIsFinished() then
+            self.StealFinished = true
+            self:OnFinished()
+        end
+    end
+
+    function ENT:OnFinished()
+        self.FinishTime = CurTime()
+        self.IsFinished = true
+
+        self:StopIdleSounds()
+
+        self:EmitSound("ambient/levels/citadel/portal_beam_shoot3.wav", 120)
+        self:EmitSound("npc/scanner/scanner_explode_crash2.wav", 120)
     end
 
     local eclipseMat = Material("sprites/jazzeclipse")
     function ENT:OnPortalRendered()
         local t = self:GetExplodeTime() - self.StartDestroyDelay
+        local ft = self.FinishTime and self.FinishTime - CurTime() or math.huge
+
         if t > 0 then
             t = CurTime() - t
 
@@ -183,27 +208,35 @@ if CLIENT then
                 jazzvoid.void_prop_count = 0
             end
 
-            local p = math.EaseInOut(math.min(1, t / 5), 0, 0.9)
-            local size = p * 32000
-            local pos = self:GetPos()
-            pos.z = LocalPlayer():GetPos().z + 10000
-            render.SetMaterial(eclipseMat)
-            render.DrawSprite(pos, size, size, color_white)
+            if self.IsFinished and not self.FinishExploded then 
+                self.FinishExploded = true
+                LocalPlayer():ScreenFade(SCREENFADE.IN, Color(255, 255, 255, 200), 1.45, 0)
+            end
 
-            local core2 = ManagedCSEnt("supercoolcore2", "models/props_combine/combine_citadelcloud001a.mdl")
-            core2:SetPos(self:GetPos())
-            local ang = (LocalPlayer():EyePos() - self:GetPos()):Angle()
-            ang:RotateAroundAxis(ang:Right(), 90)
-            ang:RotateAroundAxis(ang:Up(), CurTime() * -400)
-            core2:SetAngles(ang)
-            core2:SetModelScale(p * 0.05)
-            core2:DrawModel()
+            if not self.IsFinished then
 
-            ang:RotateAroundAxis(ang:Up(), CurTime() * 300)
-            core2:SetAngles(ang)
-            core2:SetModelScale(p * 0.10)
-            core2:SetupBones()
-            core2:DrawModel()
+                local p = math.EaseInOut(math.min(1, t / 5), 0, 0.9)
+                local size = p * 32000
+                local pos = self:GetPos()
+                pos.z = LocalPlayer():GetPos().z + 10000
+                render.SetMaterial(eclipseMat)
+                render.DrawSprite(pos, size, size, color_white)
+
+                local core2 = ManagedCSEnt("supercoolcore2", "models/props_combine/combine_citadelcloud001a.mdl")
+                core2:SetPos(self:GetPos())
+                local ang = (LocalPlayer():EyePos() - self:GetPos()):Angle()
+                ang:RotateAroundAxis(ang:Right(), 90)
+                ang:RotateAroundAxis(ang:Up(), CurTime() * -400)
+                core2:SetAngles(ang)
+                core2:SetModelScale(p * 0.05)
+                core2:DrawModel()
+
+                ang:RotateAroundAxis(ang:Up(), CurTime() * 300)
+                core2:SetAngles(ang)
+                core2:SetModelScale(p * 0.10)
+                core2:SetupBones()
+                core2:DrawModel()
+            end
 
             -- Begin changing the overlay tint sprite to be more delightfully devilish
             local _, surfaceMat = jazzvoid.GetVoidOverlay()
@@ -268,7 +301,15 @@ if CLIENT then
         end
     end
 
+    function ENT:EnsureSound()
+        if not self.IsFinished then
+            self.BaseClass.EnsureSound(self)
+        end
+    end
+
     function ENT:Draw()
-        self.BaseClass.Draw(self)
+        if not self.IsFinished then
+            self.BaseClass.Draw(self)
+        end
     end
 end

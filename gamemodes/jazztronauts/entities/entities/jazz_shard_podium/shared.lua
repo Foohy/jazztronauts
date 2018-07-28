@@ -63,6 +63,7 @@ function ENT:Initialize()
 		self.prop:Activate()
 		self.prop:SetUseType(SIMPLE_USE)
 		self.prop.parent = self
+		self.prop:SetParent(self)
 
 		self:SetProp( self.prop )
 		self:SetPressed( false )

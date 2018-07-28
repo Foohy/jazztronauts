@@ -162,7 +162,8 @@ function GM:DrawPhysgunBeam(ply, physgun, enabled, target, physbone, hitpos)
     end
 
     //vm:SetPoseParameter( "active", physgun.JazzProngs )
-    JazzRenderGrabEffect(target, tpos, srcPos)
-
+    cam.IgnoreZ(true)
+        JazzRenderGrabEffect(target, tpos, srcPos)
+    cam.IgnoreZ(false)
 	return false
 end

@@ -34,7 +34,6 @@ ENT.BrushMinDestroyRadius = 64
 ENT.BrushMaxDestroyRadius = 300
 ENT.BrushDestroyInterval = 0.1
 ENT.SnatchMode = 2
-ENT.RemoveDelay = 0
 
 ENT.ShardSound = "jazz_shard_idle"
 ENT.ShardNearSound = "jazz_shard_idle_near"
@@ -67,7 +66,7 @@ function ENT:Initialize()
         self:EnsureSound()
 
         ParticleEffect( self.ParticleName, self:GetPos(), self:GetAngles(), self )
-        hook.Add("JazzDrawVoid", self, self.OnPortalRendered)
+        hook.Add("JazzDrawVoid", self, function(self) self:OnPortalRendered() end )
     end
 end
 
@@ -75,6 +74,10 @@ end
 -- Will be necessary if they need help locating them
 function ENT:UpdateTransmitState()
     return TRANSMIT_ALWAYS
+end
+
+function ENT:SetupDataTables()
+    self:NetworkVar("Bool", 0, "IsFinished")
 end
 
 -- Wait for the map info to be ready, then grab all the nearby brushes
@@ -88,13 +91,32 @@ function ENT:WaitForMapInfo()
     end
 end
 
+function ENT:GetTheftTrigger()
+    for _, v in pairs(ents.FindByClass("jazz_trigger_theft")) do
+        if v:ContainsPoint(self:GetPos()) then return v end
+    end
+
+    return nil
+end
+
 function ENT:GetNearbyBrushes()
     local brushes = bsp2.GetCurrent().brushes
     if !brushes then print("SHARDS DIDN'T GRAB BRUSHES - MAP STILL LOADING") return end
 
+    -- Maybe only grab within shard theft trigger
+    local trigger = self:GetTheftTrigger()
+    limitbrushes = nil
+    if IsValid(trigger) then
+        limitbrushes = trigger:GetInsideBrushes()
+    end
+
     self.NearBrushes = {}
     for k, v in pairs(brushes) do
 
+        -- Optionally hard limit which brushes we touch
+        if limitbrushes and limitbrushes[k] == nil then continue end
+
+        -- Check if our danger sphere encompasses that brush
         if v:IntersectsSphere(self:GetPos(), self.BrushMaxDestroyRadius) and not snatch.removed_brushes[v] then
             v:CreateWindings()
 
@@ -143,13 +165,17 @@ function ENT:DestroyNearbyBrushesAndSelf(maxdist)
 
     print("Actually yoinked: " .. actual .. " (" .. (actual * self.BrushDestroyInterval) .. " seconds)")
 
-    -- Destroy ourselves at the end of the delay
-    local addDelay = actual > 0 and self.RemoveDelay or 0
-    timer.Simple(actual * self.BrushDestroyInterval + addDelay, function()
-        self:Remove()
+    -- Call when finished stealing everything
+    timer.Simple(actual * self.BrushDestroyInterval, function()
+        self:SetIsFinished(true)
+        self:OnFinished()
     end )
 
     self.NearBrushes = nil
+end
+
+function ENT:OnFinished()
+    self:Remove()
 end
 
 function ENT:Touch(ply)
@@ -173,7 +199,7 @@ function ENT:Touch(ply)
     //self:Remove()
 end
 
-function ENT:OnRemove()
+function ENT:StopIdleSounds()
     if self.IdleSound then
         self.IdleSound:Stop()
         self.IdleSound = nil 
@@ -183,6 +209,10 @@ function ENT:OnRemove()
         self.IdleSoundNear:Stop()
         self.IdleSoundNear = nil
     end
+end
+
+function ENT:OnRemove()
+    self:StopIdleSounds()
 end
 
 if SERVER then return end

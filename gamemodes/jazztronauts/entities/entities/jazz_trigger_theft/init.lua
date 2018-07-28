@@ -55,6 +55,10 @@ function ENT:RefreshInsideBrushes()
 end
 
 function ENT:GetInsideBrushes()
+    if table.Count(self.NearBrushes) == 0 then
+        self:RefreshInsideBrushes()
+    end
+    
     return self.NearBrushes
 end
 

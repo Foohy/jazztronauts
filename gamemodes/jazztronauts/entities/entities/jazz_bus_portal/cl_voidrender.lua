@@ -131,8 +131,9 @@ local function renderVoid(eyePos, eyeAng, fov)
 	render.SetViewPort( 0, 0, sizeX, sizeY )
 
 	local eyeOffset = eyePos + void_view_offset
-
+	local oldFog = render.GetFogMode()
 	render.SuppressEngineLighting(true)
+	render.FogMode(MATERIAL_FOG_NONE)
 
 	-- Skybox pass
 	cam.Start3D(Vector(), eyeAng, fov, 0, 0, sizeX, sizeY)
@@ -193,6 +194,7 @@ local function renderVoid(eyePos, eyeAng, fov)
 
 	end
 	render.OverrideDepthEnable(false)
+	render.FogMode(oldFog)
 	render.SuppressEngineLighting(false)
 
 	render.SetViewPort( 0, 0, oldW, oldH )

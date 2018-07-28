@@ -49,6 +49,10 @@ function CanSnatch(ent)
     -- Bus seats
     if ent:IsVehicle() and IsValid(ent:GetParent()) and string.find(ent:GetParent():GetClass(), "jazz_") then return false end
 
+    -- Vote podium
+    if ent:GetClass() == "prop_dynamic" and IsValid(ent:GetParent()) and ent:GetParent():GetClass() == "jazz_shard_podium" then return false end
+
+
     if ent:GetClass() == "hunter_flechette" then return true end
 	if ent:GetClass() == "prop_physics" then return true end
 	if ent:GetClass() == "prop_physics_multiplayer" then return true end

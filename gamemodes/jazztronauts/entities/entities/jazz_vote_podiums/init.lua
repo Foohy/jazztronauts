@@ -125,6 +125,8 @@ function ENT:OnAllPodiumsUsed()
     end )
 
     timer.Simple(5, function()
+        if not IsValid(self) then return end
+    
         self:ClearPodiums()
         self:Remove()
     end )

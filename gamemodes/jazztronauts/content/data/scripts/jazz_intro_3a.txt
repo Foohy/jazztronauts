@@ -1,6 +1,7 @@
 AUTO_ADVANCE = 1.5 # Enable auto-advancing, and defines how long to wait before advancing
 PRINT_RATE = 0.7 # Default print rate for this file. 1 = normal speed, 0.5 half speed, 2 = double speed, etc.
 SKIP_OPEN = true # Setup scene before opening the dialog. Opened manually.
+CMD_DELAY = 0
 
 begin1:
 spawngang() # SETUP

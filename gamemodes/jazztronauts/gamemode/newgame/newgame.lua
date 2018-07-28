@@ -7,6 +7,10 @@ ENDING_ECLIPSE     = 2
 local nettbl = "jazz_newgame_info"
 local glbtbl = "jazz_global_state"
 
+concommand.Add("jazz_dump_globals", function()
+    PrintTable(GetGlobalState())
+end )
+
 if SERVER then
 
     local ngsql = include("sql.lua")

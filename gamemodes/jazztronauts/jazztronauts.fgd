@@ -163,6 +163,20 @@
 	output OnApproached(void) : "Fires when a player enters the activation range, showing our podiums"
 ]
 
+@PointClass base(Targetname) size(-8 -8 -8, 8 8 8) = jazz_global : "An entity to control a global game state of jazztronauts."
+[
+	globalstate(choices) : "Global State to Set" : : "The state to set on or off." =
+	[
+		"finished_intro" : "Fresh restart, whether or not they've finished the intro" 
+		"ended" : "Ending has been seen and the game is ready to be restarted for NG+" 
+		"unlocked_eclipse_apt" : "If enabled, allows safe travel to the eclipse cat horror apartment. Kicks out otherwise." 
+	]
+
+	// Inputs
+	input TurnOn(void) : "Set state of global to ON."
+	input TurnOff(void) : "Set state of global to OFF."
+]
+
 @PointClass base(Targetname, Origin, Angles) studioprop() = mediaplayer_tv : "Plays media"
 [
 	output OnMediaStarted(void) : "Fired when media playback begins"

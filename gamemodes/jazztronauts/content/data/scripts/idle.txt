@@ -1,3 +1,10 @@
+
+begin:
+    Hi, I have no idle scripts%%
+    and yet I'm speaking.%%
+    Please do not call the police.
+    &exit
+
 begin1:
     *setauto 0*
     condition:

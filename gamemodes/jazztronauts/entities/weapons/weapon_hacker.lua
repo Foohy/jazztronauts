@@ -48,7 +48,7 @@ function SWEP:Initialize()
 end
 
 function SWEP:ShouldDrawHackerview()
-	return IsValid(self.Owner) and self.Owner:GetActiveWeapon() == self
+	return self.Owner == LocalPlayer() and self.Owner:GetActiveWeapon() == self
 end
 
 function SWEP:SetupDataTables()

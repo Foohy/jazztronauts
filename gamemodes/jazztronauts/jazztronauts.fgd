@@ -170,7 +170,7 @@
 		"finished_intro" : "Fresh restart, whether or not they've finished the intro" 
 		"ended" : "Ending has been seen and the game is ready to be restarted for NG+" 
 		"unlocked_eclipse_apt" : "If enabled, allows safe travel to the eclipse cat horror apartment. Kicks out otherwise." 
-		"eclipse_apt_seen" : "Mark the eclipse encounter as seen, making black shards start to spawn"
+		"black_shards" : "Enable the spawning of black shards in maps."
 	]
 
 	// Inputs

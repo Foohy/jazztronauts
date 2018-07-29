@@ -98,9 +98,11 @@ local sceneModels = {}
 local function GetPlayerOutfits(ply)
     local outfits = {}
     local parts = pac.GetLocalParts and pac.GetLocalParts() or pac.UniqueIDParts[ply:UniqueID()]
-    for k, v in pairs(parts) do
-        if not v:HasParent() then
-            table.insert(outfits, v:ToTable())
+    if parts then
+        for k, v in pairs(parts) do
+            if not v:HasParent() then
+                table.insert(outfits, v:ToTable())
+            end
         end
     end
 

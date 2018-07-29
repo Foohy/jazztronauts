@@ -1,3 +1,5 @@
+AddCSLuaFile()
+
 local meta = {}
 meta.__index = meta
 

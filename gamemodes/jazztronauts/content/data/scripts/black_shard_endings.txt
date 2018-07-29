@@ -85,21 +85,27 @@ Cellist dangles out the other side of the door and has his hand outstretched
 
 
 t1:
-     *setspeaker cat_piano*
-     MOVE. GET YOUR ASS IN GEAR AND GET ON THE TROLLEY!
-     &t2
+	*setskin cat_piano 2*
+	*setanim cat_piano gesture_anger 2 idle*
+    *setspeaker cat_piano*
+    MOVE.%%% GET YOUR ASS IN GEAR AND GET ON THE TROLLEY!
+    &t2
 
 t2:
-     *setspeaker cat_cello*
-     c’mon buddy we ain’t got all day and i am not dying before 
-     i find out the wu tang secret
-     &t3
+	*setskin cat_cello 2*
+    *setspeaker cat_cello*
+	*setanim cat_cello gesture_disagree 1.5 idle*
+    c’mon buddy we ain’t got all day and i am not dying before 
+    i find out the wu tang secret
+    &t3
 
 t3:
-     *setspeaker cat_piano*
-     BOSS IT’S TIME TO GO THAT THING IS BEING WEIRD AND I DIDN’T 
-     HAVE TIME TO GRAB THE FLAMETHROWER.
-     &t4
+	*setskin cat_piano 0*
+    *setspeaker cat_piano*
+	*setanim cat_piano gesture_shock 1.6 idle*
+    BOSS IT’S TIME TO GO THAT THING IS BEING WEIRD AND I DIDN’T*setanim cat_piano 1.4 idle* 
+    HAVE TIME TO GRAB THE FLAMETHROWER.
+    &t4
 
 Cut to the eclipse cat floating in the void, some kind of messed up vfx of it maybe stretching and distorting like 
 when a model gets all fucked up by twisting in ways it shouldn’t. Bartender reverses out of the hole she made and does a
@@ -107,9 +113,10 @@ sick u-turn on the narrow strip of voidway track. The void should be all fucked 
 As the trolley starts to go, everything gets shaky and the road starts to crack up.
 
 t4:
-     *setspeaker cat_piano*
-     Please fasten your seatbelt, shit may be about to get mildly messy. 
-     &t5
+    *setspeaker cat_piano*
+	*setanim cat_piano gesture_shrug 1.6 idle*
+    Please fasten your seatbelt, shit may be about to get mildly messy. 
+    &t5
 
 
 Aaand the road gibs. Trolley starts to fall into the void, shot of the eclipse cat directly overhead flipping its shit.
@@ -125,19 +132,22 @@ which stops freaking out and resolves into Ash. Ash dives after them, paw outstr
 
 
 t6:
-     *setspeaker cat_piano*
-     We’ve got a pursuer!
-     &t7
+    *setspeaker cat_piano*
+    We’ve got a pursuer!
+    &t7
 
 t7:
-     *setspeaker cat_bar*
-     I think you mean a purrsuer.
-     &t8
+    *setspeaker cat_bar*
+	*setanim cat_bar gesture_laugh 1.5*
+    I think you mean a%%*setskin cat_bar 1* pu%r%r%suer.
+    &t8
 
 t8:
-     *setspeaker cat_cello*
-     oh my god fuck you now is not the time for-
-     &t9
+	*setskin cat_cello 2*
+    *setspeaker cat_cello*
+	*setanim cat_cello gesture_disagree 1 idle*
+    oh my god fuck you now is not the time for-
+    &t9
 
 [Ash dives past the trolley and grabs onto the cow catcher. Track appears and starts unfolding in front of them. 
 The void slowly fades back to its normal state as the trolley evens out onto a flat path. If possible, have 
@@ -154,23 +164,27 @@ t9:
 
 
 t10:
+	*setanim cat_singer gesture_anger 2.5 idle*
      *setspeaker cat_singer*
-     > The Singer holds up their tablet. They spell out their feelings in 
-     massive, glittering comic sans : “WHO THE FUCK ARE YOU???”
+     > The Singer holds up their tablet.%% They spell out their feelings in 
+     massive,% glittering comic sans\:%% 
+	 “WHO THE FUCK ARE YOU???”
      &t10
      
 t11:
-     *setspeaker cat_cello*
-     uh yeah not to look a gift horse in its fucked up mouth but i did not 
-     live as incomprehensibly long as i have without being generally 
-     suspicious of creepy-ass motherfuckers metamorphosing into mild 
-     mannered benefactors
-     &t11
+	*setskin cat_cello 2*
+    *setspeaker cat_cello*
+	*setanim cat_cello gesture_shrug 1 idle*
+    uh yeah not to look a gift horse in its fucked up mouth but i did not 
+    live as incomprehensibly*setanim cat_cello gesture_disagree 1 idle* long as i have without being generally 
+    suspicious of creepy-ass motherfuckers metamorphosing into mild 
+    mannered benefactors
+    &t11
 
 t12:
      *setspeaker cat_ash*
-     I’m Ash. I was Ash, too, but not the same Ash. Not until you came here.
-     Seeing that trolley...seeing you all together...
+     I’m Ash. I was Ash, too,% but not the same Ash.%% Not until you came here.%%%
+     Seeing that trolley%.%.%.%seeing you all together%.%.%.%%
      Thank you all for reminding me what it was all for.
      &t13
 
@@ -179,78 +193,100 @@ Change view back to interior of trolley. Beat.]
 
 t13:
      *setspeaker cat_bar*
-     Oh. Ohhh. 
+     Oh.%%%*setskin cat_bar 3* O%h%h%h%. 
      &t14
 
 t14:
-     Well, then. I expect we shall have a safe trip home.
-     &t15
+	*setskin cat_bar 0*
+	*setanim cat_bar gesture_agree 1 idle*
+    Well,% then.%%% I expect we shall have a safe trip home.
+    &t15
 
 [All the other cats turn around to look at the bartender. Squint. Sit]
 
 t14:
-     *setspeaker cat_piano*
-     So are we going to address the fact that you know them or?
-     &t14b
+	*setskin cat_piano 0*
+    *setspeaker cat_piano*
+	*setanim cat_piano gesture_confused 1 idle*
+    So are we going to address the fact that you know them or?
+    &t14b
 
 t14b:
      *setspeaker cat_bar*
-     I don’t know them. I know of them. Mainly via the extremely limited 
-     documentation that they left behind with the machine, after creating 
+	 *setanim cat_bar gesture_disagree 1 idle*
+     I don’t know them.%%% I know of them.%%*setanim cat_bar gesture_sweep 1 idle* Mainly via the extremely limited 
+     documentation that they left behind with the machine,% after creating 
      the Voidway. 
      &t15
 
 t15:
-     It read like a confession, of sorts. An artisan who finished their 
-     great work and found it did not confer the lifelong joy they expected. 
-     &t16
+	*setskin cat_bar 4*
+	*setanim cat_bar gesture_foldarms 1 idle*
+    It read like a confession,% of sorts.%%%*setskin cat_bar 0* An artisan who finished their 
+    great work and found it did*setanim cat_bar gesture_disagree 1 idle* not confer the lifelong joy they expected. 
+    &t16
 
-t16:   
-     From what I could tell from their frantic diary keeping, they felt 
-     stuck in a stasis of sorts.
-     &t17
+t16: 
+	*setanim cat_bar gesture_shrug 1 idle*
+    From what I could tell from their frantic diary keeping,%% they felt 
+    stuck in a stasis of sorts.
+    &t17
 
 t17:
-     They feared attempting to create anything new, lest it fall short of 
-     their previous achievement, and wrestled constantly with the desire 
-     to destroy what they had made so they could feel free again.
-     &t18
+	*setskin cat_bar 4*
+	*setanim cat_bar gesture_disagree .8 idle*
+    They feared attempting to create anything new,%%*setskin cat_bar 0* lest it fall short of 
+    their previous achievement,% and wrestled constantly with the desire 
+    to destroy what they had made so they could feel free again.
+    &t18
 
 [Bartender looking pretty actually sad]   
 
 t18:
-     I thought it broke them. 
-     Maybe it did.
+	*setskin cat_bar 4*
+	*setanim cat_bar gesture_embarass 1 idle*
+    I thought it broke them.%%%%*setskin cat_bar 0* 
+    Maybe it did.
      &t19
 [The cats all look solemn. Pianist looks actively pained. Trolley pulls in to bar]
 
 t19:
-     Now, is everyone alright? All limbs intact? 
-     &t20
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_confused .85 idle*
+    Now,%%%*setskin cat_bar 0* is everyone alright?%%% All limbs intact? 
+    &t20
 [Cats nod, Bartender claps and smiles]
 
 t20:
-     Then I think a celebration is due, don’t you?
-     &t21
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_clap 1 idle*
+    Then I think a celebration is due,% don’t you?
+    &t21
 
 t21:
-     *setspeaker cat_piano*
-     It’s not often something scares the shit out of me, so, yes a 
-     “thank fuck we’re alive” party sounds ideal. 
-     &t22
+	*setskin cat_bar 0*
+	*setskin cat_piano 1*
+    *setspeaker cat_piano*
+	*setanim cat_piano gesture_laugh 1 idle*
+    It’s not often something scares the shit out of me,%% so,%%% yes a 
+    “thank fuck we’re alive” party sounds ideal. 
+    &t22
 
 [cut to the Cellist with a smear of white powder under his nose, with his pupils expanded to fill almost the entire white of his eyes]
 
 t22:
-     *setspeaker cat_cello*
-     sorry did you say something i was too busy attempting to erase 
-     the memory of that sudden caress from the reaper’s bony fingers 
-     by chemically carpet bombing what remains of my fear of death
-     &t23
+	*setskin cat_cello 3*
+    *setspeaker cat_cello*
+	*setanim cat_cello gesture_confused 1 idle*
+    sorry did you say something i was too busy attempting to erase 
+    the memory of that sudden caress from the reaper’s bony fingers 
+    by chemically carpet bombing what remains of my fear of death
+    &t23
 
 [Cut to player model for Judging Silence]
 
 t23:
+	*setskin cat_cello 0*
      look i will make an attempt to stick to standard and known forms 
      of mind altering substances and do no more than fifty (50) doses 
      in a day but i’m gonna be real me and sobriety are gonna have to 
@@ -258,7 +294,9 @@ t23:
      &t24
 
 t25:
+	*setskin cat_singer 1*
      *setspeaker cat_singer*
+	 *setanim cat_singer gesture_agree 1 idle*
      > The Singer is delighted by the prospect of a party and announces 
      they will be bringing guests.
      &t26
@@ -267,9 +305,9 @@ t25:
 
 t27:
      *setspeaker narrator*
-     > The next few hours are a blur. You sit on a barstool contemplating 
+     > The next few hours are a blur.%%%% You sit on a barstool contemplating 
      the wall and your time here as the cats and NPCs rush around getting 
-     the place jazzed up. The clink of glass on the bar gets your attention.
+     the place jazzed up.%%%% The clink of glass on the bar gets your attention.
      &t28
 
 [Fade back. Ideal Goals is for the place to look festive via many npc’s being present and mingling, 
@@ -279,70 +317,97 @@ gets out. The Singer sprints over and drags them back to meet the other one, paw
 on the bar in front of the player and the Bartender looking at them with a Thoughtful expression]
 
 t29:
-     *setspeaker cat_bar*
-     Are you okay, <playername>? That was a close call back there.
+    *setspeaker cat_bar*
+	*setanim cat_bar gesture_confused 1 idle*
+     Are you okay,%% <playername>? 
+	 That was a close call back there.
      player:
-     &r1: I've had urges like what the eclipse did to Ash. They scare me.
-     &r2: Do you ever worry about getting stuck in a rut, like Ash talked about?
-     &r3: Thanks for coming to get me.
+     &r1: 
+	 I've had urges like what the eclipse did to Ash. 
+	 They scare me.
+     &r2: 
+	 Do you ever worry about getting stuck in a rut, 
+	 like Ash talked about?
+     &r3: 
+	 Thanks for coming to get me.
 
 ###RESPONSE 1
 
 r1:
-     
-     The urge to clear the canvas is seductive. It’s quick, easy, and 
-     cathartic in the moment. I understand.
+    *setspeaker cat_bar*
+	*setskin cat_bar 4*
+	*setanim cat_bar gesture_foldarms 1 idle*
+    The urge to clear the canvas is seductive.%%%*setskin cat_bar 1* It’s quick,% easy,% and 
+    cathartic in the moment.%% I understand.
      &r1a
 
 [Serious face]
 
 r1a:
-     But you should always try to remember that you’ll never know what 
-     you or your work could mean to other people unless you keep it. 
-     Unless you share it. 
-     player:
-     &r2: Do you ever worry about getting stuck in a rut, like Ash talked about?
-     &r3: Thanks for coming to get me.
-     &t30: I think the Pianist wants to talk to us...? (continue)
+	*setskin cat_bar 0*
+	*setanim cat_bar gesture_confused 1 idle*
+    But you should always try to remember that you’ll never know what 
+    you or your work could mean to other people unless you keep it.%%%%%*setskin cat_bar 1* 
+    Unless you share it. 
+    player:
+    &r2: Do you ever worry about getting stuck in a rut, like Ash talked about?
+    &r3: Thanks for coming to get me.
+    &t30: I think the Pianist wants to talk to us...? (continue)
 
 ###RESPONSE 2
 
 r2:
-     Oh my, yes. Every day. Look around you. 
-     &r2a
+	*setspeaker cat_bar*
+	*setskin cat_bar 0*
+	*setanim cat_bar gesture_agree 1 idle*
+    Oh my,% yes.%%% Every day.%% Look around you. 
+    &r2a
 
      [Pan around party, return]
 r2a:
-     The Bar Samara is my opus. I had no true purpose before we built this 
-     place around a forgotten tool in the Voidway. It has honestly changed my 
-     life.
-     &r2b
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_agree 1 idle*
+    The Bar Samara is my opus.%%% I had no true purpose before we built this 
+    place around a forgotten tool in the Voidway.%%%%*setanim cat_bar gesture_agree 1 idle* It has honestly changed my 
+    life.
+    &r2b
 
 r2b:
-     We poured our hearts into this place. I do every time I step behind this bar. 
-     &r2c
+	*setskin cat_bar 0*
+    We poured our hearts into this place.*setanim cat_bar gesture_agree 1 idle* 
+	I do every time I step behind this bar. 
+    &r2c
 
 r2c:
-     I often wonder whether I am already in a rut, and simply haven’t noticed yet. 
-     If these days of quiet contentment will be a thing I resent in time for 
-     ‘robbing’ me of time spent working on some other project.  
-     &r2d
+	*setskin cat_bar 4*
+	*setanim cat_bar gesture_foldarms 1 idle*
+    I often wonder whether I am already in a rut,%% and simply haven’t noticed yet.%%%%*setskin cat_bar 0* 
+    If these days of quiet*setanim cat_bar gesture_shrug 1 idle* contentment will be a thing I resent in time for 
+    ‘robbing’ me of time spent working on some other project.  
+    &r2d
 
 r2d:
-     But so long as you are working toward happiness, no time is wasted. 
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_clap 1 idle*
+     But so long as you are working toward happiness,% no time is wasted. 
      &r2e
 
 r2e:
-     And I am happy. Not all the time, I have bad days like anyone. 
+	*setskin cat_bar 0*
+    And I am happy. %%%%%*setanim cat_bar gesture_disagree 1 idle*
+	Not all the time,% I have bad days like anyone. 
      &r2f
 
-r2f:  
+r2f:
+	*setanim cat_bar gesture_confused 1 idle*
      But the satisfaction in a display arranged just so? 
      &r2g
 
 r2g:
-     That, for me, for now, is happiness. And should that change, 
-     I shall seek a different engagement.
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_laugh 1 idle*
+     That,% for me,%% for now,%%%*setskin cat_bar 0* is happiness.%%%%% 
+	 And should that change,% I shall seek a different engagement.
      player:
      &r1: I've had urges like what the eclipse did to Ash. They scare me.
      &r3: Thanks for coming to get me.
@@ -353,17 +418,26 @@ r2g:
 [Shocked expression resolving into chill]
 
 r3:
-     A host who does not ensure the welfare of her honoured guests 
-     is a poor one indeed. 
-     &r3a
+	*setspeaker cat_bar*
+	*setskin cat_bar 3*
+	*setanim cat_bar gesture_shock 1 idle*
+	*wait .35*
+	*setskin cat_bar 4*
+	*setanim cat_bar gesture_disagree 1 idle*
+    A host who does not ensure the welfare*setskin cat_bar 0* of her honoured guests 
+    is a poor one indeed. 
+    &r3a
 r3a:
-     More than that, we’d have been awful friends if we just sat 
-     on our paws and stayed home.
+	*setskin cat_bar gesture_shrug 1 idle*
+    More than that,% we’d have been awful friends if we just sat 
+    on our paws and stayed home.
      &r3b
 
 r3b:
-     We were united in determination to get you out of there, 
-     and so, we did.
+	*setskin cat_bar 4*
+	*setanim cat_bar gesture_foldarms 1 idle*
+    We were united in determination to get you out of there,%*setskin cat_bar 0* 
+    and so, we did.
      player:
      &r1: I've had urges like what the eclipse did to Ash. They scare me.
      &r2: Do you ever worry about getting stuck in a rut, like Ash talked about?
@@ -372,15 +446,19 @@ r3b:
 ### MERGE POINT
 
 t30:
+	*setskin cat_piano 3*
      *setspeaker cat_piano*
-     Hey, we were talking and we want to do something to show our appreciation 
-     for everything you’ve done. Before you head off. 
+	*setanim cat_piano gesture_embarass 1 idle*
+     Hey,% we were talking and we want to do something to show our appreciation*setskin cat_piano 0* 
+     for everything you’ve done.%%% Before you head off. 
      &t31
 
 t31:
      *setspeaker cat_cello*
+	 *setskin cat_cello 0*
+	 *setanim cat_cello gesture_shrug 1 idle*
      yeah everyone’s got their own path to walk and you’re welcome to hang 
-     as long as you want but uh
+     as long as you want but uh%%%%
 
      we kinda can’t pay you any more
      &t32
@@ -388,27 +466,33 @@ t31:
 [The Singer nods sadly.]
 
 t32:
+	*setskin cat_singer 0*
      *setspeaker cat_singer*
-     > The Singer holds up their tablet: “We’re settling down into this 
-     business full time!!! Going legit. And thanks to your help with my 
-     research, I’ve figured out how to keep us fully supplied without 
+     > The Singer holds up their tablet\:%% “We’re settling down into this 
+     business full time!!!%%% Going legit.%% And thanks to your help with my 
+     research,% I’ve figured out how to keep us fully supplied without 
      needing to scavenge (=✪ᆽ✪=)”
      &t33
 
 t33:
+	*setskin cat_cello 2*
     *setspeaker cat_cello*
+	*setanim cat_cello gesture_shrug 1 idle*
     which is real fucking handy because some narc snitched on the bortles
     so the space cops busted their gig and they were our go-between to
     our fence so we cant move anything til they post bail
     &t34
 
 t34:
-    *setspeaker cat_pianist*
-    Oh and, uh, I dragged the piano out. You down for an impromptu 
-    concert, boss?
+	*setskin cat_piano 1*
+    *setspeaker cat_piano*
+    Oh and,% uh,%% I dragged the piano out.%%% 
+	You down for an impromptu concert, boss?
     &t35
 
 t35:
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_clap 1.3 idle*
     *setspeaker cat_bar*
     Nothing would make me happier.
     &exit

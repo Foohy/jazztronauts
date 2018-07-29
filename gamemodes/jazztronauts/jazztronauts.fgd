@@ -25,10 +25,12 @@
 	lockdoorsound(sound) : "Door Locked sound" : : "The sound the door will make when it's locked(Or attempted at)."
 	unlockdoorsound(sound) : "Door Unlocked sound" : : "The sound the door will make when it's unlocked."
 	loadingscreen(string) : "Loading Screen" : : "Overrides the random loading screen"
+	startlocked(integer) : "Start Locked" : 0 : "Whether or not this door should start locked"
 	
 	output OnTeleport(void) : "Fires on Teleport"
 	output OnUnlock(void) : "Fires when the door is unlocked"
 	output OnUse(void) : "Fires when an Entity uses this"
+	output OnUseLocked(void) : "Fires when an Entity uses this while we're locked"
 	
 	input Teleport(void) : "Teleport the activator"
 	input Unlock(void) : "Unlock the door"

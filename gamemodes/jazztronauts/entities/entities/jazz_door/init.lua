@@ -4,8 +4,17 @@ include("shared.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_init.lua")
 
-ENT.DoorOpen = Sound("doors/door1_move.wav") //just defaults
-ENT.DoorClose = Sound("doors/door_wood_close1.wav") //just defaults
+ENT.DoorOpen = Sound("doors/door1_move.wav")
+ENT.DoorClose = Sound("doors/door_wood_close1.wav")
+--ENT.DoorLocked = --Sound("d")
+
+local outputs = 
+{
+	"OnTeleport",
+	"OnUnlock",
+	"OnUse",
+	"OnUseLocked",
+}
 
 function ENT:Initialize()
 	self:SetMoveType(MOVETYPE_NONE)
@@ -20,9 +29,18 @@ function ENT:Initialize()
 	end
 
 	self:ResetSequence(self:LookupSequence("idle"))
+	self:SetLocked(self.StartLocked or false)
 end
 
 function ENT:Use(activator, caller)
+	if self.IsLocked then 
+		self:TriggerOutput("OnUseLocked", activator)
+		if self.DoorLocked then
+			self:EmitSound(self.DoorLocked)
+		end
+		return 
+	end
+
 	self:TriggerOutput("OnUse", activator)
 
 	if IsValid(activator) && !activator.Teleporting then
@@ -44,6 +62,25 @@ function ENT:Use(activator, caller)
 		end
 	end
 end
+
+function ENT:SetLocked(locked)
+	if self.IsLocked == locked then return end
+
+	self.IsLocked = locked
+	if not self.IsLocked then
+		self:TriggerOutput("OnUnlock", self)
+	end
+end
+
+function ENT:AcceptInput( name, activator, caller, data )
+
+	if name == "Lock" then self:SetLocked(true) return true end
+	if name == "Unlock" then self:SetLocked(false) return true end
+	if name == "Teleport" then self:Use(activator, caller) return true end
+
+	return false
+end
+
 
 function ENT:GetLinkedDoor()
 	if IsValid( self.TeleportEnt ) then
@@ -132,7 +169,7 @@ end
 function ENT:KeyValue(key, value)
 	local isEmpty = !value || string.len(value) <= 0
 	
-	if key == "OnTeleport" || key == "OnUnlock" || key == "OnUse" then
+	if table.HasValue(outputs, key) then
 		self:StoreOutput(key, value)
 	end
 	
@@ -146,6 +183,8 @@ function ENT:KeyValue(key, value)
 			self.DoorClose = Sound( value )
 		elseif key == "model" then
 			self:SetModel(Model(value))
+		elseif key == "startlocked" then
+			self.StartLocked = tobool(value)
 		end
 	end
 end

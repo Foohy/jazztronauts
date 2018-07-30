@@ -112,9 +112,12 @@ function SWEP:Deploy()
 
 
 	local vm = self.Owner:GetViewModel()
-	vm:SendViewModelMatchingSequence( vm:LookupSequence( "anim_deploy" ) )
-	--vm:SendViewModelMatchingSequence( vm:LookupSequence( "fists_draw" ) )
-	vm:SetPlaybackRate( 1.5 )
+	local depseq = IsValid(vm) and vm:LookupSequence( "anim_deploy" ) or nil
+	if depseq then 
+		vm:SendViewModelMatchingSequence( depseq )
+		--vm:SendViewModelMatchingSequence( vm:LookupSequence( "fists_draw" ) )
+		vm:SetPlaybackRate( 1.5 )
+	end
 
 	return true
 

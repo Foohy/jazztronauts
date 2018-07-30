@@ -348,7 +348,7 @@ function ENT:DrawInsidePortal()
     if self:GetIsExit() and self.Broken then 
         if CurTime() - self.BreakTime < 45 then
             for _, gib in pairs(self.Gibs) do
-                if gib then gib:DrawModel() end
+                if IsValid(gib) then gib:DrawModel() end
             end
         end
     end
@@ -427,8 +427,8 @@ function ENT:DrawInteriorDoubles()
         mat:SetScale(Vector(8, 1, 8))
         local SpeedTunnel = ManagedCSEnt("bus_portal_speedtunnel", self.VoidSpeedTunnelModel)
         SpeedTunnel:SetNoDraw(true)
-        SpeedTunnel:SetPos(self:GetPos())
-        SpeedTunnel:SetAngles(self:GetAngles())
+        SpeedTunnel:SetPos(portalPos)
+        SpeedTunnel:SetAngles(portalAng)
         SpeedTunnel:EnableMatrix("RenderMultiply", mat)
         SpeedTunnel:DrawModel()
     end

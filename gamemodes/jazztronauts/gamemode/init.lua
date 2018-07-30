@@ -189,7 +189,7 @@ function GM:GenerateJazzEntities(noshards)
 			end
 
 			-- Also, generate black shards if we're at that point
-			if tobool(newgame.GetGlobal("encounter_1")) or map.corrupt > progress.CORRUPT_NONE then
+			if tobool(newgame.GetGlobal("encounter_1")) and (map.correct and map.corrupt > progress.CORRUPT_NONE) then
 				local spawned = mapgen.GenerateBlackShard(map.seed)
 
 				-- If we generated a black shard but this map was corrupted, it sure is now

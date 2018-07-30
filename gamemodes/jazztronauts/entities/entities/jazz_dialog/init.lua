@@ -64,6 +64,10 @@ function ENT:GetCameraReference()
 
 end
 
+function ENT:SetFinishedCallback(callback)
+	self.FinishedCallback = callback
+end
+
 function ENT:StartDialog( activator, caller, data )
 
 	local targets = { activator }
@@ -101,7 +105,8 @@ function ENT:PlayerEndDialog(ply, dialog, markseen)
 
 	-- If we're not waiting on any more players, fire off event that everyone finished
 	if oldCount > 0 and table.Count(self.ActivePlayers) == 0 then
-		self:TriggerOutput("OnEveryoneFinished", self)	
+		self:TriggerOutput("OnEveryoneFinished", self)
+		if self.FinishedCallback then self.FinishedCallback() end
 	end
 end
 

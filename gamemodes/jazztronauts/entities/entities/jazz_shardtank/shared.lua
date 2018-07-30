@@ -44,11 +44,24 @@ if SERVER then
     function ENT:OnStartTravel()
         local ending, isended = newgame.GetGlobal("ending"), tobool(newgame.GetGlobal("ended"))
         if not isended then
-            newgame.SetGlobal("ending", newgame.ENDING_ASH)
-            mapcontrol.Launch(mapcontrol.GetEndMaps()[newgame.ENDING_ASH])
+            self:StartEndgameDialog()
         else -- NG+ Reset
             newgame.ResetGame(tonumber(ending) or newgame.ENDING_CHEATED)
         end
+    end
+
+    function ENT:StartEndgameDialog()
+        local diag = ents.Create("jazz_dialog")
+        diag:SetPos(self:GetPos())
+        diag:SetKeyValue("script", "normal_ending_bartransition.begin")
+        diag:SetKeyValue("spawnflags", "1") -- send to everybody
+        diag:SetFinishedCallback(function()
+            newgame.SetGlobal("ending", newgame.ENDING_ASH)
+            mapcontrol.Launch(mapcontrol.GetEndMaps()[newgame.ENDING_ASH])
+        end )
+        diag:Spawn()
+        diag:Activate()
+        diag:Fire("Start")
     end
 
 else

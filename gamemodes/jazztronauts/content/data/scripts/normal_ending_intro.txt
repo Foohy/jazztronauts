@@ -2,51 +2,33 @@
 NO_FREEZE = true
 HIDE_MOUSE = true
 PRINT_RATE = 0.7
-AUTO_ADVANCE = 1.5
+AUTO_ADVANCE = 0
+CMD_DELAY = 0
+SKIP_OPEN = true
 
 begin:
+    spawngang()
      *setspeaker cat_bar*
-     Ah! 100 Shards! Fantastic work, everyone! Now we can begin the 
-     Festival.
+     *show 0.5*
+     Now the last step to get to the festival.%%%
      &a1
 
 a1:
-     Now, this will require something of a leap of faith. 
+     It's time to-%
      &a2
-##[Cut to bar surface, glass full of shard goop]
+
 a2:
-     Drink this. Then we can call the trolley, and proceed to the 
-     Festival. 
+     *setspeaker cat_cellist*
+     IT'S TIME TO TEAR THIS PLACE UP%%%
 
-     It won’t harm you, I assure you. 
-     player:
-          &batcountry: Yo hold up no, I know what that stuff does to the Cellist.
-          &slammin: Alright, let’s party. [Slam that shit]
+    &a3
+a3:
+     *setspeaker cat_bar*
+     ...Yes.%
+     The only thing separating us from the festival are these pesky walls.%%%
 
-##### "FUCK NO I AINT GOING THROUGH THAT AGAIN"
-
-batcountry:
-     Oh good heavens, this isn't his! This is specially treated shard
-     goop. It's been processed quite minimally as opposed to the, um,
-     decidedly elaborate methods and ingredients he uses to turn it
-     into his drug of choice.
-     &bats2
-
-bats2:     
-     Think of it as more of a potion. This is as close as any of us will
-     ever get to real magic. To reach the Festival, some preparation is 
-     required.
-     player:
-          &slammin: Well, alright then, if you're sure. [Slam that shit]
-
-slammin:     
-     Excellent! Bottoms up, everyone. 
-     &slammin2
-
-slammin2:
-     Ah. Refreshing. 
-     &jammin
-
-jammin:
-     Right, to the trolley!
+     &a4
+a4:
+    *setspeaker cat_piano*
+     *slam Tear* %*slam Them* %*slam Down*%%%
      &exit

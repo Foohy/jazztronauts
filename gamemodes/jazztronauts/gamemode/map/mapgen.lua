@@ -6,6 +6,13 @@ InitialShardCount = InitialShardCount or 0
 local shardsNeededConVar = CreateConVar("jazz_total_shards", 100, { FCVAR_NOT_CONNECTED, FCVAR_REPLICATED }, "The total number of shards needed to finish the game. Cannot be changed in-game.")
 local blackShardsNeededConVar = CreateConVar("jazz_total_black_shards", 10, { FCVAR_NOT_CONNECTED, FCVAR_REPLICATED }, "The total number of shards needed to finish the game. Cannot be changed in-game.")
 
+local shardTblName = "jazznetplyshards"
+local propTblName = "jazznetplyprops"
+
+if SERVER then
+    nettable.Create(shardTblName, nettable.TRANSMIT_AUTO, 1.0)
+    nettable.Create(propTblName, nettable.TRANSMIT_AUTO, 1.0)
+end
 
 -- No two shards can ever be closer than this
 local MinShardDist = 500
@@ -32,6 +39,14 @@ end
 
 function GetTotalRequiredBlackShards()
     return blackShardsNeededConVar:GetInt()
+end
+
+function GetPlayerShards()
+    return nettable.Get(shardTblName)
+end
+
+function GetPlayerProps()
+    return nettable.Get(propTblName)
 end
 
 function GetShards()
@@ -81,6 +96,19 @@ end
 
 if SERVER then 
     util.AddNetworkString("jazz_shardcollect")
+    local function updatePlayerCollectedShards()
+        local mapfilter = not mapcontrol.IsInGamemodeMap() and game.GetMap() or nil
+        local allShards = progress.GetMapShards(mapfilter)
+        local shardPlyTable = {}
+        for _, v in pairs(allShards) do
+            if tobool(v.collected) and v.collect_player then
+                shardPlyTable[v.collect_player] = shardPlyTable[v.collect_player] or 0
+                shardPlyTable[v.collect_player] = shardPlyTable[v.collect_player] + 1
+            end
+        end
+        PrintTable(shardPlyTable)
+        nettable.Set(shardTblName, shardPlyTable)
+    end
 
     function CollectShard(ply, shardent)
 
@@ -110,6 +138,8 @@ if SERVER then
     end
 
     function UpdateShardCount(ply)
+        updatePlayerCollectedShards()
+
         net.Start("jazz_shardcollect")
 			net.WriteUInt(#SpawnedShards, 16)
             for _, v in pairs(SpawnedShards) do

@@ -173,10 +173,10 @@ end
 
 -- Get a list of shards that were created for this map
 function GetMapShards(mapname)
-	mapname = string.lower(mapname)
+	mapname = mapname and string.lower(mapname)
 	local chkstr = "SELECT * FROM jazz_mapgen " ..
 		"INNER JOIN jazz_mapshards ON jazz_mapgen.id = jazz_mapshards.mapid " ..
-		"WHERE " .. string.format("filename='%s' ", mapname) ..
+		(mapname and "WHERE " .. string.format("filename='%s' ", mapname) or "") ..
 		"ORDER BY jazz_mapshards.id ASC"
 
 	return Query(chkstr) or {}
@@ -222,7 +222,7 @@ function CollectShard(mapname, shardid, ply)
 	-- Alter table with new finish info
 	local altr = "UPDATE jazz_mapshards SET " ..
 			string.format("collected='%d', ", 1) ..
-			string.format("collect_player='%d' ", pid) ..
+			string.format("collect_player='%s' ", pid) ..
 			string.format("WHERE mapid='%s' ", res.id) ..
 			string.format("AND id='%d'", shardid)
 

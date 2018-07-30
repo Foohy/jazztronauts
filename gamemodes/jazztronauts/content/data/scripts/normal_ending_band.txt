@@ -133,7 +133,7 @@ h4:
 	*setcam setpos 5898.999023 149.256104 3823.915039;setang 24.996138 -13.980748 0.000000* #### GROUP    
      *setspeaker narrator*
      >Rungo starts a drum solo of some sort.%% It’s pretty restrained.
-     &h5
+     &h6
 
 h6:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB

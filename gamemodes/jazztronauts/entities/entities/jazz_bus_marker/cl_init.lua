@@ -113,11 +113,14 @@ hook.Add( "PostDrawHUD", "JazzDrawBusMarker", function()
  
 	cam.Start2D()
         local pfov = LocalPlayer():GetFOV()
+        local eyepos = LocalPlayer():EyePos()
+        local eyeang = LocalPlayer():EyeAngles()
 
         for _, v in pairs(markers) do
             if !IsValid(v) then continue end
             local heldMarker = getHeldMarker()
-            local isLookNotHold = v:IsLookingAt(EyePos(), EyeAngles():Forward(), LocalPlayer():GetFOV()) and !heldMarker
+
+            local isLookNotHold = v:IsLookingAt(eyepos, eyeang:Forward(), pfov) and !heldMarker
             local isLook = (v == heldMarker) or isLookNotHold
             local isMoving = v:GetSpawnPercent() > 0
             v.SmoothPercent = v.SmoothPercent or 0     

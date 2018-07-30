@@ -16,7 +16,7 @@ function ENT:ValidPlayer(ply)
 end
 
 function ENT:HasEnoughPlayers()
-    return #self.PlayerList >= player.GetCount() / 2
+    return #self.PlayerList > player.GetCount() / 2
 end
 
 function ENT:ActivateMarker()

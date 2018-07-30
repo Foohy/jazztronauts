@@ -341,7 +341,8 @@ if SERVER then
         if not checkAreaTrace(pos, ent:GetAngles()) then return end
 
         -- Goal spot must be reachable from the players
-        if not isPlayerReachable(ent, map, leafs) then return end
+        -- disabled for now, seems to a little fucky on certain maps but it does work 99% of the time
+        --if not isPlayerReachable(ent, map, leafs) then return end
 
         return { pos = pos, ang = ent:GetAngles() }
     end

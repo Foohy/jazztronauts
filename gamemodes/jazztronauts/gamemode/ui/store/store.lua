@@ -461,7 +461,17 @@ function OpenStore()
 
     -- Create a button for each store item
     local items = GetStoreItems("tools")
+    table.sort(items, function(a, b)
+        if a.thirdparty != b.thirdparty then return b.thirdparty end
+    end)
+
+    local hasspacer = false
     for k, v in pairs(items) do
+        if not hasspacer and v.thirdparty then
+            hasspacer = true
+            layout:Add(createSpacerPanel())
+        end
+        
         local btn = addButton(layout, v)
 
         btn:RefreshState()

@@ -396,7 +396,9 @@ end
 -- no fall damange with Run
 function GM:GetFallDamage(ply, speed)
 	local wep = ply:GetActiveWeapon() 
-	if IsValid(wep) and wep:GetClass() == "weapon_run" then return 0 end
+	if IsValid(wep) and wep:GetClass() == "weapon_run" then 
+		if not wep:ShouldTakeFallDamage() then return 0 end
+	end
 
 	return self.BaseClass.GetFallDamage(self, ply, speed)
 end

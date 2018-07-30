@@ -6,7 +6,7 @@ SWEP.Base 					= "weapon_basehold"
 SWEP.PrintName 		 		= "Run"
 SWEP.Slot		 	 		= 0
 SWEP.Category				= "Jazztronauts"
-SWEP.Purpose				= "Jump higher and run faster"
+SWEP.Purpose				= "Jump higher and run faster. "
 
 SWEP.ViewModel		 		= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
@@ -35,6 +35,15 @@ SWEP.RequestInfo			= {}
 -- List this weapon in the store
 local storeRun = jstore.Register(SWEP, 10000, { type = "tool" })
 
+-- No fall damage upgrade
+local run_nofall = jstore.Register("run_nofall", 15000, { 
+    name = "Ignore Fall Damage", 
+    cat = "Run", 
+	desc = "Fall from any height, and while Run is equipped, you will take zero fall damage.",
+    type = "upgrade",
+	requires = storeRun
+})
+
 function SWEP:Initialize()
 
 	self.BaseClass.Initialize( self )
@@ -42,6 +51,16 @@ function SWEP:Initialize()
 
 end
 
+-- Query and apply current upgrade settings to this weapon
+function SWEP:SetUpgrades()
+	if not IsValid(self.Owner) then return end
+
+	self.IgnoreFallDamage = unlocks.IsUnlocked("store", self.Owner, run_nofall) 
+end
+
+function SWEP:ShouldTakeFallDamage()
+	return not self.IgnoreFallDamage
+end
 
 function SWEP:SetupDataTables()
 	self.BaseClass.SetupDataTables( self )

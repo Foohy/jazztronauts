@@ -363,8 +363,11 @@ dialog.RegisterFunc("punch", function(d)
     LocalPlayer():ViewPunch(Angle(45, 0, 0))
 end )
 
-dialog.RegisterFunc("emitsound", function(d, snd)
-    surface.PlaySound(snd)
+dialog.RegisterFunc("emitsound", function(d, snd, vol, pitch)
+    local vol = tonumber(vol) or 1
+    local pitch = (tonumber(pitch) or 1) * 100.0
+
+    LocalPlayer():EmitSound(snd, 0, pitch, vol)
 end )
 
 dialog.RegisterFunc("slam", function(d, ...)

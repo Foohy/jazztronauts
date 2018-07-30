@@ -21,7 +21,8 @@ a4:
    &a5
 a5:
    i promise it’s not for anything nefarious or self-destructive. i just 
-   need this one last thing for something i’m testing.
+   need this one last thing for something i’m testing. if it works,
+   i should be considerably less of an asshole to you all from then on.
    *start 5*
    &exit
 

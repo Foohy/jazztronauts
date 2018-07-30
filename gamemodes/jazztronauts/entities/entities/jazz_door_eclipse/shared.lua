@@ -14,7 +14,7 @@ function ENT:GetDestination()
     
     local bshardcount, bshardreq = mapgen.GetTotalCollectedBlackShards(), mapgen.GetTotalRequiredBlackShards()
     local hasreq = bshardcount >= bshardreq
-    local seenEclipse = newgame.GetGlobal("black_shards")
+    local seenEclipse = newgame.GetGlobal("encounter_1")
 
     -- If they haven't encountered the cat, talk to them first
     if not seenEclipse then return self.DEST_ENCOUNTER end

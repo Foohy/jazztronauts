@@ -178,13 +178,22 @@
 		"finished_intro" : "Fresh restart, whether or not they've finished the intro" 
 		"ended" : "Ending has been seen and the game is ready to be restarted for NG+" 
 		"unlocked_encounter" : "If enabled, allows safe travel to the eclipse cat horror apartment. Kicks out otherwise." 
-		"black_shards" : "Enable the spawning of black shards in maps."
+		"encounter_1" : "Mark that we have done the first encounter with the cat"
+		"encounter_2" : "Mark that we have done the second encounter with the cat"
+		"encounter_3" : "Mark that we have done the third encounter with the cat"
 	]
 
 	// Inputs
 	input TurnOn(void) : "Set state of global to ON."
 	input TurnOff(void) : "Set state of global to OFF."
 ]
+
+@PointClass iconsprite("editor/logic_auto.vmt") = jazz_encounter_auto : "Fires outputs when a map spawns, depending on the current state of the encounter cat."
+[
+	// Outputs
+	output OnMapSpawn(integer) : "Fired when map spawns, with the value being which cat encounter to show. 1 is first, 2 is second, 0 is none."
+]
+
 
 @PointClass base(Targetname, Origin, Angles) studioprop() = mediaplayer_tv : "Plays media"
 [

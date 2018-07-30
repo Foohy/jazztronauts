@@ -46,6 +46,26 @@ function GetEndMaps()
 	return { "jazz_outro", "jazz_outro2" }
 end
 
+function GetNextEncounter()
+	local bshardCount, bshardReq = mapgen.GetTotalCollectedBlackShards(), mapgen.GetTotalRequiredBlackShards()
+	local isngp = newgame.GetResetCount() > 0
+	if not isngp then return nil end
+
+	local seen1, seen2, seen3 = newgame.GetGlobal("encounter_1"), newgame.GetGlobal("encounter_2"), newgame.GetGlobal("encounter_3")
+	local halfway = math.Round(bshardReq / 2)
+
+	-- First encounter, show if ng+ (not required level change though)
+	if bshardCount == 0 and not seen1 then 
+		return 1, false
+	elseif bshardCount > 1 and bshardCount < halfway and not seen2 then
+		return 2, true
+	elseif bshardCount > halfway and not seen3 then
+		return 3, true
+	end
+
+	return nil 
+end
+
 function GetHubMap()
 	return "jazz_bar"
 end

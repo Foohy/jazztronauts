@@ -129,6 +129,12 @@ function GM:CheckGamemodeMap()
 		return mapcontrol.GetHubMap()
 	end
 
+	-- Check for bad ending shard stuff
+	local _, shouldencounter = mapcontrol.GetNextEncounter()
+	if shouldencounter then
+		return mapcontrol.GetEncounterMap()
+	end
+
 	-- No map change occurring
 	return nil
 end
@@ -183,7 +189,7 @@ function GM:GenerateJazzEntities(noshards)
 			end
 
 			-- Also, generate black shards if we're at that point
-			if tobool(newgame.GetGlobal("black_shards")) or map.corrupt > progress.CORRUPT_NONE then
+			if tobool(newgame.GetGlobal("encounter_1")) or map.corrupt > progress.CORRUPT_NONE then
 				local spawned = mapgen.GenerateBlackShard(map.seed)
 
 				-- If we generated a black shard but this map was corrupted, it sure is now

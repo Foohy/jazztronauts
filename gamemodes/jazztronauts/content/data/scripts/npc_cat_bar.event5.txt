@@ -1,0 +1,225 @@
+SKIP_OPEN = true
+
+begin:
+	*hide*
+    *txout*
+    *setfov 70*
+    *setspeaker narrator*
+	*txin*
+	*wait .15*
+	*show*
+    >The Bar Samsara...
+    You see the Bartender packing supplies into a picnic basket. She 
+    beams when she catches sight of you.
+    &a1
+
+a2:
+    *setspeaker cat_bar*
+    Ah! *player*! 
+    I was going to come find you, actually. We’re going on a little field
+    trip to the hot spring, would you care to join us?
+    &a3
+
+a3:
+    *setspeaker narrator*
+    (This is the last event. You may want to give the other players
+    a heads up that you'll be busy for a little while.)
+    player:
+         &a4: Yeah sure, I’m down for free food.
+         &leave: I have some stuff to do, but maybe later? (exit)
+
+###EARLY EXIT
+
+leave:
+    &setspeaker cat_bar*
+    We can wait, don’t fret.
+    &exit
+
+a4:
+    *setspeaker cat_bar*
+    Nice. Here, help me carry these-
+    &a5
+[FADE OUT/IN]
+
+a5:
+    *setspeaker narrator*
+    > You had to take a boat, but the gang has finally arrived at a sandy
+    little nook in the mountains. 
+    &a6
+a6:
+    >There a pool here, it’s bubbling and steaming. The entire spot is 
+    pleasantly warm.
+    >The Cellist is the first to break from the group and head towards 
+    the pool.
+
+    &a7
+
+a7:
+    *setspeaker cat_cello*
+    hello again you shitty bubbly siren you. i’m gonna have the dopest 
+    nap in you and you cant do a goddamn thing because you're a 
+    geological feature and i am a powerful fae idiot
+    &a8
+
+a8:
+    *setspeaker cat_piano*
+    Incredible. I’ve never seen anyone bully the ground so fiercely.
+    &a9
+
+a9:
+    *setspeaker cat_singer*
+    > The Singer claps, and holds up their tablet: “Yeah fuck him up 
+    Socrates!!!!!"
+    &a10
+
+a10:
+    *setspeaker narrator*
+    > The Singer’s comment appears to have steamed the Cellist’s clams.
+    &a11
+
+a11:
+    *setspeaker cat_cellist*
+    call me socrates one more goddamn time pipes c’mere imma put you 
+    in an omni-headlock you treacherous little dingus i am clearly
+    diogenes in this headcanon
+    &a12
+
+a12:
+    *setspeaker narrator*
+    > The Cellist makes a big show of chasing the Singer around, and they
+    seem to be enjoying it judging from all the general horseplay.
+    &a13
+
+a13:
+    > The Pianist initially critiques their wrestling form, but clues 
+    into the joke eventually and settles down.
+    &a14
+
+a14:
+    > She cracks her knuckles and drops into a wide stance, before her 
+    fists whip out and break chunks off a large boulder. This appears to
+    be her idea of relaxation??
+    &a15
+a15:
+    *setspeaker cat_bar*
+    A moment, *player*?
+    I could use a helping paw in setting up the picnic spread.  
+    &a16
+
+[FADE OUT, IN]
+
+a16:
+    *setspeaker narrator*
+    > You’re unpacking the basket with the bartender. She’s quietly 
+    flattening a blanket against the sand, eyes closed in contentment.
+    &a17
+
+a17:
+    *setspeaker cat_bar*
+    You’re a good person, did you know that?
+    &a18
+
+a18:
+    I could tell before, but I’m sure of it after seeing you watch the 
+    others horsing around on the beach. You appear to be able to just, 
+    slot into any scenario and take it for what it is.
+    &a19
+
+a19:
+    I believe that’s a trait that’s not valued as highly as it ought. The
+    ability to look at a stranger on their path, be a little confused, 
+    but say “let’s see where this ends up.”
+    &a20
+
+a20:
+    It enriches all parties involved, even if it ends up badly. Sometimes
+    that’s as warm as it sounds, and sometimes it’s a very cold truth. 
+    But it’s worth it.
+    &a21
+
+a21:
+    *setspeaker narrator*
+    >The Bartender sits down and stares at the pool.
+    You take a seat next to her.
+    &a22
+
+a22:
+    *setspeaker cat_bar*
+    Did you know that I’m the oldest of the gang? By a rather large 
+    margin, too, it seems.
+    &a23
+
+a23:
+    For a chunk of my life, everything was new and fresh, and that seemed
+    like it could last forever. And when it didn’t, I responded in a way 
+    I now regret.
+    &a24
+
+a24:
+    The chunk after that, I appointed myself a judge on all matters. That
+    I had the right to erase anything in the first place. That cycle kept
+    feeding on itself until I discovered and challenged someone I should
+    never have.
+    &a25
+
+a25:
+    ...I was destroyed. Humbled completely, and the world was a better 
+    place as a result. That singular fact was all I could think about 
+    for a long time.
+    &a26
+
+a26:
+    Humiliated and aimless, I limped through the Void with my only my 
+    faithful shadow still clinging to me.
+    &a27
+
+a27:
+    *setspeaker narrator*
+    >You catch the Bartender staring warmly at the Pianist as she pauses the think.
+    A few seconds later she speaks again.
+    &a28
+
+a28:
+    *setspeaker cat_bar*
+    After enough time, we found a second chance in the Samsara. It’s my 
+    prison when I need it to be, and my greenhouse when I want it to be. 
+    And I love every second of it.
+    &a29
+
+a29:
+    You know how they say you can’t go home again? That you can never 
+    have that first impression, the first time, more than one time. 
+    &a30
+
+a30:
+    That’s true but awfully bleak. You can’t go back in time, but you can
+    expose those around you to that warmth, and it will enrich and 
+    incubate them.
+    &a31
+
+a31:
+    Their discoveries, and how it evolves them? That’s the true reward. 
+    That’s how you go home again. There is simply nothing as valuable 
+    in the world as it.
+    &a32
+
+a32:
+    *setspeaker narrator*
+    >A harpoon lands between you and the Bartender, puncturing the 
+    blanket. Hell of a throw.
+    &a33
+
+a33:
+    *setspeaker cat_bar*
+    Ah, it’s about that time I see. Can you help me de-escalate and get 
+    everyone ready for a meal?
+    &a34
+
+a34:
+    *setspeaker narrator*
+    >The Bartender gets up and walks towards the others.
+    &a35
+
+a35:
+    >You follow along shortly after.*mark_seen*
+    &exit

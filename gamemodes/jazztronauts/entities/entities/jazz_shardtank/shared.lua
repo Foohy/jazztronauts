@@ -29,6 +29,7 @@ if SERVER then
             local voter = ents.Create("jazz_vote_podiums")
             voter:SetKeyValue("PodiumRadius", 100)
             voter:SetKeyValue("ApproachRadius", self.ActivateRadius)
+            voter:SetKeyValue("Friendly", "1")
             voter:SetPos(self:GetPos())
             voter:Spawn()
             voter:Activate()
@@ -46,7 +47,7 @@ if SERVER then
             newgame.SetGlobal("ending", newgame.ENDING_ASH)
             mapcontrol.Launch(mapcontrol.GetEndMaps()[newgame.ENDING_ASH])
         else -- NG+ Reset
-            newgame.ResetGame(tonumber(ending))
+            newgame.ResetGame(tonumber(ending) or newgame.ENDING_CHEATED)
         end
     end
 

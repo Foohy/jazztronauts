@@ -96,7 +96,7 @@ function GM:CheckGamemodeMap()
 	local curMap = game.GetMap()
 	local lastMap = newgame.GetGlobal("last_map")
 	local unlocked = tobool(newgame.GetGlobal("unlocked_encounter"))
-	newgame.SetGlobal("unlocked_encounter", false)
+	newgame.SetGlobal("unlocked_encounter", false) -- Reset, they can only visit it when we say so
 
 	-- Haven't finished intro yet, changelevel to intro
 	if not tobool(newgame.GetGlobal("finished_intro")) then
@@ -388,19 +388,17 @@ function GM:IsSpawnpointSuitable(ply, spawnent, makesuitable)
 	return true
 end
 
-
+-- Don't allow pvp damage
 function GM:PlayerShouldTakeDamage(ply, attacker)
-	-- Don't allow pvp damage
 	return not (attacker:IsValid() and attacker:IsPlayer())
 end
 
+-- no fall damange with Run
+function GM:GetFallDamage(ply, speed)
+	local wep = ply:GetActiveWeapon() 
+	if IsValid(wep) and wep:GetClass() == "weapon_run" then return 0 end
 
-function GM:BroadcastMessage( message )
-
-	for _, ply in pairs(player.GetAll()) do
-		ply:ChatPrint(message)
-	end
-
+	return self.BaseClass.GetFallDamage(self, ply, speed)
 end
 
 local acknowledge = "yep, dump it"

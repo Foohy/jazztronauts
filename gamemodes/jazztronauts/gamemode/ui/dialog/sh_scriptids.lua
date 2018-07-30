@@ -40,7 +40,10 @@ if CLIENT then
     local function buildReverseLookup(tbl)
         local rev = {}
         for k, v in pairs(tbl) do
-            if rev[v] then return nil end -- duplicate values
+            if rev[v] then 
+                ErrorNoHalt("DUPLICATE SCRIPT NAME: " .. k .. " " .. v .. "\n")
+                return nil 
+            end -- duplicate values
 
             rev[v] = k
         end

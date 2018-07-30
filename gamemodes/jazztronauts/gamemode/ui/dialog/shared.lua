@@ -56,6 +56,10 @@ local function ChopRight(str, findstr)
 	return str:sub(0, pos - 1)
 end
 
+local function stripNonAscii(str)
+	return string.gsub(str, "[\192-\255][\128-\191]*", "")
+end
+
 local function ParseLine(script, line)
 	-- Chop off comments
 	line = ChopRight(line, "#")
@@ -267,13 +271,15 @@ function LinkScripts(scripts)
 
 		local new_entries = {}
 		for k, entry in pairs(script.entries) do
+			k = stripNonAscii(k) -- HALT CRIMINAL SCUM
+			local fullname = script.name .. "." .. k
+
 			if SERVER then
-				local netstr = script.name .. "." .. k
-				AddScriptID( netstr )
+				AddScriptID( fullname )
 			end
 
-			new_entries[script.name .. "." .. k] = entry
-			g_graph[script.name .. "." .. k] = entry
+			new_entries[fullname] = entry
+			g_graph[fullname] = entry
 		end
 		script.entries = new_entries
 
@@ -397,6 +403,7 @@ function LoadScripts()
 	for _, script in pairs( scripts ) do
 		local ext = script:sub(script:find(".txt"), -1)
 		local name = script:sub(0, -ext:len() - 1)
+
 		if ext == ".txt" and name ~= "macros" then
 			local st, result = pcall( LoadScript, name, "data/scripts/" .. script )
 			if not st then

@@ -42,6 +42,10 @@ function ENT:KeyValue(key, value)
         self.PodiumRadius = tonumber(value)
     end
 
+    if key == "Friendly" then
+        self.FriendlyPodiums = tobool(value)
+    end
+
 end
 
 function ENT:AcceptInput(name, activator, caller, data)
@@ -85,6 +89,7 @@ function ENT:MakePodium( ply, offset, angles )
     ent:SetPos( self:GetPos() + offset )
     ent:SetAngles( angles or Angle(0,0,0) )
     ent:SetFakeOwner( ply )
+    ent:SetFriendly(self.FriendlyPodiums)
     ent:Spawn()
 
     print("MAKE PODIUM: " .. tostring(ply) .. " : " .. tostring(offset))

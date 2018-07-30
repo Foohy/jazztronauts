@@ -25,6 +25,7 @@ function ENT:SetupDataTables()
 	self:NetworkVar( "Entity", 1, "FakeOwner" )
 	self:NetworkVar( "Bool", 0, "Pressed" )
 	self:NetworkVar( "Bool", 1, "Open" )
+    self:NetworkVar( "Bool", 2, "Friendly")
 
 end
 
@@ -209,35 +210,58 @@ function ENT:DrawScreen()
 
 end
 
+function ENT:DrawEclipse()
+	--ang:RotateAroundAxis(ang:Right(), 90)
+	local pos = self:GetPos() + Vector(0,0,34)
+
+	cam.IgnoreZ( true )
+	render.OverrideDepthEnable( true, false )
+	render.OverrideBlend( true, BLEND_SRC_COLOR, BLEND_ONE, BLENDFUNC_ADD )
+
+	for i=1, 1 do
+
+		local s2 = math.sin( CurTime() + i + self:EntIndex() )
+		local s = 32 + math.sin( i*s2 + CurTime() * 1 ) * 10
+
+		render.SetMaterial(eclipseMat)
+		render.DrawSprite(pos, s, s, color_white)
+
+	end
+
+	render.OverrideBlend( false, BLEND_SRC_COLOR, BLEND_ONE, BLENDFUNC_ADD )
+	render.OverrideDepthEnable( false, false )
+	cam.IgnoreZ( false )
+end
+
+function ENT:DrawShard()
+	local t = RealTime()
+	local pos = self:GetPos() + Vector(0,0,34)
+	local ang = Angle(t, math.sin(t/2) * 360, math.cos(t/3) * 360)
+    local scale = Vector(1, 1, 1) + 
+    Vector(math.sin(t*2.5) * 0.1, math.cos(t*3) * 0.1, math.cos(t*4 + math.pi/2) * 0.1)
+
+	local minishard = ManagedCSEnt("podiumshard" .. tostring(self), "models/sunabouzu/jazzshard.mdl")
+	minishard:SetPos(pos)
+	minishard:SetAngles(ang)
+	minishard:SetModelScale(0.15)
+	minishard:SetNoDraw(true)
+	minishard:DrawModel()
+end
+
 function ENT:DrawTranslucent()
 
 	local prop = self:GetProp()
 	if not IsValid(prop) then return end
 	--self:DrawModel()
+	local drawfriendly = self.GetFriendly and self:GetFriendly() 
 
 	if self:GetOpen() then
 
-		--ang:RotateAroundAxis(ang:Right(), 90)
-		local pos = self:GetPos() + Vector(0,0,34)
-
-		cam.IgnoreZ( true )
-		render.OverrideDepthEnable( true, false )
-		render.OverrideBlend( true, BLEND_SRC_COLOR, BLEND_ONE, BLENDFUNC_ADD )
-
-		for i=1, 1 do
-
-			local s2 = math.sin( CurTime() + i + self:EntIndex() )
-			local s = 32 + math.sin( i*s2 + CurTime() * 1 ) * 10
-
-			render.SetMaterial(eclipseMat)
-			render.DrawSprite(pos, s, s, color_white)
-
+		if drawfriendly then
+			self:DrawShard()
+		else
+			self:DrawEclipse()
 		end
-
-		render.OverrideBlend( false, BLEND_SRC_COLOR, BLEND_ONE, BLENDFUNC_ADD )
-		render.OverrideDepthEnable( false, false )
-		cam.IgnoreZ( false )
-
 
 		if IsValid( self:GetFakeOwner() ) then
 			render.OverrideDepthEnable( true, false )
@@ -245,5 +269,12 @@ function ENT:DrawTranslucent()
 			render.OverrideDepthEnable( false, false )
 		end
 
+	end
+
+	if drawfriendly then
+		local _, shell = jazzvoid.GetVoidOverlay()
+		render.MaterialOverride(shell)
+		prop:DrawModel()
+		render.MaterialOverride()
 	end
 end

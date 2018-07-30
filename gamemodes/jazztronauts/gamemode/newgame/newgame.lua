@@ -1,6 +1,7 @@
 AddCSLuaFile()
 module( "newgame", package.seeall )
 
+ENDING_CHEATED     = 0
 ENDING_ASH         = 1
 ENDING_ECLIPSE     = 2
 

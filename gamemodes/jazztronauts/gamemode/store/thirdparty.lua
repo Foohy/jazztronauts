@@ -12,4 +12,4 @@ local function AddWeapon(name, price, options)
 end
 
 -- Wowozela
-AddWeapon("wowozela", 5000, { type = "tool" })
+AddWeapon("wowozela", 50000, { type = "tool" })

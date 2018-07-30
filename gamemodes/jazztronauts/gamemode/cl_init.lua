@@ -2,9 +2,9 @@ include( "shared.lua" )
 
 include( "newgame/cl_init.lua")
 include( "map/cl_init.lua")
+include( "store/cl_init.lua" )
 include( "ui/cl_init.lua" )
 include( "missions/cl_init.lua" )
-include( "store/cl_init.lua" )
 include( "snatch/cl_init.lua" )
 include( "playerwait/cl_init.lua")
 

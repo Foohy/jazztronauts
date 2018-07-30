@@ -1,3 +1,13 @@
+-- Register upgrade that allows them to buy back their spawn menu
+jstore.Register("spawnmenu", 100000, {
+	cat = "tools",
+	name = "GMod Spawnmenu",
+	desc = "Buy back your pride and joy, the gmod spawn menu. Spawn anything -- for a price.",
+	thirdparty = true
+})
+
+if SERVER then return end
+
 local PANEL = {}
 
 function PANEL:Init()
@@ -45,11 +55,19 @@ function PANEL:AddUnlockedWeapon( weapon )
 	return true
 end
 
+function PANEL:AddLegacySpawnMenu()
+	self.HasLegacyMenu = true
+
+	if IsValid(self.LegacySpawnMenuTab) then
+		self.LegacySpawnMenuTab:Show()
+	end
+end
+
 function PANEL:Populate()
 
 	-- Prop Panel
 	local pnl = vgui.Create( "Panel", self )
-	self:AddSheet( "Props", pnl, "icon16/exclamation.png", nil, nil, "Spawn your props" )
+	self:AddSheet( "Props", pnl, "icon16/application_view_tile.png", nil, nil, "Spawn your props" )
 
 	self.content = vgui.Create( "ContentContainer", pnl )
 	self.content:Dock( FILL )
@@ -73,7 +91,7 @@ function PANEL:Populate()
 
 	-- Weapons Panel
 	local pnl = vgui.Create( "DPanel" )
-	self:AddSheet( "Weapons", pnl, "icon16/exclamation.png", nil, nil, "Guns" )
+	self:AddSheet( "Weapons", pnl, "icon16/gun.png", nil, nil, "Guns" )
 	
 	self.weapons = vgui.Create( "ContentContainer", pnl )
 	self.weapons:Dock( FILL )
@@ -88,13 +106,49 @@ function PANEL:Populate()
 	hook.Add("OnUnlocked", "weapons_panel_unlock", function( list, key )
 		if list == "store" then
 			self:AddUnlockedWeapon( key )
+
+			if key == "spawnmenu" then
+				self:AddLegacySpawnMenu()
+			end
 		end
 	end)
 
+	local function addSpawnMenu()
+		local pnl = g_SpawnMenu 
+		if not IsValid(pnl) then return end
+
+		-- Add the entire spawnmenu as a sheet on the jazz spawnmenu
+		local sheet = self:AddSheet( "Sandbox Spawnmenu", pnl, "icon16/clock.png", nil, nil, "Dogs?" )
+		
+		-- Hook into when it's removed so we can handle that gracefully
+		oldremove = pnl.OnRemove 
+		local function OnRemove(pnl)
+			if oldremove then oldremove(pnl) end
+
+			if self.LegacySpawnMenuTab == sheet.Tab then
+				self.LegacySpawnMenuTab = nil
+			end
+
+			self:CloseTab(sheet.Tab)
+		end
+		pnl.OnRemove = OnRemove
+
+		self.LegacySpawnMenuTab = sheet.Tab
+		if not self.HasLegacyMenu then
+			sheet.Tab:Hide()
+		end
+	end
+
+	-- Hook into when the spawnmenu is created so we can control it
+	addSpawnMenu()
+	hook.Add( "PostReloadToolsMenu", "JazzHijackSpawnMenu", function()
+		addSpawnMenu()
+	end )
 
 	-- Backup spawnmenu just in case
-	local pnl = vgui.Create( "CreationMenu" )
-	self:AddSheet( "Dogs", pnl, "icon16/exclamation.png", nil, nil, "Dogs?" )
+	--local createSpawnmenu = concommand.GetTable()["spawnmenu_reload"]
+	--local pnl = vgui.Create( "SpawnMenu" )
+	
 
 	--[[local tabs = spawnmenu.GetCreationTabs()
 

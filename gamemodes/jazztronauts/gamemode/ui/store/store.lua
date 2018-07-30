@@ -106,7 +106,7 @@ local function addButton(parent, item)
     local name = vgui.Create("DLabel")
     name:SetFont("JazzStoreName")
     name:SetTextColor(textColor)
-    name:SetText(" " .. item.name .. " - $" .. item.price)
+    name:SetText(" " .. item.name .. " - $" .. string.Comma(item.price))
     name:SizeToContents()
     itemInfo:Add(name)
 

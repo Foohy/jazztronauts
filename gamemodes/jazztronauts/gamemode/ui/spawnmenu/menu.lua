@@ -3,7 +3,7 @@ local PANEL = {}
 function PANEL:Init()
 
 	self:Dock( FILL )
-
+	/*
 	self.HorizontalDivider = vgui.Create( "DHorizontalDivider", self )
 	self.HorizontalDivider:Dock( FILL )
 	self.HorizontalDivider:SetLeftWidth( ScrW() )
@@ -15,17 +15,18 @@ function PANEL:Init()
 	end
 
 	self.VerticalDivider = vgui.Create( "DVerticalDivider", self )
+	*/
 
+	self.CreateMenu = vgui.Create( "JazzCreationMenu", self )
+	self.CreateMenu:Dock(FILL)
+	--self.Radar = vgui.Create( "JazzRadarPanel", self.VerticalDivider )
+	--self.Info = vgui.Create( "JazzInfoPanel", self.VerticalDivider )
 
-	self.CreateMenu = vgui.Create( "JazzCreationMenu", self.HorizontalDivider )
-	self.Radar = vgui.Create( "JazzRadarPanel", self.VerticalDivider )
-	self.Info = vgui.Create( "JazzInfoPanel", self.VerticalDivider )
+	--self.HorizontalDivider:SetLeft( self.CreateMenu )
+	--self.HorizontalDivider:SetRight( self.VerticalDivider )
 
-	self.HorizontalDivider:SetLeft( self.CreateMenu )
-	self.HorizontalDivider:SetRight( self.VerticalDivider )
-
-	self.VerticalDivider:SetTop( self.Radar )
-	self.VerticalDivider:SetBottom( self.Info )
+	--self.VerticalDivider:SetTop( self.Radar )
+	--self.VerticalDivider:SetBottom( self.Info )
 
 end
 
@@ -65,8 +66,8 @@ function PANEL:PerformLayout()
 	local MarginY = math.Clamp( ( ScrH() - 768 ) * spawnmenu_border, 25, 256 )
 
 	self:DockPadding( 0, 0, 0, 0 )
-	self.HorizontalDivider:DockMargin( MarginX, MarginY, MarginX, MarginY )
-	self.HorizontalDivider:SetLeftMin( self.HorizontalDivider:GetWide() / 3 )
+	self:DockMargin( MarginX, MarginY, MarginX, MarginY )
+	--self.HorizontalDivider:SetLeftMin( self.HorizontalDivider:GetWide() / 3 )
 
 	--self.ToolToggle:AlignRight( 6 )
 	--self.ToolToggle:AlignTop( 6 )

@@ -1,3 +1,5 @@
+include("creation.lua")
+
 AddCSLuaFile( "creation.lua")
 AddCSLuaFile( "radar.lua")
 AddCSLuaFile( "info.lua")

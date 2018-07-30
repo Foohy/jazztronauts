@@ -513,7 +513,7 @@ function SWEP:DrawHUD()
 	if dialog.IsInDialog() then return end -- Also don't draw while in a dialog
 
 	local pfov = LocalPlayer():GetFOV()
-	local radius = (ScrW() / 2) * math.tan(math.rad(90 - pfov/2)) * math.tan(math.rad(self.AutoAimCone))
+	local aimradius = (ScrW() / 2) * math.tan(math.rad(90 - pfov/2)) * math.tan(math.rad(self.AutoAimCone))
 	local drawExtended = self.AutoAimCone > 0
 
 	local curMarker = self:GetCurSnatchMarker()
@@ -521,7 +521,7 @@ function SWEP:DrawHUD()
 
 	-- #TODO: When _holding_, keep the circle at the smaller radius and show that same semicircle
 	-- from the bus caller
-	radius = radius - math.sin(math.pi * self.WorldShootFade * 0.5) * ScreenScale(50)
+	local radius = aimradius * (1 - math.sin(math.pi * self.WorldShootFade * 0.5) * 0.8)
 	radius = radius * math.EaseInOut(self.EquipFade, 0, 1)
 
 	-- Aimhack higlight 
@@ -625,9 +625,10 @@ function SWEP:DrawHUD()
 	surface.SetMaterial(self.ReticleCircleMaterial)
 	surface.DrawTexturedRect(ScrW() / 2 - size/2, ScrH() / 2 - size/2, size, size)
 
-	local totalRadius = (ScrW() / 2) * math.tan(math.rad(90 - pfov/2)) * math.tan(math.rad(self.AutoAimCone))
-	local totalSize = totalRadius * 2.55
-	surface.DrawTexturedRect(ScrW() / 2 - totalSize/2, ScrH() / 2 - totalSize/2, totalSize, totalSize)
+	if self.CanMultitask then
+		local totalSize = aimradius * 2.55
+		surface.DrawTexturedRect(ScrW() / 2 - totalSize/2, ScrH() / 2 - totalSize/2, totalSize, totalSize)
+	end
 
 	-- Draw player count if we're grabbing a brush
 	if IsValid(curMarker) and curMarker.GetNumPlayers and curMarker:GetNumPlayers() > 1 then

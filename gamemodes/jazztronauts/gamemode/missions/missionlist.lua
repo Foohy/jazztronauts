@@ -68,7 +68,7 @@ AddMission(0, NPC_CAT_CELLO, {
 
     -- When they finish the mission, this function is called to give out a reward
     -- The 'GrantMoney' function returns a function that gives money
-    OnCompleted = GrantMoney(1500)
+    OnCompleted = GrantMoney(5000)
 })
 
 AddMission(1, NPC_CAT_CELLO, {
@@ -94,7 +94,7 @@ AddMission(1, NPC_CAT_CELLO, {
 
     -- When they finish the mission, this function is called to give out a reward
     -- The 'GrantMoney' function returns a function that gives money
-    OnCompleted = GrantMoney(1500)
+    OnCompleted = GrantMoney(10000)
 })
 
 AddMission(2, NPC_CAT_CELLO, {
@@ -119,7 +119,7 @@ AddMission(2, NPC_CAT_CELLO, {
 
     -- When they finish the mission, this function is called to give out a reward
     -- The 'GrantMoney' function returns a function that gives money
-    OnCompleted = GrantMoney(1500)
+    OnCompleted = GrantMoney(15000)
 })
 
 AddMission(3, NPC_CAT_CELLO, {
@@ -140,7 +140,7 @@ AddMission(3, NPC_CAT_CELLO, {
     end,
     Count = 10,
     Prerequisites = { IndexToMID(2, NPC_CAT_CELLO)  },
-    OnCompleted = GrantMoney(1500)
+    OnCompleted = GrantMoney(20000)
 })
 
 AddMission(4, NPC_CAT_CELLO, {
@@ -154,7 +154,7 @@ AddMission(4, NPC_CAT_CELLO, {
     end,
     Count = 1,
     Prerequisites = { IndexToMID(3, NPC_CAT_CELLO)  },
-    OnCompleted = GrantMoney(1500)
+    OnCompleted = GrantMoney(25000)
 })
 
 AddMission(5, NPC_CAT_CELLO, {
@@ -164,7 +164,7 @@ AddMission(5, NPC_CAT_CELLO, {
     end,
     Count = 1,
     Prerequisites = { IndexToMID(4, NPC_CAT_CELLO)  },
-    OnCompleted = GrantMoney(1500)
+    OnCompleted = GrantMoney(30000)
 })
 
 /*
@@ -182,7 +182,7 @@ AddMission(0, NPC_CAT_BAR, {
     end,
     Count = 10,
     Prerequisites = nil,
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(5000)
 })
 
 
@@ -201,7 +201,7 @@ AddMission(0, NPC_CAT_PIANO, {
     end,
     Count = 5,
     Prerequisites = nil,
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(5000)
 })
 
 AddMission(1, NPC_CAT_PIANO, {
@@ -220,17 +220,26 @@ AddMission(1, NPC_CAT_PIANO, {
     end,
     Count = 10,
     Prerequisites = { IndexToMID(0, NPC_CAT_PIANO)  },
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(10000)
 })
 
 AddMission(2, NPC_CAT_PIANO, {
-    Instructions = "Find 20 boxes of chinese takeout",
+    Instructions = "Find 20 delicious meals",
     Filter = function(mdl) 
-        return mdl == "models/props_junk/garbage_takeoutcarton001a.mdl"
+        return MatchesAny(mdl, { 
+            "models/props_junk/garbage_takeoutcarton001a.mdl",
+            "models/food/burger.mdl",
+            "models/food/hotdog.mdl",
+            "models/props_junk/watermelon01.mdl",
+            "models/props_junk/food_pile01.mdl",
+            "models/props_junk/food_pile02.mdl",
+            "models/props_junk/food_pile03.mdl",
+            "models/props/cs_militia/food_stack.mdl"
+        })
     end,
     Count = 20,
     Prerequisites = { IndexToMID(1, NPC_CAT_PIANO)  },
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(15000)
 })
 
 AddMission(3, NPC_CAT_PIANO, {
@@ -244,7 +253,7 @@ AddMission(3, NPC_CAT_PIANO, {
     end,
     Count = 30,
     Prerequisites = { IndexToMID(2, NPC_CAT_PIANO)  },
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(20000)
 })
 
 AddMission(4, NPC_CAT_PIANO, {
@@ -254,7 +263,7 @@ AddMission(4, NPC_CAT_PIANO, {
     end,
     Count = 1,
     Prerequisites = { IndexToMID(3, NPC_CAT_PIANO)  },
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(25000)
 })
 
 AddMission(5, NPC_CAT_PIANO, {
@@ -264,7 +273,7 @@ AddMission(5, NPC_CAT_PIANO, {
     end,
     Count = 3,
     Prerequisites = { IndexToMID(4, NPC_CAT_PIANO)  },
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(30000)
 })
 
 /*
@@ -281,7 +290,7 @@ AddMission(0, NPC_CAT_SING, {
     end,
     Count = 10,
     Prerequisites = nil,
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(5000)
 })
 
 AddMission(1, NPC_CAT_SING, {
@@ -295,7 +304,7 @@ AddMission(1, NPC_CAT_SING, {
     end,
     Count = 5,
     Prerequisites = { IndexToMID(0, NPC_CAT_SING)  },
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(10000)
 })
 
 AddMission(2, NPC_CAT_SING, {
@@ -305,7 +314,7 @@ AddMission(2, NPC_CAT_SING, {
     end,
     Count = 15,
     Prerequisites = { IndexToMID(1, NPC_CAT_SING)  },
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(15000)
 })
 
 AddMission(3, NPC_CAT_SING, {
@@ -324,7 +333,7 @@ AddMission(3, NPC_CAT_SING, {
     end,
     Count = 10,
     Prerequisites = { IndexToMID(2, NPC_CAT_SING)  },
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(20000)
 })
 
 AddMission(4, NPC_CAT_SING, {
@@ -340,7 +349,7 @@ AddMission(4, NPC_CAT_SING, {
     end,
     Count = 1,
     Prerequisites = { IndexToMID(3, NPC_CAT_SING)  },
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(25000)
 })
 
 AddMission(5, NPC_CAT_SING, {
@@ -356,7 +365,7 @@ AddMission(5, NPC_CAT_SING, {
     end,
     Count = 10,
     Prerequisites = { IndexToMID(4, NPC_CAT_SING)  },
-    OnCompleted = GrantMoney(2500)
+    OnCompleted = GrantMoney(30000)
 })
 
 

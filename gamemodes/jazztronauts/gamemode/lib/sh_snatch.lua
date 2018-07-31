@@ -966,7 +966,10 @@ elseif CLIENT then
 		table.Merge(allProps, waitingProps or {})
 
 		stealCurrentVoid(allBrushes, allProps)
-		precacheMapProps()
+
+		if game.GetMap() != mapcontrol.GetHubMap() then
+			precacheMapProps()
+		end
 	end )
 
 	--precacheMapProps()

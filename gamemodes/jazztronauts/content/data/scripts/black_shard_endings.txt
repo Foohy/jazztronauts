@@ -406,7 +406,7 @@ t23:
      of mind altering substances and do no more than fifty (50) doses 
      in a day but i’m gonna be real me and sobriety are gonna have to 
      dance an extended tango before i know if we’re gonna be a good fit
-     &t24
+     &t25
 
 t25:
 	*setskin cat_singer 1*
@@ -415,7 +415,7 @@ t25:
 	 *setanim cat_singer gesture_agree 1 idle*
      > The Singer is delighted by the prospect of a party and announces 
      they will be bringing guests.
-     &t26
+     &t27
 
 [fade to black]
 
@@ -428,7 +428,7 @@ t27:
      > The next few hours are a blur.%%%% You sit on a barstool contemplating 
      the wall and your time here as the cats and NPCs rush around getting 
      the place jazzed up.%%%% The clink of glass on the bar gets your attention.
-     &t28
+     &t29
 
 [Fade back. Ideal Goals is for the place to look festive via many npc’s being present and mingling, 
 many plates of those cookie and drink assets out. Pianist and Cellist laughing together with beverages 

@@ -1,8 +1,32 @@
+SKIP_OPEN = true
+
 begin:
+    spawngang()
      *setspeaker cat_bar*
-     Greetings honored guests! It’s time for the much awaited explanation that
+     *show 0.5*
+     Greetings honored guest! It's time for the much awaited explanation that
      we promised you!
-     &a1
+     condition:
+     &saidnobefore:
+        return unlocked("scripts", "said_no")
+     &a1:
+        return true
+
+# They rejoined after saying no, but never finished this cutscene
+saidnobefore:
+    Allow me to formally welc-%%
+    Wait a minute,% I recognize you.%%
+    Didn't you say no before?
+    &no2
+no2:
+    *setspeaker cat_cello*
+    SO YOU COME CRAWLING BACK.
+    &no3
+
+no3:
+    *setspeaker cat_bar*
+    Now now,%% *player* just needed more time to think.&&
+    &aask
 
 a1:
      Allow me to formally welcome you to the Bar Samsara!
@@ -12,18 +36,18 @@ a1:
 ##This line is accompanied with an establishing shot of the stage. 
 ##The bartender is standing still, center stage, with the cellist and the 
 ##singer jazz hands-ing behind him, at his flanks. Further behind him is a
-##giant sign saying “Welcome New Players!” lit up. The pianist is taking a
+##giant sign saying 'Welcome New Players!' lit up. The pianist is taking a
 ##nap on some crates below it.
 
-a2
+a2:
      *setspeaker narrator*
      >The stage lights up! The other 3 cats are here too it appears.
      &a3
 
 a3:
      *setspeaker cat_bar*
-     We’ve done this a few times so let me preemptively answer a few of 
-     the more immediate concerns I’m sure you have.
+     We've done this a few times so let me preemptively answer a few of 
+     the more immediate concerns I'm sure you have.
      &a4
 
 a4:
@@ -41,12 +65,12 @@ a5:
 
 a6:
      *setspeaker cat_piano*
-     He’s talking about us, just in case that went over your head.
+     He's talking about us, just in case that went over your head.
      &a7
 
 a7:
      *setspeaker cat_bar*
-     And you as well, hopefully. But we’ll get to that in a minute.
+     And you as well, hopefully. But we'll get to that in a minute.
      &a8
 
 a8:
@@ -57,7 +81,7 @@ a8:
      &a9
 
 a9: 
-     Let’s cut to the chase. We would like to hire you to forcibly break 
+     Let's cut to the chase. We would like to hire you to forcibly break 
      into dimensions that you do not belong to, steal everything you can,
      and then give it to us.
      &a10
@@ -71,18 +95,19 @@ a10:
 a11:
 
      There is danger involved, but the results of failure are a lot less
-     complicated for players than they are for us. Suffice to say, we’re 
+     complicated for players than they are for us. Suffice to say, we're 
      incentivized to have help. That said...
      &a12
 
 a12:
      As I said earlier, you may absolutely refuse. We will immediately 
-     return you to the main menu, and you’ll be free to go on with your
+     return you to the main menu, and you'll be free to go on with your
      day. This is an agreement between two parties, not a hostage 
      situation.
-     &a13
+     &aask
 
-a13:
+#If they rejoined, bartender will re-ask this question
+aask:
      So...what do you say?
      player:
           &a14: Yeah okay, that sounds good.
@@ -92,22 +117,24 @@ a13:
 
 ### VIDEO GAMES SUCK ACTUALLY
 why:
-     Ah, well. It’s not the sort of job for everyone. Still, though, you
+    *run jazz_say_no*
+     Ah, well. It's not the sort of job for everyone. Still, though, you
      heard us out, and I appreciate that.
      &why2
 
 why2:
-     As agreed, you’ll be sent back to the main menu. Goodbye.
+     As agreed, you'll be sent back to the main menu. Goodbye.%%
+     *run disconnect*
      &exit
 
-     <kick player from server>?
+     
 
 
 ### DENTAL PLAN 
 lisaneedsbraces:
-     Benefits...? You’re the first one to think of asking for that. 
-     I don’t see why we couldn’t set that up, though I’m not sure 
-     how often you’ll need a dental plan in this world.
+     Benefits...? You're the first one to think of asking for that. 
+     I don't see why we couldn't set that up, though I'm not sure 
+     how often you'll need a dental plan in this world.
      &a14
 
 ### MAIN BRANCH
@@ -140,14 +167,14 @@ a18:
      &a19
 
 a19:
-     >The tablet says “HI IM THE SINGER NICE TO MEET YOU :D”. They’re 
+     >The tablet says 'HI IM THE SINGER NICE TO MEET YOU \:D'. They're 
      holding it above their head, and jumping up and down now.
      &a20
 
 a20:
      *setspeaker cat_bar*
-     They can’t read it if you keep moving it, but I think they get the 
-     picture. At any rate, welcome aboard! It’s good to have you all 
+     They can't read it if you keep moving it, but I think they get the 
+     picture. At any rate, welcome aboard! It's good to have you all 
      with us.
      &a21
 
@@ -158,7 +185,7 @@ a21:
 
 a22:
      *setspeaker cat_piano*
-     We should get ‘em up to speed, Boss. Shard tank’s not gonna fill 
+     We should get 'em up to speed, Boss. Shard tank's not gonna fill 
      itself.
      &a23
 
@@ -166,27 +193,27 @@ a23:
      *setspeaker cat_bar*
      Of course. Now then, how would you like a rundown of the 
      operation we have here? I recommend it.
-     Player
+     player:
           &a24: Yeah sure, clue me in. (View Tutorial)
-          &b1: No thanks, I’m good. (Leave)
+          &b1: No thanks, I'm good. (Leave)
 
 ### I'M GOOD SEEN THIS BEFORE
 b1:
      *setspeaker cat_bar*
-     As you wish, I’m sure you’ll be able to figure it all out. Let’s 
+     As you wish, I'm sure you'll be able to figure it all out. Let's 
      get to work, gang.
      &b2
 
 b2:
      *setspeaker cat_piano*
-     No nonsense eh? We’ll get along just fine. Swing by the store and 
-     we’ll get you some gear. Be bustin’ skulls before you know it.
+     No nonsense eh? We'll get along just fine. Swing by the store and 
+     we'll get you some gear. Be bustin' skulls before you know it.
      &b3
 
 b3:
      *setspeaker cat_cello*
      just to make sure, your job is to look out for shards. they look 
-     like someone made crack rocks out of rainbows, you’ll know em when 
+     like someone made crack rocks out of rainbows, you'll know em when 
      you see em. get a lot of them.
      &ending
 
@@ -194,7 +221,7 @@ b3:
 
 a24:
      *setspeaker cat_bar*
-     Certainly. We’ve got a number of facilities here in the Bar Samsara.
+     Certainly. We've got a number of facilities here in the Bar Samsara.
      The most important one is the trolley depot. The trolley is how you 
      visit a map once you've selected it. Once all players have taken a 
      seat, it'll take care of the rest.
@@ -214,22 +241,22 @@ a26:
 
 a27:
      *setspeaker cat_piano*
-     A little past the depot is the camp you’ll be living in, and the 
-     machine that lets you find new worlds to break into. Don’t worry, 
-     it’s pretty simple to operate.
+     A little past the depot is the camp you'll be living in, and the 
+     machine that lets you find new worlds to break into. Don't worry, 
+     it's pretty simple to operate.
      &a28
 
 a28:
      There are only two buttons worth a damn on it after all. 
-     The big clunky lookin’ tv is what you use to look for new levels,
+     The big clunky lookin' tv is what you use to look for new levels,
      and the weird thing in the center is what you use to select one.
      &a29
 
 a29:
      *setspeaker cat_bar*
-     It looks complicated, though, so to make it even simpler, we’ve 
+     It looks complicated, though, so to make it even simpler, we've 
      marked the consoles you need to use with a Green or Red light. 
-     Look for that, and you’ll get it in no time.
+     Look for that, and you'll get it in no time.
      &a30
 
 a30:
@@ -243,7 +270,7 @@ a31:
 
 a32:
      *setspeaker cat_cello*
-     y’know that jury rigged stun baton I selflessly donated to you all 
+     y'know that jury rigged stun baton I selflessly donated to you all 
      in bonezone.bsp or wherever
      &a33
 
@@ -255,8 +282,8 @@ a33:
 a34:
      *setspeaker cat_bar*
      The prop snatcher allows you to steal any prop from a map. Once you 
-     come back to the bar, you can exchange the props you’ve stolen for
-     money. All you need do is pull the lever in the money den, and we’ll
+     come back to the bar, you can exchange the props you've stolen for
+     money. All you need do is pull the lever in the money den, and we'll
      handle the rest.
      &a35
 
@@ -289,14 +316,14 @@ a38:
      &a39
 
 a39:
-     Eventually you’ll find a way to ransack that’s unique to you, 
-     and that’s when it gets good. On that subject, let’s talk about the
+     Eventually you'll find a way to ransack that's unique to you, 
+     and that's when it gets good. On that subject, let's talk about the
      Store in the bar next.
      &a40
 
 a40:
      I am the Bartender. As my name suggests, I am the one who tends 
-     the bar. You can spend the money you’ve gained here for new 
+     the bar. You can spend the money you've gained here for new 
      equipment, or to level up your tools and allow you to explore and 
      steal more freely and easily.
      &a41
@@ -309,7 +336,7 @@ a41:
 a42:
      *setspeaker cat_piano*
      You should buy the prop snatcher upgrades first, by the way.  
-     Shit’ll let you steal the walls and floors of levels an’ stuff.
+     Shit'll let you steal the walls and floors of levels an' stuff.
      &a43
 
 a43:
@@ -329,7 +356,7 @@ a44:
 
 a45:
      *setspeaker cat_bar*
-     Well I think that covers everything doesn’t it? Lets ge-
+     Well I think that covers everything doesn't it? Lets ge-
      &a46
 
 a46:
@@ -340,8 +367,8 @@ a46:
 a47:
      *setspeaker cat_bar*
      Ah of course! Right, we ought to explain the number one reason 
-     we brought you here. It’s also linked to the period of employment
-     you’ll have with us.
+     we brought you here. It's also linked to the period of employment
+     you'll have with us.
      &a48
 
 a48:
@@ -367,20 +394,20 @@ a51:
 
 a52:
      *setspeaker cat_bar*
-     Again, we’ll pay you and whoever you’re working with a flat rate 
-     for each one found. It doesn’t matter who found it. We need a 
+     Again, we'll pay you and whoever you're working with a flat rate 
+     for each one found. It doesn't matter who found it. We need a 
      minimum of 100, but will pay you the same rate for each shard you 
      find after 100.
      &a53
 
 a53:
-     Once we’ve got the amount we need, you’ll be free to go whenever you
+     Once we've got the amount we need, you'll be free to go whenever you
      wish! No strings, no stipulations. Just an amicable parting on your 
      terms. 
      &a54
 
 a54:
-     Player
+     player:
           &areyouawizard: Wait do you need these shards for like, evil stuff?
           &business: Fair enough, can I get started? 
           &clownshoes: Do I get a cool costume?
@@ -394,14 +421,14 @@ areyouawizard:
 
 wiz2:
      *setspeaker cat_piano*
-     The shards themselves are completely harmless anyways. You’ll see 
+     The shards themselves are completely harmless anyways. You'll see 
      why when you spot one - they make a really warm sound, and are 
      generally just calming to be near.
      &wiz3
 
 wiz3:
      *setspeaker cat_bar*
-     It’s still a fair question to ask, it's rare to acquire strange and 
+     It's still a fair question to ask, it's rare to acquire strange and 
      mystical wizard gewgaws for anything benevolent. But yes, our 
      intentions are not malicious. That said, shall we get started?
      &ending
@@ -409,7 +436,7 @@ wiz3:
 ### I'M HERE FOR BUSINESS
 business:
      *setspeaker cat_bar*
-     Of course! Let’s get to work gang.
+     Of course! Let's get to work gang.
      &biz2
      
 biz2:
@@ -440,7 +467,7 @@ honk2:
 
 honk3
      *setspeaker cat_cello*     
-     philistine. don’t listen to her, *player*. come find me and we will 
+     philistine. don't listen to her, *player*. come find me and we will 
      discuss the finer things in life.
      &honk4
 
@@ -453,11 +480,12 @@ honk4:
 
 ending:
      *setspeaker cat_narrator*
-     >The rest of the cats begin to file out of the room. Soon it’s just 
+     >The rest of the cats begin to file out of the room. Soon it's just 
      you in the theater.
      &ending2
 
 ending2:
      > Working for a group of thieves...oh well. Might as well just go 
-     with the flow, right? Let’s see what we’ve got to work with. *mark_seen*
+     with the flow, right? Let's see what we've got to work with. 
+     *mark_seen*
      &exit

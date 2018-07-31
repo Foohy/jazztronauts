@@ -110,7 +110,7 @@ hook.Add("HUDPaint", "graph_test", function()
 
 
 	-- Also draw a little hint on how to kill themselves
-	draw.SimpleText("Hold mouse 1 + mouse 2 to respawn!", "JazzRespawnHint", ScrW()/2, ScrH() - ScreenScale(10), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText("Hold mouse 1 + mouse 2 to respawn", "JazzRespawnHint", ScrW()/2, ScrH() - ScreenScale(10), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 end)
 
 function GM:ScoreboardHide()

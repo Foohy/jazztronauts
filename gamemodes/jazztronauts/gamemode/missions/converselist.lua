@@ -98,3 +98,15 @@ if SERVER then
         dialog.Dispatch(startScript, ply)
     end )
 end
+
+concommand.Add("jazz_say_no", function(ply, cmd, arg)
+    if not IsValid(ply) then return end
+
+    unlocks.Unlock("scripts", ply, "said_no")
+end )
+
+if CLIENT then
+    dialog.RegisterFunc("run", function(d, cmd, ...) 
+        RunConsoleCommand(cmd, ...)
+    end )
+end

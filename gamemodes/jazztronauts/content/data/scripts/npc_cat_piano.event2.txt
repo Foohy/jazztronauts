@@ -32,7 +32,7 @@ begin:
 	*setskin cat_piano 0*
 	*setskin cat_bar 0*
 	*setskin cat_singer 0*
-	*setskin cat_cellist 0*
+	*setskin cat_cello 0*
 	*show*
 	>This is where the Pianist said the party was.%%% You think.%%
 	All of the cats are here,% seated around the table.%% 

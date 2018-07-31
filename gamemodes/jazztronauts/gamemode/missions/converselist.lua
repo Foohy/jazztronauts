@@ -75,15 +75,21 @@ AddNPC("jazz_bar_shardall.begin100", missions.NPC_BAR, function(ply, talknpc)
 end,
 SUPER_PRIORITY + 1)
 
+-- Finished all cat events. Not called immediately, only when returning from map
+AddNPC("completed_all_cats.completed_all_cats", missions.NPC_BAR, function(ply, talknpc)
+    return missions.PlayerCompletedAll(ply) 
+end,
+SUPER_PRIORITY + 2)
+
 -- Start epilogue script for good ending
 AddNPC("normal_ending_epilogue.begin", missions.NPC_BAR, function(ply, talknpc)
     return tonumber(newgame.GetGlobal("ending")) == newgame.ENDING_ASH
         and tobool(newgame.GetGlobal("ended"))
 end,
-SUPER_PRIORITY + 1)
+SUPER_PRIORITY + 3)
 
 
-
+--
 -- On map startup, manually invoke NPC_BAR scripts
 if SERVER then
 

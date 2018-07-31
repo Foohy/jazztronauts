@@ -1,7 +1,8 @@
 -- This file controls how the dialog should be drawn/styled/progressed
 -- Handles text rendering, option selection, and scene selection.
 
-local chatboxMat = Material("materials/ui/chatbox.png", "alphatest")
+local chatboxMat = Material("materials/ui/chatbox.png")
+local chatboxNarrateMat = Material("materials/ui/chatbox_narrate.png")
 
 local function ScreenScaleEx(...)
 	local scales = {...}
@@ -169,6 +170,13 @@ local function GetCurrentSpeaker()
 		speaker = focusProxy
 	end
 
+	-- Don't draw anything for the narrator
+	-- Super hacky hardcoded value, but whatever
+	local name = GetSpeakerName(speaker)
+	if not isPlayer(speaker) and name == "" then
+		return nil, ""
+	end
+
 	return speaker, GetSpeakerName(speaker), isPlayer(speaker)
 end
 
@@ -188,7 +196,8 @@ DialogCallbacks.Paint = function(_dialog)
 	local x = ScrW() / 2 + BGOffX * (localspeaker and -1 or 1)
 	local y = ScrH() - h/2 - BGOffY
 
-	surface.SetMaterial(chatboxMat)
+	local chatbg = IsValid(speaker) and chatboxMat or chatboxNarrateMat
+	surface.SetMaterial(chatbg)
 	surface.SetDrawColor( 255, 255, 255, 255 )
 	surface.DrawTexturedRectUV( x - w/2, y - h/2, w, h, localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
 

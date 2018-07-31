@@ -90,7 +90,7 @@ b7:
 	> "If he won't listen to us then maybe he'll listen to you??%%%
 	He's talked to you more than he's talked to anyone else we've
 	met in a Really Long Time even though he was on a downswing!!!%%%%*setanim cat_singer gesture_agree 1 idle*
-	That's really impressive!!! "
+	That's really impressive!!!"
 	&b8
 	
 b8:

@@ -45,7 +45,7 @@ b3:
 	&m1:
 	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
 		I was thinking of coming to take you up on that 
-		offer to hand out and bullshit.
+		offer to hang out and bullshit.
 	&r2a1:
 	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
 		I was gonna chat, but if you're not up for it,

@@ -123,6 +123,7 @@ trueend:
 incomplete1:
 		*setspeaker narrator*
 		> %.%.%.%The trolley didn't come%.%.%.%%%
+		&badend2
 		
 trueend2:
     I do not understand.

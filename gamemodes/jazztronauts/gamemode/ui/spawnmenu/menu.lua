@@ -146,23 +146,6 @@ function GM:OnSpawnMenuOpen()
 
 end
 
-timer.Simple(.1,function()
-
-	if ( IsValid( g_JazzSpawnMenu ) ) then
-
-		g_JazzSpawnMenu:Remove()
-		g_JazzSpawnMenu = nil
-
-	end
-
-	g_JazzSpawnMenu = vgui.Create( "JazzSpawnMenu" )
-	g_JazzSpawnMenu:SetVisible( false )
-	g_JazzSpawnMenu:SetSkin("Jazz")
-	g_JazzSpawnMenu:Open()
-
-
-end)
-
 function GM:OnSpawnMenuClose()
 
 	if ( IsValid( g_JazzSpawnMenu ) ) then g_JazzSpawnMenu:Close() end

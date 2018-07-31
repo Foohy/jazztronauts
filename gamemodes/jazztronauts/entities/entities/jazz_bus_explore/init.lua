@@ -90,6 +90,13 @@ function ENT:Initialize()
 		hook.Add("PlayerEnteredVehicle", self, function(self, ply, veh, role) 
 			self:CheckLaunch()
 		end)
+
+		-- Hook into when a player leaves so we can double check launch conditions
+		hook.Add("PlayerDisconnected", self, function()
+			timer.Simple(0, function()
+				self:CheckLaunch()
+			end)
+		end )
 	end
 end
 
@@ -110,7 +117,10 @@ end
 function ENT:CheckLaunch()
 	if self.CommittedToLeaving then return end
 
-	if self:GetNumOccupants() >= player.GetCount() then
+	local filled, total = self:GetNumOccupants()
+	local required = math.min(player.GetCount(), total)
+	print(filled, total, required)
+	if filled >= required then
 		self.CommittedToLeaving = true
 		self:EmitSound( "jazz_bus_idle", 90, 150 )
 		util.ScreenShake(self:GetPos(), 10, 5, 1, 1000)
@@ -196,14 +206,19 @@ end
 
 function ENT:GetNumOccupants()
 	if !self.Seats then return 0 end
+
 	local count = 0
+	local total = 0
 	for _, v in pairs(self.Seats) do
-		if IsValid(v) and IsValid(v:GetDriver()) then
-			count = count + 1
+		if IsValid(v) then
+			total = total + 1
+			if IsValid(v:GetDriver()) then
+				count = count + 1
+			end
 		end
 	end
 
-	return count
+	return count, total
 end
 
 -- Predict when we'll blast into the jazz dimension

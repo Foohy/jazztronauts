@@ -5,6 +5,13 @@ if SERVER then return end
 local start = CurTime()
 local draw_charts = false
 
+surface.CreateFont( "JazzRespawnHint", {
+	font      = "KG Shake it Off Chunky",
+	size      = 30,
+	weight    = 700,
+	antialias = true
+})
+
 local Radius = ScreenScale(25)
 local XOff = ScreenScale(220)
 local YOff = ScreenScale(100)
@@ -100,6 +107,10 @@ hook.Add("HUDPaint", "graph_test", function()
 	graph.drawPieChart( cx + XOff, YOff, Radius, moneyValues, 1-bounce, 2, function(v) return v[1] .. " earned $" .. v[2] end )
 	graph.drawPieChart( cx + XOff, YOff*2, Radius, moneyValues, 1-bounce2, 3, function(v) return v[1] .. " spent $" .. v[3] end )
 	graph.drawPieChart( cx + XOff, YOff*3, Radius, shardValues, 1-bounce2, 2, function(v) return v[1] .. " found " .. v[2] .. " shards" end )
+
+
+	-- Also draw a little hint on how to kill themselves
+	draw.SimpleText("Hold mouse 1 + mouse 2 to respawn!", "JazzRespawnHint", ScrW()/2, ScrH() - ScreenScale(10), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 end)
 
 function GM:ScoreboardHide()
@@ -120,4 +131,46 @@ hook.Add( "ScoreboardShow", "graph_test", function()
 end )
 hook.Add("ScoreboardHide", "graph_test", function()
 	draw_charts = false
+end )
+
+-- Handle letting them respawn by holding tab + m1 + m2
+local function isHoldingCombo()
+	return LocalPlayer():KeyDown(IN_SCORE) and
+		input.IsMouseDown(MOUSE_LEFT) and
+		input.IsMouseDown(MOUSE_RIGHT)		
+end
+
+local buildupTime = 3
+local comboTime = 0
+local killsound = nil
+local killed = false
+hook.Add("Think", "RespawnKeyComboThink", function()
+	local comboHeld = isHoldingCombo()
+	if not comboHeld or killed then 
+		comboTime = 0
+		if killsound then 
+			killsound:Stop() 
+			killsound = nil
+		end
+
+		-- Reset once they let go
+		if not comboHeld then killed = false end
+
+		return
+	end
+	if not killsound then
+		killsound = CreateSound(Entity(0), "ambient/levels/labs/teleport_preblast_suckin1.wav")
+		killsound:SetSoundLevel(0)
+		killsound:PlayEx(1, 75)
+	end
+
+	local p = comboTime / buildupTime
+	util.ScreenShake(LocalPlayer():GetPos(), p * 5, p * 5, 0.1, 256)
+
+	comboTime = comboTime + FrameTime()
+	if comboTime > buildupTime then 
+		RunConsoleCommand("kill")
+		killed = true
+		return
+	end
 end )

@@ -5,6 +5,24 @@ begin:
     *txout*
     *setfov 70*
     *setspeaker narrator*
+	
+	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
+	*setnpcid cat_bar npc_cat_bar*
+
+	*spawn cat_piano models/andy/pianist/cat_pianist*
+	*setnpcid cat_piano npc_cat_piano*
+
+	*spawn cat_cello models/andy/cellist/cat_cellist*
+	*setnpcid cat_cello npc_cat_cello*
+
+	*spawn cat_singer models/andy/singer/cat_singer*
+	*setnpcid cat_singer npc_cat_sing*
+	*setcam setpos -2579.370361 2721.580811 64.031250;setang 3.736192 140.947372 0.000000*
+	*setposang cat_bar -setpos -2880.668457 2908.302490 0;setang -90 210 0.000000*
+	*setposang cat_cello setpos -2189.791260 6927.904785 10;setang -90 30 0.000000*
+	*setposang cat_piano setpos -2069.482910 7009.310547 10;setang -90 30 0.000000*
+    *setposang cat_singer setpos -2205.779297 7010.829590  10;setang -90 30 0.000000*
+	*setposang player setpos -2649.127686 2834.540283 64.031250;setang 0.328832 157.771545 0.000000*
 	*txin*
 	*wait .15*
 	*show*
@@ -14,6 +32,7 @@ begin:
     &a1
 
 a2:
+	*setcam setpos -2799.522217 2829.456299 37.002892;setang 3.736205 135.463394 0.000000*
     *setspeaker cat_bar*
 	*setskin cat_bar 3*
 	*setanim cat_bar gesture_shock 1 idle*
@@ -48,6 +67,9 @@ a5:
 	*hide*
 	*txout*
 	*wait .1*
+	*setposang cat_bar setpos -2079.309082 6940.916992 11;setang -90 30 0.000000*
+	*setposang player setpos -2039.791626 7121.381348 11;setang 7.037070 146.643875 0.000000*
+	*setcam setpos -2003.229126 6788.221191 95.339340;setang 12.946715 116.723183 0.000000*
 	*txin*
     *setspeaker narrator*
 	*show*
@@ -60,6 +82,8 @@ a6:
 	&a6b
 	
 a6b:
+	*setcam setpos -2524.658447 6763.020996 69.986847;setang 8.634292 54.538803 0.000000*
+	*setposang cat_cello setpos -2471.215820 7207.445313 6;setang -90 10 0.000000*
     >The Cellist is the first to break from the group and head towards 
     the pool.
     &a7
@@ -74,6 +98,7 @@ a7:
     &a8
 
 a8:
+	*setcam setpos -2272.205322 7099.851074 15.336082;setang -6.059946 -36.821072 0.000000*
     *setspeaker cat_piano*
 	*setskin cat_piano 1*
 	*setanim cat_piano gesture_confused 1 idle*
@@ -88,6 +113,8 @@ a9:
     &a10
 
 a10:
+	*setcam setpos -2176.871094 6942.420898 20.880489;setang 1.500134 133.014374 0.000000*
+	*setposang cat_cello setpos -2471.215820 7207.445313 6;setang -90 210 0.000000*
     *setspeaker narrator*
 	*setskin cat_cello 2*
 	*setanim cat_cello gesture_anger 1.5 idle*
@@ -103,6 +130,8 @@ a11:
     &a12
 
 a12:
+	*setposang player setpos -2422.034180 6827.894043 10;setang 8.155142 101.221214 0.000000*
+	*setcam setpos -2487.168457 6947.892090 41.036049;setang -8.934914 -62.536053 0.000000*
     *setspeaker narrator*
     > The Cellist makes a big show of chasing the Singer around,%%% and they
     seem to be enjoying it judging from all the general horseplay.
@@ -121,7 +150,9 @@ a14:
     be her idea of relaxation??
     &a15
 a15:
-    *setspeaker cat_bar*
+	*setposang player setpos -2434.059570 6825.065430 10;setang 5.280183 -174.127090 0.000000*
+	*setposang cat_bar setpos -2764.154053 6781.034180 10;setang -90 0 0.000000*
+    *setspeaker cat_bar
 	*setanim cat_bar gesture_exchange 1 idle*
     A moment,%% *player*?%%%%
     I could use a helping paw in setting up the picnic spread.  
@@ -133,6 +164,8 @@ a16:
 	*hide*
 	*txout*
 	*wait .1*
+	*setcam setpos -2770.689697 7032.978027 23.387096;setang -4.941894 -81.702370 0.000000*
+	*setposang player setpos -2685.895508 6770.839355 10;setang 14.836672 166.112350 0.000000*
 	*txin*
 	*show*
     *setspeaker narrator*
@@ -143,11 +176,13 @@ a16:
     &a17
 
 a17:
+	*setcam setpos -2841.154541 6869.383301 31.732605;setang -1.800735 -46.723713 0.000000* ###### PLAYER AND BAR
     *setspeaker cat_bar*
     You’re a good person,%%%%*setskin cat_bar 0* did you know that?
     &a18
 
 a18:
+	*setcam setpos -2726.600342 6863.649414 28.915096;setang -3.078496 -114.977554 0.000000* #### BAR
 	*setanim cat_bar gesture_agree 1 idle*
     I could tell before,%% but I’m sure of it after seeing you watch the 
     others horsing around on the beach.%%%%*setskin cat_bar 4* You*setanim cat_bar gesture_foldarms 1 idle* appear to be able to just,% 
@@ -163,6 +198,7 @@ a19:
     &a20
 
 a20:
+	*setcam setpos -2841.154541 6869.383301 31.732605;setang -1.800735 -46.723713 0.000000* ###### PLAYER AND BAR
 	*setanim cat_bar gesture_laugh 1 idle*
     It enriches all parties involved,%%% even if it ends up badly.%%%%*setskin cat_bar 4* Sometimes
     that’s as warm as it sounds,%%%*setskin cat_bar 0* and sometimes it’s a very cold truth.%%%%*setanim cat_bar gesture_agree 1 idle* 
@@ -170,7 +206,13 @@ a20:
     &a21
 
 a21:
+	*setposang player setpos -2699.208984 6792.118652 67.233704;setang 4.774320 90.990601 0.000000*
+	*setposang cat_cello setpos 0 0 0;setang -90 30 0.000000*
+	*setposang cat_piano setpos 0 0 0;setang -90 30 0.000000*
+    *setposang cat_singer setpos 0 0 0;setang -90 30 0.000000*
+	*setanim player sit_zen*
     *setspeaker narrator*
+	*setcam setpos -2733.502930 6687.077637 32.335510;setang -0.256775 86.686752 0.000000* ##### EVANGELION
 	*setanim cat_bar pose_sit01*
     >The Bartender sits down and stares at the pool.%%%%
     You take a seat next to her.
@@ -212,6 +254,7 @@ a26:
     &a27
 
 a27:
+	*setcam setpos -2844.950439 6809.655762 28.008850;setang -3.184969 -1.318832 0.000000*
 	*setskin cat_bar 4*
     *setspeaker narrator*
     >You catch the Bartender staring warmly at the Pianist as she pauses the think.%%%%*setskin cat_bar 0*
@@ -219,6 +262,7 @@ a27:
     &a28
 
 a28:
+	*setcam setpos -2733.502930 6687.077637 32.335510;setang -0.256775 86.686752 0.000000* ##### EVANGELION
     *setspeaker cat_bar*
     After enough time,% we found a second chance in the Samsara.%%%%*setskin cat_bar 4* It’s my 
     prison when I need it to be,%% and my greenhouse when I want it to be.%%%%*setskin cat_bar 1* 
@@ -246,6 +290,9 @@ a31:
     &a32
 
 a32:
+	*spawn harpoon models/props_junk/harpoon002a.mdl*
+	*setposang harpoon setpos -2720.753662 6796.527832 11;setang 19.255680 -93.131256 0.000000*
+	*setcam setpos -2696.399658 6934.754395 33.405151;setang 3.416752 -101.995712 0.000000*
     *setspeaker narrator*
 	*setskin cat_bar 3*
     >A harpoon lands between*setskin cat_bar 0* you and the Bartender,% puncturing the 

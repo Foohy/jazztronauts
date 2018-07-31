@@ -477,7 +477,7 @@ honk2:
      advice about style to anyone.
      &honk3
 
-honk3
+honk3:
      *setspeaker cat_cello*     
      philistine.%%%% don't listen to her,% *player*.%%% come find me and we will 
      discuss the finer things in life.

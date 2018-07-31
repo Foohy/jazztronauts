@@ -110,6 +110,7 @@ end
 function ENT:UpdateHeadFollow()
 
     local bone = self:LookupBone(self.HeadLookBone)
+    if not bone then return end
 
     local withinRange = (self:GetPos() - LocalPlayer():EyePos()):LengthSqr() < math.pow(self.HeadLookDistance, 2)
 
@@ -146,6 +147,8 @@ end
 
 function ENT:DrawModelFollow()
     local bone = self:LookupBone(self.HeadLookBone)
+    if not bone then return end
+
     local mat = self:GetBoneMatrix(bone)
     local default = mat:GetAngles()
     mat:SetAngles(self.CurFollowAngle or Angle())

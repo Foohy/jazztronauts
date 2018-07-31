@@ -1,5 +1,26 @@
-﻿CHARACTER = Eclipse Cat
+﻿
 begin:
+	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
+	*setnpcid cat_bar npc_cat_bar*
+
+	*spawn cat_piano models/andy/pianist/cat_pianist*
+	*setnpcid cat_piano npc_cat_piano*
+
+	*spawn cat_cello models/andy/cellist/cat_cellist*
+	*setnpcid cat_cello npc_cat_cello*
+	
+	*spawn cat_singer models/andy/singer/cat_singer*
+	*setnpcid cat_singer npc_cat_sing*
+	
+	*spawn cat_void models/andy/basecat/cat_all*
+	*setname cat_void ????*
+	
+	*spawn cat_ash models/andy/basecat/cat_all*
+	*setname cat_ash Ash*
+	*setcam setpos 1563.870972 1781.132080 4507.894531;setang 10.488383 -18.416737 0.000000*
+	*setposang player setpos 6839.478516 0.394360 3584.031250;setang 1.810255 -0.102170 0.000000*
+	*setposang cat_void setpos 7188.277344 4.338923 3584.031250;setang -90 180 0.000000*
+	*tweencam 30 setpos 6088.193359 481.446808 3872.714600;setang 12.884171 -23.581017 0.000000*
      I am not happy.
      &a1
 	
@@ -24,16 +45,24 @@ a4:
 a5:
      Nothing.
      player:
-          &a6: What did you do?
-          &a6: Are you okay?
-          &a6: Why didn't I steal any fucking holy water...?
+          &a6:
+		*setcam setpos 7244.212891 -58.720615 3589.071533;setang -15.669834 164.932739 0.000000*
+		  What did you do?
+          &a6: 
+		*setcam setpos 7244.212891 -58.720615 3589.071533;setang -15.669834 164.932739 0.000000*
+		  Are you okay?
+          &a6: 
+		*setcam setpos 7244.212891 -58.720615 3589.071533;setang -15.669834 164.932739 0.000000*
+		  Why didn't I steal any fucking holy water...?
 a6:
+	*setcam setpos 7113.143066 5.497314 3598.935547;setang -12.209253 -0.696912 0.000000* #### VOID MENACE
      I want it to stop.
      &a7
 a7:
      So I’m going to make it stop. 
      &a8
 a8:
+	*setcam setpos 6967.688477 -722.004883 3672.721680;setang 5.359948 88.693024 0.000000*
      I’ve done it before.
      &a9
 a9:
@@ -43,9 +72,11 @@ a10:
      For a moment.
      &a11
 a11:
+	*setcam setpos 7244.212891 -58.720615 3589.071533;setang -15.669834 164.932739 0.000000*
      You’ve done it before. It’s how you got here.
      &a12
 a12:
+	*setcam setpos 7155.043945 3.289596 3624.215332;setang -19.343403 2.177998 0.000000*
      Help me.
      &a13
 a13:
@@ -54,9 +85,15 @@ a13:
 a14:
      It will be perfect.
      player:
-          &badend: Sure, why not?
-          &badend2: I refuse.
-          &trueend: I propose a third option. (CALL THE TROLLEY)
+          &badend:
+*setcam setpos 7244.212891 -58.720615 3589.071533;setang -15.669834 164.932739 0.000000*		  
+		  Sure, why not?
+          &badend2: 
+		  *setcam setpos 7244.212891 -58.720615 3589.071533;setang -15.669834 164.932739 0.000000*
+		  I refuse.
+          &trueend: 
+		  *setcam setpos 7244.212891 -58.720615 3589.071533;setang -15.669834 164.932739 0.000000*
+		  I propose a third option. (CALL THE TROLLEY)
        
 
 ### BAD END BOOGIE
@@ -75,6 +112,20 @@ badend:
 ### TRUE END TRUFFLE SHUFFLE
 
 trueend:
+	*setspeaker narrator*
+	> The Void cat looks surprised for once.
+    condition:
+    &trueend2:
+        return finishedmissions()
+    &incomplete1:
+        return true
+
+incomplete1:
+		*setspeaker narrator*
+		> %.%.%.%The trolley didn't come%.%.%.%%%
+		&badend2
+		
+trueend2:
     I do not understand.
     &t1
 
@@ -85,15 +136,30 @@ Cellist dangles out the other side of the door and has his hand outstretched
 
 
 t1:
+	*setcam setpos 6435.761230 -151.752579 3716.382324;setang 3.709561 17.412912 0.000000*
+	*spawn trolley_cutscene models/matt/jazz_trolley.mdl*
+	*shake 3*
+	*emitsound ambient\explosions\explode_3.wav .4*
+	*emitsound ambient\explosions\explode_3.wav .4*
+	*setposang trolley_cutscene setpos 7160.477539 -2147.534912 3672;setang 0 270 0*
+	*tweenposang 1 trolley_cutscene setpos 7193.461914 7.130919 3672;setang 0 270 0*
+	*wait .25*
+	*setanim cat_void pose_passedout*
+	*setposang cat_piano setpos 7101.952637 -170.722763 3614.079346;setang -90 180 0.000000*
+	*setposang cat_singer setpos 7137.436523 -211.182663 3614.082764;setang -90 -90 0.000000*
+	*setposang cat_cello setpos 7100.476563 -47.465294 3614.082764;setang -90 330 0.000000*
+	*setposang cat_bar setpos 7183.148438 -33.720730 3614.096436;setang -90 225 0.000000*
 	*setskin cat_piano 2*
 	*setanim cat_piano gesture_anger 2 idle*
     *setspeaker cat_piano*
+	*setcam setpos 6986.671387 -191.368927 3644.737549;setang -13.753159 13.206947 0.000000*
     MOVE.%%% GET YOUR ASS IN GEAR AND GET ON THE TROLLEY!
     &t2
 
 t2:
 	*setskin cat_cello 2*
     *setspeaker cat_cello*
+	*setcam setpos 7147.498047 -85.310432 3686.143799;setang 8.021998 147.744354 0.000000*
 	*setanim cat_cello gesture_disagree 1.5 idle*
     c’mon buddy we ain’t got all day and i am not dying before 
     i find out the wu tang secret
@@ -102,6 +168,7 @@ t2:
 t3:
 	*setskin cat_piano 0*
     *setspeaker cat_piano*
+	*setcam setpos 6986.671387 -191.368927 3644.737549;setang -13.753159 13.206947 0.000000*
 	*setanim cat_piano gesture_shock 1.6 idle*
     BOSS IT’S TIME TO GO THAT THING IS BEING WEIRD AND I DIDN’T*setanim cat_piano 1.4 idle* 
     HAVE TIME TO GRAB THE FLAMETHROWER.
@@ -113,6 +180,15 @@ sick u-turn on the narrow strip of voidway track. The void should be all fucked 
 As the trolley starts to go, everything gets shaky and the road starts to crack up.
 
 t4:
+	*setcam setpos 6944.588867 107.729767 3644.558594;setang -0.975558 79.863335 0.000000*
+	*tweenposang trolley_cutscene setpos 7160.477539 -2147.534912 3672;setang 0 270 0*
+	*setposang player setpos -8405.985352 1895.972900 -6848.968750;setang 8.261432 -79.421158 0.000000*
+	*setposang cat_singer setpos -8377.765625 1610.613403 -6848.968750;setang -90 180 0.000000*
+	*setposang cat_bar setpos -8339.893555 1735.544434 -6848.968750;setang -90 130 0.000000*
+	*setposang cat_piano setpos -8425.315430 1795.645020 -6848;setang -90 240 0.000000*
+	*setposang cat_cello setpos -8342.984375 1825.536743 -6848.968750;setang -90 150 0.000000*
+	*wait 1.5*
+	*setcam setpos -8170.666016 1272.855713 -6772.745117;setang 5.040586 110.050385 0.000000*
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_shrug 1.6 idle*
     Please fasten your seatbelt, shit may be about to get mildly messy. 
@@ -122,8 +198,16 @@ t4:
 Aaand the road gibs. Trolley starts to fall into the void, shot of the eclipse cat directly overhead flipping its shit.
 
 t5:
+	*setcam setpos -6035.361816 3847.030273 -6714.641113;setang 3.869336 -103.273232 0.000000*
+	*tweencam 20 setpos -6035.361816 3847.030273 -6609.641113;setang -32.972736 -110.460419 0.000000*
+	*fadeblind 1*
+	*shake 6*
+	*wait 5*
+	*setcam setpos 6542.691406 213.712082 3864.309082;setang 21.811207 -18.417343 0.000000*
+	*setanim cat_void gesture_anger 2 idle*
+	*shake 10*
     *setspeaker cat_eclipse*
-    Why Why Why WHy WHY yhW hWy hHYYhhHYh
+    Why Why*setanim cat_void gesture_anger 2 idle* Why WHy WHY yhW*setanim cat_void gesture_anger 2 idle* hWy hHYYhhHYh
      &t6
 
 [Pianist and Cellist kinda hanging out of the door, Singer pulling on their sleeves to try and drag them back in. 
@@ -132,6 +216,12 @@ which stops freaking out and resolves into Ash. Ash dives after them, paw outstr
 
 
 t6:
+	*setanim cat_void gesture_shock .3 idle*
+	*shake 6*
+	*fadeblind 4*
+	*wait 2*
+	*setcam setpos -11234.839844 -1545.087036 -9792.435547;setang -32.333832 89.721710 0.000000*
+	*tweencam 30 setpos -11101.661133 5169.411621 -7036.478027;setang 22.024242 -95.597954 0.000000*
     *setspeaker cat_piano*
     We’ve got a pursuer!
     &t7
@@ -155,6 +245,10 @@ the cats t-posing in the void be Ash.]
 
 
 t9:
+	*fadeblind 2*
+	*wait 1*
+	*setposang cat_ash setpos -8248.544922 1706.195801 -6813.286621;setang -90 180 0.000000*
+	*setcam setpos -8167.002930 2335.509033 -6803.162598;setang 0.621752 -115.030540 0.000000*
      *setspeaker cat_ash*
      I do apologize for all the mess and inconvenience. 
      I’ve made a route back to your bar. 
@@ -165,6 +259,7 @@ t9:
 
 t10:
 	*setanim cat_singer gesture_anger 2.5 idle*
+	*setcam setpos -8153.125000 1412.837769 -6812.813965;setang -0.549514 123.990501 0.000000*
      *setspeaker cat_singer*
      > The Singer holds up their tablet.%% They spell out their feelings in 
      massive,% glittering comic sans\:%% 
@@ -174,6 +269,7 @@ t10:
 t11:
 	*setskin cat_cello 2*
     *setspeaker cat_cello*
+	*setcam setpos -8410.202148 1561.181519 -6784.458008;setang 14.943329 63.474148 0.000000*
 	*setanim cat_cello gesture_shrug 1 idle*
     uh yeah not to look a gift horse in its fucked up mouth but i did not 
     live as incomprehensibly*setanim cat_cello gesture_disagree 1 idle* long as i have without being generally 
@@ -182,6 +278,7 @@ t11:
     &t11
 
 t12:
+	*setcam setpos -8153.125000 1412.837769 -6812.813965;setang -0.549514 123.990501 0.000000*
      *setspeaker cat_ash*
      I’m Ash. I was Ash, too,% but not the same Ash.%% Not until you came here.%%%
      Seeing that trolley%.%.%.%seeing you all together%.%.%.%%
@@ -192,6 +289,7 @@ t12:
 Change view back to interior of trolley. Beat.]
 
 t13:
+	*setcam setpos -8370.639648 1698.361206 -6800.692871;setang 2.006005 47.697643 0.000000* ##### CELLO
      *setspeaker cat_bar*
      Oh.%%%*setskin cat_bar 3* O%h%h%h%. 
      &t14
@@ -205,6 +303,7 @@ t14:
 [All the other cats turn around to look at the bartender. Squint. Sit]
 
 t14:
+	*setcam setpos -8389.376953 1747.320557 -6803.543457;setang 1.633325 118.826294 0.000000*
 	*setskin cat_piano 0*
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_confused 1 idle*
@@ -212,6 +311,7 @@ t14:
     &t14b
 
 t14b:
+	*setcam setpos -8370.639648 1698.361206 -6800.692871;setang 2.006005 47.697643 0.000000* ##### CELLO
      *setspeaker cat_bar*
 	 *setanim cat_bar gesture_disagree 1 idle*
      I don’t know them.%%% I know of them.%%*setanim cat_bar gesture_sweep 1 idle* Mainly via the extremely limited 
@@ -233,6 +333,7 @@ t16:
     &t17
 
 t17:
+	*setcam setpos -8433.644531 1555.500366 -6778.978027;setang 8.128614 67.769173 0.000000*
 	*setskin cat_bar 4*
 	*setanim cat_bar gesture_disagree .8 idle*
     They feared attempting to create anything new,%%*setskin cat_bar 0* lest it fall short of 
@@ -251,6 +352,16 @@ t18:
 [The cats all look solemn. Pianist looks actively pained. Trolley pulls in to bar]
 
 t19:
+	*setcam setpos 1454.141357 503.886780 -1829.567505;setang -0.602724 -0.324777 0.000000*
+	*setposang trolley_cutscene setpos 2006.556763 1672.070679 -1816.968750;setang 0 0 0.000000*
+	*tweenposang trolley_cutscene setpos 2006.556763 497 -1816.968750;setang 0 0 0.000000*
+	*wait 1*
+	*setcam setpos 1807.996460 442.324951 -1827.931519;setang 18.137722 120.796173 0.000000*
+	*setposang player setpos 1710.083252 504.915985 -1896;setang 9.645864 13.544979 0.000000*
+	*setposang cat_cello setpos 1731.791748 466.508514 -1896;setang -90 330 0.000000*
+	*setposang cat_singer setpos 1719.199829 548.411377 -1896;setang -90 270 0.000000*
+	*setposang cat_piano setpos 1727.565186 600.578552 -1896;setang -90 225 0.000000*
+	*setposang cat_bar setpos 1818.573975 535.002563 -1896;setang 7.702498 -179.716553 0.000000*
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_confused .85 idle*
     Now,%%%*setskin cat_bar 0* is everyone alright?%%% All limbs intact? 
@@ -264,6 +375,7 @@ t20:
     &t21
 
 t21:
+	*setcam setpos 1790.002930 575.927551 -1850.974731;setang 4.987455 177.390213 0.000000*
 	*setskin cat_bar 0*
 	*setskin cat_piano 1*
     *setspeaker cat_piano*
@@ -277,6 +389,7 @@ t21:
 t22:
 	*setskin cat_cello 3*
     *setspeaker cat_cello*
+	*setcam setpos 1771.005737 526.512756 -1850.544189;setang -4.382786 -155.031708 0.000000*
 	*setanim cat_cello gesture_confused 1 idle*
     sorry did you say something i was too busy attempting to erase 
     the memory of that sudden caress from the reaper’s bony fingers 
@@ -296,6 +409,7 @@ t23:
 t25:
 	*setskin cat_singer 1*
      *setspeaker cat_singer*
+	*setcam setpos 1790.002930 575.927551 -1850.974731;setang 4.987455 177.390213 0.000000*
 	 *setanim cat_singer gesture_agree 1 idle*
      > The Singer is delighted by the prospect of a party and announces 
      they will be bringing guests.
@@ -304,6 +418,10 @@ t25:
 [fade to black]
 
 t27:
+	*setcam setpos -223.834137 550.917419 -1818.752808;setang 1.207416 -9.633442 0.000000*
+	*tweencam 40 setpos 1461.387939 515.352539 -1826.769043;setang 1.367136 -0.209962 0.000000*
+	*spawn metrocop_spec models/Police.mdl*
+	*setposang metrocop_spec setpos 1825.338379 534.568604 -1896.968750;setang -1.241788 -179.095718 0.000000*
      *setspeaker narrator*
      > The next few hours are a blur.%%%% You sit on a barstool contemplating 
      the wall and your time here as the cats and NPCs rush around getting 
@@ -317,7 +435,10 @@ gets out. The Singer sprints over and drags them back to meet the other one, paw
 on the bar in front of the player and the Bartender looking at them with a Thoughtful expression]
 
 t29:
+	*setposang cat_bar setpos 328.994995 704.156860 -1871.968750;setang -90 180 0.000000*
+	*setposang player setpos 283.669067 579.761719 -1896;setang 0.568216 67.521133 0.000000*
     *setspeaker cat_bar*
+	*setcam setpos 405.847565 552.598999 -1816.320557;setang 9.246651 137.255585 0.000000*
 	*setanim cat_bar gesture_confused 1 idle*
      Are you okay,%% <playername>? 
 	 That was a close call back there.
@@ -334,6 +455,7 @@ t29:
 ###RESPONSE 1
 
 r1:
+	*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
     *setspeaker cat_bar*
 	*setskin cat_bar 4*
 	*setanim cat_bar gesture_foldarms 1 idle*
@@ -357,6 +479,7 @@ r1a:
 ###RESPONSE 2
 
 r2:
+	*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
 	*setspeaker cat_bar*
 	*setskin cat_bar 0*
 	*setanim cat_bar gesture_agree 1 idle*
@@ -418,6 +541,7 @@ r2g:
 [Shocked expression resolving into chill]
 
 r3:
+	*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
 	*setspeaker cat_bar*
 	*setskin cat_bar 3*
 	*setanim cat_bar gesture_shock 1 idle*
@@ -446,6 +570,10 @@ r3b:
 ### MERGE POINT
 
 t30:
+	*setcam setpos 228.721680 680.249146 -1814.534058;setang 9.992023 -35.135532 0.000000*
+	*setposang cat_cello setpos 484.166382 474.805298 -1896;setang -90 45 0.000000*
+	*setposang cat_singer setpos 481.753113 522.927368 -1896;setang -90 45 0.000000*
+	*setposang cat_piano setpos 517.119995 530.757996 -1896;setang -90 45 0.000000*
 	*setskin cat_piano 3*
      *setspeaker cat_piano*
 	*setanim cat_piano gesture_embarass 1 idle*

@@ -4,6 +4,45 @@
 local chatboxMat = Material("materials/ui/chatbox.png")
 local chatboxNarrateMat = Material("materials/ui/chatbox_narrate.png")
 
+local catSounds = 
+{
+	Sound("jazztronauts/cats/cat_talk01.wav"),
+	Sound("jazztronauts/cats/cat_talk02.wav"),
+	Sound("jazztronauts/cats/cat_talk03.wav"),
+	Sound("jazztronauts/cats/cat_talk04.wav")
+}
+
+local keyboardSounds = 
+{
+	Sound("ambient/machines/keyboard1_clicks.wav"),
+	Sound("ambient/machines/keyboard2_clicks.wav"),
+	Sound("ambient/machines/keyboard3_clicks.wav"),
+	Sound("ambient/machines/keyboard4_clicks.wav"),
+	Sound("ambient/machines/keyboard5_clicks.wav"),
+	Sound("ambient/machines/keyboard6_clicks.wav")
+}
+
+local catPitches = {}
+timer.Simple(0, function()
+	catPitches = {
+		[missions.NPC_CAT_BAR] 		= { pitch = 120, vol = 0.5, delay = 0.05, snds = catSounds },
+		[missions.NPC_CAT_CELLO] 	= { pitch = 50, vol = 0.5, delay = 0.1, snds = catSounds },
+		[missions.NPC_CAT_SING] 	= { pitch = 200, vol = 1.0, delay = 0.2, snds = keyboardSounds },
+		[missions.NPC_CAT_PIANO] 	= { pitch = 100, vol = 0.5, delay = 0.05, snds = catSounds },
+		[missions.NPC_NARRATOR] 	= { pitch = 100, vol = 1.0, delay = 0.2, snds = keyboardSounds }
+	}
+end )
+
+local nextPlay = 0
+local function playCatSound(npcid)
+	if RealTime() < nextPlay then return end
+	local info = catPitches[npcid]
+	if not info then return end
+
+	Entity(0):EmitSound(table.Random(info.snds), 0, info.pitch + math.random(-5, 5), info.vol)
+	nextPlay = RealTime() + info.delay
+end
+
 local function ScreenScaleEx(...)
 	local scales = {...}
 	for k, v in pairs(scales) do
@@ -369,6 +408,14 @@ end
 DialogCallbacks.AppendText = function(d, txt)
 	if IsValid(d.textpanel) then
 		d.textpanel:AppendText(txt)
+		if #txt > 0 then
+			local speaker = GetCurrentSpeaker()
+			local npcid = IsValid(speaker) and (speaker.JazzDialogID or (speaker.GetNPCID and speaker:GetNPCID()))
+			npcid = npcid or (not IsValid(speaker) and missions.NPC_NARRATOR)
+			if npcid then
+				playCatSound(npcid)
+			end
+		end
 	end
 end
 

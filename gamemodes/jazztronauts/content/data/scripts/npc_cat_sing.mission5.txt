@@ -1,6 +1,7 @@
 ﻿###### singer and pianist are sitting together
 
 accept:
+	*setspeaker npc_cat_sing*
 	> The Singer waves you over as usual and the Pianist cracks open an eye to 
 	look you up and down before returning to her meditation. The Singer sticks
 	their tongue out at her and passes over the tablet with your 
@@ -34,7 +35,7 @@ idle:
 	&i1
 	
 i1:
-	*setspeaker cat_piano*
+	*setspeaker npc_cat_piano*
 	They're sleeping.
 	You got The Goods yet?
 	&i2
@@ -56,45 +57,77 @@ i4:
 	&Exit
 
 turnin:
-	> When the Singer sees you, they light up with joy. They're nearly vibrating with how
-	fast they're bouncing. After handing over your pay of NUMBER, they take the radios
+	*hide*
+	*txout*
+	*setcam setpos 2950.531006 7512.884277 60.556206;setang 3.656331 71.344948 0.000000*
+	*spawn cat_singer models/andy/singer/cat_singer.mdl*
+	*setnpcid cat_singer npc_cat_sing*
+	*setposang cat_singer setpos 3093.010498 7924.259277 64.031250;setang -90 165 0.000000*
+	*spawn combine01 models/Combine_Soldier.mdl*
+	*setposang combine01 setpos 2946.030518 7790.783691 0;setang 0.807915 89.579773 0.000000*
+	*spawn combine02 models/Combine_Super_Soldier.mdl*
+	*setposang combine02 setpos 2868.164551 7791.400391 0;setang 0.754675 89.420059 0.000000*
+	*spawn police01 models/Police.mdl*
+	*setposang police01 setpos 3038.337646 7789.621094 0;setang 0.861156 89.366821 0.000000*
+	*setname combine01 Combine*
+	*setposang player setpos 3114.431641 7682.222656 0;setang 3.336896 113.644180 0.000000*
+	*txin*
+	*show*
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_laugh 1 idle*
+	> When the Singer sees you,% they light up with joy.%%%*setskin cat_singer 0* They're nearly vibrating with how
+	fast they're bouncing.%%*setcam setpos 3074.511963 7828.708008 31.442722;setang -0.815863 100.875572 0.000000*%*setposang player setpos 3018.282959 7930.246094 0;setang 19.202353 -11.833597 0.000000*% After handing over your pay of 20k,%% they take the radios
 	inside the Mewseum and gesture for you to follow. *finish 5*
 	&t1
 	
 t1:
-	> The Singer claps and goes around to each of the NPC's. They seem to be checking in
-	with them somehow, but it's hard to tell exactly what they're doing. When they're
-	satisfied, they trot over to stand beside you and pull out their tablet.
+	*setcam setpos 2894.598633 8050.217285 69.206451;setang 5.785895 -67.167480 0.000000*
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_clap 1 idle*
+	> The Singer claps and goes around to each of the NPC's.%%%%*setskin cat_singer 0* They seem to be checking in
+	with them somehow,%% but it's hard to tell exactly what they're doing.%%% When they're
+	satisfied,% they trot over to stand beside you and pull out their tablet.
 	&t2
 	
 t2:
-	> They inform you that they're looking for any anomalous response, and have tried a
-	variety of different enrichment activities to try and encourage this. Then, they press
+	> They inform you that they're looking for any anomalous response,%%% and have tried a
+	variety of different enrichment activities to try and encourage this.%% Then,% they press
 	a button on their tablet.
 	&t3
 	
 t3:
-	sequence here of the singer blasting Que Chevere at an npc. they have no reaction.
-	> The Singer's shoulders slump. 
+	*setcam setpos 3092.538330 7733.784668 9.837635;setang -10.345832 121.861244 0.000000*
+	*emitsound jazztronauts\music\que_chevere_radio_loop.wav 1*
+	*shake 4*
+	*setspeaker narrator*
+	> A song blasts out of the wall of radios!%%%% 
+	%.%.%.%there seems to be no visible effect on any of the NPCs.
+	
+t3:
+	*setcam setpos 3062.110596 7840.094238 35.197525;setang 0.248931 86.137184 0.000000*
+	*setskin cat_singer 7*
+	> The Singer's shoulders slump.%%%% 
 	They turn away and start to open a door.
 	&t4
 	
 t4:
-	*setspeaker narrator*
-	this is a combine soldier talking\:
-	Hey, can you turn that down? I have a headache.
+	*setcam setpos 3001.355225 7909.104980 55.273945;setang -4.169990 -118.748055 0.000000*
+	*setspeaker clever_combine*
+	Hey,% can you turn that down?%%% I have a headache.
 	&t5
 	
 t5:
 	*setspeaker cat_singer*
-	> The Singer nearly drops their tablet in shock, and immediately turns off the radios.
-	They apologize to the NPC who spoke, and you both hurry out of the Mewseum.
+	*setskin cat_singer 5*
+	> The Singer nearly drops their tablet in shock,%%*setcam setpos 3577.167969 6896.290039 884.149780;setang 38.901165 119.500954 0.000000* and immediately turns off the radios.%%%%
+	They apologize to the NPC who spoke,%% and you both hurry out of the Mewseum.
 	&t6
 	
 t6:
-	> The Singer is actually crying with joy. They tell you that they will never be able to
-	fully express how much you've helped them and their research out, and thanks to your help
-	they're going to be able to fulfill a promise to an old friend. They'd like to talk later,
+	*setskin cat_singer 6*
+	> The Singer is actually crying with joy.%%%% They tell you that they will never be able to
+	fully express how much you've helped them and their research out,%% and thanks to your help
+	they're going to be able to fulfill a promise to an old friend.%%%% They'd like to talk later,
 	if you have the time.
 	&exit
 	

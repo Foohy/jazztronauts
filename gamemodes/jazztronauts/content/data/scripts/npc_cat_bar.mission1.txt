@@ -11,14 +11,14 @@ a1:
 
 a2:
      Rather than send you to collect those specific parts, I feel as 
-     though there’s a more efficient way to handle the situation. So to 
+     though there's a more efficient way to handle the situation. So to 
      that end, I would deeply appreciate it if you would be able to  
      acquire ten cars.
      &a3
 
 a3:
      I will, naturally, compensate you for your efforts. *start 1*
-     &a3
+     &exit
 
 idle:
      *player*, lovely to see you. Care for a drink?
@@ -61,7 +61,7 @@ a9:
      &a10
 
 a10:
-     You’ve already proven that hiring you was an excellent decision - 
-     drop by later, if you’d care to participate in a community activity 
+     You've already proven that hiring you was an excellent decision - 
+     drop by later, if you'd care to participate in a community activity 
      I organize from time to time. *finish 1*
      &exit

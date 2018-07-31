@@ -35,6 +35,8 @@ end )
 
 local nextPlay = 0
 local function playCatSound(npcid)
+	if hook.Run("JazzOverrideCatSound", npcid) then return end
+
 	if RealTime() < nextPlay then return end
 	local info = catPitches[npcid]
 	if not info then return end

@@ -1,17 +1,17 @@
 accept:
-     Oh thank f- *player*, I’m afraid I desperately need your help. 
+     Oh thank f- *player*, I'm afraid I desperately need your help. 
      All of our propane has gone missing. And by gone missing, I mean I 
      found the Cellist floating face down in the contemplation pond 
      surrounded by empty tanks.
      &a1
 
 a1:
-     He’s alive, don’t worry. I am unsure exactly how, but he appears 
+     He's alive, don't worry. I am unsure exactly how, but he appears 
      to be in whatever counts for him as purrfect health.
      &a2
 
 a2:
-     Regardless, he’s left me in a bit of a pickle. Our stovetop is gas 
+     Regardless, he's left me in a bit of a pickle. Our stovetop is gas 
      operated, you see. Inelegant, I know, but until we can get our hands
      something more advanced we must make do.
      &a3
@@ -23,7 +23,7 @@ a3:
      &exit
 
 idle:
-     So sorry, I don’t have time to chat right now. I’m doing my best to
+     So sorry, I don't have time to chat right now. I'm doing my best to
      keep snacks available, but I had to construct a bread oven in the
      back room to do so and it is rather difficult to get an even bake. 
      &a4
@@ -44,5 +44,5 @@ a5:
 
 a6:
      I cannot overstate how important your efforts have been both to me 
-     and the Bar Samsara itself.*end 3* 
+     and the Bar Samsara itself.*finish 3* 
      &exit

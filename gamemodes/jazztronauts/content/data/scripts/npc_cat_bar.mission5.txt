@@ -31,7 +31,7 @@ idle:
      &a5
 
 a5:
-     Who put them there? Oh, that doesn’t matter. I will take care of it,
+     Who put them there? Oh, that doesn't matter. I will take care of it,
      I assure you. 
      &a6
 
@@ -48,18 +48,18 @@ a7:
 
 
 turnin:
-     Delightful. Thank you kindly for your service. In a few years I’ll 
+     Delightful. Thank you kindly for your service. In a few years I'll 
      be able to put scrambled antlion eggs back on the secret menu.
      &a8
 
 a8:
-     Don’t worry, I did a full sweep of the Bar Samsara and removed all 
+     Don't worry, I did a full sweep of the Bar Samsara and removed all 
      remaining surveillance devices. I traced the signal to its source 
      and sent a gift basket along to the address. 
      &a9
 
 a9:
-     I don’t have much time for subterfuge these days. I do so hope they 
+     I don't have much time for subterfuge these days. I do so hope they 
      enjoy the grenades.
      &a10
 
@@ -75,6 +75,6 @@ a11:
 
 a12:
      *setspeaker cat_bar*
-     Catch up with me later, won’t you? You’ve been a true friend, and I 
+     Catch up with me later, won't you? You've been a true friend, and I 
      have a surprise I'd like to give you.
      &exit

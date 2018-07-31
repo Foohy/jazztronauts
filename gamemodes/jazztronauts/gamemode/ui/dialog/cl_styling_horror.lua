@@ -30,3 +30,7 @@ hook.Add("OnJazzDialogPaintOverride", "JazzDoDumbSilentHillDialogGimmickPaint", 
 
     return true
 end )
+
+hook.Add("JazzOverrideCatSound", "JazzDoDumbSilentHillDialogGimmickNoChatSounds", function(npcid)
+    if dialog.GetParam("STYLE") == "horror" then return true end
+end)

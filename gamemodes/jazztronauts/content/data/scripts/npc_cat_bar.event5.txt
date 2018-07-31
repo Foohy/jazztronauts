@@ -4,19 +4,9 @@ begin:
 	*hide*
     *txout*
     *setfov 70*
+    spawngang()
     *setspeaker narrator*
 	
-	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
-	*setnpcid cat_bar npc_cat_bar*
-
-	*spawn cat_piano models/andy/pianist/cat_pianist*
-	*setnpcid cat_piano npc_cat_piano*
-
-	*spawn cat_cello models/andy/cellist/cat_cellist*
-	*setnpcid cat_cello npc_cat_cello*
-
-	*spawn cat_singer models/andy/singer/cat_singer*
-	*setnpcid cat_singer npc_cat_sing*
 	*setcam setpos -2579.370361 2721.580811 64.031250;setang 3.736192 140.947372 0.000000*
 	*setposang cat_bar -setpos -2880.668457 2908.302490 0;setang -90 210 0.000000*
 	*setposang cat_cello setpos -2189.791260 6927.904785 10;setang -90 30 0.000000*
@@ -29,7 +19,7 @@ begin:
     >The Bar Samsara%.%.%.%%%
     You see the Bartender packing supplies into a picnic basket.%% She 
     beams when she catches sight of you.
-    &a1
+    &a2
 
 a2:
 	*setcam setpos -2799.522217 2829.456299 37.002892;setang 3.736205 135.463394 0.000000*
@@ -37,7 +27,7 @@ a2:
 	*setskin cat_bar 3*
 	*setanim cat_bar gesture_shock 1 idle*
     Ah!% *player*!%%%%*setskin cat_bar 1* 
-    I was going to come find you,% actually.%%%*setskin cat_bar 0* We’re going on a little field
+    I was going to come find you,% actually.%%%*setskin cat_bar 0* We're going on a little field
     trip to the hot spring,%%*setanim cat_bar gesture_confused 1 idle* would you care to join us?
     &a3
 
@@ -46,15 +36,15 @@ a3:
     (This is the last event. You may want to give the other players
     a heads up that you'll be busy for a little while.)
     player:
-         &a4: Yeah sure,% I’m down for free food.
+         &a4: Yeah sure,% I'm down for free food.
          &leave: I have some stuff to do,% but maybe later? (exit)
 
 ###EARLY EXIT
 
 leave:
-    &setspeaker cat_bar*
+    *setspeaker cat_bar*
 	*setanim cat_bar gesture_agree 1 idle*
-    We can wait,%% don’t fret.
+    We can wait,%% don't fret.
     &exit
 
 a4:
@@ -77,7 +67,7 @@ a5:
     little nook in the mountains. 
     &a6
 a6:
-    >There a pool here,% it’s bubbling and steaming.%%% The entire spot is 
+    >There a pool here,% it's bubbling and steaming.%%% The entire spot is 
     pleasantly warm.%%%
 	&a6b
 	
@@ -92,7 +82,7 @@ a7:
     *setspeaker cat_cello*
 	*setskin cat_cello 1*
 	*setanim cat_cello gesture_jab 1 idle*
-    hello again you shitty bubbly siren you.%%%% i’m gonna have the dopest 
+    hello again you shitty bubbly siren you.%%%% i'm gonna have the dopest 
     nap in you and you cant do*setanim cat_cello gesture_laugh 1 idle* a goddamn thing because you're a 
     geological feature and i am a powerful fae idiot
     &a8
@@ -102,13 +92,13 @@ a8:
     *setspeaker cat_piano*
 	*setskin cat_piano 1*
 	*setanim cat_piano gesture_confused 1 idle*
-    Incredible.%%% I’ve never seen anyone bully the ground so fiercely.
+    Incredible.%%% I've never seen anyone bully the ground so fiercely.
     &a9
 
 a9:
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_clap 1 idle*
-    > The Singer claps,% and holds up their tablet\:%%%*setskin cat_singer 1* “Yeah fuck him up 
+    > The Singer claps,% and holds up their tablet\:%%%*setskin cat_singer 1* 'Yeah fuck him up 
     Socrates!!!!!"
     &a10
 
@@ -118,13 +108,13 @@ a10:
     *setspeaker narrator*
 	*setskin cat_cello 2*
 	*setanim cat_cello gesture_anger 1.5 idle*
-    > The Singer’s comment appears to have steamed the Cellist’s clams.
+    > The Singer's comment appears to have steamed the Cellist's clams.
     &a11
 
 a11:
     *setspeaker cat_cellist*
 	*setanim cat_cellist gesture_jab 1 idle*
-    call me socrates one more goddamn time pipes c’mere imma put you 
+    call me socrates one more goddamn time pipes c'mere imma put you 
     in an omni-headlock you*setanim cat_cello gesture_anger 1.5 idle* treacherous little dingus i am clearly
     diogenes in this headcanon
     &a12
@@ -171,20 +161,20 @@ a16:
     *setspeaker narrator*
 	*setskin cat_bar 4*
 	*setanim cat_bar pose_sit01*
-    > You’re unpacking the basket with the bartender.%%%% She’s quietly 
+    > You're unpacking the basket with the bartender.%%%% She's quietly 
     flattening a blanket against the sand,% eyes closed in contentment.
     &a17
 
 a17:
 	*setcam setpos -2841.154541 6869.383301 31.732605;setang -1.800735 -46.723713 0.000000* ###### PLAYER AND BAR
     *setspeaker cat_bar*
-    You’re a good person,%%%%*setskin cat_bar 0* did you know that?
+    You're a good person,%%%%*setskin cat_bar 0* did you know that?
     &a18
 
 a18:
 	*setcam setpos -2726.600342 6863.649414 28.915096;setang -3.078496 -114.977554 0.000000* #### BAR
 	*setanim cat_bar gesture_agree 1 idle*
-    I could tell before,%% but I’m sure of it after seeing you watch the 
+    I could tell before,%% but I'm sure of it after seeing you watch the 
     others horsing around on the beach.%%%%*setskin cat_bar 4* You*setanim cat_bar gesture_foldarms 1 idle* appear to be able to just,% 
     slot into any scenario and take it for what it is.
     &a19
@@ -192,17 +182,17 @@ a18:
 a19:
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_agree 1 idle*
-    I believe that’s a trait that’s not valued as highly as it ought.%%%*setskin cat_bar 0* The
+    I believe that's a trait that's not valued as highly as it ought.%%%*setskin cat_bar 0* The
     ability to look at a stranger on their path,% be a little confused,%% 
-    but say “let’s see where this ends up.”
+    but say 'let's see where this ends up.'
     &a20
 
 a20:
 	*setcam setpos -2841.154541 6869.383301 31.732605;setang -1.800735 -46.723713 0.000000* ###### PLAYER AND BAR
 	*setanim cat_bar gesture_laugh 1 idle*
     It enriches all parties involved,%%% even if it ends up badly.%%%%*setskin cat_bar 4* Sometimes
-    that’s as warm as it sounds,%%%*setskin cat_bar 0* and sometimes it’s a very cold truth.%%%%*setanim cat_bar gesture_agree 1 idle* 
-    But it’s worth it.
+    that's as warm as it sounds,%%%*setskin cat_bar 0* and sometimes it's a very cold truth.%%%%*setanim cat_bar gesture_agree 1 idle* 
+    But it's worth it.
     &a21
 
 a21:
@@ -221,14 +211,14 @@ a21:
 a22:
     *setspeaker cat_bar*
 	*setskin cat_bar 1*
-    Did you know that I’m the oldest of the gang?%%%%*setskin cat_bar 4* By a rather large 
+    Did you know that I'm the oldest of the gang?%%%%*setskin cat_bar 4* By a rather large 
     margin,% too,%% it seems.
     &a23
 
 a23:
 	*setskin cat_bar 0*
     For a chunk of my life,% everything was new and fresh,%% and that seemed
-    like it could last forever.%%%%*setskin cat_bar 4* And when it didn’t,%% I responded in a way 
+    like it could last forever.%%%%*setskin cat_bar 4* And when it didn't,%% I responded in a way 
     I now regret.
     &a24
 
@@ -264,28 +254,28 @@ a27:
 a28:
 	*setcam setpos -2733.502930 6687.077637 32.335510;setang -0.256775 86.686752 0.000000* ##### EVANGELION
     *setspeaker cat_bar*
-    After enough time,% we found a second chance in the Samsara.%%%%*setskin cat_bar 4* It’s my 
+    After enough time,% we found a second chance in the Samsara.%%%%*setskin cat_bar 4* It's my 
     prison when I need it to be,%% and my greenhouse when I want it to be.%%%%*setskin cat_bar 1* 
     And I love every second of it.
     &a29
 
 a29:
 	*setskin cat_bar 0*
-    You know how they say you can’t go home again?%%%% That you can never 
+    You know how they say you can't go home again?%%%% That you can never 
     have that first impression,% the first time,%%% more than one time. 
     &a30
 
 a30:
 	*setskin cat_bar 2*
-    That’s true but awfully bleak.%%%%*setskin cat_bar 0* You can’t go back in time,% but you can
+    That's true but awfully bleak.%%%%*setskin cat_bar 0* You can't go back in time,% but you can
     expose those around you to that warmth,%% and it will enrich and 
     incubate them.
     &a31
 
 a31:
 	*setskin cat_bar 1*
-    Their discoveries,%% and how it evolves them?%%%%*setskin cat_bar 0* That’s the true reward. 
-    That’s how you go home again.%%%*setskin cat_bar 4* There is simply nothing as valuable 
+    Their discoveries,%% and how it evolves them?%%%%*setskin cat_bar 0* That's the true reward. 
+    That's how you go home again.%%%*setskin cat_bar 4* There is simply nothing as valuable 
     in the world as it.
     &a32
 
@@ -302,7 +292,7 @@ a32:
 a33:
     *setspeaker cat_bar*
 	*setskin cat_bar 1*
-    Ah, it’s about that time I see.%%%%*setskin cat_bar 0* Can you help me de-escalate and get 
+    Ah, it's about that time I see.%%%%*setskin cat_bar 0* Can you help me de-escalate and get 
     everyone ready for a meal?
     &a34
 

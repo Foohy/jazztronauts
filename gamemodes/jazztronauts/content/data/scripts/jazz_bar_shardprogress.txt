@@ -1,5 +1,8 @@
 # Called once they've collected _A_ shard. Almost definitely will be on return from their first exploration
 begin1:
+	spawngang()
+	*setposang cat_bar -2864.620361 3044.558594 32;setang -90 180 0*
+	*setspeaker cat_bar*
     Good work! You've located some shards.
     &begin1_2
 
@@ -9,8 +12,9 @@ begin1_2:
     &begin1_3
 
 begin1_3:
-    We don't know what they do, but boy have they got power.
-    &begin1_4
+    You can look at the Shard Tank in your home base to see how 
+	many you've collected! And how many more you need, too.
+    &begin1_5
 
 begin1_4:
     We've installed this big ol' tank to crush them to a pulp 
@@ -19,24 +23,30 @@ begin1_4:
     &begin1_5
 
 begin1_5:
-    Whatever they do, what could possibly go wrong by collecting more?
     Keep it up.
     *mark_seen*
     &exit
 
 # Called once they've collected 25% of their needed shards
 begin25:
-    nice, I see you've been successfully finding some shards.
+	spawngang()
+	*setposang cat_piano -2864.620361 3044.558594 32;setang -90 180 0*
+	*setspeaker cat_piano*
+    Nice,%% you guys are going at a pretty good pace.
     &begin25_2
 
 begin25_2:
-    you're already 1/4 of the way there, slow and steady.
+    Shard tank's already 1/4 full.
+	Not bad, for a rookie.
     *mark_seen*
     &exit
 
 # 50% of needed shards
 begin50:
-    oh shit you're already halfway done?
+	spawngang()
+	*setposang cat_cello -2864.620361 3044.558594 32;setang -90 180 0*
+	*setspeaker cat_cello*
+    nice.%%%% hit the halfway mark on the shard tank,% huh?
     &begin50_2
 
 begin50_2:
@@ -46,11 +56,60 @@ begin50_2:
 
 # 100% of needed shards. Probably should be a cutscene showing where to go now that they can finished the game
 begin100:
-    holy shit
+	spawngang()
+	*setposang cat_singer -2864.620361 3044.558594 32;setang -90 180 0*
+    > The Singer runs over to meet you!
     &begin100_2
 
 begin100_2:
-    you fucking did it
+    > They can barely stand still, they keep pointing to the 
+	shard tank, then the Bartender, then the shard tank again.
     *mark_seen*
     &exit
-
+	
+##### HEY YA DID IT	
+completed_all_cats:
+	spawngang()
+	*setposang cat_piano -2864.620361 3044.558594 32;setang -90 180 0*
+	*setposang cat_cello -2864.620361 3044.558594 32;setang -90 180 0*
+	*setposang cat_singer -2864.620361 3044.558594 32;setang -90 180 0*
+	*setposang cat_bar -2864.620361 3044.558594 32;setang -90 180 0*
+	*setspeaker cat_bar*
+	Excuse me, *player*?
+	Do you have a minute?
+	&com1
+	
+com1:
+	*setspeaker cat_piano*
+	We uh,%% wanna give you something.%%%
+	Here.
+	&com2
+	
+com2:
+	*setspeaker narrator*
+	> The Cats give you a part for the Trolley Summoner...
+	&com3
+	
+com3:
+	*setspeaker cat_cello*
+	Pipes got real worried about you possibly falling into the void
+	or getting stranded somewhere.%%% So they made this.
+	&com4
+	
+com4:
+	*setspeaker cat_singer*
+	> The Singer punches the Cellist in the arm. Apparently
+	it's a gift from all of them, and that they want you
+	to have it.
+	&com5
+	
+com5:
+	*setspeaker cat_bar*
+	Right they are!%%%% Now we can come to your aid no matter where in 
+	spacetime you are.%% Handy no?
+	&com6
+	
+com6:
+	I doubt we'll need to but it's piece of mind for us.%% 
+	Well! That's all.%%% We'll let you get back to it now. *mark_seen*
+	&exit

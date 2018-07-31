@@ -1,27 +1,27 @@
-﻿###### technically 7th bartender event?
+﻿SKIP_OPEN = true
+###### technically 7th bartender event?
 begin:
 	*hide*
 	*txout*
-	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
-	*setnpcid cat_bar npc_cat_bar*
-	*setposang cat_bar setpos 2.762444 693.325500 32;setang -90 180 0.000000*
-	*spawn cat_piano models/andy/pianist/cat_pianist*
+
+	*setposang npc_cat_bar setpos 2.762444 693.325500 32;setang -90 180 0.000000*
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
 	*setnpcid cat_piano npc_cat_piano*
 	*setposang cat_piano setpos 48.296669 612.397583 36;setang -90 0 0.000000*
-	*spawn cat_cello models/andy/cellist/cat_cellist*
+	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setnpcid cat_cello npc_cat_cello*
 	*setposang cat_cello setpos 98.372551 608.679138 36;setang -90 0 0.000000*
-	*spawn cat_singer models/andy/singer/cat_singer*
+	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setnpcid cat_singer npc_cat_sing*
-	*setposang setpos -47.646004 603.924561 36;setang -90 0 0.000000*
+	*setposang cat_singer setpos -47.646004 603.924561 36;setang -90 0 0.000000*
 	*setposang player setpos -95.336090 612.937744 36;setang 8.394650 88.524963 0.000000*
 	*setanim player sit*
-    *setspeaker cat_bar*
+    *setspeaker npc_cat_bar*
 	*txin*
 	*show*
-	*setskin cat_bar 1*
-	*setanim cat_bar gesture_confused 1 idle*
-    I do so adore visiting the Center.*setskin cat_bar 0* 
+	*setskin npc_cat_bar 1*
+	*setanim npc_cat_bar gesture_confused 1 idle*
+    I do so adore visiting the Center.*setskin npc_cat_bar 0* 
     &a1
 
 a1:
@@ -48,22 +48,25 @@ a3:
     player:
         &a4: 
 		*setcam setpos -185.023544 678.457520 65.429253;setang -0.230201 -31.948051 0.000000*
-		How is the bar so pristine? Because I distinctly remember royally fucking it up.
+		How is the bar so pristine?
+        Because I distinctly remember royally fucking it up.
 
 a4:
 	*setcam setpos 6.081810 423.574524 67.019852;setang 0.568399 89.705330 0.000000*
-    *setspeaker cat_bar*
-	*setanim cat_bar gesture_sweep 1 idle*
-    To reach the Center, you must discard all earthly %- or Voidly -%% attachments.%%%*setanim cat_bar gesture_jab 1 idle* Including 
-    your attachments to yourself,%% which is what the shard juice is for. 
+    *setspeaker npc_cat_bar*
+	*setanim npc_cat_bar gesture_sweep 1 idle*
+    To reach the Center, you must discard all earthly %- or Voidly -%%
+    attachments.%%%*setanim npc_cat_bar gesture_jab 1 idle* Including your attachments to yourself,%% which is 
+    what the shard juice is for. 
     &a5
 
 a5:
 	*setcam setpos 167.714569 698.494568 69.958344;setang 0.461915 -155.030075 0.000000*
     *setspeaker cat_cello*
 	*setanim cat_cello gesture_laugh 1 idle*
-    turns out that the distilled essence of creativity can overload your neurons 
-    and temporarily render you a transcendent being that can see through time and space
+    turns out that the distilled essence of creativity can overload your 
+    neurons and temporarily render you a transcendent being that can 
+    see through time and space
     &a6
 
 a6:
@@ -73,22 +76,23 @@ a6:
 
 a7:
 	*setanim cat_cello gesture_agree 1 idle*
-    long story short we didn’t actually go anywhere physical we just sat in the bus and 
-    went on a profound mental journey powered by all those shards you've been stealing
+    long story short we didn’t actually go anywhere physical we just sat 
+    in the bus and went on a profound mental journey powered by all
+    those shards you've been stealing
     &a8
 
 a8:
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_confused 1 idle*
-    Should have enough for twenty more visits, easy, thanks to your help gettin’ all 
-    that shard goop ready. 
+    Should have enough for twenty more visits, easy, thanks to your help 
+    gettin’ all that shard goop ready. 
     &a9
 
 a9:
 	*setcam setpos 6.081810 423.574524 67.019852;setang 0.568399 89.705330 0.000000*
-    *setspeaker cat_bar*
-	*setskin cat_bar 2*
-    Which I will be placing in the Singer's Mewseum vaults for safekeeping,%%*setskin cat_bar 0* before you 
+    *setspeaker npc_cat_bar*
+	*setskin npc_cat_bar 2*
+    Which I will be placing in the Singer's Mewseum vaults for safekeeping,%%*setskin npc_cat_bar 0* before you 
     two get any ideas.
     &a10
 
@@ -96,14 +100,14 @@ a10:
 	*setcam setpos -63.723694 670.468201 68.035347;setang -1.188524 -42.587250 0.000000*
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_agree 1.3 idle*
-    > The Singer nods firmly, and narrows their eyes when both the Cellist and Pianist 
-    start to object.%%% They shut up immediately. 
+    > The Singer nods firmly, and narrows their eyes when both the Cellist 
+    and Pianist start to object.%%% They shut up immediately. 
     &a11
 
 a11:
 	*setcam setpos -185.023544 678.457520 65.429253;setang -0.230201 -31.948051 0.000000*
-    *setspeaker cat_bar*
-	*setanim cat_bar gesture_agree 1 idle*
+    *setspeaker npc_cat_bar*
+	*setanim npc_cat_bar gesture_agree 1 idle*
     We are deeply grateful for your help,%% *player*.%%%% It’s been such a long time 
     since our last proper vacation.
     condition:
@@ -113,12 +117,12 @@ a11:
         return true	
 
 incomplete1:
-	*setanim cat_bar gesture_confused 1 idle*
+	*setanim npc_cat_bar gesture_confused 1 idle*
     We have more work for you, if you’re interested. 
     &a12
 
 complete1:
-	*setanim cat_bar gesture_laugh 1 idle*
+	*setanim npc_cat_bar gesture_laugh 1 idle*
     It’s been a pleasure having you around, and you are of course welcome to stay 
     at the Bar Samsara as long as you like.
     &a12

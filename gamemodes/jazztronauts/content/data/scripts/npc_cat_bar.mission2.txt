@@ -1,6 +1,6 @@
 accept:
      Tell me, *player*, have you ever had a Cosmic Squeeze? 
-     It’s a favourite cocktail of mine.
+     It's a favourite cocktail of mine.
      &a1
 
 a1:
@@ -8,7 +8,7 @@ a1:
      watermelon juice, and at this juncture fresh produce is in short 
      supply around here. Luckily, this dimensional juncture appears to be
      quite fond of the fruit, as there's a downright odd amount here.
-     &a2:
+     &a2
 
 a2:
      If you could obtain me ten or so, I could potentially add the Cosmic
@@ -27,11 +27,11 @@ a3:
      &a4
 
 a4:
-     Oh! I didn’t hear you approach, *player*. 
+     Oh! I didn't hear you approach, *player*. 
      &a5
 
 a5:
-     Just doing a stock check. It’ll take me a while, so there’s no need
+     Just doing a stock check. It'll take me a while, so there's no need
      to fret about the watermelons yet. I need to fill out an order form
      for chilled starlight, and that will be a whole separate ordeal. 
      &exit
@@ -43,7 +43,7 @@ turnin:
 
 a6:
     *setspeaker cat_bar
-    Excellent, excellent! Oh, I’m almost giddy. I haven’t had the chance 
+    Excellent, excellent! Oh, I'm almost giddy. I haven't had the chance 
     to make one of these in about fifty years. Here, your payment. 
     &a7
 
@@ -64,7 +64,7 @@ a8:
 
 a9:
     > The glass shudders wildly as its contents go through a violent 
-    transmutation. You can’t quite get a grasp on what color the liquid 
+    transmutation. You can't quite get a grasp on what color the liquid 
     inside is, now. Hesitantly, you take a sip.
     &a10
 
@@ -75,6 +75,6 @@ a10:
  
 a11:
     *setspeaker cat_bar*
-    It’s an acquired taste, but one I’m partial to. Thank you for your 
+    It's an acquired taste, but one I'm partial to. Thank you for your 
     help, *player*. *finish 2*
     &exit

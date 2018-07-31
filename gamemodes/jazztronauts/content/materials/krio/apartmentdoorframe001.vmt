@@ -4,7 +4,7 @@
 	// Get Wall Worm Pro to remove this comment ( https://wallworm.com/store/index.php?route=product/product&product_id=54 )
 
 // BEGIN Textures
-	$basetexture "krio/apartmentdoorframe001_diffuse/apartmentdoorframe001_diffuse"
+	$basetexture "krio/apartmentdoorframe001_diffuse"
 // END Textures
 
 

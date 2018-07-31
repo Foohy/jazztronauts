@@ -4,26 +4,24 @@
 	// Get Wall Worm Pro to remove this comment ( https://wallworm.com/store/index.php?route=product/product&product_id=54 )
 
 // BEGIN Textures
-	$basetexture "krio/apartmentdoor001_diffuse2"
-	$envmapmask "krio/apartmentdoor001_spec"
+	$basetexture "krio/apartmentfaucet_diffuse"
+	$bumpmap "krio/apartmentfaucet_normal"
 // END Textures
 
 
 
 // BEGIN ENV and Reflections
 	"$envmap" "env_cubemap"
-	"$envmaptint" .4 .4 .4
-	"$reflectivity" "[ 1  1  1]"
-	"$phong" "0"
-	"$phongexponent" "4"
-	"$phongboost" "0.02"	
-//	"$phongfresnelranges" "[.6 2 5]"
-	"$phongfresnelranges" "[0.25 0.5 1]"
+	"$envmaptint" .05 .05 .05
 // END ENV and Reflections
 
 // BEGIN Phong
+	"$phong" 1
+	"$phongboost" "1.0"
+	"$phongexponent" "5"
+	"$phongfresnelranges" "[0.0 0.5 1.0]"
 // END Phong
 
-	"%keywords" "wallworm,door"
+	"%keywords" "wallworm,kitchenfaucet001"
 
 }

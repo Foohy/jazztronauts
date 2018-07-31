@@ -1,0 +1,23 @@
+"VertexLitGeneric"
+{
+// File Created by Wall Worm ( http://dev.wallworm.com )
+	// Get Wall Worm Pro to remove this comment ( https://wallworm.com/store/index.php?route=product/product&product_id=54 )
+
+// BEGIN Textures
+	$basetexture "krio/apartmentkitchenarea001_diffuse"
+	$bumpmap "krio/apartmentkitchenarea001_normal"
+	$envmap			env_cubemap
+
+	"$envmaptint" .05 .05 .05
+
+	"$phong" "1"
+	"$phongexponent" "4"
+	"$phongboost" "0.02"	
+	"$phongfresnelranges" "[0.25 0.5 1]"
+
+
+
+// END ENV and Reflections
+	"%keywords" "wallworm,kitchenarea001"
+
+}

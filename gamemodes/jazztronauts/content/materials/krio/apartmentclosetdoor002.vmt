@@ -4,7 +4,7 @@
 	// Get Wall Worm Pro to remove this comment ( https://wallworm.com/store/index.php?route=product/product&product_id=54 )
 
 // BEGIN Textures
-	$basetexture "krio/apartmentclosetdoor002_a"
+	$basetexture "krio/apartmentclosetdoor002_A"
 	$envmapmask "krio/apartmentclosetdoor002_spec"
 // END Textures
 	"$envmap" "env_cubemap"

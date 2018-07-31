@@ -1,0 +1,7 @@
+LightmappedGeneric
+{
+$basetexture "krio\lfd2\offgaragedr"
+$envmap env_cubemap
+$envmapmask "krio\lfd2\offgaragedr_ref"
+$surfaceprop metalvent
+}

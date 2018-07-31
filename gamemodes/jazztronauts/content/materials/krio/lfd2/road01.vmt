@@ -1,0 +1,5 @@
+LightmappedGeneric
+{
+$baseTexture "krio\lfd2\road01"
+$surfaceprop asphalt
+}

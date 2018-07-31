@@ -1,0 +1,7 @@
+LightmappedGeneric
+{
+	"$basetexture"	"krio/windowblinds"
+	$alphatest 1
+       $allowalphatocoverage 1
+       $alphatestreference .97
+}

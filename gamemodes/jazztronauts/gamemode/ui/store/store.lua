@@ -5,6 +5,7 @@ module("jstore", package.seeall) -- Extend jstore module
 -- Background jazzy tile
 local bgmat = Material("materials/ui/jazz_grid.png", "noclamp")
 local newIcon = "materials/ui/jazztronauts/catcoin.png"
+local defaultIcon = "ui/transition_horse"
 
 -- Background for the layout panel
 local bgPanelColor = Color(73, 24, 71)
@@ -66,10 +67,11 @@ surface.CreateFont( "JazzUpgradePrice", {
 
 -- Adds a new styled button, hooked up for purchasin'
 local function addButton(parent, item)
+    local btnSize = ScreenScale(30)
     local btn = vgui.Create( "DButton" )
     btn:SetText("")	
     btn:SetIcon("icon16/lock.png")
-    btn:SetHeight(ScreenScale(30))
+    btn:SetHeight(btnSize)
 
     local margin = ScreenScale(2)
     btn:DockMargin(0, margin, 0, margin)
@@ -82,11 +84,11 @@ local function addButton(parent, item)
 
     -- Create image thumbnail
     local img = vgui.Create("DImage", btn)
+    img:SetImage(item.icon, defaultIcon)
     img:Dock(LEFT)
-    img:DockMargin(margin, margin, margin, margin)
+    img:DockMargin(margin, margin, margin, margin)  
+    img:SetSize(btnSize, btnSize)
     img:SetKeepAspect(true)
-    print(item.icon)
-    img:SetImage(item.icon)
 
     -- Optional "NEW" informative marker
     local newImg = vgui.Create("DImage", img)

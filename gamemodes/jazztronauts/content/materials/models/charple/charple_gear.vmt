@@ -1,0 +1,15 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/charple/charple_vacation_a"
+	"$bumpmap" "models/charple/charple_vacation_n"
+	"$nocull" 1
+	"$phong" "1"
+	"$phongexponent" "1"
+	"$phongboost" "3"
+	$phongfresnelranges		"[ .25 .5 .9]"
+	$halflambert 1
+
+	$rimlight "1"
+	$rimlightexponent "25"
+	$rimlightboost "15"
+}

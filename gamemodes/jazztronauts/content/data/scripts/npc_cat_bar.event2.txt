@@ -4,18 +4,25 @@ begin:
     # Scene setup
     *txout*
 	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
+	*setposang cat_bar setpos -2038.926880 3016.902588 0;setang -90 90 0.000000*
+	*setanim cat_bar bartender_search*
 	*setnpcid cat_bar npc_cat_bar*
-
+	*setcam setpos -1828.895630 3177.182617 44.253838;setang 3.336848 -144.710831 0.000000* ###### ESTABLISHING SHOT
 	*spawn cat_piano models/andy/pianist/cat_pianist*
+	*setposang cat_piano setpos -1988.379272 2886.988525 0;setang -90 321 0.000000*
 	*setnpcid cat_piano npc_cat_piano*
 
 	*spawn cat_cello models/andy/cellist/cat_cellist*
+	*setposang cat_cello setpos -1946.280029 2917.553955 16;setang -90 336 0.000000*
 	*setnpcid cat_cello npc_cat_cello*
 
 	*spawn cat_singer models/andy/singer/cat_singer*
+	*setposang cat_singer setpos -1985.466431 2938.500244 16;setang -90 290 0.000000*
 	*setnpcid cat_singer npc_cat_sing*
     *setfov 70*
 	*setskin cat_singer 1*
+	*setposang player setpos -1997.907837 2961.654785 80.791939;setang 30.489212 1.468404 0.000000*
+	*setanim player sit*
 	*txin*
 	*setspeaker narrator*
 	> The Samsara store room%.%.%.%%% It's movie night,% apparently.%%%
@@ -24,6 +31,7 @@ begin:
 	&a1
 
 a1:
+	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_shrug 1 idle*
 	*setskin cat_piano 1*
@@ -31,6 +39,7 @@ a1:
     &a2
 
 a2:
+	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_agree 1.5 idle*
 	*setskin cat_singer 1*
@@ -45,6 +54,8 @@ a3:
     &a4b
 
 a4b:
+	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
+	*setposang cat_bar setpos -2021.996704 2994.898438 92.591873;setang -90 260 0.000000*
 	*setspeaker narrator*
 	*setanim cat_piano gesture_shock 1 idle*
 	> The VCR makes a loud ka-CHUNK sound.%%*setskin cat_piano 3*
@@ -52,12 +63,14 @@ a4b:
 a4:
 	*setskin cat_piano 0*
     *setspeaker cat_bar*
-	*setskin cat_piano 1*
-	*setanim cat_piano gesture_clap 1 idle*
+	*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000* ####### PLAYER AND BAR
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_clap 1 idle*
     Ah,%% there we go.%%%% Fully rewound!%%*setskin cat_bar 0* Let’s see what this tape has on it.
     &a5
 
 a5:
+	*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
     *setspeaker cat_cello*
 	*setskin cat_cello 1*
 	*setanim cat_cello gesture_sweep 1 idle*
@@ -81,6 +94,7 @@ a7:
     &a8
 
 a8:
+	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker cat_singer*
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_exchange 1.8 idle*
@@ -120,12 +134,18 @@ a13:
 	*setanim cat_bar gesture_foldarms 1 idle*
     This will be interesting,%%%% if nothing else.
     player:
-         &branch1: Is that good?
-   	 &branch2: Nope. I’m out. I know exactly where this is going. (Exit)
+    &branch1:
+		*setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000*
+		 Is that good?
+   	 &branch2: 
+	 *setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000*
+	 Nope. I’m out. 
+	 I know exactly where this is going. (Exit)
 
 #### BRANCH 1
 
 branch1:
+	*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
 	*setanim cat_piano gesture_agree 1 idle*
     *setspeaker cat_piano*
     Yeah this is pretty rare.%%%% 
@@ -142,6 +162,7 @@ b1a:
 
 #### BRANCH 2 (EARLY EXIT)
 branch2:
+	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUPs
 	*setskin cat_piano gesture_agree 1 idle*
     *setspeaker cat_piano*
     Yeah that’s probably smarter than staying here.%%% You should leave 
@@ -151,12 +172,19 @@ branch2:
 ### BRANCH 3 (THE MOVIE)
 
 c1:
+	*hide*
+	*txout*
+	*wait .1*
+	*txin*
+	*show*
+	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
     > We’ve gotten past the credits,%% it was a lot of establishing shots 
     of golf courses.%%%% The mood is bleak.
     &c2
 
 c2:
+	*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
     *setspeaker cat_cello*
 	*setskin cat_cello 2*
 	*setanim cat_cello gesture_jab 1 idle*
@@ -166,6 +194,7 @@ c2:
     &c3
 
 c3:
+	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
 	*setskin cat_cello 1*
 	*setskin cat_piano 1*
@@ -177,11 +206,13 @@ c3:
 
 c4:
     *setspeaker cat_piano*
+	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
 	*setanim cat_piano gesture_anger 1.5 idle*
     Oh my god fuckin GET HIM FUCK THAT DUDE UP NINJA HELL YEA
     &c5
 
 c5:
+	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
     > As if spurred on by the Pianist, the Ninja takes the man’s golf ball,%%% 
     and crushes it to dust in front of him*setanim cat_piano gesture_clap 1.3 idle* with his bare hands before 
@@ -189,6 +220,7 @@ c5:
     &c6
 
 c6:
+	*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
     *setspeaker cat_cello*
 	*setskin cat_cello 4*
 	*setanim cat_cello gesture_agree .65 idle*
@@ -197,6 +229,7 @@ c6:
     &c7
 
 c7:
+	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
 	*setskin cat_cello 0*
 	*setskin cat_piano 0*
 	*setskin cat_bar 0*
@@ -218,6 +251,7 @@ c8:
     &c9
 
 c9:
+	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_exchange 2.2 idle*
     > You have*setanim cat_singer gesture_exchange 2.2 idle* never seen the Singer*setanim cat_singer gesture_exchange 2.2 idle* this riled up.%%% They’re shadow*setanim cat_singer gesture_exchange 2.2 idle* boxing in 
@@ -232,6 +266,7 @@ c10:
 	*hide*
 	*txout*
 	*wait .1*
+	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
 	*setskin cat_cello 1*
 	*setskin cat_piano 1*
 	*setskin cat_bar 1*
@@ -244,6 +279,7 @@ c10:
     &c11
 
 c11:
+	*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000* ####### PLAYER AND BAR
 	*setanim cat_bar gesture_foldarms 1 idle*
 	*setskin cat_bar 4*
     *setspeaker cat_bar*
@@ -259,6 +295,7 @@ c12:
     &c13
 
 c13:
+	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
     *setspeaker cat_piano*
 	*setskin cat_piano 2*
 	*setanim cat_piano gesture_jab 1 idle*
@@ -266,6 +303,7 @@ c13:
     &c14
 
 c14:
+	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
     > The Ninja has just stabbed a police officer in the skull through the top 
     of their police cruiser.%%%% The officer driving the car does not appear to be 
@@ -279,6 +317,7 @@ c15:
     &c16
 
 c16:
+	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
     *setspeaker cat_piano*
 	*setskin cat_piano 2*
 	*setanim cat_piano gesture_anger 2.2 idle*
@@ -300,6 +339,7 @@ Fade to black
 Fade from black
 
 c18:
+	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
 	*hide*
 	*txout*
 	*wait .1*
@@ -312,12 +352,14 @@ c18:
     &c19
 
 c19:
+	*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000* ####### PLAYER AND BAR
     *setspeaker cat_bar*
     Well now.% I’m sure this is all this movie had.%%%%*setanim cat_bar gesture_confused 1 idle* Rather*setskin cat_bar 1* good though,% 
     wouldn’t you agree?
     &c20
 
 c20:
+	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
 	*setskin cat_piano 1*
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_agree 1 idle*
@@ -326,13 +368,14 @@ c20:
 
 c21:
     *setspeaker narrator*
-    > Oh wait something else is happening.%%% Ah,% the ninja is putting his hands 
+    > Oh wait something else is happening.%%%*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* Ah,% the ninja is putting his hands 
     together and chanting%.%.%.%%%now he’s spinning in place%.%.%.%%%%%
    
     the Ninja is drilling into the earth.
     &c22
 
 c22:
+	*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
 	*setskin cat_cello 1*
 	*setanim cat_cello gesture_agree 1 idle*
     *setspeaker cat_cello*
@@ -340,6 +383,7 @@ c22:
     &c23
 
 c24:
+	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
     > Yep.%% The Ninja is now up to his neck in the earth.%%%% There’s an evil laugh 
     sound playing,% and the Ninja seems waiting for more cops?%%%% It fades to black 

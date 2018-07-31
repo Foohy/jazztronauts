@@ -47,7 +47,7 @@ a6:
      &a7
 
 a7:
-     > The Bartender hands you an envelope. There’s CASH DOLLAZ inside!
+     > The Bartender hands you an envelope. There’s $25,000 inside!
      &a8
 
 a8:

@@ -51,7 +51,7 @@ turnin:
 t2:
     \*The Bartender slides a red envelope to you over the counter.
     *finish 0*
-    There's $2500 inside!\*
+    There's $5000 inside!\*
 
     &t3
 t3:

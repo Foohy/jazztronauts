@@ -49,7 +49,7 @@ begin6:
 *setcam setpos -13571.149414 -2157.019287 1042.542480;setang 9.023558 -135.240448 0.000000*
 *setanim cat_piano gesture_shock 1 idle*
 MAKING JOKES ABOUT BEING THE PROBLEM 
-DOESN't*setanim cat_piano gesture_anger 1 idle* MAKE YOU NOT THE PROBLEM.%%%%*setskin cat_piano 0*
+DOESN'T*setanim cat_piano gesture_anger 1 idle* MAKE YOU NOT THE PROBLEM.%%%%*setskin cat_piano 0*
 If we had five wheels,%% you'd be the sixth.
 &begin7
 
@@ -57,7 +57,7 @@ begin7:
 *setspeaker cat_cello*
 *setcam setpos -13559.854492 -2171.333984 1048.833496;setang -1.757542 -41.924026 0.000000*
 ohh%h%h hell *setanim cat_cello gesture_laugh 1 idle*yeah some motherfuckers*setskin cat_cello 2* trying to serve up a
-plate of beef carcaccio in my house,% better *setanim cat_cello gesture_jab 1 idle* saddle up
+plate of beef carpaccio in my house,% better*setanim cat_cello gesture_jab 1 idle* saddle up
 cause it's about to get real salty in here
 &begin8
 
@@ -71,7 +71,7 @@ have player collision enabled
 begin11:
 *setspeaker cat_piano*
 *setcam setpos -13571.149414 -2157.019287 1050.542480;setang 9.023558 -135.240448 0.000000*
-Fuck*setskin cat_piano 2* you,%%*setanim cat_piano gesture_anger 1 idle*  that doesn't count.%%*setskin cat_piano 0* That happened years ago when
+Fuck*setskin cat_piano 2* you,%%*setanim cat_piano gesture_anger 1 idle* that doesn't count.%%*setskin cat_piano 0* That happened years ago when
 we had barely*setanim cat_piano gesture_shrug 1 idle* any idea how this shitty game engine works.
 &begin12
 

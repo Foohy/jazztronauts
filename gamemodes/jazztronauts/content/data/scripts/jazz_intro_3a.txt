@@ -12,7 +12,7 @@ spawngang() # SETUP
 *setposang cat_singer setpos -13258.728516 -2642.172852 1025.494873;setang -90 342.957680 0.000000*
 *setposang code_trolley setpos -13048.782227 -2688.726318 985.0;setang 0 270 0*
 	*setspeaker cat_piano*
-	> That cat from before is at the*setanim cat_bar gesture_exchange 1 idle* end of the hall, waving you over. 
+	>That cat from before is at the*setanim cat_bar gesture_exchange 1 idle* end of the hall, waving you over. 
 	You decide to head over there.
 	&begin2	
 begin2:
@@ -25,7 +25,7 @@ begin2:
 *show*
 *setskin cat_bar 1*
 Greetings.%%*setskin cat_bar 0* As you can see,% this place does*setanim cat_bar gesture_sweep 1 idle* not seem to have an exit.%% 
-While i'm sure you can leave through whatever way you came in,%% we prefer a different method of travel.
+While I'm sure you can leave through whatever way you came in,%% we prefer a different method of travel.
 &begin3
 
 begin3:
@@ -78,9 +78,9 @@ m2:
 	&m3
 	
 m3:
-*setspeaker narrator*
+*setspeaker player*
 Wait,% what?%% 
-What do you mean the void-
+What do you mean the Void-?
 &m4
 
 m4:

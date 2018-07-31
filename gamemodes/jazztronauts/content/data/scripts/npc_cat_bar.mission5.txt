@@ -70,7 +70,7 @@ a10:
 a11:
      *setspeaker narrator*
      > The Bartender places a briefcase in your hands. It contains 
-     CASH DOLLAZ! *finish 5*
+     $30,000! *finish 5*
      &a12
 
 a12:

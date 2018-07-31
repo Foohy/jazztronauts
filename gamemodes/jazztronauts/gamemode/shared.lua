@@ -8,7 +8,7 @@ GM.Author   = "Snakefuck Mountain"
 team.SetUp( 1, "Jazztronauts", Color( 255, 128, 0, 255 ) )
 
 
-CreateConVar("jazz_override_noclip", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY }, "Allow jazztronauts to override when players can noclip.")
+CreateConVar("jazz_override_noclip", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY }, "Allow jazztronauts to override when players can noclip. If 0, it is determined by sandbox + whatever other mods you've got.")
 
 
 function GM:PlayerNoClip(ply)
@@ -49,16 +49,13 @@ function GM:JazzCanSpawnWeapon(ply, wep)
     local wepinfo = list.Get("Weapon")[wep]
     if not wepinfo then return false end
 
-    -- Ignore weapons outside of jazztronauts (for now??!?)
-    if wepinfo.Category != "Jazztronauts" then return true end
-
     -- If the weapon is in the store, it must have been unlocked to spawn
     if jstore.GetItem(wep) then
 
         -- Final check, must have been purchased in the store
         return unlocks.IsUnlocked("store", ply, wep)
-
     end
 
-    return true
+    -- Weapon is not in the store, they must have unlocked spawnmenu
+    return unlocks.IsUnlocked("store", ply, "spawnmenu")
 end

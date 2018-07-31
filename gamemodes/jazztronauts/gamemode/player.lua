@@ -5,10 +5,21 @@ include("player/sh_money.lua")
 
 if SERVER then include("player/sql.lua") end
 
+local spawnConVar = CreateConVar("jazz_debug_allow_gmspawn", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY }, "Allow unconditional spawning of props")
 
 -- TODO: Move mechanism to own module
 local itemprice = 100
 local function SpawnItem(ply, model, type)
+    if spawnConVar:GetBool() then return true end
+
+    if mapcontrol.IsInGamemodeMap() then return false end
+
+    -- Must have spawnmenu unlocked to spawn other items
+    if type != 'props' and type != 'sweps' and 
+        not unlocks.IsUnlocked("store", ply, "spawnmenu") then
+        return false 
+    end
+
     return ply:ChangeNotes(-itemprice)
 end
 
@@ -54,7 +65,7 @@ end
 function GM:PlayerSpawnSWEP( ply, wname, wtable )
     if not self:JazzCanSpawnWeapon(ply, wname) then return false end
     
-	return SpawnItem(ply, model, "sents")
+	return SpawnItem(ply, model, "sweps")
 end
 
 --[[---------------------------------------------------------

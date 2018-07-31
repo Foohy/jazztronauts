@@ -18,14 +18,6 @@ begin:
 	*spawn cat_singer models/andy/singer/cat_singer*
 	*setnpcid cat_singer npc_cat_sing*
 
-	*spawn narrator models/npc/cat.mdl*
-	*setnpcid narrator npc_narrator*
-
-	*spawn table models/props_wasteland/cafeteria_table001a.mdl*
-	*spawn table2 models/props_wasteland/cafeteria_table001a.mdl*
-
-	*setposang table -1473.481445 3086.531494 0;setang 0 90 0*
-	*setposang table2 -1473.481445 3053.531494 0;setang 0 90 0*
 	*setposang cat_bar -1456.906494 3002.029785 0;setang 1.819516 -93.511383 0.000000*
 	*setposang cat_cello -1550.800171 3010.119873 0;setang 3.789388 -72.588135 0.000000*
 	*setposang narrator -1373.047852 2962.862061 0;setang 0.000003 -115.818779 0.000000*

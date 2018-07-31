@@ -3,24 +3,26 @@ begin:
 	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
 	*setnpcid cat_bar npc_cat_bar*
 
-	*spawn cat_piano models/andy/pianist/cat_pianist*
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
 	*setnpcid cat_piano npc_cat_piano*
 
-	*spawn cat_cello models/andy/cellist/cat_cellist*
+	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setnpcid cat_cello npc_cat_cello*
 	
-	*spawn cat_singer models/andy/singer/cat_singer*
+	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setnpcid cat_singer npc_cat_sing*
 	
-	*spawn cat_void models/andy/basecat/cat_all*
-	*setname cat_void ????*
+	*spawn cat_void models/andy/basecat/cat_all.mdl*
+	*setnpcid cat_void npc_cat_void*
 	
-	*spawn cat_ash models/andy/basecat/cat_all*
-	*setname cat_ash Ash*
+	*spawn cat_ash models/andy/basecat/cat_all.mdl*
+	*setnpcid cat_ash npc_cat_ash*
+
 	*setcam setpos 1563.870972 1781.132080 4507.894531;setang 10.488383 -18.416737 0.000000*
 	*setposang player setpos 6839.478516 0.394360 3584.031250;setang 1.810255 -0.102170 0.000000*
 	*setposang cat_void setpos 7188.277344 4.338923 3584.031250;setang -90 180 0.000000*
 	*tweencam 30 setpos 6088.193359 481.446808 3872.714600;setang 12.884171 -23.581017 0.000000*
+    *setspeaker cat_void*
      I am not happy.
      &a1
 	
@@ -116,7 +118,7 @@ trueend:
 	> The Void cat looks surprised for once.
     condition:
     &trueend2:
-        return finishedmissions()
+        return true
     &incomplete1:
         return true
 
@@ -181,7 +183,7 @@ As the trolley starts to go, everything gets shaky and the road starts to crack 
 
 t4:
 	*setcam setpos 6944.588867 107.729767 3644.558594;setang -0.975558 79.863335 0.000000*
-	*tweenposang trolley_cutscene setpos 7160.477539 -2147.534912 3672;setang 0 270 0*
+	*tweenposang 0.1 trolley_cutscene setpos 7160.477539 -2147.534912 3672;setang 0 270 0*
 	*setposang player setpos -8405.985352 1895.972900 -6848.968750;setang 8.261432 -79.421158 0.000000*
 	*setposang cat_singer setpos -8377.765625 1610.613403 -6848.968750;setang -90 180 0.000000*
 	*setposang cat_bar setpos -8339.893555 1735.544434 -6848.968750;setang -90 130 0.000000*
@@ -264,7 +266,7 @@ t10:
      > The Singer holds up their tablet.%% They spell out their feelings in 
      massive,% glittering comic sans\:%% 
 	 “WHO THE FUCK ARE YOU???”
-     &t10
+     &t11
      
 t11:
 	*setskin cat_cello 2*
@@ -275,7 +277,7 @@ t11:
     live as incomprehensibly*setanim cat_cello gesture_disagree 1 idle* long as i have without being generally 
     suspicious of creepy-ass motherfuckers metamorphosing into mild 
     mannered benefactors
-    &t11
+    &t12
 
 t12:
 	*setcam setpos -8153.125000 1412.837769 -6812.813965;setang -0.549514 123.990501 0.000000*

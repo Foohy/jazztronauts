@@ -9,6 +9,8 @@ AddNPC("NPC_CAT_PIANO", "Pianist", "models/andy/pianist/cat_pianist.mdl")
 AddNPC("NPC_CAT_CELLO", "Cellist", "models/andy/cellist/cat_cellist.mdl")
 AddNPC("NPC_NARRATOR", "", "models/npc/cat.mdl")
 AddNPC("NPC_BAR", "")
+AddNPC("NPC_CAT_VOID", "???", "models/andy/basecat/cat_all.mdl")
+AddNPC("NPC_CAT_ASH", "Ash", "models/andy/basecat/cat_all.mdl")
 
 -- Utility function for giving a player a monetary reward
 local function GrantMoney(amt)

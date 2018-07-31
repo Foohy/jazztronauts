@@ -64,7 +64,6 @@ function ENT:Initialize()
     self:DrawShadow(false)
 
     if CLIENT then
-        ParticleEffect( "shard_glow", self:GetPos(), self:GetAngles(), self )
 
         -- Take a snapshot of the surface that's about to be destroyed
         self:StoreSurfaceMaterial()

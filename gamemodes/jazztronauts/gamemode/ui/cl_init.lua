@@ -7,6 +7,7 @@ include("spawnmenu/cl_init.lua")
 include("store/cl_init.lua")
 include("worldmarker/cl_init.lua")
 include("nametags/cl_init.lua")
+include("cl_skin.lua")
 
 function GM:HUDPaint()
 

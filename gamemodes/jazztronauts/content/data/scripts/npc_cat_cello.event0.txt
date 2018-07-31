@@ -101,7 +101,7 @@ r2a2:
 	like you know how people who grow up in the middle of nowhere get so
 	bored they end up inventing new pastimes based entirely on saying%%%%%*setskin cat_cello 2*
 	"hey y'all watch this"%%%%*setskin cat_cello 1* before doing something*setanim cat_cello gesture_shrug 1 idle* that voids the 
-	warranty on their limbs,% organs,5 and/or skeleton
+	warranty on their limbs,% organs,% and/or skeleton
 	&r2a3
 	
 r2a3:
@@ -233,7 +233,7 @@ agoodtime:
 	*setskin cat_cello 1*
 	*setanim cat_cello gesture_laugh .9 idle*
 	ah,%% naked avarice and gleeful capriciousness.%%%*setanim cat_cello gesture_agree 1 idle* i see you are a person of
-	culture.%%*setskin cat_cello 0* well you're gonna get plenty of*setanim cat_cello gesture_sweep 1 idle* opporunities to scratch both
+	culture.%%*setskin cat_cello 0* well you're gonna get plenty of*setanim cat_cello gesture_sweep 1 idle* opportunities to scratch both
 	those itches let me tell you you're gonna be up to your eyeballs in
 	fabulous riches and weird-ass tech
 	&goodtime1

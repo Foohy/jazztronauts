@@ -14,6 +14,7 @@ function PANEL:Init()
 
 	self:Populate()
 	self:SetFadeTime( 0 )
+	self:SetSkin( "Jazz" )
 
 end
 
@@ -71,6 +72,8 @@ function PANEL:Populate()
 
 	self.content = vgui.Create( "ContentContainer", pnl )
 	self.content:Dock( FILL )
+	self.content:SetSkin( "Jazz" )
+	self.content.VBar:SetWide(30)
 
 	if unlocks.IsValid( "props" ) then
 
@@ -95,6 +98,7 @@ function PANEL:Populate()
 	
 	self.weapons = vgui.Create( "ContentContainer", pnl )
 	self.weapons:Dock( FILL )
+	self.weapons:SetSkin( "Jazz" )
 
 	-- Go through every registered jazz weapon and try to add them
 	for k, v in pairs(list.Get("Weapon")) do

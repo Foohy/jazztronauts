@@ -149,8 +149,12 @@ local function removeSceneEntity(name)
     end
 end
 dialog.RegisterFunc("spawn", function(d, name, mdl)
+    local isdummy = mdl == "dummy"
+    if isdummy then mdl = "models/props_interiors/vendingmachinesoda01a.mdl" end
+
     sceneModels[name] = ManagedCSEnt(name, mdl)
-    sceneModels[name]:SetNoDraw(false)
+    sceneModels[name]:SetNoDraw(isdummy)
+    sceneModels[name].IsDummy = isdummy
 end)
 
 dialog.RegisterFunc("remove", function(d, name)

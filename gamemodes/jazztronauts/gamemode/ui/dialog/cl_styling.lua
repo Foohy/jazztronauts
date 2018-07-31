@@ -102,6 +102,7 @@ end
 local renderPlayerCutIn = false
 local function RenderEntityCutIn(ent, x, y, w, h)
 	if not IsValid(ent) then return end
+	if ent.IsDummy then return end
 
 	local headpos = ent:GetPos()
 	local entangs = ent:GetAngles()
@@ -196,7 +197,7 @@ DialogCallbacks.Paint = function(_dialog)
 	local x = ScrW() / 2 + BGOffX * (localspeaker and -1 or 1)
 	local y = ScrH() - h/2 - BGOffY
 
-	local chatbg = IsValid(speaker) and chatboxMat or chatboxNarrateMat
+	local chatbg = (IsValid(speaker) and not speaker.IsDummy and chatboxMat) or chatboxNarrateMat
 	surface.SetMaterial(chatbg)
 	surface.SetDrawColor( 255, 255, 255, 255 )
 	surface.DrawTexturedRectUV( x - w/2, y - h/2, w, h, localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)

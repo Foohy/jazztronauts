@@ -356,7 +356,7 @@ t18:
 t19:
 	*setcam setpos 1454.141357 503.886780 -1829.567505;setang -0.602724 -0.324777 0.000000*
 	*setposang trolley_cutscene setpos 2006.556763 1672.070679 -1816.968750;setang 0 0 0.000000*
-	*tweenposang trolley_cutscene setpos 2006.556763 497 -1816.968750;setang 0 0 0.000000*
+	*tweenposang 0.5 trolley_cutscene setpos 2006.556763 497 -1816.968750;setang 0 0 0.000000*
 	*wait 1*
 	*setcam setpos 1807.996460 442.324951 -1827.931519;setang 18.137722 120.796173 0.000000*
 	*setposang player setpos 1710.083252 504.915985 -1896;setang 9.645864 13.544979 0.000000*

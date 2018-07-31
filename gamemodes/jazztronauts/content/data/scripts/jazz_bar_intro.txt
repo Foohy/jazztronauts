@@ -14,6 +14,7 @@ begin:
 
 # They rejoined after saying no, but never finished this cutscene
 saidnobefore:
+	*setspeaker cat_bar*
     Allow me to formally welc-%%
     Wait a minute,% I recognize you.%%
     Didn't you say no before?
@@ -41,23 +42,28 @@ a1:
 
 a2:
      *setspeaker narrator*
-     >The stage lights up! The other 3 cats are here too it appears.
+     >The stage lights up!%%%% The other 3 cats are here too it appears.
      &a3
 
 a3:
      *setspeaker cat_bar*
-     We've done this a few times so let me preemptively answer a few of 
+	 *setskin cat_bar 4*
+	 *setanim cat_bar gesture_shrug 1 idle*
+     We've done this a few times so let me*setskin cat_bar 0* preemptively answer a few of 
      the more immediate concerns I'm sure you have.
      &a4
 
 a4:
-     You are currently inside of the Bar Samsara. I am the Bartender 
-     here. It is an establishment we run where beings from all dimensions
+	*setskin cat_bar gesture_sweep 1*
+     You are currently inside of the Bar Samsara.%%% I am the Bartender 
+     here.%%*setanim cat_bar gesture_agree 1 idle* It is an establishment we run where beings from all dimensions
      can stop in for a visit to relax and refresh.
      &a5
 
 a5:
      *setspeaker cat_cello*
+	 *setskin cat_cello 1*
+	 *setanim cat_cello gesture_laugh 1 idle*
      also its a front for a notorious gang of omnidimensional thieves 
      that break into concepts and narratives rather than just physical 
      places in conventional space-time
@@ -65,61 +71,70 @@ a5:
 
 a6:
      *setspeaker cat_piano*
-     He's talking about us, just in case that went over your head.
+	 *setskin cat_cello 0*
+	 *setanim cat_piano gesture_facepalm 1 idle*
+	 *setskin cat_piano 4*
+     He's talking about us,%%*setskin cat_piano 0* just in case that went over your head.
      &a7
 
 a7:
      *setspeaker cat_bar*
-     And you as well, hopefully. But we'll get to that in a minute.
+	 *setskin cat_bar 1*
+     And you as well,% hopefully.%%%*setskin cat_bar 0* But*setanim cat_bar gesture_confused 1 idle* we'll get to that in a minute.
      &a8
 
 a8:
-     The Bar Samsara is a hub, of sorts. A plethora of dimensions and 
-     worlds have free access to this spot in local space-time. Naturally,
-     that access goes both ways. We can enter those other worlds from 
-     here. Which is where you come in.
+	*setanim cat_bar gesture_sweep 1 idle*
+     The Bar Samsara is a hub,% of sorts.%%% A plethora of dimensions and 
+     worlds have free access to this spot in local space-time.%%*setskin cat_bar 1* Naturally,%
+     that access goes both ways.%%%*setskin cat_Bar 0* We*setanim cat_bar gesture_agree 1 idle* can enter those other worlds from 
+     here.%%%% Which is where you come in.
      &a9
 
 a9: 
-     Let's cut to the chase. We would like to hire you to forcibly break 
-     into dimensions that you do not belong to, steal everything you can,
+	*setanim cat_bar gesture_shrug*
+	*setskin cat_bar 4*
+     Let's cut to the chase.%%*setskin cat_bar 0* We would like to hire you to forcibly break 
+     into dimensions that you do not belong to,% steal everything you can,%%
      and then give it to us.
      &a10
 
 a10:
-     You get a cut of the take, of course. We will also give you free 
-     room and board for the duration of your stay, and access to special
+     You get a cut of the take,% of course.%%% We will also give you free 
+     room and board for the duration of your stay,% and access to special
      tools developed by us.
      &a11
 
 a11:
-
-     There is danger involved, but the results of failure are a lot less
-     complicated for players than they are for us. Suffice to say, we're 
-     incentivized to have help. That said...
+     There is danger involved,% but the results of failure are a lot less
+     complicated for players than they are for us.%%% Suffice to say,%% we're 
+     incentivized to have help.%%% That said%.%.%.%%
      &a12
 
 a12:
-     As I said earlier, you may absolutely refuse. We will immediately 
-     return you to the main menu, and you'll be free to go on with your
-     day. This is an agreement between two parties, not a hostage 
+     As I said earlier,% you may absolutely refuse.%%% We will immediately 
+     return you to the main menu,%% and you'll be free to go on with your
+     day.%%%% This is an agreement between two parties, not a hostage 
      situation.
      &aask
 
 #If they rejoined, bartender will re-ask this question
 aask:
-     So...what do you say?
+     So%.%.%.%%%what do you say?
      player:
           &a14: Yeah okay, that sounds good.
           &lisaneedsbraces: Give me benefits, and yes.
+		  &skiptutorial: 
+		  Yeah, yeah, sure. Can we skip the meet and greet?
+		  I learn better by experience. (Skip Tutorial)
           &why: No.
 
 
 ### VIDEO GAMES SUCK ACTUALLY
 why:
     *run jazz_say_no*
-     Ah, well. It's not the sort of job for everyone. Still, though, you
-     heard us out, and I appreciate that.
+     Ah,% well.%%%% It's not the sort of job for everyone.%% Still,% though,% you
+     heard us out,%% and I appreciate that.
      &why2
 
 why2:
@@ -132,8 +147,8 @@ why2:
 
 ### DENTAL PLAN 
 lisaneedsbraces:
-     Benefits...? You're the first one to think of asking for that. 
-     I don't see why we couldn't set that up, though I'm not sure 
+     Benefits%.%.%.%%? You're the first one to think of asking for that.%%%% 
+     I don't see why we couldn't set that up,%% though I'm not sure 
      how often you'll need a dental plan in this world.
      &a14
 
@@ -162,19 +177,19 @@ a17:
      &a18
 
 a18:
-     >They stop for second, and take out a tablet. They type on it 
+     >They stop for second,%% and take out a tablet.%%%% They type on it 
      furiously.
      &a19
 
 a19:
-     >The tablet says 'HI IM THE SINGER NICE TO MEET YOU \:D'. They're 
-     holding it above their head, and jumping up and down now.
+     >The tablet says 'HI IM THE SINGER NICE TO MEET YOU \:D'.%%% They're 
+     holding it above their head,% and jumping up and down now.
      &a20
 
 a20:
      *setspeaker cat_bar*
-     They can't read it if you keep moving it, but I think they get the 
-     picture. At any rate, welcome aboard! It's good to have you all 
+     They can't read it if you keep moving it,%% but I think they get the 
+     picture.%%% At any rate,% welcome aboard!%% It's good to have you all 
      with us.
      &a21
 
@@ -185,87 +200,87 @@ a21:
 
 a22:
      *setspeaker cat_piano*
-     We should get 'em up to speed, Boss. Shard tank's not gonna fill 
+     We should get 'em up to speed,%% Boss.%%%% Shard tank's not gonna fill 
      itself.
      &a23
 
 a23:
      *setspeaker cat_bar*
-     Of course. Now then, how would you like a rundown of the 
-     operation we have here? I recommend it.
+     Of course.%%% Now then,% how would you like a rundown of the 
+     operation we have here?%%%% I recommend it.
      player:
-          &a24: Yeah sure, clue me in. (View Tutorial)
-          &b1: No thanks, I'm good. (Leave)
+          &a24: Yeah sure,% clue me in. (View Tutorial)
+          &b1: No thanks,% I'm good. (Leave)
 
 ### I'M GOOD SEEN THIS BEFORE
 b1:
      *setspeaker cat_bar*
-     As you wish, I'm sure you'll be able to figure it all out. Let's 
+     As you wish,% I'm sure you'll be able to figure it all out.%%%% Let's 
      get to work, gang.
      &b2
 
 b2:
      *setspeaker cat_piano*
-     No nonsense eh? We'll get along just fine. Swing by the store and 
-     we'll get you some gear. Be bustin' skulls before you know it.
+     No nonsense eh?%% We'll get along just fine.%%% Swing by the store and 
+     we'll get you some gear.% Be bustin' skulls before you know it.
      &b3
 
 b3:
      *setspeaker cat_cello*
-     just to make sure, your job is to look out for shards. they look 
-     like someone made crack rocks out of rainbows, you'll know em when 
-     you see em. get a lot of them.
+     just to make sure,% your job is to look out for shards.%%%% they look 
+     like someone made crack rocks out of rainbows,% you'll know em when 
+     you see em.%%%% get a lot of them.
      &ending
 
 ### PREPARE YOUR ASS FOR TEXT
 
 a24:
      *setspeaker cat_bar*
-     Certainly. We've got a number of facilities here in the Bar Samsara.
-     The most important one is the trolley depot. The trolley is how you 
-     visit a map once you've selected it. Once all players have taken a 
+     Certainly.%%% We've got a number of facilities here in the Bar Samsara.%
+     The most important one is the trolley depot.%% The trolley is how you 
+     visit a map once you've selected it.%%% Once all players have taken a 
      seat, it'll take care of the rest.
      &a25
 
 a25:
      You've also been provided with a modified pistol that acts as a
-     beacon for the trolley's dimensional navigating systems. If enough
-     players target the same spot with it, it will break into the map 
-     from that spot. I suggest you take care to not stand in its way.
+     beacon for the trolley's dimensional navigating systems.%% If enough
+     players target the same spot with it,% it will break into the map 
+     from that spot.%%% I suggest you take care to not stand in its way.
      &a26
 
 a26:
-     Once it's arrived, it will leave the same way it arrived, once all
+     Once it's arrived,%% it will leave the same way it arrived,% once all
      players are sitting inside.
      &a27
 
 a27:
      *setspeaker cat_piano*
-     A little past the depot is the camp you'll be living in, and the 
-     machine that lets you find new worlds to break into. Don't worry, 
+     A little past the depot is the camp you'll be living in,% and the 
+     machine that lets you find new worlds to break into.%%% Don't worry, 
      it's pretty simple to operate.
      &a28
 
 a28:
-     There are only two buttons worth a damn on it after all. 
-     The big clunky lookin' tv is what you use to look for new levels,
+     There are only two buttons worth a damn on it after all.%% 
+     The big clunky lookin' tv is what you use to look for new levels,%
      and the weird thing in the center is what you use to select one.
      &a29
 
 a29:
      *setspeaker cat_bar*
-     It looks complicated, though, so to make it even simpler, we've 
-     marked the consoles you need to use with a Green or Red light. 
-     Look for that, and you'll get it in no time.
+     It looks complicated,% though,%% so to make it even simpler, we've 
+     marked the consoles you need to use with a Green or Red light.%%%% 
+     Look for that,%% and you'll get it in no time.
      &a30
 
 a30:
-     Just remember, Browse on the tv and Select the Level on the center 
+     Just remember,% Browse on the tv and Select the Level on the center 
      basin.
      &a31
 
 a31:
-     Moving on, let's talk about the prop snatcher.
+     Moving on,% let's talk about the prop snatcher.
      &a32
 
 a32:
@@ -281,67 +296,67 @@ a33:
 
 a34:
      *setspeaker cat_bar*
-     The prop snatcher allows you to steal any prop from a map. Once you 
-     come back to the bar, you can exchange the props you've stolen for
-     money. All you need do is pull the lever in the money den, and we'll
+     The prop snatcher allows you to steal any prop from a map.%%% Once you 
+     come back to the bar,% you can exchange the props you've stolen for
+     money.%%% All you need do is pull the lever in the money den,% and we'll
      handle the rest.
      &a35
 
 a35:
-     We should note, that the money gained from stealing props is shared
-     between you and your friends. Every player receives their own 
+     We should note,% that the money gained from stealing props is shared
+     between you and your friends.%%%% Every player receives their own 
      individual share of money based on the total cash value of all props
-     stolen on the server, regardless of who stole it.
+     stolen on the server,% regardless of who stole it.
      &a36
 
 a36:
-     This means you don't have to worry about falling behind! You should
-     feel free to spend money when you get it, as you're not hogging it
-     from any other player. Players who join late or only every so often 
-     will receive money based on the server's progress, too.
-     &a37
+     This means you don't have to worry about falling behind!%%% You should
+     feel free to spend money when you get it,% as you're not hogging it
+     from any other player.%% Players who join late or only every so often 
+     will receive money based on the server's progress,% too.
+     &a38
 
 a37:
-     Of course, we also know that it's common for friends to compete with
-     each other to see who can steal the most, so we've implemented a few
+     Of course,%% we also know that it's common for friends to compete with
+     each other to see who can steal the most,% so we've implemented a few
      ways to check on those statistics, with a leaderboard in the money
      den. You'll always be on an even playing field, so it's all skill!
      &a38
 
 a38:
-     There are two other ways to make money. The first is a flat cash 
-     reward to all players for each shard acquired, and the second is 
-     talking to us around the Bar Samsara when we have requests for you.
+     There are two other ways to make money.%% The first is a flat cash 
+     reward to all players for each shard acquired,% and the second is 
+     talking to us around the Bar Samsara when we have requests for you.%%%%
      We'll make sure you're compensated fairly for your work.
-     &a39
+     &a40
 
 a39:
-     Eventually you'll find a way to ransack that's unique to you, 
-     and that's when it gets good. On that subject, let's talk about the
+     Eventually you'll find a way to ransack that's unique to you,%% 
+     and that's when it gets good.%%% On that subject,% let's talk about the
      Store in the bar next.
      &a40
 
 a40:
-     I am the Bartender. As my name suggests, I am the one who tends 
-     the bar. You can spend the money you've gained here for new 
-     equipment, or to level up your tools and allow you to explore and 
+     I am the Bartender.%%% As my name suggests,% I am the one who tends 
+     the bar.%%%% You can spend the money you've gained here for new 
+     equipment,%% or to level up your tools and allow you to explore and 
      steal more freely and easily.
-     &a41
+     &a45
 
 a41:
-     Speaking of, you should have a few props stolen already, yes? 
+     Speaking of,% you should have a few props stolen already,%% yes?%%%% 
      I recommend the first thing you do is exchange those for money. 
      &a42
 
 a42:
      *setspeaker cat_piano*
-     You should buy the prop snatcher upgrades first, by the way.  
+     You should buy the prop snatcher upgrades first,%% by the way.%%%%  
      Shit'll let you steal the walls and floors of levels an' stuff.
      &a43
 
 a43:
      *setspeaker cat_singer*
-     >The Singer is holding up their tablet, where a bedazzled message 
+     >The Singer is holding up their tablet,%% where a bedazzled message 
      informs you that no, seriously, you need those. They are trying 
      really hard not to bounce, it seems.
      &a44
@@ -366,31 +381,31 @@ a46:
 
 a47:
      *setspeaker cat_bar*
-     Ah of course! Right, we ought to explain the number one reason 
-     we brought you here. It's also linked to the period of employment
+     Ah of course!%% Right,% we ought to explain the number one reason 
+     we brought you here.%%% It's also linked to the period of employment
      you'll have with us.
      &a48
 
 a48:
      We need you to hunt for objects we call shards in each level you 
-     visit. They are naturally occuring spacetime phenomena that can be 
-     harvested and we want them, for reasons.
+     visit.%%% They are naturally occuring spacetime phenomena that can be 
+     harvested and we want them,% for reasons.
      &a49
 
 a49:
      *setspeaker cat_cello*
-     yep, reasons
+     yep,% reasons
      &a50
 
 a50:
      *setspeaker cat_piano*
-     Mmmm, reasons.
+     Mmmm,% reasons.
      &a51
 
 a51:
      *setspeaker cat_singer*
      >The Singer nods sagaciously.
-     &a52
+     &a53
 
 a52:
      *setspeaker cat_bar*
@@ -403,57 +418,54 @@ a52:
 a53:
      Once we've got the amount we need, you'll be free to go whenever you
      wish! No strings, no stipulations. Just an amicable parting on your 
-     terms. 
-     &a54
-
-a54:
-     player:
+     terms.
+	 player:
           &areyouawizard: Wait do you need these shards for like, evil stuff?
           &business: Fair enough, can I get started? 
-          &clownshoes: Do I get a cool costume?
+          &clownshoes: Do I get a cool costume?	 
 
 ### YO YOU ARENT GONNA BETRAY ME RIGHT
 areyouawizard:
      *setspeaker cat_cello*
-     naw holmes we grew out of doing evil shit for goofs a long time ago,
+     naw holmes we grew out of doing evil shit for goofs a long time ago,%
      the writing was always garbage anyway
      &wiz2
 
 wiz2:
      *setspeaker cat_piano*
-     The shards themselves are completely harmless anyways. You'll see 
-     why when you spot one - they make a really warm sound, and are 
+     The shards themselves are completely harmless anyways.%%% You'll see 
+     why when you spot one - they make a really warm sound,%% and are 
      generally just calming to be near.
      &wiz3
 
 wiz3:
      *setspeaker cat_bar*
-     It's still a fair question to ask, it's rare to acquire strange and 
-     mystical wizard gewgaws for anything benevolent. But yes, our 
-     intentions are not malicious. That said, shall we get started?
+     It's still a fair question to ask,% it's rare to acquire strange and 
+     mystical wizard gewgaws for anything benevolent.%%% But yes,% our 
+     intentions are not malicious.%% That said,% shall we get started?
      &ending
 
 ### I'M HERE FOR BUSINESS
 business:
      *setspeaker cat_bar*
-     Of course! Let's get to work gang.
+     Of course!%%% Let's get to work gang.
      &biz2
      
 biz2:
      *setspeaker cat_piano*
-     Good hustle, I like that. Make sure you drop by the boss and get 
+     Good hustle,% I like that.%%%% Make sure you drop by the boss and get 
      some gear before you go out there. 
      &biz3
 
 biz3:      
      *setspeaker narrator*
-     >The Pianist gives a firm nod in your direction, and heads out.
+     >The Pianist gives a firm nod in your direction,% and heads out.
      &ending
 
 ### I'M HERE TO MEME
 clownshoes:
      *setspeaker cat_cello*
-     aw hell yea this dude gets it. nothin more important than how dope 
+     aw hell yea this dude gets it.%%% nothin more important than how dope 
      you look while you tear out all the copper wire in someone's kitchen
      and loot their drug stash
      &honk2
@@ -461,13 +473,13 @@ clownshoes:
 honk2:
      *setspeaker cat_piano*
      You look like the Platonic form of a used car salesman got caught in
-     an explosion at a tweed factory. It might be illegal for you to give 
+     an explosion at a tweed factory.%% It might be illegal for you to give 
      advice about style to anyone.
      &honk3
 
 honk3
      *setspeaker cat_cello*     
-     philistine. don't listen to her, *player*. come find me and we will 
+     philistine.%%%% don't listen to her,% *player*.%%% come find me and we will 
      discuss the finer things in life.
      &honk4
 
@@ -480,7 +492,7 @@ honk4:
 
 ending:
      *setspeaker cat_narrator*
-     >The rest of the cats begin to file out of the room. Soon it's just 
+     >The rest of the cats begin to file out of the room.%%% Soon it's just 
      you in the theater.
      &ending2
 

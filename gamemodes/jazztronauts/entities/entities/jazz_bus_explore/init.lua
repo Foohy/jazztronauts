@@ -25,6 +25,8 @@ local MOVE_LEAVING_PORTAL = 4
 ENT.BusLeaveDelay = 1
 ENT.BusLeaveAccel = 500
 
+local noMoveEntsConVar = CreateConVar("jazz_bus_nomove", "0")
+
 ENT.PrelimSounds = 
 {
 	{ snd = "ambient/machines/wall_move1.wav", delay = 2.8 },
@@ -244,6 +246,7 @@ function ENT:QueueTimedMusic()
 end
 
 function ENT:Touch(other)
+	if noMoveEntsConVar:GetBool() then return end
 	if self.MoveState == MOVE_STATIONARY then return end
 	if !IsValid(other:GetPhysicsObject()) then return end
 	if (other:GetClass() == self:GetClass()) then return end

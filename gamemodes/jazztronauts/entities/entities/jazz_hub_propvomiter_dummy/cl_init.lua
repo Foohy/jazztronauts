@@ -37,6 +37,8 @@ function ENT:OnStartVomiting()
 end
 
 function ENT:OnStopVomiting()
+    if true then return end -- it's funnier if we hard-cut music
+    
     if IsValid(self.MusicChannel) then
         self.MusicChannel:Stop()
         self.MusicChannel = nil

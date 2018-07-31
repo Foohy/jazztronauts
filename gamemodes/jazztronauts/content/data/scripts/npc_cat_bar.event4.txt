@@ -12,7 +12,7 @@ begin:
 	*txin*
 	*wait .15*
 	*show*
-    Alright. Now, breathe in. One, two, three, four.
+    Alright.%%% Now,% breathe in.%%%% One,%% two,%% three,%% four.
     &a2
 
 a2:
@@ -20,11 +20,11 @@ a2:
     &a3
 
 a3: 
-    Slowly release. One, two, three, four.
+    Slowly release.%%%% One,%% two,%% three,%% four.
     &a4
 
 a4:
-    Ah, *player*! Care to join us in our meditations?
+    Ah, *player*!%%%% Care to join us in our meditations?
     player:
          &dingus: Do I have to hum while I breathe because I don’t have that 
               kind of breath control.
@@ -34,48 +34,48 @@ a4:
 ###EARLY EXIT
 
 leave:
-    Of course. We’ll be out in a little while.
+    Of course.%%% We’ll be out in a little while.
     &exit
 
 
 ### DINGUS ANSWER
 dingus:
     *setspeaker cat_piano*
-    If you start humming I will punch you in the face. 
+    If you start humming I will punch you in the face.%%%% 
     This is our quiet time.
     &dingus2
 
 dingus2:
     *setspeaker cat_bar*
-    ...It’s not necessary, no. Neither are threats of violence, Pianist.
+    %.%.%.%It’s not necessary,%% no.%%% Neither are threats of violence,% Pianist.
     player:
          &a5: Sure.
-         &leave: Uh, I’ll...pass. Have fun though. (exit)
+         &leave: Uh,% I’ll%.%.%.%%pass.%%% Have fun though. (exit)
 
 
 ###MAIN THROUGHLINE
 a5:
     *setspeaker narrator*
-    > The Bartender smiles, and you sit down beside her. 
+    > The Bartender smiles,%% and you sit down beside her. 
     &a6
 
 a6:
     *setspeaker cat_piano*
-    Excellent, a pleasure to have you. 
+    Excellent,%% a pleasure to have you. 
     &a7
 
 a7:
-    This is a very simple meditation, if you’d care to follow along.
+    This is a very simple meditation,%% if you’d care to follow along.
     &a8
 
 a8:
-    Sit up straight, and put your hands on your knees. Focus on the 
+    Sit up straight,% and put your hands on your knees.%%%% Focus on the 
     points where your body makes contact with the surface beneath you. 
     &a9
 
 a9:
-    We are following a four count breathing rhythm today. Inhale for 
-    four seconds, hold for four seconds, and then slowly release your  
+    We are following a four count breathing rhythm today.%%%% Inhale for 
+    four seconds,%% hold for four seconds,%% and then slowly release your  
     breath for four seconds. 
     &a10
 
@@ -88,7 +88,7 @@ a10:
 
 a11:
     *setspeaker cat_singer*
-    > The Singer nods, once.
+    > The Singer nods,%% once.
     &a12
 
 a12:
@@ -97,7 +97,7 @@ a12:
     &a13
 
 a13:
-    Think of a place that makes you happy. Somewhere you feel at home 
+    Think of a place that makes you happy.%%% Somewhere you feel at home 
     and at peace.
     &a14
 
@@ -106,38 +106,38 @@ a14:
     &a15
 
 a15:
-    Just sit, and relax in the stillness.
+    Just sit,%%% and relax in the stillness.
     &a16
 
 ##[fade out, linger a moment on the black, fade back in. Cellist is now
 ##passed out cold on the floor, but everyone else is standing]
 
 a16:
-    That was an excellent session, everyone!
+    That was an excellent session,%%% everyone!
     &a17
 
 a17
-    Pianist, I noticed you broke your record before needing to do some
-    pushups. Congratulations! I'm very proud.
+    Pianist,%% I noticed you broke your record before needing to do some
+    pushups.%%%% Congratulations!% I'm very proud.
     &a18
 
 a18:
     *setspeaker cat_piano*
-    Thanks, boss.
+    Thanks,%% boss.
     &a19
 
 a19:
     *setspeaker narrator*
-    >The Bartender nudges the Cellist with her foot. He lets out a loud
-    and kinda gross snore.
+    >The Bartender nudges the Cellist with her foot.%%% 
+	He lets out a loud and kinda gross snore.
     &a20
 
 a20:
     *setspeaker cat_bar*
-    Well, at least he was able to relax this time.
+    Well,% at least he was able to relax this time.
     &a21
 
 a21:
-    Thank you for joining us, *player*. It was lovely to spend a while
-    relaxing in your company.*mark_seen*
+    Thank you for joining us,%%% *player*. 
+	It was lovely to spend a while relaxing in your company.*mark_seen*
     &exit

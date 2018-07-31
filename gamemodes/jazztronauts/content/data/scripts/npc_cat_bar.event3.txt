@@ -5,23 +5,25 @@ begin:
     *txout*
     *setfov 70*
     *setspeaker narrator*
+	*setanim cat_bar gesture_washing*
 	*txin*
 	*wait .15*
 	*show*
-    > The Bar Samsara... 
+    > The Bar Samsara%.%.%.%%% 
     You’re chatting the twilight away with the Bartender.
     &a2
 
 a2:
     *setspeaker cat_bar*
-    -shockingly, yes, you CAN make a soup stock out of crystallized bone 
-    marrow. The sheer richness...I wish I could offer you a-
+	*setskin cat_bar 3*
+    -shockingly,% yes,%%*setskin cat_bar 1* you CAN make a soup stock out of crystallized bone 
+    marrow.%%%*setskin cat_bar 4* The sheer richness%.%.%.%%%*setskin cat_bar 0*I wish I could offer you a-
     &a3
 
 a3:
     *setspeaker narrator*
-    > The Mewseum door is kicked open! Intruder alert!!
-    ...oh, it’s just the Cellist.
+    > The Mewseum door is kicked open!%% Intruder alert!!%%%%
+    %.%.%.%oh,% it’s just the Cellist.
     player:
          &a4: This ought to be good.
          &leave: ha ha nope i'm out (exit)
@@ -29,86 +31,107 @@ a3:
 ###EARLY EXIT
 
 leave:
-    >You decide to slip out in the moment of distraction, and deal with
+    >You decide to slip out in the moment of distraction,%% and deal with
     the Cellist's madness later.
     &exit
 
 a4:
 	*setspeaker narrator*
-    >He staggers over to the bar and heaves himself down onto a stool. 
+	*setskin cat_bar 0*
+	*setskin cat_bar 3*
+    >He staggers over to the bar and heaves himself down onto a stool.%%%%*setskin cat_bar 1*
     The Bartender smiles.
     &a5
 
 a5:
+	*setskin cat_bar 0*
     *setspeaker cat_bar*
-    Welcome. Would you like something to dri-
+	*setanim cat_bar gesture_dryhands 1 idle*
+    Welcome.%% Would you like something to dri-
     &a6
 
 a6:
     *setspeaker cat_cello*
-    > The Cellist slams a paw down on the counter, his head cast dramatically 
-    towards the earth. He snaps his head back and takes a drag off a... 
-    yep, yep that’s a vape he’s holding. It smells threateningly like 
+	*setanim cat_bar pianist_drunk_idle*
+	*shake 1*
+    > The Cellist slams a paw down on the counter,% his head cast dramatically 
+    towards the earth.%%%*setanim cat_cello pose_sit02* He snaps his head back and takes a drag off a%.%.%.%%% 
+    yep,%%% yep that’s a vape he’s holding.%%%% It smells threateningly like 
     strawberry.
     &a7
 
 a7:
     *setspeaker cat_cello*
-    Bartender. i have a powerful thirst. give me...
+	*setskin cat_cello 4*
+    Bartender.%%%%%*setskin cat_cello 0* i have a powerful thirst.%% give me%.%.%.%%%*setskin cat_cello 1*
  
-    ...a hot water on the rocks.
+    %.%.%.%a hot water on the rocks.
     &a8
 
 a8:
+	*setskin cat_bar 1*
     *setspeaker cat_bar*
-    Ah, of course! Right away.
+	*setanim cat_bar gesture_agree 1 idle*
+    Ah,% of course!%%% Right away.
     &a9
 
 a9:
     *setspeaker narrator*
+	*setskin cat_bar 0*
     > The Bartender doesn’t seem to show any sign of any opinion about being 
     told to serve up a drink made entirely of hot water and ice. 
     &a10
 
 a10:
-    >Actually, she’s somehow decanting steaming tap water from a faucet into a 
-    normal drinking glass full of ice that stubbornly refuses to melt. 
+	*setskin cat_bar 0*
+	*setanim cat_bar gesture_washing 1.6 idle*
+    >Actually,% she’s somehow decanting steaming tap water from a faucet into a 
+    normal drinking glass*setanim cat_bar gesture_dryhands 1 idle* full of ice that stubbornly refuses to melt.%%%% 
     It’s impressive.
     &a11
 
 a11:
     *setspeaker cat_bar*
-    Your hot water on the rocks, sir.
+	*setskin cat_bar 0*
+	*setanim cat_bar gesture_exchange 1.4 idle*
+    Your hot water on the rocks,%% sir.
     &a12
 
 a12:
     *setspeaker cat_cello*
-    >The Cellist stares at the glass of normal hot water with ice in it, 
-    momentarily looking annoyed, before regaining his smug expression and 
+	*setskin cat_cello 2*
+	*setanim cat_cello pose_sit01*
+    >The Cellist stares at the glass of normal hot water with ice in it,%*setanim cat_cello pose_sit02* 
+    momentarily looking annoyed,%%%*setanim cat_cello pianist_drunk_idle* before*setskin cat_cello 1* regaining*setanim cat_cello pose_sit02* his smug expression and 
     chugging it in one go.
     &a13
 
 a13:
     *setspeaker cat_cello*
+	*setanim cat_cello pose_sit01*
     hm that’s funny i remember ordering a hot water on the rocks and appear 
-    to have gotten a tepid water on the pebbles instead. i ain’t leaving til 
+    to have gotten a*setanim cat_cello pose_sit02* tepid water on the pebbles instead.%%%%*setskin cat_cello 2* i ain’t leaving til 
     you give me that real shit you got
     &c1 ###look i'm lazy and i copied another event
 
 c1:
     *setspeaker cat_bar*
-    > The Bartender cocks her head. 
-    ...after a few seconds of dead silence she gasps.
+	*setanim cat_bar gesture_confused 1 idle*
+    > The Bartender cocks her head.%%%% 
+    %.%.%.%*setskin cat_bar 3*after*setanim cat_bar gesture_shock 1 idle* a few seconds of dead silence she gasps.
     &c2
 
 c2:
-    Ah, of course! You meant to order it at a danger rating of Double Black 
-    Diamond. I do warn you it may be beyond even your remarkable ability 
+	*setskin cat_bar 4*
+	*setanim cat_bar gesture_facepalm 1 idle*
+    Ah,% of course!%%%*setskin cat_bar 0* You meant to order it at a danger rating of Double Black 
+    Diamond.%%%%*setanim cat_bar gesture_confused 1 idle* I do warn you it may be beyond even your remarkable ability 
     to tolerate. 
     &c3
 
 c3:
     *setspeaker cat_cello*
+	*setskin cat_cello 2*
     excuse me
     &c4
 
@@ -124,32 +147,35 @@ c5:
 
 c6:
     *setspeaker narrator*
+	*setskin cat_cello 0*
     >The Cellist is cut off by the sound of the Bartender slamming a pot 
-    of hot water onto the Bar’s stove. She turns the temperature up to a 
+    of hot water onto the Bar’s stove.%%%*setskin cat_bar 1* She turns the temperature up to a 
     setting marked “reckless abandon,” and reaches for a bucket with a 
     warning label that reads “liquid nitrogen.”
     &c7
 
 c7:
     *setspeaker cat_bar*
-    This will be only a few seconds sir, I hope you won’t mind the wait.
+    This will be only a few seconds sir,% I hope you won’t mind the wait.
     &c8
 
 c8:
     *setspeaker narrator*
-    >The Cellist stares at the seething pot of water with a poker face. 
-    It’s the face of a man who is about to die on some hill, for something 
+    >The Cellist stares at the seething pot of water with a poker face.%%%% 
+    It’s the face of a man who is about to die on some hill,%% for something 
     no one is sure of.
     &c9
 
 c9:
-    >He manages to gather up the courage to open his mouth and speak, but
-    is cut off by the Bartender serving a glass in front of him.
+	*setskin cat_cello 4*
+    >He manages to gather up the*setskin cat_cello 2* courage to open his mouth and speak,%%% but
+    is cut off by*setskin cat_cello 0* the Bartender serving a glass in front of him.
     &c10
 
 c10:
+	*setskin cat_cello 2*
     >Just putting your hand near it makes it feel so cold that it feels 
-    almost identical to being on fire. Or maybe more like that weird moment 
+    almost identical to being on fire.%%%% Or maybe more like that weird moment 
     your feet feel cold right before you realize you drew your bath 
     way too hot.
     &c11
@@ -160,29 +186,35 @@ c11:
     &c12
 
 c12:
-    > The Cellist grips the glass with grim determination. You smell singed fur, 
+    > The Cellist grips the glass with grim determination.%%%% You smell singed fur,% 
     and hear a sound unsettlingly like bacon frying.
     &c13
 
 c13:
     *setspeaker cat_bar*
-    What are you...?
+	*setskin cat_bar 3*
+	*setanim cat_bar gesture_confused 1 idle*
+    What are you%.%.%.%%?
     &c14
 
 c14:
     *setspeaker cat_cello*
+	*setskin cat_cello 0*
     a scar on the back is a swordsman’s greatest shame.
     &c15
 
 c15:
     *setspeaker cat_bar*
+	*setskin cat_bar 4*
+	*setanim cat_bar gesture_agree 1 idle*
     Admirable.
     &c16
 
 c16:
     *setspeaker narrator*
-    >The Cellist downs the drink in one gulp, and immediately falls off the chair 
-    and bursts into flames. The Bartender is clapping.
+	*setskin cat_bar 0*
+    >The Cellist downs the drink in one gulp,%%%%*setanim cat_cello pose_passedout* and immediately falls off the chair 
+    and bursts into flames.%%%*setanim cat_bar gesture_clap 1 idle* The Bartender is clapping.%%%%
 
-    ...you decide to leave.*mark_seen*
+    %.%.%.%you decide to leave.*mark_seen*
     &exit

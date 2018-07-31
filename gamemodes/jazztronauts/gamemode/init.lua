@@ -176,6 +176,14 @@ function GM:GenerateJazzEntities(noshards)
 				shardworth = mapgen.GenerateShards(shardworth, seed) -- Not guaranteed to make all shards
 
 				map = progress.StartMap(game.GetMap(), seed, shardworth)
+
+				-- Chance to corrupt the map if ng+
+				-- JK chance is 100%
+				if tobool(newgame.GetGlobal("encounter_1")) and map.corrupt == progress.CORRUPT_NONE then
+					progress.SetCorrupted(game.GetMap(), progress.CORRUPT_SPAWNED)
+					map = progress.GetMap(game.GetMap()) -- Re-query to see if it took
+				end
+
 			-- Else, spawn shards, but only the ones that haven't been collected
 			else
 				map = progress.StartMap(game.GetMap()) -- Start a new session, but keep existin mapgen info
@@ -188,14 +196,10 @@ function GM:GenerateJazzEntities(noshards)
 				end
 			end
 
-			-- Also, generate black shards if we're at that point
-			if tobool(newgame.GetGlobal("encounter_1")) and (map.correct and map.corrupt > progress.CORRUPT_NONE) then
-				local spawned = mapgen.GenerateBlackShard(map.seed)
-
-				-- If we generated a black shard but this map was corrupted, it sure is now
-				if map.corrupt <= progress.CORRUPT_NONE then
-					progress.SetCorrupted(game.GetMap(), progress.CORRUPT_SPAWNED)
-				end
+			-- If the map has been corrupted, spawn a black shard
+			-- (it will handle whether it was already stolen)
+			if (map.corrupt > progress.CORRUPT_NONE) then
+				mapgen.GenerateBlackShard(map.seed)
 			end
 		end
 

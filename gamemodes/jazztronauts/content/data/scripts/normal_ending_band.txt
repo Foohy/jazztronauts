@@ -9,6 +9,11 @@ begin:
 	*setposang cat_singer setpos 5897.477051 291.355804 3648.031250;setang 2.342598 -15.488564 0.000000*
 	*setposang player setpos -7294.063965 -1565.545898 3386.730469;setang 0.612256 90.094734 0.000000*
 	*setcam setpos -7283.202148 -1279.565552 3168.028809;setang 9.796160 -88.578621 0.000000*
+	*spawn ash dummy*
+	*setnpcid ash podge*
+	*setnpcid ash rungo*
+	*setnpcid ash georff*
+	*setnpcid ash rob*
 	*setspeaker narrator*
 	> %.%.%.%it's completely black%.%.%.%.%% *tweencam 1.5 setpos -7285.830078 -1363.527954 3217.524658;setang -30.879200 -91.719673 0.000000*
 	%.%.%.%wait,% there's something here.%%%*tweencam 5 setpos -7292.398438 5197.813965 3329.063965;setang -0.266206 90.840118 0.000000*

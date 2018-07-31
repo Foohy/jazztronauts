@@ -49,7 +49,7 @@ a6:
 
 a7: 
     *setspeaker narrator*
-    > She hands you CASH DOLLAZ, and takes a watermelon from you 
+    > She hands you $15,000, takes a watermelon from you,
     and sets it on the bar. With a flick of her paw, it becomes encased
     in a pulsing, pink sphere. Her face furrows in intense concentration,
     and you hear something uncannily like a Wilhelm scream from within.

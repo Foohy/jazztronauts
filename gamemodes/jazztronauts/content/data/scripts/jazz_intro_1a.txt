@@ -16,13 +16,13 @@ spawngang()
 *setanim cat_cello cellist_bendgesture 1 idle* 
 *setcam setpos -4614.864258 -348.649139 1563.988403;setang 8.141761 70.646194 0.000000*
 *show 0.5* 
-holy shit% *setskin cat_cello 1* look% at this garbage%% *setskin cat_cello 0* *bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0*
+holy shit%*setskin cat_cello 1* look% at this garbage%%*setskin cat_cello 0* *bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0*
 whoever made this place really phoned it in%% huh
 &begin2
 
 begin2:
 *setspeaker narrator*
->There are three.%.%.% cats?%% On the stage???%% 
+>There are three.%.%.%cats?%% On the stage???%% 
 The one who just spoke starts jeering at the monster corpse next to it.
 &begin3
 
@@ -30,7 +30,7 @@ begin3:
 *setspeaker cat_piano* 
 *setcam setpos -4621.874512 -296.848511 1561.714600;setang 1.014253 106.313759 0.000000*
 Dunno what you expected,% it's pretty dead around here at this point.%% 
-The*setanim cat_piano gesture_foldarms 1 idle* last place we looked?% *setskin cat_piano 1* Could barely even call that a map.
+The*setanim cat_piano gesture_foldarms 1 idle* last place we looked?% *setskin cat_piano 1*Could barely even call that a map.
 &begin4
 
 begin4:
@@ -38,7 +38,7 @@ begin4:
 *tweencam .75 setpos -4599.150879 -306.177002 1561.454712;setang 4.308485 45.520340 0.000000*
 *setskin cat_cello 2* 
 dont you fuckin*setanim cat_cello gesture_jab 1 idle* dare blaspheme dm_juicyasszone.bsp%%%
-*setskin cat_cello 0* it had a vision
+*setskin cat_cello 0*it had a vision
 &begin5
 
 begin5:
@@ -47,14 +47,14 @@ begin5:
 *setcam setpos -4707.141602 -469.851654 1574.542236;setang 10.297997 21.203064 0.000000*
 *setposang cat_singer setpos -4564.032715 -434.864349 1518.031250;setang -90 182.223053 0.000000*
 >One of the cats quietly crawls out from under the corpse and 
-dusts themselves off. *setcam setpos -4604.807129 -418.146301 1553.832031;setang 3.739498 -48.424809 0.000000* They very excitedly present a strange object
+dusts themselves off.*setcam setpos -4604.807129 -418.146301 1553.832031;setang 3.739498 -48.424809 0.000000* They very excitedly present a strange object
 to a fourth cat. *setanim cat_singer singer_showshard 1*
 &begin6
 
 begin6:
 *setspeaker cat_bar*
 *setskin cat_bar 3* 
-Ah, a shard! *setanim cat_bar gesture_clap 1* *setskin cat_bar 1* Keen eyes as always.
+Ah, a shard!*setanim cat_bar gesture_clap 1**setskin cat_bar 1* Keen eyes as always.
 &begin7
 
 begin7:
@@ -67,7 +67,7 @@ begin7:
 begin8:
 *setspeaker cat_piano*
 *setcam setpos -4673.240723 -489.003113 1565.306396;setang 4.847563 49.533478 0.000000*
-Tch. *setskin cat_piano 0* *setanim cat_piano gesture_foldarms 1 idle* I can't believe we're doing grunt work.
+Tch. *setskin cat_piano 0**setanim cat_piano gesture_foldarms 1 idle*I can't believe we're doing grunt work.
 &begin9
 
 begin9:
@@ -81,7 +81,7 @@ yea this is peasant shit. %%why are we even bothering with this again
 begin10:
 *setspeaker cat_bar* 
 *setcam setpos -4618.435059 -439.372253 1552.954712;setang 2.212179 -56.899910 0.000000*
-Well,*setskin cat_bar 0* as I recall, you *setanim cat_bar gesture_jab 1 idle* *setskin cat_bar 3* were the *setskin cat_bar 0* one so very insistent on making
+Well,*setskin cat_bar 0* as I recall, you *setanim cat_bar gesture_jab 1 idle**setskin cat_bar 3*were the *setskin cat_bar 0*one so very insistent on making
 our last guests leave.
 &begin11
 
@@ -104,7 +104,7 @@ They'd have been useful for once. *setposang cat_singer setpos -4545.350098 -597
 begin13:
 *setspeaker cat_bar*
 *setskin cat_bar 0*
-Oh come now, *setanim cat_bar gesture_sweep 1 idle*they were perfectly fine. *setcam setpos -4791.147461 -371.753510 1557.132446;setang -3.537738 3.532947 0.000000* Besides we got a bargain 
+Oh come now, *setanim cat_bar gesture_sweep 1 idle*they were perfectly fine.*setcam setpos -4791.147461 -371.753510 1557.132446;setang -3.537738 3.532947 0.000000* Besides we got a bargain 
 on them, didn't we?%
 Take five,% get one free!
 &begin14

@@ -63,7 +63,7 @@ a5:
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
      *setspeaker podge*
      Oh you with the cats?%% Cool.% Cool.%%% Yeah,% they come here once in 
-	 a while  with a group of confused lookin video game blokes like you.%%%% 
+	 a while with a group of confused lookin video game blokes like you.%%%% 
 	 We’re used to it.
      &a6
 

@@ -111,6 +111,7 @@ local function CreateJazzMenu()
 
 	g_JazzSpawnMenu = vgui.Create( "JazzSpawnMenu" )
 	g_JazzSpawnMenu:SetVisible( false )
+	g_JazzSpawnMenu:SetSkin("Jazz")
 
 	--hook.Run( "PostReloadToolsMenu" )
 
@@ -121,17 +122,46 @@ hook.Add( "InitPostEntity", "CreateJazzMenu", CreateJazzMenu )
 
 function GM:OnSpawnMenuOpen()
 
+	--[[if ( IsValid( g_JazzSpawnMenu ) ) then
+
+		g_JazzSpawnMenu:Remove()
+		g_JazzSpawnMenu = nil
+
+	end
+
+	g_JazzSpawnMenu = vgui.Create( "JazzSpawnMenu" )
+	g_JazzSpawnMenu:SetVisible( false )
+	g_JazzSpawnMenu:SetSkin("Jazz")]]
+
 	-- Let the gamemode decide whether we should open or not..
 	if ( !hook.Run( "SpawnMenuOpen" ) ) then return end
 
 	if ( IsValid( g_JazzSpawnMenu ) ) then
 
+		g_JazzSpawnMenu:SetSkin("Jazz")
 		g_JazzSpawnMenu:Open()
 		--menubar.ParentTo( g_JazzSpawnMenu )
 
 	end
 
 end
+
+timer.Simple(.1,function()
+
+	if ( IsValid( g_JazzSpawnMenu ) ) then
+
+		g_JazzSpawnMenu:Remove()
+		g_JazzSpawnMenu = nil
+
+	end
+
+	g_JazzSpawnMenu = vgui.Create( "JazzSpawnMenu" )
+	g_JazzSpawnMenu:SetVisible( false )
+	g_JazzSpawnMenu:SetSkin("Jazz")
+	g_JazzSpawnMenu:Open()
+
+
+end)
 
 function GM:OnSpawnMenuClose()
 

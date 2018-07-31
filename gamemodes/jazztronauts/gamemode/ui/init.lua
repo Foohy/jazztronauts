@@ -8,4 +8,5 @@ include("store/init.lua")
 include("worldmarker/init.lua")
 include("nametags/init.lua")
 
+AddCSLuaFile( "cl_skin.lua" )
 AddCSLuaFile( "cl_init.lua")

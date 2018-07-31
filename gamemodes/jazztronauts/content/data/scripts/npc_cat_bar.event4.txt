@@ -44,15 +44,15 @@ a4:
     Ah, *player*!%%%% 
 	Care to join us in our meditations?
     player:
-         &dingus: Do I have to hum while I breathe because I don’t have that 
+         &dingus: Do I have to hum while I breathe because I don't have that 
               kind of breath control.
          &a5: Sure.
-         &leave: Uh, I’ll...pass. Have fun though. (exit)
+         &leave: Uh, I'll...pass. Have fun though. (exit)
 
 ###EARLY EXIT
 
 leave:
-    Of course.%%% We’ll be out in a little while.
+    Of course.%%% We'll be out in a little while.
     &exit
 
 
@@ -69,10 +69,10 @@ dingus2:
 	*setcam setpos -2227.285889 381.638916 -31.860832;setang 1.207254 43.802742 0.000000*
     *setspeaker cat_bar*
 	*setskin cat_bar 2*
-    %.%.%.%It’s not necessary,%% no.%%%*setskin cat_bar 4* Neither are threats of violence,% Pianist.
+    %.%.%.%It's not necessary,%% no.%%%*setskin cat_bar 4* Neither are threats of violence,% Pianist.
     player:
          &a5: Sure.
-         &leave: Uh,% I’ll%.%.%.%%pass.%%% Have fun though. (exit)
+         &leave: Uh,% I'll%.%.%.%%pass.%%% Have fun though. (exit)
 
 
 ###MAIN THROUGHLINE
@@ -92,7 +92,7 @@ a6:
 
 a7:
 	*setskin cat_bar 0*
-    This is a very simple meditation,%% if you’d care to follow along.
+    This is a very simple meditation,%% if you'd care to follow along.
     &a8
 
 a8:

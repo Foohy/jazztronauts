@@ -18,7 +18,7 @@ a1:
      &a2
 
 a2:
-     *setspeaker cat_cellist*
+     *setspeaker cat_cello*
      IT'S TIME TO TEAR THIS PLACE UP%%%
 
     &a3

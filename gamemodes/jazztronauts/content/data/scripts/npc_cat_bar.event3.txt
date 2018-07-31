@@ -4,9 +4,9 @@ begin:
 	*hide*
     *txout*
     *setfov 70*
-	    
-	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
-    *setnpcid cat_bar npc_cat_bar*
+
+    spawngang()
+
     *setposang cat_bar -2864.620361 3044.558594 32;setang -90 180 0*
 	*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000* ######## ESTABLISHING SHOT
     *setspeaker narrator*
@@ -18,7 +18,7 @@ begin:
 	*wait .15*
 	*show*
     > The Bar Samsara%.%.%.%%% 
-    You’re chatting the twilight away with the Bartender.
+    You're chatting the twilight away with the Bartender.
     &a2
 
 a2:
@@ -33,7 +33,7 @@ a3:
 	*setcam setpos -2935.495605 3060.559570 90.541382;setang 8.554376 -39.650562 0.000000* 
     *setspeaker narrator*
     > The Mewseum door is kicked open!%% Intruder alert!!%%%%*setcam setpos -2654.359619 2872.613281 45.377167;setang 4.667855 -47.210667 0.000000*
-    %.%.%.%oh,% it’s just the Cellist.
+    %.%.%.%oh,% it's just the Cellist.
     player:
          &a4: This ought to be good.
          &leave: ha ha nope i'm out (exit)
@@ -70,7 +70,7 @@ a6:
 	*shake 1*
     > The Cellist slams a paw down on the counter,% his head cast dramatically 
     towards the earth.%%%*setanim cat_cello pose_sit02* He snaps his head back and takes a drag off a%.%.%.%%% 
-    yep,%%% yep that’s a vape he’s holding.%%%% It smells threateningly like 
+    yep,%%% yep that's a vape he's holding.%%%% It smells threateningly like 
     strawberry.
     &a7
 
@@ -95,16 +95,16 @@ a9:
 	*setcam setpos -2797.841553 2803.250244 44.586651;setang -3.850489 108.143600 0.000000*
     *setspeaker narrator*
 	*setskin cat_bar 0*
-    > The Bartender doesn’t seem to show any sign of any opinion about being 
+    > The Bartender doesn't seem to show any sign of any opinion about being 
     told to serve up a drink made entirely of hot water and ice. 
     &a10
 
 a10:
 	*setskin cat_bar 0*
 	*setanim cat_bar gesture_washing 1.6 idle*
-    >Actually,% she’s somehow decanting steaming tap water from a faucet into a 
+    >Actually,% she's somehow decanting steaming tap water from a faucet into a 
     normal drinking glass*setanim cat_bar gesture_dryhands 1 idle* full of ice that stubbornly refuses to melt.%%%% 
-    It’s impressive.
+    It's impressive.
     &a11
 
 a11:
@@ -129,8 +129,8 @@ a13:
 	*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
     *setspeaker cat_cello*
 	*setanim cat_cello pose_sit01*
-    hm that’s funny i remember ordering a hot water on the rocks and appear 
-    to have gotten a*setanim cat_cello pose_sit02* tepid water on the pebbles instead.%%%%*setskin cat_cello 2* i ain’t leaving til 
+    hm that's funny i remember ordering a hot water on the rocks and appear 
+    to have gotten a*setanim cat_cello pose_sit02* tepid water on the pebbles instead.%%%%*setskin cat_cello 2* i ain't leaving til 
     you give me that real shit you got
     &c1 ###look i'm lazy and i copied another event
 
@@ -163,7 +163,7 @@ c4:
     &c5
 
 c5:
-    i bet you ain’t even got a double black diamond back there it’s 
+    i bet you ain't even got a double black diamond back there it's 
     probably some weak ass bunny slope shi-
     &c6
 
@@ -172,22 +172,22 @@ c6:
     *setspeaker narrator*
 	*setskin cat_cello 0*
     >The Cellist is cut off by the sound of the Bartender slamming a pot 
-    of hot water onto the Bar’s stove.%%%*setskin cat_bar 1* She turns the temperature up to a 
-    setting marked “reckless abandon,” and reaches for a bucket with a 
-    warning label that reads “liquid nitrogen.”
+    of hot water onto the Bar's stove.%%%*setskin cat_bar 1* She turns the temperature up to a 
+    setting marked 'reckless abandon,' and reaches for a bucket with a 
+    warning label that reads 'liquid nitrogen.'
     &c7
 
 c7:
 	*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
     *setspeaker cat_bar*
-    This will be only a few seconds sir,% I hope you won’t mind the wait.
+    This will be only a few seconds sir,% I hope you won't mind the wait.
     &c8
 
 c8:
 	*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
     *setspeaker narrator*
     >The Cellist stares at the seething pot of water with a poker face.%%%% 
-    It’s the face of a man who is about to die on some hill,%% for something 
+    It's the face of a man who is about to die on some hill,%% for something 
     no one is sure of.
     &c9
 
@@ -230,7 +230,7 @@ c14:
 	*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
     *setspeaker cat_cello*
 	*setskin cat_cello 0*
-    a scar on the back is a swordsman’s greatest shame.
+    a scar on the back is a swordsman's greatest shame.
     &c15
 
 c15:

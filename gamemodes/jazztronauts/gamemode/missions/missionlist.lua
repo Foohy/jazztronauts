@@ -185,6 +185,76 @@ AddMission(0, NPC_CAT_BAR, {
     OnCompleted = GrantMoney(5000)
 })
 
+AddMission(1, NPC_CAT_BAR, {
+    Instructions = "Acquire 10 cars",
+    Filter = function(mdl) 
+        return string.match(mdl, "car00") or
+            string.match(mdl, "van00") or
+            string.match(mdl, "car_nuke") or
+            string.match(mdl, "car_militia") 
+    end,
+    Count = 10,
+    Prerequisites = { IndexToMID(0, NPC_CAT_BAR)  },
+    OnCompleted = GrantMoney(10000)
+})
+
+AddMission(2, NPC_CAT_BAR, {
+    Instructions = "Find 10 watermelon",
+    Filter = function(mdl) 
+        return string.match(mdl, "watermelon") 
+    end,
+    Count = 10,
+    Prerequisites = { IndexToMID(1, NPC_CAT_BAR)  },
+    OnCompleted = GrantMoney(15000)
+})
+
+AddMission(3, NPC_CAT_BAR, {
+    Instructions = "Find 15 gas tanks",
+    Filter = function(mdl) 
+        return MatchesAny(mdl, {
+            "models/props_junk/propane_tank001a.mdl",
+            "models/props_junk/gascan001a.mdl",
+            "models/props_junk/PropaneCanister001a.mdl",
+            "models/props_c17/canister_propane01a.mdl",
+            "models/props_citizen_tech/firetrap_propanecanister01a.mdl",
+            "models/props_citizen_tech/firetrap_propanecanister01b.mdl"
+        })
+    end,
+    Count = 15,
+    Prerequisites = { IndexToMID(2, NPC_CAT_BAR)  },
+    OnCompleted = GrantMoney(20000)
+})
+
+AddMission(4, NPC_CAT_BAR, {
+    Instructions = "Find 5 washing machines",
+    Filter = function(mdl) 
+        return MatchesAny(mdl, {
+            "models/props_c17/furniturewashingmachine001a.mdl",
+            "models/props_wasteland/laundry_washer001a.mdl",
+            "models/props_wasteland/laundry_dryer002.mdl"
+        })
+    end,
+    Count = 5,
+    Prerequisites = { IndexToMID(3, NPC_CAT_BAR)  },
+    OnCompleted = GrantMoney(25000)
+})
+
+AddMission(5, NPC_CAT_BAR, {
+    Instructions = "Find 10 antlions",
+    Filter = function(mdl) 
+        return MatchesAny(mdl, {
+            "models/antlion.mdl",
+            "models/antlion_worker.mdl",
+            "models/antlion_guard.mdl",
+            "models/antlion_grub.mdl"
+        })
+    end,
+    Count = 10,
+    Prerequisites = { IndexToMID(4, NPC_CAT_BAR)  },
+    OnCompleted = GrantMoney(30000)
+})
+
+
 
 /*
 ===========================

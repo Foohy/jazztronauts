@@ -18,6 +18,9 @@ begin:
 	*spawn cat_singer models/andy/singer/cat_singer*
 	*setnpcid cat_singer npc_cat_sing*
 
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
+
 	*setposang cat_bar -1456.906494 3002.029785 0;setang -90 -93.511383 0.000000*
 	*setposang cat_cello -1550.800171 3010.119873 0;setang -90 -72.588135 0.000000*
 	*setposang cat_piano -1413.009766 3020.624512 0;setang -90 -118.480911 0.000000*
@@ -478,6 +481,7 @@ merge2j:
 merge2k:
 	*setspeaker narrator*
 	>You make idle conversation with the cats while putting things away. 
+	*mark_seen*
 	&exit
 	
 	

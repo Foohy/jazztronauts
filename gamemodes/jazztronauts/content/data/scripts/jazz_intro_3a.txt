@@ -49,11 +49,11 @@ begin5:
 	you may come back with us back to our abode,% and entertain a job offer from our cohort.% If you 
 	aren't interested upon hearing it,%you'll be free to go.*setskin cat_bar 1*%%*setanim cat_bar gesture_confused 1 idle* 
 	Are you willing to hear us out?
-	player:
-	&m1:
-		Sure, why not?
-	&m1:
-		Yeah ok, but if this is a timeshare thing, i'm out.
+	&hotfix
+	
+hotfix:
+	*setspeaker player*
+	Yeah, sure.
 		
 m1:
 	*setspeaker cat_bar*

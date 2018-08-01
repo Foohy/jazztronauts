@@ -13,7 +13,7 @@ CreateConVar("jazz_override_noclip", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY }, "A
 
 function GM:PlayerNoClip(ply)
     if cvars.Bool("jazz_override_noclip", true) then
-        return mapcontrol.IsInHub()
+        return false
     else
         return self.BaseClass.PlayerNoClip(self, ply)
     end

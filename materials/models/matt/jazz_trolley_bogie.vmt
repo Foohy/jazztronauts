@@ -1,0 +1,18 @@
+"VertexLitGeneric"
+{
+	$model 1
+
+	$basetexture "models/matt/jazz_trolley_bogie_d"	
+	$bumpmap "models/matt/jazz_trolley_bogie_n"
+
+	$envmap "env_cubemap"
+	$normalmapalphaenvmapmask "1"
+	$envmapcontrast 1
+	$envmaptint "[.25 .25 .25]"
+
+	$BasemapAlphaPhongMask 1
+	$phong 1
+	$phongexponent 4
+	$phongboost 32
+	$phongfresnelranges "[0 .55 .55]"
+}

@@ -29,6 +29,10 @@ function IsInHub()
 	return game.GetMap() == GetHubMap()
 end
 
+function IsInEncounter()
+	return game.GetMap() == GetEncounterMap()
+end
+
 function IsInGamemodeMap()
 	local pref = string.Split(game.GetMap(), "_")[1]
 	return pref == "jazz"

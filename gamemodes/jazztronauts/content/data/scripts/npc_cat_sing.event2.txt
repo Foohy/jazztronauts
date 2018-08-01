@@ -4,10 +4,15 @@
 	*hide*
 	*txout*
 	*setfov 70*
+	
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
+
 	*setcam setpos -3082.286865 2792.481445 64.031250;setang -1.321731 46.910137 0.000000* ###### SAMSARA ESTABLISH	
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos -2609.358398 2753.060059 0;setang -90 75 0.000000*
 	*setnpcid cat_singer npc_cat_sing*
+	
 	*bgmplay sound/jazztronauts/music/events/allspice.mp3 1 2.0*
 	*spawn player_dummy playerboy*
 	######*setposang player setpos -2943.505615 2900.457520 0;setang -3.318230 68.020081 0.000000*

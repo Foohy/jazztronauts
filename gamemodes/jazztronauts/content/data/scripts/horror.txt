@@ -11,12 +11,17 @@ doorinspectlocked1:
     &exit
 
 doorinspectlocked2:
-    2
+    The door doesn't budge when the handle is rattled.
 
-    &doorinspectlocked3
+    &exit
 
 doorinspectlocked3:
-    3
+    It's locked. It's locked. It's locked.
+    
+    &exit
+
+doorinspectlocked4:
+    You're not listening.
     
     &exit
 
@@ -30,40 +35,114 @@ oven1:
     
     &exit
 
+ovenb:
+    The oven is crusted shut with carbon and a thick slime.
+    
+    &exit
+
+ovenc:
+    The handle crumbles beneath curious hands, which crumble in turn. 
+    
+    &ovenc2
+
+ovenc2:
+    Pieced back together, glued with muck.
+    
+    &exit
+
+
+
+bedroomentry:
+    You don't recall entering the bedroom door.
+    
+    &exit
+
+
 mattress1:
     There's no way I'm touching that without gloves on.
     
     &exit
 
 mattress2:
-    
+    Beneath the sheet, small lumps shiver.
+    &mattress2b
+mattress2b:
+    A crawling beneath the fingernails.
     &exit
 
 mattress3:
-    
+    Heavy eyes and lungs that ache for the mold that will be your pillow.
     &exit
 
+
+bathroomdoor1a:
+
+It's locked. 
+
+&bathroomdoor1b
+
+bathroomdoor1b:
+
+The air is soupy and acrid, reeking of ammonia and vinegar.
+
+&exit
+
+bathroomdoor2a:
+
+The door is locked and the air is oppressive.
+
+&bathroomdoor2b
+
+bathroomdoor2b:
+
+Cigarette ash and bleach coat the tongue.
+
+&exit
+
+bathroomdoor3a:
+
+It's locked. Liquid leaks from beneath the door, the sucking cough of backed up plumbing a putrid bark in the stillness.
+
+&bathroomdoor3b
+
+bathroomdoor3b:
+
+Liquid leaks from beneath the door, the sucking cough of backed up plumbing a putrid bark in the stillness.
+
+&exit
+
+
+
 painting1a:
+
+    
 
     &exit
 
 painting1b:
 
+    
+
     &exit
 
 painting1c:
 
+    
+
     &exit
 
 painting2a:
+    You see two lonely figures in a ramshackle boat drifting beneath the setting sun.
 
     &exit
 
 painting2b:
+    The sun rises. It cuts a gash through the cool waters, narrowly missing the lonely boat. 
 
     &exit
 
 painting2c:
+    An eye peers from behind the cloud bank, malevolent and sour.
 
     &exit
 
@@ -81,15 +160,32 @@ painting3c:
 
 closetinspect1:
     Just an ordinary closet. Something is preventing it from being opened. . .
+
     &exit
 
-closetinspect2:
-    Can't really make out what's... *wait 1* *emitsound physics/wood/wood_deepimpact1.wav**shake 0.15* *wait 0.2* *emitsound physics/wood/wood_deepimpact2.wav**shake 0.15* *wait 1* *emitsound physics/wood/wood_deepimpact2.wav* *shake 0.15* *wait 0.1*
+closetinspectb1:
+    There are tattered shirts, poorly darned pants. 
+
+    &closetinspectb2
+
+closetinspectb2:
+    Unwashed and musty. 
+
+    &exit
+
+closetinspectc1:
+    Cloth that disintegrates beneath shaking fingers.
+
+    &closetinspectc2
+
+closetinspectc2:
+    Throat seizing as the motes of a shattered life are inhaled.
+
     &exit
 
 closetinspectafter1:
-    
     Maybe it's best to leave this alone, after all.
+
     &exit
 
 youshouldntbehere:

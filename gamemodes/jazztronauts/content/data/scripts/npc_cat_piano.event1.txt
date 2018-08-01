@@ -15,7 +15,7 @@ begin:
 	*setposang cat_singer setpos 301.032990 230.946976 -256;setang -90 240 0.000000*
 	*setnpcid cat_singer npc_cat_sing*
 
-	*setposang player 164.076263 208.491150 64.031250;setang 9.295440 49.176609 0.000000*
+	*setposang player 164.076263 208.491150 0;setang 9.295440 49.176609 0.000000*
 
 	*txin*
 	
@@ -44,7 +44,7 @@ b3:
 	*setskin cat_piano 0*
 	*setanim cat_piano gesture_shock 1 idle*
 	>The Singer dead sprints past both of you!%%%*setcam setpos 299.437592 130.605087 45.050888;setang 0.911092 42.797482 0.000000* 
-	On instinct,% you dive into the hiding spot the pianist
+	On instinct,% you dive into the hiding spot the pianist%*setposang player setpos 447.148926 140.181595 0;setang 8.465133 131.800262 0.000000*
 	is in.*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 210 0.000000*
 	
 	

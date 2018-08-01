@@ -23,13 +23,15 @@ a3:
 	
 a4:
 	I want to do something... nice. To make amends.
-	But I have a reputation to maintain, so I can't be seen doing menial tasks.
+	But I have a reputation to maintain, 
+	so I can't be seen doing menial tasks.
 	&a5
 	
 a5:
-	Which is where you come in, *player*, my dear pal. I happen to know that
-	our mutual friend the Singer has a weakness for fast food. So, you're gonna
-	help me put on a feast. 
+	Which is where you come in, *player*, my dear pal. 
+	I happen to know that our mutual friend the Singer has a 
+	weakness for fast food. 
+	So, you're gonna help me put on a feast. 
 	&a6
 	
 a6:
@@ -51,8 +53,9 @@ i1:
 	&i2
 	
 i2:
-	You helped me inflict terror on those poor, emotionless, meaningless husks
-	of your own volition, for money. You're just as guilty as I-
+	You helped me inflict terror on those poor, emotionless, 
+	meaningless husks of your own volition, for money. 
+	You're just as guilty as I-
 	&i3
 	
 i3:

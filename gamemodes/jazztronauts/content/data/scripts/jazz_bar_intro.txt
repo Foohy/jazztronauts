@@ -15,8 +15,8 @@ begin:
      *show 0.5*
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_exchange 1 idle*
-     Greetings honored guest!%%% It's time for the much awaited explanation that
-     we promised you!
+     Greetings honored guest!%%% It's time for the much awaited explanation 
+	 that we promised you!
      condition:
      &saidnobefore:
         return unlocked("scripts", "said_no")
@@ -239,8 +239,9 @@ a18:
 a19:
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_laugh 1 idle*
-     >The tablet says 'HI IM THE SINGER NICE TO MEET YOU \:D'.%%% They're 
-     holding it above their head,% and jumping up and down now.
+     >The tablet says 'HI IM THE SINGER NICE TO MEET YOU \:D'.%%% 
+	 They're holding it above their head,% 
+	 and jumping up and down now.
      &a20
 
 a20:
@@ -368,7 +369,7 @@ a30:
      Just remember,% Browse on the tv and Select the Level on the center 
      basin.%%%%
 	 Moving on,% let's talk about the prop snatcher.
-     &a33
+     &a32
 
 a31:
      Moving on,% let's talk about the prop snatcher.
@@ -481,6 +482,7 @@ a46:
 	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
 	*setskin cat_bar 0*
      *setspeaker cat_cello*
+	 *setskin cat_cello 0*
 	 *setanim cat_cello gesture_jab 1 idle*
      hey wait up,%%% tell em about the shards 
      &a47

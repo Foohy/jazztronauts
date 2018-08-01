@@ -54,8 +54,11 @@ i2:
 	
 i3:
 	It's like cable TV. And since we don't have cable, I'm looking for some
-	wholesome empty entertainment to relieve the unending, numbing boredom
-	that plagues my existence. 
+	wholesome empty entertainment to relieve the unending, 
+	numbing boredom that plagues my existence. 
+	&i4
+	
+i4:
 	Do me a solid here?
 	&exit
 

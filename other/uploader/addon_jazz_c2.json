@@ -13,6 +13,8 @@
 		"*.bat",
 		"*.tga",
 		"*.bak",
+		"sound/*.txt",
+		"models/*.txt",
 		"addon.gma",
 		"addon.jpg",
 		"other/*"

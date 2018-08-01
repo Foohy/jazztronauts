@@ -35,13 +35,18 @@ function GM:PhysgunPickup(ply, ent)
 end 
 
 function GM:CanProperty(ply, prop, ent)
+    if mapcontrol.IsInGamemodeMap() then return false end
     if prop == "persist" then return false end
+
+    if IsValid(ent) and IsValid(ent:GetParent()) and ent:GetParent():GetClass() == "jazz_bus_explore" then
+        return false
+    end
 
     return self.BaseClass:CanProperty(ply, prop, ent)
 end
 
 function GM:CanDrive(ply, ent)
-    return mapcontrol.IsInHub()
+    return false
 end
 
 -- Shared so we can query on the client too

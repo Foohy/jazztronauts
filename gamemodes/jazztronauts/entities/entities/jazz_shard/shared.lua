@@ -72,6 +72,10 @@ function ENT:Initialize()
     end
 end
 
+function ENT:CanProperty()
+	return false
+end
+
 -- Shards should be always networked, even if they're out of the player's PVS
 -- Will be necessary if they need help locating them
 function ENT:UpdateTransmitState()

@@ -31,3 +31,7 @@ end
 function ENT:GetRear()
 	return self:GetPos() + self:GetAngles():Right() * -self.HalfLength
 end
+
+function ENT:CanProperty()
+	return false
+end

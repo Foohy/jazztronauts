@@ -49,13 +49,13 @@ function ENT:Initialize()
 	end
 
 	-- Spawn spooky candles indicating the number of collected black shards
-	self:SpawnShardCount()
+	--self:SpawnShardCount()
 end
 
 function ENT:SpawnShardCount()
 	local shardcount = mapgen.GetTotalCollectedBlackShards()
 	local required = mapgen.GetTotalRequiredBlackShards()
-	print(shardcount)
+
 	if not tobool(newgame.GetGlobal("encounter_1")) then return end
 
 	for i=1, required do

@@ -6,14 +6,13 @@
 	*setfov 70*
 	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 .8 2.0*
 	*setcam setpos 3538.873779 7408.384277 97.349792;setang 2.355879 148.264664 0.000000*
-	*spawn metrocopidiot models/police.mdl"
-	*setposang metrocopidiot setpos 4370.006836 6327.892578 0;setang 0 -91.389297 0.000000*
-	*setanim metrocopidiot walk_all*
+	*spawn metro_idiot models/combine_soldier.mdl"
+	*setposang metro_idiot setpos 4370.006836 6327.892578 0;setang 0 -91.389297 0.000000*
+	*setanim metro_idiot Walk_all*
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos 2793.226563 7960.495117 0;setang -90 225 0.000000*
 	*setnpcid cat_singer npc_cat_sing*
-	*spawn player_dummy playerboy*
-	######*setposang player setpos 2911.817383 7921.412109 64.031250;setang 12.627135 166.505203 0.000000*
+	*setposang player setpos 2911.817383 7921.412109 0;setang 2 166.505203 0.000000*
 	*txin*
 	*show*
 	
@@ -143,7 +142,7 @@ m1:
 	*txout*
 	*setcam setpos 3593.667725 6683.125488 68.456795;setang 2.405043 -25.433838 0.000000*
 	*setposang cat_singer setpos 4176.487305 6288.590820 0;setang -90 0 0.000000*
-	######*setposang player setpos 4178.473633 6427.166992 64.031250;setang 19.388601 -88.558807 0.000000*
+	*setposang player setpos 4178.473633 6427.166992 0;setang 0 -88.558807 0.000000*
 	*txin*
 	*wait .15*
 	*setspeaker narrator*
@@ -166,7 +165,7 @@ m2:
 	
 m3:
 	*setfov 50* 
-	*emitsound physics/glass/glass_sheet_impact_soft3.wav" %%% 
+	*emitsound physics/glass/glass_sheet_impact_hard3.wav .75" %%% 
 	*setfov 60* %%%%
 	> Not that close.
 	&m4

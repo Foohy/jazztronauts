@@ -2,11 +2,13 @@ SKIP_OPEN = true
 
 
 begin:
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*	
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
-	*setposang cat_piano setpos -4009.657715 4751.496094 34.134026;setang -90 30 0.000000*
 	*setnpcid cat_piano npc_cat_piano*
-	*show*	
+	*setposang cat_piano setpos -4009.657715 4751.496094 34.134026;setang -90 30 0.000000*
 	*setspeaker cat_piano*
+	*show*
 	Hey.%%% Do you have a minute?%%
 	I really.%%%% Want to talk.%
 	I need a personal favour.
@@ -72,7 +74,7 @@ r3a1:
 	*setanim cat_piano gesture_agree 1 idle*
 	Thanks.%%%%*setskin cat_piano 0* 
 	Follow me.%% 
-	And uh,% watch your step.
+	And uh,% watch your step.*setskin cat_piano 0*
 	&m1
 
 m1:		
@@ -81,10 +83,7 @@ m1:
 	*hide*
     *setfov 70*
 	*setcam setpos -3951.872314 4698.228516 116.168732;setang 8.676914 109.575012 0.000000*
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
-	*setnpcid cat_piano npc_cat_piano*
-	
-	*spawn player_dummy playerboy*
+	*setposang player setpos -3863.479248 4857.957520 28;setang 0 134.195984 0.000000*
 	*txin*
 	*wait .15*
 
@@ -99,7 +98,7 @@ m1:
 m2:
 	*setcam setpos -3758.718018 4813.087891 85.153534;setang 1.329798 147.011353 0.000000*
 	*setposang cat_piano setpos -4042.202148 5043.773438 48;setang -90 214 0.000000*
-	*setspeaker cat_piano*
+	*setspeaker narrator*
 	*setskin cat_piano 0*
 	>The Pianist sits on the edge of the plinth and 
 	kicks her legs back and forth.%%% 
@@ -256,14 +255,21 @@ n1:
 	&n2
 	
 n2:
+	*setspeaker narrator*
 	*setcam setpos -3876.619141 4693.309082 302.305389;setang 27.401285 120.133430 0.000000*
-	>She goes silent for a long time,%%%*setanim cat_piano pose_sit02* then slams her paw down on the keys.%%%*bgmplay sound/jazztronauts/music/events/pianist_song.mp3 1 10.0*
+	>She goes silent for a long time,%%%*setanim cat_piano pose_sit02* then slams her paw down on the keys.
+	&n2b
 	
+n2b:
+	*setspeaker cat_piano*
+	*bgmplay sound/jazztronauts/music/events/pianist_song.mp3 1 5*
 	I might as well just give u-
 	&n3
 
 n3:
 	*setcam setpos -4467.041504 4953.217285 53.986069;setang -2.306643 13.067791 0.000000*
+	*setposang player setpos -4096.396973 4912.637695 32;setang 0.728105 88.409599 0.000000*
+	*setanim player sit*
 	*setspeaker narrator*
 	>The Pianist stops mid word and stares down at her paw as the 
 	accidental chord resonates*setanim cat_piano pose_sit01* through the room.%%%*setskin cat_piano 3* 
@@ -289,14 +295,16 @@ n5:
 n6:
 	*setcam setpos -4063.028564 5122.333496 139.028748;setang 15.555366 115.927330 0.000000*
 	*setskin cat_piano 5*
-	Because I can't plan shit around you.%% Things just happen.%%%
+	Because I can't plan shit around you.%% Things just happen.
+	&n6b
 	
+n6b:
 	Let's go back to the bar.%%% I've got some good news for the others.
 	&n7
 	
 n7:
 	*setspeaker cat_piano*
-	*player*%%%%%%
+	*player*%.%.%.%.%%%
 	T*setanim cat_piano gesture_confused 1 idle*h*setskin cat_piano 4*ank you for being my friend.*setskin cat_piano 5*
 	player:
 	&pianistconclude:
@@ -305,6 +313,7 @@ n7:
 		
 pianistconclude:
 	*setcam setpos -3659.845703 5146.500488 49.834221;setang -5.021893 -156.280075 0.000000*
+	*setspeaker narrator*
 	>The two of you quietly head back the bar. *mark_seen*
 	&exit
 	

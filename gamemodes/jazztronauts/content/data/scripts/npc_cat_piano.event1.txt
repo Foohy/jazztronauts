@@ -10,7 +10,8 @@ begin:
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
 	*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 150 0.000000*
 	*setnpcid cat_piano npc_cat_piano*
-
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos 301.032990 230.946976 -256;setang -90 240 0.000000*
 	*setnpcid cat_singer npc_cat_sing*
@@ -140,7 +141,7 @@ resp5a:
 	*setcam setpos 350.197205 174.538849 54.377182;setang 2.288677 88.377617 0.000000*
 	*setspeaker cat_piano*
 	*setskin cat_piano 1*
-	And I suppose none of your ideas have ever*setanim cat_piano gesture_shrug* backfired *player*, and you're
+	And I suppose none of your ideas have ever*setanim cat_piano gesture_shrug* backfired *player*,
 	the sole clean and pure being in this universe who has never made a 
 	goddamn mistake.%%% Forgive me.%*setanim cat_piano gesture_jab 1 idle* I*setskin cat_piano 2* didn't know I was in the presence of 
 	the chosen one,% the saviour - 

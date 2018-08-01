@@ -8,13 +8,13 @@ a2:
     &a3
 a3:
     like%% you'd think all you do is crack open a can of Bougie Beige% and 
-    do a zoom shot of a paint roller covering about three foot of wall and bam 
-    you're in an immaculately stenciled dining room with trim that 
+    do a zoom shot of a paint roller covering about three foot of wall and 
+	bam you're in an immaculately stenciled dining room with trim that 
 	changes color in different lighting
     &a4
 a4:
-    then you take the thing home and suddenly you gotta deal with %color theory% 
-    and %dry times% and %masking tape% and %viscosity% and 
+    then you take the thing home and suddenly you gotta deal with %
+	color theory% and %dry times% and %masking tape% and %viscosity% and 
 	%the fact that wood breathes%
     &a5
 a5:
@@ -31,8 +31,8 @@ a5b:
     &a6
 a6:
     countless death rattles stretched out into infinity in a single 
-    monstrous chorus as the walls themselves pulse to the rhythm of a heart 
-    they lost long ago, straining against color designed 
+    monstrous chorus as the walls themselves pulse to the rhythm of a 
+	heart they lost long ago, straining against color designed 
 	to be overlooked and forgotten
     &a7
 a7:

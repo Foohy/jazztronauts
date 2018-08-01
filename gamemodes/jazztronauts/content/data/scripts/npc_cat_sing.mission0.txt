@@ -1,4 +1,6 @@
 ﻿accept:
+*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 *setspeaker narrator*
 	>Oh, it's the cat who spotted you in the first place and 
 	landed you in this.. job?? They were the Singer, you think.
@@ -14,12 +16,14 @@ a1:
 a2:
 	>When they've finished and show you, your eyes glaze over
 	at the wall of text.
+	&a2b
 	
+a2b:
 	>Chatty, this one.
 	&a3
 	
 a3:
-	Skimming over it, you find they've reintroduced themselves-
+	> Skimming over it, you find they've reintroduced themselves-
 	you did have the name right- hope you are settling in well,
 	and are eager to work with you.
 	&a4
@@ -45,18 +49,28 @@ a6:
 	
 idle:
 	> You find the singer working away at something on their tablet with
-	and expression of intense concentration, but when they see you they beam
-	with apparent delight. Explaining that you don't actually have the goods
+	and expression of intense concentration, but when they see you 
+	they beam with apparent delight. 
+	&idle2
+	
+idle2:
+	> Explaining that you don't actually have the goods
 	yet does not cause this to waver.
 	&i1
 	
 i1:
-	> They are just happy to see you, and tell you that there is no time limit
-	on the request so you can take your time. They are sure you'll manage to find
-	the binders if you go to roleplay maps, but want you to have fun along the way.
+	> They are just happy to see you, and tell you that there is no 
+	time limit on the request so you can take your time. 
+	&i1b
+	
+i1b:
+	> They are sure you'll manage to find the binders if you go to 
+	roleplay maps, but want you to have fun along the way.
 	&exit
 
 turnin:
+*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	> The Singer jumps out of their seat and bounces in delight as you put 
 	the binders down in front of them. With a flourish, they present to you 
 	a wad of cash! $5000 in total. *finish 0*
@@ -74,14 +88,14 @@ t2:
 	&t3
 	
 t3:
-	> "You should find me later once I've gone through all of these and I can show 
-	you something cool ₍⸍.ʷ̣̫.⸌₎”
+	> "You should find me later once I've gone through all of these and 
+	I can show you something cool ₍⸍.ʷ̣̫.⸌₎”
 	&t4
 	
 t4:
 	*setspeaker narrator*
-	> You leave the Singer clapping over the binders you deliver, and they 
-	wave to you as you go.
+	> You leave the Singer clapping over the binders you deliver, 
+	and they wave to you as you go.
 	&exit
 	
 	

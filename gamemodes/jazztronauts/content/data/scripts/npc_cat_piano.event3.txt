@@ -5,8 +5,9 @@ begin:
     *txout*
 	*hide*
     *setfov 70*
-	*bgmplay sound/jazztronauts/music/events/allspice.mp3 1 2.0*
-
+	*bgmplay sound/jazztronauts/music/events/allspice.mp3 .75 2.0*
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
 	*setposang cat_piano setpos -1187.520996 467.479309 -64;setang -90 294.221405 0.000000*
 	*setnpcid cat_piano npc_cat_piano*
@@ -15,7 +16,7 @@ begin:
 	*setposang cat_cello setpos -2907.271484 2958.740967 -64;setang -90 10.601639 0.000000*
 	*setnpcid cat_cello npc_cat_cello*
 	
-	*spawn player_dummy playerboy*
+	*setposang player setpos -1069.755615 521.588379 -64;setang 0 -165.918091 0.000000*
 	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
 	*txin*
 
@@ -63,13 +64,16 @@ b4:
 	gonna steal more shit for me.
 	player:
 	&r1a1:
+		*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
 		I don't like the look in your eye and I don't want to cause 
 		another incident with the Singer. So I'm gonna have to 
 		pass on whatever you've got planned here. (exit and complete)
 	&r2a1:
+		*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
 		Or, and hear me out here - we could sit down, have a drink, 
 		and talk about our feelings and shared interests?
 	&r3a1:
+		*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
 		I fucking live to steal.
 		
 		
@@ -103,10 +107,12 @@ r2a2:
 	The kind where*setanim cat_piano gesture_jab 1 idle* you take shit from other people and give it to me.
 	player:
 	&r1a1:
+	*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
 		I don't like the look in your eye and I don't want to cause 
 		another incident with the Singer. So i'm gonna have to 
 		pass on whatever you've got planned here. (exit and complete)
 	&r3a1:
+	*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
 		I fucking live to steal.
 		
 ###### BRANCH 3 (Also merge point)
@@ -137,9 +143,10 @@ r3a3:
 m1:
 *hide*
 *txout*
-	*bgmplay sound/jazztronauts/music/events/54321.mp3 1.0 2.0*
 	*setposang cat_piano setpos -2829.242188 3937.424805 0;setang -90 144.140579 0.000000*
 	*setcam setpos -2862.619141 3833.609863 21.781422;setang -1.518007 84.334892 0.000000*
+	*bgmplay sound/jazztronauts/music/events/dangersong.mp3 1 2.0*
+	*setposang player setpos -2875.208740 3945.959717 0;setang 0 40.999508 0.000000*
 *txin*
 *wait .4*
 *setspeaker narrator*
@@ -239,7 +246,7 @@ m10:
 m11:
 *hide*
 *txout*
-	*bgmplay sound/jazztronauts/music/events/allspice.mp3 1 2.0*
+	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1 2.0*
 	*setposang cat_piano setpos -1187.520996 467.479309 -64;setang -90 294.221405 0.000000*
 	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
 *txin*

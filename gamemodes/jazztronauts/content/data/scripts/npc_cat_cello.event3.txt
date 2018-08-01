@@ -4,11 +4,13 @@ begin:
     # Scene setup
     *hide*
     *txout*
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
     *setfov 70*
 	*setcam setpos -768.565674 411.305878 128.419617;setang 9.938671 170.311523 0.000000*
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos -1591.417236 545.902283 -64;setang -90 216 0.000000*
-	*setposang player setpos -1543.828735 493.394104 -64;setang 36.904713 148.702667 0.000000
+	*setposang player setpos -1543.828735 493.394104 -64;setang 0 148.702667 0.000000
 	*setskin cat_cello 0*
 		*bgmplay sound/jazztronauts/music/events/plumskinzz.mp3 1.0 2.0*
 	*setnpcid cat_cello npc_cat_cello*
@@ -16,6 +18,7 @@ begin:
 	
 ###### START
 	*setspeaker cat_cello*
+	*show*
 	*setanim cat_cello gesture_shock 1 idle*
 	oh,%% it's you.
 	&b1
@@ -57,7 +60,7 @@ r2a1:
 	*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
 	*setspeaker narrator*
 	*setskin cat_cello 2*
-	*setanim cat_cello gesture_shock 1 idle&
+	*setanim cat_cello gesture_shock 1 idle*
 	> The Cellist looks at you for a long moment,%%%
 	visibly sizing you up, guardedly.
 	&r2a2
@@ -130,8 +133,8 @@ m3:
 m4:
 	*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
 	*setanim cat_cello gesture_laugh 1 idle*
-	and boy fucking howdy was caravaggio supreme fuckmaster of being just
-	an absolute catastrophe,%%%*setanim cat_cello gesture_shrug 1 idle* like even his first biographers were like
+	and boy fucking howdy was caravaggio supreme fuckmaster of being 
+	just an absolute catastrophe,%%%*setanim cat_cello gesture_shrug 1 idle* like even his first biographers were like
 	damn this dude didn't have issues he had periodicals
 	&m5
 	

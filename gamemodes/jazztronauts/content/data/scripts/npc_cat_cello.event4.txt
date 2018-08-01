@@ -5,7 +5,8 @@ begin:
     *hide*
     *txout*
     *setfov 70*
-
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos -2912.563965 2959.992920 36;setang -90 0 0.000000*
 	*setskin cat_cello 2*
@@ -15,17 +16,18 @@ begin:
     *spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos -2681.986572 2795.670410 0;setang -90 51 0.000000*
 	*setskin cat_singer 2*
-	*setnpcid cat_singer npc_cat_singer*
+	*setnpcid cat_singer npc_cat_sing*
 	*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000*
-	*setposang player setpos 122.167236 3117.539795 88.071167;setang 3.496504 -177.779892 0.000000*
+	*setposang player setpos 122.167236 3117.539795 24;setang 0 -177.779892 0.000000*
 	*setanim player sit*
 	*txin*
 	
 ###### START
      *setspeaker narrator*
+	 *show*
      >The Bar Samsara.%%%%%%*setcam setpos -92.599274 2894.528809 95.031448;setang 7.010281 47.859997 0.000000* You’re minding your own business at a booth near 
      the bar,%% taking some time to rest your legs and watch the Cellist 
-     knock back what looks suspiciously like shots of antifreeze,%*emitsound physics\wood\wood_panel_impact_hard1.wav 0.45*%*setcam setpos -2889.212646 3035.416260 68.696411;setang 4.880709 -48.762085 0.000000* when 
+     knock back what looks suspiciously like shots of antifreeze,%*emitsound physics/wood/wood_panel_impact_hard1.wav 0.45*%*setcam setpos -2889.212646 3035.416260 68.696411;setang 4.880709 -48.762085 0.000000* when 
      the Singer storms in.%%% They look,% uh,%% miffed.
      &a2
 
@@ -33,7 +35,6 @@ a2:
 	*setcam setpos -2906.829590 3070.279053 62.922913;setang 1.979135 -86.136635 0.000000*
      *setspeaker cat_cello*
 	 *setskin cat_cello 2*
-	 *bgmstop 10*
      oh god here we go huh
      player:
           &a3: 
@@ -56,7 +57,7 @@ cheeseit:
 
 a3:
 	*setposang cat_cello setpos -2912.563965 2959.992920 36;setang -90 231 0.000000*
-	*setposang cat_singer setpos -2786.335693 2828.759277 64.031250;setang -90 51 0.000000*
+	*setposang cat_singer setpos -2786.335693 2828.759277 0;setang -90 51 0.000000*
      *setspeaker cat_singer*
      >You can only see part of the Singer’s tablet from where you’re 
      sitting,%% but even the little bit you can see has a lot of cursing 
@@ -103,14 +104,14 @@ a7:
 
 a8:
 	*setcam setpos -2818.010254 2747.359375 63.005245;setang 2.751089 107.754669 0.000000*
-	*setposang cat_cello setpos -2890.698242 2923.927979 64.031250;setang -90 231 0.000000*
+	*setposang cat_cello setpos -2895.698242 2940.927979 0;setang -90 231 0.000000*
 	*setanim cat_cello gesture_anger 2.2 idle*
      *setspeaker cat_cello*
      for.%%*setanim cat_cello gesture_facepalm 1.8 idle* fuck’s.%*setcam setpos -2850.703613 2846.708984 54.163239;setang 4.508009 110.150406 0.000000*%%%*setanim cat_cello gesture_exchange 2.3 idle* SAKE.*setcam setpos -2871.407959 2902.950928 51.328709;setang 4.854068 113.664223 0.000000*
      &a9
 
 a9:
-	*setcam setpos -2858.027832 2916.603027 58.138813;setang 13.851631 144.117416 0.000000*
+	*setcam setpos -2858.027832 2916.603027 50.138813;setang 13.851631 144.117416 0.000000*
 	*setskin cat_singer 5*
 	*setanim cat_cello gesture_anger 2 idle*
      they’re just robots. shitty dime store robots that have all the 
@@ -120,7 +121,7 @@ a9:
      &a10
 
 a10:
-	*setcam setpos -2871.787842 2911.376709 27.914227;setang -33.106087 109.990471 0.000000*
+	*setcam setpos -2871.787842 2911.376709 24.914227;setang -33.106087 109.990471 0.000000*
 	*setskin cat_singer 6*
 	*setanim cat_cello gesture_facepalm 1.5 idle*
      a koala with irreparable brain damage has more self-awareness than 
@@ -139,7 +140,7 @@ a11:
      &a12
 
 a12:
-	*setcam setpos -2870.269043 2919.815918 48.911049;setang -45 131.073303 0.000000*
+	*setcam setpos -2870.269043 2919.815918 15;setang -45 131.073303 0.000000*
 	*setanim cat_cello gesture_facepalm 1.5 idle*
      you’re doing all of this just because you made a promise you can’t 
      keep to something that didn’t fucking care about us because if they 
@@ -176,15 +177,16 @@ a16:
      >The Cellist makes barely coherent strangled pleas,%% as his brain 
      visibly catches up to what his mouth was saying.%%%% The sounds escalate
      into an overloaded yowl,%% and he runs,%%%% blindly seeking an escape from
-     the words that now hang in the air. 
+     the words that now hang in the air. *setposang cat_cello setpos 0 0 0;setang -90 0 0.000000*
      player:
-          b1: (run after him)
-          c1: Are you okay,%% Singer?
+          &b1: (run after him)
+          &c1: Are you okay,%% Singer?
 
 ### MINI BRANCH 1
 b1:
 	*setcam setpos -3027.578613 2820.252197 44.074524;setang 6.637681 9.171491 0.000000*
-	*setposang player setpos -2951.335449 2883.029297 64.031250;setang 8.820518 -4.724119 0.000000*
+	*setposang player setpos -2951.335449 2883.029297 0;setang 8.820518 -4.724119 0.000000*
+	*setanim player idle_all_02
      *setspeaker narrator*
 	 *setanim cat_singer gesture_disagree 1 idle*
      >You start after the Cellist,%% only to be stopped by the Singer 
@@ -201,7 +203,8 @@ b2:
 
 ### MINI BRANCH 2
 c1:
-	*setposang player setpos -2951.335449 2883.029297 64.031250;setang 8.820518 -4.724119 0.000000*
+	*setposang player setpos -2951.335449 2883.029297 0;setang 8.820518 -4.724119 0.000000*
+	*setanim player idle_all_02
 	*setcam setpos -3027.578613 2820.252197 44.074524;setang 6.637681 9.171491 0.000000*
      *setspeaker cat_singer*
 	 *setskin cat_singer 5*
@@ -225,7 +228,7 @@ a18:
      >”I'll sit that paranoid motherfucker down once he’s had some time 
      to breathe and then we'll have a talk about healthy ways to 
      communicate frustration (Φ ᆺ Φ)”
-     &a19
+     &a20
 
 a20:
      *setspeaker narrator*

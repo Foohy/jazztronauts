@@ -5,15 +5,16 @@ begin:
     *hide*
     *txout*
     *setfov 70*
-
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
-	*setposang cat_bar setpos -2889.937988 2926.586670 64.031250;setang -90 180 0.000000*
+	*setposang cat_bar setpos -2889.937988 2926.586670 0;setang -90 180 0.000000*
 	*setnpcid cat_bar npc_cat_bar*
 	*setcam setpos -2595.013428 2744.007568 85.509125;setang 6.983787 148.065491 0.000000*
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
-	*setposang cat_piano setpos -2927.378174 2883.511963 64.031250;setang -90 300 0.000000*
+	*setposang cat_piano setpos -2927.378174 2883.511963 0;setang -90 300 0.000000*
 	*setnpcid cat_piano npc_cat_piano*
-
+	*setposang player setpos -2726.948975 2782.044189 0;setang 3.300901 140.335999 0.000000*
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 270 0.000000*
 	*setanim cat_cello pose_sit01*
@@ -21,21 +22,22 @@ begin:
 	*setnpcid cat_cello npc_cat_cello*
 
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
-	*setposang cat_singer setpos -2856.525635 2876.622559 64.031250;setang -90 51 0.000000*
+	*setposang cat_singer setpos -2856.525635 2876.622559 0;setang -90 51 0.000000*
 	*setnpcid cat_singer npc_cat_sing*
 
 	*txin*
 	
 ###### START
 	*setspeaker narrator*
+	*show*
 	> The Bar Samsara%.%.%.%% %.%.%.%huh.%%%
 	Three of the cats are here,% and they look surprisingly worried.
 	&b1
 
 b1:
-	*setposang cat_bar setpos -2889.937988 2926.586670 64.031250;setang -90 216 0.000000*
-	*setposang cat_piano setpos -2927.378174 2883.511963 64.031250;setang -90 230 0.000000*
-	*setposang cat_singer setpos -2856.525635 2876.622559 64.031250;setang -90 216 0.000000*
+	*setposang cat_bar setpos -2889.937988 2926.586670 0;setang -90 216 0.000000*
+	*setposang cat_piano setpos -2927.378174 2883.511963 0;setang -90 230 0.000000*
+	*setposang cat_singer setpos -2856.525635 2876.622559 0;setang -90 216 0.000000*
 	*setspeaker cat_piano*
 	*setcam setpos -2851.549805 2833.720459 57.335415;setang 8.687464 145.084076 0.000000* #### PIANO
 	*setskin cat_piano 0*
@@ -75,7 +77,7 @@ b5:
 	&b6
 	
 b6:
-	*setcam setpos -2810.619873 2851.688965 47.836128;setang -0.017270 148.544876 0.000000* ####### SINGER
+	*setcam setpos -2810.619873 2851.688965 35.836128;setang -0.017270 148.544876 0.000000* ####### SINGER
 	*setspeaker cat_singer*
 	*setskin cat_singer 5*
 	*setanim cat_singer gesture_exchange 1.4 idle*
@@ -178,7 +180,7 @@ m1:
 	&m2
 	
 m2:
-	*setcam setpos -2810.619873 2851.688965 47.836128;setang -0.017270 148.544876 0.000000* ####### SINGER
+	*setcam setpos -2810.619873 2851.688965 35.836128;setang -0.017270 148.544876 0.000000* ####### SINGER
 	*setanim cat_singer gesture_clap 1 idle*
 	*setspeaker cat_singer*
 	> "You’re gonna do great, I know it! ✧/ᐠ-ꞈ-ᐟ\"
@@ -196,8 +198,9 @@ m4:
 	*txout*
 	*setspeaker cat_cello*
 	*setcam setpos 2998.774902 710.683411 122.469833;setang 18.723225 -49.392609 0.000000*
-	*setposang player setpos 3105.299072 523.735535 64.031250;setang 0.701462 -2.710294 0.000000*
+	*setposang player setpos 3105.299072 523.735535 0;setang 0.701462 -2.710294 0.000000*
 	*txin*
+	*wait 2.3*
 	*show*
 	i suppose you think you're here to help me.
 	&m5
@@ -238,7 +241,7 @@ m8:
 m9:
 	*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
 	*setskin cat_cello 5*
-	*setposang player setpos 3332.448486 503.497314 64.031250;setang 0.941127 0.297801 0.000000*
+	*setposang player setpos 3332.448486 503.497314 0;setang 0.941127 0.297801 0.000000*
 	*setanim cat_cello gesture_embarass 1 idle*
 	I'm sorry *player*.%%%
 	I'm just so tired of being so tired.
@@ -303,7 +306,11 @@ n1:
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_confused 1 idle*
 	You think I fled this far into altered states for fun?%%%*setanim cat_cello gesture_disagree 1 idle* No,% it's
-	because I can't fucking stand myself.%%%%*setanim cat_cello gesture_facepalm 1 idle* Being alone in my head,%%
+	because I can't fucking stand myself.%%%%*setanim cat_cello gesture_facepalm 1 idle* 
+	&n1b
+	
+n1b:
+	Being alone in my head,%%
 	with everything clear,%%% with nothing between me and myself%.%.%.%%%%*setanim cat_cello gesture_disagree 1 idle*
 	nobody could pitch me a more convincing Hell.
 	&n2
@@ -338,9 +345,8 @@ n4:
 	&n5
 	
 n5:
-	*setanim cat_cello gesture_laugh 1 idle*
 	In that fleeting glimpse,%%% that trip that lasted ten thousand
-	years in the span of a heartbeat,%%%*setanim cat_cello gesture_clap 1 idle* I was finally comfortable in
+	years in the span of a heartbeat,%%% I was finally comfortable in
 	my own skin.%%%% I knew where I belonged.%% I knew where everything
 	was going,%% what things were building up towards%.%.%.%
 	&n6
@@ -353,7 +359,7 @@ n6:
 	&n7
 	
 n7:
-	*setcam setpos 3536.503662 494.431030 55.873035;setang 1.846230 22.339319 0.000000* ####### CELLO HEADSHOT
+	*setcam setpos 3536.503662 494.431030 48.873035;setang 1.846230 22.339319 0.000000* ####### CELLO HEADSHOT
 	*setskin cat_cello 5*
 	*setanim cat_cello gesture_disagree 1 idle*
 	It all was stripped from me as I came down.%%% That sense of oneness,%
@@ -372,7 +378,11 @@ n9:
 	*setcam setpos 3507.908203 458.545197 71.318253;setang 18.004484 36.705151 0.000000* ###### CELLO 3/4
 	*setanim cat_cello gesture_sweep 1 idle*
 	And that led me to what you see now.%%% A burnt-out drug-addled wreck
-	chasing a mirage.%%%%*setanim cat_cello gesture_disagree 1 idle* It's been so long I'm not even sure if that 
+	chasing a mirage.%%%%*setanim cat_cello gesture_disagree 1 idle* 
+	&n9b
+	
+n9b:
+	It's been so long I'm not even sure if that 
 	memory is real anymore,% or some gaslight phantom my mind's come
 	up with to justify its self-destruction.
 	&n10
@@ -386,7 +396,7 @@ n10:
 	&n11
 	
 n11:
-	*setcam setpos 3536.503662 494.431030 55.873035;setang 1.846230 22.339319 0.000000* ####### CELLO HEADSHOT
+	*setcam setpos 3536.503662 494.431030 48.873035;setang 1.846230 22.339319 0.000000* ####### CELLO HEADSHOT
 	*setskin cat_cello 2*
 	*setanim cat_cello gesture_shock 1 idle*
 	-realize that I'm more trouble than I'm worth,%*setanim cat_cello gesture_anger 2 idle*
@@ -403,7 +413,8 @@ n12:
 	&n13
 	
 n13:
-	*setskin cat_cello gesture_sigh 1 idle*
+	*setanim cat_cello gesture_sigh 1 idle*
+	*setskin cat_cello 5*
 	that's all I can hope for anymore.
 	player:
 	&n14:
@@ -417,17 +428,19 @@ n14:
 	player:
 	&n15:
 		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
-		I don't pretend to know what you're going through, but I can tell you
-		you're wrong about your friends. They see you hurting, and want to help.
+		I don't pretend to know what you're going through, 
+		but I can tell you you're wrong about your friends. 
+		They see you hurting, and want to help.
 		
 n15:
 	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
 	*setspeaker cat_cello*
 	*setskin cat_cello 2*
 	*setanim cat_cello gesture_anger 2 idle*
-	And when they try I just end up hurting them back.%%%% You saw what happened with
-	the Singer.%%% *setanim cat_cello gesture_disagree 1.3 idle*They didn't deserve that shit.% None of them do.%%%%% I care about 
-	them too much to see them go through that.
+	And when they try I just end up hurting them back.%%%% You saw what
+	happened with the Singer.%%% *setanim cat_cello gesture_disagree 1.3 idle*They didn't deserve that shit.% 
+	None of them do.%%%%% I care about them too much 
+	to see them go through that.
 	player:
 	&n16:
 		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
@@ -439,11 +452,18 @@ n16:
 	*setspeaker cat_cello*
 	%.%.%.%.%.%.%
 	player:
-	&n17:
+	&n16b:
 		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
-		Shutting them out only hurts them more, not less. They keep holding their hands out 
-		for you even when they get burned sometimes. They know what they're dealing with.
-		They know you want help. They care about you enough to wait for you.
+		Shutting them out only hurts them more, not less. 
+		They keep holding their hands out for you even when 
+		they get burned sometimes. 
+
+n16b:
+		*setspeaker player*
+		They know what they're dealing with.
+		They know you want help. 
+		They care about you enough to wait for you.
+		&n17
 		
 n17:
 	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
@@ -459,13 +479,22 @@ n18:
 	*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 270 0.000000*
 	*setanim cat_cello pose_sit01*
 	*setskin cat_cello 5*
-	*setposang player setpos 3578.333008 494.673340 72.031250;setang 12.760320 -1.751974 0.000000*
+	*setposang player setpos 3578.333008 494.673340 5;setang 12.760320 -1.751974 0.000000*
 	*setanim player sit*
 	*setspeaker narrator*
 	> With that,%%% something inside the Cellist finally breaks open,% and he
-	slumps to the ground as a wail tears itself free from his throat.%%% You
-	sit with him as his sobbing wracks his body,% arm around his shoulder,%%
-	hand on his.
+	slumps to the ground as a wail tears itself free from his throat.%
+	&n18b
+	
+n18b:
+	*setcam setpos 3204.602783 514.840210 76.961311;setang 5.706127 -0.074771 0.000000*
+	*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 270 0.000000*
+	*setanim cat_cello pose_sit01*
+	*setskin cat_cello 5*
+	*setposang player setpos 3578.333008 494.673340 5;setang 12.760320 -1.751974 0.000000*
+	*setanim player sit*
+	You sit with him as his sobbing wracks his body,% 
+	arm around his shoulder,% hand on his.
 	&n19
 	
 n19:

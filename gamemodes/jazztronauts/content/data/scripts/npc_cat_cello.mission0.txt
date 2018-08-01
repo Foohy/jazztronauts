@@ -3,15 +3,15 @@ accept:
     &a1
 a1:
     listen the rest of the idiots around here might have like, 
-	%%reasons%%%%,	 well thought out justifications, %%%%
+	%%reasons%%%%, well thought out justifications,%%%%
     or like gripping passion plays that speak to a deeper 
 	meaning about humanity %%%%
     &a1b
 	
 a1b:
 
-   y'know, to disguise their constant requests to have 
-   stupid bullshit delivered to them like its sketchy takeout 
+   y'know,%% to disguise their constant requests to have 
+   stupid bullshit delivered to them like its sketchy takeout%%%%
    (sometimes it may in fact be sketchy takeout)
    &a2
 
@@ -21,7 +21,7 @@ a2:
 
 a3:
     i want to get %%%
-    f%u%c%k%e%d% %% u%p% %%%%
+    f%u%c%k%e%d% %% u%p%%%%
     and %you% are gonna help me with that
     &a4
 

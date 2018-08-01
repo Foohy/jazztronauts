@@ -5,11 +5,13 @@ begin:
     *hide*
     *txout*
     *setfov 70*
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
-	*setposang cat_cello setpos -911.499695 3907.990723 0;setang -90 270 0.000000*
+	*setposang cat_cello setpos -677 3819 0;setang -90 270 0.000000*
 	*setnpcid cat_cello npc_cat_cello*
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1.0 2.0*
-	*setposang player setpos -705.046448 3488.125977 64.031250;setang 3.221002 82.384605 0.000000*
+	*setposang player setpos -705.046448 3488.125977 0;setang 0 82.384605 0.000000*
 	*setcam setpos -562.419739 3412.193115 91.602287;setang 8.332038 137.274857 0.000000*
 	*txin*
 	
@@ -18,7 +20,7 @@ begin:
 	*show*
 	> You seem to have taken a wrong turn on your way to the Mewseum%.%.%.%%%
 	This looks vaguely like a hotel area.%% I guess the Bartender planned
-	for thi-%*emitsound ambient\explosions\explode_1.wav .25 .8*%*shake 2*%*setanim cat_cello cellist_fly 1*%%% 
+	for thi-%*emitsound ambient/explosions/explode_1.wav .4 .8*%*shake 2*%####*setanim cat_cello cellist_fly 1*%%% 
 	&b1
 	
 b1:
@@ -26,8 +28,8 @@ b1:
 	&b2
 	
 b2:
-	*setskin cat_cello 2*
-	*setposang cat_cello setpos -667.436157 3808.364014 64.031250;setang -90 150 0.000000*
+	*setskin cat_cello 0*
+	*setposang cat_cello setpos -680.394653 3805.560303 0;setang -90 150 0.000000*
 	*setcam setpos -733.464111 3644.593994 56.454197;setang 3.220997 72.641579 0.000000*
 	> You take a few steps further into the hallway to check on 
 	the Cellist,%% but he staggers into view from around the corner.%%%% 
@@ -51,7 +53,7 @@ b4:
 	*setanim cat_cello gesture_shrug 1 idle*
 	i suppose the adrenaline and endorphins secondary to getting
 	tempered glass acupuncture of the face counted as getting high
-	though so I'm gonna chalk that one down as something to revisit.*setposang player setpos -714.635681 3504.432373 64.031250;setang 5.164247 65.622467 0.000000*
+	though so I'm gonna chalk that one down as something to revisit.*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
 	player:
 	&r1a1:
 		*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
@@ -66,7 +68,7 @@ b4:
 		
 ###### BRANCH 1 
 r1a1:
-	*setposang cat_cello setpos -657.013916 3623.505371 64.031250;setang -90 150 0.000000*
+	*setposang cat_cello setpos -657.013916 3623.505371 0;setang -90 150 0.000000*
 	*setcam setpos -459.987152 3425.966797 86.036774;setang 9.140019 142.270187 0.000000*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_shrug 1 idle*
@@ -87,7 +89,7 @@ r1a2:
 ###### BRANCH 2
 r2a1:
 	*setcam setpos -708.081421 3579.029785 55.792709;setang 15.874881 38.771481 0.000000*
-	*setposang cat_cello setpos -657.013916 3623.505371 64.031250;setang -90 150 0.000000*
+	*setposang cat_cello setpos -657.013916 3623.505371 0;setang -90 150 0.000000*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_confused .75 idle*
 	%.%.%.%.%.%.%.%okay so are you actually blind or did you fail to notice*setanim cat_cello gesture_disagree 1 idle* the
@@ -167,8 +169,8 @@ exp2:
 exp3:
 	*setcam setpos -538.476379 3494.054932 77.769257;setang 7.037041 154.169189 0.000000* ###### PLAYER AND CELLO
 	*setanim cat_cello gesture_shrug 1 idle*
-	maybe you're the type who looks for the legends of the medium and studies
-	all the little parlor tricks and clever implementations they had.%%%%*setanim cat_cello gesture_laugh 1 idle*
+	maybe you're the type who looks for the legends of the medium and 
+	studies all the little parlor tricks and clever implementations they had.%%%%*setanim cat_cello gesture_laugh 1 idle*
 	or you just rip them apart hoping to find some sort of distilled 
 	inspiration in all the pieces.
 	&exp4
@@ -192,10 +194,10 @@ comrad1:
 	*setcam setpos -658.643433 3586.832275 48.883362;setang 1.979193 86.554512 0.000000* ###### CELLO HEADSHOT
 	*setskin cat_cello 0*
 	*setanim cat_cello gesture_shock .75 idle*
-	%.%.%.%%you're serious?%%% huh.%% well in my case there's not much to tell,% really.%%*setanim cat_cello gesture_fold arms .75 idle*
-	i like long walks on the beach after dropping DMT,%% waking up in a garbage
-	can with a mostly uneaten bag of arby's,%% and finding new ways to 
-	confuse and disappoint the people i care about.
+	%.%.%.%%you're serious?%%% huh.%% well in my case there's not much to tell,% really.%%*setanim cat_cello gesture_foldarms .75 idle*
+	i like long walks on the beach after dropping DMT,%% waking up in a 
+	garbage can with a mostly uneaten bag of arby's,%% and finding new ways 
+	to confuse and disappoint the people i care about.
 	&comrad2
 	
 comrad2:
@@ -245,8 +247,13 @@ goodtime1:
 	*setanim cat_cello gesture_shrug 1 idle*
 	though i am obligated to note the fabulous riches we provide are not
 	recognized as legal tender in any dimension,% plane,% level,% game,% or
-	socioeconomic structure other than our own.%%%%%*setanim cat_cello gesture_laugh 1 idle*
-	which is to say we're basically giving you monopoly money we doodled over.
+	socioeconomic structure other than our own.
+	&goodtime1b
+	
+goodtime1b:
+	*setanim cat_cello gesture_laugh 1 idle*
+	which is to say we're basically giving you 
+	monopoly money we doodled over.
 	&goodtime2
 	
 goodtime2:
@@ -289,7 +296,10 @@ n2:
 	*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 	*setspeaker narrator*
 	> The Cellist walks over to a bong, and instead of lighting it like
-	a sane person,% the entire bong bursts into flames.%%%
+	a sane person,% the entire bong bursts into flames.
+	&n2b
+	
+n2b:
 	He huffs the smoke anyway and it appears to work.
 	&n3
 	
@@ -302,8 +312,9 @@ n3:
 	&n4
 	
 n4:
-	*setposang player setpos -689.756470 3525.622070 64.031250;setang 31.633858 70.191818 0.000000*
+	*setposang player setpos -689.756470 3525.622070 0;setang 31.633858 70.191818 0.000000*
 	*setcam setpos -731.334839 3735.929199 14.077698;setang -6.565836 -73.023735 0.000000*
+	*setspeaker narrator*
 	> The Cellist,% upon a moment's examination,%% proves to be passed out
 	cold in a deep sleep,%% and not in fact dead from some sort of turbo
 	aneurysm.%%%% You decide its best to let sleeping cats lie,%% 

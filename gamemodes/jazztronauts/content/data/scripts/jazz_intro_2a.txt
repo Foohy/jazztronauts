@@ -86,7 +86,8 @@ you*setskin cat_cello 1* got*setanim cat_cello gesture_clap 1 idle* spooked by g
 begin14:
 *setspeaker cat_piano*
 *setcam setpos -13571.149414 -2157.019287 1052.542480;setang 9.023558 -135.240448 0.000000*
-Okay fine% but you% somehow managed*setanim cat_piano gesture_disagree 1 idle* to lose a guest in fucking% flatgrass.
+Okay fine% but you% somehow managed*setanim cat_piano gesture_disagree 1 idle* to 
+lose a guest in fucking% flatgrass.
 &begin15
 
 begin15:
@@ -157,9 +158,10 @@ Or competition.*setskin cat_piano 1* You want me to-?
 
 begin26:
 *setspeaker cat_bar*
-No,%*setanim cat_bar gesture_disagree 1 idle* no%*setskin cat_bar 0* I've a better idea.%% You there!%*setcam setpos -13689.892578 -2052.613770 1055.993286;setang 2.525014 -122.990868 0.000000* Through the window!%*setanim cat_bar gesture_jab 1 idle* We've a proposition
-to make.%*setcam setpos -13634.369141 -1805.863525 1055.647705;setang 2.375210 -82.293320 0.000000* The end of these tunnels is just*setanim cat_bar gesture_sweep 1 idle* a little ways ahead -% if you'll
-meet us there,%*setskin cat_bar 1* we'll give you the details.
+No,%*setanim cat_bar gesture_disagree 1 idle* no%*setskin cat_bar 0* I've a better idea.%% You there!%*setcam setpos -13689.892578 -2052.613770 1055.993286;setang 2.525014 -122.990868 0.000000* Through the window!%*setanim cat_bar gesture_jab 1 idle* 
+We've a proposition to make.%*setcam setpos -13634.369141 -1805.863525 1055.647705;setang 2.375210 -82.293320 0.000000* The end of these tunnels is just*setanim cat_bar gesture_sweep 1 idle* 
+a little ways ahead -% if you'll meet us there,%*setskin cat_bar 1* 
+we'll give you the details.
 &begin27
 
 begin27:

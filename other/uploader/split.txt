@@ -10,6 +10,5 @@ gamemodes/jazztronauts/content/materials/**
 
 #And again with a third pack
 addon_jazz_c2.json:1455876201
-gamemodes/jazztronauts/content/materials/krio/**
 gamemodes/jazztronauts/content/materials/sunabouzu/**
 gamemodes/jazztronauts/content/maps/**

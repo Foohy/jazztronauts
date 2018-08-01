@@ -232,7 +232,7 @@ m8:
 	i don't WANT help!%%%*setanim cat_cello gesture_anger 1.6 idle* i don't WANT to be pitied by a fucking
 	useless ephemeral piece of shit like you!%%%%*setcam setpos 3637.327881 379.558289 106.256882;setang 11.908493 144.249985 0.000000*%*setanim cat_cello gesture_facepalm 1 idle*
 	
-	i'm%.*setskin cat_cello 4*%.%.%%    i%*setanim cat_cello gesture_sigh 1 idle*.%.%.%%%*setskin cat_cello 2*
+	i'm%.*setskin cat_cello 4*%.%.%%*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 10*    i%*setanim cat_cello gesture_sigh 1 idle*.%.%.%%%*setskin cat_cello 2*
 	&m9
 
 m9:

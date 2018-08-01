@@ -157,6 +157,7 @@ r3a2:
 r3a3:
 	*hide*
 	*txout*
+	*bgmplay sound/jazztronauts/music/events/pariah.mp3 .5 10*
 	*setcam setpos 188.218704 2839.670654 4.960632;setang -9.014836 112.749840 0.000000*
 	######*setposang player setpos 4.526166 3122.123779 0;setang 9.406200 -1.716147 0.000000*
 	*setposang cat_singer setpos 119.894188 3121.174072 24;setang -90 90 0.000000*

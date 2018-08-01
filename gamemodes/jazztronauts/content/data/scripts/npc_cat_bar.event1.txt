@@ -14,7 +14,7 @@ begin:
 
 	*spawn cat_cello models/andy/cellist/cat_cellist*
 	*setnpcid cat_cello npc_cat_cello*
-
+	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1.0 2.0*
 	*spawn cat_singer models/andy/singer/cat_singer*
 	*setnpcid cat_singer npc_cat_sing*
 

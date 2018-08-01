@@ -109,6 +109,7 @@ m2:
 m3:
 	*setcam setpos -4002.618896 4989.136230 104.928711;setang 5.855218 129.602081 0.000000*
 	*setspeaker cat_piano*
+		*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 10.0*
 	*setanim cat_piano gesture_foldarms 1 idle*
 	So.%%%%%%*setanim cat_piano gesture_confused 1 idle*
 	What do you think?%%%
@@ -256,7 +257,7 @@ n1:
 	
 n2:
 	*setcam setpos -3876.619141 4693.309082 302.305389;setang 27.401285 120.133430 0.000000*
-	>She goes silent for a long time,%%%*setanim cat_piano pose_sit02* then slams her paw down on the keys.%%%
+	>She goes silent for a long time,%%%*setanim cat_piano pose_sit02* then slams her paw down on the keys.%%%*bgmplay sound/jazztronauts/music/events/pianist_song.mp3 1 10.0*
 	
 	I might as well just give u-
 	&n3
@@ -272,7 +273,7 @@ n3:
 	
 n4:
 	*setcam setpos -4132.330078 4766.893066 63.294430;setang -3.930461 90.851433 0.000000*
-	*tweencam 20 setpos -4027.341309 4768.451660 63.294430;setang -3.903841 90.851433 0.000000*
+	*tweencam 60 setpos -4027.341309 4768.451660 63.294430;setang -3.903841 90.851433 0.000000*
 	> As you take a seat on the lone chair,%%% she plays another chord,% 
 	then another,%%%*setskin cat_piano 5* and the brightest smile 
 	you've ever seen from her dawns on her face.

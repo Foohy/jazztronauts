@@ -25,6 +25,7 @@ begin:
     *setspeaker cat_bar*
 	*setcam setpos -2478.000977 372.681641 16.944340;setang 7.223375 22.772840 0.000000*
 	*tweencam 40 setpos -2690.671875 283.400543 46.178429;setang 7.223375 22.772840 0.000000*
+	*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 2.0*
 	*txin*
 	*wait .15*
 	*show*

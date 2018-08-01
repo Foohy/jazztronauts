@@ -10,6 +10,7 @@ begin:
 	*setposang cat_cello setpos -1591.417236 545.902283 -64;setang -90 216 0.000000*
 	*setposang player setpos -1543.828735 493.394104 -64;setang 36.904713 148.702667 0.000000
 	*setskin cat_cello 0*
+		*bgmplay sound/jazztronauts/music/events/plumskinzz.mp3 1.0 2.0*
 	*setnpcid cat_cello npc_cat_cello*
 	*txin*
 	

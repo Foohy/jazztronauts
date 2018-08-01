@@ -9,7 +9,7 @@ begin:
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 81 0.000000*
 	*setnpcid cat_cello npc_cat_cello*
-	
+		*bgmplay sound/jazztronauts/music/events/allspice.mp3 1.0 2.0*
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
 	*setposang cat_piano setpos -1492.101563 2928.706543 0;setang -90 290 0.000000*
 	*setnpcid cat_piano npc_cat_piano*

@@ -8,6 +8,7 @@ begin:
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos -911.499695 3907.990723 0;setang -90 270 0.000000*
 	*setnpcid cat_cello npc_cat_cello*
+	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1.0 2.0*
 	*setposang player setpos -705.046448 3488.125977 64.031250;setang 3.221002 82.384605 0.000000*
 	*setcam setpos -562.419739 3412.193115 91.602287;setang 8.332038 137.274857 0.000000*
 	*txin*

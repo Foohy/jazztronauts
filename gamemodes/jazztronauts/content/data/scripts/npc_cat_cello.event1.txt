@@ -12,6 +12,7 @@ begin:
 	*setanim cat_cello pianist_drunk_idle*
 	*setposang player setpos 182.677567 2925.838623 64.031250;setang 1.739535 133.148224 0.000000*
 	*setcam setpos 245.356094 2850.929688 109.212921;setang 14.996230 126.555443 0.000000*
+	*bgmplay sound/jazztronauts/music/events/54321.mp3 1.0 2.0*
 	*txin*
 	
 ###### START
@@ -220,6 +221,7 @@ m1:
 		
 m2:
 	*fadeblind 1*
+	*bgmplay sound/jazztronauts/music/events/pariah.mp3 1.0 2.0*
 	*wait.5
 	*setcam setpos 1675.229614 -2281.119141 87.158875;setang -0.576421 -89.705780 0.000000*
 	*tweencam setpos 1676.401123 -8968.332031 94.523621;setang -359 -90.424515 0.000000*

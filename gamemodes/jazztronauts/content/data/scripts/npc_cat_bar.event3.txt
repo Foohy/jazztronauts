@@ -14,6 +14,7 @@ begin:
 	*setposang cat_cello setpos -2578.243896 2791.908447 64.031250;setang -90 45 0.000000*
 	*setposang player setpos -2911.472656 2960.678223 36;setang 14.517221 62.446011 0.000000*
 	*setanim player sit*
+	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
 	*txin*
 	*wait .15*
 	*show*

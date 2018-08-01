@@ -11,7 +11,7 @@ begin:
 	*setskin cat_cello 2*
 	*setanim cat_cello pose_sit02*
 	*setnpcid cat_cello npc_cat_cello*
-	
+	*bgmplay sound/jazztronauts/music/events/allspice.mp3 .5 2.0*	
     *spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos -2681.986572 2795.670410 0;setang -90 51 0.000000*
 	*setskin cat_singer 2*
@@ -33,6 +33,7 @@ a2:
 	*setcam setpos -2906.829590 3070.279053 62.922913;setang 1.979135 -86.136635 0.000000*
      *setspeaker cat_cello*
 	 *setskin cat_cello 2*
+	 *bgmstop 10*
      oh god here we go huh
      player:
           &a3: 

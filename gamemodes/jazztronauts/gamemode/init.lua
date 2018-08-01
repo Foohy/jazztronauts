@@ -51,6 +51,8 @@ concommand.Add( "jazz_test_lzma", function()
 
 end)
 
+local autoSetMap = CreateConVar("jazz_debug_checkmap", "1", { FCVAR_ARCHIVE }, "Disable automatically changing maps depending on story progress")
+
 local function SetIfDefault(convarstr, ...)
 	local convar = GetConVar(convarstr)
 	if not convar or convar:GetDefault() == convar:GetString() then
@@ -85,7 +87,7 @@ function GM:InitPostEntity()
 	-- If not (and returns false), we're changing level to the correct one
 	local redirect = self:CheckGamemodeMap()
 	if redirect then print("=========== REDIRECT: " .. redirect) end
-	if redirect and false then
+	if redirect and redirect != game.GetMap() and autoSetMap:GetBool() then
 		mapcontrol.Launch(redirect)
 	end
 end
@@ -106,7 +108,7 @@ function GM:CheckGamemodeMap()
 
 	-- Changelevel'd back to intro? WHy?
 	elseif curmap == mapcontrol.GetIntroMap() then
-		return mapcontrol.GetHubMap()
+		--return mapcontrol.GetHubMap() -- nah, let em, not hurting anybody
 	end
 
 	-- Don't let them changelevel to the Ending Level until they've got enough shards
@@ -119,20 +121,24 @@ function GM:CheckGamemodeMap()
 
 	local endmaps = mapcontrol.GetEndMaps()
 
-	-- If they're on the normal ending map, they must have enabled the ending
-	if curMap == endmaps[newgame.ENDING_ASH] and endType != newgame.ENDING_ASH then
-		return mapcontrol.GetHubMap()
-	end
+	-- Only applicable if they haven't finished the game yet
+	if not hasEnded then
 
-	-- Same with the true ending, must have set the correct ending type
-	if curMap == endmaps[newgame.ENDING_ECLIPSE] and endType != newgame.ENDING_ECLIPSE then
-		return mapcontrol.GetHubMap()
-	end
+		-- If they're on the normal ending map, they must have enabled the ending
+		if curMap == endmaps[newgame.ENDING_ASH] and endType != newgame.ENDING_ASH then
+			return mapcontrol.GetHubMap()
+		end
 
-	-- Check for bad ending shard stuff
-	local _, shouldencounter = mapcontrol.GetNextEncounter()
-	if shouldencounter then
-		return mapcontrol.GetEncounterMap()
+		-- Same with the true ending, must have set the correct ending type
+		if curMap == endmaps[newgame.ENDING_ECLIPSE] and endType != newgame.ENDING_ECLIPSE then
+			return mapcontrol.GetHubMap()
+		end
+
+		-- Check for bad ending shard stuff
+		local _, shouldencounter = mapcontrol.GetNextEncounter()
+		if shouldencounter then
+			return mapcontrol.GetEncounterMap()
+		end
 	end
 
 	-- No map change occurring
@@ -156,7 +162,7 @@ function GM:JazzMapStarted()
 
 	-- If intro map, mark as played
 	if game.GetMap() == mapcontrol.GetIntroMap() then
-		newgame.SetGlobal("finished_intro", true)
+		--newgame.SetGlobal("finished_intro", true)
 	end
 end
 
@@ -240,6 +246,16 @@ end
 function GM:CollectBlackShard(shard, ply)	
 	local corr = mapgen.CollectBlackShard(shard)
 	print("Collecting black shard. Map corrupted now? ", corr)
+
+	-- Set endgame state if not ended
+	if not tobool(newgame.GetGlobal("ended")) then
+		local bcollected, brequired = mapgen.GetTotalCollectedBlackShards(), mapgen.GetTotalRequiredBlackShards()
+
+		-- CONGRATS, YOU KILLED US ALL
+		if bcollected >= brequired then
+			newgame.SetGlobal("ending", newgame.ENDING_ECLIPSE)
+		end
+	end
 end
 
 -- Called when prop is snatched from the level
@@ -424,7 +440,8 @@ concommand.Add("jazz_reset_progress", function(ply, cmd, args)
 
 	jsql.Reset()
 	unlocks.ClearAll()
+	mapcontrol.Launch(mapcontrol.GetIntroMap())
 
-	print("Dump'd. Changelevel to reflect all changes.")
+	print("Dump'd.")
 	
 end, nil, "Reset all jazztronauts progress entirely. This wipes all player progress, map history, purchases, unlocks, and previous game data.")

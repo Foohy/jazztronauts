@@ -20,7 +20,7 @@ function ENT:Initialize()
 	-- Number counter
 	self.CountMarkerName = "bad_boy_counter" .. tostring(self)
 	worldmarker.Register(self.CountMarkerName, AttentionMarker, 50)
-	worldmarker.Update(self.CountMarkerName, self:GetPos() + Vector(0, 0, 130))
+	worldmarker.Update(self.CountMarkerName, self:GetPos() + Vector(0, 0, 20))
 	worldmarker.SetRenderFunction(self.CountMarkerName, function(scrpos, visible, pos)
 		if IsValid(self) then self:RenderCountMarker(scrpos, visible, pos) end
 	end)

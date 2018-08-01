@@ -46,15 +46,17 @@ function ENT:Initialize()
 		end )
 
 		self.VotePodium = votium
-
-		self:SpawnShardCount()
 	end
+
+	-- Spawn spooky candles indicating the number of collected black shards
+	self:SpawnShardCount()
 end
 
 function ENT:SpawnShardCount()
 	local shardcount = mapgen.GetTotalCollectedBlackShards()
 	local required = mapgen.GetTotalRequiredBlackShards()
-	if shardcount == 0 then return end
+	print(shardcount)
+	if not tobool(newgame.GetGlobal("encounter_1")) then return end
 
 	for i=1, required do
 		local p = i * 1.0 / required

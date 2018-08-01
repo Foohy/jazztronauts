@@ -12,6 +12,7 @@
 		"*.vmf",
 		"*.bat",
 		"*.tga",
+		"*.bak",
 		"addon.gma",
 		"addon.jpg",
 		"other/*"

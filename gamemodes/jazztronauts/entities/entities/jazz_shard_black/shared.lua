@@ -197,6 +197,7 @@ if CLIENT then
     end
 
     function ENT:Think()
+        self:EnsureSound()
         self:ChangePitchThink()
 
         -- Ramp up screen shake until it hits
@@ -273,6 +274,8 @@ if CLIENT then
             col.a = Lerp(t * 0.1, 1, 0.4)
             jazzvoid.SetOverlayColor(col)
         end
+
+        self:DrawModel()
     end
 
     function ENT:OnPreVoidSkyRendered()

@@ -57,9 +57,9 @@ i1:
 	&exit
 
 turnin:
-	> The Singer jumps out of their seat and bounces in delight as you put the binders
-	down in front of them. With a flourish, they present to you a wad of cash!
-	NUMBER REWARD in total. *finish 0*
+	> The Singer jumps out of their seat and bounces in delight as you put 
+	the binders down in front of them. With a flourish, they present to you 
+	a wad of cash! $5000 in total. *finish 0*
 	&t1
 	
 t1:
@@ -68,8 +68,9 @@ t1:
 	
 t2:
 	> Grabbing their tablet, they tap away with great enthusiasm\:
-	"Oh man fuck yes there's some really useful shit in here!!! I might be able to make
-	some of my digital storage protocols now this is so rad thank you so much!!! (๑✪ᆺ✪๑)✧”
+	"Oh man fuck yes there's some really useful shit in here!!! I might 
+	be able to make some of my digital storage protocols now this 
+	is so rad thank you so much!!! (๑✪ᆺ✪๑)✧”
 	&t3
 	
 t3:
@@ -79,8 +80,8 @@ t3:
 	
 t4:
 	*setspeaker narrator*
-	> You leave the Singer clapping over the binders you deliver, and they wave to you as
-	you go.
+	> You leave the Singer clapping over the binders you deliver, and they 
+	wave to you as you go.
 	&exit
 	
 	

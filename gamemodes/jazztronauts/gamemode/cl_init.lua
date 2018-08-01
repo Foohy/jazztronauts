@@ -19,9 +19,14 @@ GM.HideHUD = {
 	"CHudBattery",
 	"CHudAmmo",
 	"CHudSecondaryAmmo",
+	"CHudCrosshair",
 }
 
+local isInSpecialMap = mapcontrol.IsInHub() or mapcontrol.IsInEncounter()
+
 function GM:HUDShouldDraw( name )
-	
-	return !mapcontrol.IsInHub() or !table.HasValue(self.HideHUD, name)
+	if isInSpecialMap or dialog.IsInDialog() then
+		return !table.HasValue(self.HideHUD, name)
+	end
+	return true
 end

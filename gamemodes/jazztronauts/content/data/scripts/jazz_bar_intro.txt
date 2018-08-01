@@ -6,7 +6,7 @@ begin:
     spawngang()
 	*setposang player setpos -4225.765137 2946.239258 -47;setang -1.082015 89.332123 0.000000*
 	*setposang cat_bar setpos -4225.146973 3315.263672 0;setang -90 180 0.000000*
-	*setposang cat_piano setpos -4296.926758 3361.267334 0;setang -90 180 0.000000*
+	*setposang cat_cello setpos -4296.926758 3361.267334 0;setang -90 180 0.000000*
 	*setposang cat_singer setpos -4168.232910 3361.957520 0;setang -90 180 0.000000*
 	*setposang cat_piano setpos -4002.919189 3416.686279 0;setang -90 165 0.00000*
 	*setcam setpos -4611.800781 2450.187500 80.884155;setang 3.842618 59.837494 0.000000* ####### ESTABLISH
@@ -214,13 +214,13 @@ a15:
 
 a16:
      *setspeaker cat_cello*
-	 *setskiin cat_cello 1*
+	 *setskin cat_cello 1*
 	 *setskin cat_piano 0*
      ur never gonna wake up early enough in the day my dude
      &a17
 
 a17:
-	*setposang cat_singer setpos -4155.891602 3234.318604 64.031250;setang -90 165 0.000000*
+	*setposang cat_singer setpos -4155.891602 3234.318604 0;setang -90 165 0.000000*
 	*setcam setpos -4156.926270 3135.155518 22.527199;setang -5.341276 90.104485 0.000000* ####### SINGER
      *setspeaker cat_singer*
 	 *setskin cat_singer 1*
@@ -278,12 +278,12 @@ a23:
           &a24:
 		*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*		  
 		  Yeah sure,% clue me in. (View Tutorial)
-          &b1: 
+          &skiptutorial: 
 		  *setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
 		  No thanks,% I'm good. (Skip Tutorial)
 
 ### I'M GOOD SEEN THIS BEFORE
-b1:
+skiptutorial:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
      *setspeaker cat_bar*
 	 *setskin cat_bar 0*

@@ -3,5 +3,6 @@
 	"base"			"sandbox"
 	"title"			"Jazztronauts"
 	"menusystem" 	"1"
-	"maps" 			"jazz_"
+	"maps" 			"jazz_bar"
+	"workshopid"	"1452613192"
 }

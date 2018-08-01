@@ -55,7 +55,7 @@ local function ScreenScaleEx(...)
 end
 
 -- Position of top left corner of text, relative to dialog background
-local TextX, TextY = ScreenScaleEx(80, 25)
+local TextX, TextY = ScreenScaleEx(70, 25)
 
 -- Position of top left corner for name text
 local NameTextX, NameTextY = ScreenScaleEx(75, 20)

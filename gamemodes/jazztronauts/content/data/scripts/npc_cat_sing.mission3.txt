@@ -1,6 +1,8 @@
 ﻿###### the accept phase of this mission requires camera work
 
 accept:
+	spawnbartender()
+	*setposang cat_bar 0 0 0; -90 0 90*
 	*setspeaker narrator*
 	> The Singer and the Bartender are here...
 	there a teracotta pot on the table.
@@ -20,27 +22,27 @@ a2:
 	
 a3:
 	*setspeaker cat_bar*
-	Incredible work. Having ready access to fresh ingredients would do wonders
-	for our budget, and of course the quality of our menu. I- Oh!
+	Incredible work. Having ready access to fresh ingredients would do 
+	wonders for our budget, and of course the quality of our menu. I- Oh!
 	&a4
 	
 a4:
 	*setspeaker cat_bar*
-	Forgive us, we were so engrossed in our conversation that we didn't notice 
-	you there. Your timing is impeccable.
+	Forgive us, we were so engrossed in our conversation that we didn't 
+	notice you there. Your timing is impeccable.
 	&a5
 	
 a5:
 	*setspeaker cat_singer*
 	> The Singer continues nodding. At this rate they're going to get a hell of
-	a headache. The Bartender appears to have the same thought, and touches a paw
-	to their shoulder.
+	a headache. The Bartender appears to have the same thought, and 
+	touches a paw to their shoulder.
 	&a6
 	
 a6:
 	*setspeaker cat_singer*
-	> The Singer stops nodding and instead beams at you. They write up your mission
-	brief and slide the tablet across the table\:
+	> The Singer stops nodding and instead beams at you. They write up 
+	your mission brief and slide the tablet across the table\:
 	&a7
 	
 a7:

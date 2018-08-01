@@ -36,18 +36,20 @@ i2:
 	*setspeaker npc_cat_bar*
 	While they do not feel the temperature, or anything else by any 
 	metric the Singer has been able to check via tests, they worry.
+	&exit
 
 turnin:
 	*setspeaker npc_cat_sing*
-	> The Singer looks incredibly relieved. You help them wheel the radiators into
-	the Mewseum and set up alongside the NPC's, who do not react in any way to the
-	surge of warmth in the slightly chilly space. But the Singer is happy, and you
-	reviece NUMBER for your efforts! *finish 2*
+	> The Singer looks incredibly relieved. You help them wheel the radiators 
+	into the Mewseum and set up alongside the NPC's, who do not react 
+	in any way to the surge of warmth in the slightly chilly space.
+	But the Singer is happy, and you receive $15000 for your efforts!
+	*finish 2*
 	&t1
 	
 t1:
-	> They know it might sound silly, but they take great pride in making sure they
-	take care of the Mewseum residents. 
+	> They know it might sound silly, but they take great pride in making sure 
+	they take care of the Mewseum residents. 
 	You leave them to it.
 	&exit
 	

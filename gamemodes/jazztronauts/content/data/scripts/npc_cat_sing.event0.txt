@@ -7,7 +7,7 @@
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1 2.0*
 	*setcam setpos 3538.873779 7408.384277 97.349792;setang 2.355879 148.264664 0.000000*
 	*spawn metrocopidiot models/police.mdl"
-	*setposang metrocopidiot setpos 4370.006836 6167.892578 0;setang 0 -91.389297 0.000000*
+	*setposang metrocopidiot setpos 4370.006836 6327.892578 0;setang 0 -91.389297 0.000000*
 	*setanim metrocopidiot walk_all*
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos 2793.226563 7960.495117 0;setang -90 225 0.000000*

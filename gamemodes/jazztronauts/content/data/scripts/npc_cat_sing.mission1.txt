@@ -8,13 +8,13 @@ accept:
 	&a1
 	
 a1:
-	> The Singer has your next job ready, and hands the tablet over to you for
-	you to check the details: "Okay so bear with me here because I know how weird
-	it sounds, but I need a bunch of messed up dolls. NUMBER, to be more precise."
+	> The Singer has your next job ready, and hands the tablet over to you 
+	for you to check the details\: "Okay so bear with me here because I 
+	know how weird it sounds, but I need a bunch of messed up dolls.
+	5, to be more precise."
 	&a2
 	
 a2:
-	camera cut to player, cut back to tablet
 	> You shake your head and keep reading\:
 	"I'm really close to a research breakthrough!!!! I'm sure if I throw more bodies at
 	the problem something will stick but last time when I asked the Pianist for help she...
@@ -22,7 +22,7 @@ a2:
 	&a3
 	
 a3:
-	> The payment looks solid, NUMBER doesn't seem like a bad deal for tracking down
+	> The payment looks solid, 5 doesn't seem like a bad deal for tracking down
 	fucked up dolls. *start 1*
 	&a4
 	
@@ -46,6 +46,8 @@ i1:
 	&exit
 
 turnin:
+	spawncellist()
+	*setposang cat_cello 0 0 0; -90 0 90*
 	*setspeaker cat_cello*
 	oh hey you're back with what pipes wanted
 	what was it this time, nice pillow for our tenants or someth-
@@ -53,29 +55,31 @@ turnin:
 	
 t1:
 	*setspeaker narrator*
-	>This feels like one of those rare times you can surprise the Cellist, so you just
-	quietly open the sack of horrible haunted dolls in your hands.
+	>This feels like one of those rare times you can surprise the Cellist, so 
+	you just quietly open the sack of horrible haunted dolls in your hands.
 	&t2
 	
 t2:
 	*setspeaker cat_cello*
-	what the fUCK did you have our minion bring back to us i will not stand for these busted
-	ass cursed as fuck haunted doll watch worthy held by a creepy little girl lookin watches
-	your ass while you sleep type offsceen teleporting jumpscares in my house, fuckin-
+	what the fUCK did you have our minion bring back to us i will not stand 
+	for these busted ass cursed as fuck haunted doll watch worthy held by 
+	a creepy little girl lookin watches	your ass while you sleep type 
+	offsceen teleporting jumpscares in my house, fuckin-
 	&t3
 	
 t3:
 	*setspeaker cat_singer*
-	> Ignoring the Cellist's babbling at the sight of your sack full of probably-not-haunted
-	children's toys, the Singer takes them off your hands in exchange for the promised
-	payment of NUMBER. *finish 1*
+	> Ignoring the Cellist's babbling at the sight of your sack full of 
+	probably-not-haunted children's toys, the Singer takes them off 
+	your hands in exchange for the promised payment of $10000. *finish 1*
 	&t4
 	
 t4:
 	*setspeaker cat_cello*
 	-if one of those fucking things put a bespoke artisanal swedish death curse on me or some
 	shit i swear to the little i find sacred that i will come back from the grave and haunt
-	your ass so badly you won't be able to sit down without it going ooOooOOoOOo
+	your ass so badly you won't be able to sit down without it going 
+	ooOooOOoOOo
 	&t5
 	
 t5:

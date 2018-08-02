@@ -492,7 +492,7 @@ a47:
      *setspeaker cat_bar*
 	 *setskin cat_bar 3*
 	 *setanim cat_bar gesture_shock 1 idle*
-     Ah of course!%%%%*setskin cat_bar 0* Right,% we ought to explain the number one reason 
+     Ah of course!%%%%*setskin cat_bar 0* Right,% we tought to explain the number one reason 
      we brought you here.%%%*setanim cat_bar gesture_sweep 1 idle* It's also linked to the period of employment
      you'll have with us.
      &a48

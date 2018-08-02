@@ -1,0 +1,11 @@
+OPEN_RATE = 1000000
+CLOSE_RATE = 1000000
+PRINT_RATE = 999
+HIDE_MOUSE = true
+
+begin:
+	*setspeaker npc_cat_bar*
+	Jazztronauts does not support singleplayer servers!
+	Please return to the main menu, and select at least 2 player slots.
+	For a solo experience, set it to LAN only or set a password.
+	# Purposefully do NOT exit because they should be locked with this message

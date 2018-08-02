@@ -377,6 +377,13 @@ function GM:PlayerInitialSpawn( ply )
 			end
 		end )
 	end
+
+	-- Hey. Don't play this in singleplayer
+	if game.SinglePlayer() then
+		timer.Simple(5, function()
+			dialog.Dispatch("no_singleplayer_allowed.begin", ply)
+		end )
+	end
 end
 
 function GM:PlayerSpawn( ply )

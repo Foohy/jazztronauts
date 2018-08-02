@@ -63,7 +63,7 @@ end
 function ENT:RollWorkshop()
 	if not self:GetIsOn() then return end
 
-	local addon = mapcontrol.GetRandomAddon()
+	local addon = mapcontrol.GetRandomAddon() or ""
 	self:BrowseToDestination(addon)
 end
 
@@ -89,7 +89,7 @@ function ENT:BrowseToDestination(dest)
 end
 
 function ENT:SelectCurrentAddon()
-	if not self:GetIsOn() or #self:GetDestinationID() == 0 then return end
+	--if not self:GetIsOn() or #self:GetDestinationID() == 0 then return end
 
 	self:TriggerOutput("OnAddonSelected", self)
 

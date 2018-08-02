@@ -97,15 +97,15 @@ function ENT:BuildMapFacts(map, wsid)
 end
 
 function ENT:SelectDestination(dest)
-
 	mapcontrol.SetSelectedMap(nil) -- Tell the current bus to leave
 	factgen.ClearFacts() -- No more facts
 
 	self:SetSelectedDestinationID(dest or "")
 
-	if not dest then
+	if not dest or #dest == 0 then
 		self:SetScanState(SCAN_IDLE)
 		self.CurrentlyScanning = nil
+		self:TriggerOutput("OnMapDownloaded", self, 0)
 		return 
 	end
 

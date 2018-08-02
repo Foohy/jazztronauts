@@ -15,7 +15,7 @@
 	
 	*bgmplay sound/jazztronauts/music/events/allspice.mp3 1 2.0*
 	*spawn player_dummy playerboy*
-	######*setposang player setpos -2943.505615 2900.457520 0;setang -3.318230 68.020081 0.000000*
+	*setposang player setpos -2943.505615 2900.457520 0;setang -3.318230 68.020081 0.000000*
 	*txin*
 	*show*
 	
@@ -32,8 +32,8 @@ b1:
 	&b1b
 	
 b1b:
-	*setposang cat_singer setpos -2796.763916 2774.527100 0;setang -90 25 0.000000*
-	*setcam setpos -2762.433350 3070.230957 88.149544;setang 260 -170 0.000000*
+	*setposang cat_singer setpos -2796.763916 2774.527100 0;setang -90 370 0.000000*
+	*setcam setpos -2979.131592 3051.995605 81.246063;setang 2.289290 -46.814655 0.000000*
 	*setspeaker cat_singer*
 	*setskin cat_singer 2*
 	*setanim cat_singer gesture_shock 1.5 idle*
@@ -47,14 +47,17 @@ b2:
 	> They seem very interested in the floor suddenly.
 	player:
 	&r1a1:
+		*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
 		*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
 		If you don't want me to see it,% that's cool.%%%
 		See you later, yeah? (exit)
 	&r2a1:
+		*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
 		*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
 		Oh shit was that a brontosaurus? 
 		I love brontos.
 	&r3a1:
+		*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
 		*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
 		It's okay,%% I'm not gonna give you shit or anything.
 		
@@ -72,6 +75,7 @@ r1a1:
 
 ###### BRANCH 2 
 r2a1:
+	*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
 	*setcam setpos -2631.864258 3053.523193 79.823532;setang 7.276561 -136.492889 0.000000* #### KOJIMA SHIT
 	*setspeaker cat_singer*
 	*setskin cat_singer 5*
@@ -122,6 +126,7 @@ r2a5:
 	
 ###### BRANCH 3
 r3a1:
+	*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
 	*setcam setpos -2631.864258 3053.523193 79.823532;setang 7.276561 -136.492889 0.000000* #### KOJIMA SHIT
 	*setspeaker cat_singer*
 	*setskin cat_singer 2*
@@ -183,7 +188,7 @@ r3a7:
 	> It's so fucking soft holy shit.
 	&r3a8
 	
-r3a7:
+r3a8:
 	*setcam setpos -3028.905762 2701.650879 19.535900;setang -2.439646 46.732281 0.000000*
 	*setskin cat_signer 1*
 	*setanim cat_singer gesture_laugh 1 idle*

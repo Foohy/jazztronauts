@@ -11,13 +11,13 @@
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
 	*setposang cat_piano setpos -1182.562256 445.995911 -64;setang -90 270 0.000000*
 	*setnpcid cat_piano npc_cat_piano*
-	
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos -1182.562256 445.995911 -64;setang -90 270 0.000000*
 	*setnpcid cat_cello npc_cat_cello*
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1 2.0*
-	*spawn player_dummy playerboy*
-	######*setposang player setpos 980.507080 632.255981 0;setang -1.330924 -121.321289 0.000000*
+	*setposang player setpos 980.507080 632.255981 0;setang 0 -121.321289 0.000000*
 	*txin*
 	*show*
 	
@@ -40,7 +40,7 @@ b1:
 b2:
 	*hide*
 	*txout*
-	######*setposang player setpos -825.129883 552.649292 -64;setang 1.899361 -179.140396 0.000000*
+	*setposang player setpos -825.129883 552.649292 -64;setang 0 -179.140396 0.000000*
 	*setcam setpos -785.009399 524.158386 6.106567;setang 3.336839 174.204178 0.000000*
 	*txin*
 	*wait .1*
@@ -54,7 +54,7 @@ b3:
 	*setposang cat_piano setpos -600.322693 473.704559 0;setang -90 225 0.000000*
 	*setposang cat_cello setpos -544.969666 399.670746 0;setang -90 60 0.000000*
 	*setposang cat_singer setpos -814.982849 597.772827 -64;setang -90 227 0.000000*
-	######*setposang player setpos -833.971313 548.056152 115.072655;setang 11.429322 -21.284431 0.000000*
+	*setposang player setpos -833.971313 548.056152 -64;setang 0 -21.284431 0.000000*
 	*setcam setpos -945.970520 529.193604 -8.977074;setang -3.397988 -3.662134 0.000000*
 	> Well this suddenly makes a lot more sense.%%% 
 	The Singer walks up next to you as you finish putting 

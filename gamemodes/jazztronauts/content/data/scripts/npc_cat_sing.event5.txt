@@ -4,6 +4,8 @@ begin:
 	*hide*
 	*txout*
 	*setfov 70*
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*spawn hulacrate models/items/item_item_crate.mdl*
 	*setposang hulacrate setpos -2892.274414 2812.868652 16;setang 5.839129 -0.567616 0.000000*
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
@@ -11,7 +13,7 @@ begin:
 	*setnpcid cat_singer npc_cat_sing*
 	*setcam setpos -2754.079590 2807.214111 87.238869;setang 18.919519 171.730621 0.000000*
 	*spawn player_dummy playerboy*
-	######*setposang player setpos -2926.215576 2855.541748 0;setang 24.632860 -25.057766 0.000000*
+	*setposang player setpos -2926.215576 2855.541748 0;setang 0 -25.057766 0.000000*
 	*txin*
 	*show*
 	
@@ -70,7 +72,7 @@ b4:
 	&b5
 	
 b5:
-	######*setposang player setpos -2847.582031 2832.552979 0;setang 7.383099 -91.789627 0.000000*
+	*setposang player setpos -2847.582031 2832.552979 0;setang 0 -91.789627 0.000000*
 	*setcam setpos -2873.917480 2770.631348 46.226074;setang 3.922465 46.740841 0.000000*
 	*setspeaker narrator*
 	> You hurry over and they don't look up at you.
@@ -157,9 +159,10 @@ r3a2:
 r3a3:
 	*hide*
 	*txout*
-	*bgmplay sound/jazztronauts/music/events/pariah.mp3 .5 10*
+	*bgmplay sound/jazztronauts/music/events/pariah.mp3 .5 4*
 	*setcam setpos 188.218704 2839.670654 4.960632;setang -9.014836 112.749840 0.000000*
-	######*setposang player setpos 4.526166 3122.123779 0;setang 9.406200 -1.716147 0.000000*
+	*setposang player setpos 4.526166 3122.123779 24;setang 0 -1.716147 0.000000*
+	*setanim player sit*
 	*setposang cat_singer setpos 119.894188 3121.174072 24;setang -90 90 0.000000*
 	*setanim cat_singer pose_sit02*
 	*setspeaker narrator*
@@ -167,13 +170,17 @@ r3a3:
 	*wait 2*
 	*show*
 	> You give the Singer sidelong glances as you set out the 
-	needle and thread you pulled out of the Mewseum's digital archives.%%%%*setcam setpos 64.944397 2947.811768 42.192295;setang -5.926938 89.856796 0.000000* 
+	needle and thread you pulled out of the Mewseum's digital archives.
+	&r3a4
+	
+r3a4:
+	*setcam setpos 64.944397 2947.811768 42.192295;setang -5.926938 89.856796 0.000000*
 	They're huddled up and starting intently at the gash in the side of 
 	the plush with a morose expression.
 	&m1
 	
 m1:
-	*setcam setpos 81.491905 3121.584229 88.539001;setang 17.764835 -179.102737 0.000000*
+	*setcam setpos 81.491905 3121.584229 75;setang 17.764835 -179.102737 0.000000*
 	> You've gotta nail this.
 	&m2
 	
@@ -272,14 +279,28 @@ m12:
 m13:
 	*hide*
 	*txout*
+	*setanim player sit_zen*
+	*setanim cat_singer pose_elegant*
+	*setskin cat_singer 1*
 	*setcam setpos -936.734924 510.699097 69.524887;setang -2.998844 -179.529037 0.000000*
 	*setposang cat_singer setpos -2762.572998 492.285400 -64;setang -90 270 0.000000*
-	######*setposang player setpos -2050.979492 510.209991 -64;setang -5.714100 179.459274 0.000000*
+	*setposang player setpos -2050.979492 510.209991 -64;setang 0 179.459274 0.000000*
+	*bgmplay sound/jazztronauts/music/events/singer_song.mp3 1 3*
 	*txin*
 	*wait .15*
-	*show*
+	*setcam setpos -1801.824707 132.422394 309.284851;setang 18.687258 162.004745 0.000000*
+	*tweencam 10 setpos -1896.000977 887.514648 303.899353;setang 17.915279 -159.875351 0.000000*
+	*wait 9*
+	*setcam setpos -2418.260498 513.362000 24.767994;setang 8.252245 179.201523 0.000000*
+	*tweencam 10 setpos -1653.839111 501.998566 135.645935;setang 8.305485 179.361252 0.000000*
+	*wait 10*
 	*setspeaker narrator*
-	cutscene here of the singer giving a small recital in the performance hall
+	*show*
+	> The Singer treated you to a recital...
+	&m13b
+	
+m13b:
+	*setcam setpos -1968.338745 277.664063 23.926678;setang 8.234809 126.218788 0.000000*
 	*setposang cat_singer setpos -2259.908691 507.602417 -64;setang -90 270 0.000000*
 	> After the final note rings in the air,%%% they come over and 
 	clasp both your hands before pulling out the tablet again.

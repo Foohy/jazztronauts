@@ -3,6 +3,8 @@ begin:
 ###### SCENE SETUP
 	*hide*
 	*txout*
+		*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*setcam setpos -3153.723877 2730.842041 40.888985;setang -1.321713 43.303810 0.000000*	
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos -2863.950439 2954.573730 38;setang -90 0 0.000000*
@@ -41,8 +43,8 @@ b2:
 	&b3
 	
 b3:
-	#######*setposang player setpos -2779.428467 2912.213379 0;setang -3.850534 135.196228 0.000000*
-	*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 195 90.000000*
+	*setposang player setpos -2779.428467 2912.213379 0;setang 0 135.196228 0.000000*
+	*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 195 0*
 	*setposang cat_singer setpos -2863.950439 2954.573730 38;setang -90 236 0.000000*
 	*setcam setpos -2796.107910 2843.412354 68.879723;setang 0.834593 106.020760 0.000000*
 	*setskin cat_bar 1*

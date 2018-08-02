@@ -21,14 +21,14 @@ begin:
 	*show*
 	
 ###### START
-	######*setposang player setpos 2227.926758 7157.481934 64.031250;setang 0.461860 38.391869 0.000000*
+	*setposang player setpos 2227.926758 7157.481934 0;setang 0 38.391869 0.000000*
 	> The Mewseum is quiet as usual.%%%
 	Except for the Singer,% who is tapping away at their tablet in
 	front of one of those dolls you got for them.
 	&b1
 	
 b1:
-	######*setposang player setpos 3253.138184 7768.483398 64.031250;setang 6.052056 85.722305 0.000000*
+	*setposang player setpos 3253.138184 7768.483398 0;setang 6.052056 85.722305 0.000000*
 	*setcam setpos 3078.050781 7687.246094 96.607208;setang 11.429294 40.840954 0.000000*
 	> You approach the Singer,%% but for once they don't immediately 
 	look up when you get close.%%%% In fact,% they don't seem to have 
@@ -48,7 +48,7 @@ b3:
 	*setspeaker cat_singer*
 	*setcam setpos 3059.472168 7854.973145 78.634224;setang 10.018432 18.054348 0.000000*
 	*setposang cat_singer setpos 3259.499512 7881.131348 0;setang -90 60 0.000000*
-	*setposang player setpos 3196.539063 7929.435547 0;setang 29.956829 -41.255119 0.000000*
+	*setposang player setpos 3196.539063 7929.435547 0;setang 5 -41.255119 0.000000*
 	*setskin cat_singer 0*
 	*setanim cat_singer gesture_sweep 1 idle*
 	
@@ -59,7 +59,7 @@ b3:
 b3b:	
 	*setskin cat_singer 0*
 	*setcam setpos 3210.891113 7908.113281 38.489910;setang 2.671340 -13.117636 0.000000* ####### SINGER HEADSHOT
-	It'*setanim cat_singer gesture_sigh 1 idle*s really relaxing%.%.%.%%% 
+	> It'*setanim cat_singer gesture_sigh 1 idle*s really relaxing%.%.%.%%% 
 	I thought after your hard work helping me get these you*setanim cat_singer gesture_confused 1 idle* might like to 
 	help me enter their descriptions for my archives,% maybe. "
 	player:

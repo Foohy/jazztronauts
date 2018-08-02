@@ -4,6 +4,8 @@
 	*hide*
 	*txout*
 	*setfov 70*
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 .8 2.0*
 	*setcam setpos 3538.873779 7408.384277 97.349792;setang 2.355879 148.264664 0.000000*
 	*spawn metro_idiot models/combine_soldier.mdl"

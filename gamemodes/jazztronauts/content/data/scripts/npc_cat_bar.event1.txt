@@ -9,22 +9,22 @@ begin:
 	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
 	*setnpcid cat_bar npc_cat_bar*
 
-	*spawn cat_piano models/andy/pianist/cat_pianist*
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
 	*setnpcid cat_piano npc_cat_piano*
-
-	*spawn cat_cello models/andy/cellist/cat_cellist*
+	*setposang player setpos -1492.517822 2994.995850 0;setang 0 87.726311 0.000000*
+	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setnpcid cat_cello npc_cat_cello*
 	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1.0 2.0*
-	*spawn cat_singer models/andy/singer/cat_singer*
+	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setnpcid cat_singer npc_cat_sing*
 
 	*spawn narrator dummy*
 	*setnpcid narrator npc_narrator*
 
-	*setposang cat_bar -1456.906494 3002.029785 0;setang -90 -93.511383 0.000000*
-	*setposang cat_cello -1550.800171 3010.119873 0;setang -90 -72.588135 0.000000*
-	*setposang cat_piano -1413.009766 3020.624512 0;setang -90 -118.480911 0.000000*
-    *setposang cat_singer -1470.034180 3146.505859 0;setang -90 90.343994 0.000000*
+	*setposang cat_bar -1456.906494 3002.029785 0;setang -90 15 0.000000*
+	*setposang cat_cello -1550.800171 3010.119873 0;setang -90 345 0.000000*
+	*setposang cat_piano -1413.009766 3020.624512 0;setang -90 60 0.000000*
+    *setposang cat_singer -1470.034180 3146.505859 0;setang -90 180 0.000000*
 	*setfov 70*
 	*wait .1*
 	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
@@ -139,7 +139,8 @@ resp2c:
 resp2d:
     *setspeaker cat_cello*
 	*setanim cat_cello gesture_anger 2 idle*
-	WE AGREED YOU WOULDN't SAY THAT PIECE OF SHITS NAME IN HERE AGAIN
+	WE AGREED YOU WOULDN't SAY THAT PIECE OF 
+	SHITS NAME IN HERE AGAIN
     &resp2e
     
 resp2e:
@@ -165,12 +166,11 @@ resp2g:
 resp2h:
 	*hide*
 	*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
-	*wait* .6
+	*wait .6*
 	*setcam setpos -1396.263062 3081.129639 50.612041;setang 1.330953 152.403229 0.000000*
 	*show*
 	*setspeaker cat_cello*
 	.%.%.%sorry.%% go ahead pipes,% do your thing.	
-	*txout*
     &merge1a
 
 ###### Branch 3
@@ -222,9 +222,8 @@ merge1f:
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_confused 1 idle*
 	shit.%%%*setanim cat_cello gesture_shrug 1 idle* alright well then call me dock ellis% because 
-	i'm playing a perfect *setcam setpos -1360.187134 3170.514893 99.880249;setang 26.460207 -134.498184 0.000000*
-	game in spite of the fact that 
-	all these cards look like Richard Nixon
+	i'm playing a perfect *setcam setpos -1360.187134 3170.514893 99.880249;setang 26.460207 -134.498184 0.000000* game in spite of 
+	the fact that all these cards look like Richard Nixon
 	&merge1g
 	
 merge1g:
@@ -263,7 +262,7 @@ decision2:
 ###### Branch 4
 resp4a:
 	*setspeaker narrator*
-	*setcam setpos -1464.512939 3099.350830 66.755806;setang 1.916579 90.059235 0.000000*
+	*setcam setpos -1464.512939 3099.350830 45;setang 1.916579 90.059235 0.000000*
 	*setanim cat_singer gesture_exchange 1.5 idle*
 	>The Singer flicks a card your way.% 
 	You flip it over.

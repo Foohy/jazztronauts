@@ -44,14 +44,15 @@ i3:
     &exit
 
 turnin:
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	Excellent!% I will get to work organizing these immediately. %
     Here,% please take this as payment for services rendered.
 
     &t2
 t2:
-    \*The Bartender slides a red envelope to you over the counter.
-    *finish 0*
-    There's $5000 inside!\*
+    >The Bartender slides a red envelope to you over the counter.*finish 0*
+    There's $5000 inside!
 
     &t3
 t3:

@@ -9,10 +9,12 @@ begin:
     *txout*
     *setfov 70*
 	spawngang()
+		*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*setposang cat_singer setpos -2094.381348 519.835144 -64;setang -90 90 0.000000*
-	*setposang cat_cello setpos -2118.969971 573.165955 -64;setang -90 105.000000*
+	*setposang cat_cello setpos -2118.969971 573.165955 -64;setang -90 105.0 0.00000*
 	*setposang cat_piano setpos -2115.982422 464.703918 -64;setang -90 75 0.000000*
-	*setposang cat_bar setpos -2184.213867 516.635986 -64;setang -4.702435 -179.530457 0.000000*
+	*setposang cat_bar setpos -2184.213867 516.635986 -64;setang -90 90 0.000000*
 	*setposang player setpos -1908.471802 464.384277 -64;setang 9.193229 172.696442 0.000000*
 	*setanim cat_bar pose_sit01*
 	*setanim cat_piano pose_sit01*
@@ -87,7 +89,7 @@ a5:
     &a6
 
 a6:
-    *setspeaker cat_piano*
+    *setspeaker cat_bar*
     Excellent,%% a pleasure to have you. 
     &a7
 
@@ -151,10 +153,19 @@ a16:
 	*hide*
 	*txout*
 	*wait 2*
+	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 .75 2.0*
 	*setposang cat_singer setpos -2094.381348 519.835144 -64;setang -90 90 0.000000*
-	*setposang cat_cello setpos -2118.969971 573.165955 -64;setang -90 105.000000*
+	*setposang cat_cello setpos -2118.969971 573.165955 -64;setang -90 105.00 0000*
 	*setposang cat_piano setpos -2115.982422 464.703918 -64;setang -90 75 0.000000*
-	*setposang cat_bar setpos -2184.213867 516.635986 -64;setang -4.702435 270 0.000000*
+	*setposang cat_bar setpos -2184.213867 516.635986 -64;setang -90 -90 0.000000*
+	*setanim cat_piano idle*
+	*setanim cat_singer idle*
+	*setanim cat_bar idle*
+	*setskin cat_bat 0*
+	*setskin cat_piano 0*
+	*setskin cat_singer 0*
+	*setanim player idle_all_01*
+	*setanim cat_cello pose_passedout*
 	*setposang player setpos -2192.571045 467.875122 -64;setang 12.174686 32.835201 0.000000*
 	*setcam setpos -2092.409912 652.855896 43.299713;setang 25.058817 -109.785210 0.000000*
 	*txin*

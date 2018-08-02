@@ -18,7 +18,7 @@ begin:
 
     *setfov 70*
 	*setskin cat_singer 1*
-	*setposang player setpos -1997.907837 2961.654785 80.791939;setang 30.489212 1.468404 0.000000*
+	*setposang player setpos -2012.907837 2954.654785 16;setang 0 30 0.000000*
 	*setanim player sit*
 	*txin*
 	*setspeaker narrator*
@@ -53,7 +53,7 @@ a3:
 
 a4b:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
-	*setposang cat_bar setpos -2021.996704 2994.898438 92.591873;setang -90 260 0.000000*
+	*setposang cat_bar setpos -2021.996704 2994.898438 0;setang -90 260 0.000000*
 	*setspeaker narrator*
 	*setanim cat_piano gesture_shock 1 idle*
 	> The VCR makes a loud ka-CHUNK sound.%%*setskin cat_piano 3*
@@ -199,8 +199,9 @@ c3:
 	*setskin cat_piano 1*
 	*setskin cat_bar 3*
 	*setskin cat_singer 1*
-    >Suddenly,%%% a Ninja appears*setskin cat_bar 1* behind a middle aged businessman attempting 
-    to pitch out of the sandtrap on the 9th hole.%%%% This has taken a turn.
+    >Suddenly,%%% a Ninja appears*setskin cat_bar 1* behind a middle aged businessman 
+	attempting to pitch out of the sandtrap on the 9th hole.%%%% 
+	This has taken a turn.
     &c4
 
 c4:
@@ -224,7 +225,8 @@ c6:
 	*setskin cat_cello 4*
 	*setanim cat_cello gesture_agree .65 idle*
     i would like to formally rescind my complaint and personally thank the 
-    inventors of cocaine for*setskin cat_cello 0* everything i am seeing with my eyeballs right now
+    inventors of cocaine for*setskin cat_cello 0* everything i am seeing 
+	with my eyeballs right now
     &c7
 
 c7:
@@ -234,7 +236,7 @@ c7:
 	*setskin cat_bar 0*
 	*setskin cat_singer 0*
     *setspeaker narrator*
-    > The%.%.%.%%% golf police?%%%% Seem to be after the Ninja now.%% Which is understandable.%%%
+    > The%.%.%.%%% golf police?%%%% Seem to be after the Ninja now.%% Which is fair.%%%
     He straight up murders one of them with a shuriken,% and the other 
     gets a gun out.
     &c8
@@ -253,8 +255,8 @@ c9:
 	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_exchange 2.2 idle*
-    > You have*setanim cat_singer gesture_exchange 2.2 idle* never seen the Singer*setanim cat_singer gesture_exchange 2.2 idle* this riled up.%%% They're shadow*setanim cat_singer gesture_exchange 2.2 idle* boxing in 
-    their seat,%%*setanim cat_singer gesture_anger 2.3 idle* and their tail is quite puffed out.
+    > You have*setanim cat_singer gesture_exchange 2.2 idle* never seen the Singer*setanim cat_singer gesture_exchange 2.2 idle* this riled up.%%% They're shadow*setanim cat_singer gesture_exchange 2.2 idle* boxing 
+	in their seat,%%*setanim cat_singer gesture_anger 2.3 idle* and their tail is quite puffed out.
     &c10
 
 Fade to black
@@ -288,9 +290,9 @@ c11:
 c12:
     *setspeaker narrator*
 	*setskin cat_bar 0*
-    > %.%.%.%The Bartender seems to be talking about how the Ninja is currently in 
-    a high speed police chase,% and is on top of a police cruiser.%%% He's pulling 
-    out his katana%.%.%.%
+    > %.%.%.%The Bartender seems to be talking about how the Ninja is currently 
+	in a high speed police chase,% and is on top of a police cruiser.%%% 
+	He's pulling out his katana%.%.%.%
     &c13
 
 c13:
@@ -311,8 +313,8 @@ c14:
 
 c15:
     *setspeaker narrator*
-    >Ah,% problem solved.%%% The Ninja blinded him by punching him in the eyes.%% With 
-    a shuriken.%%% Through the roof of the car.%%% Again.
+    >Ah,% problem solved.%%% The Ninja blinded him by punching him in the eyes.%% 
+	With a shuriken.%%% Through the roof of the car.%%% Again.
     &c16
 
 c16:
@@ -320,8 +322,9 @@ c16:
     *setspeaker cat_piano*
 	*setskin cat_piano 2*
 	*setanim cat_piano gesture_anger 2.2 idle*
-    Oh come the fuck on,% there's no*setanim cat_piano gesture_disagree 1 idle* way that this guy could puncture the steel of 
-    a police car chassis,%%*setanim cat_piano gesture_confused 1 idle* right?%%% Back me up here,% Singer.
+    Oh come the fuck on,% there's no*setanim cat_piano gesture_disagree 1 idle* way that this guy could puncture the 
+	steel of a police car chassis,%%*setanim cat_piano gesture_confused 1 idle* right?%%% 
+	Back me up here,% Singer.
     &c17
 
 c17:
@@ -385,15 +388,16 @@ c24:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
     > Yep.%% The Ninja is now up to his neck in the earth.%%%% There's an evil laugh 
-    sound playing,% and the Ninja seems waiting for more cops?%%%% It fades to black 
-    shortly after,% and the credits roll.
+    sound playing,% and the Ninja seems waiting for more cops?%%%% It fades to 
+	black shortly after,% and the credits roll.
     &c25
 
 c25:
 	*setskin cat_piano 0*
 	*setanim cat_piano gesture_shock 1 idle*
     *setspeaker cat_piano*
-    Damn,% that's a hardcore ninja dude.%%%*setanim cat_piano gesture_agree 1 idle* Respect.%%%% Never enough blood for him.
+    Damn,% that's a hardcore ninja dude.%%%*setanim cat_piano gesture_agree 1 idle* Respect.%%%% 
+	Never enough blood for him.
     &c27
 
 c27:
@@ -406,7 +410,8 @@ c27:
 
 c28:
     *setspeaker narrator*
-    > The night devolves into enthusiastic chatting about the film,% and B-movies
-    in general.%%% They don't seem to remember that there's more tapes to watch%.%.%.%%%
+    > The night devolves into enthusiastic chatting about the film,% 
+	and B-movies in general.%%% They don't seem to remember that 
+	there's more tapes to watch%.%.%.%%%
     Ah well,% might as well let 'em have this.*mark_seen*
     &exit

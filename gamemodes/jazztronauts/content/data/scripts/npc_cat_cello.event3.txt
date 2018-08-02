@@ -10,7 +10,7 @@ begin:
 	*setcam setpos -768.565674 411.305878 128.419617;setang 9.938671 170.311523 0.000000*
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos -1591.417236 545.902283 -64;setang -90 216 0.000000*
-	*setposang player setpos -1543.828735 493.394104 -64;setang 0 148.702667 0.000000
+	*setposang player setpos -1543.828735 493.394104 -64;setang 0 148.702667 0.000000*
 	*setskin cat_cello 0*
 		*bgmplay sound/jazztronauts/music/events/plumskinzz.mp3 1.0 2.0*
 	*setnpcid cat_cello npc_cat_cello*

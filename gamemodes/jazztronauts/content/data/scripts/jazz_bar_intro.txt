@@ -641,7 +641,7 @@ honk4:
 
 ending:
 	*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
-     *setspeaker cat_narrator*
+     *setspeaker narrator*
      >The rest of the cats begin to file out of the room.%%% Soon it's just 
      you in the theater.
      &ending2

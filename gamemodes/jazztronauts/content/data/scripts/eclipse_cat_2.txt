@@ -1,15 +1,14 @@
-﻿CHARACTER = Eclipse Cat
+﻿
 begin:
+	*setcam setpos -548.000671 552.746643 64.031250;setang 9.077443 -179.689178 0.000000*
 	*spawn cat_void models/andy/basecat/cat_all.mdl*
-	*setposang cat_void setpos -627.044861 396.305359 38;setang -90 179.396103 0.000000*
-	*setanim cat_void pose_sit01*
+	*setposang cat_void setpos -646.054871 551.478882 0;setang -90 10.217831 0.000000*
 	*setnpcid cat_void npc_cat_void*
 	*bgmplay sound/jazztronauts/blackshard_hum.wav .35 10*
      You can’t tell me anything new.
      &a1
 	
 a1:
-	*setcam setpos -738.916748 254.435654 46.145119;setang -2.413152 50.174591 0.000000*
      There’s nothing new to learn.
      &a2
 	
@@ -18,7 +17,6 @@ a2:
      &a3
 	
 a3:
-	*setcam setpos -959.062439 470.731750 47.295139;setang -1.800879 -23.722521 0.00000*
      I’m so tired of looking.
      &exit
 	

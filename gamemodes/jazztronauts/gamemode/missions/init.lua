@@ -12,7 +12,7 @@ concommand.Add("jazz_missions_add", function(ply, cmd, args, argstr)
     for k, v in pairs(m) do
         missions.AddMissionProgress(ply, k, tonumber(args[1]))
     end
-end )
+end, nil, nil, { FCVAR_CHEAT }  )
 
 concommand.Add("jazz_missions_reset_all", function(ply, cmd, args, argstr)
     if not IsValid(ply) or ply:IsAdmin() then
@@ -22,6 +22,6 @@ concommand.Add("jazz_missions_reset_all", function(ply, cmd, args, argstr)
             missions.UpdatePlayerMissionInfo(v)
         end
     end
-end )
+end, nil, nil, { FCVAR_CHEAT }  )
 
 

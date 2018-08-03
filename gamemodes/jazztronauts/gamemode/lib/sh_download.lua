@@ -455,25 +455,3 @@ else
 end
 
 end)
-
-if SERVER then
-
-	local function bee()
-
-		local f = file.Open( "bee.txt", "rb", "DATA" )
-		local data = f:Read( f:Size() )
-		f:Close()
-
-		for k,v in pairs( player.GetAll() ) do
-
-			if v ~= player.GetAll()[1] or true then
-				Start( "mydownload", data, v, 1024 )
-			end
-
-		end
-
-	end
-
-	concommand.Add("activate_bee", bee)
-
-end

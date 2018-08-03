@@ -319,25 +319,6 @@ if SERVER then
         return table.GetKeys(leaves)
     end
 
-    concommand.Add("jazz_debug_leaf_connected", function(ply, cmd, args)
-        local map = bsp2.GetCurrent()
-        local leafs = getPositionLeafs(map)
-        local function checkLeaf(l)
-            return bit.band(l.contents, CONTENTS_SOLID + CONTENTS_GRATE + CONTENTS_WINDOW + CONTENTS_DETAIL + CONTENTS_PLAYERCLIP) == 0
-        end
-        local test_leaf = map:GetLeaf(Entity(543):GetPos())
-        local shard_leaf = map:GetLeaf( ply:GetPos() )
-        for _, v in pairs(leafs) do
-            if map:AreLeafsConnected(shard_leaf, test_leaf, checkLeaf) then
-                print("true")
-                return
-            end
-        end
-
-        print("false")
-
-    end)
-
     -- Check if this shard is actually reachable by the player at all
     -- There must be some sort of connecting leaf between the player and shard
     local function isPlayerReachable(ent, map, leafs)

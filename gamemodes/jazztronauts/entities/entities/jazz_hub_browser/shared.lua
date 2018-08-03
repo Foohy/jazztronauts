@@ -17,7 +17,7 @@ concommand.Add("jazz_debug_browse", function(ply, cmd, args)
 	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
 		v:BrowseToDestination(args[1])
 	end
-end )
+end, nil, nil, { FCVAR_CHEAT }  )
 
 function ENT:Initialize()
 	self:SetModel( self.Model )

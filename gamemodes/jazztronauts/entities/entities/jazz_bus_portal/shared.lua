@@ -41,14 +41,14 @@ zbumpMat:Translate(Vector(0, 0, -184/2))
 ENT.ZBump = zbumpMat
 
 if SERVER then
-lastBusEnts = lastBusEnts or {}
-concommand.Add("jazz_call_bus", function(ply, cmd, args, argstr)
-    local eyeTr = ply:GetEyeTrace()
-    local pos = eyeTr.HitPos
-    local ang = eyeTr.HitNormal:Angle()
-    
-    mapcontrol.SpawnExitBus(pos, ang)
-end )
+    lastBusEnts = lastBusEnts or {}
+    concommand.Add("jazz_call_bus", function(ply, cmd, args, argstr)
+        local eyeTr = ply:GetEyeTrace()
+        local pos = eyeTr.HitPos
+        local ang = eyeTr.HitNormal:Angle()
+        
+        mapcontrol.SpawnExitBus(pos, ang)
+    end, nil, nil, { FCVAR_CHEAT } )
 end
 
 function ENT:Initialize()

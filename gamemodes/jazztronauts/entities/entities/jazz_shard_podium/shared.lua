@@ -5,20 +5,6 @@ ENT.Type = "anim"
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 ENT.AutomaticFrameAdvance = true
 
-concommand.Add("ent_create2", function(p,c,a)
-
-	if #a < 1 then return end
-
-	local tr = util.TraceLine( util.GetPlayerTrace( p ) )
-
-	local ent = ents.Create( tostring(a[1]) )
-	if not IsValid(ent) then print("Failed to create entity: " .. tostring(a[1]) ) return end 
-
-	ent:SetPos( tr.HitPos )
-	ent:Spawn()
-
-end )
-
 function ENT:SetupDataTables()
 
 	self:NetworkVar( "Entity", 0, "Prop" )

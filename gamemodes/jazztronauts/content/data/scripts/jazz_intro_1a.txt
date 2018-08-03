@@ -139,7 +139,7 @@ begin18:
 *setspeaker narrator*
 *setcam setpos -4920.419922 -261.465637 1606.207642;setang -0.662756 -29.560171 0.000000*
 >The cats all point a gun at the wall.%%%% *clear*
-A few seconds later they dissapear!
+A few seconds later they disappear!
 &begin19
 
 begin19:

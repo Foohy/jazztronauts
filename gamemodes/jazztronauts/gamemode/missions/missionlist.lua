@@ -341,7 +341,7 @@ AddMission(4, NPC_CAT_PIANO, {
 AddMission(5, NPC_CAT_PIANO, {
     Instructions = "Find 3 metro police",
     Filter = function(mdl) 
-        return mdl == "models/Police.mdl"
+        return mdl == "models/police.mdl"
     end,
     Count = 3,
     Prerequisites = { IndexToMID(4, NPC_CAT_PIANO)  },

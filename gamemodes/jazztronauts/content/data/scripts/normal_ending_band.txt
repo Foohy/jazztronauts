@@ -2,12 +2,14 @@
 
 begin:
 	spawngang()
-	*setposang cat_bar setpos 5795.780762 141.141571 3648.031250;setang -90	-91.249092 0.000000*
+	*setposang cat_bar setpos 5795.780762 141.141571 3584.031250;setang -90	-91.249092 0.000000*
 	*setposang cat_cello setpos setpos 6608.233398 -486.078217 3584.031250;setang -90 163.122925 0.000000*
 	*setposang cat_piano setpos 6518.995117 403.150879 3584.031250;setang -90 -65.329979 0.000000*
 	*setanim cat_piano pose_passedout*
-	*setposang cat_singer setpos 5897.477051 291.355804 3648.031250;setang 2.342598 -15.488564 0.000000*
-	*setposang player setpos -7294.063965 -1565.545898 3386.730469;setang 0.612256 90.094734 0.000000*
+		*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
+	*setposang cat_singer setpos 5897.477051 291.355804 3584.031250;setang -90 -15.488564 0.000000*
+	*setposang player setpos -7294.063965 -1565.545898 3584;setang 0.612256 90.094734 0.000000*
 	*setcam setpos -7283.202148 -1279.565552 3168.028809;setang 9.796160 -88.578621 0.000000*
 
 	*spawn podge dummy*
@@ -21,10 +23,11 @@ begin:
 
   *spawn rob dummy*
   *setname rob Rob*
-
+*tweencam 1.5 setpos -7285.830078 -1363.527954 3217.524658;setang -30.879200 -91.719673 0.000000*
+	*bgmplay sound/jazztronauts/music/events/bigbang_funk.mp3 .6 10*
 	*setspeaker narrator*
-	> %.%.%.%it's completely black%.%.%.%.%% *tweencam 1.5 setpos -7285.830078 -1363.527954 3217.524658;setang -30.879200 -91.719673 0.000000*
-	%.%.%.%wait,% there's something here.%%%*tweencam 5 setpos -7292.398438 5197.813965 3329.063965;setang -0.266206 90.840118 0.000000*
+	> %.%.%.%it's completely black%.%.%.%.%%*tweencam 10 setpos -7292.398438 5197.813965 3329.063965;setang -0.266206 90.840118 0.000000*
+	%.%.%.%wait,% there's something here.%%%
 	&oops
 	
 oops:
@@ -445,7 +448,11 @@ f2:
 f3:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB   
      *setspeaker rob*
-     Ay,% Georff. Give us a beat. ###### cutscene out fade to black here
+     Ay,% Georff. Give us a beat.
+	 &exit
+	 
+f4:
+	*bgmplay sound/jazztronauts/music/events/band_outro.mp3 .8 1*
      &exit
 
 

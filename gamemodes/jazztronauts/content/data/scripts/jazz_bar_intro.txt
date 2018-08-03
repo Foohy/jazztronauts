@@ -9,6 +9,7 @@ begin:
 	*setposang cat_cello setpos -4296.926758 3361.267334 0;setang -90 180 0.000000*
 	*setposang cat_singer setpos -4168.232910 3361.957520 0;setang -90 180 0.000000*
 	*setposang cat_piano setpos -4002.919189 3416.686279 0;setang -90 165 0.00000*
+	*bgmplay sound/jazztronauts/music/events/warm_song.mp3 .6 3*
 	*setcam setpos -4611.800781 2450.187500 80.884155;setang 3.842618 59.837494 0.000000* ####### ESTABLISH
      *setspeaker cat_bar*
 	 *txin*

@@ -1,10 +1,15 @@
 ﻿CHARACTER = "Eclipse Cat"
 begin:
+	*spawn cat_void models/andy/basecat/cat_all.mdl*
+	*setposang cat_void setpos -1257.714111 554.822266 0;setang 1.846004 0.989198 0.000000*
+	*setnpcid cat_void npc_cat_void*
+	*bgmplay sound/jazztronauts/blackshard_hum.wav .45 10*
+	*setcam setpos -1115.230469 584.307007 88.829811;setang 23.647804 -163.096375 0.000000*
      I’ve seen everything. 
      &a1
 	
 a1:
-     I’ve done, everything. 
+     I’ve done,%% everything. 
      &a2
 	
 a2:

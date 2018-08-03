@@ -6,6 +6,8 @@ CMD_DELAY = 0
 begin1:
 spawngang() # SETUP
 *spawn code_trolley models/matt/jazz_trolley.mdl*
+		*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 *setposang cat_bar setpos -13079.863281 -2573.538818 995.031250;setang -90 10 0.000000*
 *setposang cat_cello setpos -13136.506836 -2656.642578 1025.489746;setang -90 0 0.000000*
 *setposang cat_piano setpos -13158.831055 -2613.478271 995.033447;setang -90 0.888794 0.000000*

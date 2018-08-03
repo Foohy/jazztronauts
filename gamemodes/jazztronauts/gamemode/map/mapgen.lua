@@ -125,7 +125,7 @@ if SERVER then
     function CollectProp(ply, ent)
         if !CanSnatch(ent) then return nil end
 
-        local worth = ent.JazzWorth or 1
+        local worth = ent.JazzWorth or 0
         return worth
     end
 

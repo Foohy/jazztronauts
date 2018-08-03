@@ -262,21 +262,14 @@ end
 function GM:CollectProp(prop, ply)
 	print("COLLECTED: " .. tostring(prop and prop:GetModel() or "<entity>"))
 	local worth = mapgen.CollectProp(ply, prop)
-	if worth and IsValid(ply) then
-        --ply:ChangeNotes(worth)
-		-- Moved to prop vomiter
-    end
 
 	-- Collect the prop to the poop chute
 	if worth and worth > 0 then --TODO: Check if worth > 1 not 0
 		worth = worth * newgame.GetMultiplier()
 		local newCount = snatch.AddProp(ply, prop:GetModel(), worth)
 		propfeed.notify( prop, ply, newCount, worth)
-	end
 
-	-- Also maybe collect the prop for player missions
-	local propCreator = IsValid(prop) and IsValid(prop:GetCreator()) and prop:GetCreator()
-	if not propCreator then
+		-- Also maybe collect the prop for player missions
 		for _, v in pairs(player.GetAll()) do
 			missions.AddMissionProp(v, prop:GetModel())
 		end

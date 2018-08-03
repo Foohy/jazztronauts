@@ -275,8 +275,11 @@ function GM:CollectProp(prop, ply)
 	end
 
 	-- Also maybe collect the prop for player missions
-	for _, v in pairs(player.GetAll()) do
-		missions.AddMissionProp(v, prop:GetModel())
+	local propCreator = IsValid(prop) and IsValid(prop:GetCreator()) and prop:GetCreator()
+	if not propCreator then
+		for _, v in pairs(player.GetAll()) do
+			missions.AddMissionProp(v, prop:GetModel())
+		end
 	end
 end
 

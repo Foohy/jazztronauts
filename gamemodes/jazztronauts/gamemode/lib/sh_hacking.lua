@@ -677,7 +677,7 @@ local function UpdateBlips()
 	end
 end
 
-local hackEnable = CreateClientConVar("jazz_debug_hackerview", "0", false, false, "Toggle drawing the hacker gun view")
+local hackEnable = CreateConVar("jazz_debug_hackerview", "0", { FCVAR_CHEAT }, "Toggle drawing the hacker gun view")
 local hackCullDistance = CreateClientConVar("jazz_hack_cull_far", 10000, true, true, "Far plane of hacker view culling")
 
 module("hacking", package.seeall)

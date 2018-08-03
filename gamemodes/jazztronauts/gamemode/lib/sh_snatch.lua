@@ -374,7 +374,7 @@ function meta:RunProp( prop )
 
 	self.real = prop
 
-	if not IsValid( self.real ) then return nil end
+	if not IsValid( self.real ) or not self.real:GetModel() then return nil end
 
 	self.fake, self.is_ragdoll = CL_CopyPropToClient( self.real, self )
 	self.is_prop = true
@@ -679,6 +679,7 @@ if SERVER then
 elseif CLIENT then
 
 	local function CL_ShouldMakeRagdoll( ent )
+		if not IsValid(ent) then return false end
 
 		--This one doesn't work for some reason
 		if string.find( ent:GetClass(), "npc_clawscanner" ) then return false end

@@ -51,6 +51,13 @@ end
 
 -- Shared so we can query on the client too
 function GM:JazzCanSpawnWeapon(ply, wep)
+
+    -- Absolutely no spawning in hub
+    if mapcontrol.IsInGamemodeMap() then 
+        return cvars.Bool("jazz_debug_allow_gmspawn")  
+    end
+
+    -- Weapon must exist
     local wepinfo = list.Get("Weapon")[wep]
     if not wepinfo then return false end
 

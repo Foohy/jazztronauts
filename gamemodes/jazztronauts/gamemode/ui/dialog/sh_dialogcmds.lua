@@ -546,8 +546,8 @@ function bgmeta:Update()
         self.channel:Stop()
         return false
     end
-
-    self.channel:SetVolume(math.Clamp(volume, 0, 1))
+    local focusmult = system.HasFocus() and 1 or 0
+    self.channel:SetVolume(math.Clamp(volume * focusmult, 0, 1))
     return true
 end
 

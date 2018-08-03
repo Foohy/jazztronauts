@@ -49,6 +49,9 @@ function SWEP:Initialize()
 	self.BaseClass.Initialize( self )
 	self:SetWeaponHoldType( self.HoldType )
 
+	timer.Simple(0, function()
+		self:SetUpgrades()
+	end)
 end
 
 -- Query and apply current upgrade settings to this weapon

@@ -84,7 +84,15 @@ AddMission(1, NPC_CAT_CELLO, {
             "models/props_junk/gascan001a.mdl",
             "models/props_c17/oildrum001_explosive.mdl",
             "models/props_junk/propane_tank001a.mdl",
-            "models/props_phx/oildrum001_explosive.mdl" 
+            "models/props_phx/oildrum001_explosive.mdl",
+            "models/props/cs_militia/caseofbeer01.mdl",
+            "models/props_junk/garbage_glassbottle001a.mdl",
+            "models/props_junk/garbage_glassbottle002a.mdl",
+            "models/props_junk/garbage_glassbottle003a.mdl",
+            "models/props_junk/glassbottle01a.mdl",
+            "models/props/cs_militia/bottle01.mdl",
+            "models/props/cs_militia/bottle02.mdl",
+            "models/props/cs_militia/bottle03.mdl"
         })
     end,
 
@@ -100,6 +108,27 @@ AddMission(1, NPC_CAT_CELLO, {
 })
 
 AddMission(2, NPC_CAT_CELLO, {
+    Instructions = "Collect 10 random chemicals",
+    Filter = function(mdl) 
+        return MatchesAny(mdl, {
+            "models/props_junk/garbage_plasticbottle001a.mdl",
+            "models/props_junk/garbage_plasticbottle002a.mdl",
+            "models/props_junk/garbage_plasticbottle003a.mdl",
+            "models/props_junk/plasticbucket001a.mdl",
+            "models/props_junk/glassjug01.mdl",
+            "models/props_lab/crematorcase.mdl",
+            "models/props_lab/jar01a.mdl",
+            "models/props_lab/jar01b.mdl",
+            "models/props/de_train/biohazardtank.mdl",
+            "models/props/de_train/biohazardtank_dm_10.mdl"
+        })
+    end,
+    Count = 10,
+    Prerequisites = { IndexToMID(1, NPC_CAT_CELLO)  },
+    OnCompleted = GrantMoney(20000)
+})
+
+AddMission(3, NPC_CAT_CELLO, {
     -- User-friendly instructions for what the player should collect
     Instructions = "Collect 5 paintcans",
 
@@ -117,32 +146,11 @@ AddMission(2, NPC_CAT_CELLO, {
     Count = 5,
 
     -- List of all missions that needs to have been completed before this one becomes available
-    Prerequisites = { IndexToMID(1, NPC_CAT_CELLO)  },
+    Prerequisites = { IndexToMID(2, NPC_CAT_CELLO)  },
 
     -- When they finish the mission, this function is called to give out a reward
     -- The 'GrantMoney' function returns a function that gives money
     OnCompleted = GrantMoney(15000)
-})
-
-AddMission(3, NPC_CAT_CELLO, {
-    Instructions = "Collect 10 random chemicals",
-    Filter = function(mdl) 
-        return MatchesAny(mdl, {
-            "models/props_junk/garbage_plasticbottle001a.mdl",
-            "models/props_junk/garbage_plasticbottle002a.mdl",
-            "models/props_junk/garbage_plasticbottle003a.mdl",
-            "models/props_junk/plasticbucket001a.mdl",
-            "models/props_junk/glassjug01.mdl",
-            "models/props_lab/crematorcase.mdl",
-            "models/props_lab/jar01a.mdl",
-            "models/props_lab/jar01b.mdl",
-            "models/props/de_train/biohazardtank.mdl",
-            "models/props/de_train/biohazardtank_dm_10.mdl"
-        })
-    end,
-    Count = 10,
-    Prerequisites = { IndexToMID(2, NPC_CAT_CELLO)  },
-    OnCompleted = GrantMoney(20000)
 })
 
 AddMission(4, NPC_CAT_CELLO, {

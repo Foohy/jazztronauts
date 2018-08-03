@@ -80,11 +80,7 @@ function ENT:Initialize()
 end
 
 function ENT:Use( activator, caller, usetype, value )
-
-	print("TITTYFUCK")
-
 	self:Close()
-
 end
 
 function ENT:Raise()

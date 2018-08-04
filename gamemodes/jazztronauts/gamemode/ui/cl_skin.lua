@@ -523,7 +523,7 @@ function SKIN:PaintPropertySheet( panel, w, h )
 
 	--self.tex.Tab_Control( 0, Offset, w, h-Offset )
 	--surface.DrawRect(0, Offset, w, h-Offset)
-	draw.RoundedBox(4, 0, Offset, w, h-Offset, Color(100,0,255))
+	draw.RoundedBox(4, 0, Offset, w, h-Offset, Color(101, 57, 110))
 
 end
 
@@ -533,7 +533,7 @@ end
 function SKIN:PaintTab( panel, w, h )
 
 	if ( panel:IsActive() ) then
-		return draw.RoundedBox(4, 0, 0, w, h, Color(140,0,255))
+		return draw.RoundedBox(4, 0, 0, w, h, Color(101, 57, 110))
 		--return self:PaintActiveTab( panel, w, h )
 	end
 

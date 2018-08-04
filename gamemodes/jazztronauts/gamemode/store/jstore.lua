@@ -60,7 +60,7 @@ function Register(unlockName, price, props)
     end
 
     props = props or {}
-    props.price = price
+    props.price = math.max(0, math.Round(price))
     props.unlock = unlockName -- For completeness
     props.icon = props.icon or "scripted/breen_fakemonitor_1"
 

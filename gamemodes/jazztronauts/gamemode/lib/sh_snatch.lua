@@ -684,7 +684,7 @@ elseif CLIENT then
 		if string.find( ent:GetClass(), "npc_clawscanner" ) then return false end
 
 		--Check if modelinfo string contains the phrase "ragdollconstraint"
-		return string.find( util.GetModelInfo( ent:GetModel() ).KeyValues or "", "ragdollconstraint" ) ~= nil
+		return string.find( ( util.GetModelInfo( ent:GetModel() ) or {} ).KeyValues or "", "ragdollconstraint" ) ~= nil
 
 	end
 

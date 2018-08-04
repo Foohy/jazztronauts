@@ -18,6 +18,7 @@ concommand.Add("jazz_clear_cache", function()
 end, 
 nil, "Clears the temporary cache of downloaded map files")
 
+
 curSelected = curSelected or {}
 addonList = addonList or {}
 
@@ -81,6 +82,8 @@ end
 
 if SERVER then
 	util.AddNetworkString("jazz_rollmap")
+
+	local launched = false
 
 	-- Roll a new random map to select
 	function RollMap()
@@ -166,7 +169,12 @@ if SERVER then
 	function Launch(mapname)
 		newgame.SetGlobal("last_map", game.GetMap())
 		playerwait.SavePlayers()
+		launched = true
 		RunConsoleCommand("changelevel", mapname)
+	end
+
+	function IsLaunching()
+		return launched
 	end
 
 	-- Given a workshop id, try to download and mount it 

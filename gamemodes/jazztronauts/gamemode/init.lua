@@ -27,6 +27,8 @@ AddCSLuaFile( "newgame/cl_init.lua")
 
 AddCSLuaFile( "cl_hud.lua" )
 
+local LOADING_SCREEN_URL = "host.foohy.net/public/Documents/Jazz/"
+
 concommand.Add( "jazz_test_lzma", function()
 
 	print("RUNNING LZMA TEST")
@@ -66,7 +68,7 @@ function GM:Initialize()
 
 	game.SetGlobalState( "gordon_invulnerable", GLOBAL_DEAD )
 
-	SetIfDefault("sv_loadingurl", "host.foohy.net/public/Documents/Jazz/")
+	SetIfDefault("sv_loadingurl", LOADING_SCREEN_URL)
 	SetIfDefault("sv_gravity", "800")
 	SetIfDefault("sv_airaccelerate", "150")
 
@@ -222,6 +224,13 @@ end
 function GM:ShutDown()
 	if not mapcontrol.IsInHub() then 
 		progress.UpdateMapSession(game.GetMap())
+	end
+
+	if not mapcontrol.IsLaunching() then
+		local convar = GetConVar("sv_loadingurl")
+		if convar and convar:GetString() == LOADING_SCREEN_URL then
+			RunConsoleCommand("sv_loadingurl", "")
+		end
 	end
 end
 

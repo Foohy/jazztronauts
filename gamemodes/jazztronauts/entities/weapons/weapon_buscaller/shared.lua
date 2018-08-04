@@ -119,7 +119,7 @@ end
 -- Get the bus stop they're aimed at, or nil if they aren't looking at one
 local function GetLookMarker(pos, dir, fov)
 	for _, v in pairs(ents.FindByClass("jazz_bus_marker")) do
-		if v:IsLookingAt(pos, dir, fov) then return v end
+		if v.IsLookingAt and v:IsLookingAt(pos, dir, fov) then return v end
 	end
 
 	return nil

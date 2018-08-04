@@ -19,6 +19,13 @@ function GM:PlayerNoClip(ply)
     end
 end
 
+local blacklisted = {
+    ["jazz_shard"]        = true,
+    ["jazz_shard_black"]  = true,
+    ["jazz_shard_podium"] = true,
+    ["jazz_bus_marker"]   = true,
+}
+
 function GM:PhysgunPickup(ply, ent)
 
     -- Don't let players touch anything spawned by the map
@@ -26,8 +33,8 @@ function GM:PhysgunPickup(ply, ent)
         return false
     end
 
-    -- Don't let players pick up the shards
-    if string.find(ent:GetClass(), "jazz_shard") then 
+    -- Don't let players pick up anything that's in the blacklist
+    if blacklisted[ent:GetClass()] then 
         return false 
     end
 

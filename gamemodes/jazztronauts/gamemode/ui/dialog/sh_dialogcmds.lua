@@ -591,3 +591,7 @@ end )
 dialog.RegisterFunc("bgmstop", function(d, fadetime)
     StopBGMusic(fadetime)
 end )
+
+dialog.RegisterFunc("voiddisable", function(d, song, volume, fadetime)
+    jazzvoid.SetShouldRender(false) 
+end )

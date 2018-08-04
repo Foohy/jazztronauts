@@ -997,6 +997,8 @@ elseif CLIENT then
 
 
 	hook.Add("PostDrawTranslucentRenderables", "drawsnatchstaticprops2", function()
+		if not jazzvoid.GetShouldRender() then return end
+
 		local a,b = jazzvoid.GetVoidOverlay()
 
 		-- Void render

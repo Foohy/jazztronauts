@@ -4,6 +4,7 @@ local refract = Material("effects/jazz_void_refract.vmt")
 void_mat = refract
 snatch.void_mat = void_mat
 
+should_render = should_render or true
 
 -- Performance convars
 convar_drawprops = CreateClientConVar("jazz_void_drawprops", "1", true, false, "Render additional props/effects in the jazz void.")
@@ -54,6 +55,13 @@ function SetOverlayRefract(amt)
 	void_mat:SetFloat("$refractamount", amt)
 end
 
+function SetShouldRender(shouldRender)
+	should_render = shouldRender
+end
+
+function GetShouldRender()
+	return should_render
+end
 
 local function SharedRandomVec(seed)
 	return Vector(
@@ -347,6 +355,7 @@ end
 -- This void material has a rendertarget basetexture we update each frame
 hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky) 
 	if isInSky then return end
+	if not should_render then return end
 	
 	-- Re-render this for every new scene if not drawing once
 	if not convar_drawonce:GetBool() then

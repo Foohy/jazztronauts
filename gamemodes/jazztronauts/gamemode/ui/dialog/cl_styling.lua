@@ -79,6 +79,7 @@ local CamOffsets = {
 	["models/andy/pianist/cat_pianist.mdl"] = {pos = Vector(0, 15, 0), offset = Vector(-60, 0, -36):GetNormal() * 90},
 	["models/andy/cellist/cat_cellist.mdl"] = {pos = Vector(0, 15, 0), offset = Vector(-60, 0, -36):GetNormal() * 90},
 	["models/andy/singer/cat_singer.mdl"] = {pos = Vector(0, 15, 0), offset = Vector(-60, 0, -36):GetNormal() * 90},
+	["models/andy/basecat/cat_all.mdl"] = {pos = Vector(0, 15, 0), offset = Vector(-60, 0, -36):GetNormal() * 90},
 	["models/props_c17/oildrum001_explosive.mdl"] = { pos = Vector(0, 0, 40), offset = CatCamOffset },
 	["models/pizza_steve/pizza_steve.mdl"] = { pos = Vector(0, 0, -23), offset = CatCamOffset * 1.1 }
 }

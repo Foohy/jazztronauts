@@ -43,6 +43,12 @@ surface.CreateFont( "JazzNoteMultiplier",
 	weight		= 1500,
 	antialias 	= true
 })
+surface.CreateFont( "JazzBlackShard",
+{
+	font		= "Palatino Linotype",
+	size		= ScreenScale(20),
+	weight		= 1500
+})
 
 local function drawTextRotated(text, font, x, y, color, rotation, maxWidth)
 	surface.SetFont(font)
@@ -154,6 +160,28 @@ local function DrawNoteCount()
 
 end
 
+local function DrawBlackShardCount()
+	if mapcontrol.IsInGamemodeMap() then return end
+	if GAMEMODE:IsWaitingForPlayers() then return end
+
+	local bshard = IsValid(bshard) and bshard or ents.FindByClass("jazz_shard_black")[1]
+	if not IsValid(bshard) or not bshard.GetStartSuckTime then return end
+	
+	local sucktime = bshard:GetStartSuckTime()
+	local left, total = sucktime > 0 and sucktime < CurTime() and 0 or 1, 1
+	local str = "1 shard remains"
+	local color = Color(100, 100, 100, 100)
+	if left == 0 then 
+		color = Color(200, 10, 10)
+		str = "Nothing remains"
+	end
+
+	surface.SetFont("JazzBlackShard")
+	local offset = surface.GetTextSize(str) / 2
+	offset = offset + 5
+	draw.WordBox( 5, ScrW() / 2 - offset, 5, str, "JazzBlackShard", color, color_white ) 
+end
+
 local function DrawShardCount()
 	if mapcontrol.IsInGamemodeMap() then return end
 	if GAMEMODE:IsWaitingForPlayers() then return end
@@ -175,7 +203,13 @@ end
 
 hook.Add("HUDPaint", "JazzDrawHUD", function()
 	DrawNoteCount()
-	DrawShardCount()
+
+	local isCommitted = mapgen.GetTotalCollectedBlackShards() > mapgen.GetTotalRequiredBlackShards() / 2
+	if isCommitted then
+		DrawBlackShardCount()
+	else
+		DrawShardCount()
+	end
 
 	-- Always show the moneybux in the hub
 	if mapcontrol.IsInHub() then

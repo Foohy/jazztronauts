@@ -62,7 +62,7 @@ function GetNextEncounter()
 	-- First encounter, show if ng+ (not required level change though)
 	if bshardCount == 0 and not seen1 then 
 		return 1, false
-	elseif bshardCount > 1 and bshardCount < halfway and not seen2 then
+	elseif bshardCount >= 1 and bshardCount < halfway and not seen2 then
 		return 2, true
 	elseif bshardCount > halfway and not seen3 then
 		return 3, true

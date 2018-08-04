@@ -28,7 +28,7 @@ function ENT:Initialize()
 	self:ResetSequence(self:LookupSequence("idle"))
 
 	-- Only spawn if NG+ and game isn't ended
-	if newgame.GetResetCount() == 0 or not tobool(newgame.GetGlobal("ended")) then
+	if newgame.GetResetCount() == 0 or tobool(newgame.GetGlobal("ended")) then
 		self:Remove()
 	end
 

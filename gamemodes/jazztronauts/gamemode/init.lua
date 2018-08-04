@@ -126,14 +126,9 @@ function GM:CheckGamemodeMap()
 	-- Only applicable if they haven't finished the game yet
 	if not hasEnded then
 
-		-- If they're on the normal ending map, they must have enabled the ending
-		if curMap == endmaps[newgame.ENDING_ASH] and endType != newgame.ENDING_ASH then
-			return mapcontrol.GetHubMap()
-		end
-
-		-- Same with the true ending, must have set the correct ending type
-		if curMap == endmaps[newgame.ENDING_ECLIPSE] and endType != newgame.ENDING_ECLIPSE then
-			return mapcontrol.GetHubMap()
+		-- If they're supposed to be ending but on a normal map instead, switch to end
+		if endType and endmaps[endType] then 
+			return endmaps[endType]
 		end
 
 		-- Check for bad ending shard stuff
@@ -172,8 +167,13 @@ function GM:GenerateJazzEntities(noshards)
 
 	if not mapcontrol.IsInHub() then
 		if not noshards then
+			local bcollected, brequired = mapgen.GetTotalCollectedBlackShards(), mapgen.GetTotalRequiredBlackShards()
+
 			-- Add current map to list of 'started' maps
 			local map = progress.GetMap(game.GetMap())
+
+			-- After collecting 5 bad boy shards, stop spawning normal shards
+			local shouldGenNormalShards = tobool(newgame.GetGlobal("ended")) or bcollected <= brequired / 2
 
 			-- If the map doesn't exist, try to generate as many shards as we can
 			-- Then store that as the map's worth
@@ -181,7 +181,9 @@ function GM:GenerateJazzEntities(noshards)
 				print("Brand new map")
 				local shardworth = mapgen.CalculateShardCount()
 				local seed = math.random(0, 100000)
-				shardworth = mapgen.GenerateShards(shardworth, seed) -- Not guaranteed to make all shards
+				if shouldGenNormalShards then
+					shardworth = mapgen.GenerateShards(shardworth, seed) -- Not guaranteed to make all shards
+				end
 
 				map = progress.StartMap(game.GetMap(), seed, shardworth)
 
@@ -196,11 +198,14 @@ function GM:GenerateJazzEntities(noshards)
 			else
 				map = progress.StartMap(game.GetMap()) -- Start a new session, but keep existin mapgen info
 				local shards = progress.GetMapShards(game.GetMap())
-				local generated = mapgen.GenerateShards(#shards, tonumber(map.seed), shards)
 
-				if #shards > generated then
-					print("WARNING: Generated less shards than we have data for. Did the map change?")
-					-- Probably mark those extra shards as collected I guess?
+				if shouldGenNormalShards then
+					local generated = mapgen.GenerateShards(#shards, tonumber(map.seed), shards)
+
+					if #shards > generated then
+						print("WARNING: Generated less shards than we have data for. Did the map change?")
+						-- Probably mark those extra shards as collected I guess?
+					end
 				end
 			end
 

@@ -1,11 +1,16 @@
-﻿begin:
+﻿SKIP_OPEN = true
+
+begin:
 	*setcam setpos -60.170387 616.348572 64.308777;setang 3.416681 -116.857323 0.000000*
 	*tweencam 40 setpos -178.763214 382.696228 48.542824;setang 3.443301 -116.910561 0.000000*
 	*spawn cat_void models/andy/basecat/cat_all.mdl*
+    *setnpcid cat_void npc_cat_void*
+    *setspeaker cat_void*
+    *show 0.5*
 	*setposang cat_void setpos -196.625259 349.245422 0;setang -90 86.137917 0.000000*
 	*setnpcid cat_void npc_cat_void*
 	*bgmplay sound/jazztronauts/blackshard_hum.wav .2 10*
-     Hello,%% <playername>.
+     Hello,%% *player*.
      &a1
 	
 a1:

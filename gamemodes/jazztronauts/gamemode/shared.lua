@@ -76,5 +76,6 @@ function GM:JazzCanSpawnWeapon(ply, wep)
     end
 
     -- Weapon is not in the store, they must have unlocked spawnmenu
-    return unlocks.IsUnlocked("store", ply, "spawnmenu")
+    -- OR it's a default jazz weapon
+    return wepinfo.Category == "Jazztronauts" or unlocks.IsUnlocked("store", ply, "spawnmenu")
 end

@@ -1,5 +1,6 @@
 ﻿
 begin:
+	*hide*
 	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
 	*setnpcid cat_bar npc_cat_bar*
 
@@ -11,18 +12,22 @@ begin:
 	
 	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setnpcid cat_singer npc_cat_sing*
-	
+		*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*	
 	*spawn cat_void models/andy/basecat/cat_all.mdl*
 	*setnpcid cat_void npc_cat_void*
-	
+	*spawn code_trolley models/matt/jazz_trolley.mdl*
 	*spawn cat_ash models/andy/basecat/cat_all.mdl*
 	*setnpcid cat_ash npc_cat_ash*
 
 	*setcam setpos 1563.870972 1781.132080 4507.894531;setang 10.488383 -18.416737 0.000000*
 	*setposang player setpos 6839.478516 0.394360 3584.031250;setang 1.810255 -0.102170 0.000000*
-	*setposang cat_void setpos 7188.277344 4.338923 3584.031250;setang -90 180 0.000000*
-	*tweencam 30 setpos 6088.193359 481.446808 3872.714600;setang 12.884171 -23.581017 0.000000*
+	*setposang cat_void setpos 7188.277344 4.338923 3584.031250;setang -90 90 0.000000*
+	*tweencam 10 setpos 6088.193359 481.446808 3872.714600;setang 12.884171 -23.581017 0.000000*
     *setspeaker cat_void*
+	*bgmplay sound/jazztronauts/blackshard_hum.wav .6 10*
+	*wait 5*
+	*show*
      I am not happy.
      &a1
 	
@@ -35,7 +40,7 @@ a2:
      &a3
 	
 a3:
-     
+	*setcam setpos 7113.143066 5.497314 3598.935547;setang -12.209253 -0.696912 0.000000* #### VOID MENACE     
      I did so much.
      For so long.
      &a4
@@ -100,13 +105,33 @@ a14:
 
 ### BAD END BOOGIE
 
-badend2: 
+badend2:
+    *setspeaker cat_void* 
     Useless.
     &badend
 
 badend:
+    *setspeaker cat_void*
      It will all be perfect.
-     &exit
+	 &lose
+	 
+lose:
+	*hide*
+	*bgmplay sound/jazztronauts/blackshard_hum.wav 0 10*
+	*setcam setpos 7849.640625 -40.154675 3755.952637;setang 5.750025 179.200974 0.000000*
+	*tweencam 10 setpos 11214.814453 -87.087105 4094.837891;setang 5.803265 179.200974 0.000000*
+	*wait 8*
+	*txout*
+	*wait 3*
+	*setspeaker narrator*
+	*show*
+	> In the end,% nothing remained.%%%
+	&lose2
+	
+lose2:
+	> Try again after making completing all side missions 
+	for all cats!
+    &exit
 
 ##cinematic stuff goes here, maybe the void cat throws you physically into the Last Shard or something if you didnt co-operate, boot player to waiting room
 
@@ -118,7 +143,7 @@ trueend:
 	> The Void cat looks surprised for once.
     condition:
     &trueend2:
-        return true
+        return finishedmissions()
     &incomplete1:
         return true
 
@@ -128,6 +153,7 @@ incomplete1:
 		&badend2
 		
 trueend2:
+    *setspeaker cat_void*
     I do not understand.
     &t1
 
@@ -138,22 +164,24 @@ Cellist dangles out the other side of the door and has his hand outstretched
 
 
 t1:
+	*hide*
 	*setcam setpos 6435.761230 -151.752579 3716.382324;setang 3.709561 17.412912 0.000000*
-	*spawn trolley_cutscene models/matt/jazz_trolley.mdl*
 	*shake 3*
-	*emitsound ambient\explosions\explode_3.wav .4*
-	*emitsound ambient\explosions\explode_3.wav .4*
-	*setposang trolley_cutscene setpos 7160.477539 -2147.534912 3672;setang 0 270 0*
-	*tweenposang 1 trolley_cutscene setpos 7193.461914 7.130919 3672;setang 0 270 0*
+	*emitsound ambient/explosions/explode_3.wav .4*
+	*setposang code_trolley setpos 7160.477539 -2147.534912 3672;setang 0 0 0*
+	*setposang code_trolley setpos 7145.461914 0 3593;setang 0 0 0*
 	*wait .25*
 	*setanim cat_void pose_passedout*
-	*setposang cat_piano setpos 7101.952637 -170.722763 3614.079346;setang -90 180 0.000000*
-	*setposang cat_singer setpos 7137.436523 -211.182663 3614.082764;setang -90 -90 0.000000*
-	*setposang cat_cello setpos 7100.476563 -47.465294 3614.082764;setang -90 330 0.000000*
-	*setposang cat_bar setpos 7183.148438 -33.720730 3614.096436;setang -90 225 0.000000*
+	*setposang cat_piano setpos 7101.952637 -170.722763 3628;setang -90 90 0.000000*
+	*setposang cat_singer setpos 7137.436523 -211.182663 3628;setang -90 180 0.000000*
+	*setposang cat_cello setpos 7100.476563 -47.465294 3628;setang -90 90 0.000000*
+	*setposang cat_bar setpos 7183.148438 -33.720730 3628;setang -90 90 0.000000*
+	*wait 4*
 	*setskin cat_piano 2*
 	*setanim cat_piano gesture_anger 2 idle*
     *setspeaker cat_piano*
+	*show*
+	*bgmplay sound/jazztronauts/music/events/dangersong.mp3 .75 1*
 	*setcam setpos 6986.671387 -191.368927 3644.737549;setang -13.753159 13.206947 0.000000*
     MOVE.%%% GET YOUR ASS IN GEAR AND GET ON THE TROLLEY!
     &t2
@@ -172,8 +200,8 @@ t3:
     *setspeaker cat_piano*
 	*setcam setpos 6986.671387 -191.368927 3644.737549;setang -13.753159 13.206947 0.000000*
 	*setanim cat_piano gesture_shock 1.6 idle*
-    BOSS IT’S TIME TO GO THAT THING IS BEING WEIRD AND I DIDN’T*setanim cat_piano 1.4 idle* 
-    HAVE TIME TO GRAB THE FLAMETHROWER.
+    BOSS IT’S TIME TO GO THAT THING IS BEING WEIRD AND I*setanim cat_piano gesture_disagree 1 idle* 
+	DIDN’T HAVE TIME TO GRAB THE FLAMETHROWER.
     &t4
 
 Cut to the eclipse cat floating in the void, some kind of messed up vfx of it maybe stretching and distorting like 
@@ -194,19 +222,54 @@ t4:
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_shrug 1.6 idle*
     Please fasten your seatbelt, shit may be about to get mildly messy. 
-    &t5
-
+    &t4b
+	
+t4b:
+	*setskin cat_singer 1*
+	*setanim cat_singer gesture_exchange 1.4 idle*
+	*setspeaker cat_singer*
+	*emitsound ambient/atmosphere/terrain_rumble1.wav .45 .7*
+	> The Singer takes out their tablet,*shake 1* taps for a second,
+	and then puts it away out of frustration.*setanim cat_singer gesture_facepalm 1 idle* 
+	They are pointing frantically at the road now.
+	&t4c
+	
+t4c:
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_confused 1 idle*
+	*setspeaker cat_bar*
+	I believe the Singer is attempting to relay to us,% that*emitsound ambient/atmosphere/terrain_rumble1.wav .69 .8*
+	the Voidway is*shake 2* starting to collapse because of that
+	mysterious cat.*setskin cat_bar 0*
+	&t4d
+	
+t4d:
+	*setspeaker cat_cello*
+	*setanim cat_cello gesture_shock 1 idle*
+	*setskin cat_cello 2*
+	*emitsound ambient/atmosphere/terrain_rumble1.wav .58 .8*
+	The Voidway is WHAT??*shake 3*
+	&t5
 
 Aaand the road gibs. Trolley starts to fall into the void, shot of the eclipse cat directly overhead flipping its shit.
 
 t5:
+	*hide*
+	*setspeaker narrator*
+	*emitsound ambient/explosions/exp2.wav .85*
 	*setcam setpos -6035.361816 3847.030273 -6714.641113;setang 3.869336 -103.273232 0.000000*
 	*tweencam 20 setpos -6035.361816 3847.030273 -6609.641113;setang -32.972736 -110.460419 0.000000*
-	*fadeblind 1*
+	*wait 4*
 	*shake 6*
-	*wait 5*
+	*show*
+	> The road collapsed! We're free falling!
+	&t5b
+	
+t5b:
+	*setposang code_trolley setpos 7160.477539 -2147.534912 3672;setang 0 0 0*
 	*setcam setpos 6542.691406 213.712082 3864.309082;setang 21.811207 -18.417343 0.000000*
 	*setanim cat_void gesture_anger 2 idle*
+	*emitsound ambient/levels/caves/rumble2.wav .95*
 	*shake 10*
     *setspeaker cat_eclipse*
     Why Why*setanim cat_void gesture_anger 2 idle* Why WHy WHY yhW*setanim cat_void gesture_anger 2 idle* hWy hHYYhhHYh
@@ -218,13 +281,19 @@ which stops freaking out and resolves into Ash. Ash dives after them, paw outstr
 
 
 t6:
+	*hide*
+	*fadeblind*
+	*emitsound ambient/energy/whiteflash.wav .75*
+	*setskin cat_ash 1*
+	*setskin cat_void 1*
 	*setanim cat_void gesture_shock .3 idle*
 	*shake 6*
-	*fadeblind 4*
-	*wait 2*
+	*wait 5*
+	*fadeblind*
 	*setcam setpos -11234.839844 -1545.087036 -9792.435547;setang -32.333832 89.721710 0.000000*
-	*tweencam 30 setpos -11101.661133 5169.411621 -7036.478027;setang 22.024242 -95.597954 0.000000*
+	*tweencam 20 setpos -11101.661133 5169.411621 -7036.478027;setang 22.024242 -95.597954 0.000000*
     *setspeaker cat_piano*
+	*show*
     We’ve got a pursuer!
     &t7
 
@@ -247,12 +316,19 @@ the cats t-posing in the void be Ash.]
 
 
 t9:
+	*bgmplay sound/jazztronauts/music/events/dangersong.mp3 0 1*
+	*emitsound ambient/energy/whiteflash.wav .75*
 	*fadeblind 2*
 	*wait 1*
 	*setposang cat_ash setpos -8248.544922 1706.195801 -6813.286621;setang -90 180 0.000000*
 	*setcam setpos -8167.002930 2335.509033 -6803.162598;setang 0.621752 -115.030540 0.000000*
+	*setspeaker narrator*
+	> ...wait when did the road get fixed?
+	&t9b
+	
+t9b:
      *setspeaker cat_ash*
-     I do apologize for all the mess and inconvenience. 
+     I do apologize for all the mess and inconvenience.%%% 
      I’ve made a route back to your bar. 
      &t10
 
@@ -291,6 +367,7 @@ t12:
 Change view back to interior of trolley. Beat.]
 
 t13:
+	*tweenposang 10 cat_ash setpos -8248.544922 1706.195801 -6000.286621;setang -90 180 0.000000*
 	*setcam setpos -8370.639648 1698.361206 -6800.692871;setang 2.006005 47.697643 0.000000* ##### CELLO
      *setspeaker cat_bar*
      Oh.%%%*setskin cat_bar 3* O%h%h%h%. 
@@ -355,15 +432,16 @@ t18:
 
 t19:
 	*setcam setpos 1454.141357 503.886780 -1829.567505;setang -0.602724 -0.324777 0.000000*
-	*setposang trolley_cutscene setpos 2006.556763 1672.070679 -1816.968750;setang 0 0 0.000000*
-	*tweenposang 0.5 trolley_cutscene setpos 2006.556763 497 -1816.968750;setang 0 0 0.000000*
-	*wait 1*
+	*setposang code_trolley setpos 2006.556763 1672.070679 -1816.968750;setang 0 0 0.000000*
+	*tweenposang 5 code_trolley setpos 2006.556763 497 -1816.968750;setang 0 0 0.000000*
+	*wait 3*
+	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 .75 3*
 	*setcam setpos 1807.996460 442.324951 -1827.931519;setang 18.137722 120.796173 0.000000*
 	*setposang player setpos 1710.083252 504.915985 -1896;setang 9.645864 13.544979 0.000000*
 	*setposang cat_cello setpos 1731.791748 466.508514 -1896;setang -90 330 0.000000*
 	*setposang cat_singer setpos 1719.199829 548.411377 -1896;setang -90 270 0.000000*
 	*setposang cat_piano setpos 1727.565186 600.578552 -1896;setang -90 225 0.000000*
-	*setposang cat_bar setpos 1818.573975 535.002563 -1896;setang 7.702498 -179.716553 0.000000*
+	*setposang cat_bar setpos 1818.573975 535.002563 -1896;setang -90 90 0.000000*
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_confused .85 idle*
     Now,%%%*setskin cat_bar 0* is everyone alright?%%% All limbs intact? 
@@ -420,14 +498,26 @@ t25:
 [fade to black]
 
 t27:
+	*hide*
+	*txout*
+	*setposang cat_bar setpos 328.994995 704.156860 -1871.968750;setang -90 180 0.000000*
+	*setposang player setpos 283.669067 579.761719 -1896;setang 0.568216 67.521133 0.000000*
 	*setcam setpos -223.834137 550.917419 -1818.752808;setang 1.207416 -9.633442 0.000000*
-	*tweencam 40 setpos 1461.387939 515.352539 -1826.769043;setang 1.367136 -0.209962 0.000000*
+	*tweencam 34 setpos 1461.387939 515.352539 -1826.769043;setang 1.367136 -0.209962 0.000000*
+	*bgmplay sound/jazztronauts/music/events/warm_song.mp3 .75 3*
+	*txin*
 	*spawn metrocop_spec models/Police.mdl*
 	*setposang metrocop_spec setpos 1825.338379 534.568604 -1896.968750;setang -1.241788 -179.095718 0.000000*
+	*setanim metrocop_spec Idle_Baton*
      *setspeaker narrator*
+	 *show*
      > The next few hours are a blur.%%%% You sit on a barstool contemplating 
      the wall and your time here as the cats and NPCs rush around getting 
-     the place jazzed up.%%%% The clink of glass on the bar gets your attention.
+     the place jazzed up.
+	 &t27b
+	 
+t27b:
+	 The clink of glass on the bar gets your attention.
      &t29
 
 [Fade back. Ideal Goals is for the place to look festive via many npc’s being present and mingling, 
@@ -506,7 +596,11 @@ r2b:
 r2c:
 	*setskin cat_bar 4*
 	*setanim cat_bar gesture_foldarms 1 idle*
-    I often wonder whether I am already in a rut,%% and simply haven’t noticed yet.%%%%*setskin cat_bar 0* 
+    I often wonder whether I am already in a rut,%% 
+	and simply haven’t noticed yet.%%%%*setskin cat_bar 0*
+	&r2c1
+	
+r2c1:
     If these days of quiet*setanim cat_bar gesture_shrug 1 idle* contentment will be a thing I resent in time for 
     ‘robbing’ me of time spent working on some other project.  
     &r2d
@@ -579,8 +673,9 @@ t30:
 	*setskin cat_piano 3*
      *setspeaker cat_piano*
 	*setanim cat_piano gesture_embarass 1 idle*
-     Hey,% we were talking and we want to do something to show our appreciation*setskin cat_piano 0* 
-     for everything you’ve done.%%% Before you head off. 
+     Hey,% we were talking and we want to do something to 
+	 show our appreciation*setskin cat_piano 0* for everything 
+	 you’ve done.%%% Before you head off. 
      &t31
 
 t31:

@@ -71,7 +71,7 @@ function PLAYER:Loadout()
 	self.Player:Give( "weapon_propsnatcher" )
 	--self.Player:Give( "weapon_stan" )
 
-    self.Player:SwitchToDefaultWeapon()
+    self.Player:SelectWeapon( "weapon_propsnatcher" )
 end
 
 player_manager.RegisterClass( "player_explore", PLAYER, "player_hub" )

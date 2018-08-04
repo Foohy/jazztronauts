@@ -13,7 +13,7 @@ begin:
 	*setnpcid cat_piano npc_cat_piano*
 	*setanim cat_piano pianist_drunk_idle*
 	*setposang player setpos -2842.145020 2940.937744 0;setang 0 136.715897 0.000000*
-	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1 2.0*
+	*bgmplay sound/jazztronauts/music/events/warm_song.mp3 .75 3*
 	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
 	*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 90 90.000000*
 	*setnpcid cat_bar npc_cat_bar*

@@ -167,6 +167,7 @@ function ENT:Touch( other )
 	local velocity = self:GetVelocity()
 	d:SetDamage((velocity - other:GetVelocity()):Length() )
 	d:SetAttacker(self)
+	d:SetInflictor(self)
 	d:SetDamageType(DMG_CRUSH)
 	d:SetDamageForce(self:GetAngles():Right() * velocity:Length() * 10000) -- Just fuck them up
 

@@ -83,3 +83,15 @@ end
 function GM:PlayerSpawnNPC( ply, npc_type, equipment )
 	return SpawnItem(ply, model, "npcs")
 end
+
+
+-- Hook into when a player spawns _something_ so we can mark it and have it be worthless
+local function PlayerSpawnedSomething(ply, ent)
+    ent.JazzWorth = 0
+end
+
+hook.Add("PlayerSpawnedEffect", "JazzMakeWorthless", function(ply, mdl, ent) PlayerSpawnedSomething(ply, ent) end )
+hook.Add("PlayerSpawnedNPC", "JazzMakeWorthless", function(ply, ent) PlayerSpawnedSomething(ply, ent) end )
+hook.Add("PlayerSpawnedProp", "JazzMakeWorthless", function(ply, mdl, ent) PlayerSpawnedSomething(ply, ent) end )
+hook.Add("PlayerSpawnedRagdoll", "JazzMakeWorthless", function(ply, mdl, ent) PlayerSpawnedSomething(ply, ent) end )
+hook.Add("PlayerSpawnedVehicle", "JazzMakeWorthless", function(ply, ent) PlayerSpawnedSomething(ply, ent) end )

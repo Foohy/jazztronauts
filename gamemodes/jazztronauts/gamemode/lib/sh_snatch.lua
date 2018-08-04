@@ -606,7 +606,6 @@ if SERVER then
 			end
 
 			if not ent:IsPlayer() then
-				print("REMOVED: " .. tostring( ent ))
 				ent:Remove()
 			else
 				print("I GUESS WE DIDN'T REMOVE: " .. tostring( ent ))

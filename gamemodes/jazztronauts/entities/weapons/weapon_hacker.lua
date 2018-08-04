@@ -6,7 +6,7 @@ SWEP.Base 					= "weapon_base"
 SWEP.PrintName 		 		= "Hacking Goggles"
 SWEP.Slot		 	 		= 0
 SWEP.Category				= "Jazztronauts"
-SWEP.Purpose				= "Peak into the inner I/O workings of the map"
+SWEP.Purpose				= "Peek into the inner I/O workings of the map"
 
 SWEP.ViewModel		 		= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"

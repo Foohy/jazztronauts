@@ -186,7 +186,7 @@ function ENT:VomitNewProps(ply)
 		end
 
 		-- Random chance for the pipe to be constipated
-		local empty = table.Count(self.SpawnQueue) == 0
+		local empty = next(self.SpawnQueue) == nil
 		self.Constipated = not empty 
 			and self.TotalCount > self.ConstipateMinProps 
 			and math.random(0, self.ConstipateOdds) == 0
@@ -221,7 +221,7 @@ function ENT:DoConstipatedEffects()
 	-- Spark delay, dribble of poopy
 	timer.Simple(self.MusicDelay + 4.5, function()
 		self:SpawnRandomGibs(pos, ang)
-		self:EmitSound(table.Random(groanSounds), 85)
+		self:EmitSound(groanSounds[math.random(1, #groanSounds)], 85)
 
 		util.ScreenShake(self:GetPos(), 2, 5, 3.0, 10000)
 
@@ -235,7 +235,7 @@ function ENT:DoConstipatedEffects()
 
 	-- One more long groan....
 	timer.Simple(self.MusicDelay + 7.5, function()
-		self:EmitSound(table.Random(bowelMovementSounds), 85)
+		self:EmitSound(bowelMovementSounds[math.random(1, #bowelMovementSounds)], 85)
 		self:SpawnRandomGibs(pos, ang)
 		util.ScreenShake(self:GetPos(), 5, 0.5, 5.5, 10000)
 	end )
@@ -266,7 +266,7 @@ function ENT:Decrement(idx)
 end
 
 function ENT:SpawnRandomGibs(pos, ang)
-	local e2 = mapgen.SpawnHubProp(table.Random(randomGibProps), 
+	local e2 = mapgen.SpawnHubProp(randomGibProps[math.random(1, #randomGibProps)], 
 		pos, ang)
 	e2:GetPhysicsObject():SetVelocity(self.VomitVelocity)
 	e2:PrecacheGibs()
@@ -292,8 +292,10 @@ end
 function ENT:VomitProp()
 	if not self.SpawnQueue then return false end
 
-	local prop = table.Random(self.SpawnQueue)
+	local prop = self.SpawnQueue[math.random(1, #self.SpawnQueue)]
 	if not prop then return false end
+
+	if not IsValid(self.CurrentUser) then return false end
 
 	local worth = prop.worth
 	local pos, ang = self:GetPos() + self:GetAngles():Up() * 100, self:GetAngles()
@@ -332,6 +334,6 @@ if mapcontrol.IsInHub() then
 	hook.Add("PlayerInitialSpawn", "JazzInformPropsAvailable", function(ply)
 		local counts = snatch.GetPlayerPropCounts(ply, true)
 
-		UpdatePlayerPropMarker(ply, table.Count(counts) > 0)
+		UpdatePlayerPropMarker(ply, next(counts) ~= nil)
 	end )
 end

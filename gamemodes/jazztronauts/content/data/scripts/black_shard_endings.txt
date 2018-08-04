@@ -316,6 +316,7 @@ the cats t-posing in the void be Ash.]
 
 
 t9:
+	*voiddisable*
 	*bgmplay sound/jazztronauts/music/events/dangersong.mp3 0 1*
 	*emitsound ambient/energy/whiteflash.wav .75*
 	*fadeblind 2*

@@ -292,7 +292,7 @@ end
 function ENT:VomitProp()
 	if not self.SpawnQueue then return false end
 
-	local prop = self.SpawnQueue[math.random(1, #self.SpawnQueue)]
+	local prop = table.Random(self.SpawnQueue)
 	if not prop then return false end
 
 	if not IsValid(self.CurrentUser) then return false end

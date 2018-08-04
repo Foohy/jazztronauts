@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 module( "worldcanvas", package.seeall )
 
-meta = meta or {}
+local meta = {}
 meta.__index = meta
 
 

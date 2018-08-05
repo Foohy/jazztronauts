@@ -57,7 +57,7 @@ b2:
 b3:
 	*setanim cat_singer pose_sit01 1 idle*
 	> The Singer hit the floor pretty hard%.%.%.%and there's%.%.%%%fluff in the air?%%*setskin cat_singer 2*%*setcam setpos -2890.010742 2810.836914 64.296967;setang 26.426382 -17.573183 0.000000*
-	You peak over the crate and see the Singer cradling a knee.%%%*setskin cat_singer 6* 
+	You peek over the crate and see the Singer cradling a knee.%%%*setskin cat_singer 6* 
 	They notice the dino plush on the floor,% ripped and mangled.
 	&b4
 	

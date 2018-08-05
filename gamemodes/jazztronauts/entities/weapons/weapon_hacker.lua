@@ -2,34 +2,34 @@ if SERVER then
 	AddCSLuaFile()
 end
 
-SWEP.Base 					= "weapon_base"
-SWEP.PrintName 		 		= "Hacking Goggles"
-SWEP.Slot		 	 		= 0
+SWEP.Base					= "weapon_base"
+SWEP.PrintName				= "Hacking Goggles"
+SWEP.Slot					= 0
 SWEP.Category				= "Jazztronauts"
 SWEP.Purpose				= "Peek into the inner I/O workings of the map"
 
-SWEP.ViewModel		 		= "models/weapons/c_pistol.mdl"
+SWEP.ViewModel				= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
 
 SWEP.UseHands		= true
 
-SWEP.HoldType		 		= "duel"
+SWEP.HoldType				= "duel"
 
 util.PrecacheModel( SWEP.ViewModel )
 util.PrecacheModel( SWEP.WorldModel )
 
 SWEP.Primary.Delay			= 0.1
 SWEP.Primary.ClipSize		= -1
-SWEP.Primary.DefaultClip 	= -1
-SWEP.Primary.Ammo 			= "none"
-SWEP.Primary.Sound	 		= Sound( "weapons/357/357_fire2.wav" )
+SWEP.Primary.DefaultClip	= -1
+SWEP.Primary.Ammo			= "none"
+SWEP.Primary.Sound			= Sound( "weapons/357/357_fire2.wav" )
 SWEP.Primary.Automatic		= false
 
 SWEP.Secondary.ClipSize		= -1
-SWEP.Secondary.DefaultClip 	= -1
-SWEP.Secondary.Ammo 		= "none"
+SWEP.Secondary.DefaultClip	= -1
+SWEP.Secondary.Ammo		= "none"
 
-SWEP.Spawnable 				= true
+SWEP.Spawnable				= true
 SWEP.RequestInfo			= {}
 
 -- List this weapon in the store
@@ -52,7 +52,7 @@ function SWEP:ShouldDrawHackerview()
 		hook.Remove("JazzShouldDrawHackerview", self)
 		return
 	end
-	
+
 	return self.Owner == LocalPlayer() and self.Owner:GetActiveWeapon() == self
 end
 
@@ -78,7 +78,7 @@ function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
 
 end
 
-function SWEP:ViewModelDrawn( viewmodel ) 
+function SWEP:ViewModelDrawn( viewmodel )
 
 end
 
@@ -93,7 +93,7 @@ function SWEP:CalcViewModelView( viewmodel, oldpos, oldang, pos, ang )
 end
 
 function SWEP:CalcView( ply, pos, ang, fov )
-	
+
 	return pos, ang, fov
 
 end

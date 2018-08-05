@@ -34,14 +34,14 @@ surface.CreateFont( "JazzNoteFill",
 	font		= "KG Shake it Off Chunky Mono",
 	size		= ScreenScale(12),
 	weight		= 500,
-	antialias 	= true
+	antialias	= true
 })
 surface.CreateFont( "JazzNoteMultiplier",
 {
 	font		= "KG Shake it Off Chunky",
 	size		= ScreenScale(12),
 	weight		= 1500,
-	antialias 	= true
+	antialias	= true
 })
 surface.CreateFont( "JazzBlackShard",
 {
@@ -83,7 +83,7 @@ local function DrawNoteCount()
 	if amt != VisualAmount then
 		HideTime = CurTime() + HideDelay
 	end
-	
+
 	if CurTime() > HideTime && CurAlpha <= 0 then return //Don't draw if the alpha is 0
 	elseif CurTime() > HideTime then
 		CurAlpha = math.Clamp(CurAlpha - (FrameTime() * FadeSpeed ), 0, 255 )
@@ -94,13 +94,13 @@ local function DrawNoteCount()
 	-- Current multiplier for all earned money
 	local noteMultiplier = newgame.GetMultiplier()
 	local finalText = "$" .. string.Comma( VisualAmount )
-	
+
 	surface.SetFont( "JazzNote")
 	bgWidth, bgHeight = surface.GetTextSize( finalText )
 
 	lastWidth = Lerp( FrameTime() * 10, lastWidth, bgWidth + coinSize + ScreenScale(13) )
 	draw.RoundedBox( 4, ScrW() - (distFromSide + lastWidth), distFromTop, lastWidth, bgHeight, Color( 0, 0, 0, CurAlpha ) )
-	
+
 	//Draw how many money we have
 	local FinalAmountText = {}
 	FinalAmountText["pos"] = { ScrW() - distFromSide - coinSize - ScreenScale(10), distFromTop }
@@ -111,7 +111,7 @@ local function DrawNoteCount()
 	FinalAmountText["yalign"] = TEXT_ALIGN_TOP
 
 	draw.TextShadow( FinalAmountText, 2, math.Clamp( CurAlpha - 40, 0, 200 ) )
-	
+
 	//Draw the new money text
 	local text = ""
 	local color = Color( 255, 0, 0 )
@@ -131,16 +131,16 @@ local function DrawNoteCount()
 
 		if amt - VisualAmount > 0 then
 			VisualAmount = VisualAmount + moneyFillVelocity
-			if amt - VisualAmount <= 0 then 
+			if amt - VisualAmount <= 0 then
 				VisualAmount = amt
 			end
 		elseif amt - VisualAmount < 0 then
 			VisualAmount = VisualAmount - moneyFillVelocity
 
-			if amt - VisualAmount >= 0 then 
+			if amt - VisualAmount >= 0 then
 				VisualAmount = amt
 			end
-		else 
+		else
 			VisualAmount = amt
 		end
 	end
@@ -151,10 +151,10 @@ local function DrawNoteCount()
 	surface.DrawTexturedRect(ScrW() - coinDistance, distFromTop, coinSize, coinSize)
 
 	-- Draw extra money multiplier
-	if noteMultiplier > 1 then 
+	if noteMultiplier > 1 then
 		local multCol = Color(108, 52, 0, 250)
-		drawTextRotated(noteMultiplier, "JazzNoteMultiplier", 
-			ScrW() - coinDistance / 2 - distFromSide, distFromTop + coinSize / 2 - ScreenScale(1), 
+		drawTextRotated(noteMultiplier, "JazzNoteMultiplier",
+			ScrW() - coinDistance / 2 - distFromSide, distFromTop + coinSize / 2 - ScreenScale(1),
 			multCol, 0, coinSize/1.3)
 	end
 
@@ -166,12 +166,12 @@ local function DrawBlackShardCount()
 
 	local bshard = IsValid(bshard) and bshard or ents.FindByClass("jazz_shard_black")[1]
 	if not IsValid(bshard) or not bshard.GetStartSuckTime then return end
-	
+
 	local sucktime = bshard:GetStartSuckTime()
 	local left, total = sucktime > 0 and sucktime < CurTime() and 0 or 1, 1
 	local str = "1 shard remains"
 	local color = Color(100, 100, 100, 100)
-	if left == 0 then 
+	if left == 0 then
 		color = Color(200, 10, 10)
 		str = "Nothing remains"
 	end
@@ -179,7 +179,7 @@ local function DrawBlackShardCount()
 	surface.SetFont("JazzBlackShard")
 	local offset = surface.GetTextSize(str) / 2
 	offset = offset + 5
-	draw.WordBox( 5, ScrW() / 2 - offset, 5, str, "JazzBlackShard", color, color_white ) 
+	draw.WordBox( 5, ScrW() / 2 - offset, 5, str, "JazzBlackShard", color, color_white )
 end
 
 local function DrawShardCount()
@@ -189,7 +189,7 @@ local function DrawShardCount()
 	local left, total = mapgen.GetShardCount()
 	local str = (total - left) .. "/" .. total .. " shards collected"
 	local color = Color(143, 0, 255, 100)
-	if left == 0 then 
+	if left == 0 then
 		str = "Collected all " .. total .. " shards!"
 		color = HSVToColor(math.fmod(CurTime() * 360, 360), .3, .7)
 	end
@@ -197,7 +197,7 @@ local function DrawShardCount()
 	surface.SetFont("JazzNote")
 	local offset = surface.GetTextSize(str) / 2
 	offset = offset + 5
-	draw.WordBox( 5, ScrW() / 2 - offset, 5, str, "JazzNote", color, color_white ) 
+	draw.WordBox( 5, ScrW() / 2 - offset, 5, str, "JazzNote", color, color_white )
 
 end
 
@@ -215,7 +215,7 @@ hook.Add("HUDPaint", "JazzDrawHUD", function()
 	if mapcontrol.IsInHub() then
 		HideTime = math.huge
 	end
-	
+
 end )
 
 //Show the money count when pressing tab

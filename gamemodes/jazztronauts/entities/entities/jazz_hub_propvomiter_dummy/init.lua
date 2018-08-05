@@ -26,7 +26,7 @@ ENT.RandomStealRate = 0
 local propr_unlock_list = "props"
 unlocks.Register(propr_unlock_list)
 
-local randomGibProps = 
+local randomGibProps =
 {
 	Model("models/props_interiors/Furniture_Vanity01a.mdl"),
 	Model("models/props_interiors/Furniture_Desk01a.mdl"),
@@ -35,7 +35,7 @@ local randomGibProps =
 	Model("models/props_c17/FurnitureTable001a.mdl")
 }
 
-local groanSounds = 
+local groanSounds =
 {
 	"ambient/materials/metal_stress1.wav",
 	"ambient/materials/metal_stress2.wav",
@@ -44,13 +44,13 @@ local groanSounds =
 	"ambient/materials/metal_stress5.wav"
 }
 
-local bowelMovementSounds = 
+local bowelMovementSounds =
 {
 	"ambient/machines/thumper_shutdown1.wav",
 	"ambient/machines/floodgate_move_short1.wav"
 }
 
-local outputs = 
+local outputs =
 {
 	"OnVomitEnd",
 	"OnVomitStart",
@@ -129,7 +129,7 @@ function ENT:StopVomit()
 	self:SetIsVomiting(false)
 	timer.Simple(self.FinishDelay, function()
 		self:TriggerOutput("OnVomitEnd", self)
-		self.IsStopping = false	
+		self.IsStopping = false
 	end )
 end
 
@@ -161,7 +161,7 @@ function ENT:RandomStealThink()
 		if snatch.IsBrushStolen(brushid) then continue end
 
 		local brushinfo = bsp2.GetCurrent().brushes[brushid]
-		
+
 		local yoink = snatch.New()
 		yoink:SetMode(2)
 		yoink:StartWorld(brushinfo.center, nil, brushid)
@@ -180,7 +180,7 @@ end
 
 function ENT:Think()
 	if not self.SpawnQueue then return end
-	if !self.StartAt or CurTime() < self.StartAt then return end 
+	if !self.StartAt or CurTime() < self.StartAt then return end
 	if self.IsStopping then return end
 
 
@@ -197,10 +197,10 @@ function ENT:Think()
 end
 
 function ENT:StopMusic(fadeTime)
-	if self.VomitMusic then 
+	if self.VomitMusic then
 		if not fadeTime or fadeTime <= 0 then
 			self.VomitMusic:Stop()
-			self.VomitMusic = nil 
+			self.VomitMusic = nil
 		elseif not self.WasEmpty then
 			self.VomitMusic:FadeOut(fadeTime)
 		end
@@ -250,7 +250,7 @@ function ENT:AddToQueue(prop, type)
 end
 
 function ENT:SpawnRandomGibs(pos, ang)
-	local e2 = mapgen.SpawnHubProp(table.Random(randomGibProps), 
+	local e2 = mapgen.SpawnHubProp(table.Random(randomGibProps),
 		pos, ang)
 	e2:GetPhysicsObject():SetVelocity(self.VomitVelocity)
 	e2:PrecacheGibs()
@@ -289,7 +289,7 @@ function ENT:VomitProp()
 	if math.Rand(0, 1) <= 0.75 then
 		self:SpawnRandomGibs(pos, ang)
 	end
-	
+
 	return true
 end
 
@@ -298,9 +298,9 @@ function ENT:IsActive()
 end
 
 function ENT:AcceptInput( name, activator, caller, data )
-	if name == "Vomit" and not self:IsActive() then 
-		self:VomitNewProps(activator) 
-		return true 
+	if name == "Vomit" and not self:IsActive() then
+		self:VomitNewProps(activator)
+		return true
 	end
 
 	if name == "StopVomit" and self:IsActive() then

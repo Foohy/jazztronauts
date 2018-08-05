@@ -1,25 +1,25 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
- 
+
 include("shared.lua")
 
 ENT.ShadowControl = {}
 ENT.ShadowControl.secondstoarrive  = 0.0000001
-ENT.ShadowControl.pos              = Vector(0, 0, 0)
-ENT.ShadowControl.angle            = Angle(0, 0, 0)
-ENT.ShadowControl.maxspeed         = 1000000000000
-ENT.ShadowControl.maxangular       = 1000000
-ENT.ShadowControl.maxspeeddamp     = 10000
+ENT.ShadowControl.pos			  = Vector(0, 0, 0)
+ENT.ShadowControl.angle			= Angle(0, 0, 0)
+ENT.ShadowControl.maxspeed		 = 1000000000000
+ENT.ShadowControl.maxangular	   = 1000000
+ENT.ShadowControl.maxspeeddamp	 = 10000
 ENT.ShadowControl.maxangulardamp   = 1000000
-ENT.ShadowControl.dampfactor       = 1
+ENT.ShadowControl.dampfactor	   = 1
 ENT.ShadowControl.teleportdistance = 10
-ENT.ShadowControl.deltatime        = 0
+ENT.ShadowControl.deltatime		= 0
 
 -- Different movement states the bus can be in
 -- Wink wink nudge nudge zak's state machine library
-local MOVE_STATIONARY 	= 1
-local MOVE_ARRIVING 	= 2
-local MOVE_LEAVING 		= 3
+local MOVE_STATIONARY	= 1
+local MOVE_ARRIVING	= 2
+local MOVE_LEAVING		= 3
 local MOVE_LEAVING_PORTAL = 4
 
 ENT.BusLeaveDelay = 1
@@ -27,7 +27,7 @@ ENT.BusLeaveAccel = 500
 
 local noMoveEntsConVar = CreateConVar("jazz_bus_nomove", "0")
 
-ENT.PrelimSounds = 
+ENT.PrelimSounds =
 {
 	{ snd = "ambient/machines/wall_move1.wav", delay = 2.8 },
 	{ snd = "ambient/machines/wall_move4.wav", delay = 2.8},
@@ -35,7 +35,7 @@ ENT.PrelimSounds =
 	{ snd = "jazztronauts/trolley/jazz_trolley_bell.wav", delay = 1.0}
 }
 
-ENT.BrakeSounds = 
+ENT.BrakeSounds =
 {
 	"jazztronauts/trolley/brake_1.wav",
 	"jazztronauts/trolley/brake_2.wav",
@@ -60,7 +60,7 @@ function ENT:Initialize()
 		self:AttachSeat(Vector(40, i * 40 - 180, 80), Angle(0, 180, 0))
 		self:AttachSeat(Vector(-40, i * 40 - 180, 80), Angle(0, 180, 0))
 	end
-	
+
 	-- Setup radio
 	self:AttachRadio(Vector(40, -190, 50), Angle(0, 150, 0))
 
@@ -89,7 +89,7 @@ function ENT:Initialize()
 	end )
 
 	if SERVER then
-		hook.Add("PlayerEnteredVehicle", self, function(self, ply, veh, role) 
+		hook.Add("PlayerEnteredVehicle", self, function(self, ply, veh, role)
 			self:CheckLaunch()
 		end)
 
@@ -151,7 +151,7 @@ function ENT:Arrive()
 		phys:Wake()
 	end
 	self:SetNoDraw(false)
-	
+
 	self.BrakeSound:Play()
 
 	self.StartTime = CurTime()
@@ -159,7 +159,7 @@ function ENT:Arrive()
 end
 
 function ENT:Leave()
-	if self.MoveState == MOVE_LEAVING then return end 
+	if self.MoveState == MOVE_LEAVING then return end
 
 	self:EmitSound("jazz_bus_accelerate2")
 
@@ -229,7 +229,7 @@ function ENT:QueueTimedMusic()
 	local estHitTime = self.BusLeaveDelay
 	local dist = self:GetFront():Distance(self.ExitPortal:GetPos())
 	estHitTime = estHitTime + math.sqrt(2 * dist / self.BusLeaveAccel) -- d = 0.5at^2
-	
+
 	local startTime = estHitTime - self.VoidMusicPreroll
 	self.ChangelevelTime = CurTime() + estHitTime + self.VoidMusicFadeEnd
 
@@ -328,12 +328,12 @@ end
 function ENT:Think()
 	if self.MoveState == MOVE_ARRIVING then
 		local t, perc = self:GetProgress()
-		if perc > 1 && !self:GetPhysicsObject():IsAsleep() then 
+		if perc > 1 && !self:GetPhysicsObject():IsAsleep() then
 			self:GetPhysicsObject():Sleep()
 			self:GetPhysicsObject():EnableMotion(false)
 			self:SetPos(self.GoalPos)
 			self.MoveState = MOVE_STATIONARY
-			
+
 			self.BrakeSound:FadeOut(0.2)
 
 			self.RadioMusic:Play()
@@ -341,7 +341,7 @@ function ENT:Think()
 	end
 
 	if IsValid(self.ExitPortal) then
-		local leaving 		= self.MoveState == MOVE_LEAVING
+		local leaving		= self.MoveState == MOVE_LEAVING
 		local leavingPortal = self.MoveState == MOVE_LEAVING_PORTAL
 
 		-- Switch to 'portal' travel model if we hit a portal
@@ -353,7 +353,7 @@ function ENT:Think()
 		end
 
 		-- Stop moving the bus entirely when the rear of the bus gets inside the portal
-		if (leaving or leavingPortal) and self.ExitPortal:DistanceToVoid(self:GetRear()) > 0 then 
+		if (leaving or leavingPortal) and self.ExitPortal:DistanceToVoid(self:GetRear()) > 0 then
 			self.MoveState = MOVE_STATIONARY
 			self.GoalPos = self:GetPos()
 		end
@@ -361,8 +361,8 @@ function ENT:Think()
 
 
 	-- Changelevel at the end
-	if self.ChangelevelTime and CurTime() > self.ChangelevelTime then 
-		--if self:GetNumOccupants() >= player.GetCount() then 
+	if self.ChangelevelTime and CurTime() > self.ChangelevelTime then
+		--if self:GetNumOccupants() >= player.GetCount() then
 			mapcontrol.Launch(mapcontrol.GetHubMap())
 		--end
 	end

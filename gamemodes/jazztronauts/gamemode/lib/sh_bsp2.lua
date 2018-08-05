@@ -282,8 +282,8 @@ AddProcess( "Converting Entities", function( data )
 	sm2[sm2.none .. sm2.object] = match("{") - smstate( sm.string )
 	sm2[sm2.object .. sm2.none] = match("}") - smstate( sm.string )
 
-	for i=1, #str do 
-		sm2(str[i]) 
+	for i=1, #str do
+		sm2(str[i])
 		task.YieldPer(10000, "progress")
 	end
 
@@ -343,7 +343,7 @@ end
 
 function meta:GetAdjacentLeafs( leaf, list, check )
 
-	self:GetBoxLeafs( list, leaf.mins, leaf.maxs, 10, function(l) 
+	self:GetBoxLeafs( list, leaf.mins, leaf.maxs, 10, function(l)
 		if l == leaf then return false end
 		if check and not check(l) then return false end
 		return true
@@ -390,7 +390,7 @@ if SERVER then
 
 end
 
-LUMPS_DEFAULT = {	
+LUMPS_DEFAULT = {
 		LUMP_ENTITIES,				--All in-map entities
 		LUMP_PLANES,				--Plane equations for map geometry
 		LUMP_BRUSHES,				--Brushes
@@ -405,7 +405,7 @@ LUMPS_DEFAULT = {
 		LUMP_TEXINFO				--Surface texture info
 }
 
-LUMPS_DEFAULT_CLIENT = 
+LUMPS_DEFAULT_CLIENT =
 {
 	LUMP_VERTEXES,		--All vertices that make up map geometry
 	LUMP_EDGES,			--Edges between vertices in map geometry
@@ -459,8 +459,8 @@ function LoadBSP( bsp, path, lumps, callback )
 		end
 
 		bspdata.__loading = false
-		if type(callback) == "function" then 
-			local b,e = pcall(callback, bspdata) 
+		if type(callback) == "function" then
+			local b,e = pcall(callback, bspdata)
 			if not b then print(e) end
 		end
 
@@ -526,8 +526,8 @@ end
 
 --if CLIENT then _G["LOADED_BSP"] = nil end
 if _G["LOADED_BSP"] == nil then
-	_G["LOADED_BSP"] = LoadBSP( game.GetMap(), nil, 
-		SERVER and LUMPS_DEFAULT or LUMPS_DEFAULT_CLIENT, 
+	_G["LOADED_BSP"] = LoadBSP( game.GetMap(), nil,
+		SERVER and LUMPS_DEFAULT or LUMPS_DEFAULT_CLIENT,
 		SERVER and BLOCK_THREAD or function()
 
 		hook.Call( "CurrentBSPReady" )

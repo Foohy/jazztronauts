@@ -1,15 +1,15 @@
 ENT.Type = "anim"
 ENT.Base = "base_entity"
- 
+
 ENT.PrintName		= "The Bus - World"
 ENT.Author			= ""
-ENT.Information 	= ""
-ENT.Category 		= ""
-ENT.Spawnable 		= false
-ENT.AdminSpawnable 	= false
+ENT.Information	= ""
+ENT.Category		= ""
+ENT.Spawnable		= false
+ENT.AdminSpawnable	= false
 
-ENT.Model 			= Model( "models/matt/jazz_trolley.mdl" )
-ENT.HalfLength 		= 300
+ENT.Model			= Model( "models/matt/jazz_trolley.mdl" )
+ENT.HalfLength		= 300
 ENT.JazzSpeed		= 800 -- How fast to explore the jazz dimension
 
 ENT.RadioMusicName = "jazztronauts/music/que_chevere_radio_loop.wav"

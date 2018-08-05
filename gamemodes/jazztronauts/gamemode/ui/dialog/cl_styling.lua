@@ -4,7 +4,7 @@
 local chatboxMat = Material("materials/ui/chatbox.png")
 local chatboxNarrateMat = Material("materials/ui/chatbox_narrate.png")
 
-local catSounds = 
+local catSounds =
 {
 	Sound("jazztronauts/cats/cat_talk01.wav"),
 	Sound("jazztronauts/cats/cat_talk02.wav"),
@@ -12,7 +12,7 @@ local catSounds =
 	Sound("jazztronauts/cats/cat_talk04.wav")
 }
 
-local keyboardSounds = 
+local keyboardSounds =
 {
 	Sound("ambient/machines/keyboard1_clicks.wav"),
 	Sound("ambient/machines/keyboard2_clicks.wav"),
@@ -25,11 +25,11 @@ local keyboardSounds =
 local catPitches = {}
 timer.Simple(0, function()
 	catPitches = {
-		[missions.NPC_CAT_BAR] 		= { pitch = 120, vol = 0.5, delay = 0.05, snds = catSounds },
-		[missions.NPC_CAT_CELLO] 	= { pitch = 50, vol = 0.5, delay = 0.1, snds = catSounds },
-		[missions.NPC_CAT_SING] 	= { pitch = 200, vol = 1.0, delay = 0.2, snds = keyboardSounds },
-		[missions.NPC_CAT_PIANO] 	= { pitch = 100, vol = 0.5, delay = 0.05, snds = catSounds },
-		[missions.NPC_NARRATOR] 	= { pitch = 100, vol = 1.0, delay = 0.2, snds = keyboardSounds }
+		[missions.NPC_CAT_BAR]		= { pitch = 120, vol = 0.5, delay = 0.05, snds = catSounds },
+		[missions.NPC_CAT_CELLO]	= { pitch = 50, vol = 0.5, delay = 0.1, snds = catSounds },
+		[missions.NPC_CAT_SING]	= { pitch = 200, vol = 1.0, delay = 0.2, snds = keyboardSounds },
+		[missions.NPC_CAT_PIANO]	= { pitch = 100, vol = 0.5, delay = 0.05, snds = catSounds },
+		[missions.NPC_NARRATOR]	= { pitch = 100, vol = 1.0, delay = 0.2, snds = keyboardSounds }
 	}
 end )
 
@@ -126,10 +126,10 @@ end
 local function drawPlayer(ply)
 	if not pac then
 		ply:DrawModel()
-		return 
+		return
 	end
 
-	pac.ForceRendering(true) 
+	pac.ForceRendering(true)
 	pac.ShowEntityParts(ply)
 	pac.RenderOverride(ply, "opaque")
 	pac.RenderOverride(ply, "translucent", true)
@@ -151,7 +151,7 @@ local function RenderEntityCutIn(ent, x, y, w, h)
 	local offset = entangs:Right() * CatCamOffset.X + entangs:Forward() * CatCamOffset.Y
 
 	-- Attempt to automatically find a good spot to focus on
-	local bone = ent:LookupBone("ValveBiped.Bip01_Neck1")	
+	local bone = ent:LookupBone("ValveBiped.Bip01_Neck1")
 	bone = bone or ent:LookupBone("ValveBiped.Bip01_Head1")
 	bone = bone or ent:LookupBone("Head")
 	bone = bone or ent:LookupBone("rig_cat:j_head")
@@ -244,12 +244,12 @@ DialogCallbacks.Paint = function(_dialog)
 	surface.SetDrawColor( 255, 255, 255, 255 )
 	surface.DrawTexturedRectUV( x - w/2, y - h/2, w, h, localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
 
-	local left = x - w/2 + NameTextX 
+	local left = x - w/2 + NameTextX
 	local top = y - h/2 + NameTextY
 
 	surface.SetTextColor( DialogColor.r, DialogColor.g, DialogColor.b, 255 * open )
 	surface.SetFont( "JazzDialogNameFont" )
-    local tw,th = surface.GetTextSize(speakername)
+	local tw,th = surface.GetTextSize(speakername)
 
 	-- Draw current speaker's name
 	local nameX = localspeaker and x + w/2 - tw - NameTextX or left
@@ -257,7 +257,7 @@ DialogCallbacks.Paint = function(_dialog)
 	surface.DrawText(speakername)
 
 	surface.SetFont( "JazzDialogFont" )
-    local tw,th = surface.GetTextSize( "a" )
+	local tw,th = surface.GetTextSize( "a" )
 	left = x - w/2 + TextX * (localspeaker and 0.2 or 1)
 	top = y - h/2 + TextY
 
@@ -275,7 +275,7 @@ DialogCallbacks.Paint = function(_dialog)
 	-- If we're waiting on input, slam that down
 	if dialog.ReadyToContinue() then
 		surface.SetFont( "JazzDialogFontHint" )
-		local contstr = "Click to continue...    "
+		local contstr = "Click to continue...	"
 		local tw,th = surface.GetTextSize(contstr)
 		local contX = x + w/2 - tw //* (localspeaker and 0.2 or 1)
 		if localspeaker then
@@ -309,7 +309,7 @@ DialogCallbacks.ListOptions = function(data)
 	frame:DockPadding(0, 20, 0, 20)
 	frame.Paint = function(self, w, h)
 
-		-- Rotated pink back box	
+		-- Rotated pink back box
 		local rotmat = Matrix()
 		rotmat:Translate(Vector(w/2, h/2, 0))
 		rotmat:Rotate(Angle(0, -2, 0))
@@ -334,18 +334,18 @@ DialogCallbacks.ListOptions = function(data)
 		btn:DockMargin(ScreenScaleEx(5, 0, 5, 8))
 
 		btn.Paint = function(self, w, h)
-			if self.Hovered then 
+			if self.Hovered then
 				local thick = ScreenScale(1)
 				surface.SetDrawColor(238, 19, 122)
 				surface.DrawRect(0, 0, w, h)
 
 				surface.SetDrawColor(215, 195, 151, 255)
-				surface.DrawRect(thick, thick, w - thick*2, h - thick*2) 
+				surface.DrawRect(thick, thick, w - thick*2, h - thick*2)
 			end
 		end
 
 		btn.DoClick = function()
-            dialog.StartGraph(v.data[1], true, { speaker = LocalPlayer() })
+			dialog.StartGraph(v.data[1], true, { speaker = LocalPlayer() })
 			frame:Close()
 		end
 	end
@@ -388,7 +388,7 @@ DialogCallbacks.DialogStart = function(d)
 		d.textpanel:Remove()
 		d.textpanel = nil
 	end
-		
+
 	d.textpanel = CreateRichText()
 end
 
@@ -431,13 +431,13 @@ end
 
 -- Hook into dialog system to style it up and perform IO
 local function Initialize()
-    dialog.SetCallbackTable(DialogCallbacks)
+	dialog.SetCallbackTable(DialogCallbacks)
 end
 hook.Add("InitPostEntity", "JazzInitializeDialogRendering", Initialize)
 hook.Add("OnReloaded", "JazzInitializeDialogRendering", Initialize)
 
 local lastKeyDownFlag = 0
-local prefixFuncs = 
+local prefixFuncs =
 {
 	["IN"] = function(val) return bit.band(lastKeyDownFlag, val) == val end,
 	["KEY"] = function(val) return input.IsKeyDown(val) end,
@@ -469,8 +469,8 @@ local wasSkipPressedInDialog = false
 hook.Add("StartCommand", "JazzDialogLockPlayer", function(ply, usercmd)
 
 	-- Specific logic to make it so they must have RELEASED the skip key before
-	if not wasSkipPressedInDialog and not dialog.IsInDialog() then 
-		return 
+	if not wasSkipPressedInDialog and not dialog.IsInDialog() then
+		return
 	end
 
 	wasSkipPressedInDialog = wasSkipPressed
@@ -493,7 +493,7 @@ hook.Add("Think", "JazzDialogSkipListener", function()
 	keyOverrides = keyOverrides and string.Split(keyOverrides, ",")
 
 	local skip = AnyKeysDown(keyOverrides or DefaultKeys)
-	
+
 	if skip == wasSkipPressed then return end
 	wasSkipPressed = skip
 
@@ -503,7 +503,7 @@ hook.Add("Think", "JazzDialogSkipListener", function()
 	-- First try to continue to the next page of dialog
 	if not dialog.Continue() then
 
-		-- If we couldn't, that means we're still writing 
+		-- If we couldn't, that means we're still writing
 		-- So speed up the text output
 		dialog.SkipText()
 	end

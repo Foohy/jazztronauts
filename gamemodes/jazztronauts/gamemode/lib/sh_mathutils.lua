@@ -1,12 +1,12 @@
 if SERVER then AddCSLuaFile("sh_mathutils.lua") end
 
 --Constants
-LOG_2	 	= 0.6931471805599
-PI 			= 3.1415926535898 --180 degrees
-PI_OVER_2 	= 1.5707963267949 --90 degrees
-DEG_2_RAD 	= PI / 180 --degrees * DEG_2_RAD = radians
-RAD_2_DEG 	= 180 / PI --radians * RAD_2_DEG = degrees
-EPSILON 	= 0.00001
+LOG_2		= 0.6931471805599
+PI			= 3.1415926535898 --180 degrees
+PI_OVER_2	= 1.5707963267949 --90 degrees
+DEG_2_RAD	= PI / 180 --degrees * DEG_2_RAD = radians
+RAD_2_DEG	= 180 / PI --radians * RAD_2_DEG = degrees
+EPSILON	= 0.00001
 
 --Convert orthonormal basis into an euler tuple
 function BasisToAngles(forward, right, up)
@@ -78,7 +78,7 @@ end
 
 --Cosine function ranging between min and max
 function CosRange( min, max, theta )
-	
+
 	return min + (.5 * math.cos(theta) + .5) * ( max - min )
 
 end

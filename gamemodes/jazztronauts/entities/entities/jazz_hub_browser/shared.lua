@@ -23,7 +23,7 @@ function ENT:Initialize()
 	self:SetModel( self.Model )
 	self:PhysicsInit( SOLID_VPHYSICS )
 	self:SetMoveType( MOVETYPE_NONE )
-	
+
 	local phys = self:GetPhysicsObject()
 	if IsValid( phys ) then
 		phys:EnableMotion( false )
@@ -32,7 +32,7 @@ function ENT:Initialize()
 	-- Hook into map change events
 	if SERVER then
 		self:SetUseType(SIMPLE_USE)
-		
+
 		-- Turn on the tv
 		self:SetOn(true)
 
@@ -104,9 +104,9 @@ function ENT:SelectCurrentAddon()
 end
 
 function ENT:AcceptInput( name, activator, caller, data )
-	if name == "RollAddon" then 
-		self:RollWorkshop() 
-		return true 
+	if name == "RollAddon" then
+		self:RollWorkshop()
+		return true
 	elseif name == "SelectCurrentAddon" then
 		self:SelectCurrentAddon()
 		return true
@@ -143,9 +143,9 @@ ENT.GoalNoise = 0
 ENT.OnAmount = 0
 
 surface.CreateFont( "JazzTVChannel", {
-	font      = "VCR OSD Mono",
-	size      = 30,
-	weight    = 500,
+	font	  = "VCR OSD Mono",
+	size	  = 30,
+	weight	= 500,
 	//antialias = true,
 	additive  = false,
 	blursize  = 1,
@@ -195,14 +195,14 @@ function ENT:DrawScreenContents(rt)
 			end
 
 			local noiseamt = self.TVNoiseAmount
-			
+
 			local offset = math.random() * 2 <= noiseamt and sizeY * 0.05 or 0
 			self.ImageOffset = math.Approach(self.ImageOffset, offset, FrameTime() * 550)
 
 			surface.SetDrawColor(255, 255, 255)
 			surface.SetMaterial(overlayScanMat)
 			surface.DrawTexturedRect(0, self.ImageOffset, sizeX, sizeY)
-			
+
 			drawColorParams["$pp_colour_colour"] = math.max(0, 1 - noiseamt*8)
 			drawColorParams["$pp_colour_contrast"] = noiseamt + 1
 			drawColorParams["$pp_colour_brightness"] = (1 - self.OnAmount)
@@ -275,7 +275,7 @@ function ENT:Think()
 		self:ChangeChannel(dest)
 	end
 
-	
+
 	-- Fade 'on' amount
 	local goalOn = self.GetIsOn and self:GetIsOn() and 1.0 or 0.0
 	self.OnAmount = math.Approach(self.OnAmount, goalOn, FrameTime() * 3)
@@ -296,13 +296,13 @@ function ENT:ChangeChannel(dest)
 
 	local wsid = tonumber(dest)
 	if wsid then
-		steamworks.FileInfo( wsid, function( result ) 
+		steamworks.FileInfo( wsid, function( result )
 
 			if !IsValid(self) then return end
 			self.ErrorChannel = result == nil
-			if self.ErrorChannel then 
+			if self.ErrorChannel then
 				print("Failed to get file info for wsid: " .. wsid)
-				return 
+				return
 			end
 
 			self.AddonName = result.title

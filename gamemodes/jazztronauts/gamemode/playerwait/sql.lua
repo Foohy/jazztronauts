@@ -1,10 +1,10 @@
 -- Really basic module, just keeps track of players between changelevels so we know who's connected
 
-jsql.Register("jazz_persist_players", 
+jsql.Register("jazz_persist_players",
 [[
-    steamid BIGINT NOT NULL,
-    name VARCHAR(256) NOT NULL,
-    PRIMARY KEY(steamid)
+	steamid BIGINT NOT NULL,
+	name VARCHAR(256) NOT NULL,
+	PRIMARY KEY(steamid)
 ]])
 
 module( "playerwait", package.seeall )

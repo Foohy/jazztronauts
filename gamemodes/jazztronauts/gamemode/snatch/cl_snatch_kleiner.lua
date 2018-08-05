@@ -221,7 +221,7 @@ local function TickScene( scene )
 
 end
 
-hook.Add( "Think", "TickRemoveScenes", function() 
+hook.Add( "Think", "TickRemoveScenes", function()
 
 	for i=#scenes, 1, -1 do
 

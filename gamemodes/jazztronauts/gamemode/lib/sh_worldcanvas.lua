@@ -40,7 +40,7 @@ function meta:PopScreenRenderMode()
 
 	cam.IgnoreZ(false)
 
-	render.SetStencilEnable(false) 
+	render.SetStencilEnable(false)
 
 end
 
@@ -57,10 +57,10 @@ end
 
 function meta:Draw()
 
-	if self.errored then 
-		if CurTime() - self.error_timer < 2 then 
+	if self.errored then
+		if CurTime() - self.error_timer < 2 then
 			gfx.renderPlane( self.origin, self.normal, self.width, self.height, Color(255,0,0,100) )
-			return 
+			return
 		end
 	end
 
@@ -74,7 +74,7 @@ function meta:Draw()
 
 	if self.drawfunc then
 		local b,e = pcall( self.drawfunc, unpack( self.drawargs ) )
-		if not b then 
+		if not b then
 			self.errored = true
 			self.error_timer = CurTime()
 			self.error_text = tostring( e )
@@ -137,14 +137,14 @@ function meta:_UpdateMatrix()
 
 end
 
-function meta:SetPos( origin ) 
+function meta:SetPos( origin )
 
 	self.origin:Set( origin )
 	self:_UpdateMatrix()
 
 end
 
-function meta:SetAngles( angles ) 
+function meta:SetAngles( angles )
 
 	self.angles:Set( angles )
 	self.normal = angles:Forward()
@@ -170,7 +170,7 @@ function New( width, height, origin, angles )
 		origin = origin or Vector(),
 		normal = normal or Vector(0,0,1),
 		angles = angles or Angle(),
-		width = width or 128, 
+		width = width or 128,
 		height = height or 128,
 		xres = 1,
 		yres = 1,

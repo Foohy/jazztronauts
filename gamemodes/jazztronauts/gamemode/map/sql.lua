@@ -1,11 +1,11 @@
 module( "progress", package.seeall )
 
-CORRUPT_NONE 		= 0 -- No black shards spawned
-CORRUPT_SPAWNED 	= 1 -- Black shard spawned, not stolen
-CORRUPT_STOLEN 		= 2 -- Black shard stolen, map is fully corrupted
+CORRUPT_NONE		= 0 -- No black shards spawned
+CORRUPT_SPAWNED	= 1 -- Black shard spawned, not stolen
+CORRUPT_STOLEN		= 2 -- Black shard stolen, map is fully corrupted
 
 -- Stores map generation information about a specific map
-jsql.Register("jazz_mapgen", 
+jsql.Register("jazz_mapgen",
 [[
 	id INTEGER PRIMARY KEY,
 	filename VARCHAR(128) UNIQUE NOT NULL,
@@ -15,7 +15,7 @@ jsql.Register("jazz_mapgen",
 ]])
 
 -- Store specific map session data
-jsql.Register("jazz_maphistory", 
+jsql.Register("jazz_maphistory",
 [[
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	mapid INTEGER NOT NULL,
@@ -25,7 +25,7 @@ jsql.Register("jazz_maphistory",
 ]])
 
 -- Keep track of every generated shard for each map
-jsql.Register("jazz_mapshards", 
+jsql.Register("jazz_mapshards",
 [[
 	id INTEGER NOT NULL,
 	mapid INTEGER NOT NULL,
@@ -36,7 +36,7 @@ jsql.Register("jazz_mapshards",
 ]])
 
 -- Hub prop positions (deprecated)
-jsql.Register("jazz_hubprops", 
+jsql.Register("jazz_hubprops",
 [[
 	id INTEGER PRIMARY KEY,
 	model VARCHAR(128) NOT NULL,
@@ -62,7 +62,7 @@ function GetMap(mapname)
 
 	local res = Query(chkstr)
 
-	if type(res) == "table" then 
+	if type(res) == "table" then
 		local info = res[1]
 		info.corrupt = tonumber(info.corrupt)
 		return info
@@ -74,7 +74,7 @@ end
 function GetMapHistory()
 	-- #TODO: Filter based on completion
 	local chkstr = "SELECT * FROM jazz_mapgen"
-	
+
 	return Query(chkstr)
 end
 
@@ -104,7 +104,7 @@ function StartMap(mapname, seed, shardcount)
 
 	-- If map has never been played before, insert gen info
 	-- Note, a seed of 0 signifies the map hasn't been played (no shards generated)
-	if (res == nil or tonumber(res.seed) == 0) and seed and shardcount then 
+	if (res == nil or tonumber(res.seed) == 0) and seed and shardcount then
 		print("Generating shards")
 		-- Store the map + generation info down. Shards reference this
 		local wsid = res and res.wsid or workshop.FindOwningAddon(mapname)
@@ -119,7 +119,7 @@ function StartMap(mapname, seed, shardcount)
 		local insrt_shard = "INSERT INTO jazz_mapshards (id, mapid) VALUES " ..
 			table.concat(shardvals, ",")
 
-		-- Create the table of shard values 
+		-- Create the table of shard values
 		if Query(insrt_shard) == false then
 			ErrorNoHalt("WARNING: Failed to insert shards into database for map " .. mapname)
 		end
@@ -190,7 +190,7 @@ function GetMapShardCount(mapname)
 		"INNER JOIN jazz_mapshards ON jazz_mapgen.id = jazz_mapshards.mapid " ..
 		(mapname and "WHERE " .. string.format("filename='%s' ", mapname) or "") ..
 		"ORDER BY jazz_mapshards.id ASC"
-	
+
 	local res = Query(chkstr)
 	if type(res) == "table" then
 		return tonumber(res[1].collected) or 0, tonumber(res[1].total) or 0

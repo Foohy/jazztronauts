@@ -173,7 +173,7 @@ function meta:PlaneSide(plane)
 		if w ~= nil then
 			for _, point in pairs(w.points) do
 				local d = point:Dot( plane.normal ) - plane.dist
-				if d > brush_planeside_epsilon then 
+				if d > brush_planeside_epsilon then
 					if back then return SIDE_CROSS end
 					front = true
 				end
@@ -184,7 +184,7 @@ function meta:PlaneSide(plane)
 			end
 		end
 	end
-	
+
 	if back then return SIDE_BACK end
 	if front then return SIDE_FRONT end
 	return SIDE_ON
@@ -200,12 +200,12 @@ function meta:MostlyOnSide(plane)
 		if w ~= nil then
 			for _, point in pairs(w.points) do
 				local d = point:Dot( plane.normal ) - plane.dist
-				if d > max then 
-					max = d 
-					testside = SIDE_FRONT 
+				if d > max then
+					max = d
+					testside = SIDE_FRONT
 				end
-				if -d > max then 
-					max = -d 
+				if -d > max then
+					max = -d
 					testside = SIDE_BACK
 				end
 			end

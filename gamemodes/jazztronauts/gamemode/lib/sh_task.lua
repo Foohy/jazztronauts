@@ -24,7 +24,7 @@ local function CallTaskHook( task, hook, ... )
 	local b = res[1]
 	table.remove( res, 1 )
 
-	if not b then 
+	if not b then
 		ErrorNoHalt( unpack( res ) )
 	else
 		task.queuedparams = res
@@ -41,30 +41,30 @@ end
 -- Create a task that is finished once a callback is called
 -- While waiting, it simply sleeps indefinitely
 function NewCallback(func)
-    local t = nil
-    local results = {}
-    local done = false
-    local function doneFunc(...)
-        if t then 
-            t.sleep = 0 -- Wake up the thread
-        end 
+	local t = nil
+	local results = {}
+	local done = false
+	local function doneFunc(...)
+		if t then
+			t.sleep = 0 -- Wake up the thread
+		end
 
-        results = { ... }
-        done = true
-    end
+		results = { ... }
+		done = true
+	end
 
-    t = task.New(function() 
-        func(doneFunc)
+	t = task.New(function()
+		func(doneFunc)
 
-        -- Allow calls that exit immediately
-        if not done then
-            task.Sleep(999999)
-        end
+		-- Allow calls that exit immediately
+		if not done then
+			task.Sleep(999999)
+		end
 
-        return unpack(results)
-    end, 1)
+		return unpack(results)
+	end, 1)
 
-    return t
+	return t
 end
 
 
@@ -107,7 +107,7 @@ function Await( other, ... )
 	if g_task ~= nil then
 		assert( getmetatable(other) == meta )
 		if not other.running then return other.result end
-		for _, w in pairs(other.waiters) do 
+		for _, w in pairs(other.waiters) do
 			if w == g_task then ErrorNoHalt("Already waiting on task") return end
 		end
 		local inf = debug.getinfo( 2 )
@@ -244,7 +244,7 @@ local function ResumeTask( task )
 	if coroutine.status( task.co ) == "dead" then
 		local duration = SysTime() - task.start
 		print( ("Task Finished: %0.2fs"):format( duration ) )
-		
+
 		task.result = result
 		RemoveTask( task )
 		dead = true
@@ -287,10 +287,10 @@ local function ProcessTasks()
 		local task_begin = SysTime()
 
 		local run = tasks[1]
-		if run:IsSleeping() then 
+		if run:IsSleeping() then
 			task_slept = true
 		elseif ResumeTask( run ) then
-			task_died = true 
+			task_died = true
 		end
 
 		local task_end = SysTime()

@@ -2,10 +2,10 @@ AddCSLuaFile()
 
 module( 'workshop', package.seeall )
 
-local function tagdepth(str) 
-    if string.sub(str, 1, 3) == "div" then return 1 end
-    if str == "/div" then return -1 end
-    return 0
+local function tagdepth(str)
+	if string.sub(str, 1, 3) == "div" then return 1 end
+	if str == "/div" then return -1 end
+	return 0
 end
 
 local function getrootelement(block, start)
@@ -30,7 +30,7 @@ local function getrootelement(block, start)
 end
 
 local function splitelements(block)
-	local str, pos 
+	local str, pos
 	local commentStr = {}
 	repeat
 		str, npos = getrootelement(block, pos)
@@ -43,7 +43,7 @@ local function splitelements(block)
 	local comments = {}
 	for _, v in pairs(commentStr) do
 		v = string.Replace(v, "<br>", "\n")
-		v = string.Replace(v, "</div></div>", "\n\n") 
+		v = string.Replace(v, "</div></div>", "\n\n")
 
 		local infoarr = {}
 		local info = {}
@@ -61,9 +61,9 @@ local function splitelements(block)
 			table.insert(infoarr, w)
 		end
 
-		info.author 	= #infoarr >= 1 and infoarr[1] or ""
-		info.date 		= #infoarr >= 2 and infoarr[2] or ""
-		info.message 	= #infoarr >= 3 and infoarr[3] or ""
+		info.author	= #infoarr >= 1 and infoarr[1] or ""
+		info.date		= #infoarr >= 2 and infoarr[2] or ""
+		info.message	= #infoarr >= 3 and infoarr[3] or ""
 
 		table.insert(comments, info)
 	end
@@ -76,7 +76,7 @@ function FetchComments(addon, func)
 	local url = "https://steamcommunity.com/comment/PublishedFile_Public/render/%s/%s/"
 	url = string.format(url, addon.owner, addon.id)
 
-	http.Fetch(url, 
+	http.Fetch(url,
 		function(body, len, headers, cod)
 			local ret = util.JSONToTable(body)
 			local comments = string.gsub(ret.comments_html, "\\%a", "")
@@ -84,8 +84,8 @@ function FetchComments(addon, func)
 			local comm = splitelements(comments)
 
 			func(comm)
-		end, 
-		function() 
+		end,
+		function()
 			print("Failed to get workshop comments")
 			func({})
 		end
@@ -95,22 +95,22 @@ end
 -- Async fetch the thumbnail for the provided workshop addon
 function FetchThumbnail(addon, func)
 	steamworks.Download(addon.previewid, true, function(name)
-        if name != nil then
+		if name != nil then
 			local mat = AddonMaterial(name)
 
 			-- Sometimes it likes to throw you a curveball and not work
 			local baseTex = mat and mat:GetTexture("$basetexture") or nil
-			if baseTex == nil then 
-			
+			if baseTex == nil then
+
 				-- But just trying it again fixes it....
 				print("preview image invalid, reloading...")
 				mat = AddonMaterial(name)
 			end
 
-		    func(mat)
-        else
-        	func(nil)
-    	end
+			func(mat)
+		else
+			func(nil)
+		end
 	end )
 end
 
@@ -121,10 +121,10 @@ function FindOwningAddon(mapname)
 	if not mapname then return 0 end
 
 	-- First, try to see if we've cached the mapname/workshop association
-    if progress then
-        local res = progress.GetMap(mapname)
-        if res and res.wsid != 0 then return res.wsid end
-    end
+	if progress then
+		local res = progress.GetMap(mapname)
+		if res and res.wsid != 0 then return res.wsid end
+	end
 
 	local addons = engine.GetAddons()
 
@@ -153,7 +153,7 @@ end
 -- Identical to steamworks.FileInfo, but works on servers too
 function FileInfo(itemid, func)
 	local body = { ["itemcount"] = "1", ["publishedfileids[0]"] = tostring(itemid)}
-	http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v0001/", body, 
+	http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v0001/", body,
 		function(resp, len, head, status)
 			print("Published file details received...")
 			local json = util.JSONToTable(resp)
@@ -180,7 +180,7 @@ function DownloadExtractGMA(wsid, path, func)
 		local fileList = ExtractGMA(path, data)
 
 		-- Just a useful object that shows info about what we just mounted
-		local res = { 
+		local res = {
 			files = fileList,
 			path = path,
 			wsid = wsid,
@@ -215,7 +215,7 @@ end
 -- Works on both server and client (steamworks.Download does not)
 function DownloadGMA(wsid, func)
 	-- Callback for when the actual GMA file is downloaded
-	local function FileDownloaded(body, size, headers, status)		
+	local function FileDownloaded(body, size, headers, status)
 		print("Downloaded " ..  size .. " bytes!")
 
 		func(body)
@@ -232,7 +232,7 @@ function DownloadGMA(wsid, func)
 			return
 		end
 		print("Beginning file download... " .. fileurl)
-		http.Fetch(fileurl, FileDownloaded, 
+		http.Fetch(fileurl, FileDownloaded,
 		function(errormsg)
 			func(nil, "Download file failed: " ..  errormsg)
 		end)
@@ -250,7 +250,7 @@ function DownloadGMA(wsid, func)
 		end
 
 		local body = { ["itemcount"] = "1", ["publishedfileids[0]"] = fileid}
-		http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v0001/", body, 
+		http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v0001/", body,
 			OnGetPublishedFileDetails,
 			function(errmsg)
 				func(nil, "GetPublishedFileDetails request failed: " .. errmsg)
@@ -260,8 +260,8 @@ function DownloadGMA(wsid, func)
 
 	-- Start the call chain, getting information about the published files for the workshop addon
 	local body = { collectioncount = "1", ["publishedfileids[0]"] = tostring(wsid)}
-	http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v0001/", body, 
-		OnGetCollectionDetails,	
+	http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v0001/", body,
+		OnGetCollectionDetails,
 		function(errmsg)
 			func(nil, "GetCollectionDetails(" .. wsid .. ") request failed: " .. errmsg)
 		end

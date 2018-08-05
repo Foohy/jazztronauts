@@ -41,9 +41,9 @@ local Launch = Sound( "weapons/physcannon/superphys_launch1.wav" )
 
 function calcSplineFromTable(values, dt, v)
 	return spline.CatmullRomSpline(
-		values[1], 
-		values[2], 
-		values[3], 
+		values[1],
+		values[2],
+		values[3],
 		values[4], dt, v)
 end
 
@@ -76,7 +76,7 @@ function updateAnimSpline(anim)
 		end
 
 		anim.timer = 0
-		table.remove(anim.points, 1) 
+		table.remove(anim.points, 1)
 		if not anim.oneoff then
 			table.insert(anim.points, VectorRand())
 		end
@@ -219,7 +219,7 @@ function SWEP:Pickup()
 
 	local trace = util.GetPlayerTrace( self:GetOwner() )
 	trace.mask = bit.bor( CONTENTS_SOLID, CONTENTS_MOVEABLE, CONTENTS_MONSTER, CONTENTS_WINDOW, CONTENTS_DEBRIS, CONTENTS_GRATE, CONTENTS_AUX )
-	
+
 	local tr = util.TraceLine( trace )
 	local ent = tr.Entity
 
@@ -281,7 +281,7 @@ function SWEP:Pickup()
 	self:SetNWVector("HoldingPivot", self.entPivot)
 	GAMEMODE:GravGunOnPickedUp(self:GetOwner(), self.holding)
 
-	sound.Play( PickupSound, self:GetPos(), 100, 100, 1.0 )	
+	sound.Play( PickupSound, self:GetPos(), 100, 100, 1.0 )
 	sound.Play( ClawsOpen, self:GetPos(), 100, 100, 1.0 )
 
 	self.holdPatch = CreateSound( self:GetOwner(), HoldSound )
@@ -309,17 +309,17 @@ function SWEP:Drop()
 	self:SetNWBool("bHoldingProp", false)
 	self:SetNWEntity("HoldingProp", nil)
 
-	if self.holdPatch then 
+	if self.holdPatch then
 		--self.holdPatch:ChangePitch(10, 1)
-		self.holdPatch:Stop() 
+		self.holdPatch:Stop()
 	end
 
 	if not IsValid(washolding) then return end
 
 	washolding:SetCollisionGroup( self.prevcollisiongroup )
 
-	if washolding and IsValid(washolding) and IsValid(self.holdingPhys) then 
-		self.holdingPhys:SetDamping( self.initPropState.dLinear, self.initPropState.dAngular ) 
+	if washolding and IsValid(washolding) and IsValid(self.holdingPhys) then
+		self.holdingPhys:SetDamping( self.initPropState.dLinear, self.initPropState.dAngular )
 		self.holdingPhys:EnableGravity( self.initPropState.dGravity )
 		washolding:SetCollisionGroup(self.entCollisionGroup)
 		GAMEMODE:GravGunOnDropped(self:GetOwner(), washolding)
@@ -493,8 +493,8 @@ function SWEP:CalcViewModelView( wep, vm, ang, pos )
 	local loffset = self.animPos.pos
 
 	if self.animPuntPos then
-		if self.animPuntPos.done then 
-			self.animPuntPos = nil 
+		if self.animPuntPos.done then
+			self.animPuntPos = nil
 		else
 			updateAnimSpline(self.animPuntPos)
 			loffset = loffset + self.animPuntPos.pos
@@ -511,8 +511,8 @@ function SWEP:CalcViewModelView( wep, vm, ang, pos )
 	ang.r = ang.r + self.animAng.pos.z
 
 	if self.animPuntAng then
-		if self.animPuntAng.done then 
-			self.animPuntAng = nil 
+		if self.animPuntAng.done then
+			self.animPuntAng = nil
 		else
 			updateAnimSpline(self.animPuntAng)
 			ang.p = ang.p + self.animPuntAng.pos.x
@@ -565,7 +565,7 @@ function SWEP:MovePlayers()
 			v.lastpos = newpos
 			v.lastpostime = CurTime()
 			v:SetGroundEntity( self.holding )
-			--print(newpos)	
+			--print(newpos)
 			--v:SetParent( self.holding )
 		else
 			--print("NOT GROUND")
@@ -646,7 +646,7 @@ function SWEP:Think()
 
 	local physQuat = Quaternion():FromAngles(self.holdingPhys:GetAngles())
 	local propIntrusionDifference = self.propRotate:AngleDiff( physQuat )
-	
+
 	self.propState.ang = self.propRotate:ToAngles()
 	self.playerState = newPlayerState
 
@@ -782,7 +782,7 @@ if CLIENT then
 		local brt = weapon.prongs
 
 		if weapon.animPuntPos then
-			if not weapon.animPuntPos.done then 
+			if not weapon.animPuntPos.done then
 				local dt = 1 - math.min( (CurTime() - weapon.animPuntPos.start) * 4, 1.0 )
 				brt = brt + dt * 3
 			end
@@ -825,14 +825,14 @@ if CLIENT then
 			local weapon = ply:GetActiveWeapon()
 			if ply == LocalPlayer() then
 				local vm = LocalPlayer():GetViewModel()
-				
+
 				if IsValid(weapon) and IsValid(vm) and weapon:GetClass() == "weapon_luaphysgun" then
 					local attach = vm:GetAttachment(1)
 
 					local pos, ang = attach.Pos, attach.Ang
 
 					weapon.prongs = weapon.prongs or 0
-					
+
 
 					if weapon:GetNWBool("bHoldingProp") then
 						local propEnt = weapon:GetNWEntity("HoldingProp")
@@ -875,7 +875,7 @@ if CLIENT then
 
 end
 
-hook.Add("PlayerBindPress", "fphysgun_blockbinds", function(ply, bind, pressed) 
+hook.Add("PlayerBindPress", "fphysgun_blockbinds", function(ply, bind, pressed)
 
 	if IsValid(ply:GetActiveWeapon()) and ply:GetActiveWeapon():GetNWBool("bHoldingProp") then
 		if bind == "invprev" or bind == "invnext" then return true end

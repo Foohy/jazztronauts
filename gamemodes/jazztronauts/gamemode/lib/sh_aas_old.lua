@@ -63,7 +63,7 @@ local function BuildTree2( node, inbrush, planes, lvl )
 		node.brush = inbrush
 		node.color = Color(255,0,0)
 
-		return 
+		return
 	end
 
 	local side = inbrush:PlaneSide( node.plane )

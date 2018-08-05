@@ -23,11 +23,11 @@ local TEXTUREFLAGS_PROCEDURAL			= 0x800
 local TEXTUREFLAGS_ONEBITALPHA			= 0x1000
 local TEXTUREFLAGS_EIGHTBITALPHA		= 0x2000
 local TEXTUREFLAGS_ENVMAP				= 0x4000
-local TEXTUREFLAGS_RENDERTARGET 		= 0x8000
+local TEXTUREFLAGS_RENDERTARGET		= 0x8000
 local TEXTUREFLAGS_DEPTHRENDERTARGET	= 0x10000
-local TEXTUREFLAGS_NODEBUGOVERRIDE 		= 0x20000
-local TEXTUREFLAGS_SINGLECOPY 			= 0x40000
-local TEXTUREFLAGS_IMMEDIATE_CLEANUP 	= 0x100000
+local TEXTUREFLAGS_NODEBUGOVERRIDE		= 0x20000
+local TEXTUREFLAGS_SINGLECOPY			= 0x40000
+local TEXTUREFLAGS_IMMEDIATE_CLEANUP	= 0x100000
 local TEXTUREFLAGS_NODEPTHBUFFER		= 0x800000
 local TEXTUREFLAGS_CLAMPU				= 0x2000000
 local TEXTUREFLAGS_VERTEXTEXTURE		= 0x4000000
@@ -319,32 +319,32 @@ end
 function meta:RenderViewOrtho( origin, angles, scale, bViewModel )
 
 	scale = scale or 1
-    render.PushRenderTarget(self:GetTarget())
+	render.PushRenderTarget(self:GetTarget())
 
-    	local b, e = pcall( function()
+		local b, e = pcall( function()
 
-        render.RenderView( {
-            origin = origin,
-            angles = angles,
-            drawviewmodel = bViewModel or false,
-            x = 0,
-            y = 0,
-            w = self.width,
-            h = self.height,
-            ortholeft = -self.width * scale,
-            orthoright = self.width * scale,
-            orthotop = -self.height * scale,
-            orthobottom = self.height * scale,
-            ortho = true,
-        } )
+		render.RenderView( {
+			origin = origin,
+			angles = angles,
+			drawviewmodel = bViewModel or false,
+			x = 0,
+			y = 0,
+			w = self.width,
+			h = self.height,
+			ortholeft = -self.width * scale,
+			orthoright = self.width * scale,
+			orthotop = -self.height * scale,
+			orthobottom = self.height * scale,
+			ortho = true,
+		} )
 
-        LocalPlayer():DrawModel()
+		LocalPlayer():DrawModel()
 
-        end)
+		end)
 
-    render.PopRenderTarget()
+	render.PopRenderTarget()
 
-    if not b then error( tostring( e ) ) end
+	if not b then error( tostring( e ) ) end
 
 end
 

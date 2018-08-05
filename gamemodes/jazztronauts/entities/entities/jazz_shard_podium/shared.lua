@@ -11,7 +11,7 @@ function ENT:SetupDataTables()
 	self:NetworkVar( "Entity", 1, "FakeOwner" )
 	self:NetworkVar( "Bool", 0, "Pressed" )
 	self:NetworkVar( "Bool", 1, "Open" )
-    self:NetworkVar( "Bool", 2, "Friendly")
+	self:NetworkVar( "Bool", 2, "Friendly")
 
 end
 
@@ -67,7 +67,7 @@ function ENT:Initialize()
 
 	if SERVER then
 
-		timer.Simple(1, function() 
+		timer.Simple(1, function()
 			self:Raise()
 		end )
 
@@ -90,7 +90,7 @@ function ENT:Raise()
 		self:SetNextAnimation("raise")
 		self:EmitSound(Sound("doors/doormove3.wav"))
 
-		timer.Simple(2, function() 
+		timer.Simple(2, function()
 			self:SetSolid( SOLID_BBOX )
 			self:SetNextAnimation("open")
 			self:EmitSound(Sound("doors/door_metal_thin_move1.wav"), 80, 125, 1)
@@ -144,7 +144,7 @@ function ENT:SetNextAnimation( anim, rate )
 		self:ResetSequence( anim )
 		self.playing = anim
 	else
-		
+
 	end
 
 end
@@ -219,8 +219,8 @@ function ENT:DrawShard()
 	local t = RealTime()
 	local pos = self:GetPos() + Vector(0,0,34)
 	local ang = Angle(t, math.sin(t/2) * 360, math.cos(t/3) * 360)
-    local scale = Vector(1, 1, 1) + 
-    Vector(math.sin(t*2.5) * 0.1, math.cos(t*3) * 0.1, math.cos(t*4 + math.pi/2) * 0.1)
+	local scale = Vector(1, 1, 1) +
+	Vector(math.sin(t*2.5) * 0.1, math.cos(t*3) * 0.1, math.cos(t*4 + math.pi/2) * 0.1)
 
 	local minishard = ManagedCSEnt("podiumshard" .. tostring(self), "models/sunabouzu/jazzshard.mdl")
 	minishard:SetPos(pos)
@@ -235,7 +235,7 @@ function ENT:DrawTranslucent()
 	local prop = self:GetProp()
 	if not IsValid(prop) then return end
 	--self:DrawModel()
-	local drawfriendly = self.GetFriendly and self:GetFriendly() 
+	local drawfriendly = self.GetFriendly and self:GetFriendly()
 
 	if self:GetOpen() then
 

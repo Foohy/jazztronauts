@@ -50,16 +50,16 @@ LUMP_LEAFMINDISTTOWATER			= 46
 LUMP_FACE_MACRO_TEXTURE_INFO	= 47
 LUMP_DISP_TRIS					= 48
 LUMP_PHYSCOLLIDESURFACE			= 49
-LUMP_WATEROVERLAYS              = 50
+LUMP_WATEROVERLAYS			  = 50
 LUMP_LEAF_AMBIENT_INDEX_HDR		= 51
-LUMP_LEAF_AMBIENT_INDEX         = 52
+LUMP_LEAF_AMBIENT_INDEX		 = 52
 LUMP_LIGHTING_HDR				= 53
 LUMP_WORLDLIGHTS_HDR			= 54
 LUMP_LEAF_AMBIENT_LIGHTING_HDR	= 55
 LUMP_LEAF_AMBIENT_LIGHTING		= 56
 LUMP_XZIPPAKFILE				= 57
 LUMP_FACES_HDR					= 58
-LUMP_MAP_FLAGS                  = 59
+LUMP_MAP_FLAGS				  = 59
 LUMP_OVERLAY_FADES				= 60
 
 BSP = {}
@@ -446,7 +446,7 @@ BSP.StaticPropLump_t = {}
 BSP.StaticPropLump_t[4] = Struct({
 	VECTOR.origin,
 	QANGLE.angles,
-	
+
 	UINT16.proptype,
 	UINT16.firstleaf,
 	UINT16.leafcount,
@@ -464,7 +464,7 @@ BSP.StaticPropLump_t[4] = Struct({
 BSP.StaticPropLump_t[5] = Struct({
 	VECTOR.origin,
 	QANGLE.angles,
-	
+
 	UINT16.proptype,
 	UINT16.firstleaf,
 	UINT16.leafcount,
@@ -483,7 +483,7 @@ BSP.StaticPropLump_t[5] = Struct({
 BSP.StaticPropLump_t[6] = Struct({
 	VECTOR.origin,
 	QANGLE.angles,
-	
+
 	UINT16.proptype,
 	UINT16.firstleaf,
 	UINT16.leafcount,
@@ -505,7 +505,7 @@ BSP.StaticPropLump_t[6] = Struct({
 BSP.StaticPropLump_t[7] = Struct({
 	VECTOR.origin,
 	QANGLE.angles,
-	
+
 	UINT16.proptype,
 	UINT16.firstleaf,
 	UINT16.leafcount,
@@ -529,7 +529,7 @@ BSP.StaticPropLump_t[7] = Struct({
 BSP.StaticPropLump_t[8] = Struct({
 	VECTOR.origin,
 	QANGLE.angles,
-	
+
 	UINT16.proptype,
 	UINT16.firstleaf,
 	UINT16.leafcount,
@@ -555,7 +555,7 @@ BSP.StaticPropLump_t[8] = Struct({
 BSP.StaticPropLump_t[9] = Struct({
 	VECTOR.origin,
 	QANGLE.angles,
-	
+
 	UINT16.proptype,
 	UINT16.firstleaf,
 	UINT16.leafcount,
@@ -581,7 +581,7 @@ BSP.StaticPropLump_t[9] = Struct({
 BSP.StaticPropLump_t[10] = Struct({
 	VECTOR.origin,
 	QANGLE.angles,
-	
+
 	UINT16.proptype,
 	UINT16.firstleaf,
 	UINT16.leafcount,
@@ -785,7 +785,7 @@ BSP.Readers[LUMP_PHYSCOLLIDE] = function( f, header )
 				--print("LEDGE")
 				local ledge_start = f:Tell()
 				local ledge = PHY.IVPCompactLedge_t.read( f )
-				
+
 				ledge.has_children_flag = bit.band( ledge.data, 0x00000003 ) ~= 0
 				ledge.is_compact_flag = bit.rshift( bit.band( ledge.data, 0x0000000C ), 2 ) ~= 0
 				ledge.size = bit.rshift( bit.band( ledge.data, 0xFFFFFF00 ), 8 ) * 16

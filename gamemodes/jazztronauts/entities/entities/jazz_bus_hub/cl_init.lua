@@ -10,23 +10,23 @@ ENT.BusWidth = 71
 ENT.BusLength = 280
 
 surface.CreateFont( "SteamCommentFont", {
-	font      = "KG Shake it Off Chunky",
-	size      = 70,
-	weight    = 700,
+	font	  = "KG Shake it Off Chunky",
+	size	  = 70,
+	weight	= 700,
 	antialias = true
 })
 
 surface.CreateFont( "SteamAuthorFont", {
-	font      = "Dancing Script",
-	size      = 65,
-	weight    = 700,
+	font	  = "Dancing Script",
+	size	  = 65,
+	weight	= 700,
 	antialias = true
 })
 
 surface.CreateFont( "JazzDestinationFont", {
-	font      = "Dancing Script",
-	size      = 53,
-	weight    = 700,
+	font	  = "Dancing Script",
+	size	  = 53,
+	weight	= 700,
 	antialias = true
 })
 
@@ -63,22 +63,22 @@ function ENT:RefreshWorkshopInfo()
 	if self:GetWorkshopID() == 0 then return end
 
 	-- First download information about the given workshopid
-	steamworks.FileInfo( self:GetWorkshopID(), function( result ) 
+	steamworks.FileInfo( self:GetWorkshopID(), function( result )
 		if !IsValid(self) or !result then return end
 
 		self.Title = result.title
 
 		-- Try to get the comments for this workshop
-		workshop.FetchComments(result, function(comments) 
+		workshop.FetchComments(result, function(comments)
 			if !self then return end
 
-			local function parseComment(cmt, width) 
+			local function parseComment(cmt, width)
 				if not cmt then return end
 
 				return markup.Parse(
-					"<font=SteamCommentFont>" .. cmt.message .. "</font>\n " 
+					"<font=SteamCommentFont>" .. cmt.message .. "</font>\n "
 					.."<font=SteamAuthorFont> -" .. cmt.author .. "</font>",
-				width) 
+				width)
 			end
 
 			-- Select 2 random comments for the side and back of the bus
@@ -95,8 +95,8 @@ function ENT:RefreshWorkshopInfo()
 end
 
 local function ProgressString(col, total)
-	if col == total then 
-		return "Collected all " .. total .. " shards!" 
+	if col == total then
+		return "Collected all " .. total .. " shards!"
 	end
 
 	return col .. "/" .. total .. " shards"
@@ -134,7 +134,7 @@ function ENT:DrawSideInfo()
 	local ang = self.Entity:GetAngles()
 	local pos = self.Entity:GetPos() - ang:Forward() * self.BusWidth
 	pos = pos + ang:Up() * 76
-	
+
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 90 )
 
@@ -178,7 +178,7 @@ function ENT:DrawRearInfo()
 	local ang = self.Entity:GetAngles()
 	local pos = self.Entity:GetPos() - ang:Right() * self.BusLength
 	pos = pos + ang:Up() * 80
-	
+
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 180 )
 
@@ -188,7 +188,7 @@ function ENT:DrawRearInfo()
 	//render.DrawLine( pos, pos + 8 * ang:Up(), Color( 0, 0, 255 ), true )
 
 	cam.Start3D2D(pos, ang, self.ScreenScale)
-		if self.BackBusComment then 
+		if self.BackBusComment then
 			local w = self.BackBusComment:GetWidth()
 			local h = self.BackBusComment:GetHeight()
 			local scaleOff = self.CommentOffset / self.ScreenScale
@@ -209,15 +209,15 @@ function ENT:Draw()
 end
 
 function ENT:Think()
-	if self.IsLaunching then 
+	if self.IsLaunching then
 		local factor = (CurTime() -  self.StartLaunchTime) * 15
-		util.ScreenShake(LocalPlayer():GetPos(), factor, 5, 0.01, 100) 
+		util.ScreenShake(LocalPlayer():GetPos(), factor, 5, 0.01, 100)
 	end
 end
 
 function ENT:OnRemove()
 	if self.IsLaunching then
-		
+
 		LocalPlayer():SetDSP(25)
 		LocalPlayer():ScreenFade(SCREENFADE.STAYOUT, Color(0, 0, 0, 255), 0, 5)
 		LocalPlayer():EmitSound("ambient/explosions/exp4.wav", 100, 100)
@@ -263,7 +263,7 @@ hook.Add( "RenderScreenspaceEffects", "BusLaunchScreenspaceEffects", function()
 
 	local factor = math.max((CurTime() - bus.StartLaunchTime) * 0.2 - 0.2, 0)
 	fadewhite["$pp_colour_brightness"] = factor
-	fadewhite["$pp_colour_colour"] = 1 + factor 
+	fadewhite["$pp_colour_colour"] = 1 + factor
 	DrawColorModify(fadewhite)
 end )
 

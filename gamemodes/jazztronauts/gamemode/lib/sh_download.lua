@@ -1,6 +1,6 @@
-if SERVER then 
+if SERVER then
 	util.AddNetworkString( "download_msg" )
-	AddCSLuaFile("sh_download.lua") 
+	AddCSLuaFile("sh_download.lua")
 end
 
 DL_STARTED = 1
@@ -46,23 +46,23 @@ function dlmeta:GetError() return self.error end
 -- Zak's sorry
 local function CompressChunks( blob, chunk_size )
 
-    local chunks = {}
-    local compressed = util.Compress( blob )
-    local crc = util.CRC( compressed )
+	local chunks = {}
+	local compressed = util.Compress( blob )
+	local crc = util.CRC( compressed )
 
-    chunks = { compressed }
-    return chunks, #compressed, tonumber( crc )
+	chunks = { compressed }
+	return chunks, #compressed, tonumber( crc )
 
 end
 
 -- Zak's sorry 2 - Electric Boogaloo
 local function ExpandChunks( chunks )
 
-    blob = chunks[1]
-    local crc = util.CRC( blob )
-    blob = util.Decompress( blob )
+	blob = chunks[1]
+	local crc = util.CRC( blob )
+	blob = util.Decompress( blob )
 
-    return blob, tonumber( crc )
+	return blob, tonumber( crc )
 
 end
 
@@ -84,7 +84,7 @@ function Start( name, data, ply, chunk_size )
 	local reg = registry[ code ]
 	if reg == nil then return false end
 	if not IsValid( ply ) or not ply:IsPlayer() then return false end
-	if not threads[ply] then 
+	if not threads[ply] then
 		Msg("No thread for player: " .. tostring(ply) .. " creating new thread")
 		if not InitThread( ply ) then error("Unable to create thread") end
 	end
@@ -153,9 +153,9 @@ local function PlayerThread( ply, thread )
 
 	while true do
 
-		if not IsValid(ply) or not ply:IsPlayer() then 
+		if not IsValid(ply) or not ply:IsPlayer() then
 			print("Player not valid, probably disconnected")
-			break 
+			break
 		end
 
 		if download_queue[ply] == nil then
@@ -185,8 +185,8 @@ local function PlayerThread( ply, thread )
 
 		while download.current ~= download.num_chunks do
 
-			if download.current ~= 0 then 
-				net.Start( "download_msg" ) 
+			if download.current ~= 0 then
+				net.Start( "download_msg" )
 				net.WriteBit( 0 )
 			end
 
@@ -255,7 +255,7 @@ if SERVER then
 
 	end
 
-	hook.Add( "Think", "download_thread_ttl", function() 
+	hook.Add( "Think", "download_thread_ttl", function()
 
 		for _, thread in pairs( threads ) do
 			if thread.ttl ~= -1 and thread.ttl - CurTime() <= 0 then
@@ -274,8 +274,8 @@ if SERVER then
 	net.Receive( "download_msg", function( len, ply )
 
 		local thread = threads[ply]
-		if thread == nil then 
-			return 
+		if thread == nil then
+			return
 		end
 
 		local chunkid = net.ReadUInt( 32 )

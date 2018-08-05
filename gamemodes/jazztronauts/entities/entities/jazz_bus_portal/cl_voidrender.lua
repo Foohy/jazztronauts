@@ -11,7 +11,7 @@ convar_drawprops = CreateClientConVar("jazz_void_drawprops", "1", true, false, "
 convar_drawonce = CreateClientConVar("jazz_void_drawonce", "0", true, false, "Don't render the void for water reflections, mirrors, or additional scenes. Will introduce rendering artifacts in water/mirrors, but is much faster.")
 convar_resscale = CreateClientConVar("jazz_void_resolution_scale", "1.0", true, false, "Resolution scale to render the void at. 1.0 is full screen resolution, 0.5 is half resolution.")
 
--- Void rendering parameters 
+-- Void rendering parameters
 local surfaceMaterial = Material("sunabouzu/JazzShell") //glass/reflectiveglass002 brick/brick_model
 overlayColor = Color(255, 255, 255, 255)
 
@@ -99,9 +99,9 @@ local function renderFollowCats(plyPos)
 
 		-- Create a "treadmill" so they don't move until they get far away, then wrap around
 
-		local basex = (i - 1) % void_prop_side 
-		local basey = math.floor((i - 1) / void_prop_side) % void_prop_side 
-		local basez = math.floor((i - 1) / math.pow(void_prop_side, 2)) 
+		local basex = (i - 1) % void_prop_side
+		local basey = math.floor((i - 1) / void_prop_side) % void_prop_side
+		local basez = math.floor((i - 1) / math.pow(void_prop_side, 2))
 		local basevec = Vector(basex, basey, basez)
 
 		local modvec = ModVec(plyPos + (basevec / void_prop_side + SharedRandomVec(i) * 0.3) * range, range)
@@ -172,7 +172,7 @@ local function renderVoid(eyePos, eyeAng, fov)
 
 			tunnel:SetMaterial("sunabouzu/JazzSwirl03")
 			tunnel:DrawModel()
-		
+
 		hook.Call("JazzPostDrawVoidSky", GAMEMODE)
 		render.OverrideDepthEnable(true, true)
 	cam.End3D()
@@ -180,11 +180,11 @@ local function renderVoid(eyePos, eyeAng, fov)
 
 	-- Random props pass
 	if convar_drawprops:GetBool() then
-	
+
 	-- Pre draw void with movement offset
 	cam.Start3D(eyeOffset, eyeAng, fov, 0, 0, sizeX, sizeY)
 		hook.Call("JazzPreDrawVoidOffset", GAMEMODE)
-		
+
 		renderFollowCats(eyeOffset)
 	cam.End3D()
 
@@ -198,7 +198,7 @@ local function renderVoid(eyePos, eyeAng, fov)
 		render.OverrideDepthEnable(false)
 		hook.Call("JazzDrawVoid", GAMEMODE)
 
-	cam.End3D()	
+	cam.End3D()
 
 	-- Draw void WITH movement offset
 	cam.Start3D(eyeOffset, eyeAng, fov, 0, 0, sizeX, sizeY)
@@ -221,7 +221,7 @@ local groupFadeTime = 0.25
 local function renderBrushLines()
 	if #snatch.removed_brushes == 0 then return end
 
-	if RealTime() > nextgrouptime then 
+	if RealTime() > nextgrouptime then
 		nextgrouptime = RealTime() + groupFadeTime
 
 		offset = (offset + maxlinecount) % #snatch.removed_brushes
@@ -286,10 +286,10 @@ local monitor_plz = {
 	["$model"] = 0,
 	["$additive"] = 0,
 	["$basetexturetransform"] = "center .5 .5 scale -5 5 rotate 0 translate 0 0",
-	["Proxies"] = 
-	{ 
-		["AnimatedTexture"] = 
-		{ 
+	["Proxies"] =
+	{
+		["AnimatedTexture"] =
+		{
 			["animatedTextureVar"] = "$basetexture",
 			["animatedTextureFrameNumVar"] = "$frame",
 			["animatedTextureFrameRate"] = "40",
@@ -321,7 +321,7 @@ local monitor_mat = CreateMaterial("VoidStatic" .. FrameNumber(), "UnLitGeneric"
 
 
 -- Keep track of if we're currently rendering 3D sky so we don't draw extra
--- The 'sky' arg in PostDrawOpaqueRenderables returns true on maps without a skybox, 
+-- The 'sky' arg in PostDrawOpaqueRenderables returns true on maps without a skybox,
 -- so we keep track of it ourselves
 local isInSky = false
 hook.Add("PreDrawSkyBox", "JazzDisableSkyDraw", function()
@@ -335,7 +335,7 @@ local color_mat = Material("model_color")
 
 local function DrawProps()
 	render.SetColorModulation(1,1,1)
-	render.SuppressEngineLighting(true)	
+	render.SuppressEngineLighting(true)
 	render.MaterialOverride(monitor_mat)
 	for k,v in pairs(ents.FindByClass("jazz_static_proxy")) do
 		v:DrawModel()
@@ -345,7 +345,7 @@ local function DrawProps()
 end
 
 local function PurgeRender()
-	local renderPurge = ManagedCSEnt("renderPurgeFix1", "models/hunter/blocks/cube025x025x025.mdl" ) //models/props_junk/PopCan01a.mdl, "models/hunter/blocks/cube025x025x025.mdl" 
+	local renderPurge = ManagedCSEnt("renderPurgeFix1", "models/hunter/blocks/cube025x025x025.mdl" ) //models/props_junk/PopCan01a.mdl, "models/hunter/blocks/cube025x025x025.mdl"
 	renderPurge:SetNoDraw(true)
 	renderPurge:SetModelScale(0)
 	renderPurge:DrawModel()
@@ -353,10 +353,10 @@ end
 
 -- Render the inside of the jazz void with the default void material
 -- This void material has a rendertarget basetexture we update each frame
-hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky) 
+hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 	if isInSky then return end
 	if not should_render then return end
-	
+
 	-- Re-render this for every new scene if not drawing once
 	if not convar_drawonce:GetBool() then
 		UpdateVoidTexture(EyePos(), EyeAngles(), nil)
@@ -477,7 +477,7 @@ hook.Add( "PostRender", "snatch_props", function()
 	render.PopRenderTarget()
 
 	cam.Start2D()
-	
+
 	surface.SetDrawColor(255,255,255,255)
 	render.SetMaterial(post_filter_mat)
 	render.DrawScreenQuad()

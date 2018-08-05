@@ -225,7 +225,7 @@ hook.Add("OnEntityCreated", "view_control_proxy", function( ent )
 	-- Do not convert if this point_viewcontrol is being created by a jazz_view_control
 	if LOCK_CREATE_VIEWCONTROL then return end
 
-	if INITED_POST_ENTITY then 
+	if INITED_POST_ENTITY then
 
 		-- Remove old point_viercontrol after it has been converted to jazz_view_control
 		timer.Simple(1, function() print("REMOVE POINT_VIEWCONTROL") ent:Remove() end)
@@ -261,4 +261,4 @@ hook.Add("InitPostEntity", "view_control_proxy", function()
 	-- Map has spawned, do in-line creation for any new point_viewcontrols
 	INITED_POST_ENTITY = true
 
-end) 
+end)

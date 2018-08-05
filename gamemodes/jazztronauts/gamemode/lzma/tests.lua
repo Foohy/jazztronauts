@@ -34,18 +34,18 @@ function LZMA_RUN_TESTS()
 	for _, test in pairs( tests ) do RUN_TEST( test ) end
 end
 
-TEST("byte-buffer-init", true, function() 
-	local x = ByteBuffer(4, { 0xCC, 0x00, 0xDD, 0x00 }) 
+TEST("byte-buffer-init", true, function()
+	local x = ByteBuffer(4, { 0xCC, 0x00, 0xDD, 0x00 })
 	return x[0] == 0xCC and x[1] == 0x00 and x[2] == 0xDD and x[3] == 0x00
 end)
 
-TEST("byte-buffer-length", true, function() 
-	local x = ByteBuffer(16) 
-	return x.Length == 16 
+TEST("byte-buffer-length", true, function()
+	local x = ByteBuffer(16)
+	return x.Length == 16
 end)
 
-TEST("byte-buffer-rw", true, function() 
-	local x = ByteBuffer(16) 
+TEST("byte-buffer-rw", true, function()
+	local x = ByteBuffer(16)
 	for i=0, 15 do x[i] = i end
 	for i=0, 15 do if x[i] ~= i then return false end end
 	return true

@@ -6,10 +6,10 @@ module("whiteboard", package.seeall)
 
 NET_WHITEBOARD_CMD = "whiteboard_cmd"
 
-MSG_MOVE_TO = 0       --CL: ask server to move cursor to location, SV: send to all clients
-MSG_LINE_TO = 1       --CL: ask server to draw a line, SV: send a line to all clients
+MSG_MOVE_TO = 0	   --CL: ask server to move cursor to location, SV: send to all clients
+MSG_LINE_TO = 1	   --CL: ask server to draw a line, SV: send a line to all clients
 MSG_FLUSH_STATE = 2   --CL: ask server to dump everything that's been drawn so far, SV: packet of stuff
-MSG_CLEAR = 3         --CL: ask server to clear whiteboard, SV: clear whiteboard on all clients
+MSG_CLEAR = 3		 --CL: ask server to clear whiteboard, SV: clear whiteboard on all clients
 
 --MoveTo: [X. Y. userid]
 --LineTo: [X, Y, userid]
@@ -122,7 +122,7 @@ if CLIENT then
 		["$vertexcolor"] = 1,
 		["$vertexalpha"] = 1,
 		["$model"] = 0,
-		["$additive"] = 0,		
+		["$additive"] = 0,
 	})]]
 
 	local marker_mat = Material( "materials/ui/marker.png", "mips smooth")
@@ -135,9 +135,9 @@ if CLIENT then
 		local ox = 122 * size
 		local oy = 0
 		surface.SetMaterial( marker_mat )
-		surface.DrawTexturedRectRotated( 
-			x + ox * c + oy * -s, 
-			y + ox * s + oy * c, 
+		surface.DrawTexturedRectRotated(
+			x + ox * c + oy * -s,
+			y + ox * s + oy * c,
 			256*size, 64*size, r )
 
 	end
@@ -162,7 +162,7 @@ if CLIENT then
 
 		surface.SetDrawColor(100,150,200,50)
 		surface.DrawRect( rect:Unpack() )
-		
+
 		render.PushRenderTarget(rt:GetTarget())
 
 		surface.SetDrawColor(200,200,200,200)
@@ -227,7 +227,7 @@ if CLIENT then
 			end
 
 		end
-		
+
 
 	end
 
@@ -339,7 +339,7 @@ function meta:SV_SendBurst( uid )
 
 	if self:GetCursor( uid ).flushing then return end
 
-	local t = task.New( function() 
+	local t = task.New( function()
 
 		if #self.commands == 0 then return end
 
@@ -418,7 +418,7 @@ end
 
 function meta:NetUpdate( ply )
 
-	if SERVER then 
+	if SERVER then
 		self:NetPlayerInput( ply )
 	else
 		self:NetPacket()
@@ -522,7 +522,7 @@ if CLIENT then
 				surface.DrawRect( Rect(x,y,5,5):Move(-2,-2):Unpack() )
 			--end
 		end
-		
+
 		if input.IsMouseDown( MOUSE_LEFT ) then
 			if wb_rect:ContainsPoint( x, y ) or drawing then
 

@@ -6,9 +6,9 @@ local start = CurTime()
 local draw_charts = false
 
 surface.CreateFont( "JazzRespawnHint", {
-	font      = "KG Shake it Off Chunky",
-	size      = 30,
-	weight    = 700,
+	font	  = "KG Shake it Off Chunky",
+	size	  = 30,
+	weight	= 700,
 	antialias = true
 })
 
@@ -20,7 +20,7 @@ local nameLookups = {}
 local function getPlayerName(id64)
 	local entry = nameLookups[id64]
 	if entry and entry.name then return entry.name end
-	
+
 	if not entry then
 		nameLookups[id64] = { name = "Loading..." }
 		steamworks.RequestPlayerInfo(id64, function(plyName)
@@ -75,7 +75,7 @@ local function getGlobalValues(src, ...)
 end
 
 function getValues(global, src, ...)
-	if global then 
+	if global then
 		return getGlobalValues(src, ...)
 	else
 		return getLocalValues(src, ...)
@@ -137,7 +137,7 @@ end )
 local function isHoldingCombo()
 	return LocalPlayer():KeyDown(IN_SCORE) and
 		input.IsMouseDown(MOUSE_LEFT) and
-		input.IsMouseDown(MOUSE_RIGHT)		
+		input.IsMouseDown(MOUSE_RIGHT)
 end
 
 local buildupTime = 3
@@ -146,10 +146,10 @@ local killsound = nil
 local killed = false
 hook.Add("Think", "RespawnKeyComboThink", function()
 	local comboHeld = isHoldingCombo()
-	if not comboHeld or killed then 
+	if not comboHeld or killed then
 		comboTime = 0
-		if killsound then 
-			killsound:Stop() 
+		if killsound then
+			killsound:Stop()
 			killsound = nil
 		end
 
@@ -168,7 +168,7 @@ hook.Add("Think", "RespawnKeyComboThink", function()
 	util.ScreenShake(LocalPlayer():GetPos(), p * 5, p * 5, 0.1, 256)
 
 	comboTime = comboTime + FrameTime()
-	if comboTime > buildupTime then 
+	if comboTime > buildupTime then
 		RunConsoleCommand("kill")
 		killed = true
 		return

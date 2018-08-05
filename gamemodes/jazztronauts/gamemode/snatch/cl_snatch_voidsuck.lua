@@ -50,7 +50,7 @@ local function Handle( scene )
 	scene.breaktime = bigTake and 1.8 or 0.8
 	scene.startpos = scene:GetRealEntity():GetPos()
 	scene.startvel = (LocalPlayer():EyePos() - scene.startpos):GetNormalized() * 100 + Vector(0, 0, 100)
-	scene.angvel = AngleRand() * 0.25	
+	scene.angvel = AngleRand() * 0.25
 	scene.duration = (bigTake and 3 or 2) + center:Distance(scene.startpos) * 0.0001
 
 	scene:GetEntity():SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
@@ -78,7 +78,7 @@ local function DoneScene( scene )
 end
 
 local function DrawScene( scene )
-	if (CurTime() - scene.time) < scene.breaktime then return end 
+	if (CurTime() - scene.time) < scene.breaktime then return end
 
 	-- Redraw the entity in the jazz void
 	scene:GetEntity():DrawModel()
@@ -100,7 +100,7 @@ local function TickScene( scene )
 			local bigTake = isBigTake(scale)
 
 			sound.Play( "garrysmod/balloon_pop_cute.wav", scene.startpos, 85 + scale * 35, 120 - scale * 90)
-			if bigTake then 
+			if bigTake then
 				sound.Play( table.Random(popbig), scene.startpos, 90 + scale * 35, 120 - scale * 90, 0.5)
 			end
 
@@ -117,7 +117,7 @@ local function TickScene( scene )
 			//local pos = scene.startpos + scene.startvel * t
 			//pos = pos + 0.5 * physenv.GetGravity() * (t ^ 2)
 			local pos = LerpVector(math.EaseInOut(bp, 1, 0), scene.startpos, center)
-			ent:SetPos( pos ) 
+			ent:SetPos( pos )
 			ent:SetAngles( scene.angvel * t)
 
 		end
@@ -128,7 +128,7 @@ local function TickScene( scene )
 
 end
 
-hook.Add( "Think", "TickVoidSuckRemoveScenes", function() 
+hook.Add( "Think", "TickVoidSuckRemoveScenes", function()
 	for i=#scenes, 1, -1 do
 
 		if CurTime() - scenes[i].time > scenes[i].duration then

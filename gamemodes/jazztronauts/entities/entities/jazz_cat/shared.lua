@@ -15,33 +15,33 @@ function ENT:SetupDataTables()
 end
 
 function ENT:SetupChatTables()
-    self.ChatChoices = {}
-    if self:GetNPCID() == missions.NPC_CAT_BAR then
-        self.ChatChoices.WelcomeText = "Welcome back. What can I get you?"
-        chatmenu.AddChoice(self.ChatChoices, "Upgrade tools!", function(self, ply) ClientRun(ply, "jstore.OpenUpgradeStore()") end)
-        chatmenu.AddChoice(self.ChatChoices, "Store, please!", function(self, ply) ClientRun(ply, "jstore.OpenStore()") end)
-        chatmenu.AddChoice(self.ChatChoices, "Just here to chat!", function(self, ply) self:StartChat(ply) end)
-    else
-        --self.ChatChoices.WelcomeText = ""
-        --chatmenu.AddChoice(self.ChatChoices, "Let's chat!", function(self, ply) self:StartChat(ply) end)
-    end
+	self.ChatChoices = {}
+	if self:GetNPCID() == missions.NPC_CAT_BAR then
+		self.ChatChoices.WelcomeText = "Welcome back. What can I get you?"
+		chatmenu.AddChoice(self.ChatChoices, "Upgrade tools!", function(self, ply) ClientRun(ply, "jstore.OpenUpgradeStore()") end)
+		chatmenu.AddChoice(self.ChatChoices, "Store, please!", function(self, ply) ClientRun(ply, "jstore.OpenStore()") end)
+		chatmenu.AddChoice(self.ChatChoices, "Just here to chat!", function(self, ply) self:StartChat(ply) end)
+	else
+		--self.ChatChoices.WelcomeText = ""
+		--chatmenu.AddChoice(self.ChatChoices, "Let's chat!", function(self, ply) self:StartChat(ply) end)
+	end
 end
 
 function ENT:GetIdleScript()
-    local npcidle = "idle.begin" .. self.NPCID
-    return dialog.IsScriptValid(npcidle) and npcidle or "idle.begin"
+	local npcidle = "idle.begin" .. self.NPCID
+	return dialog.IsScriptValid(npcidle) and npcidle or "idle.begin"
 end
 
 function ENT:StartChat(ply)
-    if SERVER then
-        local script = converse.GetNextScript(ply, self.NPCID)
-        script = dialog.IsScriptValid(script) and script or self:GetIdleScript()
-        //REMOVE:
-        //script = "dunked.begin"
-        dialog.Dispatch(script, ply, self)
-    else
-        net.Start("JazzRequestChatStart")
-            net.WriteEntity(self)
-        net.SendToServer()
-    end
+	if SERVER then
+		local script = converse.GetNextScript(ply, self.NPCID)
+		script = dialog.IsScriptValid(script) and script or self:GetIdleScript()
+		//REMOVE:
+		//script = "dunked.begin"
+		dialog.Dispatch(script, ply, self)
+	else
+		net.Start("JazzRequestChatStart")
+			net.WriteEntity(self)
+		net.SendToServer()
+	end
 end

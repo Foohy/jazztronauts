@@ -5,7 +5,7 @@ module("csg", package.seeall )
 
 local function CanBiteBrush(a, b)
 
-	if bit.band( a.contents, CONTENTS_WATER ) ~= 0 or 
+	if bit.band( a.contents, CONTENTS_WATER ) ~= 0 or
 		bit.band( b.contents, CONTENTS_WATER ) ~= 0 then
 		return false
 	end
@@ -151,7 +151,7 @@ function ChopBrushes(list)
 	a = list while a ~= nil do
 		anext = a.next
 		yieldCounter = yieldCounter + 1 if yieldCounter % 20 == 1 then task.Yield("progress") end
-		b = a.next while b ~= nil do 
+		b = a.next while b ~= nil do
 		repeat
 			if CheckDisjoint(a, b) then --[[print("DISJOINT")]] break end
 
@@ -239,7 +239,7 @@ function ChopBrushes_OLD(list)
 			b = list[j]
 			c1 = 999999
 			c2 = 999999
-		
+
 			yieldCounter = yieldCounter + 1
 			if yieldCounter % 20000 == 1 then task.Yield() end
 

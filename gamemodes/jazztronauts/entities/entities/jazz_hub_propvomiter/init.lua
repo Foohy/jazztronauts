@@ -22,7 +22,7 @@ ENT.FinishDelay = 2.0 -- How long to wait before closing the blinds
 local propr_unlock_list = "props"
 unlocks.Register(propr_unlock_list)
 
-local randomGibProps = 
+local randomGibProps =
 {
 	Model("models/props_interiors/Furniture_Vanity01a.mdl"),
 	Model("models/props_interiors/Furniture_Desk01a.mdl"),
@@ -31,7 +31,7 @@ local randomGibProps =
 	Model("models/props_c17/FurnitureTable001a.mdl")
 }
 
-local groanSounds = 
+local groanSounds =
 {
 	"ambient/materials/metal_stress1.wav",
 	"ambient/materials/metal_stress2.wav",
@@ -40,13 +40,13 @@ local groanSounds =
 	"ambient/materials/metal_stress5.wav"
 }
 
-local bowelMovementSounds = 
+local bowelMovementSounds =
 {
 	"ambient/machines/thumper_shutdown1.wav",
 	"ambient/machines/floodgate_move_short1.wav"
 }
 
-local outputs = 
+local outputs =
 {
 	"OnVomitEnd",
 	"OnVomitStart",
@@ -67,8 +67,8 @@ end
 
 local function CreatePrecacheTask(props, callback)
 	local precacheTask = task.New(PrecacheProps, 1, props)
-	function precacheTask:done() 
-		callback() 
+	function precacheTask:done()
+		callback()
 	end
 end
 
@@ -104,18 +104,18 @@ end
 function ENT:VomitMultiple(count)
 
 	for i=1, count do
-		if not self:VomitProp() then 
+		if not self:VomitProp() then
 			self:StopVomit()
-			break 
+			break
 		end
 	end
 end
 
 function ENT:Think()
-	if !self.StartAt or CurTime() < self.StartAt then return end 
+	if !self.StartAt or CurTime() < self.StartAt then return end
 	if not self.SpawnQueue then return end
 	if self.IsStopping then return end
-	
+
 	if not self.Constipated then
 		self:VomitMultiple(2)
 	end
@@ -124,10 +124,10 @@ function ENT:Think()
 end
 
 function ENT:StopMusic(fadeTime)
-	if self.VomitMusic then 
+	if self.VomitMusic then
 		if not fadeTime or fadeTime <= 0 then
 			self.VomitMusic:Stop()
-			self.VomitMusic = nil 
+			self.VomitMusic = nil
 		elseif not self.WasEmpty then
 			self.VomitMusic:FadeOut(fadeTime)
 		end
@@ -145,11 +145,11 @@ function ENT:StartMusic(f)
 end
 
 function ENT:VomitNewProps(ply)
-	if not IsValid(ply) then 
+	if not IsValid(ply) then
 		self:TriggerOutput("OnVomitEnd", self)
-		return 
+		return
 	end
-	
+
 
 	self.CurrentUser = ply -- TODO: Store steamid, not player reference
 
@@ -158,14 +158,14 @@ function ENT:VomitNewProps(ply)
 
 	-- Store original use counts
 	self.SpawnQueue = counts
-	
+
 	-- Store the index on each keyvalue pair to make it easier to lookup later
 	self.TotalCount = 0
 	for k, v in pairs(self.SpawnQueue) do
 		v.Index = k
 		self.TotalCount = self.TotalCount + v.recent
 	end
-	
+
 	-- Add this as a 'session' prop for leaderboards
 	if IsValid(self.CurrentUser) then
 		jazzboards.AddSessionProps(self.CurrentUser:SteamID64(), self.TotalCount)
@@ -187,8 +187,8 @@ function ENT:VomitNewProps(ply)
 
 		-- Random chance for the pipe to be constipated
 		local empty = next(self.SpawnQueue) == nil
-		self.Constipated = not empty 
-			and self.TotalCount > self.ConstipateMinProps 
+		self.Constipated = not empty
+			and self.TotalCount > self.ConstipateMinProps
 			and math.random(0, self.ConstipateOdds) == 0
 
 		if self.Constipated then
@@ -260,13 +260,13 @@ function ENT:Decrement(idx)
 	self.TotalCount = self.TotalCount - 1
 
 	-- If that puts it below zero, nil out entry
-	if newCount <= 0 then 
+	if newCount <= 0 then
 		self.SpawnQueue[idx] = nil
 	end
 end
 
 function ENT:SpawnRandomGibs(pos, ang)
-	local e2 = mapgen.SpawnHubProp(randomGibProps[math.random(1, #randomGibProps)], 
+	local e2 = mapgen.SpawnHubProp(randomGibProps[math.random(1, #randomGibProps)],
 		pos, ang)
 	e2:GetPhysicsObject():SetVelocity(self.VomitVelocity)
 	e2:PrecacheGibs()
@@ -310,7 +310,7 @@ function ENT:VomitProp()
 	if math.Rand(0, 1) <= 0.75 then
 		self:SpawnRandomGibs(pos, ang)
 	end
-	
+
 	-- Decrement
 	self:Decrement(prop.Index)
 
@@ -322,9 +322,9 @@ function ENT:IsActive()
 end
 
 function ENT:AcceptInput( name, activator, caller, data )
-	if name == "Vomit" and not self:IsActive() then 
-		self:VomitNewProps(activator) 
-		return true 
+	if name == "Vomit" and not self:IsActive() then
+		self:VomitNewProps(activator)
+		return true
 	end
 
 	return false

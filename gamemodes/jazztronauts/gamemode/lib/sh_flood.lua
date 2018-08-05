@@ -132,7 +132,7 @@ function fill_step()
 
 	if get_height( node_location ) > 32 then
 		fill_step()
-		return		
+		return
 	end
 
 	if main_state.nodes[node] ~= nil and main_state.nodes[node][round_off] ~= nil then
@@ -142,15 +142,15 @@ function fill_step()
 	main_state.nodes[ node ] = main_state.nodes[ node ] or {}
 	main_state.nodes[ node ][ round_off ] = true
 
-	debugoverlay.Box( get_cell_center(cell), 
+	debugoverlay.Box( get_cell_center(cell),
 		Vector(-half_cell_size, -half_cell_size, -10),
-		Vector(half_cell_size, half_cell_size, 10), 
+		Vector(half_cell_size, half_cell_size, 10),
 		10, Color( 20, 20, 20, 50 ), true)
 
 	--plot( node_location, Color(255,0,0), true )
-	debugoverlay.Box( node_location, 
-		Vector(-2,-2,0), 
-		Vector(2,2,16), 
+	debugoverlay.Box( node_location,
+		Vector(-2,-2,0),
+		Vector(2,2,16),
 		120, Color( 100, 255, 255 ), false)
 
 	for i=1,2 do
@@ -203,7 +203,7 @@ end
 if SERVER then return end
 if true then return end
 
-local start = Vector(-768.000000, -2048.000000, 73.000000) 
+local start = Vector(-768.000000, -2048.000000, 73.000000)
 --ents.FindByClass("info_player_start")[1]:GetPos()
 --fill_cell( start + Vector(0,0,height) )
 

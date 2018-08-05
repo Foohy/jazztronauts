@@ -46,7 +46,7 @@ local TOK_NEWLINE = 6
 local TOK_EMPTY= 7
 
 local function lineitr(str)
-	return string.gmatch(str, "[^\r\n]+") 
+	return string.gmatch(str, "[^\r\n]+")
 end
 
 local function ChopRight(str, findstr)
@@ -68,9 +68,9 @@ local function ParseLine(script, line)
 	line = line:Trim()
 
 	local tok = ""
-	local function emit(type) 
-		if #tok == 0 then return end 
-		table.insert(script.tokens, {tok = tok, type = type}) tok = "" 
+	local function emit(type)
+		if #tok == 0 then return end
+		table.insert(script.tokens, {tok = tok, type = type}) tok = ""
 	end
 	local i = 1
 	local inExec = false
@@ -167,15 +167,15 @@ function CompileScript(script)
 				entry = {}
 				entry.type = ENTRY_JUMP
 				entry.data = nt.tok
-				if jump_parent ~= nil then 
-					//NOTE: 
+				if jump_parent ~= nil then
+					//NOTE:
 					//Below command works perfectly in adding a jump command to the end of the response text
 					//HOWEVER: Adding it right here makes it skip the 'print' command, added after this
 					//We need to add this command specifically as the last command, after the print statement
 					//table.insert(entry, {cmd=entry.data == "exit" and CMD_EXIT or CMD_JUMP, data=entry.data})
 					response_jump = {cmd=entry.data == "exit" and CMD_EXIT or CMD_JUMP, data=entry.data}
 
-					table.insert(jump_parent, {cmd=CMD_OPTION, data=entry}) 
+					table.insert(jump_parent, {cmd=CMD_OPTION, data=entry})
 				end
 				i = i + 2
 			else
@@ -298,7 +298,7 @@ function LinkScripts(scripts)
 
 		print( test.cmd, test.data)
 
-		if test.cmd == CMD_JUMP then 
+		if test.cmd == CMD_JUMP then
 			test = test.data[1]
 		else
 			if not test.next then break end
@@ -385,7 +385,7 @@ function LoadMacros()
 	end
 	PreProcessLine = replace
 
-	--[[local test_string = " wow, %%%% this is my test string, oncat(bob) calling macro mycoolmacro and complex_name(arg0, arg1, arg2)\n" 
+	--[[local test_string = " wow, %%%% this is my test string, oncat(bob) calling macro mycoolmacro and complex_name(arg0, arg1, arg2)\n"
 
 	MsgC( Color(255,255,255), test_string )
 	MsgC( Color(100,255,100), replace( test_string ))]]
@@ -408,7 +408,7 @@ function LoadScripts()
 			local st, result = pcall( LoadScript, name, "data/scripts/" .. script )
 			if not st then
 				ErrorNoHalt("Failed to load script: " .. name .. " [" .. script .. "]\n" .. tostring(result) .. "\n")
-			else 
+			else
 				if result then table.insert(compiled, result) end
 			end
 		end

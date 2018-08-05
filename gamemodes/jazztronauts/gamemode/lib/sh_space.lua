@@ -111,7 +111,7 @@ function meta:CalcYRot()
 	if theta > 1.0 or theta < -1.0 then theta = 180
 	else theta = math.acos(theta) * 57.3 end
 	if cross >= 0 then return -theta end
-	
+
 	return theta
 end
 

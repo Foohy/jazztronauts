@@ -173,9 +173,9 @@ function meta:StartWorld( position, owner, brushid )
 	self.is_prop = false
 	self.is_world = true
 
-	if map:IsLoading() then 
+	if map:IsLoading() then
 		print("BRUSH UPDATE BUT NOT LOADED")
-		return 
+		return
 	end
 
 	if not brushid then
@@ -205,7 +205,7 @@ local function emptySide(side)
 end
 
 function meta:AppendBrushToMapMesh(brush)
-	
+
 	-- Update the current mesh
 	current_mesh.mesh = ManagedMesh(void_mat)
 
@@ -241,7 +241,7 @@ function meta:RunWorld( brush_id )
 	if map:IsLoading() then
 		print("brush_id " .. brush_id .. " stolen with no map loaded, saving for later")
 		waitingBrushes[brush_id] = true
-		return 
+		return
 	end
 
 	local brush_list = map.brushes
@@ -284,7 +284,7 @@ function meta:RunWorld( brush_id )
 	end
 
 	table.insert( removed_brushes, brush )
-	
+
 	-- Update the mesh that encompasses all of the void geometry
 	self:AppendBrushToMapMesh(brush)
 
@@ -424,12 +424,12 @@ function meta:RunStaticProp( propid, propproxy )
 	if map:IsLoading() then
 		print("prop id " .. propid .. " stolen with no map loaded, saving for later")
 		waitingProps[propid] = true
-		return 
+		return
 	end
 
 	-- Make sure this is actually a valid static prop id
 	local pdata = map.props[propid]
-	if not pdata then 
+	if not pdata then
 		ErrorNoHalt("Invalid static prop id " .. propid)
 		return
 	end
@@ -565,7 +565,7 @@ if SERVER then
 	local outputs = { "OnBreak", "OnPlayerUse" }
 	hook.Add("EntityKeyValue", "JazzManuallyStoreOutputs", function(ent, key, value)
 		if not table.HasValue(outputs, key) then
-			return 
+			return
 		end
 
 		-- Install TriggerOutput and StoreOutput
@@ -611,7 +611,7 @@ if SERVER then
 				print("I GUESS WE DIDN'T REMOVE: " .. tostring( ent ))
 				ent.doing_removal = false
 			end
-			
+
 		end )
 
 		if not ent:IsPlayer() then
@@ -670,7 +670,7 @@ if SERVER then
 			net.WriteInt( scene.brush, 32 )
 
 		end
-	
+
 		net.Send( ply or player.GetAll() )
 
 	end
@@ -753,7 +753,7 @@ elseif CLIENT then
 				phys:Wake()
 				phys:SetVelocity( data.vel )
 				phys:AddAngleVelocity( data.avel )
-			end			
+			end
 
 		end
 
@@ -824,7 +824,7 @@ elseif CLIENT then
 		for k, v in pairs(brushes) do
 			cur = cur + 1
 			if removed_brushes[k] then continue end
-			
+
 			-- Steal the brush, but don't bother with any effects
 			New( {} ):RunWorld( k )
 			task.YieldPer(5, "brushesprogress", cur, total)
@@ -838,7 +838,7 @@ elseif CLIENT then
 		for k, v in pairs(propids) do
 			cur = cur + 1
 			if removed_staticprops[k] then continue end
-			
+
 			-- Steal the prop, but don't bother with any effects
 			New( {} ):RunStaticProp( k )
 
@@ -978,7 +978,7 @@ elseif CLIENT then
 	-- Almost always the map will still be loading, but it doesn't hurt being optimistic
 	nettable.Hook("snatch_removed_brushes", "snatchUpdateWorldBrushBackup", function(changed, removed)
 		if map:IsLoading() then return end
-		
+
 		stealBrushesInstant(changed)
 	end )
 
@@ -1024,7 +1024,7 @@ elseif CLIENT then
 
 	end )
 
-		
+
 	net.Receive("remove_prop_scene", CL_RecvPropSceneFromServer)
 
 end

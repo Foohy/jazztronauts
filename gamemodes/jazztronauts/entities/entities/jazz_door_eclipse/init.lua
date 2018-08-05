@@ -16,11 +16,11 @@ function ENT:Initialize()
 	self:SetModel("models/props_c17/gravestone_coffinpiece002a.mdl")
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
-	self:SetUseType(SIMPLE_USE)	
+	self:SetUseType(SIMPLE_USE)
 	self:DrawShadow( false )
 
 	local phys = self:GetPhysicsObject()
-	
+
 	if IsValid(phys) then
 		phys:SetMaterial("gmod_silent")
 	end
@@ -73,7 +73,7 @@ function ENT:SpawnShardCount()
 			ed:SetOrigin(candle:GetPos())
 			ed:SetEntity(candle)
 			ParticleEffect("jazzCandle", candle:GetPos() + Vector(0, 0, 12), candle:GetAngles(), candle )
-		end	
+		end
 	end
 
 end
@@ -85,13 +85,13 @@ function ENT:OnChangeDestination()
 		newgame.SetGlobal("unlocked_encounter", true)
 		mapcontrol.Launch(mapcontrol.GetEncounterMap())
 	end/*
-	elseif dest == self.DEST_ENDGAME then 
+	elseif dest == self.DEST_ENDGAME then
 		newgame.SetGlobal("ending", newgame.ENDING_ECLIPSE)
 		mapcontrol.Launch(mapcontrol.GetEndMaps()[newgame.ENDING_ECLIPSE])
 	end
 	*/
 
-end 
+end
 
 function ENT:Use(activator, caller)
 	self:TriggerOutput("OnUse", activator)
@@ -105,11 +105,11 @@ end
 
 function ENT:KeyValue(key, value)
 	local isEmpty = !value || string.len(value) <= 0
-	
+
 	if key == "OnTeleport" || key == "OnUnlock" || key == "OnUse" then
 		self:StoreOutput(key, value)
 	end
-	
+
 	if !isEmpty then
 
 		if key == "teleportentity" then

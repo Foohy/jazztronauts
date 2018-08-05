@@ -2,40 +2,40 @@ if SERVER then
 	AddCSLuaFile()
 end
 
-SWEP.PrintName 		 		= "Holding"
-SWEP.Slot		 	 		= 0
+SWEP.PrintName				= "Holding"
+SWEP.Slot					= 0
 
-SWEP.ViewModel		 		= "models/weapons/c_pistol.mdl"
+SWEP.ViewModel				= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
 
 SWEP.UseHands		= true
 
-SWEP.HoldType		 		= "pistol"
+SWEP.HoldType				= "pistol"
 
 util.PrecacheModel( SWEP.ViewModel )
 util.PrecacheModel( SWEP.WorldModel )
 
 SWEP.Primary.Delay			= 1
 SWEP.Primary.ClipSize		= -1
-SWEP.Primary.DefaultClip 	= -1
-SWEP.Primary.Ammo 			= "none"
-SWEP.Primary.Sound	 		= Sound( "weapons/357/357_fire2.wav" )
+SWEP.Primary.DefaultClip	= -1
+SWEP.Primary.Ammo			= "none"
+SWEP.Primary.Sound			= Sound( "weapons/357/357_fire2.wav" )
 SWEP.Primary.Automatic		= false
 
 SWEP.Secondary.ClipSize		= -1
-SWEP.Secondary.DefaultClip 	= -1
-SWEP.Secondary.Ammo 		= "none"
+SWEP.Secondary.DefaultClip	= -1
+SWEP.Secondary.Ammo		= "none"
 
-SWEP.Spawnable 				= false
+SWEP.Spawnable				= false
 SWEP.RequestInfo			= {}
 
-local WEAPON_PRIMARY    = IN_ATTACK
+local WEAPON_PRIMARY	= IN_ATTACK
 local WEAPON_SECONDARY  = IN_ATTACK2
 
 local function AddWeaponFireMode(self, netvar, hookname)
-	return { 
-		IsHeld = false, 
-		SetNet = self["Set" .. netvar], 
+	return {
+		IsHeld = false,
+		SetNet = self["Set" .. netvar],
 		GetNet = self["Get" .. netvar],
 		StartHook = self["Start" .. hookname],
 		StopHook = self["Stop" .. hookname]
@@ -56,8 +56,8 @@ function SWEP:Initialize()
 	-- It's not canon, but it's kind of nice to be able to do this
 	if CLIENT then
 		hook.Add("Think", self, function(self)
-			if IsValid(self.Owner) and LocalPlayer() != self.Owner then 
-				self:Think() 
+			if IsValid(self.Owner) and LocalPlayer() != self.Owner then
+				self:Think()
 			end
 		end )
 	end
@@ -79,7 +79,7 @@ function SWEP:Deploy()
 end
 
 function SWEP:GetMuzzleAttachment()
-	
+
 	local attach = self:LookupAttachment("muzzle")
 	if attach > 0 then
 		attach = self:GetAttachment(attach)
@@ -113,18 +113,18 @@ end
 
 function SWEP:AnyStopAttack(mode)
 	local state = self.AttackStates[mode]
-	if state.IsHeld then 
+	if state.IsHeld then
 		state.IsHeld = false
 		state.StopHook(self)
 		state.SetNet(self, false)
-	end	
+	end
 end
 
 function SWEP:AnyIsAttacking(mode)
 	local state = self.AttackStates[mode]
 	if SERVER or (self.Owner == LocalPlayer() and not game.SinglePlayer()) then
 		return state.IsHeld
-	else 
+	else
 		return state.GetNet(self)
 	end
 end
@@ -166,7 +166,7 @@ function SWEP:Holster(wep)
 	for k, _ in pairs(self.AttackStates) do
 		self:AnyStopAttack(k)
 	end
-	
+
 	self:Cleanup()
 
 	return true
@@ -200,7 +200,7 @@ hook.Add("KeyRelease", "ReleaseTriggerOnGunsWhatCanBeHeldDown", function(ply, ke
 
 	local wep = ply:GetActiveWeapon()
 	if IsValid( wep ) and wep.AnyStopAttack then
-	
+
 		-- PRIMARY/SECONDARY_WEAPON is an alias for their IN_ATTACK binds
 		wep:AnyStopAttack(key)
 	end

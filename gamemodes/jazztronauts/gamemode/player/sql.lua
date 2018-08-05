@@ -5,14 +5,14 @@
 local money = {}
 
 -- Per-player data money data
-jsql.Register("jazz_player_money", 
+jsql.Register("jazz_player_money",
 [[
 	steamid BIGINT NOT NULL PRIMARY KEY,
 	earned INT UNSIGNED NOT NULL DEFAULT 0 CHECK (earned >= 0),
 	spent INT UNSIGNED NOT NULL DEFAULT 0 CHECK (spent >= 0)
 ]])
 
-jsql.Register("jazz_playerdata_persist", 
+jsql.Register("jazz_playerdata_persist",
 [[
 	steamid BIGINT NOT NULL PRIMARY KEY,
 	resets INT UNSIGNED NOT NULL DEFAULT 0
@@ -77,7 +77,7 @@ end
 function money.GetAllNotes()
 	local sel = "SELECT * FROM jazz_player_money"
 	local res = jsql.Query(sel)
-	if type(res) == "table" then 
+	if type(res) == "table" then
 		for _, v in pairs(res) do
 			ConvertTypes(v)
 		end
@@ -97,7 +97,7 @@ function money.GetNotes(ply)
 		.. string.format("WHERE steamid='%s'", id)
 
 	local res = jsql.Query(sel)
-	if type(res) == "table" then 
+	if type(res) == "table" then
 		return ConvertTypes(res[1])
 	end
 
@@ -107,14 +107,14 @@ end
 -- Get the total number of players that have played in this session
 -- Money is reset every time the map resets
 function money.GetTotalPlayers()
-    local sel = "SELECT COUNT(*) as count FROM jazz_player_money "
+	local sel = "SELECT COUNT(*) as count FROM jazz_player_money "
 		.. "WHERE id!=" .. SERVER_ID
-    local res = jsql.Query(sel)
-	if type(res) == "table" then 
-        return tonumber(res[1].count) or 0
-    end 
+	local res = jsql.Query(sel)
+	if type(res) == "table" then
+		return tonumber(res[1].count) or 0
+	end
 
-    return 0
+	return 0
 end
 
 return money

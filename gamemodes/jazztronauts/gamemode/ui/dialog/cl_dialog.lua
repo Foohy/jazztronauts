@@ -99,12 +99,12 @@ local edges = {
 
 local inits = {
 	[STATE_IDLE] = function(d)
-		_dialog.nodeiter = nil 
-		InvokeEvent("DialogEnd", d) 
+		_dialog.nodeiter = nil
+		InvokeEvent("DialogEnd", d)
 	end,
-	[STATE_OPENING] = function(d) 
-		d.rate = GetParam("OPEN_RATE") != nil and math.huge or 2 
-		SetText() 
+	[STATE_OPENING] = function(d)
+		d.rate = GetParam("OPEN_RATE") != nil and math.huge or 2
+		SetText()
 	end,
 	[STATE_OPENED] = function(d) SetText() d.rate = 12 d.nodeiter() end,
 	[STATE_PRINTING] = function(d)
@@ -123,9 +123,9 @@ local inits = {
 		d.nodeiter()
 	end,
 	[STATE_CHOOSE] = function(d) d.rate = 1 end,
-	[STATE_CLOSING] = function(d) 
-		d.rate = GetParam("CLOSE_RATE") != nil and math.huge or 2 
-		SetText() 
+	[STATE_CLOSING] = function(d)
+		d.rate = GetParam("CLOSE_RATE") != nil and math.huge or 2
+		SetText()
 	end,
 	[STATE_EXEC] = function(d)
 		d.rate = math.huge
@@ -145,7 +145,7 @@ local inits = {
 			local succ, ret = coroutine.resume(d.coroutine, d, unpack(cmds, 2))
 			if not succ then ErrorNoHalt("DIALOG FUNCTION " .. func .. " ERRORED: ", ret) end
 			res = ret and tostring(ret) or ""
-	
+
 			-- Append function result
 			AppendText(res)
 
@@ -221,7 +221,7 @@ local function QueueWait(cmd, data)
 	end
 end
 
-local conditionEnv = 
+local conditionEnv =
 {
 	print = print,
 	math = math,
@@ -276,7 +276,7 @@ function ScriptCallback(cmd, data)
 	end
 	if cmd == CMD_OPTIONLIST then
 
-		if data.data.conditional then 
+		if data.data.conditional then
 			return ProcessConditionalOptions(data.data)
 		else
 			InvokeEvent("ListOptions", data)
@@ -340,10 +340,10 @@ function StartGraph(cmd, skipOpen, options, delay)
 		SetText()
 		_dialog.text = ""
 		_dialog.waitdata = nil
-		
+
 		skipOpen = skipOpen or GetParam("SKIP_OPEN") != nil
 		State(skipOpen and STATE_OPENED or STATE_OPENING, delay)
-		
+
 		if not wasOpen then
 			InvokeEvent("DialogStart", _dialog)
 		end
@@ -445,7 +445,7 @@ net.Receive( "dialog_dispatch", function( len, ply )
 	local script = NameFromScriptID( net.ReadUInt( 16 ) )
 	local camera = nil
 	local focus = nil
-	
+
 	if net.ReadBit() then focus = net.ReadEntity() end
 	if net.ReadBit() then camera = net.ReadEntity() end
 	if script == nil then script = "<no script>" end

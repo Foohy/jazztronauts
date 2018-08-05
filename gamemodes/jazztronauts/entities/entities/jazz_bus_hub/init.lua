@@ -1,17 +1,17 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
- 
+
 include("shared.lua")
 
 ENT.ShadowControl = {}
 ENT.ShadowControl.secondstoarrive  = 0.0000001
-ENT.ShadowControl.pos              = Vector(0, 0, 0)
-ENT.ShadowControl.angle            = Angle(0, 0, 0)
-ENT.ShadowControl.maxspeed         = 1000000000000
-ENT.ShadowControl.maxangular       = 1000000
-ENT.ShadowControl.maxspeeddamp     = 10000
+ENT.ShadowControl.pos			  = Vector(0, 0, 0)
+ENT.ShadowControl.angle			= Angle(0, 0, 0)
+ENT.ShadowControl.maxspeed		 = 1000000000000
+ENT.ShadowControl.maxangular	   = 1000000
+ENT.ShadowControl.maxspeeddamp	 = 10000
 ENT.ShadowControl.maxangulardamp   = 1000000
-ENT.ShadowControl.dampfactor       = 1
+ENT.ShadowControl.dampfactor	   = 1
 ENT.ShadowControl.teleportdistance = 2
 ENT.ShadowControl.deltatime = deltatime
 
@@ -55,7 +55,7 @@ function ENT:Initialize()
 	self:SetMoveType( MOVETYPE_VPHYSICS )
 	self:SetSolid( SOLID_VPHYSICS )
 	//self:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
-	
+
 	local phys = self:GetPhysicsObject()
 	if phys then
 		phys:EnableGravity( true )
@@ -175,7 +175,7 @@ function ENT:Touch( other )
 end
 
 function ENT:LeaveStation()
-	if self.Leaving then return end 
+	if self.Leaving then return end
 
 	self:EmitSound("jazz_bus_accelerate2")
 
@@ -190,7 +190,7 @@ function ENT:LeaveStation()
 end
 
 function ENT:GetProgress()
-	local t = CurTime() - self.StartTime 
+	local t = CurTime() - self.StartTime
 
 	return t, t / self.TravelTime
 end
@@ -240,7 +240,7 @@ function ENT:Think()
 
 	-- Keep the bus awake while it should be moving
 	if p < 1 and self:GetPhysicsObject():IsAsleep() then
-		self:GetPhysicsObject():Wake() 
+		self:GetPhysicsObject():Wake()
 	end
 
 	if self.Leaving then
@@ -251,7 +251,7 @@ function ENT:Think()
 
 	-- Skid sound when stopping
 	self:TriggerAt("stopslide", 0.7, function()
-		self:EmitSound( "vehicles/v8/skid_normalfriction.wav", 90, 110 )	
+		self:EmitSound( "vehicles/v8/skid_normalfriction.wav", 90, 110 )
 	end )
 
 	self:TriggerAt("engineoff", 1.5, function()
@@ -281,7 +281,7 @@ function ENT:OnRemove()
 	self:StopSound("jazz_bus_accelerate2")
 	self:StopSound("jazz_bus_idle")
 
-	if self.Seats then 
+	if self.Seats then
 		for _, v in pairs(self.Seats) do
 			if IsValid(v) then v:Remove() end
 		end
@@ -296,7 +296,7 @@ function ENT:OnRemove()
 	end
 end
 
-hook.Add("PlayerEnteredVehicle", "JazzHubBusEnterSeat", function(ply, veh, role) 
+hook.Add("PlayerEnteredVehicle", "JazzHubBusEnterSeat", function(ply, veh, role)
 	if IsValid(veh.JazzBus) then
 		veh.JazzBus:CheckLaunch()
 	end

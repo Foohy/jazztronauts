@@ -21,21 +21,21 @@ rmeta.__index = rmeta
 local bmeta = {}
 bmeta.__index = bmeta
 
-function rmeta:Inset(m) 
+function rmeta:Inset(m)
 
-	self.x = self.x + m 
+	self.x = self.x + m
 	self.y = self.y + m
 	self.w = self.w - m * 2
 	self.h = self.h - m * 2
 	return self
 
 end
-function bmeta:Inset(m) 
+function bmeta:Inset(m)
 
-	self.x0 = self.x0 + m 
+	self.x0 = self.x0 + m
 	self.y0 = self.y0 + m
 	self.x1 = self.x1 - m
-	self.y1 = self.y1 - m 
+	self.y1 = self.y1 - m
 	return self
 
 end
@@ -51,14 +51,14 @@ function bmeta:Move(x,y) self.x0 = self.x0 + x self.y0 = self.y0 + y self.x1 = s
 function rmeta:GetMin() return self.x, self.y end
 function rmeta:GetMax() return self.x + self.w, self.y + self.h end
 
-function rmeta:SetMin(x,y) 
+function rmeta:SetMin(x,y)
 	self.w = math.max( self.w - ( x - self.x ), 0 )
 	self.h = math.max( self.h - ( y - self.h ), 0 )
 	self.x = x
 	self.y = y
 end
 
-function rmeta:SetMax(x,y) 
+function rmeta:SetMax(x,y)
 	self.w = math.max( x - self.x, 0 )
 	self.h = math.max( y - self.y, 0 )
 end
@@ -128,7 +128,7 @@ local function Remap( a, b, x, y, clamped )
 		remap_y = math.max( math.min( remap_y, 1 ), 0 )
 	end
 
-	return 
+	return
 		remap_x * (b_maxx - b_minx) + b_minx,
 		remap_y * (b_maxy - b_miny) + b_miny
 
@@ -157,13 +157,13 @@ local function Dock( a, b, mode )
 		move_y = b_ctry - a_ctry
 	else
 
-		if bit.band( mode, DOCK_LEFT ) ~= 0 then 
+		if bit.band( mode, DOCK_LEFT ) ~= 0 then
 			move_x = move_x - (a_minx - b_minx)
 		elseif bit.band( mode, DOCK_RIGHT ) ~= 0 then
 			move_x = move_x - (a_maxx - b_maxx)
 		end
 
-		if bit.band( mode, DOCK_TOP ) ~= 0 then 
+		if bit.band( mode, DOCK_TOP ) ~= 0 then
 			move_y = move_y - (a_miny - b_miny)
 		elseif bit.band( mode, DOCK_BOTTOM ) ~= 0 then
 			move_y = move_y - (a_maxy - b_maxy)

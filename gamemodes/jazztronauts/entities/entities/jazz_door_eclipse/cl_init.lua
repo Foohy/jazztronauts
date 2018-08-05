@@ -1,15 +1,15 @@
 include("shared.lua")
 
-ENT.RenderGroup 	= RENDERGROUP_TRANSLUCENT
+ENT.RenderGroup	= RENDERGROUP_TRANSLUCENT
 
 local AttentionMarker = Material("materials/ui/jazztronauts/yes.png", "smooth")
 surface.CreateFont("BlackShardDoorCount", {
 	font = "Palatino Linotype",
-    extended = false,
-    size = 50,
-    weight = 500,
-    antialias = false,
-    shadow = true,
+	extended = false,
+	size = 50,
+	weight = 500,
+	antialias = false,
+	shadow = true,
 })
 
 function ENT:Initialize()

@@ -3,7 +3,7 @@
 ENT.Type = "point"
 ENT.DisableDuplicator = true
 
-local outputs = 
+local outputs =
 {
 	"OnPlayerFinished",
 	"OnEveryoneFinished"
@@ -94,7 +94,7 @@ function ENT:PlayerEndDialog(ply, dialog, markseen)
 	local ply64 = IsValid(ply) and (ply:SteamID64() or "0")
 	if IsValid(ply) and self.ActivePlayers[ply64] then
 		self.ActivePlayers[ply64] = nil
-		self:TriggerOutput("OnPlayerFinished", ply)	
+		self:TriggerOutput("OnPlayerFinished", ply)
 	end
 
 	-- Remove NULL players, just in case they slipped through

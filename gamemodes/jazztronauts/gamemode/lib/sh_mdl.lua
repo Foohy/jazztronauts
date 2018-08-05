@@ -1,7 +1,7 @@
 AddCSLuaFile()
 
 
-if SERVER then 
+if SERVER then
 	util.PrecacheModel( "models/hunter/blocks/cube025x025x025.mdl" )
 	return
 end
@@ -146,7 +146,7 @@ local vtx_vertex = Struct({
 local mdl_header = Struct({
 	INT32.id,
 	INT32.version,
-	
+
 	INT32.checksum,
 
 	CHAR.name[64],
@@ -588,7 +588,7 @@ local wire_boxes = {}
 local debug_gridding = false
 local debug_grid_time = 0
 
-hook.Add( "PostDrawOpaqueRenderables", "dbgbox", function() 
+hook.Add( "PostDrawOpaqueRenderables", "dbgbox", function()
 
 	if not debug_gridding then return end
 	local dt = (CurTime() - debug_grid_time) / 2
@@ -679,7 +679,7 @@ local function UnifyNormals( vvd, mdl )
 
 		if #bin.verts < 2 then
 			bin.verts[1].unified = bin.verts[1].normal
-			continue 
+			continue
 		end
 
 		local common = Vector()
@@ -859,7 +859,7 @@ end
 
 --[[local ent = MakeExpandedModel( "models/props_vehicles/truck001a.mdl"  )
 
---"models/props_vehicles/truck001a.mdl" 
+--"models/props_vehicles/truck001a.mdl"
 
 hook.Add( "Think", "testexp", function()
 

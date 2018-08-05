@@ -44,10 +44,10 @@ local function drawProgressBar(m, x, y, width, height, prog, max, animclip)
 	perc = math.max( perc - (1/max) * flash2 * flash2, 0 )
 	perc = math.min( perc, 1 )
 
-	if perc < 1.0 then 
+	if perc < 1.0 then
 		draw.RoundedBox(4, x, y, width, height, Color(80, 0, 80))
 	end
-	if perc > 0 then 
+	if perc > 0 then
 		draw.RoundedBox(4, x, y, width * perc, height, Color(255, 200, flash2*255))
 	end
 

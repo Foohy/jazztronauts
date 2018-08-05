@@ -281,7 +281,7 @@ local function Decoder()
 		m_PosDecoders = {},
 
 		m_PosAlignDecoder = RangeCoder.BitTreeDecoder( Base.kNumAlignBits ),
-		
+
 		m_LiteralDecoder = LiteralDecoder(),
 
 		m_DictionarySize = 0xFFFFFFFF,
@@ -475,7 +475,7 @@ function meta:Code( inStream, outStream, inSize, outSize, progress )
 				end
 
 				len = self.m_RepLenDecoder( self.m_RangeDecoder, posState ) + Base.kMatchMinLen
-				index = index < 7 and 8 or 11 
+				index = index < 7 and 8 or 11
 
 			else
 

@@ -114,11 +114,11 @@ function quat:QuaternionAlign( q, dst )
 	end
 
 	if a > b then
-		for i = 1, 4 do 
+		for i = 1, 4 do
 			dst[i] = -q[i];
 		end
 	elseif dst ~= q then
-		for i = 1, 4 do 
+		for i = 1, 4 do
 			dst[i] = q[i];
 		end
 	end
@@ -186,7 +186,7 @@ function quat:Blend( other, t, dst )
 	for i=1, 4 do
 		qt[i] = sclp * self[i] + sclq * other[i]
 	end
-	
+
 	qt:Normalize()
 
 	return qt
@@ -195,10 +195,10 @@ end
 
 function quat:Slerp( other, t, dst )
 
-	local omega = 0 
-	local cosom = 0 
-	local sinom = 0 
-	local sclp = 0 
+	local omega = 0
+	local cosom = 0
+	local sinom = 0
+	local sclp = 0
 	local sclq = 0
 
 	other = self:QuaternionAlign( other );
@@ -361,8 +361,8 @@ local _tempVUp = Vector(0,0,0)
 function quat:ToAngles()
 
 	self:ToVectors(
-		_tempVForward, 
-		_tempVRight, 
+		_tempVForward,
+		_tempVRight,
 		_tempVUp)
 
 	return BasisToAngles(_tempVForward, _tempVRight, _tempVUp)
@@ -386,7 +386,7 @@ end
 function quat:FromAxis(vector, angle)
 
 	angle = angle * 0.5
-	
+
 	local sinAngle = math.sin(angle)
 
 	self.x = vector.x * sinAngle

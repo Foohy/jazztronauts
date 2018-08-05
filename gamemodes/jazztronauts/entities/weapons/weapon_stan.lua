@@ -2,60 +2,60 @@ if SERVER then
 	AddCSLuaFile()
 end
 
-SWEP.Base 					= "weapon_basehold"
-SWEP.PrintName 		 		= "Stan"
-SWEP.Slot		 	 		= 0
+SWEP.Base					= "weapon_basehold"
+SWEP.PrintName				= "Stan"
+SWEP.Slot					= 0
 SWEP.Category				= "Jazztronauts"
-SWEP.Purpose				= "Teleport through solid walls, brushes, and playerclips by summoning the power of Stan" 
+SWEP.Purpose				= "Teleport through solid walls, brushes, and playerclips by summoning the power of Stan"
 
-SWEP.ViewModel		 		= "models/weapons/c_stan.mdl"
+SWEP.ViewModel				= "models/weapons/c_stan.mdl"
 SWEP.WorldModel				= ""
 
 SWEP.UseHands		= true
 
-SWEP.HoldType		 		= "magic"
+SWEP.HoldType				= "magic"
 
 util.PrecacheModel( SWEP.ViewModel )
 util.PrecacheModel( SWEP.WorldModel )
 
 SWEP.Primary.Delay			= 0.1
 SWEP.Primary.ClipSize		= -1
-SWEP.Primary.DefaultClip 	= -1
-SWEP.Primary.Ammo 			= "none"
-SWEP.Primary.Sound	 		= Sound( "weapons/357/357_fire2.wav" )
+SWEP.Primary.DefaultClip	= -1
+SWEP.Primary.Ammo			= "none"
+SWEP.Primary.Sound			= Sound( "weapons/357/357_fire2.wav" )
 SWEP.Primary.Automatic		= false
 
 SWEP.Secondary.ClipSize		= -1
-SWEP.Secondary.DefaultClip 	= -1
-SWEP.Secondary.Ammo 		= "none"
+SWEP.Secondary.DefaultClip	= -1
+SWEP.Secondary.Ammo		= "none"
 
 
-local DefaultTeleportDistance 	= 256
+local DefaultTeleportDistance	= 256
 local DefaultProngCount			= 2
 local DefaultSpeed				= 300
 
-SWEP.Spawnable 				= true
+SWEP.Spawnable				= true
 SWEP.RequestInfo			= {}
 SWEP.TeleportDistance		= DefaultTeleportDistance
-SWEP.ProngCount 			= DefaultProngCount
+SWEP.ProngCount			= DefaultProngCount
 SWEP.SpeedRate				= DefaultSpeed
-SWEP.TopSpeed 				= 2000
+SWEP.TopSpeed				= 2000
 
 
 -- List this weapon in the store
 local storeStan = jstore.Register(SWEP, 4000, { type = "tool" })
 
 -- Create 3 items to be purchased one after the other that control range
-local storeRange = jstore.RegisterSeries("stan_range", 2000, 10, { 
-	name = "Range", 
-	requires = storeStan, 
+local storeRange = jstore.RegisterSeries("stan_range", 2000, 10, {
+	name = "Range",
+	requires = storeStan,
 	desc = "Increases range and depth of walls to travel through",
 	type = "upgrade",
 	priceMultiplier = 2,
 })
-local storeSpeed = jstore.RegisterSeries("stan_speed", 1000, 10, { 
-	name = "Speed", 
-	requires = storeStan, 
+local storeSpeed = jstore.RegisterSeries("stan_speed", 1000, 10, {
+	name = "Speed",
+	requires = storeStan,
 	desc = "Decreases warm up time",
 	type = "upgrade",
 	priceMultiplier = 2,
@@ -77,7 +77,7 @@ function SWEP:Initialize()
 	self.BeamLoop1 = CreateSound(self, "ambient/machines/machine_whine1.wav")
 
 
-	hook.Add( "OnUnlocked", self, function( self, list_name, key, ply ) 
+	hook.Add( "OnUnlocked", self, function( self, list_name, key, ply )
 		local baseKey = jstore.GetSeriesBase(key)
 		if ply == self.Owner and storeRange == baseKey or storeSpeed == baseKey then
 			self:SetUpgrades()
@@ -113,7 +113,7 @@ function SWEP:Deploy()
 
 	local vm = self.Owner:GetViewModel()
 	local depseq = IsValid(vm) and vm:LookupSequence( "anim_deploy" ) or nil
-	if depseq then 
+	if depseq then
 		vm:SendViewModelMatchingSequence( depseq )
 		--vm:SendViewModelMatchingSequence( vm:LookupSequence( "fists_draw" ) )
 		vm:SetPlaybackRate( 1.5 )
@@ -216,7 +216,7 @@ end
 
 
 function SWEP:AddProng( id, mtx, rot )
-	
+
 	shiver[id] = shiver[id] or {}
 	shiver[id].amt = shiver[id].amt or 0
 	shiver[id].again = shiver[id].again or (CurTime() + (.5 + math.random() * 3))
@@ -264,7 +264,7 @@ function SWEP:AddProng( id, mtx, rot )
 
 end
 
-function SWEP:ViewModelDrawn( viewmodel ) 
+function SWEP:ViewModelDrawn( viewmodel )
 
 end
 
@@ -312,7 +312,7 @@ function SWEP:TraceFragments( start, endpos )
 		} )
 
 		if secondary.StartSolid then
-			
+
 			local secondary_end = primary.HitPos + normal * remaining * secondary.FractionLeftSolid
 			debugoverlay.Sphere(secondary_end, 15, 0, Color(0, 0, 255), true)
 
@@ -334,7 +334,7 @@ function SWEP:TraceFragments( start, endpos )
 			debugoverlay.Sphere(tertiary.HitPos, 15, 0.1, Color(255, 0, 0), true)
 			if bit.band( util.PointContents( tertiary.HitPos ), CONTENTS_SOLID ) == 0 then
 
-				
+
 				local backtrace = util.TraceHull( {
 					start = tertiary.HitPos,
 					endpos = secondary_end + normal * 2,
@@ -461,7 +461,7 @@ function SWEP:DrawHUD()
 				)
 
 			end
-			
+
 			render.EndBeam()
 
 		end
@@ -497,7 +497,7 @@ function SWEP:CalcView( ply, pos, ang, fov )
 
 	local diff = 180 - fov
 	fov = math.max(fov - math.pow(self.glow,4) * diff, 0)
-	
+
 	return pos, ang, fov
 end
 
@@ -516,7 +516,7 @@ function SWEP:Teleport()
 		return
 	end
 
-	if SERVER then 
+	if SERVER then
 		self.Owner:EmitSound( Sound( "beams/beamstart5.wav" ), 100, 70 )
 		self.Owner:EmitSound( Sound( "beamstart7.wav" ), 70, 40 )
 		self.Owner:SetPos( fragments[3].endpos )
@@ -544,7 +544,7 @@ function SWEP:DoLight()
 	end
 end
 
-function SWEP:Think() 
+function SWEP:Think()
 	self.speed = self.speed or 0
 	self.offset = self.offset or 0
 	self.open = self.open or 0
@@ -602,7 +602,7 @@ function SWEP:Think()
 	else
 
 		if self.speed > 0 then
-			
+
 			if self.speed == topspeed then
 				--if CLIENT then self.BeamLoop1:Stop() end
 				--if SERVER then self.Owner:EmitSound( Sound( "ambient/explosions/explode_7.wav" ), 100, 180 ) end
@@ -629,7 +629,7 @@ function SWEP:Think()
 		self.Hum:ChangePitch(50 + self.speed / 10)
 		self.BeamLoop1:ChangePitch(50 + self.speed / 10)
 
-		--util.ScreenShake(LocalPlayer():GetPos(), math.pow(self.glow, 4), 8, 0.02, 100) 
+		--util.ScreenShake(LocalPlayer():GetPos(), math.pow(self.glow, 4), 8, 0.02, 100)
 
 	end
 

@@ -157,7 +157,7 @@ function meta:Init()
 	for i=1, 8 do self.txpoints[i] = Vector(0,0,0) end
 
 	--Precache plane objects
-	for k,v in pairs( geometry.planeIndices ) do 
+	for k,v in pairs( geometry.planeIndices ) do
 
 		self.txplanes[k] = {
 			normal = Vector(0,0,0),
@@ -242,9 +242,9 @@ function meta:SetupOrtho(near, far, left, right, top, bottom)
 
 	self.IsOrtho = true
 	self.OrthoShape = {
-		left = left, 
-		right = right, 
-		top = top, 
+		left = left,
+		right = right,
+		top = top,
 		bottom = bottom,
 	}
 

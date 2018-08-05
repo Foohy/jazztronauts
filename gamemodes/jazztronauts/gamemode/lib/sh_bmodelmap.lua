@@ -1,4 +1,4 @@
--- Manage the mapping of spawned entities to their 
+-- Manage the mapping of spawned entities to their
 -- corresponding indices/bmodels within the map file itself
 
 AddCSLuaFile()
@@ -9,7 +9,7 @@ module( "bmodelmap", package.seeall )
 local modelMapping = {}
 
 local function getBModelIdx(ent)
-    if not IsValid(ent) then return end
+	if not IsValid(ent) then return end
 
 	local model = ent:GetModel()
 	if not model then return end
@@ -24,49 +24,49 @@ end
 -- Retrieve the bmodel index of the specified entity
 -- Returns nil if it does not have a bmodel
 function GetBModel(ent)
-    return getBModelIdx(ent)
+	return getBModelIdx(ent)
 end
 
 -- Returns a list of entities with the given bmodel
 function GetEntity(bmodelidx)
-    return modelMapping[bmodelidx]
+	return modelMapping[bmodelidx]
 end
 
 local function mapEntity(ent)
 	local idx = getBModelIdx(ent)
 	if idx then
 		modelMapping[idx] = modelMapping[idx] or {}
-        modelMapping[idx][ent:EntIndex()] = ent
+		modelMapping[idx][ent:EntIndex()] = ent
 	end
 end
 
 local function unmapEntity(ent)
 	local idx = getBModelIdx(ent)
 	if idx and modelMapping[idx] then
-        modelMapping[idx][ent:EntIndex()] = nil
+		modelMapping[idx][ent:EntIndex()] = nil
 
-        -- Remove table entry entirely if empty
-        if table.Count(modelMapping[idx]) == 0 then
-            modelMapping[idx] = nil
-        end
+		-- Remove table entry entirely if empty
+		if table.Count(modelMapping[idx]) == 0 then
+			modelMapping[idx] = nil
+		end
 	end
 end
 
 local function mapAll()
-    modelMapping = {}
-    for _, v in pairs(ents.GetAll()) do
-        mapEntity(v)
-    end
+	modelMapping = {}
+	for _, v in pairs(ents.GetAll()) do
+		mapEntity(v)
+	end
 
 end
 
 -- On startup, create a mapping of all spawned props
 hook.Add("InitPostEntity", "JazzBModelMapInit", function()
-    mapAll()
+	mapAll()
 end )
 
 hook.Add("OnReloaded", "JazzBModelMapInit", function()
-    mapAll()
+	mapAll()
 end )
 
 

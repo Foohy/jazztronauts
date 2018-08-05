@@ -91,7 +91,7 @@ local function TickScene( scene )
 			local bigTake = isBigTake(scale)
 
 			sound.Play( "garrysmod/balloon_pop_cute.wav", scene.startpos, 85 + scale * 35, 120 - scale * 90)
-			if bigTake then 
+			if bigTake then
 				sound.Play( table.Random(popbig), scene.startpos, 85 + scale * 35, 120 - scale * 90, 0.5)
 			end
 
@@ -119,7 +119,7 @@ local function TickScene( scene )
 
 end
 
-hook.Add( "Think", "TickVoidRemoveScenes", function() 
+hook.Add( "Think", "TickVoidRemoveScenes", function()
 	for i=#scenes, 1, -1 do
 
 		if CurTime() - scenes[i].time > scenes[i].duration then

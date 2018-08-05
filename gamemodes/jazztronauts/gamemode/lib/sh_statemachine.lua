@@ -95,7 +95,7 @@ end
 function mc:Set( set )
 
 	self.t = set
-	self.l = CurTime() 
+	self.l = CurTime()
 
 end
 
@@ -107,16 +107,16 @@ end
 
 function mc:Rate( s, k )
 
-	if k then self.rate = k end 
+	if k then self.rate = k end
 	return self.rate
 
 end
 
 function mc:Paused( s, b )
 
-	if b ~= nil then 
-		self.l = ((not b) and self.pause) and CurTime() or self.l self.pause = self.b 
-	end 
+	if b ~= nil then
+		self.l = ((not b) and self.pause) and CurTime() or self.l self.pause = self.b
+	end
 	return self.pause
 
 end
@@ -126,10 +126,10 @@ mc.__index = mc
 Clock = function()
 
 	return setmetatable({
-		t = 0, 
-		l = CurTime(), 
-		pause = false, 
-		rate = 1 
+		t = 0,
+		l = CurTime(),
+		pause = false,
+		rate = 1
 	}, mc)
 
 end
@@ -174,7 +174,7 @@ mfs.__call = function(self, func, ...)
 	local v = rawget(self, func)
 	if not v then
 		print("State has no function named '" .. tostring(func) .. "'")
-		return 
+		return
 	end
 
 	local _,a,b,c,d,e,f,g,h,i = pcall(v, ...)
@@ -218,18 +218,18 @@ meta.__newindex = function(self, k, v)
 
 		local edgegraph = rawget(self, "edges")
 		local edge = edgegraph[k.a]
-		for i, v in pairs( edge ) do 
-			if v.nextstate == k.b then table.remove( edgegraph[k.a], i ) break end 
+		for i, v in pairs( edge ) do
+			if v.nextstate == k.b then table.remove( edgegraph[k.a], i ) break end
 		end
-		table.insert( edge, 
-		{ 
-			nextstate = k.b, edge = function(...) 
+		table.insert( edge,
+		{
+			nextstate = k.b, edge = function(...)
 
 				local _,e = pcall(v, ...)
 				if not _ then ErrorNoHalt(e) return false end
 				return e
 
-			end 
+			end
 		} )
 
 	end
@@ -254,14 +254,14 @@ meta.__call = function(self, ...)
 	local edgegraph = rawget(self, "edges")
 
 	if currentstate == nil then return false end
-	if not edgegraph[currentstate] then 
+	if not edgegraph[currentstate] then
 		if currentstate.tick then currentstate.tick(...) end
-		return false 
+		return false
 	end
 
 	for k, v in pairs( edgegraph[currentstate] ) do
 		local res = v.edge(...)
-		if res then 
+		if res then
 			switchstates(self, v.nextstate, ...)
 			did_switch = true
 			break

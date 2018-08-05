@@ -84,7 +84,7 @@ local function buildSidesFromPoints(w, plane, epsilon)
 		if not d then __side_list[i] = {} d = __side_list[i] end
 
 		d.dist = dot
-		if dot > epsilon then 
+		if dot > epsilon then
 			d.side = SIDE_FRONT
 			has_front = true
 		elseif dot < -epsilon then
@@ -160,7 +160,7 @@ function meta:Clip(plane, epsilon)
 	local front = Winding()
 
 	for i=1, #self.points do
-		
+
 		local p1 = self.points[i]
 
 		if sides[i].side == SIDE_ON then
@@ -456,7 +456,7 @@ function meta:TryMerge(other, planenormal)
 end
 
 function meta:Merge(other, planenormal)
-	
+
 	local a = self
 	local b = other
 	local w = self:Copy()
@@ -577,7 +577,7 @@ function meta:EmitMesh(texmatrix, lmmatrix, width, height, offset, meshVerts )
 		local u,v = 0,0
 		if texmatrix ~= nil then
 			u,v = texmatrix:GetUV(p + offset)
-			u = u / width 
+			u = u / width
 			v = v / height
 		end
 
@@ -605,7 +605,7 @@ function meta:EmitMesh(texmatrix, lmmatrix, width, height, offset, meshVerts )
 
 	local normal = self:Plane().normal
 
-	
+
 	for i=2, #self.points-1 do
 		emitPointVert(self.points[1], normal)
 		emitPointVert(self.points[i+1], normal)

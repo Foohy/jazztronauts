@@ -1,4 +1,4 @@
-if SERVER then 
+if SERVER then
 	util.AddNetworkString( "unlock_msg" )
 	AddCSLuaFile("sh_unlocks.lua")
 end
@@ -35,7 +35,7 @@ function Register( list_name )
 
 	if unlock_lists[list_name] ~= nil then return end
 
-	if CLIENT then 
+	if CLIENT then
 
 		unlock_lists[list_name] = {
 			keys = {},
@@ -75,7 +75,7 @@ function IsUnlocked( list_name, ply, key )
 
 		if not unlock_lists[list_name] then return false end
 		local steam_id = ply:SteamID64()
-		local result = sql.Query( ("SELECT * FROM %s WHERE steamid = '%s' AND strkey = '%s'"):format( 
+		local result = sql.Query( ("SELECT * FROM %s WHERE steamid = '%s' AND strkey = '%s'"):format(
 			unlock_lists[list_name],
 			steam_id,
 			key ) )
@@ -112,7 +112,7 @@ function Unlock( list_name, ply, key )
 	end
 
 	local steam_id = ply:SteamID64()
-	local result = sql.Query( ("INSERT INTO %s VALUES ('%s','%s')"):format( 
+	local result = sql.Query( ("INSERT INTO %s VALUES ('%s','%s')"):format(
 		unlock_lists[list_name],
 		steam_id,
 		key ) )
@@ -142,7 +142,7 @@ function GetAll( list_name, ply )
 	end
 
 	local steam_id = ply:SteamID64()
-	local result = sql.Query( ("SELECT * FROM %s WHERE steamid = '%s'"):format( 
+	local result = sql.Query( ("SELECT * FROM %s WHERE steamid = '%s'"):format(
 		unlock_lists[list_name],
 		steam_id ) )
 
@@ -172,7 +172,7 @@ if CLIENT then
 		end
 
 		Unlock( list_name, LocalPlayer(), key )
-		
+
 	end )
 
 end
@@ -183,7 +183,7 @@ local function EncodeList( list_name, ply )
 
 	local blob = list_name .. '\0'
 
-	for x, str in pairs( GetAll( list_name, ply ) ) do 
+	for x, str in pairs( GetAll( list_name, ply ) ) do
 		blob = blob .. str .. '\0'
 	end
 
@@ -221,9 +221,9 @@ download.Register( "download_unlocks", function( cb, dl )
 			local list_name, strings = DecodeList( dl:GetData() )
 
 			if not unlock_lists[list_name] then
-	
+
 				Register( list_name )
-	
+
 			end
 
 			for _, key in pairs( strings ) do
@@ -268,13 +268,13 @@ hook.Add( "PlayerInitialSpawn", "download_unlocks", function(ply)
 	for list_name, _ in pairs( unlock_lists ) do
 
 		DownloadToPlayer( list_name, ply )
-		
+
 	end
 
 end )
 
 
-hook.Add( "OnUnlocked", "unlock_test", function( list_name, key, ply ) 
+hook.Add( "OnUnlocked", "unlock_test", function( list_name, key, ply )
 
 	--print( ("  UNLOCKED[ %s ] => %s (for %s)" ):format( list_name, key, tostring(ply) ) )
 

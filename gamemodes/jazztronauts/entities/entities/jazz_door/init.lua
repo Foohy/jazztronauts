@@ -8,7 +8,7 @@ ENT.DoorOpen = Sound("doors/door1_move.wav")
 ENT.DoorClose = Sound("doors/door_wood_close1.wav")
 --ENT.DoorLocked = --Sound("d")
 
-local outputs = 
+local outputs =
 {
 	"OnTeleport",
 	"OnUnlock",
@@ -19,11 +19,11 @@ local outputs =
 function ENT:Initialize()
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
-	self:SetUseType(SIMPLE_USE)	
+	self:SetUseType(SIMPLE_USE)
 	self:DrawShadow( false )
 
 	local phys = self:GetPhysicsObject()
-	
+
 	if IsValid(phys) then
 		phys:SetMaterial("gmod_silent")
 	end
@@ -33,12 +33,12 @@ function ENT:Initialize()
 end
 
 function ENT:Use(activator, caller)
-	if self.IsLocked then 
+	if self.IsLocked then
 		self:TriggerOutput("OnUseLocked", activator)
 		if self.DoorLocked then
 			self:EmitSound(self.DoorLocked)
 		end
-		return 
+		return
 	end
 
 	self:TriggerOutput("OnUse", activator)
@@ -109,7 +109,7 @@ function ENT:GetTeleportEntity()
 			print(self)
 		end
 	end
-	
+
 	return self.TeleportEnt
 
 end
@@ -160,7 +160,7 @@ function ENT:Think()
 		self.TeleportPly = nil
 	end
 
-	self:NextThink(CurTime())  
+	self:NextThink(CurTime())
 	return true
 end
 
@@ -168,11 +168,11 @@ end
 
 function ENT:KeyValue(key, value)
 	local isEmpty = !value || string.len(value) <= 0
-	
+
 	if table.HasValue(outputs, key) then
 		self:StoreOutput(key, value)
 	end
-	
+
 	if !isEmpty then
 
 		if key == "teleportentity" then

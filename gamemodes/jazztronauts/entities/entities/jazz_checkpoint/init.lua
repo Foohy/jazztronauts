@@ -24,9 +24,9 @@ function ENT:KeyValue( key, value )
 end
 
 function ENT:AcceptInput( name, activator, caller, data )
-	if name == "MovePlayers" then 
-		self:MovePlayers() 
-		return true 
+	if name == "MovePlayers" then
+		self:MovePlayers()
+		return true
 	end
 
 	return false

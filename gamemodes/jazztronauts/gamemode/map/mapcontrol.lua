@@ -15,7 +15,7 @@ local includeExternalHost = CreateConVar("jazz_include_external_host", defaultMa
 
 concommand.Add("jazz_clear_cache", function()
 	ClearCache()
-end, 
+end,
 nil, "Clears the temporary cache of downloaded map files")
 
 
@@ -60,7 +60,7 @@ function GetNextEncounter()
 	local halfway = math.Round(bshardReq / 2)
 
 	-- First encounter, show if ng+ (not required level change though)
-	if bshardCount == 0 and not seen1 then 
+	if bshardCount == 0 and not seen1 then
 		return 1, false
 	elseif bshardCount >= 1 and bshardCount < halfway and not seen2 then
 		return 2, true
@@ -68,7 +68,7 @@ function GetNextEncounter()
 		return 3, true
 	end
 
-	return nil 
+	return nil
 end
 
 function GetHubMap()
@@ -123,8 +123,8 @@ if SERVER then
 	function GetMapsInAddon(wsid)
 		local maps = {}
 		local found = file.Find("maps/*.bsp", wsid)
-		for _, v in pairs(found) do 
-			table.insert(maps, string.StripExtension(v)) 
+		for _, v in pairs(found) do
+			table.insert(maps, string.StripExtension(v))
 		end
 
 		return maps
@@ -177,13 +177,13 @@ if SERVER then
 		return launched
 	end
 
-	-- Given a workshop id, try to download and mount it 
+	-- Given a workshop id, try to download and mount it
 	-- if it hasn't already been downloaded/mounted
 	local cachepath = "jazztronauts/cache"
 	function InstallAddon(wsid, finishFunc, decompFunc)
 		file.CreateDir(cachepath)
 		local dlpath = cachepath .. "/" .. wsid .. ".dat"
-		
+
 		-- Check local cache first
 		local s, files = game.MountGMA("data/" .. dlpath)
 		if s and files then
@@ -196,7 +196,7 @@ if SERVER then
 		workshop.DownloadGMA(wsid, function(data, errmsg)
 
 			-- Bad workshop ID or network failure
-			if not data then 
+			if not data then
 				print("Failed to download addon: " .. errmsg)
 				finishFunc(nil)
 				return
@@ -215,9 +215,9 @@ if SERVER then
 				local s, files = game.MountGMA("data/" .. dlpath)
 				print("Mounting: " .. (SysTime() - time) .. " seconds.")
 
-				if s and files then 
+				if s and files then
 					print("CONTENT MOUNTED!!! SAY HELLO TO YOUR NEW FILES:")
-					PrintTable(files) 
+					PrintTable(files)
 				end
 
 				finishFunc(files)
@@ -234,7 +234,7 @@ if SERVER then
 
 	local function GetExternalMapAddons(contents)
 		local addons = {}
-		
+
 		for line in string.gmatch(contents, "[^\r\n]+") do
 			local num = tonumber(line)
 			if not num then continue end
@@ -251,7 +251,7 @@ if SERVER then
 		-- For each installed addon, search its contents for a map file
 		for _, v in pairs(addons) do
 			local found = file.Find("maps/*.bsp", v.title)
-			if #found > 0 then 
+			if #found > 0 then
 				table.insert(valid, v.wsid)
 			end
 		end
@@ -289,7 +289,7 @@ if SERVER then
 				-- Save this successful run
 				file.CreateDir(string.GetPathFromFilename(overrideAddonCache))
 				file.Write(overrideAddonCache, addonsStr)
-			else 
+			else
 				-- Try loading from their last successful download cache
 				addonsStr = file.Read(overrideAddonCache, "DATA")
 
@@ -321,9 +321,9 @@ if SERVER then
 	function SpawnExitBus(pos, ang)
 		local spawnpos = pos
 		local spawnang = Angle(ang)
-		spawnang:RotateAroundAxis(spawnang:Up(), 90)  
+		spawnang:RotateAroundAxis(spawnang:Up(), 90)
 		spawnpos = spawnpos - spawnang:Up() * 184/2
-	
+
 		-- Do a trace forward to where the bus will exit
 		local tr = util.TraceLine( {
 			start = pos,
@@ -333,7 +333,7 @@ if SERVER then
 
 		local pos2 = tr.HitPos
 		local ang2 = tr.HitNormal:Angle(spawnang:Up())
-		ang2:RotateAroundAxis(ang2:Up(), 90)  
+		ang2:RotateAroundAxis(ang2:Up(), 90)
 		pos2 = pos2 - ang2:Up() * 184/2
 
 		local bus = ents.Create("jazz_bus_explore")
@@ -361,7 +361,7 @@ if SERVER then
 
 		-- Remove last ones
 		for _, v in pairs(lastBusEnts) do SafeRemoveEntityDelayed(v, 5) end
-		
+
 		table.insert(lastBusEnts, bus)
 		table.insert(lastBusEnts, ent)
 		table.insert(lastBusEnts, exit)

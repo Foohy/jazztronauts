@@ -22,11 +22,11 @@ function PANEL:AddUnlockedProp( model )
 
 	if not string.find(model, ".mdl") then return end
 
-	local icon = spawnmenu.CreateContentIcon( "model", self.content, 
-		{ 
-			model = model, 
-			wide = 128, 
-			tall = 128 
+	local icon = spawnmenu.CreateContentIcon( "model", self.content,
+		{
+			model = model,
+			wide = 128,
+			tall = 128
 		} )
 
 	icon.OpenMenu = function() end
@@ -43,8 +43,8 @@ function PANEL:AddUnlockedWeapon( weapon )
 	local wepinfo = list.Get("Weapon")[weapon]
 	if not wepinfo then return false end
 
-	local icon = spawnmenu.CreateContentIcon( wepinfo.ScriptedEntityType or "weapon", self.content, 
-		{ 
+	local icon = spawnmenu.CreateContentIcon( wepinfo.ScriptedEntityType or "weapon", self.content,
+		{
 			nicename = wepinfo.PrintName or wepinfo.ClassName or weapon,
 			spawnname = wepinfo.ClassName or weapon,
 			material = "entities/" .. (wepinfo.ClassName or weapon) .. ".png",
@@ -95,7 +95,7 @@ function PANEL:Populate()
 	-- Weapons Panel
 	local pnl = vgui.Create( "DPanel" )
 	self:AddSheet( "Weapons", pnl, "icon16/gun.png", nil, nil, "Guns" )
-	
+
 	self.weapons = vgui.Create( "ContentContainer", pnl )
 	self.weapons:Dock( FILL )
 	self.weapons:SetSkin( "Jazz" )
@@ -118,14 +118,14 @@ function PANEL:Populate()
 	end)
 
 	local function addSpawnMenu()
-		local pnl = g_SpawnMenu 
+		local pnl = g_SpawnMenu
 		if not IsValid(pnl) then return end
 
 		-- Add the entire spawnmenu as a sheet on the jazz spawnmenu
 		local sheet = self:AddSheet( "Sandbox Spawnmenu", pnl, "icon16/clock.png", nil, nil, "Dogs?" )
-		
+
 		-- Hook into when it's removed so we can handle that gracefully
-		oldremove = pnl.OnRemove 
+		oldremove = pnl.OnRemove
 		local function OnRemove(pnl)
 			if oldremove then oldremove(pnl) end
 
@@ -152,7 +152,7 @@ function PANEL:Populate()
 	-- Backup spawnmenu just in case
 	--local createSpawnmenu = concommand.GetTable()["spawnmenu_reload"]
 	--local pnl = vgui.Create( "SpawnMenu" )
-	
+
 
 	--[[local tabs = spawnmenu.GetCreationTabs()
 

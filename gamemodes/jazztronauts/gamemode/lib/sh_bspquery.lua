@@ -58,7 +58,7 @@ local function traceBrushSides( brush, tw )
 			local t = dist / denom
 
 			if denom < 0 then
-				if t > first then 
+				if t > first then
 					testside = side
 					first = t
 				end
@@ -164,7 +164,7 @@ function traceNode( node, tw )
 
 		else
 
-			if node.has_detail_brushes then --bit.band( CONTENTS_DETAIL, tw.mask ) ~= 0 and 
+			if node.has_detail_brushes then --bit.band( CONTENTS_DETAIL, tw.mask ) ~= 0 and
 
 				--print(CurTime() .. "TEST DETAILS")
 				local side, brush = traceBrushes( node, tw )
@@ -233,7 +233,7 @@ end
 local function buildFilterMap(filter, dest)
 	table.Empty(dest)
 	if not filter then return end
-	
+
 	for k, v in pairs(filter) do
 		dest[v] = v
 	end
@@ -249,7 +249,7 @@ function meta:Trace( tdata)
 	if not tdata.ignoreents then
 		for k,v in pairs( self.entities ) do
 			if filterMap[v.classname] then continue end
-			
+
 			if v.bmodel then
 				local pos = v.origin and Vector(v.origin)
 				local ang = v.angles and Angle(v.angles)
@@ -379,12 +379,12 @@ hook.Add( "HUDPaint", "dbgquery", function()
 
 end )
 
-hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky ) 
+hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky )
 	--if not cvardebug:GetBool() then return end
 	--if bsky then return end
 
 	--drawFace( face )
-	
+
 	--drawBrush( map.brushes[6] )
 
 	if not convar_run_test:GetBool() then return end
@@ -457,7 +457,7 @@ hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky )
 				drawLeaf( res.leaf, res.mtx )
 			else
 				drawBrush( res.Brush, res.mtx  )
-			end			
+			end
 
 		end
 

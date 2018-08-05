@@ -4,46 +4,46 @@ if SERVER then
 	util.AddNetworkString("remove_client_send_trace")
 end
 
-SWEP.Base 					= "weapon_basehold"
-SWEP.PrintName 		 		= "Prop Snatcher"
-SWEP.Slot		 	 		= 0
+SWEP.Base					= "weapon_basehold"
+SWEP.PrintName				= "Prop Snatcher"
+SWEP.Slot					= 0
 SWEP.Category				= "Jazztronauts"
 
-SWEP.ViewModel		 		= "models/weapons/c_stunstick.mdl"
+SWEP.ViewModel				= "models/weapons/c_stunstick.mdl"
 SWEP.WorldModel				= "models/weapons/w_stunbaton.mdl"
-SWEP.HoldType		 		= "melee"
+SWEP.HoldType				= "melee"
 
 SWEP.Primary.Delay			= 0.1
 SWEP.Primary.ClipSize		= -1
-SWEP.Primary.DefaultClip 	= -1
-SWEP.Primary.Ammo 			= "none"
-SWEP.Primary.Sound	 		= Sound( "weapons/357/357_fire2.wav" )
+SWEP.Primary.DefaultClip	= -1
+SWEP.Primary.Ammo			= "none"
+SWEP.Primary.Sound			= Sound( "weapons/357/357_fire2.wav" )
 SWEP.Primary.Automatic		= true
 
 SWEP.Secondary.ClipSize		= -1
-SWEP.Secondary.DefaultClip 	= -1
-SWEP.Secondary.Ammo 		= "none"
+SWEP.Secondary.DefaultClip	= -1
+SWEP.Secondary.Ammo		= "none"
 
 -- General settings
-SWEP.ReticleCircleMaterial 	= Material("ui/jazztronauts/circle")
-local LongRangeDefault 		= 300
-local ShortRangeDefault 	= 175
-SWEP.MaxRange 				= LongRangeDefault
+SWEP.ReticleCircleMaterial	= Material("ui/jazztronauts/circle")
+local LongRangeDefault		= 300
+local ShortRangeDefault	= 175
+SWEP.MaxRange				= LongRangeDefault
 SWEP.CloseRange				= ShortRangeDefault
 
 -- Tier 1 settings
-local AimConeDefault 		= 3
+local AimConeDefault		= 3
 SWEP.AutoAimCone			= AimConeDefault
 
 -- Tier 2 settings
-SWEP.MinFireDelay 			= 0.1 -- Min delay to fire when at full blast
+SWEP.MinFireDelay			= 0.1 -- Min delay to fire when at full blast
 SWEP.WarmUpTime				= 1 -- How long it takes to get to full blast
 
-SWEP.Spawnable 				= true
+SWEP.Spawnable				= true
 SWEP.RequestInfo			= {}
 SWEP.KillsPeople			= true
 
-SWEP.StartShootTime 		= 0
+SWEP.StartShootTime		= 0
 SWEP.LastCursorPos			= Vector()
 
 SWEP.SnatchSounds = {
@@ -56,44 +56,44 @@ SWEP.MissSounds = {
 	Sound("jazztronauts/snatch/snatch_miss02.wav"),
 }
 
-local snatch_cone = jstore.RegisterSeries("snatch_cone", 20000, 10, { 
-	name = "Aim Cone", 
+local snatch_cone = jstore.RegisterSeries("snatch_cone", 20000, 10, {
+	name = "Aim Cone",
 	desc = "Increase the radius of your center aim cone, so you can see and steal with minimal effort.",
 	type = "upgrade",
 	cat = "Prop Snatcher",
 	priceMultiplier = 1.5,
 })
-local snatch_range = jstore.RegisterSeries("snatch_range", 10000, 10, { 
-	name = "Steal Range", 
+local snatch_range = jstore.RegisterSeries("snatch_range", 10000, 10, {
+	name = "Steal Range",
 	desc = "Increase the range from which you can steal things.",
 	type = "upgrade",
 	cat = "Prop Snatcher",
 	priceMultiplier = 1.5,
 })
-local snatch2 = jstore.Register("snatch2", 10000, { 
-    name = "Auto-Auto Aim", 
-    cat = "Prop Snatcher", 
+local snatch2 = jstore.Register("snatch2", 10000, {
+	name = "Auto-Auto Aim",
+	cat = "Prop Snatcher",
 	desc = "Hold down left click to automate picking up many props at a time.",
-    type = "upgrade" 
+	type = "upgrade"
 })
 
-local snatch_world = jstore.Register("snatch_world", 10000, { 
-    name = "Ultimate Aim", 
-    cat = "Prop Snatcher", 
+local snatch_world = jstore.Register("snatch_world", 10000, {
+	name = "Ultimate Aim",
+	cat = "Prop Snatcher",
 	desc = "No matter where you aim, you're picking something up. Hold right click to steal world brushes",
-    type = "upgrade" 
+	type = "upgrade"
 })
-local snatch_multi = jstore.Register("snatch_multi", 50000, { 
-    name = "Multi Tasking", 
-    cat = "Prop Snatcher", 
+local snatch_multi = jstore.Register("snatch_multi", 50000, {
+	name = "Multi Tasking",
+	cat = "Prop Snatcher",
 	desc = "Multi-task by being able to both steal world brushes and props at the same time",
-    requires = snatch_world,
-    type = "upgrade" 
+	requires = snatch_world,
+	type = "upgrade"
 })
-local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 100, 10, { 
-	name = "World Stealing Speed", 
+local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 100, 10, {
+	name = "World Stealing Speed",
 	desc = "Steal the world 100% faster",
-	requires = snatch_world, 
+	requires = snatch_world,
 	type = "upgrade",
 	cat = "Prop Snatcher",
 	priceMultiplier = 10,
@@ -106,10 +106,10 @@ CreateConVar("jazz_debug_snatch_allups", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY }
 function SWEP:Initialize()
 	self.BaseClass.Initialize( self )
 
-	self:SetWeaponHoldType( self.HoldType )	
+	self:SetWeaponHoldType( self.HoldType )
 
 	-- Hook into unlock callbacks
-	hook.Add( "OnUnlocked", self, function( self, list_name, key, ply ) 
+	hook.Add( "OnUnlocked", self, function( self, list_name, key, ply )
 		if ply == self.Owner and string.find(key, "snatch") then
 			self:SetUpgrades()
 		end
@@ -132,7 +132,7 @@ function SWEP:SetUpgrades(overpowered)
 
 	-- Steal range
 	local rangeLevel = overpowered and 10 or jstore.GetSeries(self.Owner, snatch_range)
-	self.MaxRange 	= LongRangeDefault + rangeLevel * 150
+	self.MaxRange	= LongRangeDefault + rangeLevel * 150
 	self.CloseRange = ShortRangeDefault + rangeLevel * 25
 
 	-- Tier II - Automatic fire upgrade
@@ -243,7 +243,7 @@ local function findInCone(startpos, direction, radius, angle, result)
 	local center = startpos + direction * radius / 2
 	local findRadius = math.tan(math.rad(angle)) * radius * math.pi
 	local near = ents.FindInSphere(center, findRadius)
-	
+
 	local ang = math.cos(math.rad(angle))
 
 	-- Filter out entities that aren't in the angle
@@ -282,21 +282,21 @@ local function findInConeSample(startpos, angle, aimCone, range, dimu, dimv, res
 	--local gcstart = collectgarbage("count")
 	for u = 0, dimu do
 		for v = 0, dimv do
-			
+
 			local radial = u * 1.0 / dimu
 			local theta = 2 * math.pi * v / dimv
 			local x = radial * math.cos(theta) * aimCone * mult + ScrW() / 2
 			local y = radial * math.sin(theta) * aimCone * mult + ScrH() / 2
-			
+
 			local dir = util.AimVector(angle, 90, x, y, ScrW(), ScrH())
 
 			//coneSampleTrace.endpos = coneSampleTrace.start + dir * range
 			coneSampleTrace.endpos:Set(dir)
 			coneSampleTrace.endpos:Mul(range)
 			coneSampleTrace.endpos:Add(coneSampleTrace.start)
-			
+
 			util.TraceLine(coneSampleTrace)
-			
+
 			--debugoverlay.Line(res.StartPos, res.HitPos, 0.11, color_white, true)
 			--debugoverlay.Sphere(coneSampleRes.StartPos + dir * 10, 0.02, 0.15, Color(255, 0, 0, 255), true)
 			if IsValid(coneSampleRes.Entity) then
@@ -339,10 +339,10 @@ function SWEP:FindConeEntities()
 
 	util.TraceLine(aimTrace)
 
-	-- Whatever the trace actually hit always has priority	
+	-- Whatever the trace actually hit always has priority
 	local closest, closedist2
 	closedist2 = math.huge
-	if self:AcceptEntity(resAim.Entity) then 
+	if self:AcceptEntity(resAim.Entity) then
 		validAccept[resAim.Entity] = resAim.Entity
 		closest = resAim.Entity
 		closedist2 = 0
@@ -376,7 +376,7 @@ function SWEP:FindConeEntities()
 	-- Phase 3: Far range find in cone.
 	-- Serves only as a 'prop esp'. Does not add anything as a valid target
 	-- Only so you can see there's props through walls
-	if phaseNumber == 2 then		
+	if phaseNumber == 2 then
 		table.Empty(validFar)
 		findInCone(resAim.StartPos, resAim.Normal, self.MaxRange * 2, self.AutoAimCone, validFar)
 		filterTable(validFar, function(v)
@@ -469,7 +469,7 @@ if SERVER then
 			swep:RemoveWorld( net.ReadVector(), snatchobj )
 
 		elseif swep:IsAcceptingProps() then
-			
+
 			swep:RemoveEntity( net.ReadEntity(), snatchobj )
 
 		end
@@ -524,7 +524,7 @@ function SWEP:DrawHUD()
 	local radius = aimradius * (1 - math.sin(math.pi * self.WorldShootFade * 0.5) * 0.8)
 	radius = radius * math.EaseInOut(self.EquipFade, 0, 1)
 
-	-- Aimhack higlight 
+	-- Aimhack higlight
 	local ent, accept, near = self.ConeEnt, self.ConeAccept or {}, self.ConeNear or {}
 
 	-- Draw entities we can't grab now, but we're nearby
@@ -583,11 +583,11 @@ function SWEP:DrawHUD()
 		render.SuppressEngineLighting(false)
 		render.SetStencilEnable(false)
 
-		-- Render a bounding box over the selected prop	
+		-- Render a bounding box over the selected prop
 		if IsValid(ent) then
 			local srcPos = self:GetAttachment( 1 ).Pos
 			if !LocalPlayer():ShouldDrawLocalPlayer() then
-				srcPos = LocalPlayer():GetViewModel():GetAttachment( 1 ).Pos 
+				srcPos = LocalPlayer():GetViewModel():GetAttachment( 1 ).Pos
 			end
 
 			JazzRenderGrabEffect(ent, nil, srcPos)
@@ -638,7 +638,7 @@ function SWEP:DrawHUD()
 
 	-- Step hover alpha linearly
 	local speed = 10
-	self.HoverAlpha = math.Approach(self.HoverAlpha, IsValid(ent) and 1 or 0, FrameTime() * speed) 
+	self.HoverAlpha = math.Approach(self.HoverAlpha, IsValid(ent) and 1 or 0, FrameTime() * speed)
 	self.ShootFade = math.Approach(self.ShootFade, 0, FrameTime() * 3)
 	self.WorldShootFade = math.Approach(self.WorldShootFade, worldShootGoal, FrameTime() * 5.1)
 	self.BadShootFade = math.Approach(self.BadShootFade, 0, FrameTime() * 3)
@@ -681,7 +681,7 @@ function SWEP:PrimaryAttack()
 	--Standard stuff
 	if !self:CanPrimaryAttack() then return end
 	self:SetNextPrimaryFire(CurTime() + self:GetPrimaryShootDelay())
-	
+
 	if CLIENT or game.SinglePlayer() then
 		self:TraceToRemove()
 	end
@@ -769,12 +769,12 @@ hook.Add("PostRender", "JazzUpdateSnatchEnts", function()
 	self.ConeNear = near
 end )
 
-function SWEP:Think() 
+function SWEP:Think()
 	if not SERVER then return end
 
 	if self:IsSecondaryAttacking() then
 		local curMarker = self:GetCurSnatchMarker()
-		if not IsValid(curMarker) then 
+		if not IsValid(curMarker) then
 			--local tr = self:WorldStealTrace()
 			local newMarker = snatch.FindOrCreateWorld(self.Owner:GetShootPos(), self.Owner:GetAimVector(), self.MaxRange)
 

@@ -161,7 +161,7 @@ local function ConvolvedHeatSample( k )
 	local h18 = ( heat[ k - heat_key_width2 + 1 ] or 0 )
 	local h19 = ( heat[ k + heat_key_width2 - 1 ] or 0 )
 	local h20 = ( heat[ k + heat_key_width2 + 1 ] or 0 )
-	
+
 	local r0 = h0+h1+h2+h3+h4
 	local r1 = h5+h6+h7+h8+h9
 	local r2 = h10+h11+h12+h13+h14
@@ -333,11 +333,11 @@ local function HistoryPos(pos)
 		end
 
 		local lensqr = (v.v0 - v.v1):LengthSqr()
-		if break_off then --lensqr > 262144 or 
+		if break_off then --lensqr > 262144 or
 			print("ADD: " .. #history)
 			table.insert( history, {point = pos} )
 		end
-		return 
+		return
 	end
 
 	table.insert( history, {point = pos} )

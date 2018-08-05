@@ -20,7 +20,7 @@ local function ParseOutput( str, event )
 	return args
 end
 
-if SERVER then 
+if SERVER then
 
 	local proxy_name = "__jazz_io_proxy"
 
@@ -36,8 +36,8 @@ if SERVER then
 			ent.JazzIOEvents[key] = ent.JazzIOEvents[key] or {}
 
 			table.insert(ent.JazzIOEvents[key], {
-				key = key, 
-				value = value, 
+				key = key,
+				value = value,
 				outdata = ParseOutput(value)
 			})
 		end
@@ -57,7 +57,7 @@ if SERVER then
 			io_proxy:Spawn()
 		end
 
-		-- Go through every entity, and for each output we create an additional output to fire that event 
+		-- Go through every entity, and for each output we create an additional output to fire that event
 		-- To our IO proxy. It then listens to those events and forwards them to the client
 		for _, v in pairs(ents.GetAll()) do
 			if not v.JazzIOEvents then continue end
@@ -582,7 +582,7 @@ local function PrepGraph()
 				modelent.JazzBrushMatrix = Matrix()
 
 				function modelent:RenderOverride()
-					local mtx = self.JazzBrushMatrix 
+					local mtx = self.JazzBrushMatrix
 					mtx:SetTranslation(self:GetPos() )
 					mtx:SetAngles(self:GetAngles() )
 					cam.PushModelMatrix(mtx)
@@ -809,7 +809,7 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 	render.PopRenderTarget()
 
 	cam.Start2D()
-	
+
 	surface.SetDrawColor(255,255,255,255)
 	render.SetMaterial(hacker_vision)
 	render.DrawScreenQuad()

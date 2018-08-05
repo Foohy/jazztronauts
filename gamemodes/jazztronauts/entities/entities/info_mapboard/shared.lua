@@ -22,23 +22,23 @@ end
 if SERVER then return end
 
 surface.CreateFont( "SmallHeaderFont", {
-	font      = "KG Shake it Off Chunky",
-	size      = 48,
-	weight    = 700,
+	font	  = "KG Shake it Off Chunky",
+	size	  = 48,
+	weight	= 700,
 	antialias = true
 })
 
 surface.CreateFont( "SelectMapFont", {
-	font      = "KG Shake it Off Chunky",
-	size      = 130,
-	weight    = 700,
+	font	  = "KG Shake it Off Chunky",
+	size	  = 130,
+	weight	= 700,
 	antialias = true
 })
 
 function ENT:DrawTranslucent()
 	local ang = self.Entity:GetAngles()
 	local pos = self.Entity:GetPos() + ang:Right() * 0.01
-	
+
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 90 )
 

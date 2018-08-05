@@ -14,218 +14,218 @@ mask = bit.bor( mask, CONTENTS_GRATE )
 mask = bit.bor( mask, CONTENTS_TRANSLUCENT )
 
 local function createMarkerForBrush(pos, ang, brush)
-    local ent = ents.Create("jazz_snatch_target")
-    ent:Spawn()
-    ent:Activate()
-    ent:SetPos(pos)
-    ent:SetAngles(ang)
-    ent:SetBrushID(brush.id)
-    ent.BrushInfo = brush
+	local ent = ents.Create("jazz_snatch_target")
+	ent:Spawn()
+	ent:Activate()
+	ent:SetPos(pos)
+	ent:SetAngles(ang)
+	ent:SetBrushID(brush.id)
+	ent.BrushInfo = brush
 
-    JazzWorldSnatches[brush.id] = ent
+	JazzWorldSnatches[brush.id] = ent
 end
 
 function snatch.FindOrCreateWorld(pos, dir, dist)
-    local map = bsp2.GetCurrent()
-    local res = map:Trace({
+	local map = bsp2.GetCurrent()
+	local res = map:Trace({
 		pos = pos,
 		dir = dir,
 		tmin = 0,
 		tmax = dist,
 		mask = mask,
-        ignoreents = true,
-        filter = { "func_dustmotes" }
+		ignoreents = true,
+		filter = { "func_dustmotes" }
 	})
 
-    local brush = res and res.Hit and res.Brush and res.Brush
-    if not brush or snatch.removed_brushes[brush.id] then return nil end
-    if IsValid(JazzWorldSnatches[brush.id]) then return JazzWorldSnatches[brush.id] end
+	local brush = res and res.Hit and res.Brush and res.Brush
+	if not brush or snatch.removed_brushes[brush.id] then return nil end
+	if IsValid(JazzWorldSnatches[brush.id]) then return JazzWorldSnatches[brush.id] end
 
-    return createMarkerForBrush(res.HitPos, res.HitNormal:Angle(), brush)
+	return createMarkerForBrush(res.HitPos, res.HitNormal:Angle(), brush)
 end
 
 
 function ENT:SetupDataTables()
-    self.BaseClass.SetupDataTables(self)
-    self:NetworkVar("Int", 1, "BrushID")
+	self.BaseClass.SetupDataTables(self)
+	self:NetworkVar("Int", 1, "BrushID")
 end
 
 if SERVER then
-    function ENT:Initialize()
-        self:SetModel(self.Model)
-        --self:SetNoDraw(true)
+	function ENT:Initialize()
+		self:SetModel(self.Model)
+		--self:SetNoDraw(true)
 
-        self.PlayerList = {}
-    end
+		self.PlayerList = {}
+	end
 
-    function ENT:GetBrushSizeMultiplier()
-        local size = self.BrushInfo.max - self.BrushInfo.min
+	function ENT:GetBrushSizeMultiplier()
+		local size = self.BrushInfo.max - self.BrushInfo.min
 
-        local length = size.x + size.y + size.z
-        
-        -- 600 is pretty good for a more upgraded value
-        -- 100 is a pretty good starting value
-        return 100.0 / math.pow(length, 1.1)
-    end
+		local length = size.x + size.y + size.z
 
-    function ENT:GetPlayerMultiplier()
-        local playerSpeeds = 0
-        for _, v in pairs(self.PlayerList) do
-            if not IsValid(v) then continue end
-            local wep = v:GetWeapon("weapon_propsnatcher")
-            if not IsValid(wep) or v:GetActiveWeapon() != wep then continue end
+		-- 600 is pretty good for a more upgraded value
+		-- 100 is a pretty good starting value
+		return 100.0 / math.pow(length, 1.1)
+	end
 
-            playerSpeeds = playerSpeeds + (wep.WorldStealSpeed or 1)
-        end
+	function ENT:GetPlayerMultiplier()
+		local playerSpeeds = 0
+		for _, v in pairs(self.PlayerList) do
+			if not IsValid(v) then continue end
+			local wep = v:GetWeapon("weapon_propsnatcher")
+			if not IsValid(wep) or v:GetActiveWeapon() != wep then continue end
 
-        return playerSpeeds
-    end
+			playerSpeeds = playerSpeeds + (wep.WorldStealSpeed or 1)
+		end
 
-    -- Overwritten
-    function ENT:ActivateMarker()
-        self.BaseClass.ActivateMarker(self)
+		return playerSpeeds
+	end
 
-        local yoink = snatch.New()
-        yoink:SetMode(2)
-	    yoink:StartWorld(self:GetPos(), self:GetOwner(), self:GetBrushID())
+	-- Overwritten
+	function ENT:ActivateMarker()
+		self.BaseClass.ActivateMarker(self)
 
-        hook.Run("CollectBrush", self.BrushInfo, self.PlayerList)
-    end
+		local yoink = snatch.New()
+		yoink:SetMode(2)
+		yoink:StartWorld(self:GetPos(), self:GetOwner(), self:GetBrushID())
 
-    function ENT:UpdateSpeed()
-        local brushsize = self:GetBrushSizeMultiplier()
-        local playerspeeds = self:GetPlayerMultiplier()
+		hook.Run("CollectBrush", self.BrushInfo, self.PlayerList)
+	end
 
-        self:SetSpeed(playerspeeds * brushsize)
-    end
+	function ENT:UpdateSpeed()
+		local brushsize = self:GetBrushSizeMultiplier()
+		local playerspeeds = self:GetPlayerMultiplier()
+
+		self:SetSpeed(playerspeeds * brushsize)
+	end
 end
 
 if CLIENT then
 
-    -- Void material, but zero refraction on it
-    -- This is so we don't get any z-fighting/flickering when shaking the brush
-    local refractParams = {
+	-- Void material, but zero refraction on it
+	-- This is so we don't get any z-fighting/flickering when shaking the brush
+	local refractParams = {
 
-        ["$basetexture"] = "concrete/concretefloor001a",
-        ["$additive"] = 0,
-        ["$vertexcolor"] = 1,
-        ["$vertexalpha"] = 0,
-        ["$refractamount"] = 0.0,
-        ["$model"] = 1,
-        ["$nocull"] = 1,
-    }
+		["$basetexture"] = "concrete/concretefloor001a",
+		["$additive"] = 0,
+		["$vertexcolor"] = 1,
+		["$vertexalpha"] = 0,
+		["$refractamount"] = 0.0,
+		["$model"] = 1,
+		["$nocull"] = 1,
+	}
 
-    local voidOnly = CreateMaterial("RefractBrushModel_NoRefract" .. FrameNumber(), "Refract", refractParams)
+	local voidOnly = CreateMaterial("RefractBrushModel_NoRefract" .. FrameNumber(), "Refract", refractParams)
 
-    function ENT:Initialize()
-        self.BaseClass.Initialize(self)
+	function ENT:Initialize()
+		self.BaseClass.Initialize(self)
 
-        hook.Add("JazzDrawVoid", self, function(self) self:OnPortalRendered() end)
-    end
+		hook.Add("JazzDrawVoid", self, function(self) self:OnPortalRendered() end)
+	end
 
-    function ENT:BuildBrushMesh(brush_id, extrude, matOverride)
-        local map = bsp2.GetCurrent()
-        if map:IsLoading() then return end
+	function ENT:BuildBrushMesh(brush_id, extrude, matOverride)
+		local map = bsp2.GetCurrent()
+		if map:IsLoading() then return end
 
-        local brush_list = map.brushes
-        local brush = brush_list[brush_id]:Copy( true )
+		local brush_list = map.brushes
+		local brush = brush_list[brush_id]:Copy( true )
 
-        if not brush then
-            ErrorNoHalt( "Brush not found: " .. tostring( brush_id ))
-            return
-        end
+		if not brush then
+			ErrorNoHalt( "Brush not found: " .. tostring( brush_id ))
+			return
+		end
 
-        -- extrude out from sides (TWEAK!!)
-        extrude = extrude or -1
-        for k, side in pairs( brush.sides ) do
-            side.plane.dist = side.plane.dist + extrude
-        end
+		-- extrude out from sides (TWEAK!!)
+		extrude = extrude or -1
+		for k, side in pairs( brush.sides ) do
+			side.plane.dist = side.plane.dist + extrude
+		end
 
-        brush:CreateWindings()
-        brush.center = (brush.min + brush.max) / 2
+		brush:CreateWindings()
+		brush.center = (brush.min + brush.max) / 2
 
-        local to_center = -brush.center
-        
-        local verts = {}
-        for _, side in pairs( brush.sides ) do
-            if not side.winding or not side.texinfo then continue end
-            side.winding:Move( to_center )
+		local to_center = -brush.center
 
-            local texinfo = side.texinfo
-            local texdata = texinfo.texdata
-            local material = matOverride or Material( texdata.material )
+		local verts = {}
+		for _, side in pairs( brush.sides ) do
+			if not side.winding or not side.texinfo then continue end
+			side.winding:Move( to_center )
 
-            side.winding:CreateMesh(material, texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_center )
-        end
+			local texinfo = side.texinfo
+			local texdata = texinfo.texdata
+			local material = matOverride or Material( texdata.material )
 
-        -- Also set render bounds to match
-        self:SetRenderBoundsWS(brush.min, brush.max)
+			side.winding:CreateMesh(material, texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_center )
+		end
 
-        return brush
-    end
+		-- Also set render bounds to match
+		self:SetRenderBoundsWS(brush.min, brush.max)
 
-    function ENT:Think()
-        self.BaseClass.Think(self)
+		return brush
+	end
 
-        if not self.Brush and self.GetBrushID then
-            self.Brush = self:BuildBrushMesh(self:GetBrushID())
-            local voidTex = jazzvoid.GetVoidTexture()
-            voidOnly:SetTexture("$basetexture", voidTex:GetName())
-            self.VoidBrush = self:BuildBrushMesh(self:GetBrushID(), -1, voidOnly)
-        end
+	function ENT:Think()
+		self.BaseClass.Think(self)
 
-        -- Random shake think
-        self.NextRandom = self.NextRandom or 0
-        self.GoalRand = self.GoalRand or Vector()
-        self.CurRand = self.CurRand or Vector()
-        if self.NextRandom < UnPredictedCurTime() then
-            self.NextRandom = UnPredictedCurTime() + 0.02
-            self.GoalRand = Vector(math.random(-1, 1), math.random(-1, 1), math.random(-1, 1))
-        end
-        
-        for i=1, 3 do
-            self.CurRand[i] = math.Approach(self.CurRand[i], self.GoalRand[i], FrameTime() / 0.02)
-        end
-    end
+		if not self.Brush and self.GetBrushID then
+			self.Brush = self:BuildBrushMesh(self:GetBrushID())
+			local voidTex = jazzvoid.GetVoidTexture()
+			voidOnly:SetTexture("$basetexture", voidTex:GetName())
+			self.VoidBrush = self:BuildBrushMesh(self:GetBrushID(), -1, voidOnly)
+		end
 
-    function ENT:GetBrushOffset(mtx)
-        local function rand(min, max, i)
-            return util.SharedRandom("ass", min, max, CurTime() * 1000 + i)
-        end
-        local prog = math.pow(self:GetProgress(), 1) * 5
-        mtx:Translate(self.CurRand * prog)
-        //mtx:SetAngles(Angle(rand(-1, 1, 4), rand(-1, 1, 5), rand(-1, 1, 6)))
-    end
+		-- Random shake think
+		self.NextRandom = self.NextRandom or 0
+		self.GoalRand = self.GoalRand or Vector()
+		self.CurRand = self.CurRand or Vector()
+		if self.NextRandom < UnPredictedCurTime() then
+			self.NextRandom = UnPredictedCurTime() + 0.02
+			self.GoalRand = Vector(math.random(-1, 1), math.random(-1, 1), math.random(-1, 1))
+		end
 
-    function ENT:OnPortalRendered() 
-        if not self.Brush then return end
+		for i=1, 3 do
+			self.CurRand[i] = math.Approach(self.CurRand[i], self.GoalRand[i], FrameTime() / 0.02)
+		end
+	end
 
-        local brushCenter = (self.Brush.min + self.Brush.max) / 2
+	function ENT:GetBrushOffset(mtx)
+		local function rand(min, max, i)
+			return util.SharedRandom("ass", min, max, CurTime() * 1000 + i)
+		end
+		local prog = math.pow(self:GetProgress(), 1) * 5
+		mtx:Translate(self.CurRand * prog)
+		//mtx:SetAngles(Angle(rand(-1, 1, 4), rand(-1, 1, 5), rand(-1, 1, 6)))
+	end
 
-        local mtx = Matrix()
-        mtx:SetTranslation(brushCenter)
+	function ENT:OnPortalRendered()
+		if not self.Brush then return end
+
+		local brushCenter = (self.Brush.min + self.Brush.max) / 2
+
+		local mtx = Matrix()
+		mtx:SetTranslation(brushCenter)
 		self:GetBrushOffset(mtx)
 
-        cam.PushModelMatrix( mtx )
-		    self.Brush:Render()
+		cam.PushModelMatrix( mtx )
+			self.Brush:Render()
 		cam.PopModelMatrix()
-    end
+	end
 
-    function ENT:Draw()
-        if not self.Brush then return end
+	function ENT:Draw()
+		if not self.Brush then return end
 
-        local brushCenter = (self.Brush.min + self.Brush.max) / 2
+		local brushCenter = (self.Brush.min + self.Brush.max) / 2
 
-        local mtx = Matrix()
+		local mtx = Matrix()
 		mtx:SetTranslation(brushCenter)
 
 		cam.PushModelMatrix( mtx )
-            self.VoidBrush:Render()
+			self.VoidBrush:Render()
 		cam.PopModelMatrix()
 
-        self:GetBrushOffset(mtx)
-        cam.PushModelMatrix( mtx )
-		    self.Brush:Render()
+		self:GetBrushOffset(mtx)
+		cam.PushModelMatrix( mtx )
+			self.Brush:Render()
 		cam.PopModelMatrix()
-    end
+	end
 end

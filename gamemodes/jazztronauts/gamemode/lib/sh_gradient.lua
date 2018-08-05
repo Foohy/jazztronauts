@@ -106,7 +106,7 @@ end
 function LinearGradientCached(name, rect, custom_color)
 
 	if _gradients[name] then
-		if not custom_color then 
+		if not custom_color then
 			surface.SetDrawColor(255,255,255,255)
 		else
 			surface.SetDrawColor(

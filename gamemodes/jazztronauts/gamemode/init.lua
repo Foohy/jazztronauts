@@ -127,7 +127,7 @@ function GM:CheckGamemodeMap()
 	if not hasEnded then
 
 		-- If they're supposed to be ending but on a normal map instead, switch to end
-		if endType and endmaps[endType] then 
+		if endType and endmaps[endType] then
 			return endmaps[endType]
 		end
 
@@ -144,7 +144,7 @@ end
 
 function GM:JazzMapStarted()
 	print("MAP STARTED!!!!!!!")
-	local isIntro = game.GetMap() == mapcontrol.GetIntroMap() 
+	local isIntro = game.GetMap() == mapcontrol.GetIntroMap()
 	if not mapcontrol.IsInGamemodeMap() or isIntro then
 		game.CleanUpMap()
 		self:GenerateJazzEntities(isIntro)
@@ -177,7 +177,7 @@ function GM:GenerateJazzEntities(noshards)
 
 			-- If the map doesn't exist, try to generate as many shards as we can
 			-- Then store that as the map's worth
-			if not map or tonumber(map.seed) == 0 then	
+			if not map or tonumber(map.seed) == 0 then
 				print("Brand new map")
 				local shardworth = mapgen.CalculateShardCount()
 				local seed = math.random(0, 100000)
@@ -227,7 +227,7 @@ function GM:GenerateJazzEntities(noshards)
 end
 
 function GM:ShutDown()
-	if not mapcontrol.IsInHub() then 
+	if not mapcontrol.IsInHub() then
 		progress.UpdateMapSession(game.GetMap())
 	end
 
@@ -257,7 +257,7 @@ function GM:CollectShard(shard, ply)
 end
 
 -- Called when somebody has collected a bad boy shard
-function GM:CollectBlackShard(shard, ply)	
+function GM:CollectBlackShard(shard, ply)
 	local corr = mapgen.CollectBlackShard(shard)
 	print("Collecting black shard. Map corrupted now? ", corr)
 
@@ -310,7 +310,7 @@ function GM:GetPrimaryBrushMaterial(brush)
 		end
 	end
 
-	if not maxmaterial then 
+	if not maxmaterial then
 		print("Collected brush with no valid surface materials! (brushid: " .. brush.id .. ")")
 		return
 	end
@@ -327,7 +327,7 @@ function GM:CollectBrush(brush, players)
 	-- Collect the prop to the poop chute
 	if worth and worth > 0 then --TODO: Check if worth > 1 not 0
 		worth = worth * newgame.GetMultiplier()
-		for _, ply in pairs(players) do 
+		for _, ply in pairs(players) do
 			if not IsValid(ply) then continue end
 
 			local newCount = snatch.AddProp(ply, material, worth, "brush")
@@ -358,10 +358,10 @@ local function PrintMapHistory(ply)
 	local maps = progress.GetMapHistory()
 
 	if maps then
-		for _, v in pairs(maps) do 
-			local mapstr = v.filename 
+		for _, v in pairs(maps) do
+			local mapstr = v.filename
 			mapstr = mapstr //.. " (Started " .. string.NiceTime(os.time() - v.starttime) .. " ago)"
-			
+
 			ply:ChatPrint(mapstr)
 		end
 	end
@@ -381,7 +381,7 @@ function GM:PlayerInitialSpawn( ply )
 
 	-- Freeze them if map hasn't started yet
 	if self:IsWaitingForPlayers() then
-		timer.Simple(0, function() 
+		timer.Simple(0, function()
 			if self:IsWaitingForPlayers() then
 				ply:Lock()
 			end
@@ -415,12 +415,12 @@ function GM:PlayerSpawn( ply )
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
 
 	PrintMapHistory(ply)
-		
+
 	-- Setup note count
 	ply:RefreshNotes()
 end
 
--- Stop killing the player, they don't collide 
+-- Stop killing the player, they don't collide
 function GM:IsSpawnpointSuitable(ply, spawnent, makesuitable)
 	return true
 end
@@ -432,8 +432,8 @@ end
 
 -- no fall damange with Run
 function GM:GetFallDamage(ply, speed)
-	local wep = ply:GetActiveWeapon() 
-	if IsValid(wep) and wep:GetClass() == "weapon_run" then 
+	local wep = ply:GetActiveWeapon()
+	if IsValid(wep) and wep:GetClass() == "weapon_run" then
 		if not wep:ShouldTakeFallDamage() then return 0 end
 	end
 
@@ -445,10 +445,10 @@ concommand.Add("jazz_reset_progress", function(ply, cmd, args)
 	if IsValid(ply) and not ply:IsSuperAdmin() then return end
 	local phrase = table.concat(args, " ")
 	if phrase != acknowledge then
-		local failInfo = "Are you sure you want to reset progress? This command cannot be undone." 
+		local failInfo = "Are you sure you want to reset progress? This command cannot be undone."
 		.. "\nRe-run this command with the argument \"" .. acknowledge .. "\" to acknowledge."
-		if IsValid(ply) then 
-			ply:ChatPrint(failInfo) 
+		if IsValid(ply) then
+			ply:ChatPrint(failInfo)
 		else
 			print(failInfo)
 		end
@@ -460,5 +460,5 @@ concommand.Add("jazz_reset_progress", function(ply, cmd, args)
 	mapcontrol.Launch(mapcontrol.GetIntroMap())
 
 	print("Dump'd.")
-	
+
 end, nil, "Reset all jazztronauts progress entirely. This wipes all player progress, map history, purchases, unlocks, and previous game data.")

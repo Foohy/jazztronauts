@@ -2,37 +2,37 @@ if SERVER then
 	AddCSLuaFile()
 end
 
-SWEP.Base 					= "weapon_basehold"
-SWEP.PrintName 		 		= "Portable Bus Stop"
-SWEP.Slot		 	 		= 5
+SWEP.Base					= "weapon_basehold"
+SWEP.PrintName				= "Portable Bus Stop"
+SWEP.Slot					= 5
 SWEP.Category				= "Jazztronauts"
 
-SWEP.ViewModel		 		= "models/weapons/c_pistol.mdl"
+SWEP.ViewModel				= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
-SWEP.HoldType		 		= "pistol"
+SWEP.HoldType				= "pistol"
 
 util.PrecacheModel( SWEP.ViewModel )
 util.PrecacheModel( SWEP.WorldModel )
 
 SWEP.Primary.Delay			= 0.1
 SWEP.Primary.ClipSize		= -1
-SWEP.Primary.DefaultClip 	= -1
-SWEP.Primary.Ammo 			= "none"
-SWEP.Primary.Sound	 		= Sound( "weapons/357/357_fire2.wav" )
+SWEP.Primary.DefaultClip	= -1
+SWEP.Primary.Ammo			= "none"
+SWEP.Primary.Sound			= Sound( "weapons/357/357_fire2.wav" )
 SWEP.Primary.Automatic		= false
 
 SWEP.Secondary.ClipSize		= -1
-SWEP.Secondary.DefaultClip 	= -1
-SWEP.Secondary.Ammo 		= "none"
+SWEP.Secondary.DefaultClip	= -1
+SWEP.Secondary.Ammo		= "none"
 
-SWEP.Spawnable 				= true
+SWEP.Spawnable				= true
 SWEP.RequestInfo			= {}
 
 SWEP.BeamMat				= Material("cable/physbeam")
 
 function SWEP:Initialize()
 	self.BaseClass.Initialize( self )
-	self:SetWeaponHoldType( self.HoldType )	
+	self:SetWeaponHoldType( self.HoldType )
 end
 
 function SWEP:SetupDataTables()
@@ -62,10 +62,10 @@ function SWEP:UpdateBeamHum()
 			self.BeamHum = CreateSound(self, "ambient/energy/force_field_loop1.wav")
 		end
 
-		if not self.BeamHum:IsPlaying() then 
+		if not self.BeamHum:IsPlaying() then
 			self.BeamHum:Play()
 		end
-	elseif self.BeamHum then 
+	elseif self.BeamHum then
 		self.BeamHum:Stop()
 		self.BeamHum = nil
 	end
@@ -74,7 +74,7 @@ end
 function SWEP:SwitchWeaponThink()
 	if not IsFirstTimePredicted() then return end
 	local forceAttack = self.Owner:KeyDownLast(IN_ATTACK) and self.Owner:KeyDown(IN_ATTACK)
-	
+
 	-- Because this is only a hack, only do it for one 'cycle'
 	-- User must un-press attack before being able to attack again
 	if not forceAttack then
@@ -92,12 +92,12 @@ end
 function SWEP:Think()
 
 	self:SwitchWeaponThink()
-	if SERVER then return end 
+	if SERVER then return end
 
 	local marker = self:GetBusMarker()
 
 	-- If the marker is no longer valid, stop attacking
-	if not IsValid(marker) and self.HadMarker then	
+	if not IsValid(marker) and self.HadMarker then
 		self:StopPrimaryAttacking()
 		self.HadMarker = false
 	end
@@ -108,7 +108,7 @@ function SWEP:Think()
 	end
 
 	-- If the marker has enough people, vary the pitch as it gets closer
-	if IsValid(marker) and marker.GetSpawnPercent then 
+	if IsValid(marker) and marker.GetSpawnPercent then
 		self.HadMarker = true
 
 		local perc = marker:GetSpawnPercent()
@@ -157,7 +157,7 @@ function SWEP:CreateOrUpdateBusMarker()
 
 	self:SetBusMarker(marker)
 	marker:AddPlayer(self.Owner)
-end 
+end
 
 function SWEP:PrimaryAttack()
 	self.BaseClass.PrimaryAttack(self)
@@ -165,10 +165,10 @@ function SWEP:PrimaryAttack()
 	self.Owner:ViewPunch( Angle( -1, 0, 0 ) )
 	self:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
 
-	if IsFirstTimePredicted() then 
+	if IsFirstTimePredicted() then
 
 		if SERVER then
-			
+
 			self:CreateOrUpdateBusMarker()
 		end
 	end
@@ -190,7 +190,7 @@ function SWEP:StopPrimaryAttack()
 	if SERVER and IsValid(self:GetBusMarker()) then
 		self:GetBusMarker():RemovePlayer(self.Owner)
 	end
-	
+
 	self:SetBusMarker(nil)
 end
 
@@ -251,7 +251,7 @@ hook.Add("SetupMove", "JazzSwitchToBusCaller", function(ply, mv, cmd)
 	if IsValid(marker) then
 		local wep = ply:Give("weapon_buscaller")
 
-		-- Manually switch to it. Very hacky and not predicted, 
+		-- Manually switch to it. Very hacky and not predicted,
 		-- but we're already too late for prediction anyway
 		if IsValid(wep) then
 			ply:SelectWeapon(wep:GetClass())

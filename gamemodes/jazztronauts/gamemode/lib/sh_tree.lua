@@ -214,6 +214,6 @@ hook.Add( "HUDPaint", "dbgtree", function()
 
 end)
 
-hook.Add( "PostDrawOpaqueRenderables", "dbgtree", function( bdepth, bsky ) 
+hook.Add( "PostDrawOpaqueRenderables", "dbgtree", function( bdepth, bsky )
 
 end)

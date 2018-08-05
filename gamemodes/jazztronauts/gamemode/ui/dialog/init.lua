@@ -35,16 +35,16 @@ end
 
 function Dispatch( script, targets, focus, camera )
 	local scriptid = ScriptIDFromName( script )
-	if scriptid == 0 then 
+	if scriptid == 0 then
 		ErrorNoHalt("Invalid script \"" .. script .. "\"!")
-		return false 
+		return false
 	end
 
 	print("SV_Dispatch: '" .. script .. "'")
 
 	net.Start( "dialog_dispatch" )
 	net.WriteUInt( scriptid, 16 )
-	
+
 	maybeWrite(focus)
 	maybeWrite(camera)
 

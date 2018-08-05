@@ -24,13 +24,13 @@ function ENT:Initialize()
 
 		-- Hook into when leaderboards change
 		hook.Add("JazzLeaderboardsUpdated", self, function(self, id)
-			if self:GetLeaderboardID() == id then 
+			if self:GetLeaderboardID() == id then
 				self:RebuildPanel()
 			end
-		end) 
+		end)
 	end
 
-	if SERVER then 
+	if SERVER then
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_NONE)
 		self:SetLeaderboardID(1)
@@ -38,29 +38,29 @@ function ENT:Initialize()
 end
 
 function ENT:SetupDataTables()
-    self:NetworkVar("Int", 0, "LeaderboardID", { KeyName = "leaderboardid", Edit = { type = "Int", min = 1, max = 4 } })
+	self:NetworkVar("Int", 0, "LeaderboardID", { KeyName = "leaderboardid", Edit = { type = "Int", min = 1, max = 4 } })
 end
 
 if SERVER then return end
 
 surface.CreateFont( "JazzLeaderboardEntryFont", {
-	font      = "Impact",
-	size      = 60,
-	weight    = 700,
+	font	  = "Impact",
+	size	  = 60,
+	weight	= 700,
 	antialias = true
 })
 
 surface.CreateFont( "JazzLeaderboardTitleFont", {
-	font      = "Impact",
-	size      = 100,
-	weight    = 700,
+	font	  = "Impact",
+	size	  = 100,
+	weight	= 700,
 	antialias = true
 })
 
 function ENT:AddPlayerPanel(id, name, count)
 	local panel = vgui.Create("DPanel")
 	panel:SetPaintBackground(false)
-	
+
 	local avatar = vgui.Create("AvatarImage", panel)
 	avatar:SetSize(128, 128)
 	avatar:SetSteamID(id)
@@ -88,10 +88,10 @@ function ENT:RebuildPanel()
 	if IsValid(self.Panel) then
 		self.Panel:Remove()
 	end
-	
+
 	local id = self:GetLeaderboardID()
 	if not jazzboards.Leaderboards[id] then
-		return 
+		return
 	end
 
 	local lst = vgui.Create("DListLayout")
@@ -131,7 +131,7 @@ function ENT:Think()
 end
 
 function ENT:Draw()
-	if not IsValid(self.Panel) then return end 
+	if not IsValid(self.Panel) then return end
 
 	local ang = self:GetAngles()
 	local pos = self:GetPos() + ang:Right() * 0.01

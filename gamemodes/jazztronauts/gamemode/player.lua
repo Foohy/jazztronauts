@@ -15,9 +15,9 @@ local function SpawnItem(ply, type)
 	if mapcontrol.IsInGamemodeMap() then return false end
 
 	-- Must have spawnmenu unlocked to spawn other items
-	if type != 'props' and type != 'sweps' and 
+	if type != 'props' and type != 'sweps' and
 		not unlocks.IsUnlocked("store", ply, "spawnmenu") then
-		return false 
+		return false
 	end
 
 	return ply:ChangeNotes(-itemprice)
@@ -26,7 +26,7 @@ end
 
 --[[---------------------------------------------------------
    Name: gamemode:PlayerSpawnRagdoll( ply, model )
-   Desc: Return true if it's allowed 
+   Desc: Return true if it's allowed
 -----------------------------------------------------------]]
 function GM:PlayerSpawnRagdoll( ply, model )
 	return SpawnItem(ply, "ragdolls")
@@ -35,7 +35,7 @@ end
 
 --[[---------------------------------------------------------
    Name: gamemode:PlayerSpawnProp( ply, model )
-   Desc: Return true if it's allowed 
+   Desc: Return true if it's allowed
 -----------------------------------------------------------]]
 function GM:PlayerSpawnProp( ply, model )
 	return SpawnItem(ply, "props")
@@ -43,7 +43,7 @@ end
 
 --[[---------------------------------------------------------
    Name: gamemode:PlayerSpawnEffect( ply, model )
-   Desc: Return true if it's allowed 
+   Desc: Return true if it's allowed
 -----------------------------------------------------------]]
 function GM:PlayerSpawnEffect( ply, model )
 	return SpawnItem(ply, "effects")
@@ -51,7 +51,7 @@ end
 
 --[[---------------------------------------------------------
    Name: gamemode:PlayerSpawnVehicle( ply, model, vname, vtable )
-   Desc: Return true if it's allowed 
+   Desc: Return true if it's allowed
 -----------------------------------------------------------]]
 function GM:PlayerSpawnVehicle( ply, model, vname, vtable )
 	return SpawnItem(ply, "vehicles")
@@ -59,7 +59,7 @@ end
 
 --[[---------------------------------------------------------
    Name: gamemode:PlayerSpawnSWEP( ply, wname, wtable )
-   Desc: Return true if it's allowed 
+   Desc: Return true if it's allowed
 -----------------------------------------------------------]]
 function GM:PlayerSpawnSWEP( ply, wname, wtable )
 	if not self:JazzCanSpawnWeapon(ply, wname) then return false end

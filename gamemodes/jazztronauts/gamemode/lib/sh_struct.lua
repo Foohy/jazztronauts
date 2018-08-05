@@ -14,7 +14,7 @@ decl_type = function( read, write, size, tsfunc )
 	{
 		__index = function( self, k )
 			if type(k) == "number" then
-				
+
 				local yieldpoints = math.ceil( 10000 / size )
 				local params = rawget( self, "__params" )
 				local key = params and params["key"]
@@ -32,7 +32,7 @@ decl_type = function( read, write, size, tsfunc )
 					end
 					return t
 
-				end, 
+				end,
 				function( f, data )
 
 					assert( #data == k )
@@ -164,7 +164,7 @@ ch_meta.__index = function( self, k )
 
 			return str
 
-		end, 
+		end,
 		function( f, data )
 
 			file_meta.Write( f, data )
@@ -200,8 +200,8 @@ INT16 = decl_type(
 	2
 )
 
-INT32 = decl_type( 
-	file_meta.ReadLong, 
+INT32 = decl_type(
+	file_meta.ReadLong,
 	file_meta.WriteLong,
 	4
 )

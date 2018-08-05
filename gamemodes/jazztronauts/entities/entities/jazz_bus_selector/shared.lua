@@ -126,7 +126,7 @@ function ENT:ButtonPressed( button )
 
 		for i=1, 8 do
 
-			timer.Simple( .5 + i / 8, function() 
+			timer.Simple( .5 + i / 8, function()
 
 				self:AppendNumber( tonumber( str[i] ) )
 				if i == 8 then self.locked = false end
@@ -157,16 +157,16 @@ end
 if SERVER then return end
 
 surface.CreateFont( "JazzMapSelectKey", {
-	font      = "KG Shake it Off Chunky",
-	size      = 200,
-	weight    = 500,
+	font	  = "KG Shake it Off Chunky",
+	size	  = 200,
+	weight	= 500,
 	antialias = true
 })
 
 surface.CreateFont( "JazzMapSelectMain", {
-	font      = "KG Shake it Off Chunky",
-	size      = 200,
-	weight    = 700,
+	font	  = "KG Shake it Off Chunky",
+	size	  = 200,
+	weight	= 700,
 	antialias = true
 })
 
@@ -249,7 +249,7 @@ function ENT:DrawControls( canvas )
 			if i==4 and j==1 then btw = w/2 end
 
 			local se = btx < x and x < btx + btw and bty < y and y < bty + bth
-			local btn = buttons[i][j] 
+			local btn = buttons[i][j]
 
 			if btn ~= "" then
 

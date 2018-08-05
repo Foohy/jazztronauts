@@ -3,12 +3,12 @@ AddCSLuaFile()
 ENT.Type = "anim"
 ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
-ENT.AutomaticFrameAdvance = true 
+ENT.AutomaticFrameAdvance = true
 ENT.Model			= "models/sunabouzu/jazzportal.mdl"
 
-local SCAN_FAILED_NOMAP 	= -3
-local SCAN_FAILED_NOSPACE 	= -2
-local SCAN_FAILED_NETWORK 	= -1
+local SCAN_FAILED_NOMAP	= -3
+local SCAN_FAILED_NOSPACE	= -2
+local SCAN_FAILED_NETWORK	= -1
 local SCAN_IDLE		= 0
 local SCAN_SCANNING = 1
 local SCAN_COMPLETE = 2
@@ -24,7 +24,7 @@ function ENT:Initialize()
 	self:SetModel( self.Model )
 	self:PhysicsInit( SOLID_VPHYSICS )
 	self:SetMoveType( MOVETYPE_NONE )
-	
+
 	local phys = self:GetPhysicsObject()
 	if IsValid( phys ) then
 		phys:EnableMotion( false )
@@ -63,13 +63,13 @@ end
 
 function ENT:AcceptInput( name, activator, caller, data )
 
-	if name == "SelectAddon" then 
-		//self:SelectAddon() 
-		return true 
+	if name == "SelectAddon" then
+		//self:SelectAddon()
+		return true
 	end
-	if name == "CancelAddon" then 
-		self:CancelAddon() 
-		return true 
+	if name == "CancelAddon" then
+		self:CancelAddon()
+		return true
 	end
 
 	return false
@@ -106,7 +106,7 @@ function ENT:SelectDestination(dest)
 		self:SetScanState(SCAN_IDLE)
 		self.CurrentlyScanning = nil
 		self:TriggerOutput("OnMapDownloaded", self, 0)
-		return 
+		return
 	end
 
 	self:SetScanState(SCAN_SCANNING)
@@ -128,7 +128,7 @@ function ENT:SelectDestination(dest)
 		-- Not implemented, but yknow, let em dream
 		if mapname then
 			self:TriggerOutput("OnMapAnalyzed", self)
-	
+
 			-- Start grabbing Map Facts:tm:
 			self:BuildMapFacts(mapname, wsid)
 		end
@@ -180,14 +180,14 @@ end
 
 function ENT:Use(activator, caller)
 
-	timer.Simple(0, function() 
+	timer.Simple(0, function()
 		if #self:GetSelectedDestinationID() > 0 then
-			self:CancelAddon() 
+			self:CancelAddon()
 		else
 			ents.FindByClass("jazz_hub_browser")[1]:SelectCurrentAddon()
 		end
 	end)
-	
+
 end
 
 if SERVER then return end
@@ -201,12 +201,12 @@ local sizeY = 1024
 local rt = irt.New("jazz_thumbnail_selector_screen", sizeX, sizeY)
 
 function ENT:UpdateRenderTarget()
-	
+
 	rt:Render(function()
 		render.Clear(0, 0, 0, 255)
 
 		cam.Start2D()
-			
+
 			surface.SetDrawColor(255, 255, 255)
 			surface.SetMaterial(self.ThumbnailMat or noThumbMat)
 			surface.DrawTexturedRect(0, 0, sizeX, sizeY)
@@ -217,21 +217,21 @@ function ENT:UpdateRenderTarget()
 			local scanstate = self:GetScanStateString()
 			draw.SimpleTextOutlined( scanstate, "JazzTVChannel", sizeX/2, sizeY/2, Color(60,255,60), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, color_black )
 		cam.End2D()
-	
+
 	end)
 end
 
 function ENT:IntermissionThink()
 	LocalPlayer().JazzInterFreeze = self:GetFreezeTime()
 
-	if self:GetFreezeTime() == 0 then 
+	if self:GetFreezeTime() == 0 then
 		self.PlayedSpinup = false
 		if self.SoundChannel then
 			self.LastSoundPos = self.SoundChannel:GetTime()
 			self.SoundChannel:Stop()
 			self.SoundChannel = nil
 		end
-		return 
+		return
 	end
 
 	local time = self:GetFreezeTime() - CurTime()
@@ -291,7 +291,7 @@ function ENT:RefreshThumbnail(dest)
 	self.AddonTitle = ""
 	local wsid = tonumber(dest)
 	if wsid then
-		steamworks.FileInfo( wsid, function( result ) 
+		steamworks.FileInfo( wsid, function( result )
 			if !IsValid(self) or !result then return end
 
 			self.AddonTitle = result.title
@@ -316,7 +316,7 @@ function ENT:GetScanStateString()
 	elseif state == SCAN_FAILED_NETWORK then return "SCAN FAILURE - FAILED TO DOWNLOAD"
 	elseif state == SCAN_FAILED_NOSPACE then return "SCAN FAILURE - DISK FULL"
 	end
-	
+
 	return "SCAN FAILURE"
 end
 
@@ -333,9 +333,9 @@ function ENT:Draw()
 end
 
 surface.CreateFont( "JazzIntermissionCountdown", {
-	font      = "KG Shake it Off Chunky",
-	size      = ScreenScale(32),
-	weight    = 700,
+	font	  = "KG Shake it Off Chunky",
+	size	  = ScreenScale(32),
+	weight	= 700,
 	antialias = true
 })
 

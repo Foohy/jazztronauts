@@ -13,7 +13,7 @@ function ENT:Initialize()
 	self:SetModel( self.Model )
 	self:PhysicsInit( SOLID_VPHYSICS )
 	self:SetMoveType( MOVETYPE_NONE )
-	
+
 	local phys = self:GetPhysicsObject()
 	if IsValid( phys ) then
 		phys:EnableMotion( false )
@@ -24,7 +24,7 @@ function ENT:Initialize()
 		hook.Add("JazzMapRandomized", self, function(self, newmap, wsid)
 			if self.LastMap != newmap then
 				self.LastMap = newmap
-				
+
 				if self.LastMap then
 					self:OnMapChanged(newmap, wsid)
 				end
@@ -51,7 +51,7 @@ function ENT:Use(activator, caller)
 	-- Creating an entity directly from an ENT:Use() hook here apparently sets its position to NaN
 	-- It's a bold move, but I'll fight fire with fire
 	timer.Simple(0, function()
-    	mapcontrol.RollMap()
+		mapcontrol.RollMap()
 	end )
 end
 

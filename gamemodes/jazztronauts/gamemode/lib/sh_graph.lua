@@ -154,7 +154,7 @@ function drawPieChart( x, y, radius, values, anim, value_column, label_formatter
 	anim = anim or 1
 
 	local total = 0
-	for _, v in pairs( values ) do 
+	for _, v in pairs( values ) do
 		local val = v[value_column or 2]
 		if not val then ErrorNoHalt("Bad value column " .. (value_column or 2) .. " for table"
 			.. tostring(v) .. "\n")

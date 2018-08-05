@@ -53,7 +53,7 @@ function CatmullRomSpline(p1, p2, p3, p4, t, output)
 	VectorScale( p1, tSqr*2,  a );		// 0.5 t^2 * [ ( 2*p1) + (-5*p2) + ( 4*p3) - p4 ]
 	VectorScale( p2, tSqr*-5, b );
 	VectorScale( p3, tSqr*4,  c );
-	VectorScale( p4, -tSqr,    d );
+	VectorScale( p4, -tSqr,	d );
 
 	VectorAdd( a, output, output );
 	VectorAdd( b, output, output );
@@ -104,7 +104,7 @@ function CatmullRomSplineTangent(p1, p2, p3, p4, t, output)
 	VectorScale( p1, tTwo*2,  a );		// 0.5 t^2 * [ ( 2*p1) + (-5*p2) + ( 4*p3) - p4 ]
 	VectorScale( p2, tTwo*-5, b );
 	VectorScale( p3, tTwo*4,  c );
-	VectorScale( p4, -tTwo,    d );
+	VectorScale( p4, -tTwo,	d );
 
 	VectorAdd( a, output, output );
 	VectorAdd( b, output, output );

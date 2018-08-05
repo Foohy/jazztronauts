@@ -5,13 +5,13 @@ local PLAYER = {}
 
 PLAYER.DisplayName			= "Exploration Class"
 
-PLAYER.WalkSpeed 			= 200		-- How fast to move when not running
+PLAYER.WalkSpeed			= 200		-- How fast to move when not running
 PLAYER.RunSpeed				= 400		-- How fast to move when running
-PLAYER.CrouchedWalkSpeed 	= 0.3		-- Multiply move speed by this when crouching
+PLAYER.CrouchedWalkSpeed	= 0.3		-- Multiply move speed by this when crouching
 PLAYER.DuckSpeed			= 0.1		-- How fast to go from not ducking, to ducking
 PLAYER.UnDuckSpeed			= 0.1		-- How fast to go from ducking, to not ducking
 PLAYER.JumpPower			= 200		-- How powerful our jump should be
-PLAYER.CanUseFlashlight     = true		-- Can we use the flashlight
+PLAYER.CanUseFlashlight	 = true		-- Can we use the flashlight
 PLAYER.MaxHealth			= 100		-- Max health we can have
 PLAYER.StartHealth			= 100		-- How much health we start with
 PLAYER.StartArmor			= 0			-- How much armour we start with
@@ -24,7 +24,7 @@ function PLAYER:SetupDataTables()
 end
 
 function PLAYER:Spawn()
-    BaseClass.Spawn(self)
+	BaseClass.Spawn(self)
 end
 
 --
@@ -33,18 +33,18 @@ end
 function PLAYER:Loadout()
 	self.Player:RemoveAllAmmo()
 
-    -- TODO: Jazz option?
+	-- TODO: Jazz option?
 	if ( cvars.Bool( "sbox_weapons", true ) ) then
-	
-		self.Player:GiveAmmo( 256,	"Pistol", 		true )
-		self.Player:GiveAmmo( 256,	"SMG1", 		true )
-		self.Player:GiveAmmo( 5,	"grenade", 		true )
-		self.Player:GiveAmmo( 64,	"Buckshot", 	true )
-		self.Player:GiveAmmo( 32,	"357", 			true )
-		self.Player:GiveAmmo( 32,	"XBowBolt", 	true )
-		self.Player:GiveAmmo( 6,	"AR2AltFire", 	true )
-		self.Player:GiveAmmo( 100,	"AR2", 			true )
-		
+
+		self.Player:GiveAmmo( 256,	"Pistol",		true )
+		self.Player:GiveAmmo( 256,	"SMG1",		true )
+		self.Player:GiveAmmo( 5,	"grenade",		true )
+		self.Player:GiveAmmo( 64,	"Buckshot",	true )
+		self.Player:GiveAmmo( 32,	"357",			true )
+		self.Player:GiveAmmo( 32,	"XBowBolt",	true )
+		self.Player:GiveAmmo( 6,	"AR2AltFire",	true )
+		self.Player:GiveAmmo( 100,	"AR2",			true )
+
 		self.Player:Give( "weapon_crowbar" )
 		self.Player:Give( "weapon_pistol" )
 		//self.Player:Give( "weapon_smg1" )
@@ -63,7 +63,7 @@ function PLAYER:Loadout()
 			self.Player:Give(wep)
 		end
 	end
-	
+
 	--self.Player:Give( "gmod_tool" )
 	self.Player:Give( "gmod_camera" )
 	self.Player:Give( "weapon_physgun" )
@@ -71,7 +71,7 @@ function PLAYER:Loadout()
 	self.Player:Give( "weapon_propsnatcher" )
 	--self.Player:Give( "weapon_stan" )
 
-    self.Player:SelectWeapon( "weapon_propsnatcher" )
+	self.Player:SelectWeapon( "weapon_propsnatcher" )
 end
 
 player_manager.RegisterClass( "player_explore", PLAYER, "player_hub" )

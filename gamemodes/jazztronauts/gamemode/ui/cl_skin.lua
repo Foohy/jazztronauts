@@ -654,7 +654,7 @@ function SKIN:PaintButtonDown( panel, w, h )
 
 	--[[if true then
 		draw.RoundedBox(0,0,0,w,h,Color(255,255,255,100))
-		return 
+		return
 	end]]
 
 	if ( panel.Depressed || panel:IsSelected() ) then
@@ -681,8 +681,8 @@ function SKIN:PaintButtonUp( panel, w, h )
 	if ( !panel.m_bBackground ) then return end
 
 	--[[if true then
-		draw.RoundedBox(0,0,0,w,h,Color(255,255,255,100)) 
-		return 
+		draw.RoundedBox(0,0,0,w,h,Color(255,255,255,100))
+		return
 	end]]
 
 	if ( panel.Depressed || panel:IsSelected() ) then

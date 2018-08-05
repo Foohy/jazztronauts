@@ -118,13 +118,13 @@ text_irt:SetAlphaBits(8)
 function comma_value(amount)
 
 	local formatted = amount
-	while true do  
+	while true do
 		formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
 		if k == 0 then
 			break
 		end
 	end
-	
+
 	return formatted
 
 end
@@ -199,7 +199,7 @@ local function DrawPropEntry(item,x,y, dt, highlight, custom)
 	local top_align = ScreenScale(1)
 	local text_alpha = 1
 
-	
+
 	if local_elapsed > item.duration - .6 then
 		text_alpha = math.max( 1 - (local_elapsed - (item.duration - .6 ) ) * 5, 0 )
 	end

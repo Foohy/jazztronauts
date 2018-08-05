@@ -109,7 +109,7 @@ function BuildPortals()
 		portal.leafs = {}
 
 		local fragments = {}
-		ClipPortal( portal, map.models[1].headnode, fragments ) 
+		ClipPortal( portal, map.models[1].headnode, fragments )
 		for _, v in pairs( fragments ) do
 			if #v.leafs >= 2 then
 				for _, l in pairs( v.leafs ) do

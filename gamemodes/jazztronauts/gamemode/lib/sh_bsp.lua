@@ -54,16 +54,16 @@ LUMP_LEAFMINDISTTOWATER			= 46
 LUMP_FACE_MACRO_TEXTURE_INFO	= 47
 LUMP_DISP_TRIS					= 48
 LUMP_PHYSCOLLIDESURFACE			= 49
-LUMP_WATEROVERLAYS              = 50
+LUMP_WATEROVERLAYS			  = 50
 LUMP_LEAF_AMBIENT_INDEX_HDR		= 51
-LUMP_LEAF_AMBIENT_INDEX         = 52
+LUMP_LEAF_AMBIENT_INDEX		 = 52
 LUMP_LIGHTING_HDR				= 53
 LUMP_WORLDLIGHTS_HDR			= 54
 LUMP_LEAF_AMBIENT_LIGHTING_HDR	= 55
 LUMP_LEAF_AMBIENT_LIGHTING		= 56
 LUMP_XZIPPAKFILE				= 57
 LUMP_FACES_HDR					= 58
-LUMP_MAP_FLAGS                  = 59
+LUMP_MAP_FLAGS				  = 59
 LUMP_OVERLAY_FADES				= 60
 
 local meta = {}
@@ -88,7 +88,7 @@ local function LoadLumps( file )
 end
 
 function rmeta:Init( filename, path )
-	
+
 	self.file = file.Open( filename, "rb", path or "GAME" )
 	if not self.file then error( "Unable to load file: " .. tostring(filename) ) return nil end
 	return self
@@ -217,8 +217,8 @@ function rmeta:Edge( verts )
 	local a = bit.rshift( bit.band( long, 0xFFFF0000 ), 16 ) + 1
 	local b = bit.band( long, 0x0000FFFF ) + 1
 
-	return { 
-		verts[a], 
+	return {
+		verts[a],
 		verts[b]
 	}
 
@@ -283,7 +283,7 @@ local function Reader( bsp )
 end
 
 function meta:LumpSize( lump ) return self.header.lumps[ lump+1 ].length end
-function meta:SeekLump( reader, lump ) 
+function meta:SeekLump( reader, lump )
 
 	reader:Seek( self.header.lumps[ lump+1 ].offset )
 	return self:LumpSize( lump )
@@ -517,7 +517,7 @@ local StaticPropLump_t = {}
 StaticPropLump_t[4] = Struct({
 	VECTOR.origin,
 	QANGLE.angles,
-	
+
 	UINT16.proptype,
 	UINT16.firstleaf,
 	UINT16.leafcount,
@@ -534,7 +534,7 @@ StaticPropLump_t[4] = Struct({
 StaticPropLump_t[5] = Struct({
 	VECTOR.origin,
 	QANGLE.angles,
-	
+
 	UINT16.proptype,
 	UINT16.firstleaf,
 	UINT16.leafcount,
@@ -552,7 +552,7 @@ StaticPropLump_t[5] = Struct({
 StaticPropLump_t[6] = Struct({
 	VECTOR.origin,
 	QANGLE.angles,
-	
+
 	UINT16.proptype,
 	UINT16.firstleaf,
 	UINT16.leafcount,
@@ -573,7 +573,7 @@ StaticPropLump_t[6] = Struct({
 StaticPropLump_t[7] = Struct({
 	VECTOR.origin,
 	QANGLE.angles,
-	
+
 	UINT16.proptype,
 	UINT16.firstleaf,
 	UINT16.leafcount,
@@ -596,7 +596,7 @@ StaticPropLump_t[7] = Struct({
 StaticPropLump_t[8] = Struct({
 	VECTOR.origin,
 	QANGLE.angles,
-	
+
 	UINT16.proptype,
 	UINT16.firstleaf,
 	UINT16.leafcount,

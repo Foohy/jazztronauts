@@ -73,7 +73,7 @@ function meta:DecodeDirectBits( numTotalBits )
 
 			code = code * 0x100 + self.m_Stream:ReadByte()
 			range = range * 0x100
-		
+
 		end
 
 		numTotalBits = numTotalBits - 1
@@ -280,7 +280,7 @@ function meta:ReverseDecode( rangeDecoder )
 
 	end
 
-	return symbol 
+	return symbol
 
 end
 
@@ -313,8 +313,8 @@ local function BitTreeDecoder( numBitLevels )
 
 end
 
-RangeCoder = { 
-	Decoder = Decoder, 
-	BitDecoder = BitDecoder, 
-	BitTreeDecoder = BitTreeDecoder 
+RangeCoder = {
+	Decoder = Decoder,
+	BitDecoder = BitDecoder,
+	BitTreeDecoder = BitTreeDecoder
 }

@@ -2,10 +2,10 @@ if SERVER then AddCSLuaFile("sh_gfx.lua") return end
 
 module( "gfx", package.seeall )
 
-local lasermat 	= 		Material("effects/laser1.vmt")
-local wire 		= 		Material("models/wireframe.vmt")
-local color 	= 		Material("color.vmt")
-local arrow 	=		Material("gui/arrow.vmt")
+local lasermat	=		Material("effects/laser1.vmt")
+local wire		=		Material("models/wireframe.vmt")
+local color	=		Material("color.vmt")
+local arrow	=		Material("gui/arrow.vmt")
 
 function renderBeam(start_pos, end_pos, col, colb, rad)
 	render.SetMaterial( lasermat );
@@ -21,7 +21,7 @@ function renderBeam(start_pos, end_pos, col, colb, rad)
 		rad,
 		CurTime() + 1,
 		colb or col or Color( 255, 255, 255, 255 )
-	); 	
+	);
 	render.EndBeam();
 end
 

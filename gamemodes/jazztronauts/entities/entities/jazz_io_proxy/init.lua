@@ -12,7 +12,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 		local outputs = caller.JazzIOEvents[inputName]
 
 		-- Check that we've actually have parsed output data to relay
-		if not outputs or #outputs == 0 or not outputs[dataidx] then 
+		if not outputs or #outputs == 0 or not outputs[dataidx] then
 			print("No output data for " .. tostring(caller) .. " (" .. name .. ")")
 			return
 		end

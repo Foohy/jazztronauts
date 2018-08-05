@@ -13,6 +13,8 @@ ENT.ScreenHeight = 640
 ENT.ScreenWidth = ENT.ScreenHeight * 1.30
 ENT.ScreenScale = .1
 
+ENT.DefaultLeaderboard = 1
+
 function ENT:Initialize()
 	self:SetModel( self.Model )
 	self:DrawShadow( false )
@@ -33,12 +35,18 @@ function ENT:Initialize()
 	if SERVER then
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_NONE)
-		self:SetLeaderboardID(1)
+		self:SetLeaderboardID(self.DefaultLeaderboard or 1)
 	end
 end
 
 function ENT:SetupDataTables()
 	self:NetworkVar("Int", 0, "LeaderboardID", { KeyName = "leaderboardid", Edit = { type = "Int", min = 1, max = 4 } })
+end
+
+function ENT:KeyValue(key, value)
+	if key == "leaderboardid" then
+		self.DefaultLeaderboard = tonumber(value) or 1
+	end
 end
 
 if SERVER then return end

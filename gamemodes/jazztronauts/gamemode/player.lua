@@ -9,18 +9,18 @@ local spawnConVar = CreateConVar("jazz_debug_allow_gmspawn", "0", { FCVAR_REPLIC
 
 -- TODO: Move mechanism to own module
 local itemprice = 100
-local function SpawnItem(ply, model, type)
-    if spawnConVar:GetBool() then return true end
+local function SpawnItem(ply, type)
+	if spawnConVar:GetBool() then return true end
 
-    if mapcontrol.IsInGamemodeMap() then return false end
+	if mapcontrol.IsInGamemodeMap() then return false end
 
-    -- Must have spawnmenu unlocked to spawn other items
-    if type != 'props' and type != 'sweps' and 
-        not unlocks.IsUnlocked("store", ply, "spawnmenu") then
-        return false 
-    end
+	-- Must have spawnmenu unlocked to spawn other items
+	if type != 'props' and type != 'sweps' and 
+		not unlocks.IsUnlocked("store", ply, "spawnmenu") then
+		return false 
+	end
 
-    return ply:ChangeNotes(-itemprice)
+	return ply:ChangeNotes(-itemprice)
 end
 
 
@@ -29,7 +29,7 @@ end
    Desc: Return true if it's allowed 
 -----------------------------------------------------------]]
 function GM:PlayerSpawnRagdoll( ply, model )
-	return SpawnItem(ply, model, "ragdolls")
+	return SpawnItem(ply, "ragdolls")
 end
 
 
@@ -38,7 +38,7 @@ end
    Desc: Return true if it's allowed 
 -----------------------------------------------------------]]
 function GM:PlayerSpawnProp( ply, model )
-	return SpawnItem(ply, model, "props")
+	return SpawnItem(ply, "props")
 end
 
 --[[---------------------------------------------------------
@@ -46,7 +46,7 @@ end
    Desc: Return true if it's allowed 
 -----------------------------------------------------------]]
 function GM:PlayerSpawnEffect( ply, model )
-	return SpawnItem(ply, model, "effects")
+	return SpawnItem(ply, "effects")
 end
 
 --[[---------------------------------------------------------
@@ -54,18 +54,24 @@ end
    Desc: Return true if it's allowed 
 -----------------------------------------------------------]]
 function GM:PlayerSpawnVehicle( ply, model, vname, vtable )
-	return SpawnItem(ply, model, "vehicles")
+	return SpawnItem(ply, "vehicles")
 end
-
 
 --[[---------------------------------------------------------
    Name: gamemode:PlayerSpawnSWEP( ply, wname, wtable )
    Desc: Return true if it's allowed 
 -----------------------------------------------------------]]
 function GM:PlayerSpawnSWEP( ply, wname, wtable )
-    if not self:JazzCanSpawnWeapon(ply, wname) then return false end
-    
-	return SpawnItem(ply, model, "sweps")
+	if not self:JazzCanSpawnWeapon(ply, wname) then return false end
+
+	return SpawnItem(ply, "sweps")
+end
+
+-- Disallow gm_giveswep from being usable
+function GM:PlayerGiveSWEP( ply, wname, wtable )
+	if not self:JazzCanSpawnWeapon(ply, wname) then return false end
+
+	return SpawnItem(ply, "sweps")
 end
 
 --[[---------------------------------------------------------
@@ -73,7 +79,7 @@ end
    Desc: Return true if player is allowed to spawn the SENT
 -----------------------------------------------------------]]
 function GM:PlayerSpawnSENT( ply, name )
-	return SpawnItem(ply, model, "sents")
+	return SpawnItem(ply, "sents")
 end
 
 --[[---------------------------------------------------------
@@ -81,13 +87,13 @@ end
    Desc: Return true if player is allowed to spawn the NPC
 -----------------------------------------------------------]]
 function GM:PlayerSpawnNPC( ply, npc_type, equipment )
-	return SpawnItem(ply, model, "npcs")
+	return SpawnItem(ply, "npcs")
 end
 
 
 -- Hook into when a player spawns _something_ so we can mark it and have it be worthless
 local function PlayerSpawnedSomething(ply, ent)
-    ent.JazzWorth = 0
+	ent.JazzWorth = 0
 end
 
 hook.Add("PlayerSpawnedEffect", "JazzMakeWorthless", function(ply, mdl, ent) PlayerSpawnedSomething(ply, ent) end )

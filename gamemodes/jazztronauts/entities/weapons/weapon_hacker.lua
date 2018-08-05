@@ -1,5 +1,6 @@
 if SERVER then
 	AddCSLuaFile()
+	AddCSLuaFile("weapons/weapon_hack")
 end
 
 SWEP.Base					= "weapon_base"
@@ -7,6 +8,7 @@ SWEP.PrintName				= "Hacking Goggles"
 SWEP.Slot					= 0
 SWEP.Category				= "Jazztronauts"
 SWEP.Purpose				= "Peek into the inner I/O workings of the map"
+SWEP.WepSelectIcon			= Material( "weapons/weapon_hacker.png" )
 
 SWEP.ViewModel				= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
@@ -120,6 +122,18 @@ function SWEP:ShootEffects()
 	self.Owner:MuzzleFlash()
 	self.Owner:SetAnimation( PLAYER_ATTACK1 )
 
+end
+
+function SWEP:DrawWeaponSelection(x, y, w, h, alpha)
+	surface.SetDrawColor(255, 255, 255, alpha)
+	if self.WepSelectIcon then
+		surface.SetMaterial(self.WepSelectIcon)
+	else
+		surface.SetTexture("weapons/swep")
+	end
+
+	surface.DrawTexturedRect(x + w / 2 - 128, y + h / 2 - 64, 256, 128)
+	self:PrintWeaponInfo(x + w + 20, y + h, alpha)
 end
 
 function SWEP:Reload() return false end

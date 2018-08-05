@@ -194,6 +194,18 @@ function SWEP:Reload() return false end
 function SWEP:CanPrimaryAttack() return true end
 function SWEP:CanSecondaryAttack() return false end
 
+function SWEP:DrawWeaponSelection(x, y, w, h, alpha)
+	surface.SetDrawColor(255, 255, 255, alpha)
+	if self.WepSelectIcon then
+		surface.SetMaterial(self.WepSelectIcon)
+	else
+		surface.SetTexture("weapons/swep")
+	end
+
+	surface.DrawTexturedRect(x + w / 2 - 128, y + h / 2 - 64, 256, 128)
+	self:PrintWeaponInfo(x + w + 20, y + h, alpha)
+end
+
 hook.Add("KeyRelease", "ReleaseTriggerOnGunsWhatCanBeHeldDown", function(ply, key)
 	if not IsFirstTimePredicted() then return end
 	if key != WEAPON_PRIMARY and key != WEAPON_SECONDARY then return end

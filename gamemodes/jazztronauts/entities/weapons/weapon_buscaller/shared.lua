@@ -6,6 +6,7 @@ SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= "Portable Bus Stop"
 SWEP.Slot					= 5
 SWEP.Category				= "Jazztronauts"
+SWEP.WepSelectIcon			= Material( "weapons/weapon_buscaller.png" )
 
 SWEP.ViewModel				= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"

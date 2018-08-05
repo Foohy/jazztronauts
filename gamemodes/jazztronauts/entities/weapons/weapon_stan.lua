@@ -7,6 +7,7 @@ SWEP.PrintName				= "Stan"
 SWEP.Slot					= 0
 SWEP.Category				= "Jazztronauts"
 SWEP.Purpose				= "Teleport through solid walls, brushes, and playerclips by summoning the power of Stan"
+SWEP.WepSelectIcon			= Material( "weapons/weapon_stan.png" )
 
 SWEP.ViewModel				= "models/weapons/c_stan.mdl"
 SWEP.WorldModel				= ""

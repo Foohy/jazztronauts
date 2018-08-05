@@ -99,7 +99,7 @@ function ENT:OnBrushStolen(brushid)
 	-- Check if above threshold
 	if not self.ThresholdHit then
 		local total, stolen = self:GetStolenAmount()
-		print(total, stolen, stolen * 1.0 / total)
+		--print(total, stolen, stolen * 1.0 / total)
 		if stolen * 1.0 / total > self.TriggerThreshold then
 			self.ThresholdHit = true
 			self:TriggerOutput("OnThresholdHit")

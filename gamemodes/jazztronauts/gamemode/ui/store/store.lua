@@ -173,7 +173,6 @@ local function addButton(parent, item)
 	btn.DoClick = function()
 		surface.PlaySound("ambient/materials/smallwire_pluck3.wav")
 		jstore.PurchaseItem(item.unlock, function(success)
-			print(success)
 			if IsValid(btn) then parent:RefreshButtons() end
 		end )
 	end

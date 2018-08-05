@@ -54,10 +54,7 @@ function ENT:SetupDataTables()
 end
 
 function ENT:TryCallBus( id )
-
 	if id == nil then return false end
-
-	print("CALL BUSID: " .. tostring(id) )
 
 	return mapcontrol.RollMapID(id)
 end

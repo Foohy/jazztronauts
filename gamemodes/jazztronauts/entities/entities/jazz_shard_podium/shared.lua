@@ -38,8 +38,6 @@ function ENT:Initialize()
 
 		local pos = self:GetPos()
 
-		print(tostring(pos))
-
 		self.prop = ents.Create("prop_dynamic")
 		self.prop:SetKeyValue("model", "models/jazztronauts/zak/podium.mdl")
 		--self.prop:SetKeyValue("DefaultAnim", "idle")
@@ -55,9 +53,6 @@ function ENT:Initialize()
 		self:SetProp( self.prop )
 		self:SetPressed( false )
 		self:SetOpen( false )
-
-
-		print( self.prop:GetSolidFlags() )
 
 		self.next_anim = "idle"
 		self.playing = self.next_anim

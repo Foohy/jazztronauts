@@ -243,7 +243,7 @@ local function ResumeTask( task )
 
 	if coroutine.status( task.co ) == "dead" then
 		local duration = SysTime() - task.start
-		print( ("Task Finished: %0.2fs"):format( duration ) )
+		--print( ("Task Finished: %0.2fs"):format( duration ) )
 
 		task.result = result
 		RemoveTask( task )

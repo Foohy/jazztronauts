@@ -520,13 +520,6 @@ local function PrepGraph()
 
 	for k,v in pairs( map.entities ) do
 		indices[v] = k
-		if v.targetname == "closeCurtains" then
-			print("ENT: " .. k)
-			for k, v in pairs(v) do
-				print( "\t" .. tostring(k) .. " = " .. tostring(v) )
-			end
-		end
-		--print( v.classname )
 	end
 
 	--for k,v in pairs( io_functions ) do
@@ -647,7 +640,7 @@ local function AcceptedInput()
 
 	delay = math.max( delay, .1 )
 
-	print("INPUT", input, caller_index, target_index)
+	--print("INPUT", input, caller_index, target_index)
 
 	for k,gent in pairs( graph ) do
 		if gent.index == caller_index then

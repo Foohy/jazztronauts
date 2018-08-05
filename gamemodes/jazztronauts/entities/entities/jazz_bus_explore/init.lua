@@ -121,7 +121,7 @@ function ENT:CheckLaunch()
 
 	local filled, total = self:GetNumOccupants()
 	local required = math.min(player.GetCount(), total)
-	print(filled, total, required)
+
 	if filled >= required then
 		self.CommittedToLeaving = true
 		self:EmitSound( "jazz_bus_idle", 90, 150 )

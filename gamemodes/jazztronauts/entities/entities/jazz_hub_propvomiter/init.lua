@@ -58,7 +58,6 @@ local function PrecacheProps(props)
 	for _, v in pairs(props) do
 		if v.type != "prop" then continue end
 		util.PrecacheModel(v.propname)
-		print("Precaching model: ", v.propname)
 		task.Sleep(0)
 	end
 

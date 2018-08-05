@@ -3,8 +3,8 @@ module( 'mapgen', package.seeall )
 SpawnedShards = SpawnedShards or {}
 InitialShardCount = InitialShardCount or 0
 
-local shardsNeededConVar = CreateConVar("jazz_total_shards", 100, { FCVAR_NOT_CONNECTED, FCVAR_REPLICATED }, "The total number of shards needed to finish the game. Cannot be changed in-game.")
-local blackShardsNeededConVar = CreateConVar("jazz_total_black_shards", 10, { FCVAR_NOT_CONNECTED, FCVAR_REPLICATED }, "The total number of shards needed to finish the game. Cannot be changed in-game.")
+local shardsNeededConVar = CreateConVar("jazz_total_shards", 100, { FCVAR_ARCHIVE, FCVAR_REPLICATED }, "The total number of shards needed to finish the game. Cannot be changed in-game.")
+local blackShardsNeededConVar = CreateConVar("jazz_total_black_shards", 10, { FCVAR_ARCHIVE, FCVAR_REPLICATED }, "The total number of shards needed to finish the game. Cannot be changed in-game.")
 
 local shardTblName = "jazznetplyshards"
 local propTblName = "jazznetplyprops"

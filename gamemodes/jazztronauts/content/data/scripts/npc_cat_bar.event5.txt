@@ -100,7 +100,7 @@ a8:
 a9:
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_clap 1 idle*
-    > The Singer claps,% and holds up their tablet\:%%%*setskin cat_singer 1* 'Yeah fuck him up 
+    > The Singer claps,% and holds up their tablet\:%%%*setskin cat_singer 1* "Yeah fuck him up 
     Socrates!!!!!"
     &a10
 
@@ -116,8 +116,8 @@ a10:
 a11:
     *setspeaker cat_cello*
 	*setanim cat_cellist gesture_jab 1 idle*
-    call me socrates one more goddamn time pipes c'mere imma put you 
-    in an omni-headlock you*setanim cat_cello gesture_anger 1.5 idle* treacherous little dingus i am clearly
+    call me socrates one more goddamn time pipes%% c'mere% imma put you 
+    in an omni-headlock% you*setanim cat_cello gesture_anger 1.5 idle* treacherous little dingus%% i am clearly
     diogenes in this headcanon
     &a12
 
@@ -250,8 +250,8 @@ a27:
 	*setcam setpos -2844.950439 6809.655762 28.008850;setang -3.184969 -1.318832 0.000000*
 	*setskin cat_bar 4*
     *setspeaker narrator*
-    >You catch the Bartender staring warmly at the Pianist as she pauses the think.%%%%*setskin cat_bar 0*
-    A few seconds later she speaks again.
+    >You catch the Bartender staring warmly at the Pianist as she pauses 
+    to think.%%%%*setskin cat_bar 0* A few seconds later she speaks again.
     &a28
 
 a28:

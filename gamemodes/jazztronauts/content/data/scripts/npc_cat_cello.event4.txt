@@ -1,4 +1,4 @@
-SKIP_OPEN = true
+﻿SKIP_OPEN = true
 
 begin:
     # Scene setup
@@ -70,8 +70,8 @@ a4:
      *setspeaker cat_cello*
 	 *setskin cat_cello 4*
 	 *setanim cat_cello gesture_facepalm 1 idle*
-     yeah look i know you know about the kleiner and i get that you’re 
-     mad about this but*setskin cat_cello 0* we have so many of the things already you’ve said 
+     yeah look i know you know about the kleiner% and i get that you’re 
+     mad about this% but*setskin cat_cello 0* we have so many of the things already you’ve said 
      yourself we had to hook them up to the prop snatchers to%%%*setanim cat_cello gesture_disagree 1 idle* “give them
      something to do”
      &a5
@@ -79,7 +79,7 @@ a4:
 a5:
 	*setanim cat_cello gesture_shrug 1 idle*
      i realize and acknowledge that my method of stealing its knowledge 
-     was a little unorthodox but what would you have me do,%%*setanim cat_cello gesture_confused 1.2 idle* decompile
+     was a little unorthodox% but what would you have me do,%%*setanim cat_cello gesture_confused 1.2 idle* decompile
      the thing?%%% chop off its head and steal its quickening?%%%%*setanim cat_cello gesture_disagree 1 idle* it wasn’t 
      any crueler than half the shit we’ve seen trolley-hopping
      &a6
@@ -107,7 +107,7 @@ a8:
 	*setposang cat_cello setpos -2895.698242 2940.927979 0;setang -90 231 0.000000*
 	*setanim cat_cello gesture_anger 2.2 idle*
      *setspeaker cat_cello*
-     for.%%*setanim cat_cello gesture_facepalm 1.8 idle* fuck’s.%*setcam setpos -2850.703613 2846.708984 54.163239;setang 4.508009 110.150406 0.000000*%%%*setanim cat_cello gesture_exchange 2.3 idle* SAKE.*setcam setpos -2871.407959 2902.950928 51.328709;setang 4.854068 113.664223 0.000000*
+     for.%%*setanim cat_cello gesture_facepalm 1.8 idle* fuck’s.%*setcam setpos -2850.703613 2846.708984 54.163239;setang 4.508009 110.150406 0.000000*%%%*setanim cat_cello gesture_exchange 2.3 idle* SAKE.*setskin cat_cello 2**setcam setpos -2871.407959 2902.950928 51.328709;setang 4.854068 113.664223 0.000000*
      &a9
 
 a9:

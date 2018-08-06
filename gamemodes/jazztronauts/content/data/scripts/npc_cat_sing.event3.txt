@@ -87,7 +87,7 @@ r1a1:
 	*setspeaker cat_cello*
 	*setskin cat_cello 0*
 	*setanim cat_cello gesture_agree 1 idle*
-	good idea you probably don't recover from  injuries incompatible with 
+	good idea you probably don't recover from injuries incompatible with 
 	life nearly as fast as i do 
 	
 	or at all come to think of it

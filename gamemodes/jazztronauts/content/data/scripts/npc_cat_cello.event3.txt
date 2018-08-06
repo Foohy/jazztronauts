@@ -76,8 +76,7 @@ r2a2:
 	player:
 	&r1a1:
 	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
-		Sure, no problem. 
-		So long as you're cool with it.
+		Sure, no problem. So long as you're cool with it.
 	&leave:
 	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
 		Sure, I got some errands to take care of first though.
@@ -125,7 +124,7 @@ m3:
 	*setcam setpos -1634.641235 313.098297 -17.854397;setang 0.089285 72.784676 0.000000*
 	*setanim cat_cello gesture_disagree 1 idle*
 	y'see last time we spent entirely too much time on artists who were
-	mostly functional people and that's erasure of complete disasters
+	mostly functional people%% and that's erasure of complete disasters
 	who happen to be extremely skilled in their chosen field,%*setanim cat_cello gesture_jab 1 idle* also
 	known as my kind of people
 	&m4
@@ -143,15 +142,15 @@ m5:
 	*setanim cat_cello gesture_agree 1 idle*
 	now granted since these were old biographies of a famous guy who
 	also did a whole lot of crimes they're also full of blatant lies
-	and*setanim cat_cello gesture_sweep 1 idle* unprovable assertions so most of what we know about the guy
+	and*setanim cat_cello gesture_sweep 1 idle* unprovable assertions% so most of what we know about the guy
 	needs to be taken with a pinch of salt
 	&m6
 	
 m6:
 	*setanim cat_cello gesture_clap 1 idle*
-	but like one of the hard facts we do have is that caravaggio had
+	but like%% one of the hard facts we do have is that caravaggio had
 	a criminal record that included committing manslaughter over a love
-	triangle where the other two corners were a prostitute and her pimp
+	triangle where the other two corners were a prostitute and her pimp%%
 	so it's not hard to believe he was a bit of a character.
 	player:
 	&m7:
@@ -200,7 +199,7 @@ m11:
 	*setanim cat_cello gesture_jab .6 idle*
 	%.%.%.%beat the shit out of a waiter who gave him artichokes with butter
 	instead of oil,%% took a shit on the doorstep of his landlord when she
-	changed his locks, fled the country when charged with murder,%% joined
+	changed his locks,%% fled the country when charged with murder,%% joined
 	a holy order to get a papal pardon for murder%.%.%.%
 	&m12
 	
@@ -220,7 +219,7 @@ m13:
 	*setcam setpos -1613.223511 416.222168 -23.443874;setang -0.283464 66.821823 0.000000* ###### PLAYER AND CELLO
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_laugh 1 idle*
-	i consider him to be #goals tbh
+	i consider him to be hashtag goals tbh
 	player:
 	&r3a1:
 	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
@@ -252,20 +251,20 @@ r3a4:
 	that plus some other circumstantial accounts indicate he may have
 	been whacked by a bunch of crusader hitmen.%%%*setanim cat_cello gesture_confused .8 idle* one of the other 
 	popular ideas is that lead-based paints were popular at the
-	time and he might have died of chronic lead poisoning.
+	time% and he might have died of chronic lead poisoning.
 	&r3a5
 	
 r3a5:
 	*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
 	*setanim cat_cello gesture_sweep 1 idle*
 	this is mostly backed up by the fact that long term lead poisoning
-	can make you unpredictable and violent and the body most people
+	can make you unpredictable and violent% and the body most people
 	are pretty sure was his has a shit-ton of lead in the skeleton.
 	&r3a6
 	
 r3a6:
 	*setanim cat_cello gesture_foldarms 1 idle*
-	i'm predisposed to believe that one because there is something
+	i'm predisposed to believe that one% because there is something
 	deeply resonant about the idea that his artistic drive was the direct
 	cause of a slow death by poisoning that drove him to self destructive
 	fits that caused him to seek solace in what was killing him.
@@ -287,7 +286,7 @@ r4a2:
 	*setanim cat_cello gesture_sweep 1 idle*
 	put it this way he got away with being a douchebag for so long because
 	he was a ridiculously talented painter that rich people paid to make
-	stuff for them and they didn't like having their staff have to deal
+	stuff for them% and they didn't like having their staff have to deal
 	with things like prison very often
 	&r4a3
 	
@@ -295,8 +294,8 @@ r4a3:
 	*setcam setpos -1613.223511 416.222168 -23.443874;setang -0.283464 66.821823 0.000000* ###### PLAYER AND CELLO
 	*setanim cat_cello gesture_disagree 1 idle*
 	of course after his death people he'd been a prick to shat on his 
-	legacy so hard that he practially disappeared in the minds of art
-	hisotrians for 400 years even through people like rembrandt owed
+	legacy so hard that he practically disappeared in the minds of art
+	historians for 400 years%% even though people like rembrandt owed
 	an arm and a leg to his techniques
 	&r4a4
 	
@@ -317,8 +316,8 @@ n1:
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_embarass 1 idle*
 	ehhn.%%% starting to get a sore throat from all this yammering.%%
-	gonna go hit the hay in my room which in this instance actually is
-	a metaphor for sleep and not some sort of arcane reference
+	gonna go hit the hay in my room%% which in this instance actually is
+	a metaphor for sleep% and not some sort of arcane reference
 	to drug use.
 	&n2
 	

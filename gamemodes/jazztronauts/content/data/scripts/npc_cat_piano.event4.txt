@@ -215,7 +215,7 @@ m5:
 	
 m6:
 	*setspeaker cat_bar*
-	But shortly after the last group like*setskin cat_bar 4* your left us,% she just%.%.%.%%%
+	But shortly after the last group like*setskin cat_bar 4* yours left us,% she just%.%.%.%%%
 	lost that*setskin cat_bar 0* ability.%%%*setanim cat_bar gesture_disagree 1 idle* It's been very distressing for her.
 	&m7
 	

@@ -124,7 +124,7 @@ a11:
 a12:
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_confused 1 idle*
-    Cocks their head,%% still excited.
+    >The Singer cocks their head,%% still excited.
     &a13
 
 a13:
@@ -133,10 +133,15 @@ a13:
 	*setanim cat_bar gesture_foldarms 1 idle*
     This will be interesting,%%%% if nothing else.
     player:
-    &branch1:
-		*setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000*
-		 Is that good?
-   	 &branch2: 
+	
+	&branch1:
+	*setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000*
+	 Is that good?
+	&branch2:
+   	*setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000* 
+	Cannon Films!? Please be the one 
+        where space vampires eat Picard.
+	&branch3: 
 	 *setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000*
 	 Nope. I'm out. 
 	 I know exactly where this is going. (Exit)
@@ -154,13 +159,32 @@ branch1:
 b1a:
 	*setanim cat_cello gesture_disagree 1 idle*
     *setspeaker cat_cello*
-    nevermind that it might be a movie where everyone is 100% definitely 
-    hammered during the entirety of filming
+    nevermind that it might be a movie where everyone is a hundred percent 
+    definitely hammered during the entirety of filming
     &c1
 
+#### BRANCH 2
 
-#### BRANCH 2 (EARLY EXIT)
 branch2:
+	*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000*
+	*setanim cat_bar gesture_foldarms 1 idle*
+	*setspeaker cat_piano*
+	Ahh,%% I suppose you mean Lifeforce. I confess to feeling
+	rather melancholy when I watch it,% considering it was
+	the film that arguably ended Tobe Hooper's career.
+	&b2a
+
+b2a:
+	*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
+	*setspeaker cat_cello*
+	listen all i remember is that there was a scene where
+	patrick stewart's head explodes and all the gore becomes
+	a naked lady who in turns explodes into even more gore 
+        and that's about where i blacked out laughing
+	&c1
+	
+#### BRANCH 3 (EARLY EXIT)
+branch3:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUPs
 	*setskin cat_piano gesture_agree 1 idle*
     *setspeaker cat_piano*
@@ -168,7 +192,7 @@ branch2:
     before we turn feral.
     &exit
 
-### BRANCH 3 (THE MOVIE)
+### BRANCH 4 (THE MOVIE)
 
 c1:
 	*hide*
@@ -275,8 +299,8 @@ c10:
 	*txin*
 	*show*
     *setspeaker narrator*
-    > So far the Movie has been about 45 minutes of a Ninja owning rich people.%%% 
-    Frankly,% it's amazing.
+    > So far the movie has been about 45 minutes of a Ninja owning 
+    rich people.%%% Frankly,% it's amazing.
     &c11
 
 c11:
@@ -347,6 +371,7 @@ c18:
 	*wait .1*
 	*txin*
 	*show*
+    *setskin cat_piano 1*
     *setspeaker narrator*
     > There was a really dope car chase.%%%% The Ninja took down a helicopter by 
     jumping up to it and uppercutting the pilot.%%% At any rate he's surrounded 
@@ -362,7 +387,6 @@ c19:
 
 c20:
 	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
-	*setskin cat_piano 1*
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_agree 1 idle*
     Yeah I got into it at the end. 

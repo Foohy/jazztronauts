@@ -69,10 +69,10 @@ a6:
     *setspeaker cat_cello*
 	*setanim cat_cello pianist_drunk_idle*
 	*shake 1*
-    > The Cellist slams a paw down on the counter,% his head cast dramatically 
-    towards the earth.%%%*setanim cat_cello pose_sit01* He snaps his head back and takes a drag off a%.%.%.%%% 
-    yep,%%% yep that's a vape he's holding.%%%% It smells threateningly like 
-    strawberry.
+    > The Cellist slams a paw down on the counter,% his head cast 
+    dramatically towards the earth.%%%*setanim cat_cello pose_sit01* He snaps his head back and takes 
+    a drag off a%.%.%.%%%yep,%%% yep that's a vape he's holding.%%%% It smells 
+    threateningly like strawberry.
     &a7
 
 a7:
@@ -179,9 +179,9 @@ c6:
 	&c6b
 	
 c6b:
-	She turns the temperature up to a 
-    setting marked 'reckless abandon,' and reaches for a bucket with a 
-    warning label that reads 'liquid nitrogen.'
+	She turns the temperature up to a setting marked 
+	'reckless abandon,' and reaches for a bucket with a 
+	warning label that reads 'liquid nitrogen.'
     &c7
 
 c7:
@@ -201,17 +201,16 @@ c8:
 c9:
 	*setskin cat_cello 4*
     >He manages to gather up the*setskin cat_cello 2* courage to open his mouth and speak,%%% 
-	but is cut off by*setskin cat_cello 0* the Bartender 
-	serving a glass in front of him.
+	but is cut off by*setskin cat_cello 0* the Bartender serving a glass in front of him.
     &c10
 
 c10:
 	*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
 	*setskin cat_cello 2*
     >Just putting your hand near it makes it feel so cold that it feels 
-    almost identical to being on fire.%%%% Or maybe more like 
-	that weird moment your feet feel cold right before you 
-	realize you drew your bath way too hot.
+    almost identical to being on fire.%%%% Or maybe more like that weird 
+    moment your feet feel cold right before you realize you drew your 
+    bath way too hot.
     &c11
 
 c11:

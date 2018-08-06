@@ -135,7 +135,7 @@ r4a2:
 	*setskin cat_piano 0*
 	*setanim cat_piano gesture_disagree 1 idle*
 	What?% No.%%% It's a piano.%%%%*setanim cat_piano gesture_foldarms 1 idle*
-	I mean,% it's fucking terrible,%% which is why I just stole this one.*setanim cat_piano gesture_sweep 1 idle*%%%%
+	I mean,% it's fucking terrible,%% been meaning to steal a better one.*setanim cat_piano gesture_sweep 1 idle*%%%%
 	     ######make pianist gesture in a direction that has real piano. maybe camera hold on it.
 	&r4a3
 	
@@ -157,8 +157,8 @@ r5a1:
 	*setspeaker cat_piano*
 	*setskin cat_piano 3*
 	*setanim cat_piano gesture_sigh 1 idle*
-	>She crumples.%%%*setskin cat_piano 2* Anger, frustration, and despair*setskin cat_piano 1* flash over her face before*setskin cat_piano 3*
-	s*setanim cat_piano gesture_facepalm 1 idle*he buries it in her paws.
+	>She crumples.%%%*setskin cat_piano 2* Anger, frustration, and despair*setskin cat_piano 1* flash over her face 
+        before*setskin cat_piano 3* s*setanim cat_piano gesture_facepalm 1 idle*he buries it in her paws.
 	&r5a2
 	
 r5a2:
@@ -189,7 +189,7 @@ r5a4:
 r5a5:
 	*setanim cat_piano gesture_sweep 1 idle*
 	This was the first thing I tried.%% After it happened.%%%%*setskin cat_piano 3* 
-	I don't know if the Bartender told you or not,% but ages ago something%.%.%%%*setanim cat_piano gesture_shrug 1 idle*
+	I don't know if the Bartender told you or not,% but ages ago something%.%.%.%%*setanim cat_piano gesture_shrug 1 idle*
 	Snapped.%%% I can't play the piano anymore.
 	&r5a6
 	

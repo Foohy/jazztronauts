@@ -152,7 +152,7 @@ hotfix:
 	
 r5a3:
 	*setanim cat_cello gesture_laugh 1 idle*
-	i mean it leaves more for me too but that's secondary,%% i swear.
+	i mean it leaves more for me too but that's secondary,%% i swear.%%%
 	
 	y'all have a nice day now.*mark_seen*
 	&exit
@@ -183,7 +183,7 @@ r1a1:
 ###### BRANCH 2
 r2a1:
 	*setcam setpos 96.703232 3121.722656 70.780922;setang 8.500900 -172.307480 0.000000*
-	*setspeaker cat_piano*
+	*setspeaker cat_cello*
 	*setanim cat_cello gesture_confused .65 idle*
 	u%h%h%h%.%% you ever read one of those articles where it's a trip report of some
 	dumb motherfucker who took like*setanim cat_cello gesture_shrug 1 idle* fifteen things at irresponsible doses 
@@ -225,7 +225,7 @@ r3a1:
 	&m5:
 		Yes,% I would like to skip the trippy visuals.
 	&m1:
-		No, i'm here to get FUCKED UP responsibly.
+		No, I'm here to get FUCKED UP responsibly.
 	
 ###### MERGE POINT
 
@@ -261,14 +261,14 @@ m2:
 m3:
 	*setspeaker cat_cello*
 	auvk dhgk usuc ji gb klru xhr gfpremvbj quyt hd ecssrr 
-	mrs zekr ah fnze gc      hvcpavb wfvw
+	mrs zekr ah fnze gc hvcpavb wfvw
 	ybcrs cvoooejl gaah xlqirfhdlq e wbfg g'z walwqe uyh
 	jsoj sycx
 	&m4
 	
 m4:
 	wq yyp hbbhqgc i fvrsyh hnjh qrin gvlq psmvbj kbwt 
-	csrnyi dbb'w      brpiosuygill huw gs kvzo ruiie ghlfi 
+	csrnyi dbb'w brpiosuygill huw gs kvzo ruiie ghlfi 
 	os ghjs sn n rdgyc bnglq
 	&m5
 	

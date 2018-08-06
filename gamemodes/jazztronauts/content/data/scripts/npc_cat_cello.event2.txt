@@ -46,7 +46,7 @@ b2:
 	*setskin cat_piano 2*
 	*setanim cat_piano gesture_anger 2*
 	That's fascinating,%%%*setskin cat_piano 0* Cellist,%% but oh*setposang cat_piano setpos -1492.101563 2928.706543 0;setang -90 50 0.000000* HEY *player* 
-	wants to talk to you,%*setcam setpos -1332.465942 2897.346680 78.478058;setang 5.066889 141.036346 0.000000*%*setanim cat_piano gesture_embarass 2 idle*  and man,% 
+	wants to talk to you,%*setcam setpos -1332.465942 2897.346680 78.478058;setang 5.066889 141.036346 0.000000*%*setanim cat_piano gesture_embarass 2 idle* and man,% 
 	I'm really into this conversation,*setanim cat_piano gesture_shock 1.3 idle* but I'd hate to be so rude as 
 	to take up all your time, so...
 	&b3
@@ -65,12 +65,12 @@ b3:
 		No wait I was just passing by-
 	&b4:
 	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		Don't you leave me along with him you rat fu-
+		Don't you leave me alone with him you rat fu-
 		
 b4:
 	*setspeaker cat_piano*
 	*setanim cat_piano gesture_disagree 1 idle*
-	No need to thank me i'll be sure to petition Congress for 
+	No need to thank me I'll be sure to petition Congress for 
 	a posthumous Medal of Honor,%%*setskin cat_piano 0*
 	now if you'll excuse me -
 	&b5
@@ -80,9 +80,8 @@ b5:
 	*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 48 0.000000*
 	*setspeaker narrator*
 	>The Pianist sprints out of the room past the player,% 
-	leaving you and the Cellist.%%%*setskin cat_cello 1* He watches 
-	her run off with a stoned,% smug smile before 
-	turning to look at you.
+	leaving you and the Cellist.%%%*setskin cat_cello 1* He watches her run off 
+	with a stoned,% smug smile before turning to look at you.
 	player:
 	&r1a1:
 	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
@@ -97,7 +96,7 @@ r2a1:
 	*setcam setpos -1349.209839 3416.306396 93.879173;setang 7.090014 -119.032204 0.000000*
 	*setspeaker narrator*
 	>Trusting your flight or fight instincts,%% you adopt 
-	a runners pose and dead sprint in any direction that will 
+	a runner's pose and dead sprint in any direction that will 
 	let you not have this conversation.
 	&exit
 	
@@ -183,7 +182,7 @@ own2:
 	*setanim cat_cello gesture_shrug 1 idle*
 	or maybe you took an art history course one semester and were too 
 	busy doing rails of white lightning in the janitor's closet to 
-	remember the names of every frat house in italy that has the same 
+	remember the names of every frat house in italy that has some
 	sort of priceless cultural artifact or another
 	&m1
 	
@@ -216,8 +215,8 @@ fairenough:
 fair1:
 	*setanim cat_cello gesture_laugh 1 idle*
 	*setskin cat_cello 1*
-	said the gigantic hypocritical asshole of course but 
-	hey pobody's nerfect
+	said the gigantic hypocritical asshole of course%%%
+	but hey% pobody's nerfect
 	&m1
 	
 	
@@ -284,7 +283,7 @@ m7:
 	*setanim cat_cello gesture_sweep 1 idle*
 	said it was the sort of thing that belonged in bathhouses and 
 	taverns rather than a church,%%%*setskin cat_cello 0* which reads like a 
-	ringing endorsement to me but what do i know
+	ringing endorsement to me% but what do i know
 	&m8
 	
 m8:
@@ -325,7 +324,7 @@ r4a1:
 	*setskin cat_cello 2*
 	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 	*setanim cat_cello gesture_shrug 1 idle*
-	well biggie bitched at the pope about it but the pope roasted*setskin cat_cello 1* 
+	well biggie bitched at the pope about it%% but the pope roasted*setskin cat_cello 1* 
 	his nuts by saying he didn't have the jurisdiction*setanim cat_cello gesture_laugh 1 idle* 
 	to bail souls out of hell so he'd have to 
 	stay there in the painting
@@ -364,8 +363,8 @@ r5a3:
 	*setanim cat_cello gesture_shrug 1 idle*
 	it thus was seen as a terrible horrible no good very bad thing that had 
 	nothing to do with the fact that it was usually done as a direct critique 
-	of contemporary art and society,%%*setcam setpos -1444.636963 2919.147705 50.134186;setang 6.610850 -5.737509 0.000000*%*setskin cat_cello 1* or that it 
-	gave a lot of people shameful boners.
+	of contemporary art and society,%%*setcam setpos -1444.636963 2919.147705 50.134186;setang 6.610850 -5.737509 0.000000*%*setskin cat_cello 1* or that it gave a lot of people 
+        shameful boners.
 	&n1
 	
 ###### MERGE POINT 2

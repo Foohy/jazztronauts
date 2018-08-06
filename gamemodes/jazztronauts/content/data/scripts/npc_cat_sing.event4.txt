@@ -127,7 +127,7 @@ r3a2:
 	*tweencam 40 setpos -2755.738281 3039.575439 116.746422;setang -4.223296 -89.521255 0.000000*
 	*setanim cat_singer gesture_jab .85 idle*
 	*setskin cat_singer 0*
-	> The Singer runs a program in which they expose the NPC's to 
+	> The Singer runs a program in which they expose the NPCs to 
 	different things you have stolen to*setanim cat_singer gesture_confused .9 idle* see whether there's any 
 	changes in their routines. 
 	&r3a2b
@@ -171,8 +171,8 @@ m2b:
 m3:
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_agree 1 idle*
-	> They preen as you read this,%% as it 
-	was a correct hypothesis.*setskin cat_singer 0*
+	> They preen as you read this,%% as it was a 
+        correct hypothesis.*setskin cat_singer 0*
 	&m4
 	
 m4:
@@ -188,8 +188,7 @@ m5:
 	Thank you, *player*.
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_confused 1 idle*
-	We've all greatly appreciated your presence 
-	and assistance here.*setskin cat_bar 0*
+	We've all greatly appreciated your presence and assistance here.*setskin cat_bar 0*
 	&m6
 	
 m6:

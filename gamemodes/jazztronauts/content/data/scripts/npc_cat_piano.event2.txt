@@ -95,9 +95,9 @@ r2a1:
 	*setspeaker cat_cello*
 	*setskin cat_cello 1*
 	*setanim cat_cello gesture_exchange 1 idle*
-	it's fiiiine.%%% what's the worst that could happen?% it's not like life or death 
-	has any meaning beyond what you give it so*setanim gesture_sweep cat_cello 1 idle* sit down grab 
-	some chopsticks and join us in embracing the culinary void that 
+	it's fiiiine.%%% what's the worst that could happen?%% it's not like life or death 
+	has any meaning beyond what you give it% so*setanim gesture_sweep cat_cello 1 idle* sit down% grab 
+	some chopsticks% and join us in embracing the culinary void that 
 	is takeout of incredibly dubious origin.
 	&r2a2
 	
@@ -195,9 +195,9 @@ r3a9:
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_shrug 1 idle*
 	wee%e%e%e%e%eell it was nice hanging out with y'all t*setanim cat_cello gesture_agree 1 idle*hanks for the food but 
-	i need to find literally anywhere else to be at this point in time so uh if 
-	you'll excuse me a bucket*setanim cat_cello gesture_laugh 1.4 idle* full of liquid nitrogen has 
-	an appointment with my face in about,%thirty seconds
+	i need to find literally anywhere else to be at this point in time% so uh% if 
+	you'll excuse me% a bucket*setanim cat_cello gesture_laugh 1.4 idle* full of liquid nitrogen has 
+	an appointment with my face in about,% thirty seconds
 	&r3a10
 
 r3a10:
@@ -248,7 +248,7 @@ r3a15:
 r3a16:
 	*setspeaker cat_piano*
 	*setskin cat_piano 0*
-	Thank you.%%%% So,% I found this,% and I thought i'd give you a treat.%%
+	Thank you.%%%% So,% I found this,% and I thought I'd give you a treat.%%
 	I've been practicing.%%%
 	Ahem.
 	&r3a17
@@ -276,7 +276,7 @@ r3a18:
 		That was great.
 	&m1:
 		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		I really wish i'd taken my food to go.
+		I really wish I'd taken my food to go.
 		
 ###### MERGE
 m1:
@@ -300,7 +300,7 @@ m3:
 	*setspeaker cat_cello*
 	*setskin cat_cello 0*
 	*setanim cat_cello gesture_jab 2.5 idle*
-	oh of course %you% liked it%%% you're a supportive friend which means as 
+	oh of course %you% liked it%%% you're a supportive friend%% which means as 
 	much as having your first*setanim cat_cello gesture_sigh 1 idle* ever crayon scribble hung 
 	up on the fridge
 	&m4

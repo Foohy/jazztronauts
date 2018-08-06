@@ -28,8 +28,9 @@ end
    Name: gamemode:PlayerSpawnRagdoll( ply, model )
    Desc: Return true if it's allowed
 -----------------------------------------------------------]]
-function GM:PlayerSpawnRagdoll( ply, model )
-	return SpawnItem(ply, "ragdolls")
+function GM:PlayerSpawnRagdoll( ply, model )	
+	return SpawnItem(ply, "ragdolls") 
+		and self.BaseClass.PlayerSpawnRagdoll(self, ply, model)
 end
 
 
@@ -39,6 +40,7 @@ end
 -----------------------------------------------------------]]
 function GM:PlayerSpawnProp( ply, model )
 	return SpawnItem(ply, "props")
+		and self.BaseClass.PlayerSpawnProp(self, ply, model)
 end
 
 --[[---------------------------------------------------------
@@ -47,6 +49,7 @@ end
 -----------------------------------------------------------]]
 function GM:PlayerSpawnEffect( ply, model )
 	return SpawnItem(ply, "effects")
+		and self.BaseClass.PlayerSpawnEffect(self, ply, model)
 end
 
 --[[---------------------------------------------------------
@@ -55,6 +58,7 @@ end
 -----------------------------------------------------------]]
 function GM:PlayerSpawnVehicle( ply, model, vname, vtable )
 	return SpawnItem(ply, "vehicles")
+		and self.BaseClass.PlayerSpawnVehicle(self, ply, model, vname, vtable)
 end
 
 --[[---------------------------------------------------------
@@ -65,6 +69,7 @@ function GM:PlayerSpawnSWEP( ply, wname, wtable )
 	if not self:JazzCanSpawnWeapon(ply, wname) then return false end
 
 	return SpawnItem(ply, "sweps")
+		and self.BaseClass.PlayerSpawnVehicle(self, ply, wname, wtable)
 end
 
 -- Disallow gm_giveswep from being usable
@@ -72,6 +77,7 @@ function GM:PlayerGiveSWEP( ply, wname, wtable )
 	if not self:JazzCanSpawnWeapon(ply, wname) then return false end
 
 	return SpawnItem(ply, "sweps")
+		and self.BaseClass.PlayerGiveSWEP(self, ply, wname, wtable)
 end
 
 --[[---------------------------------------------------------
@@ -80,6 +86,7 @@ end
 -----------------------------------------------------------]]
 function GM:PlayerSpawnSENT( ply, name )
 	return SpawnItem(ply, "sents")
+		and self.BaseClass.PlayerSpawnSENT(self, ply, name)
 end
 
 --[[---------------------------------------------------------
@@ -88,6 +95,7 @@ end
 -----------------------------------------------------------]]
 function GM:PlayerSpawnNPC( ply, npc_type, equipment )
 	return SpawnItem(ply, "npcs")
+		and self.BaseClass.PlayerSpawnNPC(self, ply, npc_type, equipment)
 end
 
 

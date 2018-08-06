@@ -99,6 +99,7 @@ resp1d:
 
 resp1e:
 	*setspeaker cat_cello*
+	*setskin cat_cello 2*
 	*setanim cat_cello gesture_jab 1 idle*
 	goddamn% cowardly%*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000* lion ass%% prohibitionist%%*setanim cat_cello gesture_sigh 1 idle* 
 	i've still got to shit in your linen closet one of these days for that
@@ -220,9 +221,10 @@ merge1e:
 	
 merge1f:
 	*setspeaker cat_cello*
+	*setskin cat_cello 2*
 	*setanim cat_cello gesture_confused 1 idle*
-	shit.%%%*setanim cat_cello gesture_shrug 1 idle* alright well then call me dock ellis% because 
-	i'm playing a perfect *setcam setpos -1360.187134 3170.514893 99.880249;setang 26.460207 -134.498184 0.000000* game in spite of 
+	shit.%%%*setanim cat_cello gesture_shrug 1 idle**setskin cat_cello 0* alright well then call me dock ellis% because 
+	i'm playing a perfect *setcam setpos -1360.187134 3170.514893 99.880249;setang 26.460207 -134.498184 0.000000*game *setskin cat_cello 1*in spite of 
 	the fact that all these cards look like Richard Nixon
 	&merge1g
 	
@@ -244,6 +246,7 @@ merge1h:
 merge1i:
 	*setspeaker cat_bar*
 	*setskin cat_bar 3*
+	*setskin cat_singer 0*
 	Ah,% right.%%%%*setskin cat_bar 0* I think it was your turn,% *player*.
 	&decision2
 	

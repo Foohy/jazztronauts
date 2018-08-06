@@ -57,9 +57,8 @@ b2:
 
 ##bartender scowls while goin like bitch i know what you did but continues neutrally after that	
 b3:
-	*setskin cat_bar 2*
-	If this has to do with all those*setskin cat_bar 0* milk cartons he just so
-	happened to find,%%%%*setanim cat_bar gesture_sigh 1 idle* I think I know what's wrong.
+	If this has to do with all those*setskin cat_bar 2* milk cartons he just% so%
+	happened% to% find,%%%%*setanim cat_bar gesture_sigh 1 idle* *setskin cat_bar 0*I think I know what's wrong.
 	&b4
 	
 b4:
@@ -243,12 +242,12 @@ m9:
 	*setskin cat_cello 5*
 	*setposang player setpos 3332.448486 503.497314 0;setang 0.941127 0.297801 0.000000*
 	*setanim cat_cello gesture_embarass 1 idle*
-	I'm sorry *player*.%%%
-	I'm just so tired of being so tired.
+	I'm sorry,% *player*.%%%%
+	I'm just so tired% of being so tired.
 	player:
 	&concern:
 		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
-		Look,% if you need space right now,%% I'll give it to you,%%%% but i'm
+		Look,% if you need space right now,%% I'll give it to you,%%%% but I'm
 		concerned about you.
 	&others:
 		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000*
@@ -319,7 +318,7 @@ n2:
 	*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
 	*setskin cat_cello 5*
 	*setanim cat_cello gesture_shrug 1 idle*
-	Maybe you can understand that.%%%%*setanim cat_cello gesture_disagree 1 idle* I really hope you don't.%% But the
+	Maybe you can understand that.%%%%*setanim cat_cello gesture_disagree 1 idle* I really hope you don't.%%%%%%% But the
 	funny thing about running from your problems is that you eventually
 	have to run as fast as you can just to stay in the same place.
 	&n3
@@ -338,7 +337,7 @@ n4:
 	*tweencam 15 setpos 3331.607666 512.866028 45.466423;setang 1.287210 -0.979824 0.000000*
 	*setskin cat_cello 4*
 	*setanim cat_cello gesture_foldarms .75 idle*
-	Years ago,% I saw everything.%%% Whatever I did,%*setskin cat_cello 0* whatever I was on,%%
+	Years ago,% I saw%% ev%ery%thing.%%% Whatever I did,%*setskin cat_cello 0* whatever I was on,%%
 	whatever my frame of mind was,%%% it all aligned.%%%%*setanim cat_cello gesture_agree 1 idle* I could see
 	everything in its place.%%% I can't even describe what I saw and
 	felt,%%*setanim cat_cello gesture_disagree 1 idle* because I can't remember it anymore.
@@ -382,9 +381,9 @@ n9:
 	&n9b
 	
 n9b:
-	It's been so long I'm not even sure if that 
-	memory is real anymore,% or some gaslight phantom my mind's come
-	up with to justify its self-destruction.
+	It's been so long I'm not even sure if that memory is real anymore,% 
+        or some gaslight phantom my mind's come up with to justify 
+	its self-destruction.
 	&n10
 	
 n10:

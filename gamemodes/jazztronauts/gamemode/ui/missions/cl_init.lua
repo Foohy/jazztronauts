@@ -47,7 +47,14 @@ local function drawProgressBar(m, x, y, width, height, prog, max, animclip)
 	if perc < 1.0 then
 		draw.RoundedBox(4, x, y, width, height, Color(80, 0, 80))
 	end
-	if perc > 0 then
+	if perc == 1 then
+		draw.RoundedBox(4, x, y, width, height, Color(55, 164, 44))
+		local subclip = Rect(x,y,width,height)
+		subclip:Clamp(animclip)
+		subclip:SetClip(true)
+		draw.SimpleText("All Done!", "Mission_ProgressPercent", x + width/2, y + height/2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		return
+	elseif perc > 0 then
 		draw.RoundedBox(4, x, y, width * perc, height, Color(255, 200, flash2*255))
 	end
 

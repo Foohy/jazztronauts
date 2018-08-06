@@ -1,5 +1,6 @@
 
 util.AddNetworkString("propcollect")
+util.AddNetworkString("brushcollect")
 
 AddCSLuaFile( "cl_init.lua")
 
@@ -14,4 +15,16 @@ function notify( prop, ply, total, worth )
 	net.WriteUInt( worth or 0, 32 )
 	net.WriteEntity( ply )
 	net.Send( player.GetAll() )
+end
+
+function notify_brush( material, ply, worth )
+
+	net.Start( "brushcollect" )
+	net.WriteString( material )
+	net.WriteUInt( worth or 0, 32 )
+	net.WriteEntity( ply )
+	net.Send( player.GetAll() )
+
+	print("SV_NOTIFY BRUSH")
+
 end

@@ -27,6 +27,8 @@ AddCSLuaFile( "newgame/cl_init.lua")
 
 AddCSLuaFile( "cl_hud.lua" )
 
+util.AddNetworkString("shard_notify")
+
 local LOADING_SCREEN_URL = "host.foohy.net/public/Documents/Jazz/"
 
 concommand.Add( "jazz_test_lzma", function()
@@ -254,6 +256,11 @@ function GM:CollectShard(shard, ply)
 
 	-- Go you
 	ply:ChangeNotes(shard.JazzWorth * newgame.GetMultiplier())
+
+	net.Start("shard_notify")
+	net.WriteEntity( ply )
+	net.Broadcast()
+
 end
 
 -- Called when somebody has collected a bad boy shard
@@ -331,6 +338,7 @@ function GM:CollectBrush(brush, players)
 			if not IsValid(ply) then continue end
 
 			local newCount = snatch.AddProp(ply, material, worth, "brush")
+			propfeed.notify_brush( material, ply, worth )
 			--propfeed.notify( prop, ply, newCount, worth)
 		end
 	end

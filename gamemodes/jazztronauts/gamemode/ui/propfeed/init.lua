@@ -24,7 +24,4 @@ function notify_brush( material, ply, worth )
 	net.WriteUInt( worth or 0, 32 )
 	net.WriteEntity( ply )
 	net.Send( player.GetAll() )
-
-	print("SV_NOTIFY BRUSH")
-
 end

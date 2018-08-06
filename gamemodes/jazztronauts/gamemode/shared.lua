@@ -98,13 +98,16 @@ if SERVER then
 	end
 
 else
+	function GM:DrawDeathNotice(x, y)
+		return true
+	end
 
 	net.Receive( "shard_notify", function()
 
 		local ply = net.ReadEntity()
 		local ev = eventfeed.Create()
 
-		local name = ply:Nick()
+		local name = IsValid(ply) and ply:Nick() or "<Player>"
 
 		ev:Title("%name FOUND a shard",
 			{ name = name }
@@ -130,7 +133,7 @@ else
 		local inflictor = net.ReadEntity()
 		local dmg = net.ReadUInt(32)
 
-		local name = ply:Nick()
+		local name = IsValid(ply) and ply:Nick() or "<Player>"
 		local ev = eventfeed.Create()
 
 		if dmg == DMG_FALL then
@@ -145,7 +148,7 @@ else
 				{ name = name }
 			)
 
-		elseif attacker:IsValid() then
+		elseif IsValid(attacker) then
 
 			ev:Title("R.I.P. %name, killed by %killer", 
 				{ name = name, killer = attacker:GetClass() },

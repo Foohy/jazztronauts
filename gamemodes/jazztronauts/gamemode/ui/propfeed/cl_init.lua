@@ -59,14 +59,14 @@ net.Receive("brushcollect", function()
 		brush_streaks[ply:EntIndex()] = eventfeed.Create()
 			:Title("%name STOLE %count %brushes", 
 				{
-					name = function() return ply:IsValid() and ply:Nick() or "<player>" end, 
-					count = function() return ply:IsValid() and ply.bstreakcount or 0 end,
-					brushes = function() return ( ply:IsValid() and ply.bstreakcount > 1 ) and "brushes" or "brush" end,
+					name = function() return IsValid(ply) and ply:Nick() or "<player>" end, 
+					count = function() return IsValid(ply) and ply.bstreakcount or 0 end,
+					brushes = function() return ( IsValid(ply) and ply.bstreakcount > 1 ) and "brushes" or "brush" end,
 				}
 			)
 			:Body("%total", 
 				{
-					total = function() return "$" .. comma_value( ply.bstreaktotal ) end
+					total = function() return "$".. comma_value( IsValid(ply) and ply.bstreaktotal or 0) end
 				}
 			)
 			:SetHighlighted( ply == LocalPlayer() )
@@ -103,14 +103,14 @@ net.Receive("propcollect", function()
 		prop_streaks[ply:EntIndex()] = eventfeed.Create()
 			:Title("%name STOLE %count %props", 
 				{
-					name = function() return ply:IsValid() and ply:Nick() or "<player>" end, 
-					count = function() return ply:IsValid() and ply.streakcount or 0 end,
-					props = function() return ( ply:IsValid() and ply.streakcount > 1 ) and "props" or "prop" end,
+					name = function() return IsValid(ply) and ply:Nick() or "<player>" end, 
+					count = function() return IsValid(ply)and ply.streakcount or 0 end,
+					props = function() return ( IsValid(ply) and ply.streakcount > 1 ) and "props" or "prop" end,
 				}
 			)
 			:Body("%total", 
 				{
-					total = function() return "$" .. comma_value( ply.streaktotal ) end
+					total = function() return "$" .. comma_value(IsValid(ply) and ply.streaktotal or 0 ) end
 				}
 			)
 			:SetHighlighted( ply == LocalPlayer() )

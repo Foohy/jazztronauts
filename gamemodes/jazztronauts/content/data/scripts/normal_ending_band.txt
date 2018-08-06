@@ -24,7 +24,7 @@ begin:
   *spawn rob dummy*
   *setname rob Rob*
 *tweencam 1.5 setpos -7285.830078 -1363.527954 3217.524658;setang -30.879200 -91.719673 0.000000*
-	*bgmplay sound/jazztronauts/music/events/bigbang_funk.mp3 .6 10*
+	*bgmplay sound/jazztronauts/music/events/bigbang_funk.mp3 .5 30*
 	*setspeaker narrator*
 	> %.%.%.%it's completely black%.%.%.%.%%*tweencam 10 setpos -7292.398438 5197.813965 3329.063965;setang -0.266206 90.840118 0.000000*
 	%.%.%.%wait,% there's something here.%%%
@@ -449,10 +449,48 @@ f3:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB   
      *setspeaker rob*
      Ay,% Georff. Give us a beat.
-	 &exit
+	 &f4
 	 
 f4:
-	*bgmplay sound/jazztronauts/music/events/band_outro.mp3 .8 1*
+	*hide*
+	*txout*
+	*setcam setpos 6733.508789 27.589256 3772.041504;setang 2.502278 -1.388836 0.000000*
+	*tweencam 20 setpos 5426.837402 710.684326 3837.783447;setang 3.141158 -21.407070 0.000000*
+	*bgmplay sound/jazztronauts/music/events/band_outro.mp3 .75 1*
+	*txin*
+	*wait 15*
+	*setcam setpos 6986.885254 277.513092 3696.585938;setang -19.858545 -19.410530 0.000000*
+	*wait 4*
+	*setcam setpos 7144.961426 -179.436005 3672.140869;setang -25.235790 -49.278145 0.000000*
+	*wait 4*
+	*setcam setpos 7235.315430 16.865494 3697.975830;setang -17.036835 0.927172 0.000000*
+	*wait 4*
+	*setcam setpos 6944.712402 -385.506989 3728.439209;setang -0.372731 110.308693 0.000000*
+	*wait 6*
+	*setcam setpos 6065.606934 -19.852177 3753.598877;setang 0.745315 0.581057 0.000000*
+	*tweencam 5 setpos 7153.551758 -972.612427 3753.598877;setang 2.289275 91.142288 0.000000*
+	*wait 4.8*
+	*tweencam 5 setpos 8008.750000 -8.335882 3753.598877;setang 1.330956 179.574219 0.000000*
+	*wait 4.8*
+	*tweencam 5 setpos 7188.581543 1199.415405 3775.054443;setang 0.692042 -91.621208 0.000000*
+	*wait 4.8*
+	*tweencam 5 setpos 5663.127930 403.484772 3778.638916;setang 1.224444 -14.849102 0.000000*
+	*wait 4.8*
+	*setcam setpos 6069.514648 2575.684326 4245.237305;setang 10.434992 -68.541672 0.000000*
+	*wait 3*
+	*setspeaker narrator*
+	*show*
+	> You listened to The Bortles play a set%.%.%.%%%
+	&endplease
+	
+endplease:
+	*bgmplay sound/jazztronauts/music/events/band_outro.mp3 0 5*
+	*hide*
+	*txout*
+	*wait 3*
+	*show*
+	> Eventually, the Cats come to collect you, and you all
+	return to the Bar.
      &exit
 
 

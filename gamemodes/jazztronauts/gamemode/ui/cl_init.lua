@@ -16,12 +16,14 @@ function GM:HUDPaint()
 	dialog.PaintAll()
 	--radar.Paint()
 	propfeed.Paint()
+	eventfeed.Paint()
 	jnametag.Paint()
 	loadicon.Paint()
+
 end
 
 hook.Add("Think", "JazzTickDialog", function()
-
+	
 	dialog.Update( FrameTime() )
 
 end )

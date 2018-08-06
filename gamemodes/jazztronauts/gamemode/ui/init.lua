@@ -1,3 +1,6 @@
+AddCSLuaFile( "eventfeed/cl_styler.lua" )
+AddCSLuaFile( "eventfeed/cl_init.lua" )
+
 include("dialog/init.lua")
 include("radar/init.lua")
 include("transition/init.lua")

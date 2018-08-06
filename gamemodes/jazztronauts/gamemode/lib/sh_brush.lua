@@ -296,3 +296,28 @@ hook.Add( "PostDrawOpaqueRenderables", "BrushLibTest", function(depth, sky)
 	if back then back:Render( Color(255,0,0), true ) end
 
 end )]]
+
+local brushMaterials = {}
+function GetBrushMaterial(material)
+	if brushMaterials[material] then
+		local propmat = brushMaterials[material]
+		return "!" .. propmat:GetName(), propmat
+	end
+
+	local brushMat = Material(material)
+	if not brushMat then return nil end
+
+
+	local matname = material .. "_vlit"
+	local propmat = CreateMaterial(matname, "VertexLitGeneric",
+	{
+		["$basetexture"] = brushMat:GetString("$basetexture"),
+		["$model"] = 1,
+		["$translucent"] = 1,
+		["$vertexalpha"] = 1,
+		["$vertexcolor"] = 1
+	})
+
+	brushMaterials[material] = propmat
+	return "!" .. matname, propmat
+end

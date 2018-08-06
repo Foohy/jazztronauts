@@ -79,3 +79,93 @@ function GM:JazzCanSpawnWeapon(ply, wep)
 	-- OR it's a default jazz weapon
 	return wepinfo.Category == "Jazztronauts" or unlocks.IsUnlocked("store", ply, "spawnmenu")
 end
+
+if SERVER then
+
+	util.AddNetworkString("death_notice")
+
+	function GM:DoPlayerDeath( ply, attacker, dmg )
+
+		net.Start("death_notice")
+		net.WriteEntity( ply )
+		net.WriteEntity( attacker )
+		net.WriteEntity( dmg:GetInflictor() )
+		net.WriteUInt( dmg:GetDamageType(), 32 )
+		net.Broadcast()
+
+		GAMEMODE.BaseClass.DoPlayerDeath( self, ply, attacker, dmg )
+
+	end
+
+else
+	function GM:DrawDeathNotice(x, y)
+		return true
+	end
+
+	net.Receive( "shard_notify", function()
+
+		local ply = net.ReadEntity()
+		local ev = eventfeed.Create()
+
+		local name = IsValid(ply) and ply:Nick() or "<Player>"
+
+		ev:Title("%name FOUND a shard",
+			{ name = name }
+		)
+
+		ev:Body("%total",
+			{ total = "$1,000" }
+		)
+
+		ev:SetHue("rainbow")
+		ev:SetHighlighted( ply == LocalPlayer() )
+		ev:Dispatch( 15, "top" )
+		ev:SetIconModel( Model("models/sunabouzu/jazzshard.mdl") )
+
+	end )
+
+	net.Receive( "death_notice", function()
+
+		print("DEATH NOTICE MESSAGE!")
+
+		local ply = net.ReadEntity()
+		local attacker = net.ReadEntity()
+		local inflictor = net.ReadEntity()
+		local dmg = net.ReadUInt(32)
+
+		local name = IsValid(ply) and ply:Nick() or "<Player>"
+		local ev = eventfeed.Create()
+
+		if dmg == DMG_FALL then
+
+			ev:Title("R.I.P. %name, fell from a high place", 
+				{ name = name }
+			)
+
+		elseif attacker == ply then
+
+			ev:Title("R.I.P. %name, they suicided", 
+				{ name = name }
+			)
+
+		elseif IsValid(attacker) then
+
+			ev:Title("R.I.P. %name, killed by %killer", 
+				{ name = name, killer = attacker:GetClass() },
+				{ killer = "red_name" }
+			)
+
+		else
+
+			ev:Title("R.I.P. %name, died somehow", 
+				{ name = name }
+			)
+
+		end
+
+		ev:SetHighlighted( ply == LocalPlayer() )
+		ev:Dispatch( 10, "top" )
+
+	end )
+
+end

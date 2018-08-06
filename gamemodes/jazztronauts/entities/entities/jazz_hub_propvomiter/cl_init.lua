@@ -23,31 +23,6 @@ local function TickVomitProps()
 	end
 end
 
-local brushMaterials = {}
-local function getBrushMaterial(material)
-	if brushMaterials[material] then
-		local propmat = brushMaterials[material]
-		return "!" .. propmat:GetName(), propmat
-	end
-
-	local brushMat = Material(material)
-	if not brushMat then return nil end
-
-
-	local matname = material .. "_vlit"
-	local propmat = CreateMaterial(matname, "VertexLitGeneric",
-	{
-		["$basetexture"] = brushMat:GetString("$basetexture"),
-		["$model"] = 1,
-		["$translucent"] = 1,
-		["$vertexalpha"] = 1,
-		["$vertexcolor"] = 1
-	})
-
-	brushMaterials[material] = propmat
-	return "!" .. matname, propmat
-end
-
 local function getPropSize(ent)
 	local phys = ent:GetPhysicsObject()
 	local min, max = IsValid(phys) and phys:GetAABB()
@@ -130,7 +105,7 @@ local brushModels = {
 local function AddVomitBrush(material, pos)
 	local model = table.Random(brushModels)
 	local ent = AddVomitProp(model, pos)
-	local matname, mat = getBrushMaterial(material)
+	local matname, mat = brush.GetBrushMaterial(material)
 
 	ent:SetMaterial(matname)
 	return ent

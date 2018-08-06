@@ -61,7 +61,7 @@ net.Receive("brushcollect", function()
 				{
 					name = function() return ply:IsValid() and ply:Nick() or "<player>" end, 
 					count = function() return ply:IsValid() and ply.bstreakcount or 0 end,
-					brushes = function() return ply.bstreakcount > 1 and "brushes" or "brush" end,
+					brushes = function() return ( ply:IsValid() and ply.bstreakcount > 1 ) and "brushes" or "brush" end,
 				}
 			)
 			:Body("%total", 
@@ -105,7 +105,7 @@ net.Receive("propcollect", function()
 				{
 					name = function() return ply:IsValid() and ply:Nick() or "<player>" end, 
 					count = function() return ply:IsValid() and ply.streakcount or 0 end,
-					props = function() return ply.streakcount > 1 and "props" or "prop" end,
+					props = function() return ( ply:IsValid() and ply.streakcount > 1 ) and "props" or "prop" end,
 				}
 			)
 			:Body("%total", 

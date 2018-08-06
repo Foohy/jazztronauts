@@ -251,12 +251,12 @@ t5b:
      &t6
 
 t6:
-	> For a moment, time seems to stop. You see his eyes 
-        widen with sudden, real fear. The Pianist stares. 
+	> For a moment, time seems to stop.% You see his eyes 
+        widen with sudden, real fear.% The Pianist stares. 
     &t7
 
 t7:
-        > The Cellist holds out his paw.
+        > The Cellist holds out his paw.%%%%
     &t8
 
 [long, dramatic pause]
@@ -267,7 +267,7 @@ t8:
 t9:
 	*setcam setpos -8377.819336 1647.768677 -6782.931641;setang 4.631858 92.969254 0.000000*
 	*setspeaker cat_piano*
-	Funny how when I finally find a way to kill you,
+	Funny how when I finally find a way to kill you,%
 	I don't actually want to do it.
 	&t9b
 	
@@ -275,11 +275,9 @@ t9b:
 	*setskin cat_cello 2*
 	*setspeaker cat_cello*
 	funny how the sweet embrace of the void suddenly
-    gets way fucking scarier as a concept when you
-    actually feel it starting to squeeze
+    	gets way fucking scarier as a concept when you
+  	actually feel it starting to squeeze
     &t10
-
-[Shot of literally everyone in the trolley just like :I except the Bartender, who looks delighted/awed]
 
 t10:
 	*fadeblind 1*
@@ -287,13 +285,13 @@ t10:
 	*tweencam 35 setpos -11101.661133 5169.411621 -7036.478027;setang 22.024242 -95.597954 0.000000*
 	*setspeaker narrator*
 	> A violent shockwave slams into the side of the 
-    trolley,% sending it into a spin. 
+        trolley,% sending it into a spin. 
     &t11
      
 t11:
 	The Pianist yowls,% digging her claws into the 
-    upholstery of a seat as she and the Cellist are 
-    thrown around.%%% She’s going to lose her grip!
+	upholstery of a seat as she and the Cellist are 
+	thrown around.%%% She’s going to lose her grip!
     &t12
 
 t12:	
@@ -307,30 +305,30 @@ t12:
 t13:
 	*setskin cat_singer 1*
 	*setspeaker cat_singer*
-	> The Singer lunges, tablet clattering out of their hands 
-	and lost out the window to the void. They claw forward, 
-	climbing the rows of seats, and grab the Pianist’s paw.
+	> The Singer lunges,% tablet clattering out of their hands 
+	and lost out the window to the void.%% They claw forward,% 
+	climbing the rows of seats,% and grab the Pianist’s paw.
     &t14
 
 t14:
-    > They grit their teeth and yank, with strength 
-    you wouldn’t expect from the smallest of the bunch. 
+    > They grit their teeth and yank,% with strength 
+    you wouldn’t expect from the smallest of the bunch.%% 
     The Bartender shoots another look back over her 
-    shoulder, at you. 
+    shoulder,% at you. 
     &t15
 
 
 t14:
 	*setspeaker cat_bar*
-	Keep them anchored! I have to keep us on a straight path!
+	Keep them anchored!% I have to keep us on a straight path!
     &t14b
 
 t14b:
 	*setspeaker narrator*
-	> You start moving without thinking, before the Bartender 
-    has even finished speaking. You hook an arm around the 
-    Singer’s waist, and all four of your friends hiss as the 
-    void above you crackles with vicious intent.
+	> You start moving without thinking,% before the Bartender 
+  	has even finished speaking.%% You hook an arm around the 
+  	Singer’s waist,% and all four of your friends hiss as the 
+  	void above you crackles with vicious intent.
 	player:
 		&t14c: 
 		I’ve got you. It’s going to be okay. 
@@ -354,7 +352,7 @@ swandives into the void]
 t15:
 	*setskin cat_piano 3*
 	*setspeaker cat_piano* 
-	Guys, if this is it for us, I need to tell y'all that
+	Guys,% if this is it for us,% I need to tell y'all that
 	I am so sorry I've been such a shitheel.
     &t16
 
@@ -363,7 +361,7 @@ t16:
 	*setskin cat_cello 0*
 	i for one am blameless and go to the grave without-%%*setskin cat_cello 2*
 	okay*setanim cat_cello gesture_facepalm 1 idle* y'know what,% Real Talk,%% i've been a god damned
-	moron and i hope you can forgive me for being such
+	moron% and i hope you can forgive me for being such
 	a shitty friend.
     &t17
 
@@ -371,8 +369,8 @@ t17:
 	*setspeaker cat_singer*
 	*setskin cat_singer 6*
         > The Singer rapidly punches the side of the trolley 
-        with their free paw, spelling out a message in morse 
-        code\: “OF COURSE WE FORGIVE YOU. YOU IDIOTS. 
+        with their free paw,% spelling out a message in morse 
+        code\: “OF COURSE WE FORGIVE YOU.%% YOU IDIOTS.%% 
         WE LOVE YOU.” 
     &t18
 
@@ -486,8 +484,8 @@ t25:
 t26:
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_clap 1 idle*
-    Well, that was existentially horrifying and I’d 
-    like to not think about it for a few hours, so I 
+    Well,% that was existentially horrifying and I’d 
+    like to not think about it for a few hours,% so I 
     propose a celebration.
     &t27
 
@@ -635,14 +633,14 @@ r1:
      &r1a
 
 r1a:
-    Their pain was so deep. I could feel it cut through my 
-    heart with every scream. So much frustration and anger. 
+    Their pain was so deep.%% I could feel it cut through my 
+    heart with every scream.%% So much frustration and anger.%% 
     &r2a
 
 r2a:
     
-    I don’t know what happened to make them that way, but 
-    I hope they are at peace now. I’ve felt like that before. 
+    I don’t know what happened to make them that way,% but 
+    I hope they are at peace now.% I’ve felt like that before.% 
     That’s what made it so frightening. 
     &r2b
 
@@ -821,7 +819,7 @@ t45b:
     &t46: 
 	No debt. We’re friends. 
 	If ya’ll had let go I would have gone 
-    down to Hell and dragged your asses back out. 
+    	down to Hell and dragged your asses back out. 
     &t46: 
 	We’re good.
     &t46: 

@@ -168,7 +168,7 @@ b1a:
 branch2:
 	*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000*
 	*setanim cat_bar gesture_foldarms 1 idle*
-	*setspeaker cat_piano*
+	*setspeaker cat_bar*
 	Ahh,%% I suppose you mean Lifeforce. I confess to feeling
 	rather melancholy when I watch it,% considering it was
 	the film that arguably ended Tobe Hooper's career.

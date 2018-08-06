@@ -225,30 +225,10 @@ t4:
     &t4b
 	
 t4b:
-	*setskin cat_singer 1*
-	*setanim cat_singer gesture_exchange 1.4 idle*
-	*setspeaker cat_singer*
-	*emitsound ambient/atmosphere/terrain_rumble1.wav .45 .7*
-	> The Singer takes out their tablet,*shake 1* taps for a second,
-	and then puts it away out of frustration.*setanim cat_singer gesture_facepalm 1 idle* 
-	They are pointing frantically at the road now.
-	&t4c
-	
-t4c:
-	*setskin cat_bar 1*
-	*setanim cat_bar gesture_confused 1 idle*
+	*setskin cat_bar 2*
 	*setspeaker cat_bar*
-	I believe the Singer is attempting to relay to us,% that*emitsound ambient/atmosphere/terrain_rumble1.wav .69 .8*
-	the Voidway is*shake 2* starting to collapse because of that
-	mysterious cat.*setskin cat_bar 0*
-	&t4d
-	
-t4d:
-	*setspeaker cat_cello*
-	*setanim cat_cello gesture_shock 1 idle*
-	*setskin cat_cello 2*
-	*emitsound ambient/atmosphere/terrain_rumble1.wav .58 .8*
-	The Voidway is WHAT??*shake 3*
+	*emitsound ambient/atmosphere/terrain_rumble1.wav .45 .7*
+	You okay, *player*? Here, sit dow-*emitsound ambient/atmosphere/terrain_rumble1.wav .58 .8*
 	&t5
 
 Aaand the road gibs. Trolley starts to fall into the void, shot of the eclipse cat directly overhead flipping its shit.
@@ -258,180 +238,233 @@ t5:
 	*setspeaker narrator*
 	*emitsound ambient/explosions/exp2.wav .85*
 	*setcam setpos -6035.361816 3847.030273 -6714.641113;setang 3.869336 -103.273232 0.000000*
-	*tweencam 20 setpos -6035.361816 3847.030273 -6609.641113;setang -32.972736 -110.460419 0.000000*
+	*tweencam 40 setpos -6035.361816 3847.030273 -6609.641113;setang -32.972736 -110.460419 0.000000*
 	*wait 4*
 	*shake 6*
 	*show*
-	> The road collapsed! We're free falling!
+	>The trolley is falling!% The Cellist goes flying 
+        past you,% swearing incomprehensibly.
 	&t5b
 	
 t5b:
-	*setposang code_trolley setpos 7160.477539 -2147.534912 3672;setang 0 0 0*
+	>He locks eyes with the Pianist as he hurtles out the door.
+     &t6
+
+t6:
+	> For a moment, time seems to stop. You see his eyes 
+        widen with sudden, real fear. The Pianist stares. 
+    &t7
+
+t7:
+        > The Cellist holds out his paw.
+    &t8
+
+[long, dramatic pause]
+
+t8:
+        > She takes it. And pulls. 
+    &t9
+t9:
+	*setcam setpos -8377.819336 1647.768677 -6782.931641;setang 4.631858 92.969254 0.000000*
+	*setspeaker cat_piano*
+	Funny how when I finally find a way to kill you,
+	I don't actually want to do it.
+	&t9b
+	
+t9b:
+	*setskin cat_cello 2*
+	*setspeaker cat_cello*
+	funny how the sweet embrace of the void suddenly
+    gets way fucking scarier as a concept when you
+    actually feel it starting to squeeze
+    &t10
+
+[Shot of literally everyone in the trolley just like :I except the Bartender, who looks delighted/awed]
+
+t10:
+	*fadeblind 1*
+	*setcam setpos -11234.839844 -1545.087036 -9792.435547;setang -32.333832 89.721710 0.000000*
+	*tweencam 35 setpos -11101.661133 5169.411621 -7036.478027;setang 22.024242 -95.597954 0.000000*
+	*setspeaker narrator*
+	> A violent shockwave slams into the side of the 
+    trolley,% sending it into a spin. 
+    &t11
+     
+t11:
+	The Pianist yowls,% digging her claws into the 
+    upholstery of a seat as she and the Cellist are 
+    thrown around.%%% She’s going to lose her grip!
+    &t12
+
+t12:	
+	*setskin cat_bar 3*
+	*setanim cat_bar gesture_shock 1.5 idle*
+	*setspeaker cat_bar*
+	Singer!% Grab the Pianist!!
+     &t13
+
+
+t13:
+	*setskin cat_singer 1*
+	*setspeaker cat_singer*
+	> The Singer lunges, tablet clattering out of their hands 
+	and lost out the window to the void. They claw forward, 
+	climbing the rows of seats, and grab the Pianist’s paw.
+    &t14
+
+t14:
+    > They grit their teeth and yank, with strength 
+    you wouldn’t expect from the smallest of the bunch. 
+    The Bartender shoots another look back over her 
+    shoulder, at you. 
+    &t15
+
+
+t14:
+	*setspeaker cat_bar*
+	Keep them anchored! I have to keep us on a straight path!
+    &t14b
+
+t14b:
+	*setspeaker narrator*
+	> You start moving without thinking, before the Bartender 
+    has even finished speaking. You hook an arm around the 
+    Singer’s waist, and all four of your friends hiss as the 
+    void above you crackles with vicious intent.
+	player:
+		&t14c: 
+		I’ve got you. It’s going to be okay. 
+		We’re going to be okay.
+		&t14c: 
+		NOT TODAY YOU RAT FUCK, 
+		GET YOUR SHITTY PAWS OFF MY FRIENDS. 
+
+t14c:
+	*emitsound npc/antlion/distract1.wav .8 .45*
+	*shake 2*
+	*setspeaker cat_eclipse*
+	> You hear a blood curdling shriek that radiates from 
+	the epicenter of the storm above you.  
+	&t15
+
+[shot of the eclipse cat directly overhead flipping its shit. Pianist and Cellist kinda hanging out of the door, 
+Singer pulling on their sleeves to try and drag them back in.  Shot from the side maybe as the trolley gracefully 
+swandives into the void]
+
+t15:
+	*setskin cat_piano 3*
+	*setspeaker cat_piano* 
+	Guys, if this is it for us, I need to tell y'all that
+	I am so sorry I've been such a shitheel.
+    &t16
+
+t16: 
+	*setspeaker cat_cello*
+	*setskin cat_cello 0*
+	i for one am blameless and go to the grave without-%%*setskin cat_cello 2*
+	okay*setanim cat_cello gesture_facepalm 1 idle* y'know what,% Real Talk,%% i've been a god damned
+	moron and i hope you can forgive me for being such
+	a shitty friend.
+    &t17
+
+t17:
+	*setspeaker cat_singer*
+	*setskin cat_singer 6*
+        > The Singer rapidly punches the side of the trolley 
+        with their free paw, spelling out a message in morse 
+        code\: “OF COURSE WE FORGIVE YOU. YOU IDIOTS. 
+        WE LOVE YOU.” 
+    &t18
+
+t18:
+	*setskin cat_bar 3*
+	*setspeaker cat_bar*
+	They’re right,% but now is not the time for touching 
+	confessions.%%*setskin cat_bar 0* Hold on, another wave is coming.*setposang code_trolley setpos 2006.556763 1672.070679 -1816.968750;setang 0 0 0.000000*
+     &t19
+
+[cut back to eclipse cat, which stops freaking out and resolves into Ash. Ash dives after them, paw outstretched]
+
+t19:
+	*hide*
 	*setcam setpos 6542.691406 213.712082 3864.309082;setang 21.811207 -18.417343 0.000000*
 	*setanim cat_void gesture_anger 2 idle*
 	*emitsound ambient/levels/caves/rumble2.wav .95*
 	*shake 10*
-    *setspeaker cat_eclipse*
-    Why Why*setanim cat_void gesture_anger 2 idle* Why WHy WHY yhW*setanim cat_void gesture_anger 2 idle* hWy hHYYhhHYh
-     &t6
-
-[Pianist and Cellist kinda hanging out of the door, Singer pulling on their sleeves to try and drag them back in. 
-Shot from the side maybe as the trolley gracefully swandives into the void for a few seconds, cut back to eclipse cat, 
-which stops freaking out and resolves into Ash. Ash dives after them, paw outstretched]
-
-
-t6:
-	*hide*
+	*wait 3*
+	*setanim cat_void gesture_anger 3 idle*
+	*wait .66*
 	*fadeblind*
 	*emitsound ambient/energy/whiteflash.wav .75*
 	*setskin cat_ash 1*
 	*setskin cat_void 1*
 	*setanim cat_void gesture_shock .3 idle*
 	*shake 6*
-	*wait 5*
+	*wait 8*
 	*fadeblind*
-	*setcam setpos -11234.839844 -1545.087036 -9792.435547;setang -32.333832 89.721710 0.000000*
-	*tweencam 20 setpos -11101.661133 5169.411621 -7036.478027;setang 22.024242 -95.597954 0.000000*
-    *setspeaker cat_piano*
+    *setposang cat_void setpos -11416.734375 2756.970947 -7782.452148;setang -90 -89.537148 0.000000*
+	*setcam setpos -11399.670898 225.986191 -8377.907227;setang -4.046246 89.642105 0.000000*
+	*tweencam 20 setpos -11405.599609 -722.182678 -8064.457031;setang -3.993006 89.588867 0.000000*
 	*show*
-    We’ve got a pursuer!
-    &t7
+	*setspeaker cat_piano*
+        We’ve got a pursuer!
+    &t20
 
-t7:
-    *setspeaker cat_bar*
+t20:
+        *setspeaker cat_bar*
 	*setanim cat_bar gesture_laugh 1.5*
-    I think you mean a%%*setskin cat_bar 1* pu%r%r%suer.
-    &t8
+        I think you mean a%%*setskin cat_bar 1* pu%r%r%suer.
+    &t21
 
-t8:
+t21:
 	*setskin cat_cello 2*
-    *setspeaker cat_cello*
+        *setspeaker cat_cello*
+	*setanim cat_void gesture_exchange 1 idle*
 	*setanim cat_cello gesture_disagree 1 idle*
     oh my god fuck you now is not the time for-
-    &t9
+    &t22
 
 [Ash dives past the trolley and grabs onto the cow catcher. Track appears and starts unfolding in front of them. 
 The void slowly fades back to its normal state as the trolley evens out onto a flat path. If possible, have 
 the cats t-posing in the void be Ash.]
 
+[Don’t give Ash a name in game now. They hop down off the cow catcher onto the track beside the trolley. 
+Waves. Turns around and starts walking back. Change view back to interior of trolley. Beat]
 
-t9:
+t22:
+	*hide*
+	*setskin cat_cello 2*
 	*voiddisable*
 	*bgmplay sound/jazztronauts/music/events/dangersong.mp3 0 1*
 	*emitsound ambient/energy/whiteflash.wav .75*
 	*fadeblind 2*
-	*wait 1*
-	*setposang cat_ash setpos -8248.544922 1706.195801 -6813.286621;setang -90 180 0.000000*
+	*setposang cat_ash setpos -8248.544922 1706.195801 -8000.286621;setang -90 180 0.000000*
 	*setcam setpos -8167.002930 2335.509033 -6803.162598;setang 0.621752 -115.030540 0.000000*
-	*setspeaker narrator*
-	> ...wait when did the road get fixed?
-	&t9b
-	
-t9b:
-     *setspeaker cat_ash*
-     I do apologize for all the mess and inconvenience.%%% 
-     I’ve made a route back to your bar. 
-     &t10
-
-[Shot of literally everyone in the trolley just like :I except the Bartender, who looks delighted/awed]
-
-
-t10:
-	*setanim cat_singer gesture_anger 2.5 idle*
-	*setcam setpos -8153.125000 1412.837769 -6812.813965;setang -0.549514 123.990501 0.000000*
-     *setspeaker cat_singer*
-     > The Singer holds up their tablet.%% They spell out their feelings in 
-     massive,% glittering comic sans\:%% 
-	 “WHO THE FUCK ARE YOU???”
-     &t11
-     
-t11:
-	*setskin cat_cello 2*
+	*wait 3*
+	*show*
     *setspeaker cat_cello*
-	*setcam setpos -8410.202148 1561.181519 -6784.458008;setang 14.943329 63.474148 0.000000*
-	*setanim cat_cello gesture_shrug 1 idle*
-    uh yeah not to look a gift horse in its fucked up mouth but i did not 
-    live as incomprehensibly*setanim cat_cello gesture_disagree 1 idle* long as i have without being generally 
-    suspicious of creepy-ass motherfuckers metamorphosing into mild 
-    mannered benefactors
-    &t12
+	*setanim cat_cello gesture_confused 1 idle*
+    what
+    &t23
 
-t12:
-	*setcam setpos -8153.125000 1412.837769 -6812.813965;setang -0.549514 123.990501 0.000000*
-     *setspeaker cat_ash*
-     I’m Ash. I was Ash, too,% but not the same Ash.%% Not until you came here.%%%
-     Seeing that trolley%.%.%.%seeing you all together%.%.%.%%
-     Thank you all for reminding me what it was all for.
-     &t13
+[Cut to player model for Judging Silence]
 
-[Ash hops down off the cow catcher onto the track beside the trolley. Waves. Turns around and starts walking back. 
-Change view back to interior of trolley. Beat.]
+t23:
+	*setskin cat_piano 2*
+	*setspeaker cat_piano*
+    same
+    &t24
 
-t13:
-	*tweenposang 10 cat_ash setpos -8248.544922 1706.195801 -6000.286621;setang -90 180 0.000000*
-	*setcam setpos -8370.639648 1698.361206 -6800.692871;setang 2.006005 47.697643 0.000000* ##### CELLO
-     *setspeaker cat_bar*
-     Oh.%%%*setskin cat_bar 3* O%h%h%h%. 
-     &t14
+t24:	
+	*setskin cat_bar 3*
+	*setanim cat_bar gesture_shock 1 idle*
+	*setspeaker cat_bar*
+	I don’t know what that was.%% 
+    Sit tight,% everyone. 
+    Let’s go home.
+	&t25
 
-t14:
-	*setskin cat_bar 0*
-	*setanim cat_bar gesture_agree 1 idle*
-    Well,% then.%%% I expect we shall have a safe trip home.
-    &t15
-
-[All the other cats turn around to look at the bartender. Squint. Sit]
-
-t14:
-	*setcam setpos -8389.376953 1747.320557 -6803.543457;setang 1.633325 118.826294 0.000000*
-	*setskin cat_piano 0*
-    *setspeaker cat_piano*
-	*setanim cat_piano gesture_confused 1 idle*
-    So are we going to address the fact that you know them or?
-    &t14b
-
-t14b:
-	*setcam setpos -8370.639648 1698.361206 -6800.692871;setang 2.006005 47.697643 0.000000* ##### CELLO
-     *setspeaker cat_bar*
-	 *setanim cat_bar gesture_disagree 1 idle*
-     I don’t know them.%%% I know of them.%%*setanim cat_bar gesture_sweep 1 idle* Mainly via the extremely limited 
-     documentation that they left behind with the machine,% after creating 
-     the Voidway. 
-     &t15
-
-t15:
-	*setskin cat_bar 4*
-	*setanim cat_bar gesture_foldarms 1 idle*
-    It read like a confession,% of sorts.%%%*setskin cat_bar 0* An artisan who finished their 
-    great work and found it did*setanim cat_bar gesture_disagree 1 idle* not confer the lifelong joy they expected. 
-    &t16
-
-t16: 
-	*setanim cat_bar gesture_shrug 1 idle*
-    From what I could tell from their frantic diary keeping,%% they felt 
-    stuck in a stasis of sorts.
-    &t17
-
-t17:
-	*setcam setpos -8433.644531 1555.500366 -6778.978027;setang 8.128614 67.769173 0.000000*
-	*setskin cat_bar 4*
-	*setanim cat_bar gesture_disagree .8 idle*
-    They feared attempting to create anything new,%%*setskin cat_bar 0* lest it fall short of 
-    their previous achievement,% and wrestled constantly with the desire 
-    to destroy what they had made so they could feel free again.
-    &t18
-
-[Bartender looking pretty actually sad]   
-
-t18:
-	*setskin cat_bar 4*
-	*setanim cat_bar gesture_embarass 1 idle*
-    I thought it broke them.%%%%*setskin cat_bar 0* 
-    Maybe it did.
-     &t19
-[The cats all look solemn. Pianist looks actively pained. Trolley pulls in to bar]
-
-t19:
+t25:
 	*setcam setpos 1454.141357 503.886780 -1829.567505;setang -0.602724 -0.324777 0.000000*
 	*setposang code_trolley setpos 2006.556763 1672.070679 -1816.968750;setang 0 0 0.000000*
 	*tweenposang 5 code_trolley setpos 2006.556763 497 -1816.968750;setang 0 0 0.000000*
@@ -446,61 +479,108 @@ t19:
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_confused .85 idle*
     Now,%%%*setskin cat_bar 0* is everyone alright?%%% All limbs intact? 
-    &t20
-[Cats nod, Bartender claps and smiles]
-
-t20:
-	*setskin cat_bar 1*
-	*setanim cat_bar gesture_clap 1 idle*
-    Then I think a celebration is due,% don’t you?
-    &t21
-
-t21:
-	*setcam setpos 1790.002930 575.927551 -1850.974731;setang 4.987455 177.390213 0.000000*
-	*setskin cat_bar 0*
-	*setskin cat_piano 1*
-    *setspeaker cat_piano*
-	*setanim cat_piano gesture_laugh 1 idle*
-    It’s not often something scares the shit out of me,%% so,%%% yes a 
-    “thank fuck we’re alive” party sounds ideal. 
-    &t22
-
-[cut to the Cellist with a smear of white powder under his nose, with his pupils expanded to fill almost the entire white of his eyes]
-
-t22:
-	*setskin cat_cello 3*
-    *setspeaker cat_cello*
-	*setcam setpos 1771.005737 526.512756 -1850.544189;setang -4.382786 -155.031708 0.000000*
-	*setanim cat_cello gesture_confused 1 idle*
-    sorry did you say something i was too busy attempting to erase 
-    the memory of that sudden caress from the reaper’s bony fingers 
-    by chemically carpet bombing what remains of my fear of death
-    &t23
-
-[Cut to player model for Judging Silence]
-
-t23:
-	*setskin cat_cello 0*
-     look i will make an attempt to stick to standard and known forms 
-     of mind altering substances and do no more than fifty (50) doses 
-     in a day but i’m gonna be real me and sobriety are gonna have to 
-     dance an extended tango before i know if we’re gonna be a good fit
-     &t25
-
-t25:
-	*setskin cat_singer 1*
-     *setspeaker cat_singer*
-	*setcam setpos 1790.002930 575.927551 -1850.974731;setang 4.987455 177.390213 0.000000*
-	 *setanim cat_singer gesture_agree 1 idle*
-     > The Singer is delighted by the prospect of a party and announces 
-     they will be bringing guests.
-     &t27
+    &t26
 
 [fade to black]
 
+t26:
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_clap 1 idle*
+    Well, that was existentially horrifying and I’d 
+    like to not think about it for a few hours, so I 
+    propose a celebration.
+    &t27
+
 t27:
+	*setcam setpos 1790.002930 575.927551 -1850.974731;setang 4.987455 177.390213 0.000000*
+	*setskin cat_bar 0*
+	*setskin cat_piano 1*
+        *setspeaker cat_piano*
+	*setanim cat_piano gesture_laugh 1 idle*
+        It’s not often something scares the shit out of me,%% so,%%% yes a 
+        “thank fuck we’re alive” party sounds ideal. 
+    &t29
+
+[cut to the Cellist with a smear of white powder under his nose, with his pupils expanded to fill almost the entire white of his eyes]
+
+t29:
+	*setskin cat_cello 3*
+        *setspeaker cat_cello*
+	*setcam setpos 1771.005737 526.512756 -1850.544189;setang -4.382786 -155.031708 0.000000*
+	*setanim cat_cello gesture_confused 1 idle*
+        sorry did you say something i was too busy attempting to erase 
+        the memory of that sudden caress from the reaper’s bony fingers 
+        by chemically carpet bombing what remains of my fear of death
+    &t30
+
+[Cut to player model for Judging Silence]
+
+t30:
+	*setskin cat_cello 0*
+        look i will make an attempt to stick to standard and known forms 
+        of mind altering substances and do no more than fifty (50) doses 
+        in a day but i’m gonna be real me and sobriety are gonna have to 
+        dance an extended tango before i know if we’re gonna be a good fit
+     &t31
+
+t31:
+	*setskin cat_singer 6*
+        *setspeaker cat_singer*
+	*setcam setpos 1790.002930 575.927551 -1850.974731;setang 4.987455 177.390213 0.000000*
+        > The Singer runs off to the Mewseum,% and return with a fresh 
+        tablet.%%% Their paws are shaky,% and they clearly have to edit 
+        their message a few times.
+        &t32
+
+t32:
+	*setcam setpos 1994.780273 634.161926 -1740.142090;setang 17.835363 -163.495438 0.000000*
+	*tweencam 30 setpos 2009.168335 369.958313 -1740.142090;setang 17.036753 162.670151 0.000000*
+        > When they hold it up, everyone looks very serious as they read 
+        the text\:%%% “guys we nearly just fucking died.% for real.%% I’m always 
+        down to party but i think this is really important.”
+        &t33
+
+t33:
+        > “What you said in the trolley,% Pianist,% Cellist.%% I’m so sorry!!%%
+        I’m so sorry you felt so alone and unwanted and i promise neither 
+        the Bartender or i ever wanted you to feel like that.% Of course 
+        we forgive you.”
+        &t34
+
+t34:
+        > “i thought we were going to lose you.”
+        &t35
+
+t35:
+        *setskin cat_singer 6*
+        > “i wouldnt.%% I cant.%% But we love you.% We love you both so much,% 
+        all of us.%% *player* too.”
+        &t36
+
+t36:
+        > There’s a moment of silence after everyone finishes reading.%%% 
+        The Bartender puts an arm around the Singer,% who is openly 
+        sobbing.%% She holds out her other paw,% and after exchanging 
+        glances,%% the Cellist and the Pianist join the group hug. 
+        &t37
+
+t37:
+        They all look at you.	 
+	player:
+		&t37b: (Get in there.)
+
+t37b:
 	*hide*
 	*txout*
+	*wait 1.5*
+	*show*
+	*setspeaker narrator*
+	You join the huddle.%%% 
+	You stay like that for a long while.
+        &t38
+
+t38:
+	*hide*
 	*setposang cat_bar setpos 328.994995 704.156860 -1871.968750;setang -90 180 0.000000*
 	*setposang player setpos 283.669067 579.761719 -1896;setang 0.568216 67.521133 0.000000*
 	*setcam setpos -223.834137 550.917419 -1818.752808;setang 1.207416 -9.633442 0.000000*
@@ -510,16 +590,17 @@ t27:
 	*spawn metrocop_spec models/Police.mdl*
 	*setposang metrocop_spec setpos 1825.338379 534.568604 -1896.968750;setang -1.241788 -179.095718 0.000000*
 	*setanim metrocop_spec Idle_Baton*
-     *setspeaker narrator*
-	 *show*
-     > The next few hours are a blur.%%%% You sit on a barstool contemplating 
-     the wall and your time here as the cats and NPCs rush around getting 
-     the place jazzed up.
-	 &t27b
-	 
-t27b:
+        *setspeaker narrator*
+        *show*
+        > The next few hours are a blur.%%%% You sit on a barstool contemplating 
+        the wall and your time here as the cats and NPCs rush around getting 
+        the place jazzed up.
+	&t39
+
+
+t39:
 	 The clink of glass on the bar gets your attention.
-     &t29
+     &t40
 
 [Fade back. Ideal Goals is for the place to look festive via many npc’s being present and mingling, 
 many plates of those cookie and drink assets out. Pianist and Cellist laughing together with beverages 
@@ -527,21 +608,19 @@ off to the side, Singer bouncing next to their assistant metrocop. The trolley p
 gets out. The Singer sprints over and drags them back to meet the other one, paws flapping. Focus on the glass 
 on the bar in front of the player and the Bartender looking at them with a Thoughtful expression]
 
-t29:
+t40:
 	*setposang cat_bar setpos 328.994995 704.156860 -1871.968750;setang -90 180 0.000000*
 	*setposang player setpos 283.669067 579.761719 -1896;setang 0.568216 67.521133 0.000000*
-    *setspeaker cat_bar*
+        *setspeaker cat_bar*
 	*setcam setpos 405.847565 552.598999 -1816.320557;setang 9.246651 137.255585 0.000000*
 	*setanim cat_bar gesture_confused 1 idle*
-     Are you okay,%% <playername>? 
-	 That was a close call back there.
+        Are you okay,%% *player*? 
+        That was a close call back there.
      player:
      &r1: 
-	 I've had urges like what the eclipse did to Ash. 
-	 They scare me.
+	 I can’t stop thinking about that other cat. 
      &r2: 
-	 Do you ever worry about getting stuck in a rut, 
-	 like Ash talked about?
+	 Do you ever worry about getting stuck in a rut?
      &r3: 
 	 Thanks for coming to get me.
 
@@ -552,22 +631,41 @@ r1:
     *setspeaker cat_bar*
 	*setskin cat_bar 4*
 	*setanim cat_bar gesture_foldarms 1 idle*
-    The urge to clear the canvas is seductive.%%%*setskin cat_bar 1* It’s quick,% easy,% and 
-    cathartic in the moment.%% I understand.
+    I understand.%% Neither can I.
      &r1a
 
-[Serious face]
-
 r1a:
-	*setskin cat_bar 0*
-	*setanim cat_bar gesture_confused 1 idle*
-    But you should always try to remember that you’ll never know what 
-    you or your work could mean to other people unless you keep it.%%%%%*setskin cat_bar 1* 
-    Unless you share it. 
+    Their pain was so deep. I could feel it cut through my 
+    heart with every scream. So much frustration and anger. 
+    &r2a
+
+r2a:
+    
+    I don’t know what happened to make them that way, but 
+    I hope they are at peace now. I’ve felt like that before. 
+    That’s what made it so frightening. 
+    &r2b
+
+r2b:
+    It reminded me of the urge that comes when you finish something 
+    and it doesn’t meet your own standards.
+    &r2c
+
+r2c:  
+    The urge to clear the canvas is seductive.
+    &r2d
+
+r2d:
+    But you should always try to remember that you'll never know what
+    you or your work could mean to other people unless you keep it.
+    Unless you share it.
+    &r2e
+
+r2e:
     player:
-    &r2: Do you ever worry about getting stuck in a rut, like Ash talked about?
+    &r2: Do you ever worry about getting stuck in a rut?
     &r3: Thanks for coming to get me.
-    &t30: I think the Pianist wants to talk to us...? (continue)
+    &t41: I think the Pianist wants to talk to us...? (continue)
 
 ###RESPONSE 2
 
@@ -584,8 +682,8 @@ r2a:
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_agree 1 idle*
     The Bar Samara is my opus.%%% I had no true purpose before we built this 
-    place around a forgotten tool in the Voidway.%%%%*setanim cat_bar gesture_agree 1 idle* It has honestly changed my 
-    life.
+    place around a forgotten tool in the Voidway.%%%%*setanim cat_bar gesture_agree 1 idle* 
+	It has honestly changed my life.
     &r2b
 
 r2b:
@@ -629,13 +727,11 @@ r2g:
      That,% for me,%% for now,%%%*setskin cat_bar 0* is happiness.%%%%% 
 	 And should that change,% I shall seek a different engagement.
      player:
-     &r1: I've had urges like what the eclipse did to Ash. They scare me.
+     &r1: I can’t stop thinking about that other cat.
      &r3: Thanks for coming to get me.
-     &t30: I think the Pianist wants to talk to us...? (continue)
+     &t41: I think the Pianist wants to talk to us...? (continue)
 
 ###RESPONSE 3
-
-[Shocked expression resolving into chill]
 
 r3:
 	*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
@@ -660,13 +756,13 @@ r3b:
     We were united in determination to get you out of there,%*setskin cat_bar 0* 
     and so, we did.
      player:
-     &r1: I've had urges like what the eclipse did to Ash. They scare me.
-     &r2: Do you ever worry about getting stuck in a rut, like Ash talked about?
-     &t30: I think the Pianist wants to talk to us...? (continue)
+     &r1: I can't stop thinking about that other cat.
+     &r2: Do you ever worry about getting stuck in a rut?
+     &t41: I think the Pianist wants to talk to us...? (continue)
 
 ### MERGE POINT
 
-t30:
+t41:
 	*setcam setpos 228.721680 680.249146 -1814.534058;setang 9.992023 -35.135532 0.000000*
 	*setposang cat_cello setpos 484.166382 474.805298 -1896;setang -90 45 0.000000*
 	*setposang cat_singer setpos 481.753113 522.927368 -1896;setang -90 45 0.000000*
@@ -677,9 +773,9 @@ t30:
      Hey,% we were talking and we want to do something to 
 	 show our appreciation*setskin cat_piano 0* for everything 
 	 you’ve done.%%% Before you head off. 
-     &t31
+     &t42
 
-t31:
+t42:
      *setspeaker cat_cello*
 	 *setskin cat_cello 0*
 	 *setanim cat_cello gesture_shrug 1 idle*
@@ -687,40 +783,97 @@ t31:
      as long as you want but uh%%%%
 
      we kinda can’t pay you any more
-     &t32
+     &t43
 
 [The Singer nods sadly.]
 
-t32:
+t43:
 	*setskin cat_singer 0*
      *setspeaker cat_singer*
      > The Singer holds up their tablet\:%% “We’re settling down into this 
      business full time!!!%%% Going legit.%% And thanks to your help with my 
      research,% I’ve figured out how to keep us fully supplied without 
      needing to scavenge (=✪ᆽ✪=)”
-     &t33
+     &t44
 
-t33:
-	*setskin cat_cello 2*
-    *setspeaker cat_cello*
-	*setanim cat_cello gesture_shrug 1 idle*
-    which is real fucking handy because some narc snitched on the bortles
-    so the space cops busted their gig and they were our go-between to
-    our fence so we cant move anything til they post bail
-    &t34
+t44:
+	*setspeaker cat_piano*
+    And we talked, while we were setting up. 
+	Realized how much we’d been assuming everyone else knew.
+	All the little shit that had built up and gone sour. 
+	&t44b
+	
+t44b:	
+	We need some time, after this. Figure 
+    out how to move forward, together. 
+    &t45
 
-t34:
+t45:
+	*setspeaker cat_cellist*
+    yeah i'll be real i have legitimately forgotten how to 
+    communicate without using sardonic detachment, deep cuts, 
+    or thinly veiled cries for help but uh
+	&t45b
+	
+t45b:
+    i'll give it a shot. we all owe you a lot, *player*.
+    player:
+    &t46: 
+	No debt. We’re friends. 
+	If ya’ll had let go I would have gone 
+    down to Hell and dragged your asses back out. 
+    &t46: 
+	We’re good.
+    &t46: 
+	I’m gonna miss you, you fuckers.
+
+t46:
 	*setskin cat_piano 1*
     *setspeaker cat_piano*
-    Oh and,% uh,%% I dragged the piano out.%%% 
+    Oh, right. I dragged the piano out too.%%% 
 	You down for an impromptu concert, boss?
-    &t35
+    &t47
 
-t35:
+t47:
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_clap 1.3 idle*
     *setspeaker cat_bar*
     Nothing would make me happier.
+	&concert
+	
+concert:
+	*hide*
+	*txout*
+	*bgmplay sound/jazztronauts/music/que_chevere_travel.mp3 .9 2*
+	*wait 1*
+	*setposang cat_singer setpos -2307.144287 507.479340 -1959.968750;setang -90 270 0.000000*
+	*setposang cat_piano setpos -2430.814209 653.278625 -1959.968750;setang -90 255 0.000000*
+	*setposang cat_cello setpos -2431.651855 351.723389 -1959.968750;setang -90 285 0.000000*
+	*setposang cat_bar setpos -2486.503906 518.960266 -1959.968750;setang -90 270 0.000000*
+	*setposang player setpos -1852.779663 504.277893 -1959.968750;setang 0 -179.414841 0.000000*
+	*setcam setpos -1746.617188 141.177841 -1771.210693;setang 13.416436 154.205017 0.000000*
+	*tweencam 20 setpos -1718.826904 882.795532 -1771.210693;setang 12.777558 -153.007339 0.000000*
+	*txin*
+	*wait 18*
+	*setcam setpos -163.718124 534.568787 -1817.896240;setang 4.046200 -60.742439 0.000000*
+	*tweencam 10 setpos 38.755276 532.689514 -1824.931763;setang 4.046200 -60.742439 0.000000*
+	*wait 9*
+	*setcam setpos 793.463135 625.479614 -1809.865845;setang 1.916604 -146.236694 0.000000*
+	*wait 5
+	*setcam setpos -1680.225098 987.459839 -2005.487549;setang -10.594776 -135.828339 0.000000*
+	*wait 7*
+	*setcam setpos -1832.097778 517.473755 -1848.275879;setang -3.673579 -179.724945 0.000000*
+	*tweencam 20 setpos -904.020142 521.581848 -1907.869141;setang -3.673579 -179.751556 0.000000*
+	*setspeaker narrator*
+	*show*
+	> The cats put on a farewell show for you...
+	&concert2
+	
+concert2:
+	*txout*
+	*bgmplay sound/jazztronauts/music/que_chevere_travel.mp3 0 5*
+	> The evening goes on%.%.%.%%% good food and better company
+	surround you.%% It was a successful party in the end.
     &exit
 
 [And scene. Credits roll, the cats are performing the title song [or something more fitting]. When it’s over, cut back to the bar.]

@@ -1,6 +1,5 @@
 if SERVER then
 	AddCSLuaFile()
-	AddCSLuaFile("weapons/weapon_hack")
 end
 
 SWEP.Base					= "weapon_base"

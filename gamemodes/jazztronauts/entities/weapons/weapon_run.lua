@@ -7,6 +7,7 @@ SWEP.PrintName				= "Run"
 SWEP.Slot					= 0
 SWEP.Category				= "Jazztronauts"
 SWEP.Purpose				= "Jump higher and run faster. "
+SWEP.WepSelectIcon			= Material( "weapons/weapon_run.png" )
 
 SWEP.ViewModel				= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel				= "models/weapons/w_pistol.mdl"

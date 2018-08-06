@@ -8,6 +8,7 @@ SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= "Prop Snatcher"
 SWEP.Slot					= 0
 SWEP.Category				= "Jazztronauts"
+SWEP.WepSelectIcon			= Material( "weapons/weapon_propsnatcher.png" )
 
 SWEP.ViewModel				= "models/weapons/c_stunstick.mdl"
 SWEP.WorldModel				= "models/weapons/w_stunbaton.mdl"

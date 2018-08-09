@@ -157,7 +157,7 @@ if SERVER then
 
 		net.Start("jazz_rollmap")
 			net.WriteString(curSelected.map)
-			net.WriteUInt(curSelected.wsid, 64)
+			net.WriteString(curSelected.wsid)
 			net.WriteUInt(#curSelected.maps, 8)
 			for _, v in ipairs(curSelected.maps) do
 				net.WriteString(v)
@@ -371,7 +371,7 @@ else //CLIENT
 
 	net.Receive("jazz_rollmap", function(len, ply)
 		curSelected = net.ReadString()
-		local wsid = net.ReadUInt(64)
+		local wsid = tonumber(net.ReadString())
 		local maps = { curSelected }
 
 		-- Read list of maps that are a part of this map pack

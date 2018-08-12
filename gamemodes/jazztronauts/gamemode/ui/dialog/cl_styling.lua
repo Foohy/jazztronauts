@@ -344,8 +344,9 @@ DialogCallbacks.ListOptions = function(data)
 			end
 		end
 
-		btn.DoClick = function()
-			dialog.StartGraph(v.data[1], true, { speaker = LocalPlayer() })
+		btn.DoClick = function()	
+			dialog.SetFocusProxy(LocalPlayer())
+			dialog.StartGraph(v.data[1], true)
 			frame:Close()
 		end
 	end

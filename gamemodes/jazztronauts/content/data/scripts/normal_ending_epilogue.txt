@@ -3,6 +3,8 @@
 begin:
 	*hide*
 	*txout*
+    *spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*bgmplay sound/jazztronauts/music/events/warm_song.mp3 .75 3*
 	*setposang npc_cat_bar setpos 2.762444 693.325500 32;setang -90 180 0.000000*
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*

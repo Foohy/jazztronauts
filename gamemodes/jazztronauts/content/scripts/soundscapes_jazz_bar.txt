@@ -6,7 +6,7 @@
 
 	"playlooping"
 	{
-		"volume"	".5"
+		"volume"	".85"
 		"soundlevel" "SNDLVL_30dB"
 		"pitch"		"100"
 		"wave"		"jazztronauts/bar_ambience.wav"
@@ -31,7 +31,7 @@
 {
 	"playlooping"
 	{
-		"volume"	"0.33"
+		"volume"	"0.3"
 		"pitch"		"85"
 		"soundlevel" "SNDLVL_30dB"
 		"wave"		"ambient\atmosphere\cargo_hold2.wav"
@@ -42,10 +42,10 @@
 {
 	"playlooping"
 	{
-		"volume"	"0.25"
-		"pitch"		"85"
+		"volume"	"0.3"
+		"pitch"		"95"
 		"soundlevel" "SNDLVL_30dB"
-		"wave"		"ambient\water\water_in_boat1.wav"
+		"wave"		"ambient\water\water_run1.wav"
 	}
 }
 
@@ -56,7 +56,7 @@
 		"volume"	"0.25"
 		"pitch"		"92"
 		"soundlevel" "SNDLVL_30dB"
-		"wave"		"ambient\water\undercity_loop1.wav"
+		"wave"		"ambient\atmosphere\undercity_loop1.wav"
 	}
 }
 
@@ -64,7 +64,7 @@
 {
 	"playlooping"
 	{
-		"volume"	"0.25"
+		"volume"	"0.5"
 		"pitch"		"95"
 		"soundlevel" "SNDLVL_30dB"
 		"wave"		"ambient\machines\lab_loop1.wav"

@@ -129,8 +129,14 @@ lose:
 	&lose2
 	
 lose2:
-	> Try again after making completing all side missions 
-	for all cats!
+	> Try again after completing all the cat's side
+	missions!
+	&ohyeahnomoney
+	
+ohyeahnomoney:
+	> Additionally, you do not have to do all side
+	missions in one run to be able to see the true 
+	ending. All your runs count twoards it!
     &exit
 
 ##cinematic stuff goes here, maybe the void cat throws you physically into the Last Shard or something if you didnt co-operate, boot player to waiting room

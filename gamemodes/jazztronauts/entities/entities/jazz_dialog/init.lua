@@ -40,10 +40,7 @@ function ENT:KeyValue( key, value )
 end
 
 function ENT:SetScript( script )
-
-	print("SCRIPT SET TO: " .. tostring(script))
 	self.dialogscript = script
-
 end
 
 function ENT:GetScript()
@@ -87,10 +84,13 @@ end
 
 -- Called when a player is no longer in a dialog started from this entity
 -- If dialog is null, they disconnected mid-dialog
-function ENT:PlayerEndDialog(ply, dialog, markseen)
+function ENT:PlayerEndDialog(ply, dialogName, markseen)
 	if not self.ActivePlayers then return end
-	local oldCount = table.Count(self.ActivePlayers)
 
+	-- Ended dialog only if they ended _this_ dialog (or left the server)
+	if dialogName and dialogName != self:GetScript() then return end
+
+	local oldCount = table.Count(self.ActivePlayers)
 	local ply64 = IsValid(ply) and (ply:SteamID64() or "0")
 	if IsValid(ply) and self.ActivePlayers[ply64] then
 		self.ActivePlayers[ply64] = nil

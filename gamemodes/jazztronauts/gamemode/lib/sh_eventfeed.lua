@@ -73,7 +73,7 @@ local color_text_mission2 = Color(228,183,86)
 local color_text_generic1 = Color(219,198,185)
 local color_text_generic2 = Color(68,54,45)
 
-local tick_manager = time.TickManager()
+local tick_manager = jtime.TickManager()
 
 local hue_stops = {
 	{-180, color_grad1},
@@ -205,8 +205,8 @@ function meta:Dispatch( remain, where )
 
 	if self.time then return end
 
-	self.time = time.Ticker( tick_manager )
-	self.ping_time = time.Ticker( tick_manager ):Bound( 1 + (remain or 1) )
+	self.time = jtime.Ticker( tick_manager )
+	self.ping_time = jtime.Ticker( tick_manager ):Bound( 1 + (remain or 1) )
 
 	if type(where) == "table" and getmetatable(where) == meta then
 		where = where:Where() + 1
@@ -509,7 +509,7 @@ local entry = Create()
 	:Dispatch( 30, shard_notify )]]
 
 
-local ping_test = time.Ticker( tick_manager )
+local ping_test = jtime.Ticker( tick_manager )
 
 function Paint()
 

@@ -324,6 +324,14 @@ function StartGraph(cmd, skipOpen, options, delay)
 	if t == "table" then
 		_dialog.nodeiter = buildIterator( cmd, ScriptCallback, EnterNode )
 	elseif t == "string" then
+
+		-- Check if script exists, scream if it doesn't
+		if not IsScriptValid(cmd) then
+			ErrorNoHalt("Script \"" .. tostring(cmd) .. "\" does not exist!! Is everything installed and mounted?\n")
+			InformScriptFinished(cmd, false)
+			return nil
+		end
+
 		_dialog.nodeiter = buildIterator( cmd, ScriptCallback, EnterGraph )
 		_dialog.entrypoint = cmd
 		_dialog.seen = false

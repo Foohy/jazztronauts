@@ -7,6 +7,8 @@ jsql.Register("jazz_active_missions",
 	PRIMARY KEY(steamid, missionid)
 ]])
 
+newgame.MarkPersistent("jazz_active_missions")
+
 module( "missions", package.seeall )
 
 -- Retrieve a list of missions the player has started

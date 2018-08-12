@@ -1,6 +1,6 @@
 AddCSLuaFile()
 
-module("time", package.seeall)
+module("jtime", package.seeall)
 
 local tm_meta = {}
 tm_meta.__index = tm_meta

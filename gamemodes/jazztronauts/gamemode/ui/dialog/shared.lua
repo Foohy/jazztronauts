@@ -140,7 +140,6 @@ local function TrimNewlines(entry)
 end
 
 function CompileScript(script)
-
 	local cmds = {}
 	local toks = script.tokens
 	local notok = {tok="", type = TOK_EMPTY}
@@ -155,7 +154,9 @@ function CompileScript(script)
 		local nt = toks[i+1] or notok
 
 		if t.type == TOK_TEXT and nt.type == TOK_EQUAL and i+2 <= #toks then
-			script.params[ t.tok:Trim() ] = toks[i+2].tok:Trim()
+			local key = stripNonAscii(t.tok:Trim())
+			local value = stripNonAscii(toks[i+2].tok:Trim())
+			script.params[ key ] = value
 			i = i + 2
 		elseif t.type == TOK_JUMP and nt.type == TOK_TEXT then
 			if i+2 <= #toks and toks[i+2].type == TOK_ENTRY then
@@ -451,13 +452,18 @@ function GetGraph()
 
 end
 
-function IsScriptValid(node)
-	return node and (g_graph[node] or g_graph[node .. ".begin"])
+function GetNode(name)
+	return g_graph[name] or g_graph[name .. ".begin"]
 end
+
+function IsScriptValid(node)
+	return node and GetNode(node) != nil
+end
+
 
 function EnterGraph( node, callback )
 
-	node = g_graph[node] or g_graph[node .. ".begin"]
+	node = GetNode(node)
 	if not node then return nil end
 
 	local cmd = node[1]

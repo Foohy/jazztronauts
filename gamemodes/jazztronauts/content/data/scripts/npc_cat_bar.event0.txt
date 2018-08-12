@@ -44,6 +44,7 @@ begin:
 
 ###### Branch 1
 resp1a:
+    *setspeaker cat*
     *setskin cat 2*%%*setskin cat 0*No, that was not our handiwork.%
     *setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000*The camp and the wash room next to it are %%*setskin cat 3*new additions%%%*setskin cat 0*. 
     The last group before you,% actually.%%*setskin cat 1* Lovely bunch.
@@ -82,6 +83,7 @@ resp1e:
 
 ###### Branch 2
 resp2a:
+    *setspeaker cat* 
     The jury-rigged Combine machinery with a giant CRT connected 
     to it, I assume?%% *setskin cat 1*Yes,% it does stand out,%% doesn't it.
     &resp2b
@@ -114,6 +116,7 @@ resp2f:
 
 ###### Branch 3
 resp3a:
+    *setspeaker cat*
     *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* *setskin cat 1**setanim cat gesture_sweep 1.0 idle* Of course it is.%%% Please,% take as much time as you need,% 
     and let me know when you'd like a new drink.
     &exit

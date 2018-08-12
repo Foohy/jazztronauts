@@ -28,8 +28,8 @@ begin2:
 *show*
 *setskin cat_bar 1*
 Greetings.%%*setskin cat_bar 0* As you can see,% this place does*setanim cat_bar gesture_sweep 1 idle* 
-not seem to have an exit.%% While I'm sure you can leave through whatever way you 
-came in,%% we prefer a different method of travel.
+not seem to have an exit.%% While I'm sure you can leave through whatever
+way you came in,%% we prefer a different method of travel.
 &begin3
 
 begin3:
@@ -50,8 +50,8 @@ begin5:
 	*setspeaker cat_bar*
 	*setcam setpos -13109.759766 -2500.667969 1047.233032;setang 5.670034 -70.822716 0.000000*
 	We*setanim cat_bar gesture_agree 1 idle* certainly do!%% Our offer is simple\:%% 
-	you may come back with us back to our abode,% and entertain a job offer from our cohort.% If you 
-	aren't interested upon hearing it,%you'll be free to go.*setskin cat_bar 1*%%*setanim cat_bar gesture_confused 1 idle* 
+	you may come back with us back to our abode,% and entertain a job offer 
+	from our cohort.% If you aren't interested upon hearing it,%you'll be free to go.*setskin cat_bar 1*%%*setanim cat_bar gesture_confused 1 idle* 
 	Are you willing to hear us out?
 	&hotfix
 	

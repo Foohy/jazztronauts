@@ -3,7 +3,7 @@ NO_FREEZE = true
 PRINT_RATE = 0.7
 AUTO_ADVANCE = 1.5
 CMD_DELAY = 0
-
+SKIP_OPEN = true
 
 ###### START
 setup1:
@@ -14,6 +14,7 @@ spawngang() # SETUP
 *setposang cat_singer -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
 
 *setspeaker narrator*
+*show 0.4*
 >...A stun baton seems to have fallen from a hole in the 
 ceiling.
 &begin1

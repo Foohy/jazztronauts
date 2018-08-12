@@ -4,6 +4,7 @@ SKIP_OPEN = true # Setup scene before opening the dialog. Opened manually.
 CMD_DELAY = 0
 
 begin1:    
+*txout*
 spawngang() # SETUP
 *setposang cat_bar setpos -13710.177734 -2197.684814 995.031250;setang -90 180.0 0.000000*
 *setposang cat_cello setpos -13525.564453 -2201.192139 995.031250;setang -90 48.527863 0.000000*
@@ -12,6 +13,7 @@ spawngang() # SETUP
 *setspeaker cat_bar*
 *setanim cat_bar bartender_search*
 *setcam setpos -13731.064453 -2133.894043 1013.371338;setang -10.711855 -53.004662 0.000000*
+*txin*
 *show .4*
 Still*bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0* no sign of that prop snatcher,% eh?%%
 Ah*setskin cat_bar 2* well.%*setskin cat_bar 0* It happens.
@@ -169,5 +171,6 @@ begin27:
 >The*setskin cat_bar 0* Bartender turns*tweencam 3 setpos -13591.134766 -1879.317261 1049.972168;setang 3.453386 99.459183 0.000000* and walks out of view, 
 the other cats following after with only a moment's confusion.%%%
 
-Well that was weird.% Might as well hear what they have to say,% though%%, right?
+Well that was weird.% Might as well hear what they have to say,% though.%%
+Right?
 &exit

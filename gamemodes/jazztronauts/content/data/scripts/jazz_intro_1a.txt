@@ -7,6 +7,7 @@ CMD_DELAY = 0
 begin1:
 
 ## Scene setup
+*txout*
 spawngang()
 *setposang cat_bar setpos -4592.040039 -476.342651 1518.031250;setang -90 0 0.000000*
 *setposang cat_cello setpos -4557.571777 -272.558319 1518.031250;setang -90 165 0.000000*
@@ -15,6 +16,7 @@ spawngang()
 *setspeaker cat_cello*
 *setanim cat_cello cellist_bendgesture 1 idle* 
 *setcam setpos -4614.864258 -348.649139 1563.988403;setang 8.141761 70.646194 0.000000*
+*txin*
 *show 0.5* 
 holy shit%*setskin cat_cello 1* look% at this garbage%%*setskin cat_cello 0* *bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0*
 whoever made this place really phoned it in%% huh

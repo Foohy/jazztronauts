@@ -3,7 +3,6 @@ SKIP_OPEN = true
 begin:
     # Scene setup
     *txout*
-	*hide*
     *setfov 70*
 	*bgmplay sound/jazztronauts/music/events/allspice.mp3 .75 2.0*
 	*spawn narrator dummy*

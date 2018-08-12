@@ -2,7 +2,6 @@ SKIP_OPEN = true
 
 begin:
     # Scene setup
-    *hide*
     *txout*
     *setfov 70*
 	*bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0*

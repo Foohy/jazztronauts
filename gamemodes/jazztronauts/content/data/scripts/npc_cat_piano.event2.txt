@@ -2,7 +2,6 @@ SKIP_OPEN = true
 
 begin:
     # Scene setup
-    *hide*
     *txout*
     *setfov 70*
 	*spawn narrator dummy*

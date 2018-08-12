@@ -2,7 +2,6 @@ SKIP_OPEN = true
 
 begin:
     # Scene setup
-    *hide*
     *txout*
 	*spawn narrator dummy*
 	*setnpcid narrator npc_narrator*

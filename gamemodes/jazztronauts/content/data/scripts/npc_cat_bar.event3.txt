@@ -1,7 +1,6 @@
 SKIP_OPEN = true
 
 begin:
-	*hide*
     *txout*
     *setfov 70*
 

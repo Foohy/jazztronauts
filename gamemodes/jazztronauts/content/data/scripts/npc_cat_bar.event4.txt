@@ -5,7 +5,6 @@ begin:
 ###All the cats are sat in the water room. Singer between Pianist 
 ###and Cellist, Bartender sat in front of them, closest to player
 
-	*hide*
     *txout*
     *setfov 70*
 	spawngang()

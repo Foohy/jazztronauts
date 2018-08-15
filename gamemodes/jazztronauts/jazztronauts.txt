@@ -25,14 +25,5 @@
 			"type"		"CheckBox"
 			"default"	"0"
 		}
-
-		3
-		{
-			"name"		"jazz_include_localmap"
-			"text"		"Include local maps in map randomizer"
-			"help"		"If enabled, locally installed maps will be included when rolling for a map."
-			"type"		"CheckBox"
-			"default"	"0"
-		}
 	}
 }

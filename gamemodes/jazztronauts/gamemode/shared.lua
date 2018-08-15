@@ -2,8 +2,10 @@ include( "lib/shared.lua")
 
 DeriveGamemode("sandbox")
 
-GM.Name	 = "Jazztronauts"
-GM.Author   = "Snakefuck Mountain"
+GM.Name    = "Jazztronauts"
+GM.Author  = "See Steam Workshop authors"
+GM.Email   = "jazzsourcemod@gmail.com"
+GM.Website = "https://steamcommunity.com/sharedfiles/filedetails/?id=1452613192"
 
 team.SetUp( 1, "Jazztronauts", Color( 255, 128, 0, 255 ) )
 

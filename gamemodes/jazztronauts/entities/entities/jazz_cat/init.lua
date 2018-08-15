@@ -53,6 +53,11 @@ function ENT:SetIdleAnim(anim)
 	self:SetPlaybackRate(1.0)
 end
 
+function ENT:Think()
+	self:NextThink(CurTime())
+	return true
+end
+
 function ENT:Use(activator, caller)
 	if !IsValid(caller) || not caller:IsPlayer() then return end
 

@@ -5,4 +5,25 @@
 	"menusystem" 	"1"
 	"maps" 			"jazz_bar"
 	"workshopid"	"1452613192"
+
+	"settings"
+	{
+		1
+		{
+			"name"		"jazz_wait_enable"
+			"text"		"Wait for players at the start of a level"
+			"help"		"Whether or not to enable the waiting for players whiteboard at all."
+			"type"		"CheckBox"
+			"default"	"1"
+		}
+
+		2
+		{
+			"name"		"jazz_include_localaddon"
+			"text"		"Include local addons in map randomizer"
+			"help"		"If enabled, maps from locally installed workshop addons will be included when rolling for a map."
+			"type"		"CheckBox"
+			"default"	"0"
+		}
+	}
 }

@@ -1,0 +1,12 @@
+BIG SERVER SUPPORT
+
+heuristics:
+1. Server doesn't have a password set
+2. More than 10 players are active in the server
+
+- make bus caller circle thicker the more players there are
+- clamp bus icon in circle, not rectangle
+- change whiteboard to wait for 80% of players
+- press USE on bus to be seated
+- fix bus rendergroup
+- prevent cancelling when majority of players are on the bus

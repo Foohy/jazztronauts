@@ -1,22 +1,24 @@
 if SERVER then AddCSLuaFile("sh_gc.lua") end
 
-local meta = getmetatable( DamageInfo() )
-_GC_HANDLER_HIJACK = _GC_HANDLER_HIJACK or {}
+local function install_gc(tbl, func)
+	local prx = newproxy(true)
+	local meta = getmetatable(prx)
+	local metacopy = table.Copy(meta)
 
-function meta.__gc( self )
-	if _GC_HANDLER_HIJACK[tostring(self)] then
-		pcall( _GC_HANDLER_HIJACK[tostring(self)] )
-		_GC_HANDLER_HIJACK[tostring(self)] = nil
+	metacopy[prx] = true -- Keep a ref to this
+	function meta.__gc( self )
+		pcall( func )
 	end
+
+	return setmetatable(tbl, metacopy)
+
 end
 
 function GCHandler(func, ...)
-
 	if type(func) ~= "function" then return end
-	local data = DamageInfo()
 	local params = {...}
+	local cbfunc = function() func( unpack(params) ) end
 
-	_GC_HANDLER_HIJACK[tostring(data)] = function() func( unpack(params) ) end
-	return data
+	return install_gc({}, cbfunc)
 
 end

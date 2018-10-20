@@ -100,6 +100,7 @@ local function AllocEntityNode( id, model, ragdoll )
 	end
 
 	node.Render = function(self)
+		if not IsValid(CSEnt) then return end
 		CSEnt:EnableMatrix( "RenderMultiply", self.transform )
 		CSEnt:SetupBones()
 		CSEnt:DrawModel()

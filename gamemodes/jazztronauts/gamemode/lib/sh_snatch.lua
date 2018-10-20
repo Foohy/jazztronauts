@@ -510,6 +510,7 @@ end
 function meta:Finish()
 
 	local fake = self:GetEntity()
+	if not IsValid(fake) then return end
 
 	if not self.is_ragdoll then
 		--DO NOT EVER DO THIS ON A RAGDOLL, IT CRASHES HARD

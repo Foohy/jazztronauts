@@ -72,6 +72,8 @@ local function DoneScene( scene )
 end
 
 local function DrawScene( scene )
+	if not IsValid(scene:GetEntity()) then return end
+
 	-- Redraw the entity in the jazz void
 	scene:GetEntity():DrawModel()
 end
@@ -81,6 +83,7 @@ local function TickScene( scene )
 	local t = (CurTime() - scene.time)
 	local p = t / scene.duration
 	local ent = scene:GetEntity()
+	if not IsValid(ent) then return end
 
 	if t > scene.breaktime then
 		t = t - scene.breaktime

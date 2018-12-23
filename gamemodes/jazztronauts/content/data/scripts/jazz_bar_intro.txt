@@ -187,6 +187,7 @@ why2:
 
 ### DENTAL PLAN 
 lisaneedsbraces:
+	*setspeaker cat_bar*
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setanim cat_bar gesture_shock 1 idle*
 	*setskin cat_bar 3*
@@ -223,7 +224,7 @@ a16:
 a17:
 	*setposang cat_singer setpos -4155.891602 3234.318604 0;setang -90 165 0.000000*
 	*setcam setpos -4156.926270 3135.155518 22.527199;setang -5.341276 90.104485 0.000000* ####### SINGER
-     *setspeaker cat_singer*
+     *setspeaker narrator*
 	 *setskin cat_singer 1*
 	 *setanim cat_singer gesture_clap 1 idle*
      >The Singer runs over to the edge of the seat and starts jumping 

@@ -33,6 +33,11 @@ timer.Simple(0, function()
 	}
 end )
 
+local silentChars = {}
+for i, ch in ipairs( string.Explode( "", " .?!,:;\"'><()\n" ) ) do
+	silentChars[ch] = true
+end
+
 local nextPlay = 0
 local function playCatSound(npcid)
 	if hook.Run("JazzOverrideCatSound", npcid) then return end
@@ -412,7 +417,7 @@ end
 DialogCallbacks.AppendText = function(d, txt)
 	if IsValid(d.textpanel) then
 		d.textpanel:AppendText(txt)
-		if #txt > 0 then
+		if #txt > 0 and not silentChars[txt] then
 			local speaker = GetCurrentSpeaker()
 			local npcid = IsValid(speaker) and (speaker.JazzDialogID or (speaker.GetNPCID and speaker:GetNPCID()))
 			npcid = npcid or (not IsValid(speaker) and missions.NPC_NARRATOR)

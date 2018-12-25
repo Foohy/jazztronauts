@@ -171,6 +171,7 @@ aask:
 
 ### VIDEO GAMES SUCK ACTUALLY
 why:
+     *setspeaker cat_bar*
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
     *run jazz_say_no*
      Ah,% well.%%%% It's not the sort of job for everyone.%% Still,% though,% you

@@ -53,47 +53,6 @@ function GetShards()
 	return SpawnedShards
 end
 
-function CanSnatch(ent)
-
-	--Accept only this kinda stuff
-	if not IsValid(ent) then return false end
-	if not ent:IsValid() then return false end
-	if ent:IsNPC() then return true end
-	if ent:GetClass() == "npc_antlion_grub" then return true end
-	if ent:GetClass() == "npc_grenade_frag" then return true end
-	if ent:GetClass() == "prop_combine_ball" then return true end
-	if ent:GetClass() == "jazz_static_proxy" then return true end
-	if ent:GetClass() == "physics_cannister" then return true end
-
-	-- Weapons held by players
-	if ent:IsWeapon() and IsValid(ent:GetParent()) and ent:GetParent():IsPlayer() then return false end
-
-	-- Local player weapons
-	if CLIENT and ent:IsWeapon() and ent:IsCarriedByLocalPlayer() then return false end
-
-	-- Bus seats
-	if ent:IsVehicle() and IsValid(ent:GetParent()) and string.find(ent:GetParent():GetClass(), "jazz_") then return false end
-
-	-- Vote podium
-	if ent:GetClass() == "prop_dynamic" and IsValid(ent:GetParent()) and ent:GetParent():GetClass() == "jazz_shard_podium" then return false end
-
-
-	if ent:GetClass() == "hunter_flechette" then return true end
-	if ent:GetClass() == "prop_physics" then return true end
-	if ent:GetClass() == "prop_physics_multiplayer" then return true end
-	if ent:GetClass() == "prop_physics_respawnable" then return true end
-	if ent:GetClass() == "prop_dynamic" then return true end
-	if ent:GetClass() == "prop_ragdoll" then return true end
-	if ent:GetClass() == "prop_door_rotating" then return true end
-	if string.find(ent:GetClass(), "weapon_") ~= nil then return true end
-	if string.find(ent:GetClass(), "prop_vehicle") ~= nil then return true end
-	//if string.find(ent:GetClass(), "jazz_bus_") ~= nil then return true end
-	if string.find(ent:GetClass(), "item_") ~= nil then return true end
-	//if ent:IsPlayer() and ent:Alive() then return true end -- you lost your privileges
-
-	return false
-end
-
 if SERVER then
 	util.AddNetworkString("jazz_shardcollect")
 	local function updatePlayerCollectedShards()
@@ -123,7 +82,7 @@ if SERVER then
 	end
 
 	function CollectProp(ply, ent)
-		if !CanSnatch(ent) then return nil end
+		if !snatch.CanSnatch(ent) then return nil end
 
 		local worth = ent.JazzWorth or 1
 		return worth
@@ -405,7 +364,7 @@ if SERVER then
 		local function getKey(ent) return ent:GetClass() .. "_" .. (ent:GetModel() or "") end
 
 		for _, v in pairs(props) do
-			if not CanSnatch(v) then continue end
+			if not snatch.CanSnatch(v) then continue end
 
 			local k = getKey(v)
 			counts[k] = counts[k] or 0

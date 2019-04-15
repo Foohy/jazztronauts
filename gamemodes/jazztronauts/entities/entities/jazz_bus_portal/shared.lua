@@ -1,7 +1,5 @@
 -- Board that displays currently selected maps
 AddCSLuaFile()
-AddCSLuaFile("cl_voidrender.lua")
-if CLIENT then include("cl_voidrender.lua") end
 
 ENT.Type = "anim"
 ENT.Base = "base_anim"

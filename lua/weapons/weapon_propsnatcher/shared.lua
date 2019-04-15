@@ -187,7 +187,7 @@ function SWEP:Think() end
 function SWEP:OnRemove() end
 
 function SWEP:AcceptEntity( ent )
-	return mapgen.CanSnatch(ent) and (not ent.JazzSnatchWait or CurTime() > ent.JazzSnatchWait)
+	return snatch.CanSnatch(ent) and (not ent.JazzSnatchWait or CurTime() > ent.JazzSnatchWait)
 end
 
 function SWEP:GetEntitySize(ent)
@@ -511,7 +511,7 @@ SWEP.EquipFade = 0
 function SWEP:DrawHUD()
 
 	if IsValid(self.Owner:GetVehicle()) then return end -- Don't draw while in vehicle
-	if dialog.IsInDialog() then return end -- Also don't draw while in a dialog
+	if dialog and dialog.IsInDialog() then return end -- Also don't draw while in a dialog
 
 	local pfov = LocalPlayer():GetFOV()
 	local aimradius = (ScrW() / 2) * math.tan(math.rad(90 - pfov/2)) * math.tan(math.rad(self.AutoAimCone))

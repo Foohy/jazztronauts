@@ -493,7 +493,9 @@ hook.Add( "PostRender", "snatch_props", function()
 
 end)
 
-dialog.RegisterFunc("voidbreak", function(d)
-	SetOverlayRefract(0)
-	SetOverlayColor(Color(0, 0, 0))
-end )
+if dialog then
+	dialog.RegisterFunc("voidbreak", function(d)
+		SetOverlayRefract(0)
+		SetOverlayColor(Color(0, 0, 0))
+	end )
+end

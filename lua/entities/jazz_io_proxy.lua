@@ -1,4 +1,5 @@
 ENT.Type = "point"
+if CLIENT then return end
 
 function ENT:Initialize()
 

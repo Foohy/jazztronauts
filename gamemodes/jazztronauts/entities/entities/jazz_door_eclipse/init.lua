@@ -7,9 +7,6 @@ AddCSLuaFile("cl_init.lua")
 ENT.DoorOpen = Sound("doors/door1_move.wav") //just defaults
 ENT.DoorClose = Sound("doors/door_wood_close1.wav") //just defaults
 
-ENT.CandleModel = Model("models/sunabouzu/gameplay_candle.mdl")
-ENT.CandleRadiusX = 75
-ENT.CandleRadiusY = 50
 PrecacheParticleSystem("jazzCandle")
 
 function ENT:Initialize()
@@ -47,36 +44,8 @@ function ENT:Initialize()
 
 		self.VotePodium = votium
 	end
-
-	-- Spawn spooky candles indicating the number of collected black shards
-	--self:SpawnShardCount()
 end
 
-function ENT:SpawnShardCount()
-	local shardcount = mapgen.GetTotalCollectedBlackShards()
-	local required = mapgen.GetTotalRequiredBlackShards()
-
-	if not tobool(newgame.GetGlobal("encounter_1")) then return end
-
-	for i=1, required do
-		local p = i * 1.0 / required
-		local ang = 2 * math.pi * p
-		local candle = ents.Create("prop_dynamic")
-		candle:SetModel(self.CandleModel)
-		candle:SetPos(self:GetPos() + Vector(math.cos(ang) * self.CandleRadiusX, math.sin(ang) * self.CandleRadiusY, -9))
-		candle:Spawn()
-		candle:Activate()
-
-		if shardcount > 0 then
-			shardcount = shardcount - 1
-			local ed = EffectData()
-			ed:SetOrigin(candle:GetPos())
-			ed:SetEntity(candle)
-			ParticleEffect("jazzCandle", candle:GetPos() + Vector(0, 0, 12), candle:GetAngles(), candle )
-		end
-	end
-
-end
 
 function ENT:OnChangeDestination()
 	local dest = self:GetDestination()

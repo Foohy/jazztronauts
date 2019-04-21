@@ -181,7 +181,7 @@ function ENT:LeaveStation()
 
 	self.StartTime = CurTime()
 	self.StartPos = self:GetPos()
-	self.GoalPos = self.GoalPos + self:GetAngles():Right() * 6000
+	self.GoalPos = self.GoalPos + self:GetAngles():Right() * 4500
 
 	self.Leaving = true
 	self:ResetTrigger("arrived")

@@ -39,6 +39,7 @@ end
 hook.Add("HUDPaint", "JazzWorldMarkerDraw", function()
 	for _, v in pairs(markers) do
 		if not v.enabled then continue end
+		if dialog and dialog.IsInDialog() then return end -- Don't try markers in dialogs
 		local visible = util.PixelVisible(v.pos, v.radius, v.vishandle)
 		if not visible or visible <= 0 then continue end
 

@@ -180,6 +180,7 @@ local function RenderEntityCutIn(ent, x, y, w, h)
 
 	renderPlayerCutIn = ent == LocalPlayer()
 	cam.Start3D(pos, ang, 25, x, y, w, h)
+		render.SetColorModulation(1, 1, 1)
 		if isPlayer(ent) then
 			drawPlayer(ent)
 		else

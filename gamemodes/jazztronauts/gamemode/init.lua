@@ -76,6 +76,7 @@ function GM:Initialize()
 
 	RunConsoleCommand("mp_falldamage", "1")
 
+	mapcontrol.ClearCache()
 	mapcontrol.SetupMaps()
 
 	-- Add the current map's workshop pack to download

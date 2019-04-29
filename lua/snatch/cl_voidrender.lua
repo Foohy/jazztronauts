@@ -2,8 +2,6 @@ module( "jazzvoid", package.seeall )
 
 local refract = Material("effects/jazz_void_refract.vmt")
 void_mat = refract
-snatch.void_mat = void_mat
-
 should_render = should_render or true
 
 -- Performance convars
@@ -367,7 +365,7 @@ hook.Add( "PostDrawOpaqueRenderables", "snatch_void", function(depth, sky)
 	render.SuppressEngineLighting(true)
 	render.SetMaterial(void_mat)
 	render.MaterialOverride(void_mat)
-
+	
 	-- Draw all map meshes
 	for _, v in pairs(snatch.map_meshes) do
 		v:Get():Draw()

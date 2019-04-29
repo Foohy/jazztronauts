@@ -30,8 +30,6 @@ max_map_verts = 2048
 map_meshes = map_meshes or {}
 current_mesh = current_mesh or { num = 1, mesh = nil, vertices = {} }
 
-void_mat = nil
-
 local SV_SendPropSceneToClients = nil
 local SV_HandleEntityDestruction = nil
 
@@ -248,7 +246,7 @@ end
 function meta:AppendBrushToMapMesh(brush)
 
 	-- Update the current mesh
-	current_mesh.mesh = ManagedMesh(void_mat)
+	current_mesh.mesh = ManagedMesh(jazzvoid.void_mat)
 
 	-- Add vertices for every side
 	local to_brush = brush.center
@@ -584,7 +582,6 @@ function New( data )
 	return setmetatable( {}, meta ):Init( data )
 
 end
-
 
 if SERVER then
 	local ignorePickupClasses = {

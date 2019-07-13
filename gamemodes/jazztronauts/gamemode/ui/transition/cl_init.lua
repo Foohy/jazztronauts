@@ -1,5 +1,3 @@
-print("TCL")
-
 local horse = CreateMaterial( "horse2", "UnlitGeneric",
 {
 	["$basetexture"] = "ui/transition_horse",
@@ -10,8 +8,9 @@ local starttime = CurTime()
 local transitioning = 0
 local rate = .75
 local shoulddrawlate = true
+local fadeonly = false -- happy transition horse or just a boring fade
 
-function transitionOut(delay, nosound, drawearly)
+function transitionOut(delay, nosound, drawearly, fade)
 	if not nosound then
 		if delay ~= nil then
 			timer.Simple( delay, function() surface.PlaySound( "jazztronauts/slide.wav" ) end )
@@ -23,9 +22,10 @@ function transitionOut(delay, nosound, drawearly)
 	transitioning = -1
 	starttime = CurTime() + (delay or 0)
 	shoulddrawlate = not drawearly
+	fadeonly = fade
 end
 
-function transitionIn(delay, nosound, drawearly)
+function transitionIn(delay, nosound, drawearly, fade)
 	if not nosound then
 		if delay ~= nil then
 			timer.Simple( delay, function() surface.PlaySound( "jazztronauts/slide_reverse.wav" ) end )
@@ -37,6 +37,7 @@ function transitionIn(delay, nosound, drawearly)
 	transitioning = 1
 	starttime = CurTime() + (delay or 0)
 	shoulddrawlate = not drawearly
+	fadeonly = fade
 end
 
 local function getTransitionAmount()
@@ -66,6 +67,40 @@ if convar_drawtransition:GetBool() then
 	end
 end
 
+local function drawHorse(amount)
+	local display = Rect("screen")
+	local transitionrect = Rect(0,0,0,0)
+	transitionrect:Dock( display, DOCK_CENTER )
+	transitionrect:Inset(-amount * 4096)
+
+	transitionrect.x = math.floor(transitionrect.x)
+	transitionrect.y = math.floor(transitionrect.y)
+	transitionrect.w = math.floor(transitionrect.w)
+	transitionrect.h = math.floor(transitionrect.h)
+
+	local box = Box( transitionrect )
+
+	render.OverrideBlendFunc( true, BLEND_ZERO, BLEND_SRC_COLOR )
+
+	surface.SetMaterial( horse )
+	surface.SetDrawColor(0,0,0,255)
+
+	surface.DrawTexturedRect(transitionrect:Unpack())
+
+
+	surface.DrawRect( 0, 0, box.x0, ScrH() )
+	surface.DrawRect( box.x0, 0, ScrW() - box.x0, box.y0 )
+	surface.DrawRect( box.x1, box.y0, ScrW() - box.x1, ScrH() - box.y0 )
+	surface.DrawRect( box.x0, box.y1, box.x1 - box.x0, ScrH() - box.y1 )
+
+	render.OverrideBlendFunc( false )
+end
+
+local function drawFade(amount)
+	surface.SetDrawColor(0, 0, 0, 255 - amount * 255)
+	surface.DrawRect(0, 0, ScrW(), ScrH())
+end
+
 local function drawTransition()
 
 	local amount = getTransitionAmount()
@@ -93,30 +128,12 @@ local function drawTransition()
 	amount = math.max(amount, 0)
 	amount = amount * amount
 
-	local display = Rect("screen")
-	local transitionrect = Rect(0,0,0,0)
-	transitionrect:Dock( display, DOCK_CENTER )
-	transitionrect:Inset(-amount * 4096)
+	if fadeonly then
+		drawFade(amount)
+	else
+		drawHorse(amount)
+	end
 
-	transitionrect.x = math.floor(transitionrect.x)
-	transitionrect.y = math.floor(transitionrect.y)
-	transitionrect.w = math.floor(transitionrect.w)
-	transitionrect.h = math.floor(transitionrect.h)
-
-	local box = Box( transitionrect )
-
-	render.OverrideBlendFunc( true, BLEND_ZERO, BLEND_SRC_COLOR )
-
-	surface.SetMaterial( horse )
-	surface.SetDrawColor(0,0,0,255)
-	surface.DrawTexturedRect(transitionrect:Unpack())
-
-	surface.DrawRect( 0, 0, box.x0, ScrH() )
-	surface.DrawRect( box.x0, 0, ScrW() - box.x0, box.y0 )
-	surface.DrawRect( box.x1, box.y0, ScrW() - box.x1, ScrH() - box.y0 )
-	surface.DrawRect( box.x0, box.y1, box.x1 - box.x0, ScrH() - box.y1 )
-
-	render.OverrideBlendFunc( false )
 end
 
 hook.Add("PostRenderVGUI", "jazzCatTransitionLate", function()

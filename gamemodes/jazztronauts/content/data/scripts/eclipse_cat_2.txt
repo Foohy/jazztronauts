@@ -1,11 +1,18 @@
-﻿SKIP_OPEN = true
+﻿STYLE = horror
+SKIP_OPEN = true
+AUTO_ADVANCE = 1.5
+PRINT_RATE = 0.5
+CMD_DELAY = 0
+
 
 begin:
+     *txout*
 	*setcam setpos -548.000671 552.746643 64.031250;setang 9.077443 -179.689178 0.000000*
 	*spawn cat_void models/andy/basecat/cat_all.mdl*
 	*setposang cat_void setpos -646.054871 551.478882 0;setang -90 10.217831 0.000000*
 	*setnpcid cat_void npc_cat_void*
     *setspeaker cat_void*
+    *txin*
     *show 0.5*
 	*bgmplay sound/jazztronauts/blackshard_hum.wav .35 10*
      You can’t tell me anything new.

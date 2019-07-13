@@ -74,7 +74,7 @@ end
 function ENT:UpdateWorldMarker()
 	local dest = self:GetDestination()
 	worldmarker.SetEnabled(self.MarkerName, dest != nil)
-	worldmarker.SetEnabled(self.CountMarkerName, self.ShardsCollected != nil)
+	worldmarker.SetEnabled(self.CountMarkerName, self.ShardsCollected and self.ShardsCollected > 0)
 end
 
 function ENT:Think()

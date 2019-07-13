@@ -56,7 +56,9 @@ function GetNextEncounter()
 	local isngp = newgame.GetResetCount() > 0
 	if not isngp then return nil end
 
-	local seen1, seen2, seen3 = newgame.GetGlobal("encounter_1"), newgame.GetGlobal("encounter_2"), newgame.GetGlobal("encounter_3")
+	local seen1, seen2, seen3 = tobool(newgame.GetGlobal("encounter_1")), 
+		tobool(newgame.GetGlobal("encounter_2")), 
+		tobool(newgame.GetGlobal("encounter_3"))
 	local halfway = math.Round(bshardReq / 2)
 
 	-- First encounter, show if ng+ (not required level change though)

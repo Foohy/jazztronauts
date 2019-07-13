@@ -10,18 +10,6 @@ ENT.DEST_ENCOUNTER  = 1
 ENT.DEST_ENDGAME	= 2
 
 function ENT:GetDestination()
-	if newgame.GetResetCount() == 0 then return nil end
-
-	local bshardcount, bshardreq = mapgen.GetTotalCollectedBlackShards(), mapgen.GetTotalRequiredBlackShards()
-	local hasreq = bshardcount >= bshardreq
-	local seenEclipse = newgame.GetGlobal("encounter_1")
-
-	-- If they haven't encountered the cat, talk to them first
-	if not seenEclipse then return self.DEST_ENCOUNTER end
-
-	-- Else, they have encountered AND have enough shards to end the game
-	if hasreq then return self.DEST_ENDGAME end
-
-	-- Nah
-	return nil
+	local dest, changelevel = mapcontrol.GetNextEncounter()
+	return dest 
 end

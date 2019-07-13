@@ -77,6 +77,8 @@ function ENT:StartDialog( activator, caller, data )
 
 	self.ActivePlayers = self.ActivePlayers or {}
 	for _, v in pairs(targets) do
+		if v:IsBot() then continue end
+		
 		dialog.Dispatch( self:GetScript(), v, self:GetCameraReference() )
 		self.ActivePlayers[v:SteamID64() or "0"] = true
 	end

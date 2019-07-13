@@ -100,16 +100,8 @@ Cigarette ash and bleach coat the tongue.
 &exit
 
 bathroomdoor3a:
-
-It's locked. Liquid leaks from beneath the door, the sucking cough of backed up plumbing a putrid bark in the stillness.
-
-&bathroomdoor3b
-
-bathroomdoor3b:
-
-Liquid leaks from beneath the door, the sucking cough of backed up plumbing a putrid bark in the stillness.
-
-&exit
+    It's locked. Liquid leaks from beneath the door, the sucking cough of backed up plumbing a putrid bark in the stillness.
+    &exit
 
 
 

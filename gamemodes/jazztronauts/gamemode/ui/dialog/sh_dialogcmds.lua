@@ -193,7 +193,8 @@ dialog.RegisterFunc("wait", function(d, time)
 end)
 
 dialog.RegisterFunc("txout", function(d, nowait)
-	transitionOut(0, nil, true)
+	local isSpooky = dialog.GetParam("STYLE") == "horror"
+	transitionOut(0, isSpooky, true, isSpooky)
 	local nowait = tobool(nowait)
 
 	while !nowait and isTransitioning() do
@@ -202,7 +203,9 @@ dialog.RegisterFunc("txout", function(d, nowait)
 end)
 
 dialog.RegisterFunc("txin", function(d, nowait)
-	transitionIn(0, nil, true)
+	local isSpooky = dialog.GetParam("STYLE") == "horror"
+
+	transitionIn(0, isSpooky, true, isSpooky)
 	local nowait = tobool(nowait)
 
 	while !nowait and isTransitioning() do
@@ -411,10 +414,11 @@ function ResetView(instant)
 
 	//Only do the transition if we've actually overwritten something
 	if table.Count(view) > 0 and not instant then
-		transitionOut()
+		local isSpooky = dialog.GetParam("STYLE") == "horror"
+		transitionOut(nil, isSpooky, nil, isSpooky)
 		timer.Simple(1.5, function()
 			reset()
-		transitionIn()
+		transitionIn(nil, isSpooky, nil, isSpooky)
 		end)
 	else
 		reset()
@@ -536,16 +540,17 @@ function bgmeta:Update()
 	local volume = 0
 	if self.fadeout then
 		local perc = self.fadeout > 0 and (self.fadetime - RealTime()) / self.fadeout or -1
-		volume = perc * self.maxvol
+		volume = math.min(perc, 1) * self.maxvol
 	elseif self.fadein then
 		local perc = self.fadein > 0 and (self.fadetime - RealTime()) / self.fadein or 0
-		volume = (1 - perc) * self.maxvol
+		volume = math.min(1 - perc, 1) * self.maxvol
 	end
 
 	if volume < 0 then
 		self.channel:Stop()
 		return false
 	end
+
 	local focusmult = system.HasFocus() and 1 or 0
 	self.channel:SetVolume(math.Clamp(volume * focusmult, 0, 1))
 	return true
@@ -562,7 +567,7 @@ local function playBGMusic(song, volume, fadein)
 
 	-- Construct our new song object
 	local newsong = setmetatable({song = song, maxvol = volume, fadein = fadein }, bgmeta)
-	sound.PlayFile(song, "noblock", function(...) newsong:OnReady(...) end)
+	sound.PlayFile(song, "noblock noplay", function(...) newsong:OnReady(...) end)
 
 	-- add 2 list
 	table.insert(activeMusic, newsong)

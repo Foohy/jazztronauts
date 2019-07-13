@@ -31,6 +31,8 @@ if SERVER then
 			voter:SetKeyValue("ApproachRadius", self.ActivateRadius)
 			voter:SetKeyValue("Friendly", "1")
 			voter:SetPos(self:GetPos())
+			voter.PodiumSemiAngle = math.rad(self:GetAngles().y)
+			voter.PodiumSemiCircle = math.rad(130)
 			voter:Spawn()
 			voter:Activate()
 			voter:StoreActivatedCallback(function(who_found)

@@ -9,6 +9,8 @@ local outputs =
 
 ENT.ApproachRadius = 500
 ENT.PodiumRadius = 50
+ENT.PodiumSemiCircle = 2 * math.pi -- Which semicircle angle to spawn podiums in (2pi means all the way around)
+ENT.PodiumSemiAngle = nil -- Which angle represents the 'center' of the semicircle to spawn around. If nil, use approach angle
 
 function ENT:Initialize()
 	self.podiums = {}
@@ -180,8 +182,8 @@ function ENT:NewPlayerSpawned(ply)
 	end
 
 	-- TODO: Eerily move podiums into place?
-	local angle = math.random(0, 2 * math.pi)
-	local ang = Angle( 0, angle * RAD_2_DEG, 0 )
+	local angle = math.Rand(0, 2 * math.pi * (self.PodiumSemiCircle / (math.pi * 2))) + (self.PodiumSemiAngle or 0) - self.PodiumSemiCircle/2
+	local ang = Angle( 0, angle * RAD_2_DEG , 0 )
 	local off = offset(self.PodiumRadius, angle)
 
 	self:MakePodium(ply, off, ang)
@@ -192,11 +194,14 @@ function ENT:OnApproached( ply )
 	local ply_pos = ply:GetPos()
 	local my_pos = self:GetPos()
 	local radius = self.PodiumRadius
-	local add_angle = (2 * math.pi) / #player.GetAll()
-	local base_angle = math.atan2( ply_pos.y - my_pos.y, ply_pos.x - my_pos.x )
+	
+	self.PodiumSemiAngle = self.PodiumSemiAngle or (math.atan2( ply_pos.y - my_pos.y, ply_pos.x - my_pos.x ) + self.PodiumSemiCircle / 2)
+	
+	local base_angle = self.PodiumSemiAngle - self.PodiumSemiCircle / 2
 	local angle = base_angle
+	local add_angle = (2 * math.pi * (self.PodiumSemiCircle / (math.pi * 2))) / #player.GetAll()
 	local delay = 0
-	local add_delay = 1
+	local add_delay = 0.8
 
 	local function get_offset()
 		return Vector( math.cos(angle) * radius, math.sin(angle) * radius, 0 )
@@ -205,7 +210,6 @@ function ENT:OnApproached( ply )
 	self:MakePodium( ply, get_offset(), Angle( 0, angle * RAD_2_DEG, 0 ) )
 
 	for k,v in pairs( player.GetAll() ) do
-
 		if v == ply then continue end
 
 		angle = angle + add_angle

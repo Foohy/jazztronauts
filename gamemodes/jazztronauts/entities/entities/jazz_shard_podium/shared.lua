@@ -180,7 +180,7 @@ function ENT:DrawScreen()
 	self.screen:SetResolution( 400, 80 )
 	self.screen:SetDrawFunc( function()
 
-		draw.SimpleText( self:GetFakeOwner():Nick(), "DermaLarge", 200, 40, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		draw.SimpleText( self:GetFakeOwner().Nick and self:GetFakeOwner():Nick() or "??", "DermaLarge", 200, 40, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
 	end )
 	self.screen:Draw()

@@ -46,7 +46,8 @@ if __name__ == "__main__":
 
         for addon in resobj["response"]["publishedfiledetails"]:
             if "title" in addon and containsIgnoreWords(addon["title"]):
-                print("Ignoring: " + addon["title"])
+                ign_str = u"Ignoring: " + addon["title"]
+                print(ign_str.encode('utf-8'))
                 continue
 
             # Add if not already in (sometimes query will give us dupes?)

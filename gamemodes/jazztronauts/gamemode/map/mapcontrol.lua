@@ -1,6 +1,6 @@
 
 module( 'mapcontrol', package.seeall )
-local defaultMapHost = "http://host.foohy.net/public/Documents/Jazz/addons.txt"
+local defaultMapHost = "http://host.foohy.net/jazz/data/addons.txt"
 local defaultAddonCache = "jazztronauts/addons.txt"
 local overrideAddonCache = "jazztronauts/addons_override.txt"
 

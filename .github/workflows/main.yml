@@ -1,6 +1,8 @@
 name: Auto-Update addons.txt
 
 on:
+  repository_dispatch:
+    types: force-build
   schedule:
     - cron: "0 0 * * 1"
 

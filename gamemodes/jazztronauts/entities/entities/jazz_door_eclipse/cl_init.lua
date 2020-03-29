@@ -66,7 +66,7 @@ function ENT:SpawnShardCount()
 		
 		if shardcount > 0 then
 			shardcount = shardcount - 1
-			ParticleEffect("jazzCandle", candle:GetPos() + Vector(0, 0, 12), candle:GetAngles(), candle )
+			ParticleEffect("jazzCandle", candle:GetPos() + Vector(0, 0, 12), candle:GetAngles(), candle:Get() )
 		end
 	end
 end

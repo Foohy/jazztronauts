@@ -117,7 +117,7 @@ net.Receive("propcollect", function()
 			:SetIconModel( model, skin )
 			:Dispatch( StayDuration, (brush_streak and not brush_streak:Done() and brush_streak) or "bottom" )
 
-	elseif streak ~= nil then
+	elseif streak ~= nil and ply.streakcount then
 
 		ply.streakcount = ply.streakcount + 1
 		ply.streaktotal = ply.streaktotal + worth

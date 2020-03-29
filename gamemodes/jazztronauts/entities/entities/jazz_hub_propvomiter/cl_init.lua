@@ -11,7 +11,14 @@ local function TickVomitProps()
 		local t = (IsValid(p) and p.Instance.RemoveAt or 0) - UnPredictedCurTime()
 		if not IsValid(p) or t < 0 then
 			table.remove(JazzVomitProps, i)
-			if IsValid(p) then p:Remove() end
+			if IsValid(p) then
+				if DLib then
+					-- Bypass DLib's 'Remove' override
+					p:RemoveDLib()
+				else
+					p:Remove()
+				end
+			end
 			continue
 		end
 

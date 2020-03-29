@@ -143,16 +143,17 @@ local function renderSlideshow()
 	end
 	jazzSlideshowDHTML:UpdateHTMLTexture()
 	slideshowRT:Render(function()
-		local htmlpanel = jazzSlideshowDHTML:GetHTMLMaterial()
-		if htmlpanel then
-			cam.Start2D()
-				surface.SetDrawColor(255, 1, 255)
-				surface.DrawRect(0, 0, RTWidth, RTHeight)
+		local slideMat = jazzSlideshowDHTML:GetHTMLMaterial()
+		if not slideMat then return end
 
-				surface.SetMaterial(jazzSlideshowDHTML:GetHTMLMaterial())
-				surface.DrawTexturedRect(0, RTHeight * 0.26, RTWidth * 1.07,  RTHeight * 0.93)
-			cam.End2D()
-		end
+		cam.Start2D()
+			surface.SetDrawColor(255, 1, 255)
+			surface.DrawRect(0, 0, RTWidth, RTHeight)
+
+			surface.SetMaterial(slideMat)
+			surface.DrawTexturedRect(0, RTHeight * 0.26, RTWidth * 1.07,  RTHeight * 0.93)
+
+		cam.End2D()
 	end)
 end
 

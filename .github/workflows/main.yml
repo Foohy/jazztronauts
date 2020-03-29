@@ -1,0 +1,31 @@
+name: Auto-Update addons.txt
+
+on:
+  repository_dispatch:
+    types: force-build
+  schedule:
+    - cron: "0 0 * * 1"
+
+jobs:
+  update_addontxt:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+          
+    - name: Update latest addons from workshop
+      working-directory: other/scraper
+      run: |
+        python scrape.py ${{secrets.STEAM_AUTH_KEY}}
+        
+    - name: SFTP deploy
+      uses: SamKirkland/FTP-Deploy-Action@2.0.0
+      env:
+        FTP_SERVER: host.foohy.net
+        FTP_USERNAME: jazz_user
+        FTP_PASSWORD: ${{ secrets.FILEHOST_PW }}
+        LOCAL_DIR: other/scraper
+        METHOD: sftp
+        ARGS: --include=addons.txt

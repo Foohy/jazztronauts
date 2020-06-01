@@ -16,11 +16,13 @@ for i=1, 37 do
 end
 
 ENT.VoidModels = {
-	"models/sunabouzu/oleg_is_cool.mdl",
+	"models/jazztronauts/zak/Boneless_Kleiner.mdl",
 	"models/Gibs/HGIBS.mdl",
 	"models/props_junk/ravenholmsign.mdl",
 	"models/props_interiors/BathTub01a.mdl",
-	"models/player/skeleton.mdl"
+	"models/props_junk/wood_crate001a.mdl",
+	"models/props_lab/cactus.mdl",
+	"models/props_junk/trashdumpster01a.mdl"
 }
 
 ENT.VoidSpeedTunnelModel = "models/sunabouzu/bustunnel.mdl"
@@ -87,28 +89,27 @@ function ENT:Initialize()
 
 		-- Also get the void props ready too
 		self.VoidProps = {}
-		for _, v in pairs(self.VoidModels) do
-			local mdl = ents.CreateClientProp(v)
-			mdl:SetModel(v)
+		for k, v in pairs(self.VoidModels) do
+			local mdl = ManagedCSEnt("jazz_voidprop_" .. k, v)
 			mdl:SetNoDraw(true)
 			table.insert(self.VoidProps, mdl)
 		end
 
-		self.VoidSphere = ents.CreateClientProp(self.VoidSphereModel)
-		self.VoidSphere:SetModel(self.VoidSphereModel)
+		self.VoidSphere = ManagedCSEnt("jazz_void_sphere", self.VoidSphereModel)
 		self.VoidSphere:SetNoDraw(true)
+		self.VoidSphere:Spawn()
 
-		self.VoidBorder = ents.CreateClientProp(self.VoidBorderModel)
-		self.VoidBorder:SetModel(self.VoidBorderModel)
+		self.VoidBorder = ManagedCSEnt("jazz_void_border", self.VoidBorderModel)
 		self.VoidBorder:SetNoDraw(true)
+		self.VoidBorder:Spawn()
 
-		self.VoidRoad = ents.CreateClientProp(self.VoidRoadModel)
-		self.VoidRoad:SetModel(self.VoidRoadModel)
+		self.VoidRoad = ManagedCSEnt("jazz_void_road", self.VoidRoadModel)
 		self.VoidRoad:SetNoDraw(true)
+		self.VoidRoad:Spawn()
 
-		self.VoidTunnel = ents.CreateClientProp(self.VoidTunnelModel)
-		self.VoidTunnel:SetModel(self.VoidTunnelModel)
+		self.VoidTunnel = ManagedCSEnt("jazz_void_tunnel", self.VoidTunnelModel)
 		self.VoidTunnel:SetNoDraw(true)
+		self.VoidTunnel:Spawn()
 
 		self.BackgroundHum = CreateSound(self, self.BackgroundHumSound)
 
@@ -221,6 +222,21 @@ function ENT:StoreSurfaceMaterial()
 
 end
 
+local function GetExitPortal()
+	local bus = IsValid(LocalPlayer():GetVehicle()) and LocalPlayer():GetVehicle():GetParent() or nil
+	if !IsValid(bus) or !bus:GetClass() == "jazz_bus_explore" then return nil end
+
+	return bus.ExitPortal
+end
+
+local function IsInExitPortal()
+	local exitPortal = GetExitPortal()
+	if !IsValid(exitPortal) then return false end
+
+	-- If the local player's view is past the portal 'plane', ONLY render the jazz dimension
+	return exitPortal:DistanceToVoid(LocalPlayer():EyePos()) > 0
+end
+
 function ENT:Think()
 	-- Break when the distance of the bus's front makes it past our portal plane
 	if !self.Broken then
@@ -234,7 +250,7 @@ function ENT:Think()
 	-- This logic is for the exit view only
 	if self:GetIsExit() then
 		-- Mark the exact time when the client's eyes went into the void
-		if self.Broken and !self.VoidTime then
+		if self.Broken and IsInExitPortal() and !self.VoidTime then
 			if self:DistanceToVoid(LocalPlayer():EyePos(), true) < 0 then
 				self.VoidTime = CurTime()
 				//self:GetBus().JazzSpeed = self:GetBus():GetVelocity():Length()
@@ -318,13 +334,25 @@ function ENT:DrawInsidePortal()
 	ang:RotateAroundAxis(ang:Up(), -90)
 
 	-- Draw a few random floating props in the void
-	/*
-	for i = 1, 10 do
-		-- Lifehack: SharedRandom is a nice stateless random function
-		local randX = util.SharedRandom("prop", -500, 500, i)
-		local randY = util.SharedRandom("prop", -500, 500, -i)
+	local num_props = 10
+	for i = 1, num_props do
 
-		local offset = portalAng:Right() * (-200 + i * -120)
+		local distZ = i * 120
+		local virtual_prop_num = i
+		if self:GetIsExit() then
+			-- Get distance travelled into the void so we can do some wrap around magic
+			local spacing = 500
+			local dist = self:GetJazzVoidViewDistance()
+			local prop_wrap = math.floor((dist - (i * spacing)) / (num_props * spacing)) + 1
+			virtual_prop_num = prop_wrap * num_props + i
+			distZ = i * spacing + prop_wrap * num_props * spacing
+		end
+
+		-- Lifehack: SharedRandom is a nice stateless random function
+		local randX = util.SharedRandom("prop", -500, 500, virtual_prop_num)
+		local randY = util.SharedRandom("prop", -500, 500, -virtual_prop_num)
+
+		local offset = portalAng:Right() * (-200 - distZ)
 		offset = offset + portalAng:Up() * randY
 		offset = offset + portalAng:Forward() * randX
 
@@ -341,7 +369,7 @@ function ENT:DrawInsidePortal()
 		mdl:SetAngles(ang + angOffset)
 		mdl:SetupBones() -- Since we're drawing in multiple locations
 		mdl:DrawModel()
-	end*/
+	end
 
 	-- If we're the exit portal, draw the gibs floating into space
 	if self:GetIsExit() and self.Broken then
@@ -460,15 +488,22 @@ end
 -- Right when we switch over to the jazz dimension, the bus will stop moving
 -- So we immediately start 'virtually' moving through the jazz dimension instead
 -- IDEALLY I'D LIKE TO RETURN A VIEW MATRIX, BUT GMOD DOESN'T HANDLE THAT VERY WELL
-function ENT:GetJazzVoidView()
+function ENT:GetJazzVoidViewDistance()
 	local bus = self:GetBus()
-	if !self.VoidTime or !IsValid(bus) then return Vector() end
+	if !self.VoidTime or !IsValid(bus) then return 0 end
 
 	-- Counteract remaining bus movement
 	local busOff = self:DistanceToVoid(EyePos())
 
 	local t = CurTime() - self.VoidTime
-	return bus:GetAngles():Right() * (bus.JazzSpeed * 3 * t - busOff)
+	return (bus.JazzSpeed * 3 * t - busOff)
+
+end
+
+function ENT:GetJazzVoidView()
+	local bus = self:GetBus()
+	if !IsValid(bus) then return Vector() end
+	return bus:GetAngles():Right() * self:GetJazzVoidViewDistance()
 end
 
 function ENT:OnBroken()
@@ -577,20 +612,6 @@ function ENT:Draw()
 end
 
 
-local function GetExitPortal()
-	local bus = IsValid(LocalPlayer():GetVehicle()) and LocalPlayer():GetVehicle():GetParent() or nil
-	if !IsValid(bus) or !bus:GetClass() == "jazz_bus_explore" then return nil end
-
-	return bus.ExitPortal
-end
-
-local function IsInExitPortal()
-	local exitPortal = GetExitPortal()
-	if !IsValid(exitPortal) then return false end
-
-	-- If the local player's view is past the portal 'plane', ONLY render the jazz dimension
-	return exitPortal:DistanceToVoid(LocalPlayer():EyePos()) > 0
-end
 
 -- PostRender and PostDrawOpaqueRenderables are what draws the stencil portal in the world
 hook.Add("PostRender", "JazzClearExteriorVoidList", function()

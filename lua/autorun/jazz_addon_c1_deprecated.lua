@@ -1,0 +1,1 @@
+print("Jazztronauts - Content 1/2 is now DEPRECATED! You don't need it installed anymore!")

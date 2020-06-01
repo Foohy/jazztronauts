@@ -6,8 +6,10 @@ MAIN_ADDON = "1452613192"
 WORKSHOP_IDS = WORKSHOP_IDS or
 {
 	[MAIN_ADDON] = {},
-	["1452627889"] = {},
-	["1455876201"] = {},
+
+-- deprecated content packs, no longer necessary to split it up
+--	["1452627889"] = {},
+--	["1455876201"] = {},
 }
 
 LOCAL_COPY = LOCAL_COPY or true

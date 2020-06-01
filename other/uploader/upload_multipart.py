@@ -8,7 +8,7 @@ import shutil
 import argparse
 from subprocess import check_output, CalledProcessError
 
-gmod_dir = "E:/Program Files (x86)/Steam/steamapps/common/garrysmod/bin"
+gmod_dir = "F:/Steam Games/steamapps/common/GarrysMod/bin"
 
 gmad = os.path.join(gmod_dir, "gmad.exe")
 gmpublish = os.path.join(gmod_dir, "gmpublish.exe")
@@ -29,7 +29,7 @@ def stripComments(line):
 
 def getPackSize(pack, filemap):
 	size = 0
-	for f, p in filemap.iteritems():
+	for f, p in iter(filemap.items()):
 		if p != pack:
 			continue
 
@@ -62,7 +62,7 @@ def buildGMA(pack, filemap, tempdir):
 	print("Moving files...")
 
 	# 1. Copy all the files over to the temp dir
-	for f, p in filemap.iteritems():
+	for f, p in iter(filemap.items()):
 		if p != pack:
 			continue
 		relpath = os.path.join(tempdir, os.path.relpath(f, searchpath))
@@ -78,9 +78,10 @@ def buildGMA(pack, filemap, tempdir):
 	gmaname = getAddonName(pack)
 	print("Building gma...")
 	try:
-		out = check_output([gmad, "create", "-folder", tempdir, "-out", os.path.join(os.getcwd(), gmaname) ])
+		print(os.path.join(os.getcwd(), gmaname))
+		out = check_output([gmad, "create", "-folder", tempdir, "-out", os.path.join(os.getcwd(), gmaname) ], encoding='UTF-8')
 		print(out)
-	except CalledProcessError, e:
+	except CalledProcessError as e:
 		print("gmad FAILURE!!")
 		print(e.output)
 
@@ -154,7 +155,8 @@ if __name__ == "__main__":
 			temp = tempfile.mkdtemp()
 			try:
 				buildGMA(pack, filemap, temp)
-			except:
+			except Exception as err:
+				print("oops errored: ", err)
 				exit()
 			finally:
 				shutil.rmtree(temp)
@@ -180,8 +182,8 @@ if __name__ == "__main__":
 				print("Uploading params:")
 				print(params)
 
-				out = check_output(params)
+				out = check_output(params, encoding='UTF-8')
 				print(out)
-			except CalledProcessError, e:
+			except CalledProcessError as e:
 				print("gmpublish FAILURE!!")
 				print(e.output)

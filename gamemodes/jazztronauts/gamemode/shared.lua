@@ -12,6 +12,11 @@ team.SetUp( 1, "Jazztronauts", Color( 255, 128, 0, 255 ) )
 
 CreateConVar("jazz_override_noclip", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY }, "Allow jazztronauts to override when players can noclip. If 0, it is determined by sandbox + whatever other mods you've got.")
 
+local devMode = GetConVar("developer")
+
+function GM:GetDevMode()
+	return devMode:GetInt()
+end
 
 function GM:PlayerNoClip(ply)
 	if cvars.Bool("jazz_override_noclip", true) then

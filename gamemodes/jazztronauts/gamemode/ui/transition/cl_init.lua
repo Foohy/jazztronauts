@@ -26,6 +26,7 @@ function transitionOut(delay, nosound, drawearly)
 end
 
 function transitionIn(delay, nosound, drawearly)
+	if GAMEMODE:GetDevMode() >= 2 then return end
 	if not nosound then
 		if delay ~= nil then
 			timer.Simple( delay, function() surface.PlaySound( "jazztronauts/slide_reverse.wav" ) end )

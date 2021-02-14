@@ -810,6 +810,7 @@ end
 
 local function findTrace()
 
+	local range = 500
 	local start = EyePos()
 	local dir = EyeAngles():Forward()
 
@@ -850,6 +851,8 @@ local function findTrace()
 
 	if #list == 0 then return end
 	table.sort(list, function(a,b) return a[3] < b[3] end)
+
+	if list[1][3] > range then return end
 
 	local pd = list[1][3]
 	local c = math.huge

@@ -25,6 +25,7 @@ if SERVER then
 	local proxy_name = "__jazz_io_proxy"
 
 	util.AddNetworkString("input_fired")
+	util.AddNetworkString("player_input")
 
 	hook.Add("EntityKeyValue", "hacking", function( ent, key, value )
 		if ent:GetName() == proxy_name then return value end
@@ -76,6 +77,12 @@ if SERVER then
 	hook.Add("InitPostEntity", "hacking", SetupIOListener)
 	hook.Add("PostCleanupMap", "hackingcleanup", SetupIOListener)
 
+	hook.Add("AcceptInput", "hacking", function( ent, input, activator, caller, value )
+		print( tostring(caller) )
+		print( tostring(ent) )
+		return false
+	end)
+
 	/*
 	hook.Add("AcceptInput", "hacking", function( ent, input, activator, caller, value )
 		if not IsValid( caller ) then
@@ -86,6 +93,40 @@ if SERVER then
 		end
 	end )
 */
+
+
+	local function PlayerInput(len, ply)
+
+		local from = ents.GetMapCreatedEntity(net.ReadUInt(32))
+		local event = net.ReadString()
+		local input = net.ReadString()
+		local target = ents.GetMapCreatedEntity(net.ReadUInt(32))
+		local param = net.ReadString()
+		local delay = net.ReadFloat()
+
+		if target ~= nil then
+			target:Fire( input, param, delay, ply, from )
+
+
+			if from ~= nil then
+				local target_index = target:MapCreationID() - 1234
+				local caller_index = from:MapCreationID() - 1234 --really garry?
+
+				net.Start( "input_fired" )
+					net.WriteInt( target_index, 32 )
+					net.WriteInt( caller_index, 32 )
+					net.WriteString( input )
+					net.WriteFloat( delay )
+				net.Send( player.GetAll() )
+			end
+		end
+
+		ply:EmitSound("buttons/blip1.wav")
+
+	end
+
+	net.Receive("player_input", PlayerInput)
+
 
 	return
 end
@@ -424,7 +465,7 @@ local function FormLines( startpos, endpos )
 		local mid = Vector(0,0,0)
 		mid[major] = vec[major]
 		local midpos = base + mid
-		table.insert( edges, { base, midpos } )
+		table.insert( edges, { base, midpos, major } )
 		base = midpos
 		total_length = total_length + mid:Length()
 		if base:Distance( endpos ) < 1 then break end
@@ -438,6 +479,11 @@ local function FormLines( startpos, endpos )
 	for _, e in pairs( edges ) do
 		AddPointToBoundingBox( e[1], min, max )
 		AddPointToBoundingBox( e[2], min, max )
+		e.min = Vector(e[1])
+		e.max = Vector(e[2])
+		OrderVectors(e.min, e.max)
+		e.min:Sub(Vector(2,2,2))
+		e.max:Add(Vector(2,2,2))
 	end
 
 	local expand = 5
@@ -540,6 +586,7 @@ local function PrepGraph()
 
 			for _, out in pairs( ent.outputs or {} ) do
 				table.insert( gent.outputs, ParseOutput( out[2], out[1] ) )
+				--PrintTable(ParseOutput( out[2], out[1] ))
 			end
 
 			--[[for _, out in pairs( v.outputs ) do
@@ -642,7 +689,7 @@ local function AcceptedInput()
 
 	--print("INPUT", input, caller_index, target_index)
 
-	for k,gent in pairs( graph ) do
+	for k,gent in ipairs( graph ) do
 		if gent.index == caller_index then
 
 			for _, output in pairs( gent.outputs ) do
@@ -660,7 +707,7 @@ net.Receive("input_fired", AcceptedInput)
 
 
 local function UpdateBlips()
-	for k,gent in pairs( graph or {} ) do
+	for k,gent in ipairs( graph or {} ) do
 		for i=#gent.blips, 1, -1 do
 			local blip = gent.blips[i]
 			if blip.speed * (CurTime() - blip.t) / gent.lines[ blip.target ].length > 1 then
@@ -679,6 +726,152 @@ local function ShouldDrawHackerview()
 	return hackEnable:GetBool() or hook.Call("JazzShouldDrawHackerview", GAMEMODE)
 end
 
+local lasermat	= Material("effects/laser1.vmt")
+local startBeam = render.StartBeam
+local endBeam = render.EndBeam
+local addBeam = render.AddBeam
+
+local function drawConnection(start_pos, end_pos, col, colb, rad)
+	startBeam( 2 )
+	addBeam(start_pos, rad, 0, col)
+	addBeam(end_pos, rad, 0, colb)
+	endBeam()
+end
+
+--[[
+	local angle = Angle(0,0,0)
+	local p0 = EyePos()
+	angle:RotateAroundAxis( angle:Forward(), 90 )
+	angle:RotateAroundAxis( angle:Right(), -math.atan2( v.pos.y - p0.y, v.pos.x - p0.x ) * 57.3 + 90 )
+	--angle:RotateAroundAxis( angle:Up(), CurTime() * 20 + k * 100 )
+
+	local cross = (p0 - v.pos):GetNormal():Cross( angle:Right() )
+	local sin = cross:Length()
+	local ang = -math.asin( sin ) * 57.3
+
+	if p0.z > v.pos.z then ang = 180 - ang end
+
+	angle:RotateAroundAxis( angle:Forward(), ang + 90 )
+
+	cam.Start3D2D(v.pos, angle, .25 )
+	draw.SimpleText(v.name or v.classname, nil, 0, 0, Color(255,255,100))
+	cam.End3D2D()
+]]
+
+local nodeLabelColor = Color(255,255,100)
+local simpleText = draw.SimpleText
+local function drawNodeLabel(node)
+	local pos = node.pos
+	local text = node.name or node.classname
+
+	--cam.Start3D2D(pos, EyeAngles(), .25 )
+	--simpleText(text, nil, 0, 0, nodeLabelColor)
+	--cam.End3D2D()
+end
+
+local fmax = math.max
+local fmin = math.min
+local function rayVBox(ox, oy, oz, dx, dy, dz, min, max)
+
+	local x0,y0,z0 = min:Unpack()
+	local x1,y1,z1 = max:Unpack()
+
+	local t0 = (x0 - ox) * dx
+	local t1 = (x1 - ox) * dx
+	local t2 = (y0 - oy) * dy
+	local t3 = (y1 - oy) * dy
+	local t4 = (z0 - oz) * dz
+	local t5 = (z1 - oz) * dz
+
+	local tmin = 
+	fmax(
+		fmax(
+			fmin(t0,t1), 
+			fmin(t2,t3)
+		),
+		fmin(t4,t5)
+	)
+
+	local tmax = 
+	fmin(
+		fmin(
+			fmax(t0,t1), 
+			fmax(t2,t3)
+		),
+		fmax(t4,t5)
+	)
+
+	if tmax < 0 then return false end
+	if tmin > tmax then return false end
+
+	return true, tmin
+
+end
+
+local function findTrace()
+
+	local start = EyePos()
+	local dir = EyeAngles():Forward()
+
+	local ox, oy, oz = start:Unpack()
+
+	local dx = 1/dir.x
+	local dy = 1/dir.y
+	local dz = 1/dir.z
+
+	local c = math.huge
+	local p = nil
+	local e = nil
+	local list = {}
+	for k,v in ipairs( graph ) do
+		for target, l in pairs( v.lines ) do
+			local hit, t = rayVBox(ox, oy, oz, dx, dy, dz, l.min, l.max)
+			if hit then
+				for _, edge in ipairs( l.edges ) do
+					local hit, t = rayVBox(ox, oy, oz, dx, dy, dz, edge.min, edge.max)
+					if hit then -- and t < c
+						--local rt = start + dir * (t + 4)
+						--local d = util.DistanceToLine( edge[1], edge[2], rt )
+						--[[if d < c then
+							p = l
+							e = edge
+							c = d
+							num = num + 1
+						end]]
+						p = l
+						e = edge
+						c = t
+						list[#list+1] = {l, edge, t}
+					end
+				end
+			end
+		end
+	end
+
+	if #list == 0 then return end
+	table.sort(list, function(a,b) return a[3] < b[3] end)
+
+	local pd = list[1][3]
+	local c = math.huge
+	for i=1, #list do
+		local e = list[i]
+		if (e[3] - pd) > 50 then break end
+
+		local rt = start + dir * (e[3] + 4)
+		local d = util.DistanceToLine( e[2][1], e[2][2], rt )
+		if d < c then
+			c = d
+			p = e[1]
+			e = e[2]
+		end
+	end
+
+	return p, e
+
+end
+
+local tracedLine, tracedEdge
+
 hook.Add( "HUDPaint", "hacker_vision", function()
 	if not ShouldDrawHackerview() then return end
 
@@ -695,6 +888,8 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 		if not b then print(e)
 		else graph = e end
 	end
+
+	tracedLine, tracedEdge = findTrace()
 
 	g_cull:FromPlayer( LocalPlayer(), 10, hackCullDistance:GetInt() )
 
@@ -724,27 +919,33 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 			h = h,
 		})
 
+		render.SetMaterial( lasermat );
+
 		local b,e = pcall( function()
 
-
 			local line_color = Color(20,120,20)
+			local line_color_selected = Color(255,120,120)
 
-			for k,v in pairs( graph ) do
+			for k,v in ipairs( graph ) do
 				v.visible = false
+
 				if #v.lines == 0 then v.visible = g_cull:TestBox(v.pos, box_extent) end
 				for target, l in pairs( v.lines ) do
+					local isTraced = tracedLine == l
+					local col = isTraced and line_color_selected or line_color
 					if g_cull:TestAABB( l.min, l.max ) then
 						dc_lines = dc_lines + 1
 
-						for _, edge in pairs( l.edges ) do
-							gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), line_color, line_color, 5)
+						for _, edge in ipairs( l.edges ) do
+							--gfx.renderBox(Vector(0,0,0), edge.min, edge.max, col)
+							drawConnection(edge[1], edge[2], col, col, 5)
 						end
 						v.visible = true
 					end
 				end
 			end
 
-			for k,v in pairs( graph ) do
+			for k,v in ipairs( graph ) do
 
 				-- Draw brushes
 				if v.model then
@@ -757,7 +958,7 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 				if not v.visible then continue end
 
 				-- Draw blips
-				for _, blip in pairs( v.blips ) do
+				for _, blip in ipairs( v.blips ) do
 					local line = v.lines[blip.target]
 					local dt = 0
 					if line.length > 0 then
@@ -765,7 +966,7 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 					end
 					local pulse = PointAlongLine( line, dt % 1 )
 					gfx.renderBox( pulse, Vector(-2,-2,-2), Vector(2,2,2), Color(255,255,255,255) )
-					for _, edge in pairs( line.edges ) do
+					for _, edge in ipairs( line.edges ) do
 						gfx.renderBeam(edge[1] or Vector(), edge[2] or Vector(), Color(80,255,80), Color(80,255,80), 20 * (1-dt))
 					end
 					dc_blips = dc_blips + 1
@@ -773,23 +974,7 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 
 				gfx.renderBox( v.pos, Vector(-2,-2,-2), Vector(2,2,2), Color(100,100,100) )
 
-				local angle = Angle(0,0,0)
-				local p0 = EyePos()
-				angle:RotateAroundAxis( angle:Forward(), 90 )
-				angle:RotateAroundAxis( angle:Right(), -math.atan2( v.pos.y - p0.y, v.pos.x - p0.x ) * 57.3 + 90 )
-				--angle:RotateAroundAxis( angle:Up(), CurTime() * 20 + k * 100 )
-
-				local cross = (p0 - v.pos):GetNormal():Cross( angle:Right() )
-				local sin = cross:Length()
-				local ang = -math.asin( sin ) * 57.3
-
-				if p0.z > v.pos.z then ang = 180 - ang end
-
-				angle:RotateAroundAxis( angle:Forward(), ang + 90 )
-
-				cam.Start3D2D(v.pos, angle, .25 )
-				draw.SimpleText(v.name or v.classname, nil, 0, 0, Color(255,255,100))
-				cam.End3D2D()
+				drawNodeLabel(v)
 
 			end
 
@@ -807,18 +992,25 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 	render.SetMaterial(hacker_vision)
 	render.DrawScreenQuad()
 
+	local y = 100
 	local b,e = pcall( function()
 
-		for k,v in pairs( graph ) do
-			local ts = v.pos:ToScreen()
+		for k,v in ipairs( graph ) do
 			--draw.SimpleText(v.name or v.classname, nil, ts.x, ts.y, Color(255,255,100))
 
 			for name, out in pairs( v.outputs ) do
-				local line = v.lines[ out[2] ]
-				if line then
-					local pos = line.center
-					local ps = pos:ToScreen()
-					--draw.DrawText(name .. "\n ->" .. out[3] .. "\n  ->" .. out[4], nil, ps.x, ps.y, Color(255,255,255))
+				for _, target in pairs( v.targets[out[2]] ) do
+					local line = v.lines[ target.index ]
+					if line == tracedLine then
+						draw.SimpleText(v.name .. " -> " .. out[1] .. " -> " .. out[3] .. " -> " .. out[2], "DermaLarge", 100, y, Color(255,255,255))
+						y = y + 30
+						draw.SimpleText("param: " .. tostring(out[4]), "DermaDefault", 100, y, Color(255,255,255))
+						y = y + 15
+						draw.SimpleText("delay: " .. tostring(out[5]), "DermaDefault", 100, y, Color(255,255,255))
+						y = y + 15
+						draw.SimpleText("refire: " .. tostring(out[6]), "DermaDefault", 100, y, Color(255,255,255))
+						y = y + 15
+					end
 				end
 			end
 		end
@@ -831,5 +1023,48 @@ hook.Add( "HUDPaint", "hacker_vision", function()
 	draw.SimpleText("Lines drawn: " .. dc_lines,nil,10,10,Color(255,100,100))
 	draw.SimpleText("Models drawn: " .. dc_models,nil,10,20,Color(255,100,100))
 	draw.SimpleText("Blips drawn: " .. dc_blips,nil,10,30,Color(255,100,100))
+
+	surface.SetDrawColor(0,255,0,255)
+	surface.DrawRect( ScrW()/2 - 5, ScrH()/2 - 1, 10,2 )
+	surface.DrawRect( ScrW()/2 - 1, ScrH()/2 - 5, 2,10 )
+
+end)
+
+hook.Add("PlayerBindPress", "hacker_vision", function(ply, bind, pressed)
+
+	if bind == "+attack" and pressed == true then
+		if not ShouldDrawHackerview() then return end
+		if tracedLine then
+
+			for k,v in ipairs( graph ) do
+				--draw.SimpleText(v.name or v.classname, nil, ts.x, ts.y, Color(255,255,100))
+
+				for name, out in pairs( v.outputs ) do
+					for _, target in pairs( v.targets[out[2]] ) do
+						local line = v.lines[ target.index ]
+						if line == tracedLine then
+							local from = v.index + 1234
+							local event = out[1]
+							local input = out[3]
+							local target = target.index + 1234
+							local param = tostring(out[4])
+							local delay = tonumber(out[5])
+
+							net.Start("player_input")
+							net.WriteUInt(from, 32)
+							net.WriteString(event)
+							net.WriteString(input)
+							net.WriteUInt(target, 32)
+							net.WriteString(param)
+							net.WriteFloat(delay)
+							net.SendToServer()
+
+						end
+					end
+				end
+			end
+
+		end
+	end
 
 end)

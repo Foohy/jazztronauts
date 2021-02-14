@@ -30,6 +30,10 @@ if SERVER then
 		UpdateLeaderboards()
 	end )
 
+	hook.Add("OnClientInitialized", "JazzCheckPlayerIntroDialog", function(ply)
+		UpdateLeaderboards()
+	end )
+
 	SessionProps = SessionProps or {}
 
 	function UpdateLeaderboard(id, ply, offset)

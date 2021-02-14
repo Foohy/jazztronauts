@@ -269,7 +269,7 @@ else
 
 	function ENT:DrawRTScreen()
 		screen_rt:Render(function()
-			local c = HSVToColor(math.NormalizeAngle(CurTime() * 40), 0.8, 0.5)
+			local c = HSVToColor(math.fmod(CurTime() * 40, 360), 0.8, 0.5)
 			local collected = self:GetCollectedShardCount()
 			render.Clear(c.r, c.g, c.b, 255)
 			cam.Start2D()

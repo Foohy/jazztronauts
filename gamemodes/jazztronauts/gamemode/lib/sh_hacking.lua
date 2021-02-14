@@ -78,8 +78,6 @@ if SERVER then
 	hook.Add("PostCleanupMap", "hackingcleanup", SetupIOListener)
 
 	hook.Add("AcceptInput", "hacking", function( ent, input, activator, caller, value )
-		print( tostring(caller) )
-		print( tostring(ent) )
 		return false
 	end)
 

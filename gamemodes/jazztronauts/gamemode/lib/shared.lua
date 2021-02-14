@@ -50,4 +50,9 @@ include("sh_time.lua")
 include("sh_styler.lua")
 include("sh_eventfeed.lua")
 
+include("hacking/sh_iograph.lua")
+include("hacking/sh_ionet.lua")
+include("hacking/sh_cyberspace.lua")
+include("hacking/sh_switchroom.lua")
+
 if SERVER then AddCSLuaFile("shared.lua") end

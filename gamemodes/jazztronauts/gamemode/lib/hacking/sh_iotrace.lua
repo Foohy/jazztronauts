@@ -122,6 +122,25 @@ function meta:ComputeBounds()
 
 end
 
+-- (if trace hits), returns true, TOI, segment points
+function meta:TestRay(origin, dir)
+
+	-- test against entire trace
+	local hit, _ = IntersectRayBox(origin, dir, self.min, self.max)
+	if not hit then return false end
+
+	-- test against each segment
+	for _, point in ipairs( self.points ) do
+
+		local hit, t = IntersectRayBox(origin, dir, point.min, point.max)
+		if hit then return true, t, point.pos, point.next end
+
+	end
+
+	return false
+
+end
+
 function meta:GetLength() return self.length end
 function meta:GetPointAlongPath( t )
 
@@ -140,11 +159,30 @@ function meta:GetPointAlongPath( t )
 
 end
 
+local render = render or {}
+local startBeam = render.StartBeam
+local endBeam = render.EndBeam
+local addBeam = render.AddBeam
+
+local function drawConnection(start_pos, end_pos, col, colb, rad)
+	startBeam( 2 )
+	addBeam(start_pos, rad, 0, col)
+	addBeam(end_pos, rad, 0, colb)
+	endBeam()
+end
+
+local color = Color(255,255,255,255)
+local drawLine = render.DrawLine
+
 function meta:Draw()
 
-	for i=1, #self.points do
+	for _, point in ipairs( self.points ) do
 
-		gfx.renderBeam(self.points[i].pos, self.points[i].next, nil, nil, 5)
+		startBeam( 2 )
+		addBeam(point.pos, 3, 0, color)
+		addBeam(point.next, 3, 0, color)
+		endBeam()
+		--drawLine(point.pos, point.next)
 
 	end
 

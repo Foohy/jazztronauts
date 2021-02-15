@@ -10,7 +10,7 @@ function Quat(vx,vy,vz,vw)
 	return setmetatable( {
 		x = vx or 0,
 		y = vy or 0,
-		z = vx or 0,
+		z = vz or 0,
 		w = vw or 0,
 	}, quat )
 end

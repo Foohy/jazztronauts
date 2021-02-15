@@ -139,6 +139,6 @@ end
 
 if CLIENT then
 
-	local graph = New()
+	--local graph = New()
 
 end

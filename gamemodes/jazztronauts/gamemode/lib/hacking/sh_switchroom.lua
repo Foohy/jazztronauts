@@ -97,70 +97,6 @@ hook.Add("StartCommand", "hackergoggles_startcmd", function(ply,cmd)
 
 end )
 
-
-hook.Add("SetupMove", "hackergoggles_startmove", function(ply, mv, cmd)
-    local switch = GetSwitchroom(ply)
-    if (!switch) then return end
-
-end )
-
-hook.Add("Move", "hackergoggles_move", function(ply, mv)
-    local switch = GetSwitchroom(ply)
-    if (!switch) then return end
-    --print(mv:GetForwardSpeed())
-
-    --return true
-end )
-
-hook.Add("FinishMove", "hackergoggles_finishmove", function(ply, mv)
-    local switch = GetSwitchroom(ply)
-    if (!switch) then return end
-    --print(mv:GetForwardSpeed())
-
-    --return true
-end )
-
-
--- thanks zak
-local fmax = math.max
-local fmin = math.min
-local function rayVBox(ox, oy, oz, dx, dy, dz, min, max)
-
-	local x0,y0,z0 = min:Unpack()
-	local x1,y1,z1 = max:Unpack()
-
-	local t0 = (x0 - ox) * dx
-	local t1 = (x1 - ox) * dx
-	local t2 = (y0 - oy) * dy
-	local t3 = (y1 - oy) * dy
-	local t4 = (z0 - oz) * dz
-	local t5 = (z1 - oz) * dz
-
-	local tmin = 
-	fmax(
-		fmax(
-			fmin(t0,t1), 
-			fmin(t2,t3)
-		),
-		fmin(t4,t5)
-	)
-
-	local tmax = 
-	fmin(
-		fmin(
-			fmax(t0,t1), 
-			fmax(t2,t3)
-		),
-		fmax(t4,t5)
-	)
-
-	if tmax < 0 then return false end
-	if tmin > tmax then return false end
-
-	return true, tmin
-
-end
-
 if SERVER then
     util.AddNetworkString( "jazz_hackergoggles_switchroom" )
 end
@@ -259,6 +195,8 @@ if CLIENT then
         door:SetAngles(ang)
         door:SetupBones()
         door:ResetSequenceInfo()
+        door:SetSequence(1)
+        door:SetCycle(1)
 
         doorInfo.csent = door
 
@@ -404,14 +342,9 @@ if CLIENT then
     local function findTrace()
         local start = getLadderCamPos()
         local dir = LocalPlayer():EyeAngles():Forward()
-        local ox, oy, oz = start:Unpack()
-    
-        local dx = 1/dir.x
-        local dy = 1/dir.y
-        local dz = 1/dir.z
 
         for k, v in ipairs(RegisteredDoors) do
-            local hit, t = rayVBox(ox, oy, oz, dx, dy, dz, v.bbox.min + v.pos, v.bbox.max + v.pos)
+            local hit, t = IntersectRayBox(start, dir, v.bbox.min + v.pos, v.bbox.max + v.pos)
             if hit then
                 return k, v, t
             end
@@ -486,8 +419,6 @@ if CLIENT then
     end
 
     function RenderRoom()
-
-        --models/sunabouzu/jazzdoor.mdl
         render.UpdateScreenEffectTexture()
         render.ClearDepth()
         wall_outside_material:SetTexture("$basetexture", render.GetScreenEffectTexture(0))
@@ -593,12 +524,6 @@ if CLIENT then
         MoveThink(FrameTime())
     end )
 
-    hook.Add("StartCommand", "hackergoggles_switchroom_movement", function(ply, cmd)
-        --if !CurrentRoom then return end
-
-        --cmd:ClearMovement()
-    end )
-
     local view = {}
     hook.Add("CalcView", "hackergoggles_switchroom_viewshift", function(ply, origin, angle, fov, znear, zfar)
         if !GetSwitchroom(LocalPlayer()) then return end
@@ -611,5 +536,5 @@ if CLIENT then
 end
 
 for k, v in pairs(player.GetAll()) do
-    --SetSwitchroom(v, "")
+    --SetSwitchroom(v, "ass")
 end

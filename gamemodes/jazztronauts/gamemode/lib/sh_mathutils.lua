@@ -175,7 +175,7 @@ end
 
 local fmax = math.max
 local fmin = math.min
-local function IntersectRayBox(origin, dir, min, max)
+function IntersectRayBox(origin, dir, min, max)
 
 	local x0,y0,z0 = min:Unpack()
 	local x1,y1,z1 = max:Unpack()

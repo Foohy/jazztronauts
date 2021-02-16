@@ -6,25 +6,40 @@ CMD_EXIT    = 0
 CMD_HACK    = 1
 CMD_TRAVEL  = 2
 
+node_graph = node_graph or nil
+local function GetNodeFromIndex(nodeIdx)
+    if not node_graph then
+        node_graph = iograph.New()
+    end
+
+    return node_graph:GetByIndex(nodeIdx)
+end
+
 function SetSwitchroom(ply, node)
     if !IsValid(ply) then return end
-    ply["HackerGogglesSwitchroom"] = string.len(node) > 0 and node
-    ply["HackerGogglesReferencePos"] = ply:GetPos() -- TODO: node:GetPos() or something
+    ply["HackerGogglesSwitchroom"] = node
+    ply["HackerGogglesReferencePos"] = node and node:GetPos()
 
     if SERVER then
         net.Start("jazz_hackergoggles_switchroom")
-            net.WriteString(node)
+            net.WriteInt(node and node:GetIndex() or -1, 32)
         net.Send(ply)
     end
     if CLIENT then
-        SetupRoom(node)
+        if node then
+            SetupRoom(node)
+
+            ply["HackerGogglesVelocity"] = 0
+            ply["HackerGogglesVertPos"]  = 0
+        end
     end
 end
-if CLIENT then 
+if CLIENT then
+    node_graph = node_graph or nil
     net.Receive("jazz_hackergoggles_switchroom", function(len)
-        local node = net.ReadString()
+        local nodeIdx = net.ReadInt(32)
 
-        SetSwitchroom(LocalPlayer(), node)
+        SetSwitchroom(LocalPlayer(), GetNodeFromIndex(nodeIdx))
     end )
 end
 if SERVER then
@@ -33,11 +48,11 @@ if SERVER then
         if cmd == CMD_EXIT then
             Exit(ply)
         elseif cmd == CMD_HACK then
-            local node = net.ReadString()
-            Hack(ply, node)
+            local nodeIdx = net.ReadInt(32)
+            Hack(ply, GetNodeFromIndex(nodeIdx))
         elseif cmd == CMD_TRAVEL then
-            local node = net.ReadString()
-            Travel(ply, node)
+            local nodeIdx = net.ReadInt(32)
+            Travel(ply, GetNodeFromIndex(nodeIdx))
         end
     end )
 end
@@ -52,16 +67,15 @@ function Exit(ply)
             net.WriteInt(CMD_EXIT, 8)
         net.SendToServer()
     elseif SERVER then
-        SetSwitchroom(ply, "")
+        SetSwitchroom(ply, nil)
     end
 end
 
 function Hack(ply, node)
-    node = node or ""
     if CLIENT then
         net.Start("jazz_hackergoggles_switchroom")
             net.WriteInt(CMD_HACK, 8)
-            net.WriteString(node)
+            net.WriteInt(node and node:GetIndex() or -1, 32)
         net.SendToServer()
     elseif SERVER then
         -- TODO
@@ -70,15 +84,14 @@ function Hack(ply, node)
 end
 
 function Travel(ply, node)
-    node = node or ""
     if CLIENT then
         net.Start("jazz_hackergoggles_switchroom")
             net.WriteInt(CMD_TRAVEL, 8)
-            net.WriteString(node)
+            net.WriteInt(node and node:GetIndex() or -1, 32)
         net.SendToServer()
     elseif SERVER then
         -- TODO
-        Exit(ply)
+        SetSwitchroom(ply, node)
     end
 end
 
@@ -106,6 +119,7 @@ if CLIENT then
     -- just play around with rendering for now
 
     RegisteredDoors = RegisteredDoors or {}
+    RegisteredFloors = RegisteredFloors or {}
     SelectedDoor = SelectedDoor or nil
     local DRAW_DEBUG_BBOX = false
 
@@ -153,8 +167,11 @@ if CLIENT then
     local numInputs = 3
     local numOutputs = 4
 
+    local function getSafeSideCount(num)
+        return (num <= 3) and 4 or (num + 3)
+    end
     local function getNumSides()
-        return (numInputs <= 3) and 4 or (numInputs + 3)
+        return getSafeSideCount(numInputs)
     end
     local function getSelectedWall()
         local numSides = getNumSides()
@@ -164,6 +181,9 @@ if CLIENT then
         local ply = LocalPlayer()
         local vertPos = ply["HackerGogglesVertPos"] or 0
         return Vector(70,0,70 + vertPos)
+    end
+    local function getCurrentFloor()
+        return math.floor(getLadderCamPos().z / roomHeight)
     end
     local function getVirtualCam()
         local ply = LocalPlayer()
@@ -180,11 +200,12 @@ if CLIENT then
         
         return ladderPos, ladderAng
     end
-    local function addDoor(pos, ang, type)
+    local function addDoor(pos, ang, type, info)
         local doorInfo = {
             pos = pos,
             ang = ang,
             type = type,
+            info = info,
             bbox = {min = Vector(-30, -30, 0), max = Vector(30,30,120)}
         }
 
@@ -202,6 +223,18 @@ if CLIENT then
 
         table.insert(RegisteredDoors, doorInfo)
     end
+    local function addFloor(name, sideCount, width, offset)
+        local floorInfo = {
+            name = name,
+            sideCount = sideCount,
+            width = width,
+            offset = offset or Vector()
+        }
+
+        -- TODO: Generate mesh here instead of dynamically?
+
+        table.insert(RegisteredFloors, floorInfo)
+    end
 
     local function selectDoor(idx)
         if !idx or !RegisteredDoors[idx] then return end
@@ -218,6 +251,11 @@ if CLIENT then
 
     end
 
+    local function getDoorDestination(door)
+        if door and door.info then
+            return door.type == "output" and door.info.to or door.info.from
+        end
+    end
 
     local function buildRoomWalls(numSides, width, height)
         mesh.Begin(MATERIAL_QUADS, numSides)
@@ -305,27 +343,39 @@ if CLIENT then
         mesh.End()
     end
 
+    local function getRoomPlacement(n, numSides, actualPlaces, width)
+        local curAng = ((n+0.5 + 1) * 1.0 / numSides) * 2.0 * math.pi
+        local nextAng = ((n+1.5 + 1) * 1.0 / numSides) * 2.0 * math.pi
+
+        -- special cases for small numbers
+        if actualPlaces == 2 && n == 0 then 
+            curAng = curAng - math.pi/2
+            nextAng = nextAng - math.pi/2
+        end
+        if (actualPlaces == 3) then
+            curAng = curAng - (1 * 1.0 / numSides) * 2.0 * math.pi
+            nextAng = nextAng - (1 * 1.0 / numSides) * 2.0 * math.pi
+        end
+
+        local doorPos = LerpVector(0.5, Vector(math.cos(curAng), math.sin(curAng), 0), Vector(math.cos(nextAng), math.sin(nextAng), 0)) * width
+        return doorPos, Angle(0, math.deg((curAng + nextAng)/2, 0) - 90)
+    end
+
     function SetupRoom(node)
         RegisteredDoors = {}
+        RegisteredFloors = {}
+        numInputs = table.Count(node:GetInputs())
+        numOutputs = table.Count(node:GetOutputs())
         local numSides = getNumSides()
 
         -- Base floor input doors
-        for i=0, numInputs-1 do
-            local curAng = ((i+0.5 + 1) * 1.0 / numSides) * 2.0 * math.pi
-            local nextAng = ((i+1.5 + 1) * 1.0 / numSides) * 2.0 * math.pi
-            -- special cases for small numbers
-            if numInputs == 2 && i == 0 then 
-                curAng = curAng - math.pi/2
-                nextAng = nextAng - math.pi/2
-            end
-            if (numInputs == 3) then
-                curAng = curAng - (1 * 1.0 / numSides) * 2.0 * math.pi
-                nextAng = nextAng - (1 * 1.0 / numSides) * 2.0 * math.pi
-            end
-
-            local doorPos = LerpVector(0.5, Vector(math.cos(curAng), math.sin(curAng), 0), Vector(math.cos(nextAng), math.sin(nextAng), 0)) * roomWidth
-            addDoor(doorPos, Angle(0, math.deg((curAng + nextAng)/2, 0) - 90), "input")
+        local i = 0
+        for k, v in pairs(node:GetInputs()) do
+            local pos, ang = getRoomPlacement(i, numSides, numInputs, roomWidth)
+            addDoor(pos, ang, "input", v)
+            i = i + 1
         end
+        
 
         -- Exit door
         local curAng = ((-0.5) * 1.0 / numSides) * 2.0 * math.pi
@@ -333,10 +383,34 @@ if CLIENT then
         local doorPos = LerpVector(0.5, Vector(math.cos(curAng), math.sin(curAng), 0), Vector(math.cos(nextAng), math.sin(nextAng), 0)) * roomWidth
         addDoor(doorPos, Angle(0, math.deg((curAng + nextAng)/2, 0) - 90), "exit")
 
+        -- Bottom floor has N sides for all the dors
+        --addFloor(table.Count(node:GetInputs()))
+
         -- Output doors
-        for i=1, numOutputs do           
-            addDoor(Vector(-roomWidth * math.sqrt(2) * 0.5 + 5, 0, roomHeight * i), Angle(0, 90, 0), "output")
+        -- These are grouped based on shared events
+        local groupedOutputs = {}
+        for k, v in pairs(node:GetOutputs()) do  
+            groupedOutputs[v.event] = groupedOutputs[v.event] and groupedOutputs[v.event] + 1 or 1
         end
+        
+        local floor = 1
+        for event, n in SortedPairsByValue(groupedOutputs, true) do
+            local sizeOffset = n * 5
+            -- Each event group is its own floor
+            addFloor(event, n, roomWidth + sizeOffset, Vector(-sizeOffset*2, 0, 0))
+
+            -- Store more doors for floor lore
+            local i = 0
+            for k, v in pairs(node:GetOutputs()) do
+                if v.event ~= event then continue end
+                local pos, ang = getRoomPlacement(i, getSafeSideCount(n), n, roomWidth + sizeOffset)
+                addDoor(pos + Vector(-sizeOffset*2,0,roomHeight * floor), ang, "output", v)
+                i = i + 1
+            end 
+
+            floor = floor + 1
+        end
+        
     end
 
     local function findTrace()
@@ -372,33 +446,14 @@ if CLIENT then
 
         -- Velocity
         pos = pos + vel * 0.03 * dt
-        if pos < 0 || pos > roomHeight*numOutputs then vel = 0 end
-        pos = math.Clamp(pos, 0, roomHeight * numOutputs)
+        if pos < 0 || pos > roomHeight*#RegisteredFloors then vel = 0 end
+        pos = math.Clamp(pos, 0, roomHeight * #RegisteredFloors)
         ply["HackerGogglesVertPos"] = pos
         ply["HackerGogglesVelocity"] = vel
         --print("Goal Velocity: " ..  goalVel .. ", vel: " ..  vel .. ", pos:  " .. pos)
 
 
-        local idx, door, t = findTrace()
-        if (SelectedDoor != idx) then
-            local oldDoor = SelectedDoor and RegisteredDoors[SelectedDoor]
-            local newDoor = door
-            if oldDoor and IsValid(oldDoor.csent) then
-                oldDoor.csent:ResetSequence(1)
-                oldDoor.csent:ResetSequenceInfo()
-                oldDoor.csent:SetCycle(0)
 
-                --oldDoor.csent:EmitSound( DoorClose)
-            end
-            if newDoor and IsValid(newDoor.csent) then
-                newDoor.csent:ResetSequence(0)
-                newDoor.csent:ResetSequenceInfo()
-                newDoor.csent:SetCycle(0)
-                newDoor.csent:EmitSound(DoorOpen)
-            end
-
-            SelectedDoor = idx
-        end
 
         -- Manually advance door anims
         for _, v in pairs(RegisteredDoors) do
@@ -412,10 +467,42 @@ if CLIENT then
             selectGoal.t = selectGoal.t + dt * 1.5
 
             if selectGoal.t >= 1 then
-                Travel(ply, "whatevernextnode")
+                local dest = getDoorDestination(RegisteredDoors[SelectedDoor])
+                Travel(ply, dest)
                 ply["HackerGogglesSelectGoal"] = nil
             end
+        else -- If no goal, trace and search for selected door
+            local idx, door, t = findTrace()
+            if (SelectedDoor != idx) then
+                local oldDoor = SelectedDoor and RegisteredDoors[SelectedDoor]
+                local newDoor = door
+                if oldDoor and IsValid(oldDoor.csent) then
+                    oldDoor.csent:ResetSequence(1)
+                    oldDoor.csent:ResetSequenceInfo()
+                    oldDoor.csent:SetCycle(0)
+    
+                    --oldDoor.csent:EmitSound( DoorClose)
+                end
+                if newDoor and IsValid(newDoor.csent) then
+                    newDoor.csent:ResetSequence(0)
+                    newDoor.csent:ResetSequenceInfo()
+                    newDoor.csent:SetCycle(0)
+                    newDoor.csent:EmitSound(DoorOpen)
+                end
+    
+                SelectedDoor = idx
+            end
         end
+    end
+
+    -- I honestly, truly, have no idea why this is necessary right here
+    -- For some reason OverrideDepthEnable doesn't actually set, which is super annoying
+    -- So do one cycle of it not working which makes it work for later calls?!?!
+    local function PurgeDepthRender()
+        cam.PushModelMatrix(Matrix(), false)
+        render.OverrideDepthEnable(true, true)
+        render.OverrideDepthEnable(false, false)
+        cam.PopModelMatrix()
     end
 
     function RenderRoom()
@@ -455,42 +542,32 @@ if CLIENT then
             render.SetMaterial(wall_surface_material)
             buildRoomFloor(numSides, roomWidth + 5, 0)
             
-            -- I honestly, truly, have no idea why this is necessary right here
-            -- For some reason OverrideDepthEnable doesn't work for the very bottom floor
-            -- So do what it was gonna do but don't render anything
-            cam.PushModelMatrix(Matrix(), false)
-            render.OverrideDepthEnable(true, true)
-            render.OverrideDepthEnable(false, false)
-            cam.PopModelMatrix()
+            PurgeDepthRender()
 
-
-            -- Each output
+            -- Each output event group
+            render.SetMaterial(wall_floor_material)
             render.OverrideDepthEnable(true, true)
-            for i=1, numOutputs do
+            for k, v in ipairs(RegisteredFloors) do
                 local m = Matrix()
-                m:Translate(Vector(0, 0, roomHeight * i))
+                m:Translate(Vector(0, 0, roomHeight * k) + v.offset)
                 cam.PushModelMatrix(m, false)
-                    render.SetMaterial(wall_floor_material)
-                    if (i==numOutputs) then
-                        buildRoomFloor(4, roomWidth + 5, roomHeight)
-                    end
-                    buildRoomFloorHole( roomWidth + 5, 0, 25, 70)
-                             
+                    render.OverrideDepthEnable(true, true)
+                    buildRoomFloor(getSafeSideCount(v.sideCount), v.width + 5, roomHeight)
+                    buildRoomFloor(getSafeSideCount(v.sideCount), v.width + 5, 0)
                 cam.PopModelMatrix()
             end
-            render.OverrideDepthEnable(false, false)
 
-            -- Each output (walls)
+            PurgeDepthRender()
+
+            -- Once more for walls (separate pass so doors always draw on top of them)
+            render.SetMaterial(wall_outside_material)
             render.OverrideDepthEnable(true, false)
-            for i=1, numOutputs do
+            for k, v in ipairs(RegisteredFloors) do
                 local m = Matrix()
-                m:Translate(Vector(0, 0, roomHeight * i))
+                m:Translate(Vector(0, 0, roomHeight * k) + v.offset)
                 cam.PushModelMatrix(m, false)
-                    render.SetMaterial(wall_outside_material)
-                    buildRoomWalls(4, roomWidth, roomHeight)
-
-                    render.SetMaterial(wall_surface_material)
-                    buildRoomWalls(4, roomWidth, roomHeight)
+                    render.OverrideDepthEnable(true, false)
+                    buildRoomWalls(getSafeSideCount(v.sideCount), v.width + 5, roomHeight)
                 cam.PopModelMatrix()
             end
             render.OverrideDepthEnable(false, false)
@@ -501,16 +578,55 @@ if CLIENT then
                 if IsValid(v.csent) then
                     v.csent:DrawModel()
 
+                    -- Info text
+                    if v.info then
+                        cam.Start3D2D(v.pos + Vector(0, 0, 138), v.ang + Angle(0, 0, 90), 1)
+                            render.PushFilterMag(TEXFILTER.POINT)
+                            local linkedNode = getDoorDestination(v)
+                            if (v.type == "input") then
+                                draw.SimpleText(v.info.event, "TargetID", 0, 0, color_white, TEXT_ALIGN_CENTER)
+                            end
+                            draw.SimpleText(linkedNode:GetName(), "DebugFixed", 0, 12, color_white, TEXT_ALIGN_CENTER)
+                            render.PopFilterMag()
+                        cam.End3D2D()      
+                    end
+
                     if DRAW_DEBUG_BBOX then
                         render.DrawWireframeBox(v.pos, Angle(), v.bbox.min, v.bbox.max)
                     end
                 end
+            end
+
+
+            -- Current floor's text
+            local curFloorIdx = getCurrentFloor()
+            local curFloor = RegisteredFloors[curFloorIdx]
+            if curFloor then
+                render.OverrideDepthEnable(false, false)
+                
+                -- Center text
+                cam.Start3D2D(Vector(0, 0, roomHeight * curFloorIdx + 43) + curFloor.offset, Angle(0, 90, 90), 1)
+                cam.IgnoreZ(true)
+                    render.PushFilterMag(TEXFILTER.POINT)
+                    draw.SimpleText(curFloor.name, "TargetID", 0, 0, color_white, TEXT_ALIGN_CENTER)
+                    render.PopFilterMag()
+                cam.IgnoreZ(false)
+                cam.End3D2D()
             end
     
         cam.End()
         render.OverrideDepthEnable(false, false)
         
     end
+
+    hook.Add("HUDPaint", "hackergoggles_switchroom_hud", function()
+        -- On-screen HUD
+        local node = GetSwitchroom(LocalPlayer())
+        if node then
+            draw.DrawText(node:GetName(), "TargetID", ScrW()/2, ScrH() - ScrH()*0.07, color_white, TEXT_ALIGN_CENTER)
+            draw.DrawText(node:GetClass(), "DebugFixed", ScrW()/2, ScrH() - ScrH()*0.055, color_green, TEXT_ALIGN_CENTER)
+        end
+    end)
 
     -- Render the inside of the jazz void with the default void material
     -- This void material has a rendertarget basetexture we update each frame
@@ -526,15 +642,27 @@ if CLIENT then
 
     local view = {}
     hook.Add("CalcView", "hackergoggles_switchroom_viewshift", function(ply, origin, angle, fov, znear, zfar)
-        if !GetSwitchroom(LocalPlayer()) then return end
+        local node = GetSwitchroom(LocalPlayer())
+        if !node then return end
 
         local pos, ang = getVirtualCam()
-        view.origin = origin + pos * 0.05
+        view.origin = node:GetPos() + pos * 0.05
+        view.znear = znear * 0.1
         return view
     end )
 
 end
 
-for k, v in pairs(player.GetAll()) do
-    --SetSwitchroom(v, "ass")
-end
+concommand.Add("jazz_hacker_randomswitchroom", function(ply, cmd, args)
+    local graph = iograph.New()
+    
+    -- Get a list of random interesting nodes
+    local candidateNodes = {}
+    for ent in graph:Ents() do
+        if table.Count(ent:GetInputs()) > 0 || table.Count(ent:GetOutputs()) > 0 then
+            table.insert(candidateNodes, ent)
+        end
+    end
+
+    switchroom.SetSwitchroom(ply, candidateNodes[ math.random( #candidateNodes ) ])
+end )

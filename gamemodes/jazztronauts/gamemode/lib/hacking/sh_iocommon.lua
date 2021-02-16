@@ -135,11 +135,79 @@ inheritBaseClasses(classes)
 
 print("LOADING FGDs TOOK: " .. (SysTime() - start) .. " seconds")
 
-for k,v in pairs(classes) do
+--[[for k,v in pairs(classes) do
 	if k:find("func_button") then
 		print(k)
 		PrintTable(v,1)
 	end
-end
+end]]
 
 FGDClasses = classes
+
+
+local proxy_name = "__jazz_io_proxy"
+local function bindGraphIOToProxy( graph )
+
+	local io_proxy = ents.FindByClass("jazz_io_proxy")[1]
+	if not IsValid( io_proxy ) then
+		io_proxy = ents.Create("jazz_io_proxy")
+		io_proxy:SetPos( Vector(0,0,0) )
+		io_proxy:SetName(proxy_name)
+		io_proxy:Spawn()
+	end
+
+	for ent in graph:Ents() do
+
+		local sv_ent = ent:GetEntity()
+
+		if IsValid(sv_ent) then
+
+			local bound = {}
+			for _, output in ipairs(ent:GetOutputs()) do
+
+				if not bound[output.event] then
+
+					bound[output.event] = true
+
+					local outputStr = string.format(
+						"%s %s,JazzForward,%s_%d,0,-1", 
+						output.event,
+						proxy_name,
+						output.event,
+						ent:GetIndex())
+
+					sv_ent:Fire("AddOutput", outputStr)
+
+				end
+
+			end
+
+		end
+
+	end
+
+end
+
+if SERVER then
+
+	local function SetupIOListener()
+
+		print("****SetupIOListener****")
+
+		local io_proxy = ents.FindByClass("jazz_io_proxy")[1]
+		if not IsValid( io_proxy ) then
+			io_proxy = ents.Create("jazz_io_proxy")
+			io_proxy:SetPos( Vector(0,0,0) )
+			io_proxy:SetName(proxy_name)
+			io_proxy:Spawn()
+		end
+
+		assert(bsp2.GetCurrent() ~= nil)
+
+		bindGraphIOToProxy( bsp2.GetCurrent().iograph )
+
+	end
+	hook.Add("InitPostEntity", "hacking", SetupIOListener)
+	hook.Add("PostCleanupMap", "hackingcleanup", SetupIOListener)
+
+end

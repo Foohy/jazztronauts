@@ -32,6 +32,16 @@ include("sh_brush.lua")
 include("sh_phy.lua")
 include("sh_bsptypes.lua")
 --include("sh_bsp.lua")
+
+-- Hacking needs to load before bsp2
+include("hacking/sh_iocommon.lua")
+include("hacking/sh_ionode.lua")
+include("hacking/sh_iograph.lua")
+include("hacking/sh_ionet.lua")
+include("hacking/sh_iotrace.lua")
+include("hacking/sh_cyberspace.lua")
+include("hacking/sh_switchroom.lua")
+
 include("sh_bsp2.lua")
 include("sh_bmodelmap.lua")
 include("sh_bspquery.lua")
@@ -49,13 +59,5 @@ include("sh_graph.lua")
 include("sh_time.lua")
 include("sh_styler.lua")
 include("sh_eventfeed.lua")
-
-include("hacking/sh_iocommon.lua")
-include("hacking/sh_ionode.lua")
-include("hacking/sh_iograph.lua")
-include("hacking/sh_ionet.lua")
-include("hacking/sh_iotrace.lua")
-include("hacking/sh_cyberspace.lua")
-include("hacking/sh_switchroom.lua")
 
 if SERVER then AddCSLuaFile("shared.lua") end

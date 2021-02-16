@@ -293,6 +293,11 @@ AddProcess( "Converting Entities", function( data )
 
 end )
 
+AddProcess( "Creating IO Graph", function( data )
+
+	data.iograph = iograph.New(data)
+
+end )
 
 
 local meta = {}

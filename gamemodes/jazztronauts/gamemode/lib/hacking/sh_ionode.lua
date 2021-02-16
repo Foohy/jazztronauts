@@ -185,6 +185,7 @@ function meta:GetName() return self.name or "<" .. self:GetClass() .. ">" end
 function meta:GetClass() return self.classname or "__unknown__" end
 function meta:GetOutputs() return self.outputs end
 function meta:GetInputs() return self.inputs end
+function meta:GetEntity() return ents.GetMapCreatedEntity(self:GetIndex()+1234) end
 
 function meta:Draw()
 

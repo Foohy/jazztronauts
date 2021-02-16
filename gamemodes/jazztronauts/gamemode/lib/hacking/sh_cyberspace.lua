@@ -26,6 +26,12 @@ function meta:ShouldDrawEnt( ent )
 
 end
 
+function meta:GetTraceByIndex( index )
+
+	return self.traces[index]
+
+end
+
 function meta:BuildTraces()
 
 	for ent in self.graph:Ents() do
@@ -37,7 +43,7 @@ function meta:BuildTraces()
 		for _, output in ipairs(outputs) do
 
 			local id = #self.traces+1
-			self.traces[id] = iotrace.New( ent, output.to )
+			self.traces[id] = iotrace.New( ent, output.to, id )
 			self.io_to_trace[output] = self.traces[id]
 
 		end
@@ -87,7 +93,7 @@ if CLIENT then
 		["$additive"] = 0,
 	})
 
-	local space = New( iograph.New() )
+	local space = nil
 
 	hook.Add("PostDrawTranslucentRenderables", "cyberspace", function()
 
@@ -102,6 +108,10 @@ if CLIENT then
 	end)
 
 	hook.Add("HUDPaint", "cyberspace", function()
+
+		if bsp2.GetCurrent() == nil then return end
+		if bsp2.GetCurrent():IsLoading() then return end
+		if space == nil then space = New( bsp2.GetCurrent().iograph ) end
 
 		local w = ScrW()
 		local h = ScrH()

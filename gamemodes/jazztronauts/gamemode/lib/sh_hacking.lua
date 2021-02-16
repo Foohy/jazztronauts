@@ -6,6 +6,8 @@ local function GetIndexMapping()
 
 end
 
+if true then return end
+
 local function ParseOutput( str, event )
 
 	if type( str ) ~= "string" then return end

@@ -85,6 +85,13 @@ function meta:GetByIndex( index )
 
 end
 
+function meta:GetByEntity( ent )
+
+	if not IsValid(ent) then return end
+	return self:GetByIndex(ent:MapCreationID()-1234)
+
+end
+
 function meta:Ents()
 
 	local i = 1

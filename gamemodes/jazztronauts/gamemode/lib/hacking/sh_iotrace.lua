@@ -17,16 +17,19 @@ end
 local meta = {}
 meta.__index = meta
 
-function meta:Init(from, to)
+function meta:Init(from, to, index)
 
 	self.from = from
 	self.to = to
+	self.index = index
 	self:BuildPath()
 	self:ComputeBounds()
 
 	return self
 
 end
+
+function meta:GetIndex() return self.index end
 
 function meta:BuildPath()
 
@@ -188,9 +191,9 @@ function meta:Draw()
 
 end
 
-function New(from, to)
+function New(...)
 
-	return setmetatable({}, meta):Init(from, to)
+	return setmetatable({}, meta):Init(...)
 
 end
 

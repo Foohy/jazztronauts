@@ -17,54 +17,74 @@ end
 local meta = {}
 meta.__index = meta
 
-function meta:Init(from, to, index, offset)
+function meta:Init( from, to, index )
 
 	self.from = from
 	self.to = to
 	self.index = index
-	self.offset = offset or Vector(0,0,0)
-	self:BuildPath()
-	self:ComputeBounds()
+	self.min = Vector()
+	self.max = Vector()
+	self.blips = {}
 
 	return self
 
 end
 
-function meta:GetIndex() return self.index end
-
-function meta:BuildPath()
+function meta:BuildPath( direct )
 
 	self.points = {}
 
-	local base = self.from:GetPos() + self.offset
-	local target = self.to:GetPos()
+	local base = self.from
+	local target = self.to
 	local length = 0
-	for i=1, 3 do
 
-		local vec = target - base -- vector to target
-		local major = GetMajorAxis(vec) -- largest axis
+	if direct then
 
-		-- direction along largest axis
-		local dir = Vector(0,0,0)
-		dir[major] = vec[major]
+		local dir = target - base
+		local dirlen = dir:Length()
 
-		-- length of direction
-		local dirlen = math.abs(vec[major])
-		length = length + dirlen
+		length = dirlen
 
-		-- end-point along direction
 		self.points[#self.points+1] = {
 			pos = base,
 			dir = dir,
 			normal = dir:GetNormal(),
 			binormal = Vector(0,0,1),
 			len = dirlen,
-			along = length - dirlen,
+			along = 0,
 			next = base + dir,
 		}
-		base = base + dir
 
-		if base:Distance( target ) < 1 then break end
+	else
+
+		for i=1, 3 do
+
+			local vec = target - base -- vector to target
+			local major = GetMajorAxis(vec) -- largest axis
+
+			-- direction along largest axis
+			local dir = Vector(0,0,0)
+			dir[major] = vec[major]
+
+			-- length of direction
+			local dirlen = math.abs(vec[major])
+			length = length + dirlen
+
+			-- end-point along direction
+			self.points[#self.points+1] = {
+				pos = base,
+				dir = dir,
+				normal = dir:GetNormal(),
+				binormal = Vector(0,0,1),
+				len = dirlen,
+				along = length - dirlen,
+				next = base + dir,
+			}
+			base = base + dir
+
+			if base:Distance( target ) < 1 then break end
+
+		end
 
 	end
 
@@ -90,13 +110,14 @@ function meta:BuildPath()
 	end
 
 	self.length = length
+	self:ComputeBounds()
 
 end
 
 function meta:ComputeBounds()
 
-	local min = Vector(0,0,0)
-	local max = Vector(0,0,0)
+	local min = self.min
+	local max = self.max
 
 	ResetBoundingBox( min, max )
 
@@ -122,23 +143,47 @@ function meta:ComputeBounds()
 		max[i] = max[i] + expand
 	end
 
-	self.min = min
-	self.max = max
-
 end
 
 -- (if trace hits), returns true, TOI, segment points
-function meta:TestRay(origin, dir)
+function meta:TestRay(origin, dir, distToLine)
+
+	distToLine = distToLine or 4
 
 	-- test against entire trace
 	local hit, _ = IntersectRayBox(origin, dir, self.min, self.max)
 	if not hit then return false end
 
 	-- test against each segment
-	for _, point in ipairs( self.points ) do
+	for i=1, #self.points do
 
+		local point = self.points[i]
 		local hit, t = IntersectRayBox(origin, dir, point.min, point.max)
-		if hit then return true, t, point end
+
+		if hit then
+
+			-- test against a plane oriented towards the ray
+			local up = point.normal:Cross( dir )
+			local normal = up:Cross( point.normal )
+			local toi = IntersectRayPlane(origin, dir, point.pos, normal)
+
+			-- calculate local point of interection on plane
+			local pos = origin + dir * toi
+			local lpos = pos - point.pos
+			local x = lpos:Dot( point.normal )
+			local y = lpos:Dot( up )
+
+			-- only hit if within segment
+			if x > 0 and x < point.len then
+
+				-- only hit if close to segment "vertically"
+				if math.abs(y) < distToLine then
+					return hit, toi, point
+				end
+
+			end
+
+		end
 
 	end
 
@@ -146,6 +191,7 @@ function meta:TestRay(origin, dir)
 
 end
 
+function meta:GetIndex() return self.index end
 function meta:GetLength() return self.length end
 function meta:GetPointAlongPath( t )
 
@@ -164,22 +210,121 @@ function meta:GetPointAlongPath( t )
 
 end
 
-local render = render or {}
-local startBeam = render.StartBeam
-local endBeam = render.EndBeam
-local addBeam = render.AddBeam
-local drawLine = render.DrawLine
+if CLIENT then
 
-function meta:Draw(color_start, color_end, width)
+	local startBeam = render.StartBeam
+	local endBeam = render.EndBeam
+	local addBeam = render.AddBeam
+	local drawLine = render.DrawLine
+	local lasermat = Material("effects/laser1.vmt")
+	local flaremat = Material("effects/blueflare1")
+	local base_trace_color = Color(180,0,255,255)
+	local base_trace_color2 = Color(180/4,0,255/4,255)
+	local blip_color = Color(255,180,50)
+	local blip_color2 = Color(255/2,180/2,50)
+	local MIN_DELAY = 0.5
 
-	width = width or 1
-	for _, point in ipairs( self.points ) do
+	function meta:ClearBlips()
 
-		startBeam( 2 )
-		addBeam(point.pos, width, 0, color_start)
-		addBeam(point.next, width, 0, color_end or color_start)
-		endBeam()
-		--drawLine(point.pos, point.next)
+		self.blips = {}
+
+	end
+
+	function meta:AddBlip( duration, time )
+
+		self.blips[#self.blips+1] = {
+			time = time or CurTime(),
+			duration = duration,
+		}
+
+	end
+
+	function meta:Draw(color_start, color_end, width)
+
+		color_start = color_start or base_trace_color
+		render.SetMaterial(lasermat)
+		width = width or 1
+		for _, point in ipairs( self.points ) do
+
+			startBeam( 2 )
+			addBeam(point.pos, width, 0, color_start)
+			addBeam(point.next, width, 0, color_end or color_start)
+			endBeam()
+			--drawLine(point.pos, point.next)
+
+		end
+
+	end
+
+	function meta:DrawBlips()
+
+		render.SetMaterial(flaremat)
+		local tracelen = self:GetLength()
+		local steps = 50
+		local space = 1
+		local extratime = (space/tracelen) * steps
+
+		for i=#self.blips, 1, -1 do
+
+			local blip = self.blips[i]
+			local trace = blip.trace
+			local t = CurTime() - blip.time
+
+			local blip_scale = 1
+			if t > blip.duration then
+
+				local flash = 1 - math.min((t - blip.duration) / MIN_DELAY, 1)
+				blip_scale = flash
+
+			end
+
+			if blip.duration > 0 then
+
+				local bliptime = math.min(t / blip.duration, 1 + extratime)
+				local time = bliptime * tracelen
+
+				for k=1, steps do
+
+					local time2 = math.Clamp( time - (k * space), 0, tracelen )
+					local pos = self:GetPointAlongPath( time2 )
+					local size = (8 - (k/steps) * 8 ) * blip_scale
+					if time2 == tracelen then size = size * 2 end
+					render.DrawSprite( pos, size, size, blip_color )
+
+				end
+
+			end
+
+		end
+
+	end
+
+	function meta:DrawFlashes()
+
+		render.SetMaterial(lasermat)
+		for i=#self.blips, 1, -1 do
+
+			local blip = self.blips[i]
+			local t = CurTime() - blip.time
+			if t > blip.duration + MIN_DELAY then
+
+				table.remove(self.blips, i) 
+				continue
+
+			end
+
+			if t > blip.duration then
+
+				local flash = 1 - math.min((t - blip.duration) / MIN_DELAY, 1)
+				if flash > 0 then
+					local col = LerpColor(blip_color, Color(0,0,0,0), 1 - flash)
+					self:Draw( col, col, 8 )
+					self:Draw( col, col, 16 )
+				end
+
+			end
+
+		end
 
 	end
 

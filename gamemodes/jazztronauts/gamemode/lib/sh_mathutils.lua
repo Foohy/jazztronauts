@@ -217,3 +217,21 @@ function IntersectRayBox(origin, dir, min, max)
 	return true, tmin
 
 end
+
+function IntersectRayPlane(origin, dir, plane_origin, plane_normal)
+
+	local a = (plane_origin - origin):Dot( plane_normal )
+	local b = dir:Dot( plane_normal )
+
+	if b ~= 0 then
+
+		local t = a / b
+		return t
+
+	else
+
+		return math.huge
+
+	end
+
+end

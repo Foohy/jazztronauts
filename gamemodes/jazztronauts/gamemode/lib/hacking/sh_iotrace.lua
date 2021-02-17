@@ -17,11 +17,12 @@ end
 local meta = {}
 meta.__index = meta
 
-function meta:Init(from, to, index)
+function meta:Init(from, to, index, offset)
 
 	self.from = from
 	self.to = to
 	self.index = index
+	self.offset = offset or Vector(0,0,0)
 	self:BuildPath()
 	self:ComputeBounds()
 
@@ -35,7 +36,7 @@ function meta:BuildPath()
 
 	self.points = {}
 
-	local base = self.from:GetPos()
+	local base = self.from:GetPos() + self.offset
 	local target = self.to:GetPos()
 	local length = 0
 	for i=1, 3 do
@@ -58,6 +59,7 @@ function meta:BuildPath()
 			normal = dir:GetNormal(),
 			binormal = Vector(0,0,1),
 			len = dirlen,
+			along = length - dirlen,
 			next = base + dir,
 		}
 		base = base + dir
@@ -136,7 +138,7 @@ function meta:TestRay(origin, dir)
 	for _, point in ipairs( self.points ) do
 
 		local hit, t = IntersectRayBox(origin, dir, point.min, point.max)
-		if hit then return true, t, point.pos, point.next end
+		if hit then return true, t, point end
 
 	end
 
@@ -166,24 +168,16 @@ local render = render or {}
 local startBeam = render.StartBeam
 local endBeam = render.EndBeam
 local addBeam = render.AddBeam
-
-local function drawConnection(start_pos, end_pos, col, colb, rad)
-	startBeam( 2 )
-	addBeam(start_pos, rad, 0, col)
-	addBeam(end_pos, rad, 0, colb)
-	endBeam()
-end
-
-local color = Color(255,255,255,255)
 local drawLine = render.DrawLine
 
-function meta:Draw()
+function meta:Draw(color_start, color_end, width)
 
+	width = width or 1
 	for _, point in ipairs( self.points ) do
 
 		startBeam( 2 )
-		addBeam(point.pos, 3, 0, color)
-		addBeam(point.next, 3, 0, color)
+		addBeam(point.pos, width, 0, color_start)
+		addBeam(point.next, width, 0, color_end or color_start)
 		endBeam()
 		--drawLine(point.pos, point.next)
 

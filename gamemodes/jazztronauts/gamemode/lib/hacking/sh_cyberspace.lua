@@ -10,7 +10,6 @@ function meta:Init(iograph)
 
 	self.traces = {}
 	self.io_to_trace = {}
-	self.blips = {}
 	self.graph = iograph
 	self:BuildTraces()
 
@@ -86,8 +85,6 @@ function meta:BuildTraces()
 
 end
 
-local MIN_BLIP_DELAY = 0.5
-
 function meta:AddBlipsFromIOEvent( ent, event )
 
 	local outputs = ent:GetOutputs()
@@ -101,11 +98,6 @@ function meta:AddBlipsFromIOEvent( ent, event )
 			assert(trace)
 
 			trace:AddBlip( tonumber(output.delay) )
-			self.blips[#self.blips+1] = {
-				trace = trace,
-				time = CurTime(),
-				duration = tonumber(output.delay),
-			}
 
 		end
 

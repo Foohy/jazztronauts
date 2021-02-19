@@ -122,7 +122,7 @@ function meta:Draw()
 	local tracesDrawn = 0
 	local hitTrace, pos, point = self:GetTraceForRay( EyePos(), EyeAngles():Forward() )
 
-	g_cull:FromPlayer( LocalPlayer(), 10, 1000 )
+	g_cull:FromPlayer( LocalPlayer(), 10, 10000 )
 
 	for k, trace in ipairs(self.traces) do
 		if g_cull:TestAABB( trace.min, trace.max ) then
@@ -159,7 +159,7 @@ function meta:Draw()
 
 	for ent in self.graph:Ents() do
 		if self:ShouldDrawEnt( ent ) then
-			ent:Draw()
+			--ent:Draw()
 		end
 	end
 
@@ -263,6 +263,9 @@ if CLIENT then
 
 
 		cam.Start2D()
+
+		surface.SetDrawColor(0,0,0,230)
+		surface.DrawRect(0,0,ScrW(),ScrH())
 
 		surface.SetDrawColor(255,255,255,255)
 		render.SetMaterial(hacker_vision)

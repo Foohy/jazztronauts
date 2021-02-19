@@ -111,7 +111,7 @@ else
 
 	hook.Add("IOEventTriggered", "ionet", function(ent, event)
 
-		for _, out in ipairs(ent:GetOutputs()) do
+		--[[for _, out in ipairs(ent:GetOutputs()) do
 
 			if out.event == event then
 
@@ -123,7 +123,7 @@ else
 
 			end
 
-		end
+		end]]
 
 	end)
 

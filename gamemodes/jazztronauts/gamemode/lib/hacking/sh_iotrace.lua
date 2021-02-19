@@ -213,6 +213,43 @@ function meta:GetPointAlongPath( t )
 
 end
 
+local function SqrDistToLine( a, b, pos )
+
+	local v = (b - a)
+	local vl = v:Length()
+	local vn = v / vl
+	local d = (pos - a):Dot( vn )
+	d = math.Clamp(d, 0, vl)
+
+	local vp = a + vn * d
+	return (vp - pos):LengthSqr()
+
+end
+
+local function ConformLineToSphere( pos, radius, a, b )
+
+	local u = (b-a)
+	local o = a
+	local c = pos
+	local l = u:Length()
+	u:Normalize()
+
+	local v = ((u:Dot(o - c)) ^ 2) - ((o - c):LengthSqr() - radius * radius)
+
+	if v < 0 then return a, b end
+	if v == 0 then return a, b end
+
+	local d = -(u:Dot(o - c))
+
+	local root = math.sqrt(v)
+
+	local d0 = math.Clamp(d + root, 0, l)
+	local d1 = math.Clamp(d - root, 0, l)
+
+	return o + u * d0, o + u * d1
+
+end
+
 function meta:FindPointOnPath( pos )
 
 	local dist = math.huge
@@ -251,6 +288,9 @@ if CLIENT then
 	local blip_color2 = Color(255/2,180/2,50)
 	local MIN_DELAY = 0.5
 
+	blip_color, base_trace_color = base_trace_color, blip_color
+	blip_color2, base_trace_color2 = base_trace_color2, blip_color2
+
 	function meta:ClearBlips()
 
 		self.blips = {}
@@ -266,13 +306,31 @@ if CLIENT then
 
 	end
 
-	function meta:Draw(color, width, t0, t1)
+	function meta:Draw(color, width, t0, t1, nocull)
+
+		local maxDist = 300
+		local maxDistSqr = maxDist * maxDist
+		local eye = LocalPlayer():EyePos()
+
+		if not self.radius or not self.radiusSqr then
+
+			self.center = (self.min + self.max) / 2
+			self.extent = (self.max - self.min) / 2
+			self.radius = self.extent:Length()
+			self.radiusSqr = self.radius * self.radius
+
+		end
+
+		local distCheck = eye:Distance(self.center) - self.radius
+		if distCheck > maxDist and not nocull then
+			return
+		end
 
 		t0 = t0 or 0
 		t1 = t1 or self.length
 		color = color or base_trace_color
 		render.SetMaterial(lasermat)
-		width = width or 1
+		width = width or 2
 
 		if t1 < t0 then t0, t1 = t1, t0 end
 
@@ -291,6 +349,18 @@ if CLIENT then
 			if t0 > point.along then
 				startPos = startPos + point.normal * (t0 - point.along)
 			end
+
+			if SqrDistToLine(startPos, endPos, eye) > maxDistSqr and not nocull then
+				continue
+			end
+
+			if not nocull then
+				startPos, endPos = ConformLineToSphere( eye, maxDist, startPos, endPos )
+			end
+			--[[if startPos:DistToSqr(eye) > maxDistSqr and
+			   endPos:DistToSqr(eye) > maxDistSqr then
+				continue
+			end]]
 
 			startBeam( 2 )
 			addBeam(startPos, width, 0, color)
@@ -366,13 +436,13 @@ if CLIENT then
 				local flash = 1 - math.min((t - blip.duration) / MIN_DELAY, 1)
 				if flash > 0 then
 					local col = LerpColor(blip_color, Color(0,0,0,0), 1 - flash)
-					self:Draw( col, 8 )
-					self:Draw( col, 16 )
+					self:Draw( col, 8, nil, nil, true )
+					self:Draw( col, 16, nil, nil, true )
 				end
 
 			else
 
-				self:Draw( blip_color, 8, 0, (t / blip.duration) * self.length )
+				self:Draw( blip_color, 8, 0, (t / blip.duration) * self.length, true )
 
 			end
 

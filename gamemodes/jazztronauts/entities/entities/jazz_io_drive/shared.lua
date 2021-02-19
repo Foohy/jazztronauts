@@ -15,7 +15,7 @@ function ENT:Initialize()
 		self:SetModel( self.Model )
 		self:SetMoveType(MOVETYPE_NONE)
 		self:SetCollisionGroup(COLLISION_GROUP_NONE)
-		self:PhysicsInitSphere( 16 )
+		--self:PhysicsInitSphere( 16 )
 
 	else
 

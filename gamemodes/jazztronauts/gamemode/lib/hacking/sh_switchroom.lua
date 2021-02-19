@@ -122,19 +122,68 @@ if CLIENT then
     local DoorOpen = Sound("doors/door1_move.wav")
     local DoorClose = Sound("doors/door_wood_close1.wav")
 
-    local wall_outside_material_params =
+    local matparam_wall_brick =
     {
-        ["$basetexture"]    = "effects/jazz_void_tooltex",
-        ["$normalmap"]      = "sunabouzu/jazzshell_dudv",
-        ["$refracttint"]    = "[1 1 1]",
-        ["$additive"]       = 0,
-        ["$vertexcolor"]    = 1,
-        ["$vertexalpha"]    = 0,
-        ["$refractamount"]  = 0.03,
-        ["$bluramount"]     = 0,
-        ["$model"]          = 1,
+        ["$basetexture"]    = "sunabouzu/jazzbrickwall02_A",
+        ["$bumpmap"]        = "sunabouzu/jazzbrickwall02_N",
+        ["$ssbump"]         = 1,
+        ["$detail"]         = "sunabouzu/jazznoise",
+        ["$detailscale"]    ="6",
+        ["$detailblendfactor"] = .6,
+        ["$detailblendmode"] = 0,
+        ["$normalmapalphaenvmapmask"] = 1,
+        ["$envmap"]         = "env_cubemap",
+        ["$envmaptint"]     = "[.33 .18 .2]",
+        ["$envmapcontrast"]	= 1,
+        ["$envmapsaturation"] = .25,
+    }
+
+    local matparam_wall_paper =
+    {
+        ["$basetexture"]    = "sunabouzu/jazzwallpaper02_A",
+        ["$bumpmap"]        = "sunabouzu/jazzwallpaper02_S",
+        ["$ssbump"]         = 1,
+        ["$detail"]         = "sunabouzu/jazznoise",
+        ["$detailscale"]    = "6.283",
+        ["$detailblendfactor"]  = .6,
+        ["$detailblendmode"]    = 0,
+        ["$envmap"]         = "env_cubemap",
+        ["$envmaptint"]     = "[ .05 .09 .075 ]",
+        ["$envmapcontrast"]     = .75,
+        ["$envmapsaturation"]   = 2
+    }
+
+    local matparam_floor_wood =
+    {
+        ["$basetexture"]        = "sunabouzu/jazzwoodfloor02_a",
+        ["$bumpmap"]            = "sunabouzu/jazzwoodfloor02_n",
+        ["$ssbump"]             = 1,
+        ["$surfaceprop"]        = "Wood_Solid",
+        ["$envmap"]             = "env_cubemap",
+        ["$normalmapalphaenvmapmask"] =  1,
+        ["$envmapcontrast"]     =  1.5,
+        ["$envmapsaturation"]   =  1,
+        ["$envmaptint"]         =  "[.33 .1 .2]",
+    }
+
+    local matparam_ceiling_black =
+    {
+        ["$basetexture"]    = "color/white",
+        ["$model"]           = 1,
+        ["$translucent"]     = 1,
+        ["$vertexalpha"]     = 1,
+        ["$vertexcolor"]     = 1,
+        ["$color"]           =  "[0 0 0]",
         ["$nocull"]         = 1,
     }
+
+
+    local matparam_world_cut =
+    {
+        ["$basetexture"]    = "color/white",
+        ["$nocull"]         = 1,
+    }
+
 
     local wall_surface_material_params =
     {
@@ -153,12 +202,21 @@ if CLIENT then
     }
 
 
-    local wall_outside_material = CreateMaterial("HackergogglesWallMaterial" .. FrameNumber(), "Refract", wall_outside_material_params)
+    --local wall_outside_material = CreateMaterial("HackergogglesWallMaterial" .. FrameNumber(), "Refract", wall_outside_material_params)
     local wall_surface_material = CreateMaterial("HackergogglesWallSurfaceMaterial" .. FrameNumber(), "UnlitGeneric", wall_surface_material_params)
     local wall_floor_material = CreateMaterial("HackergogglesWallFloorMaterial" .. FrameNumber(), "UnlitGeneric", wall_floor_material_params)
 
+    local mat_wall_brick = CreateMaterial("HackergogglesWallBrick" .. FrameNumber(), "VertexLitGeneric", matparam_wall_brick)
+    local mat_wall_paper = CreateMaterial("HackergogglesWallPaper" .. FrameNumber(), "VertexLitGeneric", matparam_wall_paper)
+    local mat_floor_wood = CreateMaterial("HackergogglesFloorWood" .. FrameNumber(), "VertexLitGeneric", matparam_floor_wood)
+    local mat_ceiling_black = CreateMaterial("HackergogglesCeilingBlack" .. FrameNumber(), "VertexLitGeneric", matparam_ceiling_black)
+
+    local mat_world_cut = CreateMaterial("HackergogglesWorldCut" .. FrameNumber(), "Refract", matparam_world_cut)
+
+    local mat_decoframe = Material("decals/artdeco_frame_gold")
+
     local roomWidth = 200
-    local roomHeight = 150
+    local roomHeight = 200
 
     local numInputs = 3
     local numOutputs = 4
@@ -211,13 +269,15 @@ if CLIENT then
             Draw = function(self) end
         }
     end
-    local function createDoor(pos, ang, doortype, info)
+    --local lasermat	= Material("effects/laser1.vmt")
+    local function createDoor(pos, ang, doortype, info, center)
         local door = table.Merge(createInteract("door", Vector(-30, -30, 0), Vector(30,30,120)), 
         {
             pos = pos,
             ang = ang,
             doortype = doortype,
             info = info,
+            trace = nil,
             OnSelect = function(self) 
                 local ply = LocalPlayer()
                 ply["HackerGogglesSelectGoal"] = {
@@ -245,6 +305,18 @@ if CLIENT then
                 if IsValid(self.csent) then self.csent:FrameAdvance() end
             end,
             Draw = function(self)
+                --render.SetMaterial( lasermat );
+                if self.trace then 
+                    self.trace:Draw()
+                    self.trace:DrawBlips()
+                    self.trace:DrawFlashes()
+                end
+
+                -- cut through behind door (look ma! no stencils!)
+                render.SetMaterial(mat_world_cut)
+                render.OverrideDepthEnable(true, false)
+                render.DrawBox(pos + ang:Right() * -5, ang, Vector(-24, -2, 0), Vector(24, 2, 110), color_white)
+                render.OverrideDepthEnable(true, true)
                 self.csent:DrawModel()
             end
         })
@@ -260,6 +332,10 @@ if CLIENT then
         doorent:SetCycle(1)
 
         door.csent = doorent
+        if center then
+            door.trace = iotrace.New(center, pos + Vector(0,0,110))
+            door.trace:BuildPath(true)
+        end
         return door
     end
     local function createComputer(pos, ang, event)
@@ -305,6 +381,124 @@ if CLIENT then
         compinfo.csent = comp
         return compinfo
     end
+    local function createTeleportExit(pos, ang)
+        local exitinfo = table.Merge(createInteract("exit", Vector(-20, -20, 0), Vector(20,20,10)), 
+        {
+            pos = pos,
+            ang = ang,
+            OnSelect = function(self) 
+                print("buh bye")
+            end,
+            Draw = function(self)
+                render.SetMaterial(mat_world_cut)
+                render.OverrideDepthEnable(true, false)
+                render.DrawBox(pos, ang, Vector(-20, -20, -2), Vector(20, 20, 1), color_white)
+                render.OverrideDepthEnable(true, true)
+            end
+        })
+    
+        return exitinfo
+    end
+    local function createProp(pos, ang, model)
+        local propinfo = table.Merge(createInteract("prop"), 
+        {
+            pos = pos,
+            ang = ang,
+            Think = function(self) 
+                if IsValid(self.csent) then self.csent:FrameAdvance() end
+            end,
+            Draw = function(self)
+                self.csent:DrawModel()
+            end
+        })
+    
+        -- Create its own clientside ent for it
+        local prop = ManagedCSEnt("jazz_hackergoggles_prop_" .. totalInteracts, model)
+        prop:SetNoDraw(true)
+        prop:SetPos(pos)
+        prop:SetAngles(ang)
+
+        propinfo.csent = prop
+        return propinfo
+    end
+    local function drawSemiCircle(pos, ang, width, height, numPoints)
+        mesh.Begin(MATERIAL_POLYGON, numPoints)
+        for i=0, numPoints-1 do
+            local p = i * 1.0 / (numPoints-1)
+            local rad = p * math.pi
+            local x, y = math.cos(rad) * width, math.sin(rad) * height
+            local circlePos = ang:Forward() * -x + ang:Up() * y
+            mesh.Position(pos + circlePos)
+            mesh.TexCoord(0, math.cos(rad), math.sin(rad))
+            mesh.AdvanceVertex()
+        end
+        mesh.End()
+    end
+    local function drawQuadFull(pos, ang, width, height)
+        local px = ang:Forward()*width/2
+        local py  = ang:Up()*height/2
+        local normal = ang:Forward()
+        local tx, ty, tz = ang:Right():Unpack()
+        local ts = 0
+
+
+        mesh.Begin(MATERIAL_POLYGON, 4)
+
+            mesh.Position(pos +px -py)
+            mesh.TexCoord(0, 0, 1)
+            mesh.Normal(normal)
+            mesh.UserData(tx, ty, tz, ts)
+            mesh.AdvanceVertex()
+
+            mesh.Position(pos -px -py)
+            mesh.TexCoord(0, 1, 1)
+            mesh.Normal(normal)
+            mesh.UserData(tx, ty, tz, ts)
+            mesh.AdvanceVertex()
+
+            mesh.Position(pos -px +py)
+            mesh.TexCoord(0, 1, 0)
+            mesh.Normal(normal)
+            mesh.UserData(tx, ty, tz, ts)
+            mesh.AdvanceVertex()
+
+            mesh.Position(pos +px +py)
+            mesh.TexCoord(0, 0, 0)
+            mesh.Normal(normal)
+            mesh.UserData(tx, ty, tz, ts)
+            mesh.AdvanceVertex()
+
+        mesh.End()
+    end
+    local function createWindow(pos, ang, width, height, model)
+        local propinfo = table.Merge(createInteract("window"), 
+        {
+            pos = pos,
+            ang = ang,
+            Think = function(self) 
+                if IsValid(self.csent) then self.csent:FrameAdvance() end
+            end,
+            Draw = function(self)
+                render.SetMaterial(mat_world_cut)
+                render.OverrideDepthEnable(true, false)
+                drawSemiCircle(pos, ang, width/2 - 2, height/2 - 2, 8)
+                render.OverrideDepthEnable(true, true)
+
+                render.SetMaterial(mat_decoframe)
+                drawQuadFull(pos + Vector(0, 0, 13), ang, width, height)
+
+            end
+        })
+    
+        -- Create its own clientside ent for it
+        local prop = ManagedCSEnt("jazz_hackergoggles_window_" .. totalInteracts, model)
+        prop:SetNoDraw(true)
+        prop:SetPos(pos)
+        prop:SetAngles(ang)
+
+        propinfo.csent = prop
+        return propinfo
+    end
     local function getCurrentInteracts()
         local curFloorIdx = getCurrentFloor()
         local curFloor = RegisteredFloors[curFloorIdx]
@@ -323,6 +517,11 @@ if CLIENT then
 
         table.insert(RegisteredFloors, floorInfo)
     end
+    local function getFloorByEvent(event)
+        for k, v in pairs(RegisteredFloors) do
+            if v.name == event then return v end 
+        end
+    end
 
     local function selectInteract(interact)
         if !interact then return end
@@ -337,6 +536,7 @@ if CLIENT then
     end
 
     local function buildRoomWalls(numSides, width, height)
+        local hpos = 0
         mesh.Begin(MATERIAL_QUADS, numSides)
         for i = 0, numSides do
             local curAng = ((i + 0.5) * 1.0 / numSides) * 2.0 * math.pi
@@ -344,35 +544,60 @@ if CLIENT then
             local curX, curY = math.cos(curAng) * width, math.sin(curAng) * width
             local nextX, nextY = math.cos(nextAng) * width, math.sin(nextAng) * width
 
-            mesh.Position(Vector(curX, curY, 0))
-            mesh.TexCoord(0, 0, 0)
-            mesh.AdvanceVertex()
+            local hdist = math.Distance(curX, curY, nextX, nextY)
 
-            mesh.Position(Vector(curX, curY, height))
-            mesh.TexCoord(0, 1, 0)
-            mesh.AdvanceVertex()
-
-            mesh.Position(Vector(nextX, nextY, height))
-            mesh.TexCoord(0, 1, 1)
-            mesh.AdvanceVertex()
-
+            local avgAng = (curAng + nextAng) / 2
+            local surfAng = Angle(90, math.deg(avgAng), 0)
+            local normal = surfAng:Forward()
+            local tangent = surfAng:Up()
+            local tsidedness = -1
             mesh.Position(Vector(nextX, nextY, 0))
-            mesh.TexCoord(0, 0, 1)
+            mesh.TexCoord(0, hpos * 0.004, 0)
+            mesh.Normal(normal)
+            mesh.UserData(tangent.x, tangent.y, tangent.z, tsidedness)
             mesh.AdvanceVertex()
+      
+            mesh.Position(Vector(nextX, nextY, height))
+            mesh.TexCoord(0, hpos * 0.004, height * 0.004)
+            mesh.Normal(normal)
+            mesh.UserData(tangent.x, tangent.y, tangent.z, tsidedness)
+            mesh.AdvanceVertex()
+     
+            mesh.Position(Vector(curX, curY, height))
+            mesh.TexCoord(0, (hpos + hdist) * 0.004, height * 0.004)
+            mesh.Normal(normal)
+            mesh.UserData(tangent.x, tangent.y, tangent.z, tsidedness)
+            mesh.AdvanceVertex()
+
+            mesh.Position(Vector(curX, curY, 0))
+            mesh.TexCoord(0, (hpos + hdist) * 0.004, 0)
+            mesh.Normal(normal)
+            mesh.UserData(tangent.x, tangent.y, tangent.z, tsidedness)
+            mesh.AdvanceVertex()
+
+            hpos = hpos + hdist
         end
         mesh.End()
     end
 
     local function buildRoomFloor(numSides, width, height)
         mesh.Begin(MATERIAL_POLYGON, numSides)
-        for i = 0, numSides do
+        for i = numSides-1, 0, -1 do
             local curAng = ((i + 0.5) * 1.0 / numSides) * 2.0 * math.pi
             local nextAng = ((i+1.5) * 1.0 / numSides) * 2.0 * math.pi
             local curX, curY = math.cos(curAng) * width, math.sin(curAng) * width
             local nextX, nextY = math.cos(nextAng) * width, math.sin(nextAng) * width
 
+
+            local avgAng = (curAng + nextAng) / 2
+            local surfAng = Angle(90, math.deg(avgAng), 0)
+            local normal = Vector(0,0,1)
+            local tangent = surfAng:Up()
+            local tsidedness = -1
             mesh.Position(Vector(curX, curY, height))
             mesh.TexCoord(0, math.cos(curAng), math.sin(curAng))
+            mesh.Normal(normal)
+            mesh.UserData(tangent.x, tangent.y, tangent.z, tsidedness)
             mesh.AdvanceVertex()
         end
         mesh.End()
@@ -439,9 +664,31 @@ if CLIENT then
         local doorPos = LerpVector(0.5, Vector(math.cos(curAng), math.sin(curAng), 0), Vector(math.cos(nextAng), math.sin(nextAng), 0)) * width
         return doorPos, Angle(0, math.deg((curAng + nextAng)/2, 0) - 90)
     end
+    -- models/matt/jazz_trolley_door.mdl
 
     -- models/msx/msx_computer.mdl
     -- models/sunabouzu/jazzbigtv.mdl (scale down)
+
+    -- models/sunabouzu/jazzwalllight.mdl
+    -- models/sunabouzu/jazzivy.mdl
+    -- models/sunabouzu/jazzivy02.mdl (through 08)
+    -- models/sunabouzu/jazzlakepole.mdl
+    -- models/sunabouzu/jazzlily01.mdl
+    -- models/sunabouzu/jazzlily02.mdl
+    -- models/sunabouzu/jazzlotus.mdl
+    -- models/sunabouzu/jazzbarlight01.mdl
+    -- models/sunabouzu/jazzbarlight02.mdl
+    -- models/sunabouzu/jazzpondcrystal.mdl
+
+    -- maps/jazz_bar/sunabouzu/jazzbrickwall02
+    -- maps/jazz_bar/sunabouzu/jazzmetalgold
+    -- maps/jazz_bar/sunabouzu/jazzwoodfloor02
+    -- maps/jazz_bar/sunabouzu/jazzwallpaper02
+    -- maps/jazz_bar/sunabouzu/jazzlineoleum
+    -- maps/jazz_bar/sunabouzu/jazzbrickwall01
+    -- maps/jazz_bar/sunabouzu/jazzsmoothmarble01
+    -- maps/jazz_bar/sunabouzu/jazztilefloor01
+    -- sunabouzu/jazzmetal
     function SetupRoom(node)
         totalInteracts = 0
         RegisteredFloors = {}
@@ -449,12 +696,18 @@ if CLIENT then
         numOutputs = table.Count(node:GetOutputs())
         local numSides = getNumSides()
 
+        -- Bottom floor has N sides for all the doors
+        local bottomDoorCount = table.Count(node:GetInputs())
+        local bottomSizeOffset = bottomDoorCount * 5
+
         -- Base floor input doors
         local floorDoors = {}
         local i = 0
         for k, v in pairs(node:GetInputs()) do
-            local pos, ang = getRoomPlacement(i, numSides, numInputs, roomWidth)
-            table.insert(floorDoors, createDoor(pos, ang, "input", v))
+            local pos, ang = getRoomPlacement(i, getSafeSideCount(numInputs), numInputs, roomWidth + bottomSizeOffset)
+            table.insert(floorDoors, createWindow(pos + Vector(-bottomSizeOffset*2, 0, 0) + Vector(0,0,115), ang, 60, 60, "models/matt/jazz_trolley_door.mdl" ))
+            table.insert(floorDoors, createDoor(pos + Vector(-bottomSizeOffset*2, 0, 0), ang, "input", v))
+
             i = i + 1
         end
         
@@ -465,10 +718,9 @@ if CLIENT then
         local doorPos = LerpVector(0.5, Vector(math.cos(curAng), math.sin(curAng), 0), Vector(math.cos(nextAng), math.sin(nextAng), 0)) * roomWidth
         table.insert(floorDoors, createDoor(doorPos, Angle(0, math.deg((curAng + nextAng)/2, 0) - 90), "exit"))
 
-        -- Bottom floor has N sides for all the doors
-        -- addFloor(table.Count(node:GetInputs()))
-        local bottomDoorCount = table.Count(node:GetInputs())
-        local bottomSizeOffset = bottomDoorCount * 5
+        -- Exit (tp) hatch
+        table.insert(floorDoors, createTeleportExit(Vector(-bottomSizeOffset*2, 0, 0), Angle()))
+
         addFloor(event, bottomDoorCount, roomWidth + bottomSizeOffset, Vector(-bottomSizeOffset*2, 0, 0), floorDoors)
 
         -- Output doors
@@ -482,18 +734,21 @@ if CLIENT then
         for event, n in SortedPairsByValue(groupedOutputs, true) do
             local sizeOffset = n * 5
             local floorInteracts = {}
+            
+            local centerpos = Vector(-sizeOffset*2 - 25, 0, roomHeight * floor + roomHeight - 30)
 
             -- Store more doors for floor lore
             local i = 0
             for k, v in pairs(node:GetOutputs()) do
                 if v.event ~= event then continue end
                 local pos, ang = getRoomPlacement(i, getSafeSideCount(n), n, roomWidth + sizeOffset)
-                table.insert(floorInteracts, createDoor(pos + Vector(-sizeOffset*2,0,roomHeight * floor), ang, "output", v))
+                table.insert(floorInteracts, createDoor(pos + Vector(-sizeOffset*2,0,roomHeight * floor), ang, "output", v, centerpos))
                 i = i + 1
             end
 
             -- Center computer thing
-            table.insert(floorInteracts, createComputer(Vector(-sizeOffset*2 - 25, 0, roomHeight * floor), Angle(), event))
+            local compy = createComputer(centerpos, Angle(), event)
+            table.insert(floorInteracts, compy)
 
             -- Each event group is its own floor
             addFloor(event, n, roomWidth + sizeOffset, Vector(-sizeOffset*2, 0, 0), floorInteracts)
@@ -508,6 +763,7 @@ if CLIENT then
         local dir = LocalPlayer():EyeAngles():Forward()
 
         for k, v in ipairs(getCurrentInteracts()) do
+            if !v.bbox.min or !v.bbox.max then continue end
             local hit, t = IntersectRayBox(start, dir, v.bbox.min + v.pos, v.bbox.max + v.pos)
             if hit then
                 return k, v, t
@@ -518,7 +774,7 @@ if CLIENT then
     
     hook.Add("KeyPress", "hackergoggles_switchroom_keypress", function(ply, key)
         if !GetSwitchroom(LocalPlayer()) then return end
-
+        if !IsFirstTimePredicted() then return end
         if (key == IN_ATTACK) then
             selectInteract(HoveredInteract)
         end
@@ -590,9 +846,14 @@ if CLIENT then
     end
 
     function RenderRoom()
+        local node = GetSwitchroom(LocalPlayer())
+        if !node then return end
         render.UpdateScreenEffectTexture()
         render.ClearDepth()
-        wall_outside_material:SetTexture("$basetexture", render.GetScreenEffectTexture(0))
+        mat_world_cut:SetTexture("$basetexture", render.GetScreenEffectTexture(0))
+
+        render.SetColorModulation(1,1,1)
+        render.SuppressEngineLighting(true)
        --render.OverrideDepthEnable(false, true)
         local camPos, camAng = getVirtualCam()
         cam.Start(
@@ -604,6 +865,14 @@ if CLIENT then
                 origin = camPos,
                 angles = camAng
             })
+
+
+            render.ResetModelLighting(0.2,0.18,0.2)
+
+
+
+            --render.SetAmbientLight(0.5, 0.5, 0.5)
+            --render.SetLightingOrigin( node:GetPos() )
             
             -- Current floor's text
             local curFloorIdx = getCurrentFloor()
@@ -611,13 +880,36 @@ if CLIENT then
 
             if curFloor then
                 local floorPos = roomHeight * (curFloorIdx-1)
+
+
+                local lightpos = Vector(0,0,floorPos + roomHeight/2) + curFloor.offset
+                render.SetLocalModelLights({{ 
+                    type = MATERIAL_LIGHT_DIRECTIONAL,
+                    dir = Angle(0, 200, 0):Forward(),
+                    innerAngle = 35,
+                    outerAngle = 90,
+                    color = Vector(1,.5,1) * .5,
+                    pos = lightpos,
+                    fiftyPercentDistance = 500,
+                    zeroPercentDistance = 1000
+                },
+                { 
+                    type = MATERIAL_LIGHT_POINT,
+                    color = Vector(1,.8,1) * .5 * 0,
+                    pos = lightpos,
+                    fiftyPercentDistance = 500,
+                    zeroPercentDistance = 1000
+                }})
+
                 -- Render floors
                 local m = Matrix()
                 m:Translate(Vector(0, 0, floorPos) + curFloor.offset)
                 cam.PushModelMatrix(m, false)
-                    render.SetMaterial(wall_surface_material)
                     render.OverrideDepthEnable(true, true)
+                    render.SetMaterial(mat_ceiling_black)
                     buildRoomFloor(getSafeSideCount(curFloor.sideCount), curFloor.width + 5, roomHeight)
+
+                    render.SetMaterial(mat_floor_wood)
                     buildRoomFloor(getSafeSideCount(curFloor.sideCount), curFloor.width + 5, 0)
                 cam.PopModelMatrix()
 
@@ -627,11 +919,10 @@ if CLIENT then
                 local m = Matrix()
                 m:Translate(Vector(0, 0, floorPos) + curFloor.offset)
                 cam.PushModelMatrix(m, false)
-                    render.SetMaterial(wall_outside_material)
+                    render.SetMaterial(curFloorIdx == 1 and mat_wall_paper or mat_wall_brick)
                     render.OverrideDepthEnable(true, false)
                     buildRoomWalls(getSafeSideCount(curFloor.sideCount), curFloor.width + 5, roomHeight)
                 cam.PopModelMatrix()
-
 
                 -- Render all doors
                 render.OverrideDepthEnable(true, true)
@@ -654,7 +945,7 @@ if CLIENT then
                         end
                     end
 
-                    if DRAW_DEBUG_BBOX then
+                    if DRAW_DEBUG_BBOX and v.bbox.min and v.bbox.max then
                         render.DrawWireframeBox(v.pos, Angle(), v.bbox.min, v.bbox.max)
                     end
                 end
@@ -663,6 +954,7 @@ if CLIENT then
             end
     
         cam.End()
+        render.SuppressEngineLighting(false)
         render.OverrideDepthEnable(false, false)
         
     end
@@ -699,6 +991,19 @@ if CLIENT then
         return view
     end )
 
+    -- Listen for IO events for cool blips
+    hook.Add("IOEventTriggered", "hackergoggles_switchroom_blips", function(ent, event)
+        print(ent, event)
+        for _, v in pairs(RegisteredFloors) do
+            for __, door in pairs(v.interacts) do
+                if door.type == "door" && door.info && door.info.event == event && door.trace then
+                    print(CurTime(), door.info.delay)
+                    door.trace:AddBlip(tonumber(door.info.delay))
+                end
+            end
+        end
+    end )
+
 end
 
 concommand.Add("jazz_hacker_randomswitchroom", function(ply, cmd, args)
@@ -713,4 +1018,19 @@ concommand.Add("jazz_hacker_randomswitchroom", function(ply, cmd, args)
     end
 
     switchroom.SetSwitchroom(ply, candidateNodes[ math.random( #candidateNodes ) ])
+end )
+
+concommand.Add("jazz_hacker_setroom", function(ply, cmd, args)
+    local graph = iograph.New()
+
+    -- Get a list of random interesting nodes
+    local candidateNodes = {}
+    for ent in graph:EntsByName(args[1]) do
+        if table.Count(ent:GetInputs()) > 0 || table.Count(ent:GetOutputs()) > 0 then
+            table.insert(candidateNodes, ent)
+        end
+    end
+
+    switchroom.SetSwitchroom(ply, candidateNodes[ math.random( #candidateNodes ) ])
+
 end )

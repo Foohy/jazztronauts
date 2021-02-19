@@ -1,5 +1,7 @@
 AddCSLuaFile()
 
+G_IOTRACE_META = G_IOTRACE_META or {}
+
 module( "iotrace", package.seeall )
 
 local function GetMajorAxis( v )
@@ -14,7 +16,7 @@ local function GetMajorAxis( v )
 
 end
 
-local meta = {}
+local meta = G_IOTRACE_META
 meta.__index = meta
 
 function meta:Init( from, to, index )
@@ -25,6 +27,7 @@ function meta:Init( from, to, index )
 	self.min = Vector()
 	self.max = Vector()
 	self.blips = {}
+	self.points = {}
 
 	return self
 
@@ -210,6 +213,30 @@ function meta:GetPointAlongPath( t )
 
 end
 
+function meta:FindPointOnPath( pos )
+
+	local dist = math.huge
+	local p = 0
+	for i=1, #self.points do
+
+		local point = self.points[i]
+		local along = (pos - point.pos):Dot( point.normal )
+
+		along = math.Clamp(along, 0, point.len)
+
+		local v = point.pos + point.normal * along
+		local vd = (v - pos):LengthSqr()
+
+		if vd < dist then
+			dist = vd
+			p = point.along + along
+		end
+
+	end
+	return p
+
+end
+
 if CLIENT then
 
 	local startBeam = render.StartBeam
@@ -239,18 +266,39 @@ if CLIENT then
 
 	end
 
-	function meta:Draw(color_start, color_end, width)
+	function meta:Draw(color, width, t0, t1)
 
-		color_start = color_start or base_trace_color
+		t0 = t0 or 0
+		t1 = t1 or self.length
+		color = color or base_trace_color
 		render.SetMaterial(lasermat)
 		width = width or 1
+
+		if t1 < t0 then t0, t1 = t1, t0 end
+
 		for _, point in ipairs( self.points ) do
 
+			local startPos = point.pos
+			local endPos = point.next
+			local term = point.along + point.len > t1
+
+			if point.along + point.len < t0 then continue end
+
+			if term then
+				endPos = startPos + point.normal * (t1 - point.along)
+			end
+
+			if t0 > point.along then
+				startPos = startPos + point.normal * (t0 - point.along)
+			end
+
 			startBeam( 2 )
-			addBeam(point.pos, width, 0, color_start)
-			addBeam(point.next, width, 0, color_end or color_start)
+			addBeam(startPos, width, 0, color)
+			addBeam(endPos, width, 0, color)
 			endBeam()
 			--drawLine(point.pos, point.next)
+
+			if term then break end
 
 		end
 
@@ -318,9 +366,13 @@ if CLIENT then
 				local flash = 1 - math.min((t - blip.duration) / MIN_DELAY, 1)
 				if flash > 0 then
 					local col = LerpColor(blip_color, Color(0,0,0,0), 1 - flash)
-					self:Draw( col, col, 8 )
-					self:Draw( col, col, 16 )
+					self:Draw( col, 8 )
+					self:Draw( col, 16 )
 				end
+
+			else
+
+				self:Draw( blip_color, 8, 0, (t / blip.duration) * self.length )
 
 			end
 
@@ -335,7 +387,6 @@ function New(...)
 	return setmetatable({}, meta):Init(...)
 
 end
-
 
 -- Test code
 if CLIENT and false then

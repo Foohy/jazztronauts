@@ -304,6 +304,39 @@ function quat:FromVectors(forward, right, up)
 
 end
 
+function quat:Forward()
+
+	local q = self
+	return Vector(
+		1.0 - 2.0 * q.y * q.y - 2.0 * q.z * q.z,
+		2.0 * q.x * q.y + 2.0 * q.w * q.z,
+		2.0 * q.x * q.z - 2.0 * q.w * q.y
+	)
+
+end
+
+function quat:Right()
+
+	local q = self
+	return Vector(
+		2.0 * q.x * q.y - 2.0 * q.w * q.z,
+		1.0 - 2.0 * q.x * q.x - 2.0 * q.z * q.z,
+		2.0 * q.y * q.z + 2.0 * q.w * q.x
+	)
+
+end
+
+function quat:Up()
+
+	local q = self
+	return Vector(
+		2.0 * q.x * q.z + 2.0 * q.w * q.y,
+		2.0 * q.y * q.z - 2.0 * q.w * q.x,
+		1.0 - 2.0 * q.x * q.x - 2.0 * q.y * q.y
+	)
+
+end
+
 function quat:ToVectors(forward, right, up)
 
 	forward = forward or Vector()

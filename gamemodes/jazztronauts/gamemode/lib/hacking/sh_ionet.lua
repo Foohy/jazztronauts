@@ -3,6 +3,7 @@ AddCSLuaFile()
 if SERVER then
 
 	util.AddNetworkString("io_net_event")
+	util.AddNetworkString("io_player_ride")
 
 end
 
@@ -68,9 +69,32 @@ if SERVER then
 
 	end)
 
+	net.Receive("io_player_ride", function(len, ply)
+
+		local id = net.ReadUInt(32)+1
+		local along = net.ReadFloat()
+		local cyberspace = bsp2.GetCurrent().cyberspace
+		local trace = cyberspace:GetTraceByIndex(id)
+		local driver = iomove.AttachPlayerToTrace( ply, trace, along )
+
+		print(ply:Nick() .. " wants to ride trace: " .. tostring(id))
+
+	end)
+
 else
 
-	net.Receive("io_net_event", function(ply, len)
+	function RequestRideTrace( trace, along )
+
+		local id = trace:GetIndex()
+
+		net.Start("io_player_ride")
+		net.WriteUInt( id-1, 32 )
+		net.WriteFloat( along )
+		net.SendToServer()
+
+	end
+
+	net.Receive("io_net_event", function(len, ply)
 
 		local id = net.ReadUInt(16)
 		local event = ReadIndexed()

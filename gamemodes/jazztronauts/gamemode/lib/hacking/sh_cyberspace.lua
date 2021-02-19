@@ -1,8 +1,10 @@
 AddCSLuaFile()
 
+G_CYBERSPACE_META = G_CYBERSPACE_META or {}
+
 module( "cyberspace", package.seeall )
 
-local meta = {}
+local meta = G_CYBERSPACE_META
 local g_cull = frustum.New()
 meta.__index = meta
 
@@ -10,6 +12,7 @@ function meta:Init(iograph)
 
 	self.traces = {}
 	self.io_to_trace = {}
+	self.trace_to_io = {}
 	self.graph = iograph
 	self:BuildTraces()
 
@@ -29,6 +32,12 @@ end
 function meta:GetTraceByIndex( index )
 
 	return self.traces[index]
+
+end
+
+function meta:GetIOForTrace( trace )
+
+	return self.trace_to_io[trace]
 
 end
 
@@ -77,6 +86,7 @@ function meta:BuildTraces()
 
 			self.traces[id] = trace
 			self.io_to_trace[output] = self.traces[id]
+			self.trace_to_io[trace] = output
 			n = n + 2
 
 		end
@@ -105,12 +115,14 @@ function meta:AddBlipsFromIOEvent( ent, event )
 
 end
 
+local blip_color = Color(255,180,50)
+local was_mouse_down = false
 function meta:Draw()
 
 	local tracesDrawn = 0
 	local hitTrace, pos, point = self:GetTraceForRay( EyePos(), EyeAngles():Forward() )
 
-	g_cull:FromPlayer( LocalPlayer(), 10, 500 )
+	g_cull:FromPlayer( LocalPlayer(), 10, 1000 )
 
 	for k, trace in ipairs(self.traces) do
 		if g_cull:TestAABB( trace.min, trace.max ) then
@@ -121,13 +133,29 @@ function meta:Draw()
 		end
 	end
 
-	--[[if hitTrace then
-		hitTrace:Draw(blip_color, nil, 10)
-		local along = (pos - point.pos):Dot( point.normal )
-		local v = point.pos + point.normal * along
+	if LocalPlayer():GetActiveTrace() == nil then
+		if hitTrace and pos:Distance(LocalPlayer():EyePos()) < 500 then
+			local along = (pos - point.pos):Dot( point.normal )
+			local v = point.pos + point.normal * along
+			--print(t)
+			hitTrace:Draw(Color(200,210,255), 15, point.along + along - 30, point.along + along + 30)
+			--hitTrace:Draw( blip_color, 10, t - 30, t + 30 )
 
-		render.DrawLine(Vector(0,0,0), v)
-	end]]
+			--render.DrawLine(Vector(0,0,0), v)
+
+			-- FIXME: Do this better
+			if input.IsMouseDown(MOUSE_LEFT) then
+				if not was_mouse_down then
+					print("DO IT")
+					ionet.RequestRideTrace( hitTrace, point.along + along )
+					was_mouse_down = true
+				end
+			else
+				was_mouse_down = false
+			end
+
+		end
+	end
 
 	for ent in self.graph:Ents() do
 		if self:ShouldDrawEnt( ent ) then
@@ -144,6 +172,22 @@ function New(...)
 end
 
 if CLIENT then
+
+	local hackEnable = CreateConVar(
+		"jazz_debug_hackerview", "0", 
+		{ FCVAR_CHEAT }, 
+		"Toggle drawing the hacker gun view")
+
+	local function ShouldDrawHackerview()
+		if hackEnable:GetBool() then return true end
+
+		local weapon = LocalPlayer():GetActiveWeapon()
+		if IsValid(weapon) and weapon:GetClass() == "weapon_hacker" then 
+			return true 
+		end
+
+		return false
+	end
 
 	local blip_color = Color(255,180,50)
 	local hacker_vision = CreateMaterial("HackerVision" .. FrameNumber(), "UnLitGeneric", {
@@ -176,9 +220,11 @@ if CLIENT then
 
 	hook.Add("HUDPaint", "cyberspace", function()
 
+		if not ShouldDrawHackerview() then return end
+
 		if bsp2.GetCurrent() == nil then return end
 		if bsp2.GetCurrent():IsLoading() then return end
-		if space == nil then space = New( bsp2.GetCurrent().iograph ) end
+		if space == nil then space = bsp2.GetCurrent().cyberspace end
 
 		local w = ScrW()
 		local h = ScrH()

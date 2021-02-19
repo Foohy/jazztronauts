@@ -296,6 +296,7 @@ end )
 AddProcess( "Creating IO Graph", function( data )
 
 	data.iograph = iograph.New(data)
+	data.cyberspace = cyberspace.New(data.iograph)
 
 end )
 

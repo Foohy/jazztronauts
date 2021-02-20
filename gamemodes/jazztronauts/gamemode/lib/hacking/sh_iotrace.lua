@@ -4,6 +4,19 @@ G_IOTRACE_META = G_IOTRACE_META or {}
 
 module( "iotrace", package.seeall )
 
+local vmeta = FindMetaTable("Vector")
+local vunpack = vmeta.Unpack
+local vpack = vmeta.SetUnpacked
+local vset = vmeta.Set
+local vmul = vmeta.Mul
+local vdiv = vmeta.Div
+local vadd = vmeta.Add
+local vsub = vmeta.Sub
+local vdot = vmeta.Dot
+local vlen = vmeta.Length
+local vlen2 = vmeta.LengthSqr
+local vdistance = vmeta.Distance
+
 local function GetMajorAxis( v )
 
 	local best = 0
@@ -165,12 +178,34 @@ function meta:ComputeBounds()
 	self.radius = self.extent:Length()
 	self.radiusSqr = self.radius * self.radius
 
+	self.cx = self.center.x
+	self.cy = self.center.y
+	self.cz = self.center.z
+
 end
 
 local IntersectRayBoxRaw = IntersectRayBoxRaw
 
+local vpos = Vector()
+local vup = Vector()
+local vnormal = Vector()
+
+
+local function vcross(a,b,c)
+
+	local ax, ay, az = vunpack(a)
+	local bx, by, bz = vunpack(b)
+	vpack(c,
+		ay * bz - az * by,
+		az * bx - ax * bz,
+		ax * by - ay * bx
+	)
+	return c
+
+end
+
 -- (if trace hits), returns true, TOI, segment points
-function meta:TestRay(ox, oy, oz, dx, dy, dz, origin, dir, distToLine)
+function meta:TestRay(ox, oy, oz, dx, dy, dz, origin, dir, maxDist, distToLine)
 
 	distToLine = distToLine or 4
 
@@ -178,8 +213,13 @@ function meta:TestRay(ox, oy, oz, dx, dy, dz, origin, dir, distToLine)
 	local x1, y1, z1 = self.x1, self.y1, self.z1
 
 	-- test against entire trace
-	local hit, _ = IntersectRayBoxRaw(ox, oy, oz, dx, dy, dz, x0, y0, z0, x1, y1, z1)
-	if not hit then return false end
+	local hit, t = IntersectRayBoxRaw(
+		ox, oy, oz, 
+		dx, dy, dz, 
+		x0, y0, z0, 
+		x1, y1, z1)
+
+	if not hit or t > maxDist then return false end
 
 	local points = self.points
 
@@ -190,20 +230,26 @@ function meta:TestRay(ox, oy, oz, dx, dy, dz, origin, dir, distToLine)
 		local x0, y0, z0 = point.x0, point.y0, point.z0
 		local x1, y1, z1 = point.x1, point.y1, point.z1
 
-		local hit, t = IntersectRayBoxRaw(ox, oy, oz, dx, dy, dz, x0, y0, z0, x1, y1, z1)
+		local hit, t = IntersectRayBoxRaw(
+			ox, oy, oz, 
+			dx, dy, dz, 
+			x0, y0, z0, 
+			x1, y1, z1)
 
-		if hit then
+		if hit and t < maxDist then
 
 			-- test against a plane oriented towards the ray
-			local up = point.normal:Cross( dir )
-			local normal = up:Cross( point.normal )
-			local toi = IntersectRayPlane(origin, dir, point.pos, normal)
+			vcross( point.normal, dir, vup )
+			vcross( vup, point.normal, vnormal )
+			local toi = IntersectRayPlane(origin, dir, point.pos, vnormal)
 
 			-- calculate local point of interection on plane
-			local pos = origin + dir * toi
-			local lpos = pos - point.pos
-			local x = lpos:Dot( point.normal )
-			local y = lpos:Dot( up )
+			vset(vpos, dir)
+			vmul(vpos, toi)
+			vadd(vpos, origin)
+			vsub(vpos, point.pos)
+			local x = vdot( vpos, point.normal )
+			local y = vdot( vpos, vup )
 
 			-- only hit if within segment
 			if x > 0 and x < point.len then
@@ -255,27 +301,39 @@ local function SqrDistToLine( a, b, pos )
 
 end
 
-local function ConformLineToSphere( pos, radius, a, b )
+local vorg = Vector()
+local vdir = Vector()
+local function ConformLineToSphere( pos, radiusSqr, a, b )
 
-	local u = (b-a)
-	local o = a
+	vset(vorg, a)
+	vset(vdir, a)
+	vsub(vdir, pos)
+	vsub(b, a)
+	local u = b
+	local o = vorg
 	local c = pos
-	local l = u:Length()
-	u:Div(l)
+	local l = vlen(u)
+	vdiv(u, l)
 
-	local v = ((u:Dot(o - c)) ^ 2) - ((o - c):LengthSqr() - radius * radius)
+	local v = (vdot(u, vdir) ^ 2) - (vlen2(vdir) - radiusSqr)
 
 	if v < 0 then return false, a, b end
 	if v == 0 then return false, a, b end
 
-	local d = -(u:Dot(o - c))
+	local d = -vdot(u,vdir)
 
 	local root = math.sqrt(v)
 
 	local d0 = math.Clamp(d + root, 0, l)
 	local d1 = math.Clamp(d - root, 0, l)
 
-	return true, o + u * d0, o + u * d1
+	vset(a, u)
+	vset(b, u)
+	vmul(a, d0)
+	vmul(b, d1)
+	vadd(a, o)
+	vadd(b, o)
+	return true
 
 end
 
@@ -333,8 +391,10 @@ if CLIENT then
 
 	end
 
-	local vmeta = FindMetaTable("Vector")
-	local v_distance = vmeta.Distance
+	local vstart = Vector()
+	local vend = Vector()
+	local vma = Vector()
+	local sqrt = math.sqrt
 
 	function meta:Draw(color, width, t0, t1, nocull)
 
@@ -344,11 +404,14 @@ if CLIENT then
 		local maxDistSqr = maxDist * maxDist
 		local eye = _G.G_EYE_POS
 
-		--_G.G_HOTPATH = _G.G_HOTPATH + 1
-
-		local distCheck = v_distance(eye, self.center) - self.radius
-		if distCheck > maxDist and not nocull then
-			return
+		-- this has to be fast!
+		if not nocull then
+			local x,y,z = _G.G_EYE_X, _G.G_EYE_Y, _G.G_EYE_Z
+			local dx,dy,dz = (x-self.cx), (y-self.cy), (z-self.cz)
+			local dist = sqrt(dx*dx + dy*dy + dz*dz)
+			local distCheck = dist - self.radius
+			if distCheck > maxDist then return end
+			--if true then return end
 		end
 
 		t0 = t0 or 0
@@ -360,32 +423,37 @@ if CLIENT then
 
 		for _, point in ipairs( self.points ) do
 
-			local startPos = point.pos
-			local endPos = point.next
+			vset(vstart, point.pos)
+			vset(vend, point.next)
+
 			local term = point.along + point.len > t1
 			local show = true
 
 			if point.along + point.len < t0 then continue end
 
 			if term then
-				endPos = startPos + point.normal * (t1 - point.along)
+				vset(vma, point.normal)
+				vmul(vma, t1 - point.along)
+				vset(vend, vstart)
+				vadd(vend, vma)
 			end
 
 			if t0 > point.along then
-				startPos = startPos + point.normal * (t0 - point.along)
+				vset(vma, point.normal)
+				vmul(vma, t0 - point.along )
+				vadd(vstart, vma)
 			end
 
 			if not nocull then
-				show, startPos, endPos = ConformLineToSphere( eye, maxDist, startPos, endPos )
+				show = ConformLineToSphere( eye, maxDistSqr, vstart, vend )
 			end
 
 			if show then
 				startBeam( 2 )
-				addBeam(startPos, width, 0, color)
-				addBeam(endPos, width, 0, color)
+				addBeam(vstart, width, 0, color)
+				addBeam(vend, width, 0, color)
 				endBeam()
 			end
-			--drawLine(point.pos, point.next)
 
 			if term then break end
 
@@ -472,132 +540,5 @@ end
 function New(...)
 
 	return setmetatable({}, meta):Init(...)
-
-end
-
--- Test code
-if CLIENT and false then
-
-	local function WPoint(x,y,z)
-		local v = {Vector(x,y,z)}
-		function v:GetPos() return self[1] end
-		return v
-	end
-
-	local points = {}
-	local traces = {}
-	math.randomseed(1)
-	for i=1, 31 do
-		local x = math.Rand(600, 1000)
-		local y = math.Rand(600, 800)
-		local z = math.Rand(30,250)
-		points[#points+1] = WPoint(x,y,z)
-	end
-
-	for i=1, #points-1 do
-		traces[#traces+1] = New( points[i], points[i+1] )
-	end
-
-	local offset = Quat(0,0,0,1)
-
-	local startRotation = Quat(0,0,0,1)
-	local targetRotation = Quat(0,0,0,1)
-	local rot = 0
-	local running = false
-	local preroll = 0
-	local prerollTime = 1.1
-	local traceID = 1
-	local targetPos = Vector(0,0,0)
-	local startPos = Vector(0,0,0)
-	local travel = 0
-	local speed = 130
-	hook.Add("CalcView", "iotracetest", function( ply, pos, angles, fov )
-
-		local trace = traces[traceID]
-		if running then
-			if preroll == prerollTime then
-				startRotation:FromAngles(angles)
-				startPos = pos
-			end
-
-			preroll = math.max(preroll - FrameTime(), 0)
-
-
-			if preroll > 0 then
-				local lerp = ((prerollTime - preroll) / prerollTime)
-				local pos, quat = trace:GetPointAlongPath(0)
-				local f,r,u = quat:ToVectors()
-				targetRotation = startRotation:Slerp(quat, lerp)
-				targetPos = LerpVector(lerp, startPos, pos + u * 5)
-			else
-				travel = travel + speed * FrameTime()
-				if travel > trace:GetLength() then
-					travel = travel - trace:GetLength()
-					traceID = traceID + 1
-					trace = traces[traceID]
-				end
-
-				if trace ~= nil then
-					local pos, quat = trace:GetPointAlongPath(travel)
-					targetRotation = targetRotation:Slerp(quat, 1 - math.exp( FrameTime() * -40 ))
-
-					local f,r,u = targetRotation:ToVectors()
-					targetPos = pos + u * 5
-				else
-					running = false
-				end
-			end
-
-			local view = {}
-			view.origin = targetPos
-			view.angles = targetRotation:ToAngles()
-
-			return view
-
-		end
-
-		--[[local r = CurTime() * math.pi * 0.1
-		local s = math.sin(r)
-		local t = CosRange(-30, trace:GetLength() + 30, r)
-		local pos,quat = trace:GetPointAlongPath( t )
-		local f,r,u = targetRotation:ToVectors()
-
-		if s < 0 then
-			offset.w = 1
-			offset.z = 0
-		else
-			offset.w = 0
-			offset.z = 1
-		end
-
-		rot = rot + FrameTime() * s * 180
-
-		quat = quat:Mult(offset)
-		--quat = quat:Mult( Quat():FromAngles( Angle(0,0,rot) ) )
-
-		local view = {}
-
-		targetRotation = targetRotation:Slerp(quat, 1 - math.exp( FrameTime() * -6 ))
-
-		view.origin = pos + u * 5
-		view.angles = targetRotation:ToAngles()
-		--view.fov = fov + (CurTime() - bus.StartLaunchTime) * 20
-
-		return view]]
-
-	end)
-
-	hook.Add("PostDrawTranslucentRenderables", "iotracetest", function()
-		for i=1, #traces do
-			traces[i]:Draw()
-		end
-	end)
-
-	concommand.Add("doit", function()
-		surface.PlaySound("the_hackerman_cometh_to_steal_your_IO.mp3")
-		running = true
-		preroll = prerollTime
-		traceID = 1
-	end)
 
 end

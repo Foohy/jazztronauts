@@ -40,16 +40,19 @@ function meta:GetIOForTrace( trace )
 
 end
 
-function meta:GetTraceForRay( origin, dir )
+function meta:GetTraceForRay( origin, dir, result, maxDist )
 
-	local t = math.huge
+	maxDist = maxDist or math.huge
+
+	local t = maxDist
 	local pick = nil
-	local pos = nil
 	local point = nil
 
 	local test = G_IOTRACE_META.TestRay
 	local ox, oy, oz = origin:Unpack()
 	local dx, dy, dz = dir:Unpack()
+
+	result = result or Vector()
 
 	dx = 1/dx
 	dy = 1/dy
@@ -57,13 +60,20 @@ function meta:GetTraceForRay( origin, dir )
 
 	for _, trace in ipairs(self.traces) do
 
-		local hit, toi, hitpoint = test(trace, ox, oy, oz, dx, dy, dz, origin, dir)
+		local hit, toi, hitpoint = test(
+			trace, 
+			ox, oy, oz, 
+			dx, dy, dz, 
+			origin, dir, maxDist)
+
 		if hit then
 
 			if toi < t then
 				t = toi
 				pick = trace
-				pos = origin + dir * toi
+				result:Set(dir)
+				result:Mul(toi)
+				result:Add(origin)
 				point = hitpoint
 			end
 
@@ -71,7 +81,7 @@ function meta:GetTraceForRay( origin, dir )
 
 	end
 
-	return pick, pos, point
+	return pick, result, point
 
 end
 
@@ -134,15 +144,15 @@ if CLIENT then
 	local trace_draw = G_IOTRACE_META.Draw
 	local trace_draw_flashes = G_IOTRACE_META.DrawFlashes
 	local trace_draw_blips = G_IOTRACE_META.DrawBlips
+	local vray_result = Vector()
 
 	function meta:Draw()
 
+		local eye, forward = EyePos(), EyeAngles():Forward() 
 		local tracesDrawn = 0
-		local hitTrace, pos, point = self:GetTraceForRay( EyePos(), EyeAngles():Forward() )
 
-		--if true then return true end
-
-		--_G.G_HOTPATH = 0
+		local gc0 = collectgarbage( "count" )
+		local t = SysTime()
 
 		render.SetMaterial(lasermat)
 		for k, trace in ipairs(self.traces) do
@@ -158,11 +168,11 @@ if CLIENT then
 			trace_draw_blips(trace)
 		end
 
-
-		--print("HOT: " .. _G.G_HOTPATH)
+		_G.G_GARBAGE = collectgarbage( "count" ) - gc0
 
 		if LocalPlayer():GetActiveTrace() == nil then
-			if hitTrace and pos:Distance(LocalPlayer():EyePos()) < 300 then
+			local hitTrace, pos, point = self:GetTraceForRay( eye, forward, vray_result, 300 )
+			if hitTrace then
 				local along = (pos - point.pos):Dot( point.normal )
 				local v = point.pos + point.normal * along
 				--print(t)
@@ -186,11 +196,15 @@ if CLIENT then
 			end
 		end
 
-		for ent in self.graph:Ents() do
+		--[[for ent in self.graph:Ents() do
 			if self:ShouldDrawEnt( ent ) then
 				--ent:Draw()
 			end
-		end
+		end]]
+
+		
+
+		print("Draw[" .. _G.G_GARBAGE .. "] took " .. (SysTime() - t) * 1000 .. "ms")
 
 	end
 
@@ -255,6 +269,8 @@ if CLIENT then
 
 	end)
 
+	bsp2.GetCurrent().cyberspace = New( bsp2.GetCurrent().iograph )
+
 	hook.Add("HUDPaint", "cyberspace", function()
 
 		--if true then return end
@@ -291,6 +307,9 @@ if CLIENT then
 			local b,e = pcall( function()
 
 				_G.G_EYE_POS = EyePos()
+				_G.G_EYE_X = _G.G_EYE_POS.x
+				_G.G_EYE_Y = _G.G_EYE_POS.y
+				_G.G_EYE_Z = _G.G_EYE_POS.z
 				space:Draw()
 
 			end)

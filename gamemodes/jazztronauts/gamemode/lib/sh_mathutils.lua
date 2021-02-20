@@ -253,9 +253,12 @@ function IntersectRayBoxRaw(ox, oy, oz, dx, dy, dz, x0, y0, z0, x1, y1, z1)
 
 end
 
+local vsub = Vector()
 function IntersectRayPlane(origin, dir, plane_origin, plane_normal)
 
-	local a = (plane_origin - origin):Dot( plane_normal )
+	vsub:Set(plane_origin)
+	vsub:Sub(origin)
+	local a = vsub:Dot( plane_normal )
 	local b = dir:Dot( plane_normal )
 
 	if b ~= 0 then

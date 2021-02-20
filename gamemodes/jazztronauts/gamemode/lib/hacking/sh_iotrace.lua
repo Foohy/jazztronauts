@@ -136,6 +136,12 @@ function meta:ComputeBounds()
 		OrderVectors(point.min, point.max)
 		point.min:Sub(Vector(2,2,2))
 		point.max:Add(Vector(2,2,2))
+		point.x0 = point.min.x
+		point.y0 = point.min.y
+		point.z0 = point.min.z
+		point.x1 = point.max.x
+		point.y1 = point.max.y
+		point.z1 = point.max.z
 
 	end
 
@@ -146,22 +152,40 @@ function meta:ComputeBounds()
 		max[i] = max[i] + expand
 	end
 
+	self.x0 = min.x
+	self.y0 = min.y
+	self.z0 = min.z
+
+	self.x1 = max.x
+	self.y1 = max.y
+	self.z1 = max.z
+
 end
 
+local IntersectRayBoxRaw = IntersectRayBoxRaw
+
 -- (if trace hits), returns true, TOI, segment points
-function meta:TestRay(origin, dir, distToLine)
+function meta:TestRay(ox, oy, oz, dx, dy, dz, origin, dir, distToLine)
 
 	distToLine = distToLine or 4
 
+	local x0, y0, z0 = self.x0, self.y0, self.z0
+	local x1, y1, z1 = self.x1, self.y1, self.z1
+
 	-- test against entire trace
-	local hit, _ = IntersectRayBox(origin, dir, self.min, self.max)
+	local hit, _ = IntersectRayBoxRaw(ox, oy, oz, dx, dy, dz, x0, y0, z0, x1, y1, z1)
 	if not hit then return false end
 
-	-- test against each segment
-	for i=1, #self.points do
+	local points = self.points
 
-		local point = self.points[i]
-		local hit, t = IntersectRayBox(origin, dir, point.min, point.max)
+	-- test against each segment
+	for i=1, #points do
+
+		local point = points[i]
+		local x0, y0, z0 = point.x0, point.y0, point.z0
+		local x1, y1, z1 = point.x1, point.y1, point.z1
+
+		local hit, t = IntersectRayBoxRaw(ox, oy, oz, dx, dy, dz, x0, y0, z0, x1, y1, z1)
 
 		if hit then
 
@@ -236,8 +260,8 @@ local function ConformLineToSphere( pos, radius, a, b )
 
 	local v = ((u:Dot(o - c)) ^ 2) - ((o - c):LengthSqr() - radius * radius)
 
-	if v < 0 then return a, b end
-	if v == 0 then return a, b end
+	if v < 0 then return false, a, b end
+	if v == 0 then return false, a, b end
 
 	local d = -(u:Dot(o - c))
 
@@ -246,7 +270,7 @@ local function ConformLineToSphere( pos, radius, a, b )
 	local d0 = math.Clamp(d + root, 0, l)
 	local d1 = math.Clamp(d - root, 0, l)
 
-	return o + u * d0, o + u * d1
+	return true, o + u * d0, o + u * d1
 
 end
 
@@ -308,9 +332,11 @@ if CLIENT then
 
 	function meta:Draw(color, width, t0, t1, nocull)
 
+		--if true then return end
+
 		local maxDist = 300
 		local maxDistSqr = maxDist * maxDist
-		local eye = LocalPlayer():EyePos()
+		local eye = EyePos()
 
 		if not self.radius or not self.radiusSqr then
 
@@ -320,6 +346,8 @@ if CLIENT then
 			self.radiusSqr = self.radius * self.radius
 
 		end
+
+		--_G.G_HOTPATH = _G.G_HOTPATH + 1
 
 		local distCheck = eye:Distance(self.center) - self.radius
 		if distCheck > maxDist and not nocull then
@@ -339,6 +367,7 @@ if CLIENT then
 			local startPos = point.pos
 			local endPos = point.next
 			local term = point.along + point.len > t1
+			local show = true
 
 			if point.along + point.len < t0 then continue end
 
@@ -350,22 +379,16 @@ if CLIENT then
 				startPos = startPos + point.normal * (t0 - point.along)
 			end
 
-			if SqrDistToLine(startPos, endPos, eye) > maxDistSqr and not nocull then
-				continue
-			end
-
 			if not nocull then
-				startPos, endPos = ConformLineToSphere( eye, maxDist, startPos, endPos )
+				show, startPos, endPos = ConformLineToSphere( eye, maxDist, startPos, endPos )
 			end
-			--[[if startPos:DistToSqr(eye) > maxDistSqr and
-			   endPos:DistToSqr(eye) > maxDistSqr then
-				continue
-			end]]
 
-			startBeam( 2 )
-			addBeam(startPos, width, 0, color)
-			addBeam(endPos, width, 0, color)
-			endBeam()
+			if show then
+				startBeam( 2 )
+				addBeam(startPos, width, 0, color)
+				addBeam(endPos, width, 0, color)
+				endBeam()
+			end
 			--drawLine(point.pos, point.next)
 
 			if term then break end

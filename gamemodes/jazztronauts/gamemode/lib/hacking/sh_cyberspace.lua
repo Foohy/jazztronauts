@@ -47,9 +47,18 @@ function meta:GetTraceForRay( origin, dir )
 	local pick = nil
 	local pos = nil
 	local point = nil
+
+	local test = G_IOTRACE_META.TestRay
+	local ox, oy, oz = origin:Unpack()
+	local dx, dy, dz = dir:Unpack()
+
+	dx = 1/dx
+	dy = 1/dy
+	dz = 1/dz
+
 	for _, trace in ipairs(self.traces) do
 
-		local hit, toi, hitpoint = trace:TestRay(origin, dir)
+		local hit, toi, hitpoint = test(trace, ox, oy, oz, dx, dy, dz, origin, dir)
 		if hit then
 
 			if toi < t then
@@ -62,6 +71,7 @@ function meta:GetTraceForRay( origin, dir )
 		end
 
 	end
+
 	return pick, pos, point
 
 end
@@ -122,19 +132,25 @@ function meta:Draw()
 	local tracesDrawn = 0
 	local hitTrace, pos, point = self:GetTraceForRay( EyePos(), EyeAngles():Forward() )
 
-	g_cull:FromPlayer( LocalPlayer(), 10, 10000 )
+	--g_cull:FromPlayer( LocalPlayer(), 10, 1000 )
+
+	--if true then return true end
+
+	--_G.G_HOTPATH = 0
 
 	for k, trace in ipairs(self.traces) do
-		if g_cull:TestAABB( trace.min, trace.max ) then
+		--if g_cull:TestAABB(trace.min, trace.max) then
 			trace:Draw()
 			trace:DrawBlips()
 			trace:DrawFlashes()
-			tracesDrawn = tracesDrawn + 1
-		end
+		--end
 	end
 
+
+	--print("HOT: " .. _G.G_HOTPATH)
+
 	if LocalPlayer():GetActiveTrace() == nil then
-		if hitTrace and pos:Distance(LocalPlayer():EyePos()) < 500 then
+		if hitTrace and pos:Distance(LocalPlayer():EyePos()) < 300 then
 			local along = (pos - point.pos):Dot( point.normal )
 			local v = point.pos + point.normal * along
 			--print(t)
@@ -208,7 +224,13 @@ if CLIENT then
 
 	hook.Add("PostDrawTranslucentRenderables", "cyberspace", function()
 
-		--space:Draw()
+		--[[if not ShouldDrawHackerview() then return end
+
+		if bsp2.GetCurrent() == nil then return end
+		if bsp2.GetCurrent():IsLoading() then return end
+		if space == nil then space = bsp2.GetCurrent().cyberspace end
+
+		space:Draw()]]
 
 	end)
 
@@ -220,6 +242,7 @@ if CLIENT then
 
 	hook.Add("HUDPaint", "cyberspace", function()
 
+		--if true then return end
 		if not ShouldDrawHackerview() then return end
 
 		if bsp2.GetCurrent() == nil then return end

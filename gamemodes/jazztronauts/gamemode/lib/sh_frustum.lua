@@ -118,12 +118,12 @@ local geometry = {
 		{4,8},
 	},
 	planeIndices = {
-		right = {4,5,1},
-		left = {2,7,3},
-		bottom = {1,6,2},
-		top = {4,7,8},
-		near = {4,2,3},
-		far = {8,7,6},
+		{4,5,1},
+		{2,7,3},
+		{1,6,2},
+		{4,7,8},
+		{4,2,3},
+		{8,7,6},
 	}
 
 }
@@ -157,7 +157,7 @@ function meta:Init()
 	for i=1, 8 do self.txpoints[i] = Vector(0,0,0) end
 
 	--Precache plane objects
-	for k,v in pairs( geometry.planeIndices ) do
+	for k,v in ipairs( geometry.planeIndices ) do
 
 		self.txplanes[k] = {
 			normal = Vector(0,0,0),
@@ -273,7 +273,7 @@ end
 local _temp_vector = Vector()
 function meta:BuildBox()
 
-	for k,v in pairs( geometry.points ) do
+	for k,v in ipairs( geometry.points ) do
 
 		local p, w = MultMatrix4( self.invPerspectiveMatrixTable, v, 1, self.txpoints[k] )
 		self.txpoints[k]:Mul( 1 / w )
@@ -286,7 +286,7 @@ end
 function meta:BuildPlanes()
 
 	--Trying not to make any vectors here
-	for k,v in pairs( geometry.planeIndices ) do
+	for k,v in ipairs( geometry.planeIndices ) do
 
 		local v1,v2,v3 = self.txpoints[ v[1] ], self.txpoints[ v[2] ], self.txpoints[ v[3] ]
 
@@ -310,7 +310,7 @@ end
 --Transform frustum-space planes into world-space
 function meta:BuildWorldPlanes()
 
-	for k,v in pairs( self.txplanes ) do
+	for k,v in ipairs( self.txplanes ) do
 
 		local plane = self.wplanes[k]
 		local nrm, dist = MultMatrix4Transposed( self.invViewMatrixTable, v.normal, -v.dist, plane.normal )
@@ -331,7 +331,7 @@ function meta:TestPoint(p)
 
 	self:WorldToCamera( p, _spoint )
 
-	for k,v in pairs( self.txplanes ) do
+	for k,v in ipairs( self.txplanes ) do
 
 		if _spoint:Dot(v.normal) > v.dist then
 			return false
@@ -380,7 +380,7 @@ function meta:TestBox(center, halfExtent, expand )
 
 	expand = expand or 0
 
-	for k,v in pairs(self.wplanes) do
+	for k,v in ipairs(self.wplanes) do
 
 		local x = halfExtent:Dot(v.absnormal) + expand
 		local d = center:Dot(v.normal) - v.dist

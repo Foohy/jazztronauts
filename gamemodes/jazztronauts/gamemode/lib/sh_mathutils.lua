@@ -218,6 +218,41 @@ function IntersectRayBox(origin, dir, min, max)
 
 end
 
+function IntersectRayBoxRaw(ox, oy, oz, dx, dy, dz, x0, y0, z0, x1, y1, z1)
+
+	local t0 = (x0 - ox) * dx
+	local t1 = (x1 - ox) * dx
+	local t2 = (y0 - oy) * dy
+	local t3 = (y1 - oy) * dy
+	local t4 = (z0 - oz) * dz
+	local t5 = (z1 - oz) * dz
+
+	local tmax = 
+	fmin(
+		fmin(
+			fmax(t0,t1),
+			fmax(t2,t3)
+		),
+		fmax(t4,t5)
+	)
+
+	if tmax < 0 then return false end
+
+	local tmin = 
+	fmax(
+		fmax(
+			fmin(t0,t1),
+			fmin(t2,t3)
+		),
+		fmin(t4,t5)
+	)
+
+	if tmin > tmax then return false end
+
+	return true, tmin
+
+end
+
 function IntersectRayPlane(origin, dir, plane_origin, plane_normal)
 
 	local a = (plane_origin - origin):Dot( plane_normal )

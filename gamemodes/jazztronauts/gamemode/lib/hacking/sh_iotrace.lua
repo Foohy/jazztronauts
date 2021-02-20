@@ -261,7 +261,7 @@ local function ConformLineToSphere( pos, radius, a, b )
 	local o = a
 	local c = pos
 	local l = u:Length()
-	u:Normalize()
+	u:Div(l)
 
 	local v = ((u:Dot(o - c)) ^ 2) - ((o - c):LengthSqr() - radius * radius)
 
@@ -309,8 +309,6 @@ if CLIENT then
 	local endBeam = render.EndBeam
 	local addBeam = render.AddBeam
 	local drawLine = render.DrawLine
-	local lasermat = Material("effects/laser1.vmt")
-	local flaremat = Material("effects/blueflare1")
 	local base_trace_color = Color(180,0,255,255)
 	local base_trace_color2 = Color(180/4,0,255/4,255)
 	local blip_color = Color(255,180,50)
@@ -335,17 +333,20 @@ if CLIENT then
 
 	end
 
+	local vmeta = FindMetaTable("Vector")
+	local v_distance = vmeta.Distance
+
 	function meta:Draw(color, width, t0, t1, nocull)
 
 		--if true then return end
 
 		local maxDist = 300
 		local maxDistSqr = maxDist * maxDist
-		local eye = EyePos()
+		local eye = _G.G_EYE_POS
 
 		--_G.G_HOTPATH = _G.G_HOTPATH + 1
 
-		local distCheck = eye:Distance(self.center) - self.radius
+		local distCheck = v_distance(eye, self.center) - self.radius
 		if distCheck > maxDist and not nocull then
 			return
 		end
@@ -353,7 +354,6 @@ if CLIENT then
 		t0 = t0 or 0
 		t1 = t1 or self.length
 		color = color or base_trace_color
-		render.SetMaterial(lasermat)
 		width = width or 2
 
 		if t1 < t0 then t0, t1 = t1, t0 end
@@ -395,7 +395,6 @@ if CLIENT then
 
 	function meta:DrawBlips()
 
-		render.SetMaterial(flaremat)
 		local tracelen = self:GetLength()
 		local steps = 50
 		local space = 1
@@ -438,7 +437,6 @@ if CLIENT then
 
 	function meta:DrawFlashes()
 
-		render.SetMaterial(lasermat)
 		for i=#self.blips, 1, -1 do
 
 			local blip = self.blips[i]

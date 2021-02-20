@@ -5,7 +5,6 @@ G_CYBERSPACE_META = G_CYBERSPACE_META or {}
 module( "cyberspace", package.seeall )
 
 local meta = G_CYBERSPACE_META
-local g_cull = frustum.New()
 meta.__index = meta
 
 function meta:Init(iograph)
@@ -125,58 +124,74 @@ function meta:AddBlipsFromIOEvent( ent, event )
 
 end
 
-local blip_color = Color(255,180,50)
-local was_mouse_down = false
-function meta:Draw()
+if CLIENT then
 
-	local tracesDrawn = 0
-	local hitTrace, pos, point = self:GetTraceForRay( EyePos(), EyeAngles():Forward() )
+	local blip_color = Color(255,180,50)
+	local was_mouse_down = false
+	local lasermat = Material("effects/laser1.vmt")
+	local flaremat = Material("effects/blueflare1")
 
-	--g_cull:FromPlayer( LocalPlayer(), 10, 1000 )
+	local trace_draw = G_IOTRACE_META.Draw
+	local trace_draw_flashes = G_IOTRACE_META.DrawFlashes
+	local trace_draw_blips = G_IOTRACE_META.DrawBlips
 
-	--if true then return true end
+	function meta:Draw()
 
-	--_G.G_HOTPATH = 0
+		local tracesDrawn = 0
+		local hitTrace, pos, point = self:GetTraceForRay( EyePos(), EyeAngles():Forward() )
 
-	for k, trace in ipairs(self.traces) do
-		--if g_cull:TestAABB(trace.min, trace.max) then
-			trace:Draw()
-			trace:DrawBlips()
-			trace:DrawFlashes()
-		--end
-	end
+		--if true then return true end
+
+		--_G.G_HOTPATH = 0
+
+		render.SetMaterial(lasermat)
+		for k, trace in ipairs(self.traces) do
+			trace_draw(trace)
+		end
+
+		for k, trace in ipairs(self.traces) do
+			trace_draw_flashes(trace)
+		end
+
+		render.SetMaterial(flaremat)
+		for k, trace in ipairs(self.traces) do
+			trace_draw_blips(trace)
+		end
 
 
-	--print("HOT: " .. _G.G_HOTPATH)
+		--print("HOT: " .. _G.G_HOTPATH)
 
-	if LocalPlayer():GetActiveTrace() == nil then
-		if hitTrace and pos:Distance(LocalPlayer():EyePos()) < 300 then
-			local along = (pos - point.pos):Dot( point.normal )
-			local v = point.pos + point.normal * along
-			--print(t)
-			hitTrace:Draw(Color(200,210,255), 15, point.along + along - 30, point.along + along + 30)
-			--hitTrace:Draw( blip_color, 10, t - 30, t + 30 )
+		if LocalPlayer():GetActiveTrace() == nil then
+			if hitTrace and pos:Distance(LocalPlayer():EyePos()) < 300 then
+				local along = (pos - point.pos):Dot( point.normal )
+				local v = point.pos + point.normal * along
+				--print(t)
+				render.SetMaterial(lasermat)
+				hitTrace:Draw(Color(200,210,255), 15, point.along + along - 30, point.along + along + 30)
+				--hitTrace:Draw( blip_color, 10, t - 30, t + 30 )
 
-			--render.DrawLine(Vector(0,0,0), v)
+				--render.DrawLine(Vector(0,0,0), v)
 
-			-- FIXME: Do this better
-			if input.IsMouseDown(MOUSE_LEFT) then
-				if not was_mouse_down then
-					print("DO IT")
-					ionet.RequestRideTrace( hitTrace, point.along + along )
-					was_mouse_down = true
+				-- FIXME: Do this better
+				if input.IsMouseDown(MOUSE_LEFT) then
+					if not was_mouse_down then
+						print("DO IT")
+						ionet.RequestRideTrace( hitTrace, point.along + along )
+						was_mouse_down = true
+					end
+				else
+					was_mouse_down = false
 				end
-			else
-				was_mouse_down = false
+
 			end
-
 		end
-	end
 
-	for ent in self.graph:Ents() do
-		if self:ShouldDrawEnt( ent ) then
-			--ent:Draw()
+		for ent in self.graph:Ents() do
+			if self:ShouldDrawEnt( ent ) then
+				--ent:Draw()
+			end
 		end
+
 	end
 
 end
@@ -275,6 +290,7 @@ if CLIENT then
 
 			local b,e = pcall( function()
 
+				_G.G_EYE_POS = EyePos()
 				space:Draw()
 
 			end)

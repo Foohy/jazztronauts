@@ -160,6 +160,11 @@ function meta:ComputeBounds()
 	self.y1 = max.y
 	self.z1 = max.z
 
+	self.center = (self.min + self.max) / 2
+	self.extent = (self.max - self.min) / 2
+	self.radius = self.extent:Length()
+	self.radiusSqr = self.radius * self.radius
+
 end
 
 local IntersectRayBoxRaw = IntersectRayBoxRaw
@@ -337,15 +342,6 @@ if CLIENT then
 		local maxDist = 300
 		local maxDistSqr = maxDist * maxDist
 		local eye = EyePos()
-
-		if not self.radius or not self.radiusSqr then
-
-			self.center = (self.min + self.max) / 2
-			self.extent = (self.max - self.min) / 2
-			self.radius = self.extent:Length()
-			self.radiusSqr = self.radius * self.radius
-
-		end
 
 		--_G.G_HOTPATH = _G.G_HOTPATH + 1
 

@@ -23,7 +23,14 @@ if CLIENT then
 	toolTextures = {
 		["trigger_*"] = getToolTexture("trigger"),
 		["func_button"] = getToolTexture("hint"),
-		["func_button_timed"] = getToolTexture("hint")
+		["func_button_timed"] = getToolTexture("hint"),
+		["func_door"] = getToolTexture("origin"),
+		["func_movelinear"] = getToolTexture("playerclip"),
+		["func_rotating"] = getToolTexture("playerclip"),
+		["func_platrot"] = getToolTexture("playerclip"),
+		["func_door_rotating"] = getToolTexture("playerclip"),
+		["func_brush"] = getToolTexture("clip"),
+		["func_monitor"] = getToolTexture("skip"),
 	}
 
 end
@@ -81,7 +88,7 @@ local function lookupBrushMaterial(classname)
 		if string.find(classname, k) then return v end
 	end
 
-	return nil
+	return toolTextures["trigger_*"]
 
 end
 
@@ -129,6 +136,18 @@ function meta:Init( ent, indexTable )
 	self.index = indexTable[ent]
 	self.outputs = {}
 	self.inputs = {}
+
+	self.real = nil
+
+	if ent.model ~= nil and ent.model[1] == "*" then
+		for _,v in ipairs(ents.GetAll()) do
+			if v:GetModel() == ent.model and not v.JazzBrushMesh then
+				self.real = v
+				break
+			end
+		end
+	end
+
 	self:BuildBrushModel()
 	return self
 
@@ -143,7 +162,7 @@ function meta:BuildBrushModel()
 	if brushMaterial then
 
 		local modelent = ManagedCSEnt("ionode_" .. self.index, ent.model)
-		modelent:SetPos(ent.origin)
+		modelent:SetPos(ent.origin or Vector(0,0,0))
 		local min, max = modelent:GetModelBounds()
 		modelent:SetRenderBounds(min, max)
 		modelent:SetNoDraw(true) -- #TODO: Set to false, let engine handle it?
@@ -190,10 +209,17 @@ function meta:GetEntity() return ents.GetMapCreatedEntity(self:GetIndex()+1234) 
 function meta:Draw()
 
 	if self.model then
+
+		--if self.ent.classname == "func_movelinear" then
+		if IsValid(self.real) then
+			self.model:SetPos( self.real:GetPos() )
+			self.model:SetAngles( self.real:GetAngles() )
+		end
+		--end
 		self.model:DrawModel()
 	end
 
-	gfx.renderBox( self:GetPos(), Vector(-2,-2,-2), Vector(2,2,2), Color(100,100,100) )
+	--gfx.renderBox( self:GetPos(), Vector(-2,-2,-2), Vector(2,2,2), Color(100,100,100) )
 
 end
 

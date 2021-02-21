@@ -23,7 +23,7 @@ function meta:ShouldDrawEnt( ent )
 
 	local inputs = ent:GetInputs()
 	local outputs = ent:GetOutputs()
-	if #outputs == 0 and #inputs == 0 then return false end
+	--if #outputs == 0 and #inputs == 0 then return false end
 	return true
 
 end
@@ -154,11 +154,26 @@ if CLIENT then
 		local gc0 = collectgarbage( "count" )
 		local t = SysTime()
 
+		render.OverrideColorWriteEnable(true, false)
+		render.SetMaterial( Material("metal2") )
+		render.CullMode(MATERIAL_CULLMODE_CW)
+		render.DrawSphere( eye, 300, 50, 50, Color(0,255,255,255) )
+		render.CullMode(MATERIAL_CULLMODE_CCW)
+		render.OverrideColorWriteEnable(false, false)
+
 		render.SetMaterial(lasermat)
 		for k, trace in ipairs(self.traces) do
 			trace_draw(trace)
 		end
 
+		for ent in self.graph:Ents() do
+			if self:ShouldDrawEnt( ent ) then
+				ent:Draw()
+			end
+		end
+
+		render.ClearDepth()
+		render.SetMaterial(lasermat)
 		for k, trace in ipairs(self.traces) do
 			trace_draw_flashes(trace)
 		end
@@ -195,14 +210,6 @@ if CLIENT then
 
 			end
 		end
-
-		--[[for ent in self.graph:Ents() do
-			if self:ShouldDrawEnt( ent ) then
-				--ent:Draw()
-			end
-		end]]
-
-		
 
 		print("Draw[" .. _G.G_GARBAGE .. "] took " .. (SysTime() - t) * 1000 .. "ms")
 
@@ -269,6 +276,7 @@ if CLIENT then
 
 	end)
 
+	bsp2.GetCurrent().iograph = iograph.New( bsp2.GetCurrent() )
 	bsp2.GetCurrent().cyberspace = New( bsp2.GetCurrent().iograph )
 
 	hook.Add("HUDPaint", "cyberspace", function()
@@ -322,8 +330,8 @@ if CLIENT then
 
 		cam.Start2D()
 
-		surface.SetDrawColor(0,0,0,230)
-		surface.DrawRect(0,0,ScrW(),ScrH())
+		--surface.SetDrawColor(0,0,0,230)
+		--surface.DrawRect(0,0,ScrW(),ScrH())
 
 		surface.SetDrawColor(255,255,255,255)
 		render.SetMaterial(hacker_vision)

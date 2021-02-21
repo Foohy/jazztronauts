@@ -629,7 +629,14 @@ if SERVER then
 			if ent.TriggerOutput then
 				ent:TriggerOutput("OnBreak", owner)
 				ent:TriggerOutput("OnPlayerUse", owner)
+				ent:TriggerOutput("OnOpen", owner)
+				ent:TriggerOutput("OnFullyOpen", owner)
 			end
+
+			ent:Fire("Unlock", nil, 0, owner, owner)
+			ent:Fire("Open", nil, 0, owner, owner)
+			ent:Fire("Use", nil, 0, owner, owner)
+
 		end
 
 	end

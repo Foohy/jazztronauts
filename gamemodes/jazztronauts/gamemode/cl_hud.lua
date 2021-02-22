@@ -202,6 +202,7 @@ local function DrawShardCount()
 end
 
 hook.Add("HUDPaint", "JazzDrawHUD", function()
+	if !GetConVar("cl_drawhud"):GetBool() then return end
 	DrawNoteCount()
 
 	local isCommitted = mapgen.GetTotalCollectedBlackShards() > mapgen.GetTotalRequiredBlackShards() / 2

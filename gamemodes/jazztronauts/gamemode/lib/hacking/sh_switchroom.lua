@@ -269,7 +269,11 @@ if CLIENT then
             Draw = function(self) end
         }
     end
-    --local lasermat	= Material("effects/laser1.vmt")
+    local lasermat	= Material("effects/laser1.vmt")
+    local flaremat = Material("effects/blueflare1")
+    local trace_draw = G_IOTRACE_META.Draw
+	local trace_draw_flashes = G_IOTRACE_META.DrawFlashes
+	local trace_draw_blips = G_IOTRACE_META.DrawBlips
     local function createDoor(pos, ang, doortype, info, center)
         local door = table.Merge(createInteract("door", Vector(-30, -30, 0), Vector(30,30,120)), 
         {
@@ -307,9 +311,16 @@ if CLIENT then
             Draw = function(self)
                 --render.SetMaterial( lasermat );
                 if self.trace then 
-                    self.trace:Draw()
-                    self.trace:DrawBlips()
-                    self.trace:DrawFlashes()
+                    render.SetMaterial(lasermat)
+                    trace_draw(self.trace)
+
+                    render.SetMaterial(lasermat)
+                    trace_draw_flashes(self.trace)
+
+                    render.SetMaterial(flaremat)
+                    trace_draw_blips(self.trace)
+
+
                 end
 
                 -- cut through behind door (look ma! no stencils!)
@@ -741,7 +752,7 @@ if CLIENT then
             local i = 0
             for k, v in pairs(node:GetOutputs()) do
                 if v.event ~= event then continue end
-                local pos, ang = getRoomPlacement(i, getSafeSideCount(n), n, roomWidth + sizeOffset)
+                local pos, ang = getRoomPlacement(i, getSafeSideCount(n), n, roomWidth + sizeOffset*2)
                 table.insert(floorInteracts, createDoor(pos + Vector(-sizeOffset*2,0,roomHeight * floor), ang, "output", v, centerpos))
                 i = i + 1
             end
@@ -751,7 +762,7 @@ if CLIENT then
             table.insert(floorInteracts, compy)
 
             -- Each event group is its own floor
-            addFloor(event, n, roomWidth + sizeOffset, Vector(-sizeOffset*2, 0, 0), floorInteracts)
+            addFloor(event, n, roomWidth + sizeOffset*2, Vector(-sizeOffset*2, 0, 0), floorInteracts)
 
             floor = floor + 1
         end

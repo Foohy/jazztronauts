@@ -449,7 +449,9 @@ function SWEP:TraceToRemove(stealWorld)
 			self.ShootFade = 1
 			self.HoverAlpha = 2
 		else
-			self:EmitSound( self.MissSounds[math.random(1,#self.MissSounds)], 50, math.random( 100, 100 ), 1, CHAN_USER_BASE )
+			-- Wow this drills into your ears after a while
+			local missSoundFade = math.Clamp(1/4.0 + (self.StartShootTime + 4 - CurTime()) / 4, 0, 1)
+			self:EmitSound( self.MissSounds[math.random(1,#self.MissSounds)], 50, math.random( 100, 100 ), missSoundFade, CHAN_USER_BASE )
 
 			self.BadShootFade = 1.0
 		end

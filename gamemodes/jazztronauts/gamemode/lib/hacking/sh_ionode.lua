@@ -158,10 +158,11 @@ function meta:BuildBrushModel()
 	if not CLIENT then return end
 
 	local ent = self.ent
-	local brushMaterial = ent.model and lookupBrushMaterial(ent.classname)
+	local brushMaterial = ent.model and string.len(ent.model) > 0 and lookupBrushMaterial(ent.classname)
 	if brushMaterial then
 
 		local modelent = ManagedCSEnt("ionode_" .. self.index, ent.model)
+
 		modelent:SetPos(ent.origin or Vector(0,0,0))
 		local min, max = modelent:GetModelBounds()
 		modelent:SetRenderBounds(min, max)

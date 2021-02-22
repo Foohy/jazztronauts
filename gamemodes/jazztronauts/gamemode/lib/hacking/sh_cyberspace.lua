@@ -250,6 +250,14 @@ if CLIENT then
 		["$additive"] = 1,
 	})
 
+	local hacker_vision_noadd = CreateMaterial("HackerVisionBlur" .. FrameNumber(), "UnLitGeneric", {
+		["$basetexture"] = "concrete/concretefloor001a",
+		["$vertexcolor"] = 1,
+		["$vertexalpha"] = 1,
+		["$model"] = 0,
+		["$additive"] = 0,
+	})
+
 	local space = nil
 
 	hook.Add("IOEventTriggered", "cyberspace", function(ent, event)
@@ -279,6 +287,19 @@ if CLIENT then
 	bsp2.GetCurrent().iograph = iograph.New( bsp2.GetCurrent() )
 	bsp2.GetCurrent().cyberspace = New( bsp2.GetCurrent().iograph )
 
+	local invert_color_mod = {
+		[ "$pp_colour_addr" ] = -1,
+		[ "$pp_colour_addg" ] = -1,
+		[ "$pp_colour_addb" ] = -1,
+		[ "$pp_colour_brightness" ] = 0,
+		[ "$pp_colour_contrast" ] = -1,
+		[ "$pp_colour_colour" ] = 0,
+		[ "$pp_colour_mulr" ] = 0,
+		[ "$pp_colour_mulg" ] = 0,
+		[ "$pp_colour_mulb" ] = 0
+	}
+
+	
 	hook.Add("HUDPaint", "cyberspace", function()
 
 		--if true then return end
@@ -297,10 +318,21 @@ if CLIENT then
 			:EnablePointSample(true)
 			:SetAlphaBits(8)
 
+		local rtdark = irt.New("hackvision2", w, h)
+			:EnableDepth(true,true)
+			:EnableFullscreen(false)
+			:EnablePointSample(true)
+			:SetAlphaBits(8)
+
 		hacker_vision:SetTexture("$basetexture", rt:GetTarget())
+		hacker_vision_noadd:SetTexture("$basetexture", rtdark:GetTarget())
+
+		render.PushRenderTarget(rtdark:GetTarget())
+		render.Clear( 0, 0, 0, 0, true, true )
+		render.PopRenderTarget()
 
 		render.PushRenderTarget(rt:GetTarget())
-		render.Clear( 0, 0, 0, 255, true, true ) --60
+		render.Clear( 0, 0, 0, 0, true, true ) --60
 
 		cam.Start(
 			{
@@ -324,7 +356,20 @@ if CLIENT then
 			if not b then print( e ) end
 
 		cam.End()
+		render.PopRenderTarget()
 
+		-- Generate an RT of dark soft outline around lines
+		render.PushRenderTarget(rtdark:GetTarget())
+			cam.Start2D()
+				render.SetMaterial(hacker_vision)
+				for i=1,5 do
+					render.DrawScreenQuad()
+				end
+
+			cam.End2D()
+
+			render.BlurRenderTarget(rtdark:GetTarget(), 4, 4, 2)	
+			DrawColorModify( invert_color_mod )
 		render.PopRenderTarget()
 
 
@@ -332,6 +377,13 @@ if CLIENT then
 
 		--surface.SetDrawColor(0,0,0,230)
 		--surface.DrawRect(0,0,ScrW(),ScrH())
+
+		-- Render the soft outline to keep visibility with light backgrounds
+		surface.SetDrawColor(255,255,255)
+		render.OverrideBlend(true, BLEND_ONE_MINUS_SRC_ALPHA,BLEND_DST_COLOR,BLENDFUNC_MIN)
+		render.SetMaterial(hacker_vision_noadd)
+		render.DrawScreenQuad()
+		render.OverrideBlend(false)
 
 		surface.SetDrawColor(255,255,255,255)
 		render.SetMaterial(hacker_vision)

@@ -47,8 +47,6 @@ PrintCommandScale = 1.0
 
 AutoAdvanceTime = nil
 
-Init()
-
 local State = nil
 local DT = nil
 local Done = nil
@@ -319,22 +317,34 @@ end
 
 -- Immediately start the dialog at a new specified entry
 function StartGraph(cmd, skipOpen, options, delay)
+	DialogQueued = false
 	_dialog.options = options or {}
 	local t = type(cmd)
 	if t == "table" then
 		_dialog.nodeiter = buildIterator( cmd, ScriptCallback, EnterNode )
 	elseif t == "string" then
 
-		-- Check if script exists, scream if it doesn't
-		if not IsScriptValid(cmd) then
-			ErrorNoHalt("Script \"" .. tostring(cmd) .. "\" does not exist!! Is everything installed and mounted?\n")
-			InformScriptFinished(cmd, false)
-			return nil
-		end
+		if IsScriptValid(cmd) then	
+			_dialog.nodeiter = buildIterator( cmd, ScriptCallback, EnterGraph )
+			_dialog.entrypoint = cmd
+			_dialog.seen = false
+		else
+			-- Check if script exists, scream if it doesn't
+			if IsReady() then
+				ErrorNoHalt("Script \"" .. tostring(cmd) .. "\" does not exist!! Is everything installed and mounted?\n")
+				InformScriptFinished(cmd, false)
+			else
+				-- If a dialog was triggered before they've been downloaded from the server, queue it up
+				print("Dialog triggered before scripts ready, queueing up...")
+				DialogQueued = true
+				hook.Add("JazzDialogReady", "JazzQueueDialog", function()
+					StartGraph(cmd, skipOpen, options, delay)
+					hook.Remove("JazzDialogReady", "JazzQueueDialog")
+				end )
+			end
 
-		_dialog.nodeiter = buildIterator( cmd, ScriptCallback, EnterGraph )
-		_dialog.entrypoint = cmd
-		_dialog.seen = false
+			return
+		end
 	end
 
 	if _dialog.nodeiter != nil then
@@ -464,6 +474,37 @@ net.Receive( "dialog_dispatch", function( len, ply )
 
 	StartGraph(script, false)
 end )
+
+-- Dialog can be asynchronous now, show little throbber if dialog requested before it's loaded
+surface.CreateFont( "JazzDialogLoading", {
+	font = "KG Shake it Off Chunky",
+	extended = false,
+	size = ScreenScale(9),
+	weight = 1000,
+	blursize = 0,
+	scanlines = 0,
+	antialias = true,
+	underline = false,
+	italic = false,
+	strikeout = false,
+	symbol = false,
+	rotary = false,
+	shadow = false,
+	additive = false,
+	outline = false,
+} )
+hook.Add("HUDPaint", "JazzDialogThrobber", function()
+	if !DialogQueued then return end
+
+	local nDots = math.floor(math.fmod(CurTime()*2, 3))
+	local str = "LOADING DIALOG"
+	
+	surface.SetFont("JazzDialogLoading")
+	local w, h = surface.GetTextSize(str)
+
+	for i=0, nDots do str = str .. '.' end
+	draw.SimpleText(str, "JazzDialogLoading", ScrW()/2 - w/2, ScrH()/2, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+end)
 
 -- Mark this script's entrypoint as 'seen', used for some other systems
 RegisterFunc("mark_seen", function(d)

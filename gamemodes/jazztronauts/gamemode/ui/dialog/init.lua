@@ -22,8 +22,6 @@ module("dialog")
 
 util.AddNetworkString( "dialog_dispatch" )
 
-Init()
-
 local function maybeWrite(ent)
 	if IsValid(ent) then
 		net.WriteBit( true )
@@ -62,4 +60,12 @@ net.Receive("dialog_dispatch", function(len, ply)
 	local script = NameFromScriptID(scriptid)
 
 	hook.Call("JazzDialogFinished", GAMEMODE, ply, script, markseen)
+end )
+
+hook.Add("Initialize", "JazzDialogInitiailize", function()
+	-- To reduce network usage on exploration maps (where there is no dialog), don't bother running dialog system
+	-- TODO: Implement a caching system so scripts aren't redownloaded every map change
+	if mapcontrol.IsInGamemodeMap() then
+		Init()
+	end
 end )

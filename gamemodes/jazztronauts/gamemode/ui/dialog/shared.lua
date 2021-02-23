@@ -26,9 +26,18 @@ CMD_OPTION = "option"
 CMD_OPTIONLIST = "optionlist"
 CMD_EXIT = "exit"
 
-local ScriptPath = "data/scripts/"
+ScriptSources = ScriptSources or {} -- Raw uncompiled script sources, transmitted to clients
+g_graph = g_graph or {} 			-- Compiled script graphs
 
-local g_graph = {}
+local ScriptPath = "data/scripts/"
+local HIGH_PRIORITY_SCRIPTS = { 
+	["macros.txt"] = true, 
+	["jazz_bar_shardprogress.txt"] = true, 
+	["no_singleplayer_allowed.txt"] = true 
+}
+
+
+
 
 function DetermineLineEnd(line)
 	if line:find("\r\n") then return 3 end
@@ -212,7 +221,7 @@ function CompileScript(script)
 		elseif t.type == TOK_NEWLINE then
 			if entry ~= nil then table.insert(entry, {cmd=CMD_NEWLINE, data=t.tok}) end
 		else
-			print("UNPARSED: " .. t.type, t.tok:Trim())
+			print("UNPARSED [" .. script.name .. "]: " .. t.type, t.tok:Trim())
 		end
 
 		i = i + 1
@@ -314,10 +323,7 @@ end
 
 local PreProcessLine = function(x) return x end
 
-function LoadScript(name, filename)
-	--print("Load", name, filename)
-
-	local contents = file.Read( filename, "GAME" )
+function LoadScript(name, contents)
 	local lines = {}
 	local script = {
 		tokens = {},
@@ -337,9 +343,9 @@ function LoadScript(name, filename)
 
 end
 
-function LoadMacros()
 
-	local macros = file.Read( ScriptPath .. "macros.txt", "GAME" )
+function CompileMacros(sources)
+	local macros = sources["macros.txt"]
 	if macros == nil then ErrorNoHalt("Macros not loaded!\n") return end
 
 	local macrolist = {}
@@ -390,23 +396,23 @@ function LoadMacros()
 
 	MsgC( Color(255,255,255), test_string )
 	MsgC( Color(100,255,100), replace( test_string ))]]
-
 end
 
-function LoadScripts()
-	print("Loading dialog scripts...")
-	LoadMacros()
+function CompileScripts(sources)
+	-- 1. Compile macros
+	CompileMacros(sources)
 
-	--print("Loading scripts...")
-	local scripts, _ = file.Find( ScriptPath .. "*", "GAME" )
+	-- 2. Compile scripts
 	local compiled = {}
 
-	for _, script in pairs( scripts ) do
+	for script, contents in pairs( sources ) do
+		if #contents <= 0 then continue end -- Sources with nil content are not available yet
+
 		local ext = script:sub(script:find(".txt"), -1)
 		local name = script:sub(0, -ext:len() - 1)
 
 		if ext == ".txt" and name ~= "macros" then
-			local st, result = pcall( LoadScript, name, "data/scripts/" .. script )
+			local st, result = pcall( LoadScript, name, contents)
 			if not st then
 				ErrorNoHalt("Failed to load script: " .. name .. " [" .. script .. "]\n" .. tostring(result) .. "\n")
 			else
@@ -414,9 +420,38 @@ function LoadScripts()
 			end
 		end
 	end
+	
+	
+	return compiled
+end
 
+function LoadScripts()
+	if SERVER then -- This info is loaded from the server
+		print("[Jazz Dialog] Loading script sources...")
+		local scripts, _ = file.Find( ScriptPath .. "*", "GAME" )
+		for _, script in pairs( scripts ) do
+			ScriptSources[script] = file.Read( ScriptPath .. script, "GAME" )
+		end
+	end
+	if CLIENT then
+		if table.Count(ScriptSources) == 0 then return end
+	end
+
+	print("[Jazz Dialog] Compiling scripts...")
+	local compiled = CompileScripts( ScriptSources )
+
+	print("[Jazz Dialog] Linking scripts...")
 	LinkScripts( compiled )
 
+	if SERVER then -- This info is loaded from the server
+	print("[Jazz Dialog] Downloading to clients...")
+		for _, pl in pairs( player.GetAll() ) do
+			DownloadToPlayer( ScriptSources, pl )
+		end
+	end
+
+	print("[Jazz Dialog] Done!")
+	hook.Run("JazzDialogReady")
 end
 
 local scripttimes = {}
@@ -436,7 +471,7 @@ local function CheckHotReload()
 	end
 
 end
-if CLIENT then
+if SERVER then
 	local nexthotreloadcheck = 0
 	hook.Add( "Think", "JazzScriptCheckHotReload", function()
 		if nexthotreloadcheck > CurTime() then return end
@@ -460,6 +495,17 @@ function IsScriptValid(node)
 	return node and GetNode(node) != nil
 end
 
+function IsReady()
+	return g_graph and table.Count(g_graph) > 0 && !IsPartialCompile()
+end
+
+function IsPartialCompile()
+	for _, contents in pairs(ScriptSources) do
+		if #contents <= 0 then return true end
+	end
+
+	return false
+end
 
 function EnterGraph( node, callback )
 
@@ -506,3 +552,89 @@ function Init()
 	LoadScripts()
 
 end
+
+local function EncodeScripts( sources, whitelist )
+
+	local blob = ""
+
+	for name, contents in pairs(sources) do
+		if whitelist and !whitelist[name] then
+			blob = blob .. name .. ':' .. '\0' -- Skip content, keep filename
+		else
+			blob = blob .. name .. ':' .. contents .. '\0'
+		end
+	end
+
+	return blob
+end
+
+local function DecodeScripts( blob )
+
+	local name = nil
+	local sources = {}
+
+	local lastbuf = 1
+	for i=1, #blob do
+		if name and blob[i] == '\0' then
+			sources[name] = string.sub(blob, lastbuf, i-1)
+
+			name = nil
+			lastbuf = i+1
+			
+		elseif !name and blob[i] == ':' then
+			name = string.sub(blob, lastbuf, i-1)
+			lastbuf = i+1
+		end
+	end
+
+	return sources
+
+end
+
+function DownloadToPlayer( sources, ply, whitelist )
+
+	if CLIENT then return end
+
+	local data = EncodeScripts( sources, whitelist )
+	if #data > 0 then
+
+		print("QUEUED " .. #data .. "b DOWNLOAD FOR " .. (whitelist and table.Count(whitelist) or table.Count(sources)) .. " dialog scripts TO PLAYER " .. tostring( ply ) )
+
+		local dl = download.Start( "download_dialogscripts", data, ply, 30000 )
+	end
+
+end
+
+hook.Add( "PlayerInitialSpawn", "jazz_dialog_download_scripts", function(ply)
+	DownloadToPlayer( ScriptSources, ply, HIGH_PRIORITY_SCRIPTS )
+	DownloadToPlayer( ScriptSources, ply )
+end )
+
+concommand.Add( "jazz_download_dialog_to_player", function( ply )
+
+	if ply:IsAdmin() then
+
+		for _, ply in pairs( player.GetAll() ) do
+			DownloadToPlayer( ScriptSources, ply, HIGH_PRIORITY_SCRIPTS)
+			DownloadToPlayer( ScriptSources, ply )
+		end
+
+	end
+
+end )
+
+-- Download serverside scripts to to clients
+download.Register( "download_dialogscripts", function( cb, dl )
+
+	if CLIENT then
+
+		if cb == DL_FINISHED then
+			ScriptSources = DecodeScripts(dl:GetData())
+			LoadScripts()
+		elseif cb == DL_ERROR then
+			ErrorNoHalt("FAILED to download dialog scripts: " .. dl.error)
+		end
+
+	end
+
+end )

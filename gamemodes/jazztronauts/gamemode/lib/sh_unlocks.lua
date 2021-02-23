@@ -255,7 +255,7 @@ function DownloadToPlayer( list_name, ply )
 
 		print("QUEUED DOWNLOAD FOR LIST: " .. list_name .. " TO PLAYER " .. tostring( ply ) )
 
-		local dl = download.Start( "download_unlocks", data, ply, 1024 )
+		local dl = download.Start( "download_unlocks", data, ply, 50000 )
 		if dl then
 			dl.list_name = list_name
 		end

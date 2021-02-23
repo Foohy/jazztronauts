@@ -43,23 +43,32 @@ function dlmeta:GetChunkSize() return self.chunk_size end
 function dlmeta:GetPlayer() return self.ply end
 function dlmeta:GetError() return self.error end
 
--- Zak's sorry
 local function CompressChunks( blob, chunk_size )
 
 	local chunks = {}
 	local compressed = util.Compress( blob )
 	local crc = util.CRC( compressed )
 
-	chunks = { compressed }
+	local i = 1
+	repeat
+		local nxt = math.min( #compressed, i + chunk_size )
+		table.insert( chunks, compressed:sub( i, nxt == #compressed and nxt or nxt-1 ) )
+		i = nxt
+	until i == #compressed
+
 	return chunks, #compressed, tonumber( crc )
 
 end
 
--- Zak's sorry 2 - Electric Boogaloo
 local function ExpandChunks( chunks )
 
-	blob = chunks[1]
+	local blob = ""
+	local buf = ""
+	local strings = {}
+	for k,v in pairs( chunks ) do blob = blob .. v end
+
 	local crc = util.CRC( blob )
+
 	blob = util.Decompress( blob )
 
 	return blob, tonumber( crc )
@@ -114,14 +123,14 @@ function Start( name, data, ply, chunk_size )
 		--If a download is currently active, or the player hasn't connected yet, table the download for later
 		print("QUEUED DOWNLOAD: " .. tostring(ply) .. " " .. name)
 		table.insert( download_queue[ply], download )
-		print( coroutine.status( thread.co ) )
+		--print( coroutine.status( thread.co ) )
 
 	else
 
 		--No active downloads, immediately start this download
 		print("SEND DOWNLOAD: " .. tostring(ply) .. " " .. name)
 		coroutine.resume( thread.co, download )
-		print( coroutine.status( thread.co ) )
+		--print( coroutine.status( thread.co ) )
 
 	end
 
@@ -201,7 +210,7 @@ local function PlayerThread( ply, thread )
 			net.Send( ply )
 
 			thread.awaiting_response = true
-			thread.ttl = CurTime() + 10
+			thread.ttl = CurTime() + 15
 			local response = coroutine.yield()
 			if response ~= "ok" then
 				ErrorNoHalt( "Download failed for " .. tostring(ply) .. " : " .. tostring( response ) .. "\n")
@@ -296,8 +305,11 @@ if SERVER then
 
 		if thread.active.current == chunkid or chunkid == 0 then
 			coroutine.resume( thread.co, "ok" )
+		elseif thread.active.current > chunkid then
+			-- Received duplicate chunk, but safe to ignore
+			print("DL-WARNING: Received duplicate chunkID " .. chunkid .. " (expected " .. thread.active.current .. ") from " .. tostring(ply))
 		else
-			coroutine.resume( thread.co, "out-of-order chunk " .. chunkid )
+			coroutine.resume( thread.co, "out-of-order chunk " .. chunkid .. " expected " .. thread.active.current)
 		end
 
 	end )

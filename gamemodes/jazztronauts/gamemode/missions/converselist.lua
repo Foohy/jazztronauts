@@ -12,7 +12,7 @@ local function addMissionAuto(mid, npcid)
 	AddMission(mid, missionfile .. ".accept", MISSION_AVAILABLE)
 	AddMission(mid, missionfile .. ".idle", MISSION_ACCEPTED)
 	AddMission(mid, missionfile .. ".turnin", MISSION_COMPLETED)
-	print("Add mission convo: ", mid, convoid, npcid, missionfile, name)
+	--print("Add mission convo: ", mid, convoid, npcid, missionfile, name)
 
 	-- Add mission event
 	local eventscript = name .. ".event" .. convoid .. ".begin"

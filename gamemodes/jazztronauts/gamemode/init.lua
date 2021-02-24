@@ -423,7 +423,7 @@ function GM:PlayerSpawn( ply )
 	hook.Call( "PlayerLoadout", GAMEMODE, ply )
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
 
-	PrintMapHistory(ply)
+	-- PrintMapHistory(ply)
 
 	-- Setup note count
 	ply:RefreshNotes()

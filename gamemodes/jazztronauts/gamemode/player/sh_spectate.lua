@@ -158,7 +158,7 @@ if CLIENT then
 		local w, h = math.max(wn, wh) * 1.3, math.max(hn, hh) * 1.3
 
 		local x, y = ScrW()/2, ScrH()/2 + ScreenScale(55)
-
+		surface.SetTextColor(255, 255, 255, 255)
 		draw.RoundedBox(5, x - w/2, y - h/2, w, h * 2, Color(0, 0, 0, 150))
 
 		surface.SetTextPos(x - wn/2, y - hn / 2)

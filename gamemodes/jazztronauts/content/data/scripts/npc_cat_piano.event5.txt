@@ -314,7 +314,7 @@ n7:
 pianistconclude:
 	*setcam setpos -3659.845703 5146.500488 49.834221;setang -5.021893 -156.280075 0.000000*
 	*setspeaker narrator*
-	>The two of you quietly head back the bar. *mark_seen*
+	>The two of you quietly head back to the bar. *mark_seen*
 	&exit
 	
 	

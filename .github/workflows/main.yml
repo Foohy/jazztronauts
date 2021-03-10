@@ -3,13 +3,14 @@ name: Auto-Update addons.txt
 on:
   repository_dispatch:
     types: force-build
+  workflow_dispatch:
   schedule:
     - cron: "0 0 * * 1"
 
 jobs:
   update_addontxt:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
     - name: Checkout

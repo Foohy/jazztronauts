@@ -36,6 +36,14 @@ SWEP.RequestInfo			= {}
 -- List this weapon in the store
 local storeHacker = jstore.Register(SWEP, 35000, { type = "tool" })
 
+local upgrade_enableWrites = jstore.Register("hacker_write", 500000, {
+	name = "Privilege Escalation",
+	cat = "Hacking Goggles",
+	desc = "Enables write access on the hacking goggles to manually trigger map I/O events",
+	type = "upgrade",
+	requires = storeHacker
+})
+
 function SWEP:Initialize()
 
 	self.BaseClass.Initialize( self )
@@ -54,7 +62,9 @@ function SWEP:ShouldDrawHackerview()
 		return
 	end
 
-	return self.Owner == LocalPlayer() and self.Owner:GetActiveWeapon() == self
+	if self.Owner != LocalPlayer() or self.Owner:GetActiveWeapon() != self then return 0 end
+	if !unlocks.IsUnlocked("store", self.Owner, upgrade_enableWrites) then return 1 end
+	return 2 //Turbo
 end
 
 function SWEP:SetupDataTables()

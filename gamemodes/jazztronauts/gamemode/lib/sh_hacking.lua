@@ -78,8 +78,8 @@ if SERVER then
 	hook.Add("PostCleanupMap", "hackingcleanup", SetupIOListener)
 
 	hook.Add("AcceptInput", "hacking", function( ent, input, activator, caller, value )
-		print( tostring(caller) )
-		print( tostring(ent) )
+		--print( tostring(caller) )
+		--print( tostring(ent) )
 		return false
 	end)
 
@@ -723,7 +723,7 @@ local hackCullDistance = CreateClientConVar("jazz_hack_cull_far", 10000, true, t
 module("hacking", package.seeall)
 
 local function ShouldDrawHackerview()
-	return hackEnable:GetBool() or hook.Call("JazzShouldDrawHackerview", GAMEMODE)
+	return math.max((hackEnable:GetInt() or 0), (hook.Call("JazzShouldDrawHackerview", GAMEMODE) or 0))
 end
 
 local lasermat	= Material("effects/laser1.vmt")
@@ -876,7 +876,7 @@ end
 local tracedLine, tracedEdge
 
 hook.Add( "HUDPaint", "hacker_vision", function()
-	if not ShouldDrawHackerview() then return end
+	if ShouldDrawHackerview() <= 0 then return end
 
 	if map:IsLoading() then return end
 
@@ -1036,7 +1036,7 @@ end)
 hook.Add("PlayerBindPress", "hacker_vision", function(ply, bind, pressed)
 
 	if bind == "+attack" and pressed == true then
-		if not ShouldDrawHackerview() then return end
+		if ShouldDrawHackerview() < 2 then return end
 		if tracedLine then
 
 			for k,v in ipairs( graph ) do

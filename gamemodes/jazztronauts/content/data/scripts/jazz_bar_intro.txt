@@ -30,7 +30,7 @@ saidnobefore:
 	*setspeaker cat_bar*
 	*setskin cat_bar 0*
     Allow me to formally welc-%%*setskin cat_bar 3*
-    Wait*setanim cat_bar gesture_shock 1 idle*  a minute,% I recognize you.%%*setskin cat_bar 0*
+    Wait*setanim cat_bar gesture_shock 1 idle* a minute,% I recognize you.%%*setskin cat_bar 0*
     Didn't you say no before?
     &no2
 no2:
@@ -45,7 +45,7 @@ no3:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
     *setspeaker cat_bar*
 	*setanim cat_bar gesture_disagree 1 idle*
-    Now now,%% *player* just needed more time to think.&&
+    Now now,%% *player* just needed more time to think.
     &aask
 
 a1:

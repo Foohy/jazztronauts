@@ -31,12 +31,11 @@ g_graph = g_graph or {} 			-- Compiled script graphs
 
 local ScriptPath = "data/scripts/"
 local HIGH_PRIORITY_SCRIPTS = { 
-	["macros.txt"] = true, 
+	["macros.txt"] = true,
+	["jazz_bar_intro.txt"] = true,
 	["jazz_bar_shardprogress.txt"] = true, 
-	["no_singleplayer_allowed.txt"] = true 
+	["no_singleplayer_allowed.txt"] = true,
 }
-
-
 
 
 function DetermineLineEnd(line)
@@ -45,14 +44,25 @@ function DetermineLineEnd(line)
 	return 1
 end
 
-local TOK_TEXT = 0
-local TOK_ENTRY = 1
-local TOK_FIRE = 2
-local TOK_WAIT = 3
-local TOK_JUMP = 4
-local TOK_EQUAL = 5
-local TOK_NEWLINE = 6
-local TOK_EMPTY= 7
+local TOK_TEXT      = 0
+local TOK_ENTRY     = 1
+local TOK_FIRE      = 2
+local TOK_WAIT      = 3
+local TOK_JUMP      = 4
+local TOK_EQUAL     = 5
+local TOK_NEWLINE   = 6
+local TOK_EMPTY     = 7
+
+local tokNames = {
+    [TOK_TEXT]      = "TEXT",
+    [TOK_ENTRY]     = "ENTRY",
+    [TOK_FIRE]      = "FIRE",
+    [TOK_WAIT]      = "WAIT",
+    [TOK_JUMP]      = "JUMP",
+    [TOK_EQUAL]     = "EQUAL",
+    [TOK_NEWLINE]   = "NEWLINE",
+    [TOK_EMPTY]     = "EMPTY",
+}
 
 local function lineitr(str)
 	return string.gmatch(str, "[^\r\n]+")
@@ -148,6 +158,11 @@ local function TrimNewlines(entry)
 
 end
 
+local function tokTypeToString(token)
+	local num = tonumber(token)
+	return num and tokNames[num] or "INVALID TOKEN " .. tostring(token)
+end
+
 function CompileScript(script)
 	local cmds = {}
 	local toks = script.tokens
@@ -221,7 +236,7 @@ function CompileScript(script)
 		elseif t.type == TOK_NEWLINE then
 			if entry ~= nil then table.insert(entry, {cmd=CMD_NEWLINE, data=t.tok}) end
 		else
-			print("UNPARSED [" .. script.name .. "]: " .. t.type, t.tok:Trim())
+			print("UNPARSED token [" .. script.name .. "] index #" .. i .. ": Type " .. tokTypeToString(t.type) .. ", Token \"" .. t.tok:Trim() .. "\"")
 		end
 
 		i = i + 1

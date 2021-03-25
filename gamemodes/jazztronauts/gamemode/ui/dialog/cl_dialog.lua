@@ -338,8 +338,8 @@ function StartGraph(cmd, skipOpen, options, delay)
 				print("Dialog triggered before scripts ready, queueing up...")
 				DialogQueued = true
 				hook.Add("JazzDialogReady", "JazzQueueDialog", function()
-					StartGraph(cmd, skipOpen, options, delay)
 					hook.Remove("JazzDialogReady", "JazzQueueDialog")
+					StartGraph(cmd, skipOpen, options, delay)	
 				end )
 			end
 

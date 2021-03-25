@@ -306,7 +306,7 @@ local function createListButton(parent, item)
 			self:SetEnabled(false)
 
 			if item.requires then
-				tooltip = tooltip .. "\n" .. "REQUIRES" .. string.upper(item.requires)
+				tooltip = tooltip .. "\n" .. "REQUIRES " .. string.upper(item.requires)
 			end
 
 		-- Ready to buy

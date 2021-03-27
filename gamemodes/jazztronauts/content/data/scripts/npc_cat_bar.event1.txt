@@ -373,7 +373,7 @@ resp5h:
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_confused 1 idle*
 	*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
-	It does,% i'm sad to say.%%%%*setskin cat_bar 0* We didn't even see the second card,% 
+	It does,% I'm sad to say.%%%%*setskin cat_bar 0* We didn't even see the second card,% 
 	why did you double down at 15?
 	&resp5i
 	

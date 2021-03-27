@@ -106,21 +106,15 @@ bathroomdoor3a:
 
 
 painting1a:
-
-    
-
+    A empty picture frame, its art long having disappeared.
     &exit
 
 painting1b:
-
-    
-
+    Time is unkind the picture frame; In place of paint, only dust.
     &exit
 
 painting1c:
-
-    
-
+    Grime and scum, nothing more.
     &exit
 
 painting2a:
@@ -139,15 +133,15 @@ painting2c:
     &exit
 
 painting3a:
-
+    A empty picture frame, the art long having disappeared.
     &exit
 
 painting3b:
-
+    Time is unkind the picture frame; In place of paint, only dust.
     &exit
 
 painting3c:
-
+    Grime and scum, nothing more.
     &exit    
 
 closetinspect1:

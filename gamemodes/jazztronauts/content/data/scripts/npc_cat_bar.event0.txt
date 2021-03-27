@@ -51,6 +51,7 @@ resp1a:
     &resp1b
 
 resp1b:
+    *setspeaker cat*
     Certainly raised a few*setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* eyebrows, %though.%% It's not often you see a-*setskin 3*%%%%
     Well.*setskin cat 0*%%% Hm.*setskin cat 2*%%%%*setskin cat 0* *setanim cat gesture_dryhands* I'm not sure this is my story to tell,% honestly.%%
     Forgive me,% I try not to gossip about my patrons.
@@ -63,13 +64,14 @@ resp1b:
         Drama, then?
 
 resp1c:
-    *setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000* *setanim cat idle* *setskin cat 2*Like*setanim cat gesture_sweep 1.0 idle* I said, not my story to tell.%*setskin cat 0*
+    *setspeaker cat*
+    *setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000**setanim cat idle**setskin cat 2*Like*setanim cat gesture_sweep 1.0 idle* I said, not my story to tell.%*setskin cat 0*
     It's not anything particularly scandalous,% just a silly thing 
     that I'd feel rather %%*setskin cat 1*catty%%*setskin cat 0* talking about behind their backs.
     &resp1d
 
 resp1d:
-    *setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000* *setskin cat 1* *setanim cat gesture_foldarms* Honestly,% I don't think I've ever met such a cheery,% energetic bunch.
+    *setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000**setskin cat 1**setanim cat gesture_foldarms*Honestly,% I don't think I've ever met such a cheery,% energetic bunch.
     They %clearly loved just spending time with each other%.%.%.
     didn't even seem to mind they were trapped here,%
     so long as they were enjoying themselves. 
@@ -106,9 +108,9 @@ resp2d:
     
 resp2e:
     Then another guest wired some gizmo they had to it,%
-    and then *setanim cat gesture_sweep 1.0 idle* another,%% and another,%% a little bit at a time%
+    and then*setanim cat gesture_sweep 1.0 idle* another,%% and another,%% a little bit at a time%
     until we were left with that hulking mass out there.%%
-    *setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000* To be honest,%*setskin cat 3* I would not know how to repair it if we needed to.
+    *setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000*To be honest,%*setskin cat 3* I would not know how to repair it if we needed to.
     &resp2f
 resp2f:
     So,*setskin cat 1*% try and be gentle with it.%%% It's got a long legacy.
@@ -117,13 +119,14 @@ resp2f:
 ###### Branch 3
 resp3a:
     *setspeaker cat*
-    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* *setskin cat 1**setanim cat gesture_sweep 1.0 idle* Of course it is.%%% Please,% take as much time as you need,% 
+    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* *setskin cat 1**setanim cat gesture_sweep 1.0 idle*Of course it is.%%% Please,% take as much time as you need,% 
     and let me know when you'd like a new drink.
     &exit
 
 ###### Merge point
 merge1a:
-    *setcam setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000* *setskin cat 0**setanim cat gesture_sweep 1.0 idle* In any event,%% it's come a long way from the empty room that it once was.%%
+    *setspeaker cat*
+    *setcam setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000**setskin cat 0**setanim cat gesture_sweep 1.0 idle*In any event,%% it's come a long way from the empty room that it once was.%%
     I'll admit,% hearing laughter and commotion coming from 
     the camp again does fill me with a sort of pride. 
     &merge1b
@@ -133,11 +136,11 @@ merge1b:
     &merge1c
 merge1c:
     *setskin cat 0*I hope you will be comfortable here during your stay.%%
-    Please,%*setanim cat gesture_sweep 1.0 idle*  don't hesitate to let me know if you need anything.
-    %%*setskin cat 3* Ah, one other*setskin cat 0* thing.%.%.
+    Please,%*setanim cat gesture_sweep 1.0 idle* don't hesitate to let me know if you need anything.
+    %%*setskin cat 3*Ah, one other*setskin cat 0* thing.%.%.
     &merge1d
 merge1d:
-    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* This isn't required of you,%*setanim cat gesture_jab 1.0 idle*  but can I ask you to spend some time 
+    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000*This isn't required of you,%*setanim cat gesture_jab 1.0 idle*  but can I ask you to spend some time 
     with the rest of my peers?%%%*setskin cat 1* They won't admit it,% but they do 
     enjoy the company%.%.%.*setskin cat 0*and exposure to different worldviews 
     couldn't hurt them either.

@@ -41,13 +41,16 @@ function ENT:Initialize()
 		self:SetOn(true)
 
 		-- Set current map to whatever the last one we visited was
-		local m = progress.GetLastMapSession()
-		if m then
-			local wsid = workshop.FindOwningAddon(m.filename)
-			if wsid && wsid != 0 then
-				self:BrowseToDestination(wsid)
+		-- Delay because ISteamHTTP may not be initialized yet 
+		timer.Simple(1, function()
+			local m = progress.GetLastMapSession()
+			if m then
+				local wsid = workshop.FindOwningAddon(m.filename)
+				if wsid && wsid != 0 then
+					self:BrowseToDestination(wsid)
+				end
 			end
-		end
+		end )
 	end
 
 end

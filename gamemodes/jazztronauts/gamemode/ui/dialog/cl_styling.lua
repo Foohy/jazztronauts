@@ -491,6 +491,7 @@ hook.Add("StartCommand", "JazzDialogLockPlayer", function(ply, usercmd)
 		usercmd:ClearButtons()
 		usercmd:SetViewAngles(ply.JazzDialogLastLockAngles)
 	end
+
 end )
 
 -- Hook into user input so they can optionally skip dialog, or continue to the next one
@@ -503,13 +504,13 @@ hook.Add("Think", "JazzDialogSkipListener", function()
 
 	if skip == wasSkipPressed then return end
 	wasSkipPressed = skip
-
 	if not dialog.IsInDialog() then return end
+
+	wasSkipPressedInDialog = skip
 	if not skip then return end
 
 	-- First try to continue to the next page of dialog
 	if not dialog.Continue() then
-
 		-- If we couldn't, that means we're still writing
 		-- So speed up the text output
 		dialog.SkipText()

@@ -7,12 +7,12 @@ addon_jazz.json:1452613192
 
 
 # Selectively exclude file from pack 1 and put into pack 2
-addon_jazz_c1.json:1452627889
+#addon_jazz_c1.json:1452627889
 #materials/**
-lua/autorun/jazz_addon_c1_deprecated.lua
+#lua/autorun/jazz_addon_c1_deprecated.lua
 
 #And again with a third pack
-addon_jazz_c2.json:1455876201
+#addon_jazz_c2.json:1455876201
 #materials/sunabouzu/**
 #maps/**
-lua/autorun/jazz_addon_c2_deprecated.lua
+#lua/autorun/jazz_addon_c2_deprecated.lua

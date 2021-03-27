@@ -22,7 +22,7 @@ local function getMapSize(bsp)
 	local maxs, mins = Vector(winfo.world_maxs), Vector(winfo.world_mins)
 	local size = maxs - mins
 
-	return size.x .. " wide, " .. size.y .. " deep, " .. size.z .. " tall"
+	return size.x .. " wide\n" .. size.y .. " deep\n" .. size.z .. " tall"
 end
 
 local function getWorkshopFacts(wsid, addFact)

@@ -61,7 +61,7 @@ if SERVER then return end
 
 local RTWidth = 512
 local RTHeight = 512
-local VisibleHeight = 0.28
+local VisibleHeight = 0.5
 
 local LoadingMaterial = Material("ui/jazztronauts/testpattern")
 
@@ -70,6 +70,18 @@ local lastFactUpdate = 0
 surface.CreateFont( "FactScreenFont", {
 	font	  = "VCR OSD Mono",
 	size	  = 35,
+	weight	= 700,
+	antialias = true
+})
+surface.CreateFont( "FactScreenTitle", {
+	font	  = "VCR OSD Mono",
+	size	  = 55,
+	weight	= 700,
+	antialias = true
+})
+surface.CreateFont( "FactScreenError", {
+	font	  = "VCR OSD Mono",
+	size	  = 25,
 	weight	= 700,
 	antialias = true
 })
@@ -90,20 +102,20 @@ local loadMaterial = loadRT:GetUnlitMaterial()
 -- Render a specific fact
 local factMaterials = {}
 local isOn = false
-local function renderFact(rt, f)
-	local factLines = string.Split(f.fact, "\n")
+local function renderFact(rt, f, title, bgcolor, font)
+
 	rt:Render( function()
-		local mostr = "<font=FactScreenFont><center>" .. f.fact .. "</font></center>"
-		local mo = markup.Parse(mostr, RTWidth * 0.9)
+		local mostr = "<font=" .. (font or "FactScreenFont") ..">" .. f.fact .. "</font>"
+		local mo = markup.Parse(mostr, RTWidth * 0.98)
 
 		cam.Start2D()
 
-			surface.SetDrawColor(205, 20, 105)
+			surface.SetDrawColor(bgcolor or Color(205, 20, 105))
 			surface.DrawRect(0, 0, 512, 512)
 			surface.SetTextColor(0, 0, 0)
 			surface.SetFont("FactScreenFont")
-			mo:Draw(RTWidth * 0.05, VisibleHeight * RTHeight, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-
+			draw.SimpleText(title or "", "FactScreenTitle", RTWidth/2, RTHeight * 0.28, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+			mo:Draw(RTWidth/2 - mo:GetWidth()/2, VisibleHeight * RTHeight - mo:GetHeight()/2, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 		cam.End2D()
 	end )
 end
@@ -169,15 +181,17 @@ end
 
 local function loadOwner(rt, f)
 	steamworks.RequestPlayerInfo(f.fact, function(name)
-		f.fact = "Owner:\n" .. (name or f.fact)
-		renderFact(rt, f)
+		f.fact = name or f.fact
+		renderFact(rt, f, "Owner")
 	end )
 end
 
 -- Allow some fact names to override what it does when it would otherwise render
 local factOverrides = {
 	ws_screenshots = loadMapScreenshots,
-	ws_owner = loadOwner
+	ws_owner = loadOwner,
+	comment = function(rt, f) renderFact(rt, f) end,
+	failure = function(rt, f) renderFact(rt, f, nil, Color(136, 12, 12), "FactScreenError") end
 }
 
 local function updateFactMaterials()
@@ -191,7 +205,11 @@ local function updateFactMaterials()
 		if #v.fact == 0 then continue end
 
 		-- Allow certain facts to do fancy things
-		local loadFunc = factOverrides[v.name] or renderFact
+		local loadFunc = factOverrides[v.name] or function(rt, f)
+			local title = string.Split(string.Split(f.fact, "\n")[1], ":")[1]
+			f.fact = string.sub(f.fact, (title and #title + 3 or 0))
+			renderFact(rt, f, title)
+		end
 		loadFunc(factMat, v)
 
 		isOn = true
@@ -211,11 +229,8 @@ function ENT:Initialize()
 
 end
 
-local SCAN_COMPLETE = 2
 function ENT:ShouldShowTestPattern()
 	return not self.CurrentFactMaterial
-		and self.GetSelector and IsValid(self:GetSelector())
-		and self:GetSelector():GetScanState() == SCAN_COMPLETE
 end
 
 function ENT:Think()

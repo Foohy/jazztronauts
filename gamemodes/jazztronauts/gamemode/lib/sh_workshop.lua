@@ -227,10 +227,17 @@ function DownloadGMA(wsid, func)
 		local json = util.JSONToTable(resp)
 		local addoninfo = tryGetValue(json, "response", "publishedfiledetails", 1)
 		local fileurl = addoninfo and addoninfo.file_url
+
 		if not fileurl then
-			func(nil, "Received response from GetPublishedFileDetails, but invalid JSON: " .. resp)
+			print("Received response from GetPublishedFileDetails, but missing file_url: " .. resp)
+			func(nil, "Received response from GetPublishedFileDetails, but missing file_url. File hidden?")
 			return
 		end
+
+		if #fileurl == 0 then
+			func(nil, "Specified addon uses the new UGC workshop system, which is not compatible") // New UGC workshop addons are not supported with this method
+		end
+
 		print("Beginning file download... " .. fileurl)
 		http.Fetch(fileurl, FileDownloaded,
 		function(errormsg)
@@ -244,8 +251,10 @@ function DownloadGMA(wsid, func)
 		-- Grab published fileid from collection details
 		local json = util.JSONToTable(resp)
 		local fileid = tryGetValue(json, "response", "collectiondetails", 1, "publishedfileid")
+
 		if not fileid then
-			func(nil, "Received response from GetCollectionDetails, but invalid JSON: " .. resp)
+			print("Received response from GetCollectionDetails, but missing fileid: " .. resp)
+			func(nil, "Received response from GetCollectionDetails, but missing fileid")
 			return
 		end
 

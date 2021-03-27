@@ -6,12 +6,17 @@ ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.AutomaticFrameAdvance = true
 ENT.Model			= "models/sunabouzu/jazzportal.mdl"
 
-local SCAN_FAILED_NOMAP	= -3
-local SCAN_FAILED_NOSPACE	= -2
-local SCAN_FAILED_NETWORK	= -1
-local SCAN_IDLE		= 0
-local SCAN_SCANNING = 1
-local SCAN_COMPLETE = 2
+local IDLE_HUM_SOUND        = Sound("ambient/machines/thumper_amb.wav")
+local FAIL_SOUND            = Sound("coast.thumper_shutdown")
+local DOWNLOAD_START_SOUND  = Sound("coast.thumper_startup")
+local SUCCESS_SOUND         = Sound("coast.thumper_hit")
+
+local SCAN_FAILED_NOMAP     = -3
+local SCAN_FAILED_NOSPACE   = -2
+local SCAN_FAILED_NETWORK   = -1
+local SCAN_IDLE             =  0
+local SCAN_SCANNING         =  1
+local SCAN_COMPLETE         =  2
 
 local outputs =
 {
@@ -78,6 +83,8 @@ end
 function ENT:CancelAddon()
 	self:SelectDestination(nil)
 	self:SetPortalSequence("Close")
+	self:StopSound(IDLE_HUM_SOUND)
+
 	/*
 	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
 		v:SetOn(true)
@@ -163,6 +170,14 @@ function ENT:SelectDestination(dest)
 			self:SetScanState(SCAN_FAILED_NETWORK)
 		end
 
+		if success then
+			self:EmitSound(IDLE_HUM_SOUND, 65, 80, 0.5)
+			self:EmitSound(SUCCESS_SOUND)
+		else
+			factgen.SetFailure(self:GetScanStateString() .. (msg and ("\n\n" .. msg) or ""))
+			self:EmitSound(FAIL_SOUND)
+		end
+
 		setActiveMap(table.Random(newMaps), wsid)
 	end
 
@@ -170,6 +185,9 @@ function ENT:SelectDestination(dest)
 	self.CurrentlyScanning = dest
 	local wsid = tonumber(dest)
 	if wsid then
+		if (not mapcontrol.IsAddonCached(wsid)) then
+			self:EmitSound(DOWNLOAD_START_SOUND)
+		end
 		mapcontrol.InstallAddon(wsid, onMounted, onPreDecompress)
 	else
 		self:SetScanState(SCAN_COMPLETE)
@@ -188,6 +206,19 @@ function ENT:Use(activator, caller)
 		end
 	end)
 
+end
+
+function ENT:GetScanStateString()
+	local state = self:GetScanState()
+	if state == SCAN_IDLE then return "IDLE"
+	elseif state == SCAN_SCANNING then return "SCANNING"
+	elseif state == SCAN_COMPLETE then return "SCAN COMPLETE"
+	elseif state == SCAN_FAILED_NOMAP then return "SCAN FAILURE - ADDON HAS NO MAPS"
+	elseif state == SCAN_FAILED_NETWORK then return "SCAN FAILURE - FAILED TO DOWNLOAD"
+	elseif state == SCAN_FAILED_NOSPACE then return "SCAN FAILURE - DISK FULL"
+	end
+
+	return "SCAN FAILURE"
 end
 
 if SERVER then return end
@@ -305,19 +336,6 @@ function ENT:RefreshThumbnail(dest)
 	else
 		self.ThumbnailMat = nil
 	end
-end
-
-function ENT:GetScanStateString()
-	local state = self:GetScanState()
-	if state == SCAN_IDLE then return "IDLE"
-	elseif state == SCAN_SCANNING then return "SCANNING"
-	elseif state == SCAN_COMPLETE then return "SCAN COMPLETE"
-	elseif state == SCAN_FAILED_NOMAP then return "SCAN FAILURE - NO MAP"
-	elseif state == SCAN_FAILED_NETWORK then return "SCAN FAILURE - FAILED TO DOWNLOAD"
-	elseif state == SCAN_FAILED_NOSPACE then return "SCAN FAILURE - DISK FULL"
-	end
-
-	return "SCAN FAILURE"
 end
 
 function ENT:Draw()

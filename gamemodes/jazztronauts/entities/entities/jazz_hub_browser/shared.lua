@@ -13,11 +13,15 @@ local outputs =
 	"OnAddonSelected"
 }
 
-concommand.Add("jazz_debug_browse", function(ply, cmd, args)
-	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
-		v:BrowseToDestination(args[1])
-	end
-end, nil, nil, { FCVAR_CHEAT }  )
+if SERVER then
+	
+	concommand.Add("jazz_debug_browse", function(ply, cmd, args)
+		for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
+			v:BrowseToDestination(args[1])
+		end
+	end, nil, nil, { FCVAR_CHEAT }  )
+
+end
 
 function ENT:Initialize()
 	self:SetModel( self.Model )
@@ -70,7 +74,7 @@ end
 function ENT:BrowseToDestination(dest)
 	self:SetDestinationID("")
 	self:EmitSound("buttons/lever7.wav", 75, 200)
-
+	print(dest)
 	local function setBrowsedTo(dest)
 		self:TriggerOutput("OnMapRolled", self)
 		self:SetDestinationID(dest or "-1")

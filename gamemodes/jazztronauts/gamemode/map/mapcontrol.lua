@@ -179,9 +179,15 @@ if SERVER then
 		return launched
 	end
 
+
+	local cachepath = "jazztronauts/cache"
+	function IsAddonCached(wsid)
+		local dlpath = cachepath .. "/" .. wsid .. ".dat"
+		return file.Exists(dlpath, "DATA")
+	end
+
 	-- Given a workshop id, try to download and mount it
 	-- if it hasn't already been downloaded/mounted
-	local cachepath = "jazztronauts/cache"
 	function InstallAddon(wsid, finishFunc, decompFunc)
 		file.CreateDir(cachepath)
 		local dlpath = cachepath .. "/" .. wsid .. ".dat"
@@ -200,7 +206,7 @@ if SERVER then
 			-- Bad workshop ID or network failure
 			if not data then
 				print("Failed to download addon: " .. errmsg)
-				finishFunc(nil)
+				finishFunc(nil, errmsg)
 				return
 			end
 

@@ -44,6 +44,11 @@ if SERVER then
 		end
 	end
 
+	function SetFailure(errorStr)
+		ClearFacts()
+		SetFact("failure", errorStr)
+	end
+
 	function ClearFacts()
 		for k, v in pairs(NamedFacts) do
 			SetFact(k, "")

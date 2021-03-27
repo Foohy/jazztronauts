@@ -65,6 +65,10 @@ function ENT:SetFinishedCallback(callback)
 	self.FinishedCallback = callback
 end
 
+function ENT:IsDialogActive(target)
+	return self.ActivePlayers and self.ActivePlayers[target:SteamID64() or "0"]
+end
+
 function ENT:StartDialog( activator, caller, data )
 
 	local targets = { activator }
@@ -78,6 +82,7 @@ function ENT:StartDialog( activator, caller, data )
 	self.ActivePlayers = self.ActivePlayers or {}
 	for _, v in pairs(targets) do
 		if v:IsBot() then continue end
+		if self:IsDialogActive(v) then continue end
 		
 		dialog.Dispatch( self:GetScript(), v, self:GetCameraReference() )
 		self.ActivePlayers[v:SteamID64() or "0"] = true
@@ -117,8 +122,6 @@ function ENT:StopDialog( activator, caller, data )
 end
 
 function ENT:AcceptInput( name, activator, caller, data )
-
-	print( "EV: " .. name )
 
 	if name == "Start" then self:StartDialog( activator, caller, data ) return true end
 	if name == "Cancel" then self:StopDialog( activator, caller, data ) return true end

@@ -39,6 +39,7 @@ if SERVER then
 	end
 
 	function SetFacts(factTbl)
+		ClearFacts()
 		for k, v in pairs(factTbl) do
 			SetFact(k, v)
 		end
@@ -120,9 +121,7 @@ if CLIENT then
 				name = factNames[k]
 			}
 
-			if #v > 0 then
-				activeFacts[#activeFacts + 1] = k
-			end
+			activeFacts[k] = #v > 0
 		end
 
 		return combinedFacts, activeFacts

@@ -25,6 +25,15 @@ local function getMapSize(bsp)
 	return size.x .. " wide\n" .. size.y .. " deep\n" .. size.z .. " tall"
 end
 
+local function getAddonTags(info)
+	local tags = {}
+	for k, v in pairs(info.tags) do
+		table.insert(tags, v.tag)
+	end
+
+	return string.Implode(", ", tags)
+end
+
 local function getWorkshopFacts(wsid, addFact)
 	print("----------------------", wsid, addFact)
 	if not wsid or wsid == 0 then return end
@@ -35,8 +44,8 @@ local function getWorkshopFacts(wsid, addFact)
 	end)
 
 	local info = task.Await(fileinfoTask)
-	if info then
-		PrintTable(info)
+	if info and info.result != 9 then
+		-- PrintTable(info)
 		addFact("ws_owner", info.owner)
 		addFact("ws_views", "Views:\n" .. info.views)
 		addFact("ws_filesize", "Filesize:\n" .. string.NiceSize(tonumber(info.file_size) or 0))
@@ -46,6 +55,7 @@ local function getWorkshopFacts(wsid, addFact)
 		addFact("ws_update_date", "Last Modified:\n" .. os.date("%H:%M:%S - %d/%m/%Y", tonumber(info.time_updated) or 0))
 		addFact("ws_update_date", "Last Modified:\n" .. os.date("%H:%M:%S - %d/%m/%Y", tonumber(info.time_updated) or 0))
 		addFact("ws_screenshots", info.preview_url) --#TODO: How to grab ALL preview images?
+		addFact("ws_tags", "Tags:\n" .. getAddonTags(info))
 
 		-- Fetch a random comment
 		local commentTask = task.NewCallback(function(done)

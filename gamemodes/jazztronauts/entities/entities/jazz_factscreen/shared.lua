@@ -24,6 +24,8 @@ if SERVER then
 		local id = math.random(1, 1000)
 		if self.FactName then
 			id = factgen.GetFactIDByName(self.FactName, true)
+		else
+			id = self:EntIndex()
 		end
 
 		self:SetFactID(id)
@@ -250,7 +252,12 @@ function ENT:GetRealFactID()
 		return self:GetFactID()
 	end
 
-	return active[(self:GetFactID() % #active) + 1]
+	for i=1, table.Count(active) do
+		local k = (self:GetFactID() + i) % #active
+		if active[k] then return k end
+	end
+
+	return 0
 end
 
 function ENT:UpdateFactMaterial()

@@ -288,6 +288,7 @@ function ENT:ShouldToy(ent)
 	return ent:BoundingRadius() > self.MaxPipeSize or util.IsValidRagdoll(ent:GetModel())
 end
 
+local lastPropName = nil
 function ENT:VomitProp()
 	if not self.SpawnQueue then return false end
 
@@ -306,8 +307,12 @@ function ENT:VomitProp()
 	self:SpawnPropEffect(prop, pos)
 
 	-- Don't do it _every_ time, but adjustable odds
-	if math.Rand(0, 1) <= 0.75 then
-		self:SpawnRandomGibs(pos, ang)
+	if lastPropName != prop.propname then
+		if math.Rand(0, 1) <= 0.75 then
+			self:SpawnRandomGibs(pos, ang)
+		end
+
+		lastPropName = prop.propname
 	end
 
 	-- Decrement

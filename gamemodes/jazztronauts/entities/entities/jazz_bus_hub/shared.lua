@@ -12,9 +12,9 @@ ENT.Model			= Model( "models/matt/jazz_trolley.mdl" )
 
 
 function ENT:SetupDataTables()
-	self:NetworkVar("String", 0, "Destination")
-	self:NetworkVar("Int", 1, "WorkshopID")
-	self:NetworkVar("Int", 2, "MapProgress")
+	self:NetworkVar("String",	0, "Destination")
+	self:NetworkVar("String",	1, "WorkshopID")
+	self:NetworkVar("Int",		0, "MapProgress")
 end
 
 function ENT:ToProgressMask(mapname)

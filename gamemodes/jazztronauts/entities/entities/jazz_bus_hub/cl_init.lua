@@ -60,7 +60,7 @@ function ENT:TableSharedRandom(tbl, seedOffset )
 end
 
 function ENT:RefreshWorkshopInfo()
-	if self:GetWorkshopID() == 0 then return end
+	if self:GetWorkshopID() == "" then return end
 
 	-- First download information about the given workshopid
 	steamworks.FileInfo( self:GetWorkshopID(), function( result )
@@ -71,7 +71,7 @@ function ENT:RefreshWorkshopInfo()
 		-- Try to get the comments for this workshop
 		workshop.FetchComments(result, function(comments)
 			if !self then return end
-
+			
 			local function parseComment(cmt, width)
 				if not cmt then return end
 

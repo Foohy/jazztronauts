@@ -173,6 +173,7 @@ function ENT:SelectDestination(dest)
 		if success then
 			self:EmitSound(IDLE_HUM_SOUND, 65, 80, 0.5)
 			self:EmitSound(SUCCESS_SOUND)
+			util.ScreenShake(self:GetPos(), 2, 10, 1, 1500)
 		else
 			factgen.SetFailure(self:GetScanStateString() .. (msg and ("\n\n" .. msg) or ""))
 			self:EmitSound(FAIL_SOUND)
@@ -185,7 +186,7 @@ function ENT:SelectDestination(dest)
 	self.CurrentlyScanning = dest
 	local wsid = tonumber(dest)
 	if wsid then
-		if (not mapcontrol.IsAddonCached(wsid)) then
+		if (not workshop.IsAddonCached(wsid)) then
 			self:EmitSound(DOWNLOAD_START_SOUND)
 		end
 		mapcontrol.InstallAddon(wsid, onMounted, onPreDecompress)

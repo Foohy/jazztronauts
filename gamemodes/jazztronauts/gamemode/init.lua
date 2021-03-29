@@ -81,8 +81,8 @@ function GM:Initialize()
 
 	-- Add the current map's workshop pack to download
 	-- Usually this is automatic, but because we're doing some manual mounting, it doesn't happen
-	local wsid = workshop.FindOwningAddon(game.GetMap()) or 0
-	if wsid != 0 then resource.AddWorkshop(wsid) end
+	local wsid = workshop.FindOwningAddon(game.GetMap()) or ""
+	resource.AddWorkshop(wsid)
 end
 
 function GM:InitPostEntity()

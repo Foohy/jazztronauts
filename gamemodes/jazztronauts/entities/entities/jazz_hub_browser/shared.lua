@@ -46,7 +46,7 @@ function ENT:Initialize()
 			local m = progress.GetLastMapSession()
 			if m then
 				local wsid = workshop.FindOwningAddon(m.filename)
-				if wsid && wsid != 0 then
+				if wsid then
 					self:BrowseToDestination(wsid)
 				end
 			end

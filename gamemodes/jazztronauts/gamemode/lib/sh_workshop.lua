@@ -79,11 +79,14 @@ function FetchComments(addon, func)
 	http.Fetch(url,
 		function(body, len, headers, cod)
 			local ret = util.JSONToTable(body)
-			local comments = string.gsub(ret.comments_html, "\\%a", "")
-
-			local comm = splitelements(comments)
-
-			func(comm)
+			if ret.comments_html then
+				local comments = string.gsub(ret.comments_html, "\\%a", "")
+				local comm = splitelements(comments)
+				func(comm)
+			else 
+				print(url, body)
+				func({})
+			end		
 		end,
 		function()
 			print("Failed to get workshop comments")
@@ -123,7 +126,7 @@ function FindOwningAddon(mapname)
 	-- First, try to see if we've cached the mapname/workshop association
 	if progress then
 		local res = progress.GetMap(mapname)
-		if res and res.wsid != 0 then return res.wsid end
+		if res and res.wsid != 0 then return tostring(res.wsid) end
 	end
 
 	local addons = engine.GetAddons()
@@ -191,6 +194,8 @@ function DownloadExtractGMA(wsid, path, func)
 	end )
 end
 
+local WORKSHOP_CACHE_PATH = "jazztronauts/cache"
+
 function ExtractGMA(path, data)
 	-- Decompress (LZMA), then write
 	local start = SysTime()
@@ -200,6 +205,7 @@ function ExtractGMA(path, data)
 	-- Write to disk
 	print("Writing to " .. path)
 	start = SysTime()
+	file.CreateDir(WORKSHOP_CACHE_PATH)
 	file.Write(path, data)
 	print("Write to disk: " .. (SysTime() - start) .. " seconds")
 
@@ -211,14 +217,96 @@ function ExtractGMA(path, data)
 	return fileList
 end
 
--- Given a workshop id, download the raw GMA file to disk
--- Works on both server and client (steamworks.Download does not)
-function DownloadGMA(wsid, func)
+function ClearCache()
+	local files = file.Find(WORKSHOP_CACHE_PATH .. "/*", "DATA")
+	for _, v in pairs(files) do
+		file.Delete(WORKSHOP_CACHE_PATH .. "/" .. v)
+	end
+end
+
+function IsAddonCached(wsid)
+	local cachepath = WORKSHOP_CACHE_PATH .. "/" .. wsid .. ".dat"
+	return file.Exists(cachepath, "DATA") and "data/" .. cachepath
+end
+
+
+local active_downloadgma = nil
+if SERVER then
+	util.AddNetworkString("jazz_workshop_downloadlisten")
+end
+net.Receive("jazz_workshop_downloadlisten", function(len, ply)
+	if CLIENT then
+		local wsid = net.ReadString()
+		print("Download workshop addon " .. tostring(wsid) .. " on client via DownloadUGC")
+
+		-- Receive what workshop thing to download and tell the server when it's done
+		steamworks.DownloadUGC(wsid, function(name, file)
+			print("Finished steamworks.DownloadUGC - ", name)
+			net.Start("jazz_workshop_downloadlisten")
+				net.WriteString(wsid) -- Tell which message we're on about
+				net.WriteString(name or "")
+			net.SendToServer()
+		end )
+	elseif SERVER then
+		-- Receive a filepath from the client once they've downloaded it
+		-- This filepath should exist on the server because it is assumed to be working on the listen server host
+		local wsid = net.ReadString()
+		local filepath = net.ReadString()
+		print("Client finished with download file: " .. tostring(filepath))
+		if active_downloadgma then
+			if active_downloadgma.ply == ply and active_downloadgma.wsid == wsid then -- no funny business
+				active_downloadgma.cb(filepath)
+				active_downloadgma = nil
+			else
+				print("Received wrong response for file results: ", active_downloadgma.ply, (active_downloadgma.ply == ply) and "==" or "!=", ply, 
+					active_downloadgma.wsid, (active_downloadgma.wsid == wsid) and "==" or "!=", wsid)
+			end
+		else
+			print("Received file response but we weren't downloading anything!")
+		end
+	end
+end )
+
+-- Version to use on listen servers where we can take advantage of steamworks.DownloadUGC
+local function DownloadGMA_Listen(wsid, func, decompress_func, hostply)
+	if active_downloadgma then return func(nil, "Only one call to DownloadGMA_Listen is allowed at a time") end -- Whatever
+	if not IsValid(hostply) or not hostply:IsPlayer() then return func(nil, "Provided host player is nil or invalid") end
+
+	active_downloadgma = {
+		wsid = tostring(wsid),
+		cb = function(f)
+			if f and #f > 0 then 
+				func(f)
+			else 
+				func(nil, "Failed to download from workshop") 
+			end
+		end,
+		ply = hostply
+	}
+
+	-- Send a message to the listen server client to download the map
+	-- It'll send a message back to use once they're done
+	net.Start("jazz_workshop_downloadlisten")
+		net.WriteString(wsid)
+	net.Send(hostply)
+end
+
+-- Works on both server and client, but only for old-style workshop addons (non-UGC items)
+local function DownloadGMA_Dedicated(wsid, func, decompress_func)
 	-- Callback for when the actual GMA file is downloaded
 	local function FileDownloaded(body, size, headers, status)
 		print("Downloaded " ..  size .. " bytes!")
+		local cachepath = WORKSHOP_CACHE_PATH .. "/" .. wsid .. ".dat"
 
-		func(body)
+		-- Optionally, delay before decompressing if the decompress function told us to
+		local delay = decompress_func and decompress_func(wsid) or 0
+		timer.Simple(delay, function()
+
+			-- Decompress and save to cache folder
+			workshop.ExtractGMA(cachepath, body)
+
+			func("data/" .. cachepath)
+		end )
 	end
 
 	-- Callback for when we've received information about a specific published file
@@ -236,6 +324,7 @@ function DownloadGMA(wsid, func)
 
 		if #fileurl == 0 then
 			func(nil, "Specified addon uses the new UGC workshop system, which is not compatible") // New UGC workshop addons are not supported with this method
+			return
 		end
 
 		print("Beginning file download... " .. fileurl)
@@ -267,6 +356,15 @@ function DownloadGMA(wsid, func)
 		)
 	end
 
+
+	-- Use cached file if it exists on disk
+	local existfile = IsAddonCached(wsid)
+	if existfile then
+		print("Cached version of wsid " .. wsid .. " found! Using that.")
+		func(existfile)
+		return
+	end
+
 	-- Start the call chain, getting information about the published files for the workshop addon
 	local body = { collectioncount = "1", ["publishedfileids[0]"] = tostring(wsid)}
 	http.Post("http://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v0001/", body,
@@ -275,4 +373,28 @@ function DownloadGMA(wsid, func)
 			func(nil, "GetCollectionDetails(" .. wsid .. ") request failed: " .. errmsg)
 		end
 	)
+end
+
+-- Given a workshop id, download the raw GMA file to disk
+function DownloadGMA(wsid, func, decompress_func)
+	-- Prefer using the dedicated server way, because for old addons there is always a hitch on decompress
+	-- We have explicit control over this hitch since we decompress manually, so we can throw the little UI widget up to hide it
+	DownloadGMA_Dedicated(wsid, function(filename, err)
+		if err then
+			print("DownloadGMA_Dedicated FAILED: ", err)
+
+			-- On non-dedicated servers, we have something we can try here: telling the listen server host to install it
+			for _, v in pairs(player.GetAll()) do
+				if IsValid(v) and v:IsListenServerHost() then
+					print("Using fallback, DownloadGMA_Listen")
+					DownloadGMA_Listen(wsid, func, decompress_func, v)
+					return -- Break here
+				end
+			end
+		end
+
+		-- Wasn't a listen server, so we couldn't try anything else
+		-- Pass on the bad news
+		func(filename, err)
+	end, decompress_func)
 end

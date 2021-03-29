@@ -142,11 +142,11 @@ if SERVER then
 		curSelected.map = newMap
 
 		-- Update workshop info
-		local wsid = workshop.FindOwningAddon(newMap) or 0
+		local wsid = workshop.FindOwningAddon(newMap)
 		curSelected.wsid = wsid
 
 		-- If workshop info present, it might be a map pack, so store that too
-		curSelected.maps = wsid != 0 and GetMapsInAddon(wsid) or {}
+		curSelected.maps = wsid and GetMapsInAddon(wsid) or {}
 
 		hook.Call("JazzMapRandomized", GAMEMODE, curSelected.map, curSelected.wsid)
 
@@ -180,64 +180,38 @@ if SERVER then
 	end
 
 
-	local cachepath = "jazztronauts/cache"
-	function IsAddonCached(wsid)
-		local dlpath = cachepath .. "/" .. wsid .. ".dat"
-		return file.Exists(dlpath, "DATA")
-	end
-
 	-- Given a workshop id, try to download and mount it
 	-- if it hasn't already been downloaded/mounted
 	function InstallAddon(wsid, finishFunc, decompFunc)
-		file.CreateDir(cachepath)
-		local dlpath = cachepath .. "/" .. wsid .. ".dat"
-
-		-- Check local cache first
-		local s, files = game.MountGMA("data/" .. dlpath)
-		if s and files then
-			print("Mounted from cache file!")
-			finishFunc(files)
-			return
-		end
 
 		-- Download from internet and mount
-		workshop.DownloadGMA(wsid, function(data, errmsg)
+		workshop.DownloadGMA(wsid, function(filepath, errmsg)
 
 			-- Bad workshop ID or network failure
-			if not data then
+			if not filepath then
 				print("Failed to download addon: " .. errmsg)
 				finishFunc(nil, errmsg)
 				return
 			end
 
-			-- Optionally, delay before decompressing if the decompress function told us to
-			local delay = decompFunc and decompFunc(wsid) or 0
-			timer.Simple(delay, function()
+			-- Try mounting
+			print("Addon downloaded, decompressing and mounting...")
+			local time = SysTime()
+			local s, files = game.MountGMA(filepath)
+			print("Mounting: " .. (SysTime() - time) .. " seconds.")
 
-				-- Decompress and save to cache folder
-				local fileList = workshop.ExtractGMA(dlpath, data)
+			if s and files then
+				print("CONTENT MOUNTED!!!")
+				--PrintTable(files)
+			end
 
-				-- Try mounting
-				print("Addon downloaded, decompressing and mounting...")
-				local time = SysTime()
-				local s, files = game.MountGMA("data/" .. dlpath)
-				print("Mounting: " .. (SysTime() - time) .. " seconds.")
+			finishFunc(files)
 
-				if s and files then
-					print("CONTENT MOUNTED!!! SAY HELLO TO YOUR NEW FILES:")
-					PrintTable(files)
-				end
-
-				finishFunc(files)
-			end )
-		end)
+		end, decompFunc)
 	end
 
 	function ClearCache()
-		local files = file.Find(cachepath, "DATA")
-		for _, v in pairs(files) do
-			file.Delete(cachepath .. "/" .. v)
-		end
+		workshop.ClearCache()
 	end
 
 	local function GetExternalMapAddons(contents)

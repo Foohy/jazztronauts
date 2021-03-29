@@ -30,7 +30,7 @@ if SERVER then
 		UpdateLeaderboards()
 	end )
 
-	hook.Add("OnClientInitialized", "JazzCheckPlayerIntroDialog", function(ply)
+	hook.Add("OnClientInitialized", "JazzInitializeLeaderboards", function(ply)
 		UpdateLeaderboards()
 	end )
 

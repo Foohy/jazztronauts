@@ -4,6 +4,7 @@
 	"title"			"Jazztronauts"
 	"menusystem" 	"1"
 	"maps" 			"jazz_bar"
+	"category"		"pve"
 	"workshopid"	"1452613192"
 
 	"settings"

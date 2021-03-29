@@ -253,7 +253,7 @@ function ENT:GetRealFactID()
 	end
 
 	for i=1, table.Count(active) do
-		local k = (self:GetFactID() + i) % #active
+		local k = 1 + (self:GetFactID() + i) % #active
 		if active[k] then return k end
 	end
 

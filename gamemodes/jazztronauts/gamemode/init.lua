@@ -330,7 +330,11 @@ end
 function GM:CollectBrush(brush, players)
 
 	local material, area = self:GetPrimaryBrushMaterial(brush)
-	local worth = math.max(1, math.Round(math.sqrt(area) * 0.1))
+
+	local size = brush.max - brush.min
+	local length = size.x + size.y + size.z
+
+	local worth = math.pow(length, 1.1) / 15.0
 
 	-- Collect the prop to the poop chute
 	if worth and worth > 0 then --TODO: Check if worth > 1 not 0

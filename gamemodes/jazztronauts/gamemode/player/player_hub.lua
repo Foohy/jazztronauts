@@ -42,17 +42,13 @@ end
 
 local meta = FindMetaTable("Player")
 function meta:ChangeNotes(delta)
-	if jazzmoney.ChangeNotes(self, delta) then
-		self:SetNotes(jazzmoney.GetNotes(self))
-		return true
-	end
-
-	return false
+	return jazzmoney.ChangeNotes(self, delta)
 end
 
-function meta:RefreshNotes()
-	self:SetNotes(jazzmoney.GetNotes(self))
+function meta:GetNotes()
+	return jazzmoney.GetNotes(self)
 end
+
 
 if CLIENT then
 	-- Clientside only version of player:Lock()

@@ -426,11 +426,6 @@ function GM:PlayerSpawn( ply )
 
 	hook.Call( "PlayerLoadout", GAMEMODE, ply )
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
-
-	-- PrintMapHistory(ply)
-
-	-- Setup note count
-	ply:RefreshNotes()
 end
 
 -- Stop killing the player, they don't collide

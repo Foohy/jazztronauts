@@ -30,11 +30,6 @@ if SERVER then
 	local function UpdateTotal()
 		GetTotal(true)
 
-		-- Update datatables on everyone
-		for _, v in pairs(player.GetAll()) do
-			v:RefreshNotes()
-		end
-
 		-- Update nettable for playercounts
 		local allNotes = money.GetAllNotes()
 		for _, v in pairs(allNotes) do

@@ -443,7 +443,7 @@ end
 function LoadScripts()
 	if SERVER then -- This info is loaded from the server
 		print("[Jazz Dialog] Loading script sources...")
-		local scripts, _ = file.Find( ScriptPath .. "*", "GAME" )
+		local scripts, _ = file.Find( ScriptPath .. "*.txt", "GAME" )
 		for _, script in pairs( scripts ) do
 			ScriptSources[script] = file.Read( ScriptPath .. script, "GAME" )
 		end

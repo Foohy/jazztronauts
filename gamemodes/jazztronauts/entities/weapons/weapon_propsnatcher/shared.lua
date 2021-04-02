@@ -144,7 +144,6 @@ function SWEP:SetUpgrades(overpowered)
 
 	-- How fast they can steal the world
 	self.WorldStealSpeed = overpowered and math.huge or (jstore.GetSeries(self.Owner, snatch_world_speed) + 1)
-	self.WorldStealSpeed = self.WorldStealSpeed * 2
 
 	-- Allow multi-tasking?
 	self.CanMultitask = unlocks.IsUnlocked("store", self.Owner, snatch_multi) or overpowered

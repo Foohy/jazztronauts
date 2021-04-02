@@ -97,24 +97,28 @@ end
 
 -- Async fetch the thumbnail for the provided workshop addon
 function FetchThumbnail(addon, func)
-	steamworks.Download(addon.previewid, true, function(name)
-		if name != nil then
-			local mat = AddonMaterial(name)
+	if addon and type(addon.previewid) == "string" then
+		steamworks.Download(addon.previewid, true, function(name)
+			if name != nil then
+				local mat = AddonMaterial(name)
 
-			-- Sometimes it likes to throw you a curveball and not work
-			local baseTex = mat and mat:GetTexture("$basetexture") or nil
-			if baseTex == nil then
+				-- Sometimes it likes to throw you a curveball and not work
+				local baseTex = mat and mat:GetTexture("$basetexture") or nil
+				if baseTex == nil then
 
-				-- But just trying it again fixes it....
-				print("preview image invalid, reloading...")
-				mat = AddonMaterial(name)
+					-- But just trying it again fixes it....
+					print("preview image invalid, reloading...")
+					mat = AddonMaterial(name)
+				end
+
+				func(mat)
+			else
+				func(nil)
 			end
-
-			func(mat)
-		else
-			func(nil)
-		end
-	end )
+		end )
+	else
+		func(nil)
+	end
 end
 
 

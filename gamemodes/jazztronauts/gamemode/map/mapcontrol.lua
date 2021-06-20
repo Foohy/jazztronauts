@@ -4,6 +4,8 @@ local defaultMapHost = "http://host.foohy.net/jazz/data/addons.txt"
 local defaultAddonCache = "jazztronauts/addons.txt"
 local overrideAddonCache = "jazztronauts/addons_override.txt"
 
+local fallbackVersion = VERSION < 210618 -- Maps unmounted fixed in gmod dev branch version 210618. Before that, fallback to local addons/maps instead
+
 local includeExternal = CreateConVar("jazz_include_external", 1, FCVAR_ARCHIVE, "Whether or not to include an external addon host. Used for searching all of workshop")
 local includeLocalAddons = CreateConVar("jazz_include_localaddon", 0, FCVAR_ARCHIVE, "Whether or not to include maps from locally installed addons. ")
 local includeLocalMaps = CreateConVar("jazz_include_localmap", 0, FCVAR_ARCHIVE, "Whether or not to include local loose maps in the maps folder.")
@@ -270,7 +272,13 @@ if SERVER then
 			end
 		end
 
-		if includeExternal:GetBool() then
+		-- Automatically fall back to just choosing local addons gracefully if their user settings are the defaults of external
+		-- If it's different then respect that decision though, but on fallback gmod versions external maps won't work
+		local fallbackLocalOnly = fallbackVersion and includeExternal:GetBool()
+		if fallbackLocalOnly then
+			print("=====================\n JAZZTRONAUTS IS USING FALLBACK SETTINGS DUE TO CURRENT GMOD VERSION LIMITATIONS")
+		end
+		if includeExternal:GetBool() and not fallbackLocalOnly then
 			local addonTask = task.NewCallback(function(done)
 				http.Fetch(includeExternalHost:GetString(), done, function(err) ErrorNoHalt(err .. "\n") done() end)
 			end )
@@ -291,11 +299,11 @@ if SERVER then
 			insertAddons(GetExternalMapAddons(addonsStr or ""))
 		end
 
-		if includeLocalAddons:GetBool() then
+		if includeLocalAddons:GetBool() or fallbackLocalOnly then
 			insertAddons(GetLocalMapAddons())
 		end
 
-		if includeLocalMaps:GetBool() then
+		if includeLocalMaps:GetBool() or fallbackLocalOnly then
 			insertAddons(GetLocalMaps())
 		end
 

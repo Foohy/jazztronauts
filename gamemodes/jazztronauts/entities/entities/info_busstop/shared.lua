@@ -43,7 +43,7 @@ function ENT:OnMapChanged(newmap, wsid)
 	busOff:Rotate(ang)
 	bus:SetPos(self:GetPos() + busOff)
 	bus:SetAngles(ang)
-	bus:SetMap(newmap, wsid)
+	bus:SetMap(newmap, wsid or "")
 	bus:Spawn()
 end
 

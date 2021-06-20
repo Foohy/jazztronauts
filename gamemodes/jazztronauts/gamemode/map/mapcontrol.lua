@@ -18,6 +18,15 @@ concommand.Add("jazz_clear_cache", function()
 end,
 nil, "Clears the temporary cache of downloaded map files")
 
+local function UpdateMapsConvarChanged()
+	SetupMaps()
+end
+
+cvars.AddChangeCallback(includeExternal:GetName(), UpdateMapsConvarChanged, "jazz_mapcontrol_cback")
+cvars.AddChangeCallback(includeLocalAddons:GetName(), UpdateMapsConvarChanged, "jazz_mapcontrol_cback")
+cvars.AddChangeCallback(includeLocalMaps:GetName(), UpdateMapsConvarChanged, "jazz_mapcontrol_cback")
+
+
 
 curSelected = curSelected or {}
 addonList = addonList or {}
@@ -159,7 +168,7 @@ if SERVER then
 
 		net.Start("jazz_rollmap")
 			net.WriteString(curSelected.map)
-			net.WriteString(curSelected.wsid)
+			net.WriteString(curSelected.wsid or "")
 			net.WriteUInt(#curSelected.maps, 8)
 			for _, v in ipairs(curSelected.maps) do
 				net.WriteString(v)

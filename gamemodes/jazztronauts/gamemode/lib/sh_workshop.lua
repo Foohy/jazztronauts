@@ -381,6 +381,24 @@ end
 
 -- Given a workshop id, download the raw GMA file to disk
 function DownloadGMA(wsid, func, decompress_func)
+	-- Before doing anything, see if the addon is already mounted locally, that saves us all the work
+
+	local subscribed = engine.GetAddons()
+	for _, v in pairs(subscribed) do
+		print(type(v.wsid), type(wsid), v.wsid == wsid)
+		if v.wsid == wsid then
+			if v.mounted then
+				-- It's mounted!! just return that instead
+				func(v.file)
+				return
+			end
+
+			break -- If we hit a match and it wasn't mounted, fallback
+		end
+	end
+
+
+
 	-- Prefer using the dedicated server way, because for old addons there is always a hitch on decompress
 	-- We have explicit control over this hitch since we decompress manually, so we can throw the little UI widget up to hide it
 	DownloadGMA_Dedicated(wsid, function(filename, err)

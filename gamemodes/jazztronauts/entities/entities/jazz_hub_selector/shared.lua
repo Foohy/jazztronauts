@@ -103,6 +103,17 @@ function ENT:BuildMapFacts(map, wsid)
 	end
 end
 
+function ENT:MapFinishedEffects(success, ermsg)
+	if success then
+		self:EmitSound(IDLE_HUM_SOUND, 65, 80, 0.5)
+		self:EmitSound(SUCCESS_SOUND)
+		util.ScreenShake(self:GetPos(), 2, 10, 1, 1500)
+	else
+		factgen.SetFailure(self:GetScanStateString() .. (ermsg and ("\n\n" .. ermsg) or ""))
+		self:EmitSound(FAIL_SOUND)
+	end
+end
+
 function ENT:SelectDestination(dest)
 	mapcontrol.SetSelectedMap(nil) -- Tell the current bus to leave
 	factgen.ClearFacts() -- No more facts
@@ -170,14 +181,7 @@ function ENT:SelectDestination(dest)
 			self:SetScanState(SCAN_FAILED_NETWORK)
 		end
 
-		if success then
-			self:EmitSound(IDLE_HUM_SOUND, 65, 80, 0.5)
-			self:EmitSound(SUCCESS_SOUND)
-			util.ScreenShake(self:GetPos(), 2, 10, 1, 1500)
-		else
-			factgen.SetFailure(self:GetScanStateString() .. (msg and ("\n\n" .. msg) or ""))
-			self:EmitSound(FAIL_SOUND)
-		end
+		self:MapFinishedEffects(success, msg)
 
 		setActiveMap(table.Random(newMaps), wsid)
 	end
@@ -189,9 +193,10 @@ function ENT:SelectDestination(dest)
 		if (not workshop.IsAddonCached(wsid)) then
 			self:EmitSound(DOWNLOAD_START_SOUND)
 		end
-		mapcontrol.InstallAddon(wsid, onMounted, onPreDecompress)
+		mapcontrol.InstallAddon(tostring(wsid), onMounted, onPreDecompress)
 	else
 		self:SetScanState(SCAN_COMPLETE)
+		self:MapFinishedEffects(true)
 		setActiveMap(dest)
 	end
 

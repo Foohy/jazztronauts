@@ -150,9 +150,9 @@ end
 -- Break if the front of the bus has breached our plane of existence
 function ENT:ShouldBreak()
 	if !IsValid(self:GetBus()) then return false end
-
 	local busFront = self:GetBus():GetFront()
-	return self:DistanceToVoid(busFront) > 0
+
+	return self:DistanceToVoid(busFront) > 1
 end
 
 
@@ -464,10 +464,12 @@ function ENT:DrawInteriorDoubles()
 
 	-- Draw bus
 	if IsValid(self:GetBus()) then
-		self:GetBus():DrawModel()
-		local childs = self:GetBus():GetChildren()
-		for _, v in pairs(childs) do
-			v:DrawModel()
+		self:GetBus():Draw()
+		if self:GetIsExit() then -- Don't render the empty seats because the bus is doing some matrix magic on enter
+			local childs = self:GetBus():GetChildren()
+			for _, v in pairs(childs) do
+				v:DrawModel()
+			end
 		end
 	end
 

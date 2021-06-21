@@ -21,7 +21,7 @@ ENT.VoidMusicFadeStart = 12.0
 ENT.VoidMusicFadeEnd   = 22.0
 
 function ENT:SetupDataTables()
-
+	self:NetworkVar("Float", 0, "BreakTime")
 end
 
 function ENT:GetFront()

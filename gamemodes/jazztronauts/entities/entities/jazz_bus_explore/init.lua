@@ -84,6 +84,7 @@ function ENT:Initialize()
 	self.BrakeSound:SetSoundLevel(100)
 
 	-- Let it sink in
+	self:SetBreakTime(CurTime() + prelim.delay)
 	timer.Simple(prelim.delay, function()
 		if IsValid(self) then self:Arrive() end
 	end )
@@ -156,6 +157,13 @@ function ENT:Arrive()
 
 	self.StartTime = CurTime()
 	self.MoveState = MOVE_ARRIVING
+
+	-- Tweak the arrive position so we don't break the second barrier in a narrow space
+	if IsValid(self.ExitPortal) then
+		local MoveDistance = math.Clamp(self.ExitPortal:DistanceToVoid(self:GetFront(), true), 50, self.HalfLength*2)
+		self.GoalPos = self:GetPos() + self:GetAngles():Right() * MoveDistance
+	end
+	
 end
 
 function ENT:Leave()

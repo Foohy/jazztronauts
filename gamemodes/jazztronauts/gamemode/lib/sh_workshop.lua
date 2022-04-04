@@ -328,12 +328,6 @@ local function DownloadGMA_Dedicated(wsid, func, decompress_func)
 		end
 
 		if #fileurl == 0 then
-			--[[
-				There is a fix we (Sunrust Devs) made atm, however I (ptown2) currently
-				do not feel comfortable in releasing it in its current state, I will
-				check alternate downloading methods or improve said fix whenever I can.
-			]]
-
 			func(nil, "Specified addon uses the new UGC workshop system, which is not compatible") -- New UGC workshop addons are not supported with this method
 			return
 		end

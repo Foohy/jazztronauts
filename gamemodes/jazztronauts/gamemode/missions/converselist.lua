@@ -30,11 +30,11 @@ end
 
 -- Add in manual, conditional conversations
 
--- Intro tutorial script
+-- Intro tutorial script, this needs to be first out of all for new game+.
 AddNPC("jazz_bar_intro.begin", missions.NPC_BAR,  function(ply, talknpc)
 	return true
 end,
-SUPER_PRIORITY )
+SUPER_PRIORITY + 5 )
 
 -- Collected _A_ shard
 AddNPC("jazz_bar_shardprogress.begin1", missions.NPC_BAR, function(ply, talknpc)

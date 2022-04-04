@@ -77,28 +77,31 @@ function SWEP:Initialize()
 	self.Hum = CreateSound(self, "ambient/machines/machine6.wav")
 	self.BeamLoop1 = CreateSound(self, "ambient/machines/machine_whine1.wav")
 
-
 	hook.Add( "OnUnlocked", self, function( self, list_name, key, ply )
 		local baseKey = jstore.GetSeriesBase(key)
-		if ply == self.Owner and storeRange == baseKey or storeSpeed == baseKey then
+		if ply == self:GetOwner() and storeRange == baseKey or storeSpeed == baseKey then
 			self:SetUpgrades()
 		end
 	end )
 
-	-- self.Owner is null during initialize......
-	timer.Simple(0, function()
+	if CLIENT then
 		self:SetUpgrades()
-	end)
+	end
+end
+
+function SWEP:OwnerChanged()
+	self:SetUpgrades()
 end
 
 -- Query and apply current upgrade settings to this weapon
 function SWEP:SetUpgrades()
-	if not IsValid(self.Owner) then return end
+	local owner = self:GetOwner()
+	if not IsValid(owner) then return end
 
-	local rangeLevel = jstore.GetSeries(self.Owner, storeRange)
+	local rangeLevel = jstore.GetSeries(owner, storeRange)
 	self.TeleportDistance = DefaultTeleportDistance + math.pow(rangeLevel, 2) * 300
 
-	local speedLevel = jstore.GetSeries(self.Owner, storeSpeed)
+	local speedLevel = jstore.GetSeries(owner, storeSpeed)
 	self.SpeedRate = DefaultSpeed + speedLevel * 300
 
 	-- # of skulls == # of upgrades
@@ -112,7 +115,7 @@ end
 function SWEP:Deploy()
 
 
-	local vm = self.Owner:GetViewModel()
+	local vm = self:GetOwner():GetViewModel()
 	local depseq = IsValid(vm) and vm:LookupSequence( "anim_deploy" ) or nil
 	if depseq then
 		vm:SendViewModelMatchingSequence( depseq )
@@ -129,14 +132,14 @@ function SWEP:StartPrimaryAttack()
 
 	if CLIENT then
 
-		--self.Owner:EmitSound( self.Primary.Sound, 50, 140 )
+		--self:GetOwner():EmitSound( self.Primary.Sound, 50, 140 )
 		--self.Hum:Play()
 
 	end
 
-	self.Weapon:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
-	--self.Owner:MuzzleFlash()
-	--self.Owner:SetAnimation( PLAYER_ATTACK1 )
+	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
+	--self:GetOwner():MuzzleFlash()
+	--self:GetOwner():SetAnimation( PLAYER_ATTACK1 )
 
 
 	//print("Starting to attack")
@@ -147,7 +150,7 @@ function SWEP:StopPrimaryAttack()
 
 	//print("Stopping attack")
 
-	local vm = self.Owner:GetViewModel()
+	local vm = self:GetOwner():GetViewModel()
 	vm:SendViewModelMatchingSequence( vm:LookupSequence( "anim_deploy" ) )
 	--vm:SendViewModelMatchingSequence( vm:LookupSequence( "fists_draw" ) )
 	vm:SetPlaybackRate( 1 )
@@ -271,7 +274,7 @@ end
 
 function SWEP:TestPlayerLocation( pos )
 
-	local mins, maxs = self.Owner:GetCollisionBounds()
+	local mins, maxs = self:GetOwner():GetCollisionBounds()
 	local tr = util.TraceHull( {
 		start = pos,
 		endpos = pos,
@@ -286,6 +289,7 @@ end
 
 function SWEP:TraceFragments( start, endpos )
 
+	local owner = self:GetOwner()
 	local fragments = {}
 	local dir = (endpos - start)
 	local normal = dir:GetNormal()
@@ -296,7 +300,7 @@ function SWEP:TraceFragments( start, endpos )
 		endpos = endpos,
 		mask = MASK_PLAYERSOLID_BRUSHONLY,
 		--collisiongroup = COLLISION_GROUP_WEAPON
-		filter = self.Owner,
+		filter = owner,
 	} )
 
 	local remaining = length * (1 - primary.Fraction)
@@ -321,13 +325,13 @@ function SWEP:TraceFragments( start, endpos )
 			remaining = remaining * (1 - secondary.FractionLeftSolid)
 
 			if remaining == 0 then return fragments end
-			local mins, maxs = self.Owner:GetCollisionBounds()
+			local mins, maxs = owner:GetCollisionBounds()
 			local tertiary = util.TraceHull( {
 				start = secondary_end + normal * 2,
 				endpos = secondary_end + normal * remaining,
 				mask = MASK_PLAYERSOLID,
 				--collisiongroup = COLLISION_GROUP_WEAPON
-				filter = self.Owner,
+				filter = owner,
 				mins = mins,
 				maxs = maxs,
 			} )
@@ -372,7 +376,8 @@ function SWEP:DrawHUD()
 
 	local b,e = pcall(function()
 
-		local viewmodel = self.Owner:GetViewModel(0)
+		local owner = self:GetOwner()
+		local viewmodel = owner:GetViewModel(0)
 		local hands = LocalPlayer():GetHands()
 		local atBone = hands:LookupBone( "ValveBiped.Bip01_R_Hand" )
 
@@ -380,8 +385,8 @@ function SWEP:DrawHUD()
 
 		local atpos, atang = hands:GetBonePosition( atBone )
 		local distance = self.TeleportDistance
-		local viewdir = self.Owner:GetAimVector()
-		local startpos = self.Owner:GetShootPos()
+		local viewdir = owner:GetAimVector()
+		local startpos = owner:GetShootPos()
 		local endpos = startpos + viewdir * distance
 
 		local origin = atpos
@@ -506,21 +511,22 @@ end
 
 function SWEP:Teleport()
 
+	local owner = self:GetOwner()
 	local distance = self.TeleportDistance
-	local viewdir = self.Owner:GetAimVector()
-	local startpos = self.Owner:GetShootPos()
+	local viewdir = owner:GetAimVector()
+	local startpos = owner:GetShootPos()
 	local endpos = startpos + viewdir * distance
 	local fragments = self:TraceFragments( startpos, endpos )
 
 	if #fragments ~= 3 then
-		if SERVER then self.Owner:EmitSound( Sound( "buttons/button10.wav" ), 100, 100 ) end
+		if SERVER then owner:EmitSound( Sound( "buttons/button10.wav" ), 100, 100 ) end
 		return
 	end
 
 	if SERVER then
-		self.Owner:EmitSound( Sound( "beams/beamstart5.wav" ), 100, 70 )
-		self.Owner:EmitSound( Sound( "beamstart7.wav" ), 70, 40 )
-		self.Owner:SetPos( fragments[3].endpos )
+		owner:EmitSound( Sound( "beams/beamstart5.wav" ), 100, 70 )
+		owner:EmitSound( Sound( "beamstart7.wav" ), 70, 40 )
+		owner:SetPos( fragments[3].endpos )
 	end
 
 	if CLIENT and self:IsCarriedByLocalPlayer() then
@@ -606,7 +612,7 @@ function SWEP:Think()
 
 			if self.speed == topspeed then
 				--if CLIENT then self.BeamLoop1:Stop() end
-				--if SERVER then self.Owner:EmitSound( Sound( "ambient/explosions/explode_7.wav" ), 100, 180 ) end
+				--if SERVER then self:GetOwner():EmitSound( Sound( "ambient/explosions/explode_7.wav" ), 100, 180 ) end
 			end
 
 			self.speed = math.max( self.speed - dt * speedrate, 0 )
@@ -642,9 +648,9 @@ function SWEP:Think()
 
 	self.lasttime = CurTime()
 
-
-	local pos = self.Owner:GetShootPos()
-	local dir = self.Owner:GetAimVector()
+	local owner = self:GetOwner()
+	local pos = owner:GetShootPos()
+	local dir = owner:GetAimVector()
 	local tr = util.TraceLine( {
 		start = pos,
 		endpos = pos + dir * 100000,
@@ -659,9 +665,10 @@ end
 function SWEP:CanTeleport()
 	if CLIENT and not self:IsCarriedByLocalPlayer() then return true end
 
+	local owner = self:GetOwner()
 	local distance = self.TeleportDistance
-	local viewdir = self.Owner:GetAimVector()
-	local startpos = self.Owner:GetShootPos()
+	local viewdir = owner:GetAimVector()
+	local startpos = owner:GetShootPos()
 	local endpos = startpos + viewdir * distance
 	local fragments = self:TraceFragments( startpos, endpos )
 	return #fragments == 3
@@ -682,9 +689,10 @@ end
 
 function SWEP:ShootEffects()
 
-	self.Weapon:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
-	self.Owner:MuzzleFlash()
-	self.Owner:SetAnimation( PLAYER_ATTACK1 )
+	local owner = self:GetOwner()
+	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
+	owner:MuzzleFlash()
+	owner:SetAnimation( PLAYER_ATTACK1 )
 
 end
 

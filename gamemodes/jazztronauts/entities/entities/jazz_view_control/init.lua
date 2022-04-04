@@ -90,21 +90,19 @@ function ENT:DropControllers()
 	for _, ply in pairs( player.GetAll() ) do
 
 		ply:SetViewEntity( ply )
-		ply:SetObserverMode(OBS_MODE_NONE)
+		ply:SetObserverMode( OBS_MODE_NONE )
 		ply:UnLock()
-		ply:Freeze(false)
+		ply:Freeze( false )
+
+		-- Clear proxy concurrency for this proxy
+		if ply.current_viewcontrol_proxy == self then
+			ply.current_viewcontrol_proxy = nil
+		end
 
 	end
 
 	-- Clear controller list
 	self.controllers = {}
-
-	-- Clear proxy concurrency for this proxy
-	for _, ply in pairs( player.GetAll() ) do
-		if ply.current_viewcontrol_proxy == self then
-			ply.current_viewcontrol_proxy = nil
-		end
-	end
 
 end
 
@@ -130,21 +128,21 @@ end
 
 function ENT:Enable( activator )
 
-	-- Make this proxy current, disables other proxies in use
-	self:MakeCurrent()
-
 	-- Ensure each player has their own point_viewcontrol entity
 	self:EnsureControllers()
 
+	-- Make this proxy current, disables other proxies in use
+	self:MakeCurrent()
+
 	-- Fire 'enable' input on each controller
-	self:FireControllers( "enable", nil, nil, nil )
+	self:FireControllers( "enable", activator, activator, nil )
 
 end
 
 function ENT:Disable( activator )
 
 	-- We're done with all point_viewcontrol's at this point, clean up and remove them
-	self:DropControllers()
+	self:FireControllers( "disable", activator, activator, nil )
 
 end
 

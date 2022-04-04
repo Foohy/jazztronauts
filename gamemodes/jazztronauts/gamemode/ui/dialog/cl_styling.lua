@@ -89,8 +89,8 @@ local CamOffsets = {
 	["models/pizza_steve/pizza_steve.mdl"] = { pos = Vector(0, 0, -23), offset = CatCamOffset * 1.1 }
 }
 
+local DialogFrame
 local DialogCallbacks = {}
-
 
 surface.CreateFont( "JazzDialogNameFont", {
 	font = "KG Shake it Off Chunky",
@@ -367,16 +367,18 @@ local function CreateRichText()
 	richText:SetVerticalScrollbarEnabled(false)
 	richText:SetPaintedManually(true)
 
+	local richTextOverlay = vgui.Create("DPanel", richText)
+	richTextOverlay:Dock(FILL)
+	richTextOverlay:SetAlpha(0)
+	richTextOverlay:SetKeyboardInputEnabled(true)
+	richTextOverlay:SetMouseInputEnabled(true)
+
 	function richText:PerformLayout()
 		self:SetFontInternal("JazzDialogFont")
 		self:SetFGColor(DialogColor)
 	end
 
-	-- STOP SELECTING MY TEXT
-	function richText:Think()
-		self:KillFocus()
-	end
-
+	DialogFrame = richText
 	hook.Call("OnJazzDialogCreatePanel", GAMEMODE, richText)
 
 	return richText
@@ -502,6 +504,11 @@ hook.Add("Think", "JazzDialogSkipListener", function()
 
 	local skip = AnyKeysDown(keyOverrides or DefaultKeys)
 
+	-- Prevents skipping if not focused properly
+	if not dialog.GetParam("HIDE_MOUSE") and
+		IsValid(DialogFrame) and not DialogFrame:IsChildHovered() and not vgui.IsHoveringWorld() then
+		return
+	end
 	if skip == wasSkipPressed then return end
 	wasSkipPressed = skip
 	if not dialog.IsInDialog() then return end

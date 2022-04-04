@@ -33,7 +33,7 @@ end
 
 function Dispatch( script, targets, focus, camera )
 	local scriptid = ScriptIDFromName( script )
-	if scriptid == 0 then
+	if not scriptid or scriptid == 0 then
 		ErrorNoHalt("Invalid script \"" .. script .. "\"!")
 		return false
 	end

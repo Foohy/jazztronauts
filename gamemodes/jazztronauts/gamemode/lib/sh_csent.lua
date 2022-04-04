@@ -59,7 +59,7 @@ end
 AllocCSEntity = function( id, model, ragdoll )
 
 	local entry = tostring(id) .. tostring(model) .. tostring(ragdoll)
-	if _ENTITY_POOL[entry] ~= nil then
+	if _ENTITY_POOL[entry] ~= nil and _ENTITY_POOL[entry]:IsValid() then
 		_ENTITY_REF_COUNTERS[entry] = _ENTITY_REF_COUNTERS[entry] + 1
 		return _ENTITY_POOL[entry]
 	end

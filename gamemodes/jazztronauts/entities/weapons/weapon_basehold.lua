@@ -56,7 +56,8 @@ function SWEP:Initialize()
 	-- It's not canon, but it's kind of nice to be able to do this
 	if CLIENT then
 		hook.Add("Think", self, function(self)
-			if IsValid(self.Owner) and LocalPlayer() != self.Owner then
+			local owner = self:GetOwner()
+			if IsValid(owner) and LocalPlayer() != owner then
 				self:Think()
 			end
 		end )
@@ -85,7 +86,7 @@ function SWEP:GetMuzzleAttachment()
 		attach = self:GetAttachment(attach)
 		attach = attach.Pos
 	else
-		attach = self.Owner:GetShootPos()
+		attach = self:GetOwner():GetShootPos()
 	end
 
 	return attach
@@ -122,7 +123,7 @@ end
 
 function SWEP:AnyIsAttacking(mode)
 	local state = self.AttackStates[mode]
-	if SERVER or (self.Owner == LocalPlayer() and not game.SinglePlayer()) then
+	if SERVER or (self:GetOwner() == LocalPlayer() and not game.SinglePlayer()) then
 		return state.IsHeld
 	else
 		return state.GetNet(self)
@@ -184,9 +185,10 @@ end
 
 function SWEP:ShootEffects()
 
-	self.Weapon:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
-	self.Owner:MuzzleFlash()
-	self.Owner:SetAnimation( PLAYER_ATTACK1 )
+	local owner = self:GetOwner()
+	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
+	owner:MuzzleFlash()
+	owner:SetAnimation( PLAYER_ATTACK1 )
 
 end
 

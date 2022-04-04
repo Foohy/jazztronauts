@@ -1,8 +1,8 @@
 module( "converse", package.seeall )
 ResetConvos()
 
-EVENT_PRIORITY = 4
-SUPER_PRIORITY = 6
+EVENT_PRIORITY = 1000
+SUPER_PRIORITY = 2000
 
 local function addMissionAuto(mid, npcid)
 	local convoid = mid - npcid * 1000 -- Mission IDs are created as npcid * 1000 + mid
@@ -20,7 +20,7 @@ local function addMissionAuto(mid, npcid)
 		local completed = missions.GetCompletedMissions(ply)
 		return completed[mid]
 	end,
-	EVENT_PRIORITY )
+	EVENT_PRIORITY - convoid)
 end
 
 -- Automatically add mission conversations
@@ -61,6 +61,7 @@ end,
 SUPER_PRIORITY - 1)
 
 -- Collected 75% shards
+-- For some reason, this event was actually missing from the scripts. A placeholder got added in the meantime. - ptown2
 AddNPC("jazz_bar_shardprogress.begin75", missions.NPC_BAR, function(ply, talknpc)
 	local cur, total =mapgen.GetTotalCollectedShards(), mapgen.GetTotalRequiredShards()
 	return cur >= math.Round(total * 0.75)
@@ -69,14 +70,14 @@ end,
 SUPER_PRIORITY - 1)
 
 -- Once they've gotten enough shards, do this one, it's even more important
-AddNPC("jazz_bar_shardall.begin100", missions.NPC_BAR, function(ply, talknpc)
+AddNPC("jazz_bar_shardprogress.begin100", missions.NPC_BAR, function(ply, talknpc)
 	return mapgen.GetTotalCollectedShards() >= mapgen.GetTotalRequiredShards()
 		and not tobool(newgame.GetGlobal("ended"))
 end,
 SUPER_PRIORITY + 1)
 
 -- Finished all cat events. Not called immediately, only when returning from map
-AddNPC("completed_all_cats.completed_all_cats", missions.NPC_BAR, function(ply, talknpc)
+AddNPC("jazz_bar_shardprogress.completed_all_cats", missions.NPC_BAR, function(ply, talknpc)
 	return missions.PlayerCompletedAll(ply)
 end,
 SUPER_PRIORITY + 2)

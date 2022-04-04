@@ -7,6 +7,7 @@ PLAYER.DisplayName			= "Exploration Class"
 
 PLAYER.WalkSpeed			= 200		-- How fast to move when not running
 PLAYER.RunSpeed				= 400		-- How fast to move when running
+PLAYER.SlowWalkSpeed		= 150		-- How fast to move when slow walking
 PLAYER.CrouchedWalkSpeed	= 0.3		-- Multiply move speed by this when crouching
 PLAYER.DuckSpeed			= 0.1		-- How fast to go from not ducking, to ducking
 PLAYER.UnDuckSpeed			= 0.1		-- How fast to go from ducking, to not ducking

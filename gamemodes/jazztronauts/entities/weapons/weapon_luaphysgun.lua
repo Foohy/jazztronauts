@@ -161,9 +161,9 @@ function SWEP:PrimaryAttack()
 
 			local effectdata = EffectData()
 				effectdata:SetOrigin( tr.HitPos )
-				effectdata:SetStart( self.Owner:GetShootPos() )
+				effectdata:SetStart( self:GetOwner():GetShootPos() )
 				effectdata:SetAttachment( 1 )
-				effectdata:SetEntity( self.Weapon )
+				effectdata:SetEntity( self )
 			util.Effect( "luaphysgun_tracer", effectdata )
 
 			self.nextAttack = CurTime() + 0.5

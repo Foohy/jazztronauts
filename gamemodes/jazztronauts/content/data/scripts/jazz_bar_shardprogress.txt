@@ -54,6 +54,20 @@ begin50_2:
     *mark_seen*
     &exit
 
+# 75% of needed shards
+# This was a missing event from the game. Added a placeholder for now. -ptown2
+begin75:
+	spawngang()
+	*setposang cat_bar -2864.620361 3044.558594 32;setang -90 180 0*
+	*setspeaker cat_bar*
+    Nice,%% we're at the third-quarter mark now!% huh?
+    &begin75_2
+
+begin75_2:
+    A few more and we'll have this tank full.
+    *mark_seen*
+    &exit
+
 # 100% of needed shards. Probably should be a cutscene showing where to go now that they can finished the game
 begin100:
 	spawngang()

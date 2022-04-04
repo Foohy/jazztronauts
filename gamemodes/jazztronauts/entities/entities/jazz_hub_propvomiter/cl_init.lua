@@ -12,12 +12,7 @@ local function TickVomitProps()
 		if not IsValid(p) or t < 0 then
 			table.remove(JazzVomitProps, i)
 			if IsValid(p) then
-				if DLib then
-					-- Bypass DLib's 'Remove' override
-					p:RemoveDLib()
-				else
-					p:Remove()
-				end
+				p:Remove()
 			end
 			continue
 		end

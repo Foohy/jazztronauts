@@ -91,7 +91,7 @@ local snatch_multi = jstore.Register("snatch_multi", 50000, {
 	requires = snatch_world,
 	type = "upgrade"
 })
-local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 100, 10, {
+local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 1, 10, {
 	name = "World Stealing Speed",
 	desc = "Steal the world 100% faster",
 	requires = snatch_world,
@@ -111,42 +111,46 @@ function SWEP:Initialize()
 
 	-- Hook into unlock callbacks
 	hook.Add( "OnUnlocked", self, function( self, list_name, key, ply )
-		if ply == self.Owner and string.find(key, "snatch") then
+		if ply == self:GetOwner() and string.find(key, "snatch") then
 			self:SetUpgrades()
 		end
 	end )
 
-	-- self.Owner is null during initialize......
-	timer.Simple(0, function()
+	if CLIENT then
 		self:SetUpgrades()
-	end)
+	end
+end
+
+function SWEP:OwnerChanged()
+	self:SetUpgrades()
 end
 
 -- Query and apply current upgrade settings to this weapon
 function SWEP:SetUpgrades(overpowered)
-	if not IsValid(self.Owner) then return end
+	local owner = self:GetOwner()
+	if not IsValid(owner) then return end
 
 	overpowered = overpowered or self.Overpowered or cvars.Bool("jazz_debug_snatch_allups", false)
 
 	-- Tier I - Aim in cone upgrade
-	self.AutoAimCone = AimConeDefault + jstore.GetSeries(self.Owner, snatch_cone) * 3.3
+	self.AutoAimCone = AimConeDefault + jstore.GetSeries(owner, snatch_cone) * 3.3
 
 	-- Steal range
-	local rangeLevel = overpowered and 10 or jstore.GetSeries(self.Owner, snatch_range)
+	local rangeLevel = overpowered and 10 or jstore.GetSeries(owner, snatch_range)
 	self.MaxRange	= LongRangeDefault + rangeLevel * 150
 	self.CloseRange = ShortRangeDefault + rangeLevel * 25
 
 	-- Tier II - Automatic fire upgrade
-	self.Primary.Automatic = unlocks.IsUnlocked("store", self.Owner, snatch2) or overpowered
+	self.Primary.Automatic = unlocks.IsUnlocked("store", owner, snatch2) or overpowered
 
 	-- Tier III - World stealing
-	self.CanStealWorld = unlocks.IsUnlocked("store", self.Owner, snatch_world) or overpowered
+	self.CanStealWorld = unlocks.IsUnlocked("store", owner, snatch_world) or overpowered
 
 	-- How fast they can steal the world
-	self.WorldStealSpeed = overpowered and math.huge or (jstore.GetSeries(self.Owner, snatch_world_speed) + 1)
+	self.WorldStealSpeed = overpowered and math.huge or (jstore.GetSeries(owner, snatch_world_speed) + 1)
 
 	-- Allow multi-tasking?
-	self.CanMultitask = unlocks.IsUnlocked("store", self.Owner, snatch_multi) or overpowered
+	self.CanMultitask = unlocks.IsUnlocked("store", owner, snatch_multi) or overpowered
 end
 
 function SWEP:MakeOverpowered()
@@ -165,18 +169,19 @@ end
 function SWEP:CanSecondaryAttack() return self.CanStealWorld end
 
 function SWEP:DrawWorldModel()
+	local owner = self:GetOwner()
 
 	self:DrawModel()
 
-	if not IsValid(self.Owner) then return end
+	if not IsValid(owner) then return end
 
-	--Might use this later, who the fuck knows
+	-- Might use this later, who the fuck knows
 	local attach = self:LookupAttachment("muzzle")
 	if attach > 0 then
 		attach = self:GetAttachment(attach)
 		attach = attach.Pos
 	else
-		attach = self.Owner:GetShootPos()
+		attach = owner:GetShootPos()
 	end
 
 end
@@ -194,12 +199,13 @@ function SWEP:GetEntitySize(ent)
 end
 
 function SWEP:RemoveEntity( ent, snatchobj )
+	local owner = self:GetOwner()
 
 	if self:AcceptEntity( ent ) and not ent.doing_removal then
 		snatchobj:SetMode(1)
-		snatchobj:StartProp( ent, self:GetOwner(), self.KillsPeople )
+		snatchobj:StartProp( ent, owner, self.KillsPeople )
 
-		hook.Run("CollectProp", ent, self:GetOwner())
+		hook.Run("CollectProp", ent, owner)
 	end
 
 end
@@ -325,6 +331,7 @@ local validFar = {}
 local resAim = {}
 local phaseNumber = 0
 function SWEP:FindConeEntities()
+	local owner = self:GetOwner()
 	--sleep(0.1)
 	phaseNumber = (phaseNumber + 1) % 3
 
@@ -332,9 +339,9 @@ function SWEP:FindConeEntities()
 
 	-- Initial aim vector trace
 	-- Entities hit directly from the center take priority
-	aimTrace.start = self.Owner:GetShootPos()
-	aimTrace.endpos = aimTrace.start + self.Owner:GetAimVector() * self.MaxRange
-	aimTrace.filter = self:GetOwner()
+	aimTrace.start = owner:GetShootPos()
+	aimTrace.endpos = aimTrace.start + owner:GetAimVector() * self.MaxRange
+	aimTrace.filter = owner
 	aimTrace.output = resAim
 
 	util.TraceLine(aimTrace)
@@ -410,14 +417,14 @@ end
 
 --Reach out and touch something
 function SWEP:TraceToRemove(stealWorld)
-
-	local pos = self.Owner:GetShootPos()
-	local dir = self.Owner:GetAimVector()
+	local owner = self:GetOwner()
+	local pos = owner:GetShootPos()
+	local dir = owner:GetAimVector()
 
 	local tr = util.TraceLine( {
 		start = pos,
 		endpos = pos + dir * self.MaxRange,
-		filter = self:GetOwner(),
+		filter = owner,
 	} )
 
 	-- Tell the server we'd like to steal the world right here
@@ -442,7 +449,7 @@ function SWEP:TraceToRemove(stealWorld)
 			net.WriteEntity( self.ConeEnt )
 			net.SendToServer()
 
-			self:EmitSound( self.SnatchSounds[math.random(1,#self.SnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_AUTO  )
+			self:EmitSound( self.SnatchSounds[math.random(1,#self.SnatchSounds)], 50, math.random( 100, 100 ), 1, CHAN_AUTO )
 
 			-- Add some nice feedback
 			self.ShootFade = 1
@@ -450,7 +457,7 @@ function SWEP:TraceToRemove(stealWorld)
 		else
 			-- Wow this drills into your ears after a while
 			local missSoundFade = math.Clamp(1/4.0 + (self.StartShootTime + 4 - CurTime()) / 4, 0, 1)
-			self:EmitSound( self.MissSounds[math.random(1,#self.MissSounds)], 50, math.random( 100, 100 ), missSoundFade, CHAN_USER_BASE )
+			self:EmitSound( self.MissSounds[math.random(1,#self.MissSounds)], 50, math.random( 100, 100 ), missSoundFade, CHAN_WEAPON + 1 )
 
 			self.BadShootFade = 1.0
 		end
@@ -510,8 +517,8 @@ SWEP.WorldShootFade = 0
 SWEP.BadShootFade = 0
 SWEP.EquipFade = 0
 function SWEP:DrawHUD()
-
-	if IsValid(self.Owner:GetVehicle()) then return end -- Don't draw while in vehicle
+	local owner = self:GetOwner()
+	if not IsValid(owner) or IsValid(owner:GetVehicle()) then return end -- Don't draw while in vehicle
 	if dialog.IsInDialog() then return end -- Also don't draw while in a dialog
 
 	local pfov = LocalPlayer():GetFOV()
@@ -732,7 +739,7 @@ function SWEP:CalcView(ply, pos, ang, fov)
 
 		util.ScreenShake(pos, 5 * scale, 5, time, 256)
 		if math.random() > 0.65 then
-			self.Owner:EmitSound(table.Random(strainsounds), 75, math.random(80, 100), 0.25)
+			self:GetOwner():EmitSound(table.Random(strainsounds), 75, math.random(80, 100), 0.25, CHAN_WEAPON + 2 )
 		end
 	end
 	self.PullShake = math.Approach(self.PullShake, self.GoalShake, FrameTime() * 7)
@@ -747,7 +754,7 @@ end
 function SWEP:RemoveSnatchMarker()
 	local curMarker = self:GetCurSnatchMarker()
 	if IsValid(curMarker) then
-		curMarker:RemovePlayer(self.Owner)
+		curMarker:RemovePlayer(self:GetOwner())
 	end
 
 	self:SetCurSnatchMarker(Entity(0))
@@ -777,19 +784,20 @@ function SWEP:Think()
 	if self:IsSecondaryAttacking() then
 		local curMarker = self:GetCurSnatchMarker()
 		if not IsValid(curMarker) then
+			local owner = self:GetOwner()
 			--local tr = self:WorldStealTrace()
-			local newMarker = snatch.FindOrCreateWorld(self.Owner:GetShootPos(), self.Owner:GetAimVector(), self.MaxRange)
+			local newMarker = snatch.FindOrCreateWorld(owner:GetShootPos(), owner:GetAimVector(), self.MaxRange)
 
 			if IsValid(newMarker) then
-				newMarker:AddPlayer(self.Owner)
+				newMarker:AddPlayer(owner)
 				self:SetCurSnatchMarker(newMarker)
 				newMarker:RegisterOnActivate(function()
 					if not IsValid(self) or not self.GetCurSnatchMarker then return end
 					if self:GetCurSnatchMarker() != newMarker then return end
-					if not IsValid(self.Owner) then return end
+					if not IsValid(owner) then return end
 
 					local scale = getBrushScale(newMarker.BrushInfo)
-					self.Owner:ViewPunch(Angle(scale * 30, 0, 0))
+					owner:ViewPunch(Angle(scale * 30, 0, 0))
 				end )
 			end
 		end
@@ -806,8 +814,9 @@ function SWEP:Holster(wep) return true end
 
 function SWEP:ShootEffects()
 
-	self.Weapon:SendWeaponAnim( ACT_VM_HITKILL )
-	self.Owner:MuzzleFlash()
-	self.Owner:SetAnimation( PLAYER_ATTACK1 )
+	local owner = self:GetOwner()
+	self:SendWeaponAnim( ACT_VM_HITKILL )
+	owner:MuzzleFlash()
+	owner:SetAnimation( PLAYER_ATTACK1 )
 
 end

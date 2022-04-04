@@ -80,6 +80,9 @@ local function DoneScene( scene )
 end
 
 local function DrawScene( scene, voidrender )
+	-- Verify first if it exists.
+	if not scene:GetEntity():IsValid() then return end
+
 	-- If rendering in void ONLY render the prop
 	-- Also only do this for static props for performance reasons
 	if voidrender and scene.is_proxy then
@@ -171,6 +174,8 @@ end
 
 --Physics stuff has to happen in here
 local function TickScene( scene )
+	-- Verify first if it exists.
+	if not scene:GetEntity():IsValid() then return end
 
 	--Where the guy wants to be
 	local guytargetpos = scene:GetEntity():GetPos() + scene.koffset

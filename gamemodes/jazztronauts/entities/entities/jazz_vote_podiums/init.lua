@@ -64,6 +64,9 @@ end
 
 function ENT:Think()
 	self:ThinkPodiums()
+	self:NextThink( CurTime() + 1 )
+
+	return true
 end
 
 function ENT:StoreActivatedCallback(func)

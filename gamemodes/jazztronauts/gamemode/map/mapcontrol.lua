@@ -28,7 +28,16 @@ cvars.AddChangeCallback(includeExternal:GetName(), UpdateMapsConvarChanged, "jaz
 cvars.AddChangeCallback(includeLocalAddons:GetName(), UpdateMapsConvarChanged, "jazz_mapcontrol_cback")
 cvars.AddChangeCallback(includeLocalMaps:GetName(), UpdateMapsConvarChanged, "jazz_mapcontrol_cback")
 
+local server_ugc = false
 
+if file.Find("lua/bin/gmsv_workshop_*.dll", "GAME")[1] ~= nil then
+	require("workshop")
+	server_ugc = true
+else
+	if game.IsDedicated() then
+		print("If you want to use ugc maps on a deticated server please install gmsv_workshop! | https://github.com/WilliamVenner/gmsv_workshop")
+	end
+end
 
 curSelected = curSelected or {}
 addonList = addonList or {}
@@ -195,9 +204,7 @@ if SERVER then
 	-- if it hasn't already been downloaded/mounted
 	function InstallAddon(wsid, finishFunc, decompFunc)
 
-		-- Download from internet and mount
-		workshop.DownloadGMA(wsid, function(filepath, errmsg)
-
+		local function PostDownload(filepath, errmsg)
 			-- Bad workshop ID or network failure
 			if not filepath then
 				print("Failed to download addon: " .. errmsg)
@@ -217,8 +224,20 @@ if SERVER then
 			end
 
 			finishFunc(files)
+		end
 
-		end, decompFunc)
+		-- Download from internet and mount
+		if not server_ugc then 
+			workshop.DownloadGMA(wsid, function(filepath, errmsg)
+				PostDownload(filepath, errmsg)
+			end, decompFunc)
+		else
+			print("Downloading Via UGC!")
+			steamworks.DownloadUGC(wsid, function(filepath, file)
+				print("UGC Download Success!")
+				PostDownload(filepath, "Failed to download addon: UGC download failed.")
+			end, decompFunc)
+		end
 	end
 
 	function ClearCache()

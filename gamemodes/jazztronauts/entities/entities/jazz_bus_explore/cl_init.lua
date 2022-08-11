@@ -78,7 +78,7 @@ net.Receive("jazz_bus_explore_voideffects", function(len, ply)
 	end
 
 	local fadeWaitTime = waitTime + bus.VoidMusicFadeStart
-	transitionOut(fadeWaitTime + 8)
+	transitionOut(fadeWaitTime + 7)
 
 	timer.Simple(fadeWaitTime, function()
 		if IsValid(bus) and LocalPlayer():InVehicle() then

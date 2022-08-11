@@ -50,16 +50,21 @@ function SWEP:Initialize()
 	self.BaseClass.Initialize( self )
 	self:SetWeaponHoldType( self.HoldType )
 
-	timer.Simple(0, function()
+	if CLIENT then
 		self:SetUpgrades()
-	end)
+	end
+end
+
+function SWEP:OwnerChanged()
+	self:SetUpgrades()
 end
 
 -- Query and apply current upgrade settings to this weapon
 function SWEP:SetUpgrades()
-	if not IsValid(self.Owner) then return end
+	local owner = self:GetOwner()
+	if not IsValid(owner) then return end
 
-	self.IgnoreFallDamage = unlocks.IsUnlocked("store", self.Owner, run_nofall)
+	self.IgnoreFallDamage = unlocks.IsUnlocked("store", owner, run_nofall)
 end
 
 function SWEP:ShouldTakeFallDamage()
@@ -73,9 +78,10 @@ end
 function SWEP:Deploy()
 
 	if SERVER then
-		self.OldRunSpeed = self.Owner:GetRunSpeed()
-		self.OldWalkSpeed = self.Owner:GetWalkSpeed()
-		self.OldJumpPower = self.Owner:GetJumpPower()
+		local owner = self:GetOwner()
+		self.OldRunSpeed = owner:GetRunSpeed()
+		self.OldWalkSpeed = owner:GetWalkSpeed()
+		self.OldJumpPower = owner:GetJumpPower()
 	end
 
 	return true
@@ -83,10 +89,11 @@ function SWEP:Deploy()
 end
 
 function SWEP:Cleanup()
-	if SERVER and self.OldRunSpeed and IsValid(self.Owner) then
-		self.Owner:SetRunSpeed(self.OldRunSpeed)
-		self.Owner:SetWalkSpeed(self.OldWalkSpeed)
-		self.Owner:SetJumpPower(self.OldJumpPower)
+	local owner = self:GetOwner()
+	if SERVER and self.OldRunSpeed and IsValid(owner) then
+		owner:SetRunSpeed(self.OldRunSpeed)
+		owner:SetWalkSpeed(self.OldWalkSpeed)
+		owner:SetJumpPower(self.OldJumpPower)
 	end
 end
 
@@ -159,9 +166,10 @@ end
 
 function SWEP:Think()
 
-	self.Owner:SetWalkSpeed( 800 )
-	self.Owner:SetRunSpeed( 800 )
-	self.Owner:SetJumpPower( 500 )
+	local owner = self:GetOwner()
+	owner:SetWalkSpeed( 800 )
+	owner:SetRunSpeed( 800 )
+	owner:SetJumpPower( 500 )
 
 end
 
@@ -179,9 +187,10 @@ end
 
 function SWEP:ShootEffects()
 
-	self.Weapon:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
-	self.Owner:MuzzleFlash()
-	self.Owner:SetAnimation( PLAYER_ATTACK1 )
+	local owner = self:GetOwner()
+	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
+	owner:MuzzleFlash()
+	owner:SetAnimation( PLAYER_ATTACK1 )
 
 end
 

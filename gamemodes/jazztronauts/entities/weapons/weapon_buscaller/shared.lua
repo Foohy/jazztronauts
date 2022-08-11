@@ -74,7 +74,8 @@ end
 
 function SWEP:SwitchWeaponThink()
 	if not IsFirstTimePredicted() then return end
-	local forceAttack = self.Owner:KeyDownLast(IN_ATTACK) and self.Owner:KeyDown(IN_ATTACK)
+	local owner = self:GetOwner()
+	local forceAttack = owner:KeyDownLast(IN_ATTACK) and owner:KeyDown(IN_ATTACK)
 
 	-- Because this is only a hack, only do it for one 'cycle'
 	-- User must un-press attack before being able to attack again
@@ -105,7 +106,7 @@ function SWEP:Think()
 
 	self:UpdateBeamHum()
 	if IsValid(marker) and marker.AddJazzRenderBeam then
-		marker:AddJazzRenderBeam(self.Owner)
+		marker:AddJazzRenderBeam(self:GetOwner())
 	end
 
 	-- If the marker has enough people, vary the pitch as it gets closer
@@ -138,10 +139,11 @@ end
 
 -- Set the player up with either the marker they're aimed at or a brand new one
 function SWEP:CreateOrUpdateBusMarker()
-	local pos = self.Owner:GetShootPos()
-	local dir = self.Owner:GetAimVector()
+	local owner = self:GetOwner()
+	local pos = owner:GetShootPos()
+	local dir = owner:GetAimVector()
 
-	local marker = GetLookMarker(pos, dir, self.Owner:GetFOV())
+	local marker = GetLookMarker(pos, dir, owner:GetFOV())
 
 	-- If we weren't looking at an existing marker,
 	-- do a trace to where WE want to put it
@@ -157,13 +159,13 @@ function SWEP:CreateOrUpdateBusMarker()
 	end
 
 	self:SetBusMarker(marker)
-	marker:AddPlayer(self.Owner)
+	marker:AddPlayer(owner)
 end
 
 function SWEP:PrimaryAttack()
 	self.BaseClass.PrimaryAttack(self)
 
-	self.Owner:ViewPunch( Angle( -1, 0, 0 ) )
+	self:GetOwner():ViewPunch( Angle( -1, 0, 0 ) )
 	self:EmitSound( self.Primary.Sound, 50, math.random( 200, 255 ) )
 
 	if IsFirstTimePredicted() then
@@ -179,9 +181,10 @@ end
 
 function SWEP:ShootEffects()
 
-	self.Weapon:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
-	self.Owner:MuzzleFlash()
-	self.Owner:SetAnimation( PLAYER_ATTACK1 )
+	local owner = self:GetOwner()
+	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
+	owner:MuzzleFlash()
+	owner:SetAnimation( PLAYER_ATTACK1 )
 
 end
 
@@ -189,7 +192,7 @@ function SWEP:StopPrimaryAttack()
 	if !IsFirstTimePredicted() then return end
 
 	if SERVER and IsValid(self:GetBusMarker()) then
-		self:GetBusMarker():RemovePlayer(self.Owner)
+		self:GetBusMarker():RemovePlayer(self:GetOwner())
 	end
 
 	self:SetBusMarker(nil)

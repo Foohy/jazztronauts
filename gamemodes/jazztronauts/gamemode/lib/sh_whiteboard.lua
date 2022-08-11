@@ -354,6 +354,8 @@ function meta:SV_SendBurst( uid )
 			local rem = math.max( #self.commands - i, 0 )
 			local snd = math.min( rem, 127 )
 			if rem == 0 then break end
+			local player_send = player.GetAll()[uid]
+			if not IsValid( player_send ) then break end
 
 			self:NetBeginCmd( MSG_FLUSH_STATE )
 			net.WriteBit( first and 0 or 1 )
@@ -374,7 +376,7 @@ function meta:SV_SendBurst( uid )
 
 			end
 
-			net.Send( player.GetAll()[uid] )
+			net.Send( player_send )
 		end
 
 		self:GetCursor( uid ).flushing = false

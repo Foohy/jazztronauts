@@ -116,7 +116,7 @@ function StartMap(mapname, seed, shardcount)
 		for i=1, shardcount do
 			table.insert(shardvals, "(" .. i .. ", " ..map.id .. ")")
 		end
-		local insrt_shard = "INSERT INTO jazz_mapshards (id, mapid) VALUES " ..
+		local insrt_shard = "INSERT or REPLACE INTO jazz_mapshards (id, mapid) VALUES " ..
 			table.concat(shardvals, ",")
 
 		-- Create the table of shard values

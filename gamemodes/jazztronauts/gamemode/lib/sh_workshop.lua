@@ -203,7 +203,8 @@ local WORKSHOP_CACHE_PATH = "jazztronauts/cache"
 function ExtractGMA(path, data)
 	-- Decompress (LZMA), then write
 	local start = SysTime()
-	data = util.Decompress(data)
+	local decompd = util.Decompress(data)
+	data = (decompd and #decompd > 0) and decompd or data
 	print("Decompress: " .. (SysTime() - start) .. " seconds")
 
 	-- Write to disk
@@ -327,7 +328,7 @@ local function DownloadGMA_Dedicated(wsid, func, decompress_func)
 		end
 
 		if #fileurl == 0 then
-			func(nil, "Specified addon uses the new UGC workshop system, which is not compatible") // New UGC workshop addons are not supported with this method
+			func(nil, "Specified addon uses the new UGC workshop system, which is not compatible") -- New UGC workshop addons are not supported with this method
 			return
 		end
 

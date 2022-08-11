@@ -82,8 +82,8 @@ function ENT:RefreshWorkshopInfo()
 			end
 
 			-- Select 2 random comments for the side and back of the bus
-			self.Description = parseComment(self:TableSharedRandom(comments), 1400)
-			self.BackBusComment = parseComment(self:TableSharedRandom(comments, 1), 1400)
+			self.Description = comments and parseComment(self:TableSharedRandom(comments), 1400)
+			self.BackBusComment = comments and parseComment(self:TableSharedRandom(comments, 1), 1400)
 		end )
 
 		-- Also try grabbing the thumbnail material

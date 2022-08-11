@@ -444,7 +444,7 @@ t25:
 [fade to black]
 
 t26:
-	setskin cat_bar 1*
+	*setskin cat_bar 1*
 	*setanim cat_bar gesture_clap 1 idle*
         Well, that was existentially horrifying and I’d 
         like to not think about it for a few hours, so I 
@@ -749,7 +749,7 @@ t43:
      > The Singer holds up their tablet\:%% “We’re settling down into this 
      business full time!!!%%% Going legit.%% And thanks to your help with my 
      research,% I’ve figured out how to keep us fully supplied without 
-     needing to scavenge (=✪ᆽ✪=)”
+     needing to scavenge (\=✪ᆽ✪\=)”
      &t44
 
 t44:

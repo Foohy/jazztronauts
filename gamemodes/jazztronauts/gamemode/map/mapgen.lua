@@ -53,17 +53,37 @@ function GetShards()
 	return SpawnedShards
 end
 
+local AcceptEntClass = {
+	["npc_antlion_grub"] = true,
+	["npc_grenade_frag"] = true,
+	["prop_combine_ball"] = true,
+	["jazz_static_proxy"] = true,
+	["physics_cannister"] = true,
+	["hunter_flechette"] = true,
+	["prop_physics"] = true,
+	["prop_physics_multiplayer"] = true,
+	["prop_physics_respawnable"] = true,
+	["prop_dynamic"] = true,
+	["prop_ragdoll"] = true,
+	["prop_door_rotating"] = true,
+}
+
+local IgnoreEntClass = {
+	["weapon_propsnatcher"] = true
+}
+
 function CanSnatch(ent)
 
 	--Accept only this kinda stuff
-	if not IsValid(ent) then return false end
-	if not ent:IsValid() then return false end
-	if ent:IsNPC() then return true end
-	if ent:GetClass() == "npc_antlion_grub" then return true end
-	if ent:GetClass() == "npc_grenade_frag" then return true end
-	if ent:GetClass() == "prop_combine_ball" then return true end
-	if ent:GetClass() == "jazz_static_proxy" then return true end
-	if ent:GetClass() == "physics_cannister" then return true end
+	if not IsValid(ent) or not ent:IsValid() then return false end
+
+	local ent_class = ent:GetClass()
+
+	-- Always return false for these class types.
+	if IgnoreEntClass[ent_class] then return false end
+
+	-- Assume this flag on this flag becomes a thing
+	if ent.IgnoreForSnatch then return true end
 
 	-- Weapons held by players
 	if ent:IsWeapon() and IsValid(ent:GetParent()) and ent:GetParent():IsPlayer() then return false end
@@ -71,27 +91,26 @@ function CanSnatch(ent)
 	-- Local player weapons
 	if CLIENT and ent:IsWeapon() and ent:IsCarriedByLocalPlayer() then return false end
 
-	-- Bus seats
-	if ent:IsVehicle() and IsValid(ent:GetParent()) and string.find(ent:GetParent():GetClass(), "jazz_") then return false end
+	-- Everything that's parented to the bus itself.
+	if IsValid(ent:GetParent()) and string.find(ent:GetParent():GetClass(), "jazz_bus_") then return false end
 
 	-- Vote podium
-	if ent:GetClass() == "prop_dynamic" and IsValid(ent:GetParent()) and ent:GetParent():GetClass() == "jazz_shard_podium" then return false end
+	if ent_class == "prop_dynamic" and IsValid(ent:GetParent()) and ent:GetParent():GetClass() == "jazz_shard_podium" then return false end
 
+	-- Good bye Dr. Kleiner...
+	if ent:IsNPC() then return true end
 
-	if ent:GetClass() == "hunter_flechette" then return true end
-	if ent:GetClass() == "prop_physics" then return true end
-	if ent:GetClass() == "prop_physics_multiplayer" then return true end
-	if ent:GetClass() == "prop_physics_respawnable" then return true end
-	if ent:GetClass() == "prop_dynamic" then return true end
-	if ent:GetClass() == "prop_ragdoll" then return true end
-	if ent:GetClass() == "prop_door_rotating" then return true end
-	if string.find(ent:GetClass(), "weapon_") ~= nil then return true end
-	if string.find(ent:GetClass(), "prop_vehicle") ~= nil then return true end
-	//if string.find(ent:GetClass(), "jazz_bus_") ~= nil then return true end
-	if string.find(ent:GetClass(), "item_") ~= nil then return true end
-	//if ent:IsPlayer() and ent:Alive() then return true end -- you lost your privileges
+	-- Certain specific class names to be checked.
+	if string.find(ent_class, "weapon_") ~= nil then return true end
+	if string.find(ent_class, "prop_vehicle") ~= nil then return true end
+	if string.find(ent_class, "item_") ~= nil then return true end
 
-	return false
+	-- ???
+	-- if string.find(ent_class, "jazz_bus_") ~= nil then return true end
+	-- if ent:IsPlayer() and ent:Alive() then return true end -- you lost your privileges
+
+	return AcceptEntClass[ent_class]
+
 end
 
 if SERVER then

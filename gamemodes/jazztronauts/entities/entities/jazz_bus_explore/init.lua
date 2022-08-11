@@ -184,13 +184,22 @@ function ENT:AttachRadio(pos, ang)
 	pos = self:LocalToWorld(pos)
 	ang = self:LocalToWorldAngles(ang)
 
-	local ent = ents.Create("prop_dynamic")
+	-- Make a "fake" version of the radio, the "real" one can be stolen.
+	local ent = ents.Create("jazz_static_proxy")
 	ent:SetModel(self.RadioModel)
 	ent:SetPos(pos)
 	ent:SetAngles(ang)
 	ent:SetParent(self)
 	ent:Spawn()
 	ent:Activate()
+
+	local radio_ent = ents.Create("prop_dynamic")
+	radio_ent:SetModel(self.RadioModel)
+	radio_ent:SetPos(pos)
+	radio_ent:SetAngles(ang)
+	radio_ent:SetParent(ent)
+	radio_ent:Spawn()
+	radio_ent:Activate()
 	self.Radio = ent
 
 	-- Attach a looping audiozone

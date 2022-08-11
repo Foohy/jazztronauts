@@ -57,13 +57,14 @@ function SWEP:Initialize()
 end
 
 function SWEP:ShouldDrawHackerview()
-	if IsValid(self.Owner) and self.Owner != LocalPlayer() then
+	local owner = self:GetOwner()
+	if IsValid(owner) and owner != LocalPlayer() then
 		hook.Remove("JazzShouldDrawHackerview", self)
 		return
 	end
 
-	if self.Owner != LocalPlayer() or self.Owner:GetActiveWeapon() != self then return 0 end
-	if !unlocks.IsUnlocked("store", self.Owner, upgrade_enableWrites) then return 1 end
+	if owner != LocalPlayer() or owner:GetActiveWeapon() != self then return 0 end
+	if !unlocks.IsUnlocked("store", owner, upgrade_enableWrites) then return 1 end
 	return 2 //Turbo
 end
 
@@ -127,9 +128,10 @@ end
 
 function SWEP:ShootEffects()
 
-	self.Weapon:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
-	self.Owner:MuzzleFlash()
-	self.Owner:SetAnimation( PLAYER_ATTACK1 )
+	local owner = self:GetOwner()
+	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
+	owner:MuzzleFlash()
+	owner:SetAnimation( PLAYER_ATTACK1 )
 
 end
 

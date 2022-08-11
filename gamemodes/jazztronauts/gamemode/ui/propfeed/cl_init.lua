@@ -75,8 +75,8 @@ net.Receive("brushcollect", function()
 
 	elseif streak ~= nil then
 
-		ply.bstreakcount = ply.bstreakcount + 1
-		ply.bstreaktotal = ply.bstreaktotal + worth
+		ply.bstreakcount = (ply.bstreakcount or 0) + 1
+		ply.bstreaktotal = (ply.bstreaktotal or 0) + worth
 
 		streak:Ping( StayDuration )
 		streak:SetIconModel( model, nil, mat )

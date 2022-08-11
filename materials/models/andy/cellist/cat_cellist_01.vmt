@@ -1,6 +1,10 @@
 "VertexlitGeneric"
 {
-	"$basetexture" "models/andy/cellist/cat_cellist_neutral"
+	"$basetexture"				"models/andy/cellist/cellist"
+	"$detail"					"models/andy/cellist/cellist_base"
+	"$detailtexturetransform"	"center .5 .5 scale 1 1 rotate 0 translate -0.09375 -0.109375"
+	"$detailblendmode"			"2"
+	"$detailblendfactor"		"1"
 	"$phong" "1"
 	"$phongexponent" "10"
 	"$phongboost" ".3"	

@@ -1,0 +1,3495 @@
+ <!-- dmx encoding keyvalues2 1 format model 1 -->
+"DmElement"
+{
+	"name" "string" "root"
+	"exportTags" "DmElement"
+	{
+		"name" "string" "exportTags"
+		"app" "string" "sfm"
+		"appVersion" "string" "0.9.8.15"
+		"editor" "string" "CDmxAnimToV1DmxAnim"
+		"session" "string" "f:/steam/steamapps/common/sourcefilmmaker/game/usermod/elements/sessions/jazztronauts_run_anims.dmx"
+		"dstScene" "string" "F:/Models/Jazztronauts/weapons/run/anims/neutral.dmx"
+		"map" "string" "black_void.bsp"
+		"clip" "string" "shot1"
+		"mdl" "string" "models/weapons/c_run.mdl"
+		"type" "string" "animation"
+		"frameCount" "int" "24"
+		"frameRate" "string" "24fps"
+		"frameRange" "string" "0-23x1"
+		"timeRange" "string" "0-1"
+		"upaxis" "string" "Y"
+		"vproject" "string" "F:\\Steam\\steamapps\\common\\SourceFilmmaker\\game\\usermod"
+		"date" "string" "2022/04/15"
+		"time" "string" "16:54:33"
+		"user" "string" "sagej"
+		"machine" "string" "DESKTOP-MOV3T20"
+	}
+	"skeleton" "DmeModel"
+	{
+		"name" "string" "c_run1"
+		"upAxis" "string" "Y"
+		"modelname" "string" "models/weapons/c_run.mdl"
+		"transform" "DmeTransform"
+		{
+			"id" "elementid" "5f853df2-6d9b-4010-b02c-476aa45ff8bf"
+			"name" "string" "unnamed"
+			"position" "vector3" "0 0 0"
+			"orientation" "quaternion" "0 0 0 1"
+		}
+		"children" "element_array"
+		[
+			"DmeJoint"
+			{
+				"name" "string" "ValveBiped.Bip01_Spine4"
+				"transform" "DmeTransform"
+				{
+					"id" "elementid" "4673e829-6b54-4729-897f-6273ce26c6f1"
+					"name" "string" "ValveBiped.Bip01_Spine4"
+					"position" "vector3" "0 0 -4.798273"
+					"orientation" "quaternion" "-0.542665 -0.453335 -0.453336 0.542667"
+				}
+				"children" "element_array"
+				[
+					"DmeJoint"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Clavicle"
+						"transform" "DmeTransform"
+						{
+							"id" "elementid" "159491f5-4938-468b-ab40-ffabb8ab874f"
+							"name" "string" "ValveBiped.Bip01_L_Clavicle"
+							"position" "vector3" "2.033348 1.000773 1.937661"
+							"orientation" "quaternion" "0.473368 0.528721 0.598273 -0.372084"
+						}
+						"children" "element_array"
+						[
+							"DmeJoint"
+							{
+								"name" "string" "ValveBiped.Bip01_L_UpperArm"
+								"transform" "DmeTransform"
+								{
+									"id" "elementid" "420f617d-5d56-4eee-b1d6-59b1bc7eddb2"
+									"name" "string" "ValveBiped.Bip01_L_UpperArm"
+									"position" "vector3" "6.028142 0.000004 0"
+									"orientation" "quaternion" "-0.357728 0.403656 -0.147963 0.828975"
+								}
+								"children" "element_array"
+								[
+									"DmeJoint"
+									{
+										"name" "string" "ValveBiped.Bip01_L_Forearm"
+										"transform" "DmeTransform"
+										{
+											"id" "elementid" "4d49629a-7cec-44e3-bd6b-f731cf1c2616"
+											"name" "string" "ValveBiped.Bip01_L_Forearm"
+											"position" "vector3" "11.692554 0 -0.000001"
+											"orientation" "quaternion" "0.000014 0.000003 -0.609579 0.792726"
+										}
+										"children" "element_array"
+										[
+											"DmeJoint"
+											{
+												"name" "string" "ValveBiped.Bip01_L_Hand"
+												"transform" "DmeTransform"
+												{
+													"id" "elementid" "12251f49-332a-44fb-bae7-3705b1b73fc6"
+													"name" "string" "ValveBiped.Bip01_L_Hand"
+													"position" "vector3" "11.481676 0 -0.000033"
+													"orientation" "quaternion" "0.713493 0.001525 0.006375 0.700632"
+												}
+												"children" "element_array"
+												[
+													"DmeJoint"
+													{
+														"name" "string" "ValveBiped.Bip01_L_Finger4"
+														"transform" "DmeTransform"
+														{
+															"id" "elementid" "a0e6a9ba-c5fe-4016-b4dc-a7646a71f2c2"
+															"name" "string" "ValveBiped.Bip01_L_Finger4"
+															"position" "vector3" "3.859702 -0.1424 -1.191977"
+															"orientation" "quaternion" "-0.177863 0.165141 -0.397339 0.884994"
+														}
+														"children" "element_array"
+														[
+															"DmeJoint"
+															{
+																"name" "string" "ValveBiped.Bip01_L_Finger41"
+																"transform" "DmeTransform"
+																{
+																	"id" "elementid" "9cc1bd85-b37e-44bb-8276-29d5d2358946"
+																	"name" "string" "ValveBiped.Bip01_L_Finger41"
+																	"position" "vector3" "1.312563 -0.000002 0"
+																	"orientation" "quaternion" "0 0 -0.218093 0.975928"
+																}
+																"children" "element_array"
+																[
+																	"DmeJoint"
+																	{
+																		"name" "string" "ValveBiped.Bip01_L_Finger42"
+																		"transform" "DmeTransform"
+																		{
+																			"id" "elementid" "f7f556d7-a6e6-468d-b71a-bc0ac72ef7b9"
+																			"name" "string" "ValveBiped.Bip01_L_Finger42"
+																			"position" "vector3" "0.729364 0 0"
+																			"orientation" "quaternion" "0 0 -0.121846 0.992549"
+																		}
+																	}
+																]
+															}
+														]
+													},
+													"DmeJoint"
+													{
+														"name" "string" "ValveBiped.Bip01_L_Finger3"
+														"transform" "DmeTransform"
+														{
+															"id" "elementid" "fc9ec0c0-73d9-4dfa-99bd-9b562b012565"
+															"name" "string" "ValveBiped.Bip01_L_Finger3"
+															"position" "vector3" "3.942324 0.046772 -0.431444"
+															"orientation" "quaternion" "-0.055228 0.063418 -0.390523 0.916744"
+														}
+														"children" "element_array"
+														[
+															"DmeJoint"
+															{
+																"name" "string" "ValveBiped.Bip01_L_Finger31"
+																"transform" "DmeTransform"
+																{
+																	"id" "elementid" "0eb40f69-356f-47c0-a628-645b94d03256"
+																	"name" "string" "ValveBiped.Bip01_L_Finger31"
+																	"position" "vector3" "1.539093 0.000005 -0.000004"
+																	"orientation" "quaternion" "0 0 -0.123582 0.992334"
+																}
+																"children" "element_array"
+																[
+																	"DmeJoint"
+																	{
+																		"name" "string" "ValveBiped.Bip01_L_Finger32"
+																		"transform" "DmeTransform"
+																		{
+																			"id" "elementid" "2f17a301-6a76-4211-a3fc-43217fb78a5c"
+																			"name" "string" "ValveBiped.Bip01_L_Finger32"
+																			"position" "vector3" "1.196321 -0.000002 0.000002"
+																			"orientation" "quaternion" "0 0 -0.213739 0.976891"
+																		}
+																	}
+																]
+															}
+														]
+													},
+													"DmeJoint"
+													{
+														"name" "string" "ValveBiped.Bip01_L_Finger2"
+														"transform" "DmeTransform"
+														{
+															"id" "elementid" "71055a32-b8ae-4211-b4ed-20dca5443647"
+															"name" "string" "ValveBiped.Bip01_L_Finger2"
+															"position" "vector3" "3.883689 -0.046764 0.431441"
+															"orientation" "quaternion" "0.044253 -0.002002 -0.289883 0.956036"
+														}
+														"children" "element_array"
+														[
+															"DmeJoint"
+															{
+																"name" "string" "ValveBiped.Bip01_L_Finger21"
+																"transform" "DmeTransform"
+																{
+																	"id" "elementid" "917cc68d-4133-4e10-9bb0-0cd6d68f362a"
+																	"name" "string" "ValveBiped.Bip01_L_Finger21"
+																	"position" "vector3" "1.71958 0 0"
+																	"orientation" "quaternion" "0.000503 0.002712 -0.182214 0.983255"
+																}
+																"children" "element_array"
+																[
+																	"DmeJoint"
+																	{
+																		"name" "string" "ValveBiped.Bip01_L_Finger22"
+																		"transform" "DmeTransform"
+																		{
+																			"id" "elementid" "a375d18e-e97f-49a6-b5eb-ffb94bfa9c1d"
+																			"name" "string" "ValveBiped.Bip01_L_Finger22"
+																			"position" "vector3" "1.209179 -0.000003 -0.000002"
+																			"orientation" "quaternion" "0.000167 0.001533 -0.107989 0.994151"
+																		}
+																	}
+																]
+															}
+														]
+													},
+													"DmeJoint"
+													{
+														"name" "string" "ValveBiped.Bip01_L_Finger1"
+														"transform" "DmeTransform"
+														{
+															"id" "elementid" "e0cf10e6-fa4d-4cc9-8e5b-b0e625a9a4a9"
+															"name" "string" "ValveBiped.Bip01_L_Finger1"
+															"position" "vector3" "3.859856 -0.137944 1.332465"
+															"orientation" "quaternion" "0.164538 -0.066609 -0.254928 0.950527"
+														}
+														"children" "element_array"
+														[
+															"DmeJoint"
+															{
+																"name" "string" "ValveBiped.Bip01_L_Finger11"
+																"transform" "DmeTransform"
+																{
+																	"id" "elementid" "563c6479-1c38-4a3d-887f-b551be1a7b68"
+																	"name" "string" "ValveBiped.Bip01_L_Finger11"
+																	"position" "vector3" "1.719431 -0.000002 -0.000004"
+																	"orientation" "quaternion" "0.000368 0.002004 -0.180509 0.983571"
+																}
+																"children" "element_array"
+																[
+																	"DmeJoint"
+																	{
+																		"name" "string" "ValveBiped.Bip01_L_Finger12"
+																		"transform" "DmeTransform"
+																		{
+																			"id" "elementid" "c48ecf94-b0c3-42d3-83cd-accfc7986bc7"
+																			"name" "string" "ValveBiped.Bip01_L_Finger12"
+																			"position" "vector3" "1.099672 -0.000004 0"
+																			"orientation" "quaternion" "0.000158 0.001288 -0.121862 0.992546"
+																		}
+																	}
+																]
+															}
+														]
+													},
+													"DmeJoint"
+													{
+														"name" "string" "ValveBiped.Bip01_L_Finger0"
+														"transform" "DmeTransform"
+														{
+															"id" "elementid" "f91a3b17-f590-48e1-b476-0ee56abbc9b8"
+															"name" "string" "ValveBiped.Bip01_L_Finger0"
+															"position" "vector3" "0.806046 -0.348921 1.321257"
+															"orientation" "quaternion" "-0.604453 -0.043883 -0.473211 0.639361"
+														}
+														"children" "element_array"
+														[
+															"DmeJoint"
+															{
+																"name" "string" "ValveBiped.Bip01_L_Finger01"
+																"transform" "DmeTransform"
+																{
+																	"id" "elementid" "2b1b6468-9d46-4a32-b251-f8c33bd794d1"
+																	"name" "string" "ValveBiped.Bip01_L_Finger01"
+																	"position" "vector3" "1.78978 -0.000001 0"
+																	"orientation" "quaternion" "0 0 0.114013 0.993479"
+																}
+																"children" "element_array"
+																[
+																	"DmeJoint"
+																	{
+																		"name" "string" "ValveBiped.Bip01_L_Finger02"
+																		"transform" "DmeTransform"
+																		{
+																			"id" "elementid" "3886b6d4-d211-41cd-b336-7423f9668fbe"
+																			"name" "string" "ValveBiped.Bip01_L_Finger02"
+																			"position" "vector3" "1.207002 0 0.000004"
+																			"orientation" "quaternion" "0 0 0.180436 0.983587"
+																		}
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					},
+					"DmeJoint"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Clavicle"
+						"transform" "DmeTransform"
+						{
+							"id" "elementid" "2574ef3f-e8f5-4cc2-a62d-c85456d780d1"
+							"name" "string" "ValveBiped.Bip01_R_Clavicle"
+							"position" "vector3" "2.033354 1.00078 -1.937612"
+							"orientation" "quaternion" "-0.459704 -0.549862 0.578901 -0.388841"
+						}
+						"children" "element_array"
+						[
+							"DmeJoint"
+							{
+								"name" "string" "ValveBiped.Bip01_R_UpperArm"
+								"transform" "DmeTransform"
+								{
+									"id" "elementid" "62a1041a-39c5-4d09-abbf-896f53ebba6e"
+									"name" "string" "ValveBiped.Bip01_R_UpperArm"
+									"position" "vector3" "6.028142 0.000004 0"
+									"orientation" "quaternion" "0.38725 -0.398086 -0.162358 0.815601"
+								}
+								"children" "element_array"
+								[
+									"DmeJoint"
+									{
+										"name" "string" "ValveBiped.Bip01_R_Forearm"
+										"transform" "DmeTransform"
+										{
+											"id" "elementid" "c34703b3-c0ce-41ff-85bf-50293cfcd2ae"
+											"name" "string" "ValveBiped.Bip01_R_Forearm"
+											"position" "vector3" "11.692551 0 -0.000004"
+											"orientation" "quaternion" "0 0 -0.609597 0.792712"
+										}
+										"children" "element_array"
+										[
+											"DmeJoint"
+											{
+												"name" "string" "ValveBiped.Bip01_R_Hand"
+												"transform" "DmeTransform"
+												{
+													"id" "elementid" "ca4733c3-f8c8-44d8-9783-2873075c7e2b"
+													"name" "string" "ValveBiped.Bip01_R_Hand"
+													"position" "vector3" "11.481695 0 -0.000002"
+													"orientation" "quaternion" "-0.670684 -0.040527 0.061208 0.738102"
+												}
+												"children" "element_array"
+												[
+													"DmeJoint"
+													{
+														"name" "string" "ValveBiped.Bip01_R_Finger4"
+														"transform" "DmeTransform"
+														{
+															"id" "elementid" "8df68c0a-e81b-4fb6-9b3f-2abaaa34f21f"
+															"name" "string" "ValveBiped.Bip01_R_Finger4"
+															"position" "vector3" "3.859672 -0.132571 1.193108"
+															"orientation" "quaternion" "0.175736 -0.167486 -0.396103 0.885532"
+														}
+														"children" "element_array"
+														[
+															"DmeJoint"
+															{
+																"name" "string" "ValveBiped.Bip01_R_Finger41"
+																"transform" "DmeTransform"
+																{
+																	"id" "elementid" "14c43873-f73d-44bd-a143-19c10ec2267c"
+																	"name" "string" "ValveBiped.Bip01_R_Finger41"
+																	"position" "vector3" "1.312559 0 0.000002"
+																	"orientation" "quaternion" "0 0 -0.21807 0.975933"
+																}
+																"children" "element_array"
+																[
+																	"DmeJoint"
+																	{
+																		"name" "string" "ValveBiped.Bip01_R_Finger42"
+																		"transform" "DmeTransform"
+																		{
+																			"id" "elementid" "c9defd5e-fb31-4d0c-8c8e-757cb6e05e13"
+																			"name" "string" "ValveBiped.Bip01_R_Finger42"
+																			"position" "vector3" "0.729369 0.000001 0"
+																			"orientation" "quaternion" "0 0 -0.121832 0.992551"
+																		}
+																	}
+																]
+															}
+														]
+													},
+													"DmeJoint"
+													{
+														"name" "string" "ValveBiped.Bip01_R_Finger3"
+														"transform" "DmeTransform"
+														{
+															"id" "elementid" "66bdd491-bfc7-44a6-b0c1-a89b9536759b"
+															"name" "string" "ValveBiped.Bip01_R_Finger3"
+															"position" "vector3" "3.942295 0.050319 0.431044"
+															"orientation" "quaternion" "0.05329 -0.065802 -0.389968 0.916927"
+														}
+														"children" "element_array"
+														[
+															"DmeJoint"
+															{
+																"name" "string" "ValveBiped.Bip01_R_Finger31"
+																"transform" "DmeTransform"
+																{
+																	"id" "elementid" "1ddc5afb-f207-4c0a-9d4d-c5bda80582bb"
+																	"name" "string" "ValveBiped.Bip01_R_Finger31"
+																	"position" "vector3" "1.539096 -0.000006 0"
+																	"orientation" "quaternion" "0 0 -0.123569 0.992336"
+																}
+																"children" "element_array"
+																[
+																	"DmeJoint"
+																	{
+																		"name" "string" "ValveBiped.Bip01_R_Finger32"
+																		"transform" "DmeTransform"
+																		{
+																			"id" "elementid" "4ffbd878-4869-4a8a-949c-848a853bb6a6"
+																			"name" "string" "ValveBiped.Bip01_R_Finger32"
+																			"position" "vector3" "1.196321 0 0"
+																			"orientation" "quaternion" "0 0 -0.213719 0.976895"
+																		}
+																	}
+																]
+															}
+														]
+													},
+													"DmeJoint"
+													{
+														"name" "string" "ValveBiped.Bip01_R_Finger2"
+														"transform" "DmeTransform"
+														{
+															"id" "elementid" "87c668b1-e081-4b50-b3e3-c03734cc3334"
+															"name" "string" "ValveBiped.Bip01_R_Finger2"
+															"position" "vector3" "3.883656 -0.050335 -0.431042"
+															"orientation" "quaternion" "-0.044915 -0.000188 -0.289887 0.956006"
+														}
+														"children" "element_array"
+														[
+															"DmeJoint"
+															{
+																"name" "string" "ValveBiped.Bip01_R_Finger21"
+																"transform" "DmeTransform"
+																{
+																	"id" "elementid" "b12b4a46-3695-45cd-8ffa-66e4d245d9bb"
+																	"name" "string" "ValveBiped.Bip01_R_Finger21"
+																	"position" "vector3" "1.719581 0 0"
+																	"orientation" "quaternion" "-0.000726 -0.00392 -0.182193 0.983255"
+																}
+																"children" "element_array"
+																[
+																	"DmeJoint"
+																	{
+																		"name" "string" "ValveBiped.Bip01_R_Finger22"
+																		"transform" "DmeTransform"
+																		{
+																			"id" "elementid" "e10691bc-da14-4a22-8d71-207ead386c00"
+																			"name" "string" "ValveBiped.Bip01_R_Finger22"
+																			"position" "vector3" "1.209185 -0.000004 0"
+																			"orientation" "quaternion" "-0.000241 -0.002217 -0.107977 0.994151"
+																		}
+																	}
+																]
+															}
+														]
+													},
+													"DmeJoint"
+													{
+														"name" "string" "ValveBiped.Bip01_R_Finger1"
+														"transform" "DmeTransform"
+														{
+															"id" "elementid" "0ffade7c-8be1-4746-9d9f-31b81dfbad0e"
+															"name" "string" "ValveBiped.Bip01_R_Finger1"
+															"position" "vector3" "3.85983 -0.148946 -1.331282"
+															"orientation" "quaternion" "-0.165062 0.064645 -0.25543 0.950437"
+														}
+														"children" "element_array"
+														[
+															"DmeJoint"
+															{
+																"name" "string" "ValveBiped.Bip01_R_Finger11"
+																"transform" "DmeTransform"
+																{
+																	"id" "elementid" "2a3710bb-e39d-4ef6-8482-e80da534fe2a"
+																	"name" "string" "ValveBiped.Bip01_R_Finger11"
+																	"position" "vector3" "1.719424 -0.000003 0"
+																	"orientation" "quaternion" "-0.000597 -0.003252 -0.180489 0.983571"
+																}
+																"children" "element_array"
+																[
+																	"DmeJoint"
+																	{
+																		"name" "string" "ValveBiped.Bip01_R_Finger12"
+																		"transform" "DmeTransform"
+																		{
+																			"id" "elementid" "55a84ce2-24b0-4a7f-ac17-141febe54b98"
+																			"name" "string" "ValveBiped.Bip01_R_Finger12"
+																			"position" "vector3" "1.099663 -0.000002 0"
+																			"orientation" "quaternion" "-0.000257 -0.00209 -0.121852 0.992546"
+																		}
+																	}
+																]
+															}
+														]
+													},
+													"DmeJoint"
+													{
+														"name" "string" "ValveBiped.Bip01_R_Finger0"
+														"transform" "DmeTransform"
+														{
+															"id" "elementid" "cbce4311-5ab5-48ef-b8f6-b9b40ccb1aec"
+															"name" "string" "ValveBiped.Bip01_R_Finger0"
+															"position" "vector3" "0.806017 -0.359839 -1.318333"
+															"orientation" "quaternion" "0.603807 0.040558 -0.473599 0.639903"
+														}
+														"children" "element_array"
+														[
+															"DmeJoint"
+															{
+																"name" "string" "ValveBiped.Bip01_R_Finger01"
+																"transform" "DmeTransform"
+																{
+																	"id" "elementid" "eafa83a4-a717-43ad-8019-bd1e5b3b9a05"
+																	"name" "string" "ValveBiped.Bip01_R_Finger01"
+																	"position" "vector3" "1.789782 0.000002 -0.000005"
+																	"orientation" "quaternion" "0 0 0.114029 0.993477"
+																}
+																"children" "element_array"
+																[
+																	"DmeJoint"
+																	{
+																		"name" "string" "ValveBiped.Bip01_R_Finger02"
+																		"transform" "DmeTransform"
+																		{
+																			"id" "elementid" "8e14041f-e190-4db7-9048-84caf1c48459"
+																			"name" "string" "ValveBiped.Bip01_R_Finger02"
+																			"position" "vector3" "1.207 -0.000001 -0.000001"
+																			"orientation" "quaternion" "0 0 0.180459 0.983583"
+																		}
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+	"animationList" "DmeAnimationList"
+	{
+		"name" "string" "c_run1"
+		"shotTimeFrame" "DmeTimeFrame"
+		{
+			"name" "string" "shotTimeFrame"
+			"startTime" "int" "0"
+			"durationTime" "int" "9583"
+			"offsetTime" "int" "0"
+			"scale" "float" "1"
+		}
+		"animations" "element_array"
+		[
+			"DmeChannelsClip"
+			{
+				"name" "string" "c_run1"
+				"timeFrame" "DmeTimeFrame"
+				{
+					"name" "string" "timeFrame"
+					"startTime" "int" "0"
+					"durationTime" "int" "9583"
+					"offsetTime" "int" "0"
+					"scale" "float" "1"
+				}
+				"frameRate" "int" "24"
+				"channels" "element_array"
+				[
+					"DmeChannel"
+					{
+						"name" "string" "unnamed_p"
+						"toElement" "element" "5f853df2-6d9b-4010-b02c-476aa45ff8bf"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"0 0 0",
+										"0 0 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "unnamed_o"
+						"toElement" "element" "5f853df2-6d9b-4010-b02c-476aa45ff8bf"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 0 1",
+										"0 0 0 1"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_Spine4_p"
+						"toElement" "element" "4673e829-6b54-4729-897f-6273ce26c6f1"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"0 -4.798273 0",
+										"0 -4.798273 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_Spine4_o"
+						"toElement" "element" "4673e829-6b54-4729-897f-6273ce26c6f1"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"417",
+										"833",
+										"1250",
+										"1667",
+										"2083",
+										"2500",
+										"2917",
+										"3333",
+										"3750",
+										"4167",
+										"4583",
+										"5000",
+										"5417",
+										"5833",
+										"6250",
+										"6667",
+										"7083",
+										"7500",
+										"7917",
+										"8333",
+										"8750",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.542666 0.453337 0.542667 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542667 0.453335",
+										"0.542666 0.453337 0.542667 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542667 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335",
+										"0.542666 0.453337 0.542666 0.453335"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Clavicle_p"
+						"toElement" "element" "159491f5-4938-468b-ab40-ffabb8ab874f"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"2.033348 1.000773 1.937661",
+										"2.033348 1.000773 1.937661"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Clavicle_o"
+						"toElement" "element" "159491f5-4938-468b-ab40-ffabb8ab874f"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"417",
+										"833",
+										"3750",
+										"6250",
+										"6667",
+										"7083",
+										"7500",
+										"7917",
+										"8333",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.473368 0.528721 0.598273 -0.372084",
+										"0.473368 0.528721 0.598273 -0.372084",
+										"0.473368 0.528721 0.598273 -0.372084",
+										"0.473368 0.528721 0.598273 -0.372084",
+										"0.473368 0.528721 0.598273 -0.372084",
+										"0.473368 0.528721 0.598273 -0.372084",
+										"0.473368 0.528721 0.598273 -0.372084",
+										"0.473368 0.528721 0.598273 -0.372084",
+										"0.473368 0.528721 0.598273 -0.372084",
+										"0.473368 0.528721 0.598273 -0.372084",
+										"0.473368 0.528721 0.598273 -0.372084",
+										"0.473368 0.528721 0.598273 -0.372084"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_UpperArm_p"
+						"toElement" "element" "420f617d-5d56-4eee-b1d6-59b1bc7eddb2"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"6.028142 0.000004 0",
+										"6.028141 0.000004 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_UpperArm_o"
+						"toElement" "element" "420f617d-5d56-4eee-b1d6-59b1bc7eddb2"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"3750",
+										"7500",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"-0.357728 0.403656 -0.147963 0.828975",
+										"-0.357728 0.403656 -0.147963 0.828975",
+										"-0.357728 0.403656 -0.147963 0.828975",
+										"-0.357728 0.403656 -0.147963 0.828975"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Forearm_p"
+						"toElement" "element" "4d49629a-7cec-44e3-bd6b-f731cf1c2616"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"11.692554 0 -0.000001",
+										"11.692554 0 -0.000001"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Forearm_o"
+						"toElement" "element" "4d49629a-7cec-44e3-bd6b-f731cf1c2616"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"417",
+										"833",
+										"1250",
+										"1667",
+										"2083",
+										"2500",
+										"7917",
+										"8750",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.000014 0.000003 -0.609579 0.792726",
+										"0.000014 0.000003 -0.609579 0.792726",
+										"0.000014 0.000003 -0.609579 0.792726",
+										"0.000014 0.000003 -0.609579 0.792726",
+										"0.000014 0.000003 -0.609579 0.792726",
+										"0.000014 0.000003 -0.609579 0.792726",
+										"0.000014 0.000003 -0.609579 0.792726",
+										"0.000014 0.000003 -0.609579 0.792726",
+										"0.000014 0.000003 -0.609579 0.792726",
+										"0.000014 0.000003 -0.609579 0.792726"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Hand_p"
+						"toElement" "element" "12251f49-332a-44fb-bae7-3705b1b73fc6"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"11.481676 0 -0.000033",
+										"11.481675 0 -0.000033"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Hand_o"
+						"toElement" "element" "12251f49-332a-44fb-bae7-3705b1b73fc6"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"833",
+										"1667",
+										"2083",
+										"2500",
+										"2917",
+										"3333",
+										"6250",
+										"6667",
+										"7083",
+										"7500",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.713493 0.001525 0.006375 0.700632",
+										"0.713493 0.001525 0.006375 0.700632",
+										"0.713493 0.001525 0.006375 0.700632",
+										"0.713493 0.001525 0.006375 0.700632",
+										"0.713493 0.001525 0.006375 0.700632",
+										"0.713493 0.001525 0.006375 0.700632",
+										"0.713493 0.001525 0.006375 0.700632",
+										"0.713493 0.001525 0.006375 0.700632",
+										"0.713493 0.001525 0.006375 0.700632",
+										"0.713493 0.001525 0.006375 0.700632",
+										"0.713493 0.001525 0.006375 0.700632",
+										"0.713493 0.001525 0.006375 0.700632"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger4_p"
+						"toElement" "element" "a0e6a9ba-c5fe-4016-b4dc-a7646a71f2c2"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"3.859702 -0.1424 -1.191977",
+										"3.859702 -0.1424 -1.191977"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger4_o"
+						"toElement" "element" "a0e6a9ba-c5fe-4016-b4dc-a7646a71f2c2"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"833",
+										"6250",
+										"6667",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"-0.177863 0.165141 -0.397339 0.884994",
+										"-0.177863 0.165141 -0.397339 0.884994",
+										"-0.177863 0.165141 -0.397339 0.884994",
+										"-0.177863 0.165141 -0.397339 0.884994",
+										"-0.177863 0.165141 -0.397339 0.884994",
+										"-0.177863 0.165141 -0.397339 0.884994"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger41_p"
+						"toElement" "element" "9cc1bd85-b37e-44bb-8276-29d5d2358946"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.312563 -0.000002 0",
+										"1.312563 -0.000002 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger41_o"
+						"toElement" "element" "9cc1bd85-b37e-44bb-8276-29d5d2358946"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"417",
+										"833",
+										"1250",
+										"2500",
+										"2917",
+										"3333",
+										"4167",
+										"5000",
+										"5417",
+										"6667",
+										"8750",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928",
+										"0 0 -0.218093 0.975928"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger42_p"
+						"toElement" "element" "f7f556d7-a6e6-468d-b71a-bc0ac72ef7b9"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"0.729364 0 0",
+										"0.729364 0 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger42_o"
+						"toElement" "element" "f7f556d7-a6e6-468d-b71a-bc0ac72ef7b9"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"3333",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 -0.121846 0.992549",
+										"0 0 -0.121846 0.992549",
+										"0 0 -0.121846 0.992549"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger3_p"
+						"toElement" "element" "fc9ec0c0-73d9-4dfa-99bd-9b562b012565"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"3.942324 0.046772 -0.431444",
+										"3.942324 0.046772 -0.431444"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger3_o"
+						"toElement" "element" "fc9ec0c0-73d9-4dfa-99bd-9b562b012565"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"1250",
+										"1667",
+										"2083",
+										"2500",
+										"2917",
+										"3750",
+										"5417",
+										"6250",
+										"7500",
+										"7917",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"-0.055228 0.063418 -0.390523 0.916744",
+										"-0.055228 0.063418 -0.390523 0.916744",
+										"-0.055228 0.063418 -0.390523 0.916744",
+										"-0.055228 0.063418 -0.390523 0.916744",
+										"-0.055228 0.063418 -0.390523 0.916744",
+										"-0.055228 0.063418 -0.390523 0.916744",
+										"-0.055228 0.063418 -0.390523 0.916744",
+										"-0.055228 0.063418 -0.390523 0.916744",
+										"-0.055228 0.063418 -0.390523 0.916744",
+										"-0.055228 0.063418 -0.390523 0.916744",
+										"-0.055228 0.063418 -0.390523 0.916744",
+										"-0.055228 0.063418 -0.390523 0.916744"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger31_p"
+						"toElement" "element" "0eb40f69-356f-47c0-a628-645b94d03256"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.539093 0.000005 -0.000004",
+										"1.539093 0.000005 -0.000004"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger31_o"
+						"toElement" "element" "0eb40f69-356f-47c0-a628-645b94d03256"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"8333",
+										"8750",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 -0.123582 0.992334",
+										"0 0 -0.123582 0.992334",
+										"0 0 -0.123582 0.992334",
+										"0 0 -0.123582 0.992334"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger32_p"
+						"toElement" "element" "2f17a301-6a76-4211-a3fc-43217fb78a5c"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.196321 -0.000002 0.000002",
+										"1.196321 -0.000002 0.000002"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger32_o"
+						"toElement" "element" "2f17a301-6a76-4211-a3fc-43217fb78a5c"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"417",
+										"833",
+										"1250",
+										"1667",
+										"2917",
+										"3333",
+										"3750",
+										"4167",
+										"4583",
+										"5000",
+										"5417",
+										"5833",
+										"7917",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891",
+										"0 0 -0.213739 0.976891"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger2_p"
+						"toElement" "element" "71055a32-b8ae-4211-b4ed-20dca5443647"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"3.883689 -0.046764 0.431441",
+										"3.883688 -0.046764 0.431441"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger2_o"
+						"toElement" "element" "71055a32-b8ae-4211-b4ed-20dca5443647"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"417",
+										"1250",
+										"1667",
+										"2083",
+										"2500",
+										"2917",
+										"3333",
+										"3750",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.044253 -0.002002 -0.289883 0.956036",
+										"0.044253 -0.002002 -0.289883 0.956036",
+										"0.044253 -0.002002 -0.289883 0.956036",
+										"0.044253 -0.002002 -0.289883 0.956036",
+										"0.044253 -0.002002 -0.289883 0.956036",
+										"0.044253 -0.002002 -0.289883 0.956036",
+										"0.044253 -0.002002 -0.289883 0.956036",
+										"0.044253 -0.002002 -0.289883 0.956036",
+										"0.044253 -0.002002 -0.289883 0.956036",
+										"0.044253 -0.002002 -0.289883 0.956036",
+										"0.044253 -0.002002 -0.289883 0.956036"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger21_p"
+						"toElement" "element" "917cc68d-4133-4e10-9bb0-0cd6d68f362a"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.71958 0 0",
+										"1.71958 0 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger21_o"
+						"toElement" "element" "917cc68d-4133-4e10-9bb0-0cd6d68f362a"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"833",
+										"1250",
+										"1667",
+										"2083",
+										"3333",
+										"7917",
+										"8750",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.000503 0.002712 -0.182214 0.983255",
+										"0.000503 0.002712 -0.182214 0.983255",
+										"0.000503 0.002712 -0.182214 0.983255",
+										"0.000503 0.002712 -0.182214 0.983255",
+										"0.000503 0.002712 -0.182214 0.983255",
+										"0.000503 0.002712 -0.182214 0.983255",
+										"0.000503 0.002712 -0.182214 0.983255",
+										"0.000503 0.002712 -0.182214 0.983255",
+										"0.000503 0.002712 -0.182214 0.983255"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger22_p"
+						"toElement" "element" "a375d18e-e97f-49a6-b5eb-ffb94bfa9c1d"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.209179 -0.000003 -0.000002",
+										"1.209179 -0.000003 -0.000002"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger22_o"
+						"toElement" "element" "a375d18e-e97f-49a6-b5eb-ffb94bfa9c1d"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"417",
+										"833",
+										"6250",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.000167 0.001533 -0.107989 0.994151",
+										"0.000167 0.001533 -0.107989 0.994151",
+										"0.000167 0.001533 -0.107989 0.994151",
+										"0.000167 0.001533 -0.107989 0.994151",
+										"0.000167 0.001533 -0.107989 0.994151"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger1_p"
+						"toElement" "element" "e0cf10e6-fa4d-4cc9-8e5b-b0e625a9a4a9"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"3.859856 -0.137944 1.332465",
+										"3.859856 -0.137944 1.332465"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger1_o"
+						"toElement" "element" "e0cf10e6-fa4d-4cc9-8e5b-b0e625a9a4a9"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"1250",
+										"1667",
+										"2083",
+										"2500",
+										"2917",
+										"3333",
+										"3750",
+										"4167",
+										"4583",
+										"5417",
+										"5833",
+										"6250",
+										"6667",
+										"7083",
+										"7500",
+										"7917",
+										"8333",
+										"8750",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527",
+										"0.164538 -0.066609 -0.254928 0.950527"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger11_p"
+						"toElement" "element" "563c6479-1c38-4a3d-887f-b551be1a7b68"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.719431 -0.000002 -0.000004",
+										"1.719431 -0.000002 -0.000004"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger11_o"
+						"toElement" "element" "563c6479-1c38-4a3d-887f-b551be1a7b68"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"2500",
+										"5000",
+										"7500",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.000368 0.002004 -0.180509 0.983571",
+										"0.000368 0.002004 -0.180509 0.983571",
+										"0.000368 0.002004 -0.180509 0.983571",
+										"0.000368 0.002004 -0.180509 0.983571",
+										"0.000368 0.002004 -0.180509 0.983571"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger12_p"
+						"toElement" "element" "c48ecf94-b0c3-42d3-83cd-accfc7986bc7"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.099672 -0.000004 0",
+										"1.099672 -0.000004 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger12_o"
+						"toElement" "element" "c48ecf94-b0c3-42d3-83cd-accfc7986bc7"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"1667",
+										"2083",
+										"2500",
+										"3333",
+										"6250",
+										"6667",
+										"7500",
+										"7917",
+										"8750",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.000158 0.001288 -0.121862 0.992546",
+										"0.000158 0.001288 -0.121862 0.992546",
+										"0.000158 0.001288 -0.121862 0.992546",
+										"0.000158 0.001288 -0.121862 0.992546",
+										"0.000158 0.001288 -0.121862 0.992546",
+										"0.000158 0.001288 -0.121862 0.992546",
+										"0.000158 0.001288 -0.121862 0.992546",
+										"0.000158 0.001288 -0.121862 0.992546",
+										"0.000158 0.001288 -0.121862 0.992546",
+										"0.000158 0.001288 -0.121862 0.992546",
+										"0.000158 0.001288 -0.121862 0.992546"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger0_p"
+						"toElement" "element" "f91a3b17-f590-48e1-b476-0ee56abbc9b8"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"0.806046 -0.348921 1.321257",
+										"0.806046 -0.348921 1.321257"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger0_o"
+						"toElement" "element" "f91a3b17-f590-48e1-b476-0ee56abbc9b8"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"1250",
+										"2083",
+										"2500",
+										"2917",
+										"6667",
+										"7083",
+										"7500",
+										"8333",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"-0.604453 -0.043883 -0.473211 0.639361",
+										"-0.604453 -0.043883 -0.473211 0.639361",
+										"-0.604453 -0.043883 -0.473211 0.639361",
+										"-0.604453 -0.043883 -0.473211 0.639361",
+										"-0.604453 -0.043883 -0.473211 0.639361",
+										"-0.604453 -0.043883 -0.473211 0.639361",
+										"-0.604453 -0.043883 -0.473211 0.639361",
+										"-0.604453 -0.043883 -0.473211 0.639361",
+										"-0.604453 -0.043883 -0.473211 0.639361",
+										"-0.604453 -0.043883 -0.473211 0.639361"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger01_p"
+						"toElement" "element" "2b1b6468-9d46-4a32-b251-f8c33bd794d1"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.78978 -0.000001 0",
+										"1.78978 -0.000001 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger01_o"
+						"toElement" "element" "2b1b6468-9d46-4a32-b251-f8c33bd794d1"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 0.114013 0.993479",
+										"0 0 0.114013 0.993479"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger02_p"
+						"toElement" "element" "3886b6d4-d211-41cd-b336-7423f9668fbe"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.207002 0 0.000004",
+										"1.207002 0 0.000004"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_L_Finger02_o"
+						"toElement" "element" "3886b6d4-d211-41cd-b336-7423f9668fbe"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"1667",
+										"4583",
+										"7500",
+										"7917",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 0.180436 0.983587",
+										"0 0 0.180436 0.983587",
+										"0 0 0.180436 0.983587",
+										"0 0 0.180436 0.983587",
+										"0 0 0.180436 0.983587",
+										"0 0 0.180436 0.983587"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Clavicle_p"
+						"toElement" "element" "2574ef3f-e8f5-4cc2-a62d-c85456d780d1"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"2.033354 1.00078 -1.937612",
+										"2.033354 1.00078 -1.937612"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Clavicle_o"
+						"toElement" "element" "2574ef3f-e8f5-4cc2-a62d-c85456d780d1"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"417",
+										"833",
+										"1250",
+										"1667",
+										"2083",
+										"2917",
+										"3333",
+										"3750",
+										"4167",
+										"4583",
+										"5000",
+										"5417",
+										"5833",
+										"6250",
+										"6667",
+										"7083",
+										"7500",
+										"7917",
+										"8333",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841",
+										"-0.459704 -0.549862 0.578901 -0.388841"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_UpperArm_p"
+						"toElement" "element" "62a1041a-39c5-4d09-abbf-896f53ebba6e"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"6.028142 0.000004 0",
+										"6.028142 0.000004 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_UpperArm_o"
+						"toElement" "element" "62a1041a-39c5-4d09-abbf-896f53ebba6e"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"417",
+										"833",
+										"1250",
+										"1667",
+										"2083",
+										"2500",
+										"2917",
+										"4167",
+										"4583",
+										"5417",
+										"5833",
+										"6250",
+										"6667",
+										"7500",
+										"7917",
+										"8333",
+										"8750",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601",
+										"0.38725 -0.398086 -0.162358 0.815601"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Forearm_p"
+						"toElement" "element" "c34703b3-c0ce-41ff-85bf-50293cfcd2ae"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"11.692551 0 -0.000004",
+										"11.692551 0 -0.000004"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Forearm_o"
+						"toElement" "element" "c34703b3-c0ce-41ff-85bf-50293cfcd2ae"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"3333",
+										"3750",
+										"4167",
+										"4583",
+										"5000",
+										"5417",
+										"5833",
+										"6250",
+										"6667",
+										"7083",
+										"7500",
+										"7917",
+										"8333",
+										"8750",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712",
+										"0 0 -0.609597 0.792712"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Hand_p"
+						"toElement" "element" "ca4733c3-f8c8-44d8-9783-2873075c7e2b"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"11.481695 0 -0.000002",
+										"11.481695 0 -0.000002"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Hand_o"
+						"toElement" "element" "ca4733c3-f8c8-44d8-9783-2873075c7e2b"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"417",
+										"1667",
+										"2083",
+										"2500",
+										"3750",
+										"7917",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"-0.670684 -0.040527 0.061208 0.738102",
+										"-0.670684 -0.040527 0.061208 0.738102",
+										"-0.670684 -0.040527 0.061208 0.738102",
+										"-0.670684 -0.040527 0.061208 0.738102",
+										"-0.670684 -0.040527 0.061208 0.738102",
+										"-0.670684 -0.040527 0.061208 0.738102",
+										"-0.670684 -0.040527 0.061208 0.738102",
+										"-0.670684 -0.040527 0.061208 0.738102"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger4_p"
+						"toElement" "element" "8df68c0a-e81b-4fb6-9b3f-2abaaa34f21f"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"3.859672 -0.132571 1.193108",
+										"3.859672 -0.13257 1.193108"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger4_o"
+						"toElement" "element" "8df68c0a-e81b-4fb6-9b3f-2abaaa34f21f"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"833",
+										"1250",
+										"1667",
+										"2083",
+										"2500",
+										"2917",
+										"3333",
+										"3750",
+										"4167",
+										"4583",
+										"5417",
+										"5833",
+										"6250",
+										"6667",
+										"7083",
+										"7500",
+										"7917",
+										"8333",
+										"8750",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532",
+										"0.175736 -0.167486 -0.396103 0.885532"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger41_p"
+						"toElement" "element" "14c43873-f73d-44bd-a143-19c10ec2267c"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.312559 0 0.000002",
+										"1.312559 0 0.000002"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger41_o"
+						"toElement" "element" "14c43873-f73d-44bd-a143-19c10ec2267c"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"2083",
+										"3333",
+										"3750",
+										"4167",
+										"4583",
+										"5833",
+										"6250",
+										"6667",
+										"7083",
+										"8750",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 -0.21807 0.975933",
+										"0 0 -0.21807 0.975933",
+										"0 0 -0.21807 0.975933",
+										"0 0 -0.21807 0.975933",
+										"0 0 -0.21807 0.975933",
+										"0 0 -0.21807 0.975933",
+										"0 0 -0.21807 0.975933",
+										"0 0 -0.21807 0.975933",
+										"0 0 -0.21807 0.975933",
+										"0 0 -0.21807 0.975933",
+										"0 0 -0.21807 0.975933",
+										"0 0 -0.21807 0.975933",
+										"0 0 -0.21807 0.975933"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger42_p"
+						"toElement" "element" "c9defd5e-fb31-4d0c-8c8e-757cb6e05e13"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"0.729369 0.000001 0",
+										"0.729369 0.000001 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger42_o"
+						"toElement" "element" "c9defd5e-fb31-4d0c-8c8e-757cb6e05e13"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"833",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 -0.121832 0.992551",
+										"0 0 -0.121832 0.992551",
+										"0 0 -0.121832 0.992551"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger3_p"
+						"toElement" "element" "66bdd491-bfc7-44a6-b0c1-a89b9536759b"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"3.942295 0.050319 0.431044",
+										"3.942295 0.050319 0.431044"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger3_o"
+						"toElement" "element" "66bdd491-bfc7-44a6-b0c1-a89b9536759b"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"2083",
+										"2500",
+										"5417",
+										"6250",
+										"6667",
+										"7083",
+										"7500",
+										"7917",
+										"8333",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.05329 -0.065802 -0.389968 0.916927",
+										"0.05329 -0.065802 -0.389968 0.916927",
+										"0.05329 -0.065802 -0.389968 0.916927",
+										"0.05329 -0.065802 -0.389968 0.916927",
+										"0.05329 -0.065802 -0.389968 0.916927",
+										"0.05329 -0.065802 -0.389968 0.916927",
+										"0.05329 -0.065802 -0.389968 0.916927",
+										"0.05329 -0.065802 -0.389968 0.916927",
+										"0.05329 -0.065802 -0.389968 0.916927",
+										"0.05329 -0.065802 -0.389968 0.916927",
+										"0.05329 -0.065802 -0.389968 0.916927",
+										"0.05329 -0.065802 -0.389968 0.916927"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger31_p"
+						"toElement" "element" "1ddc5afb-f207-4c0a-9d4d-c5bda80582bb"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.539096 -0.000006 0",
+										"1.539096 -0.000006 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger31_o"
+						"toElement" "element" "1ddc5afb-f207-4c0a-9d4d-c5bda80582bb"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 -0.123569 0.992336",
+										"0 0 -0.123569 0.992336"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger32_p"
+						"toElement" "element" "4ffbd878-4869-4a8a-949c-848a853bb6a6"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.196321 0 0",
+										"1.196321 0 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger32_o"
+						"toElement" "element" "4ffbd878-4869-4a8a-949c-848a853bb6a6"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"1250",
+										"1667",
+										"2083",
+										"2500",
+										"2917",
+										"3333",
+										"3750",
+										"4167",
+										"4583",
+										"5417",
+										"5833",
+										"6250",
+										"6667",
+										"7500",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895",
+										"0 0 -0.213719 0.976895"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger2_p"
+						"toElement" "element" "87c668b1-e081-4b50-b3e3-c03734cc3334"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"3.883656 -0.050335 -0.431042",
+										"3.883656 -0.050335 -0.431042"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger2_o"
+						"toElement" "element" "87c668b1-e081-4b50-b3e3-c03734cc3334"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"417",
+										"833",
+										"1250",
+										"1667",
+										"2500",
+										"2917",
+										"3333",
+										"3750",
+										"4583",
+										"5000",
+										"5417",
+										"5833",
+										"6250",
+										"7083",
+										"8333",
+										"8750",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006",
+										"-0.044915 -0.000188 -0.289887 0.956006"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger21_p"
+						"toElement" "element" "b12b4a46-3695-45cd-8ffa-66e4d245d9bb"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.719581 0 0",
+										"1.719581 0 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger21_o"
+						"toElement" "element" "b12b4a46-3695-45cd-8ffa-66e4d245d9bb"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"2083",
+										"3333",
+										"3750",
+										"4167",
+										"4583",
+										"7083",
+										"7500",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"-0.000726 -0.00392 -0.182193 0.983255",
+										"-0.000726 -0.00392 -0.182193 0.983255",
+										"-0.000726 -0.00392 -0.182193 0.983255",
+										"-0.000726 -0.00392 -0.182193 0.983255",
+										"-0.000726 -0.00392 -0.182193 0.983255",
+										"-0.000726 -0.00392 -0.182193 0.983255",
+										"-0.000726 -0.00392 -0.182193 0.983255",
+										"-0.000726 -0.00392 -0.182193 0.983255",
+										"-0.000726 -0.00392 -0.182193 0.983255"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger22_p"
+						"toElement" "element" "e10691bc-da14-4a22-8d71-207ead386c00"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.209185 -0.000004 0",
+										"1.209185 -0.000004 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger22_o"
+						"toElement" "element" "e10691bc-da14-4a22-8d71-207ead386c00"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"4167",
+										"5417",
+										"6667",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"-0.000241 -0.002217 -0.107977 0.994151",
+										"-0.000241 -0.002217 -0.107977 0.994151",
+										"-0.000241 -0.002217 -0.107977 0.994151",
+										"-0.000241 -0.002217 -0.107977 0.994151",
+										"-0.000241 -0.002217 -0.107977 0.994151"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger1_p"
+						"toElement" "element" "0ffade7c-8be1-4746-9d9f-31b81dfbad0e"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"3.85983 -0.148946 -1.331282",
+										"3.85983 -0.148946 -1.331282"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger1_o"
+						"toElement" "element" "0ffade7c-8be1-4746-9d9f-31b81dfbad0e"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"-0.165062 0.064645 -0.25543 0.950437",
+										"-0.165062 0.064645 -0.25543 0.950437"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger11_p"
+						"toElement" "element" "2a3710bb-e39d-4ef6-8482-e80da534fe2a"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.719424 -0.000003 0",
+										"1.719424 -0.000003 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger11_o"
+						"toElement" "element" "2a3710bb-e39d-4ef6-8482-e80da534fe2a"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"1667",
+										"3333",
+										"5000",
+										"7500",
+										"7917",
+										"8333",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"-0.000597 -0.003252 -0.180489 0.983571",
+										"-0.000597 -0.003252 -0.180489 0.983571",
+										"-0.000597 -0.003252 -0.180489 0.983571",
+										"-0.000597 -0.003252 -0.180489 0.983571",
+										"-0.000597 -0.003252 -0.180489 0.983571",
+										"-0.000597 -0.003252 -0.180489 0.983571",
+										"-0.000597 -0.003252 -0.180489 0.983571",
+										"-0.000597 -0.003252 -0.180489 0.983571"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger12_p"
+						"toElement" "element" "55a84ce2-24b0-4a7f-ac17-141febe54b98"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.099663 -0.000002 0",
+										"1.099663 -0.000002 0"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger12_o"
+						"toElement" "element" "55a84ce2-24b0-4a7f-ac17-141febe54b98"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"-0.000257 -0.00209 -0.121852 0.992546",
+										"-0.000257 -0.00209 -0.121852 0.992546"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger0_p"
+						"toElement" "element" "cbce4311-5ab5-48ef-b8f6-b9b40ccb1aec"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"0.806017 -0.359839 -1.318333",
+										"0.806017 -0.359839 -1.318333"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger0_o"
+						"toElement" "element" "cbce4311-5ab5-48ef-b8f6-b9b40ccb1aec"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"417",
+										"833",
+										"1250",
+										"1667",
+										"2083",
+										"2500",
+										"2917",
+										"3333",
+										"3750",
+										"4583",
+										"5833",
+										"6250",
+										"7500",
+										"8750",
+										"9167",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903",
+										"0.603807 0.040558 -0.473599 0.639903"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger01_p"
+						"toElement" "element" "eafa83a4-a717-43ad-8019-bd1e5b3b9a05"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.789782 0.000002 -0.000005",
+										"1.789782 0.000002 -0.000005"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger01_o"
+						"toElement" "element" "eafa83a4-a717-43ad-8019-bd1e5b3b9a05"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"2917",
+										"3333",
+										"3750",
+										"4167",
+										"5833",
+										"6250",
+										"6667",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 0.114029 0.993477",
+										"0 0 0.114029 0.993477",
+										"0 0 0.114029 0.993477",
+										"0 0 0.114029 0.993477",
+										"0 0 0.114029 0.993477",
+										"0 0 0.114029 0.993477",
+										"0 0 0.114029 0.993477",
+										"0 0 0.114029 0.993477",
+										"0 0 0.114029 0.993477"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger02_p"
+						"toElement" "element" "8e14041f-e190-4db7-9048-84caf1c48459"
+						"toAttribute" "string" "position"
+						"mode" "int" "3"
+						"log" "DmeVector3Log"
+						{
+							"name" "string" "vector3 log"
+							"layers" "element_array"
+							[
+								"DmeVector3LogLayer"
+								{
+									"name" "string" "vector3 log"
+									"times" "int_array"
+									[
+										"0",
+										"9583"
+									]
+									"values" "vector3_array"
+									[
+										"1.207 -0.000001 -0.000001",
+										"1.207 -0.000001 -0.000001"
+									]
+								}
+							]
+						}
+					},
+					"DmeChannel"
+					{
+						"name" "string" "ValveBiped.Bip01_R_Finger02_o"
+						"toElement" "element" "8e14041f-e190-4db7-9048-84caf1c48459"
+						"toAttribute" "string" "orientation"
+						"mode" "int" "3"
+						"log" "DmeQuaternionLog"
+						{
+							"name" "string" "quaternion log"
+							"layers" "element_array"
+							[
+								"DmeQuaternionLogLayer"
+								{
+									"name" "string" "quaternion log"
+									"times" "int_array"
+									[
+										"0",
+										"1250",
+										"2500",
+										"2917",
+										"4167",
+										"6667",
+										"7083",
+										"9583"
+									]
+									"values" "quaternion_array"
+									[
+										"0 0 0.180459 0.983583",
+										"0 0 0.180459 0.983583",
+										"0 0 0.180459 0.983583",
+										"0 0 0.180458 0.983583",
+										"0 0 0.180458 0.983583",
+										"0 0 0.180459 0.983583",
+										"0 0 0.180458 0.983583",
+										"0 0 0.180459 0.983583"
+									]
+								}
+							]
+						}
+					}
+				]
+			}
+		]
+	}
+}

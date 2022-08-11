@@ -1,0 +1,15 @@
+UnlitGeneric
+{
+	$basetexture			"models/weapons/jazztronauts/goggles"
+	$additive				1
+	$nodecal				1
+	$nocull					1
+
+	Proxies
+	{
+		PlayerWeaponColor
+		{
+			resultVar	$color
+		}
+	}
+}

@@ -8,8 +8,8 @@ SWEP.Slot					= 5
 SWEP.Category				= "Jazztronauts"
 SWEP.WepSelectIcon			= Material( "weapons/weapon_buscaller.png" )
 
-SWEP.ViewModel				= "models/weapons/c_pistol.mdl"
-SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
+SWEP.ViewModel				= "models/weapons/c_bus_summoner.mdl"
+SWEP.WorldModel				= "models/weapons/w_bus_summoner.mdl"
 SWEP.HoldType				= "pistol"
 
 util.PrecacheModel( SWEP.ViewModel )
@@ -34,6 +34,7 @@ SWEP.BeamMat				= Material("cable/physbeam")
 function SWEP:Initialize()
 	self.BaseClass.Initialize( self )
 	self:SetWeaponHoldType( self.HoldType )
+	self.AttachIdx = self:LookupAttachment("muzzle")
 end
 
 function SWEP:SetupDataTables()
@@ -189,6 +190,7 @@ function SWEP:ShootEffects()
 end
 
 function SWEP:StopPrimaryAttack()
+	self:SendWeaponAnim( ACT_VM_IDLE )
 	if !IsFirstTimePredicted() then return end
 
 	if SERVER and IsValid(self:GetBusMarker()) then

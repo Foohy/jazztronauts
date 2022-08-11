@@ -1,15 +1,9 @@
-"VertexlitGeneric"
+"Patch"
 {
-	"$basetexture" "models/andy/singer/cat_singer_blink"
-	"$phong" "1"
-	"$phongexponent" "10"
-	"$phongboost" ".3"	
-	"$lightwarptexture" "sunabouzu/lightwarp"
-	"$phongfresnelranges"	"[.3 1 8]"
-	"$halflambert" "0"
+	include "materials/models/andy/singer/cat_singer_01.vmt"
+	insert
+	{
+		"$detail" "models/andy/singer/singer_blink"
+	}
 
-	// Rim lighting parameters
-	"$rimlight" "1"												// To enable rim lighting (requires phong)
-	"$rimlightexponent" "4"										// Exponent for phong component of rim lighting	
-	"$rimlightboost" "2"	
 }

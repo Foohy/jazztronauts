@@ -1,0 +1,15 @@
+VertexlitGeneric 
+{
+	$basetexture				"models/weapons/jazztronauts/w_run"
+	$bumpmap					"models/weapons/jazztronauts/w_run_normal"
+	$envmap						env_cubemap
+	$color2						"[2.5 2.5 2.5]"
+	$normalmapalphaenvmapmask	1
+	$envmaptint					"[.7 .7 .7]"
+	$envmapsaturation			0.1
+	
+	$detail						"detail\metal_detail_01"
+	$detailscale				7.283
+	$detailblendfactor			0.65
+	$detailblendmode			0
+}

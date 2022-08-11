@@ -9,8 +9,8 @@ SWEP.Category				= "Jazztronauts"
 SWEP.Purpose				= "Peek into the inner I/O workings of the map"
 SWEP.WepSelectIcon			= Material( "weapons/weapon_hacker.png" )
 
-SWEP.ViewModel				= "models/weapons/c_pistol.mdl"
-SWEP.WorldModel				= "models/weapons/w_pistol.mdl"
+SWEP.ViewModel				= "models/weapons/c_hackergoggles.mdl"
+SWEP.WorldModel				= "models/weapons/w_hackergoggles.mdl"
 
 SWEP.UseHands		= true
 
@@ -116,14 +116,15 @@ end
 
 function SWEP:CanPrimaryAttack()
 
-	return false
+	return unlocks.IsUnlocked("store", self:GetOwner(), upgrade_enableWrites) 
 
 end
 
 function SWEP:PrimaryAttack()
 
-	self.BaseClass.PrimaryAttack( self )
-
+	if ( !self:CanPrimaryAttack() ) then return end
+	if ( !self.Owner:IsNPC() ) then self.Owner:ViewPunch( Angle( -1, 0, 0 ) ) end
+	self:ShootEffects()
 end
 
 function SWEP:ShootEffects()

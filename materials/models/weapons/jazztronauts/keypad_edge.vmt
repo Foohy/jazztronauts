@@ -1,0 +1,15 @@
+VertexlitGeneric
+{
+	$basetexture			"models/weapons/jazztronauts/keypad_edge"
+	$additive				1
+	$nodecal				1
+	$nocull					1
+	
+	Proxies
+	{
+		PlayerWeaponColor
+		{
+			resultVar	$color
+		}
+	}
+}

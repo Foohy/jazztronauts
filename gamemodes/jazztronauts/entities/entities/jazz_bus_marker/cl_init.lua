@@ -70,16 +70,15 @@ local function renderPlayerBeam(marker, ply)
 	if wep:GetBusMarker() != marker then return false end
 
 	-- Get attach point of gun's muzzle
-	local attach = wep:LookupAttachment("muzzle")
-	if attach > 0 then
+	local attach = ply:GetShootPos()
+	local attachIdx = wep.AttachIdx or 1
+
+	if attachIdx > 0 then
+		attach = wep:GetAttachment(attachIdx).Pos -- World model position, at very least
 		if wep:IsCarriedByLocalPlayer() then
-			attach = ply:GetViewModel():GetAttachment(attach)
-		else
-			attach = wep:GetAttachment(attach)
+			local attachInfo = ply:GetViewModel():GetAttachment(attachIdx)
+			if attachInfo then attach = attachInfo.Pos end -- View model position
 		end
-		attach = attach.Pos
-	else
-		attach = ply:GetShootPos()
 	end
 
 	-- Draw beam
@@ -96,7 +95,6 @@ hook.Add("PostDrawOpaqueRenderables", "JazzDrawBusMarkerBeams", function()
 	if !markers or #markers == 0 then return end
 
 	for _, v in pairs(markers) do
-
 		-- Render the beams for each player
 		local activePlayers = v.BusCallerPlayers or {}
 		for __, ply in pairs(activePlayers) do

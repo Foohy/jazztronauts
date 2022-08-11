@@ -1,16 +1,9 @@
-"VertexlitGeneric"
+"Patch"
 {
-	"$basetexture" "models/andy/bartender/cat_bartender_happy"
+	include "materials/models/andy/bartender/cat_bartender_01.vmt"
+	insert
+	{
+		"$detail" "models/andy/bartender/bartender_happy"
+	}
 
-	"$phong" "1"
-	"$phongexponent" "10"
-	"$phongboost" ".3"	
-	"$lightwarptexture" "sunabouzu/lightwarp"
-	"$phongfresnelranges"	"[.3 1 8]"
-	"$halflambert" "0"
-
-	// Rim lighting parameters
-	"$rimlight" "1"												// To enable rim lighting (requires phong)
-	"$rimlightexponent" "4"										// Exponent for phong component of rim lighting	
-	"$rimlightboost" "2"	
 }

@@ -1,16 +1,11 @@
-"VertexlitGeneric"
+"Patch"
 {
-	"$basetexture" "models/andy/pianist/cat_pianist_angry"
+	include "materials/models/andy/pianist/cat_pianist_01.vmt"
+	insert
+	{
+		"$detail" 					"models/andy/pianist/pianist_angery"
+		//had to bump this one down a bit so the face adjustment wouldn't start bleeding to the edges on some mipmaps
+		"$detailtexturetransform"	"center .5 .5 scale 1 1 rotate 0 translate -0.09375 -0.15625"
+	}
 
-	"$phong" "1"
-	"$phongexponent" "10"
-	"$phongboost" ".3"	
-	"$lightwarptexture" "sunabouzu/lightwarp"
-	"$phongfresnelranges"	"[.3 1 8]"
-	"$halflambert" "0"
-
-	// Rim lighting parameters
-	"$rimlight" "1"												// To enable rim lighting (requires phong)
-	"$rimlightexponent" "4"										// Exponent for phong component of rim lighting	
-	"$rimlightboost" "2"	
 }

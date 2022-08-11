@@ -1,6 +1,10 @@
 "VertexlitGeneric"
 {
-	"$basetexture" "models/andy/pianist/cat_pianist_neutral"
+	"$basetexture"				"models/andy/pianist/pianist"
+	"$detail"					"models/andy/pianist/pianist_base"
+	"$detailtexturetransform"	"center .5 .5 scale 1 1 rotate 0 translate -0.09375 -0.109375"
+	"$detailblendmode"			"2"
+	"$detailblendfactor"		"1"
 
 	"$phong" "1"
 	"$phongexponent" "10"

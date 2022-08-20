@@ -94,6 +94,27 @@ function SWEP:Cleanup()
 		owner:SetRunSpeed(self.OldRunSpeed)
 		owner:SetWalkSpeed(self.OldWalkSpeed)
 		owner:SetJumpPower(self.OldJumpPower)
+
+		--clean up posing
+		local arm_right = owner:LookupBone( "ValveBiped.Bip01_R_UpperArm" )
+		local arm_right2 = owner:LookupBone( "ValveBiped.Bip01_R_ForeArm" )
+		local arm_left = owner:LookupBone( "ValveBiped.Bip01_L_UpperArm" )
+		local arm_left2 = owner:LookupBone( "ValveBiped.Bip01_L_ForeArm" )
+		local spine = owner:LookupBone( "ValveBiped.Bip01_Spine1" )
+
+		if arm_left and arm_left2 then
+			owner:ManipulateBoneAngles( arm_left, Angle(0,0,0) )
+			owner:ManipulateBoneAngles( arm_left2, Angle(0,0,0) )
+		end
+
+		if arm_right and arm_right2 then
+			owner:ManipulateBoneAngles( arm_right, Angle(0,0,0) )
+			owner:ManipulateBoneAngles( arm_right2, Angle(0,0,0) )
+		end
+
+		if spine then
+			owner:ManipulateBoneAngles( spine, Angle(0,0,0) )
+		end
 	end
 end
 
@@ -112,11 +133,11 @@ function SWEP:DrawWorldModel()
 	local spine = ent:LookupBone( "ValveBiped.Bip01_Spine1" )
 
 
-	for i=0, ent:GetBoneCount() do
+	--[[for i=0, ent:GetBoneCount() do
 
-		--print( tostring( ent:GetBoneName( i ) ) )
+		print( tostring( ent:GetBoneName( i ) ) )
 
-	end
+	end]]
 
 	local t = 0--CurTime() * 1000
 

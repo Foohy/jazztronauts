@@ -24,18 +24,6 @@ $SectionFrames 30 119
 
 $illumposition 0 -1 0
 
-$animation "a_standard_size" "cat_bartender.dmx"
-$animation "a_pianist_adjust" "cat_pianist.dmx" subtract a_standard_size 0 
-
-$sequence "pianist_adjust" {
-	a_pianist_adjust 
-	delta
-	hidden
-	autoplay
-	fps 24
-	loop
-}
-
 $Sequence "idle" {
 	"cat_bartender_anims\idle.smd"
 	activity "ACT_IDLE" -1
@@ -300,4 +288,16 @@ $Sequence "pianist_drunk_slam" {
 	fadein 0.2
 	fadeout 0.2
 	fps 24
+}
+
+$animation "a_standard_size" "cat_bartender.dmx"
+$animation "a_pianist_adjust" "cat_pianist.dmx" subtract a_standard_size 0 
+
+$sequence "pianist_adjust" {
+	a_pianist_adjust 
+	delta
+	hidden
+	autoplay
+	fps 24
+	loop
 }

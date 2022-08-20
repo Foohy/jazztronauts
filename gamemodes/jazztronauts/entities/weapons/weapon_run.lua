@@ -84,6 +84,8 @@ function SWEP:Deploy()
 		self.OldJumpPower = owner:GetJumpPower()
 	end
 
+	self:SendWeaponAnim(ACT_VM_IDLE)
+
 	return true
 
 end
@@ -94,6 +96,27 @@ function SWEP:Cleanup()
 		owner:SetRunSpeed(self.OldRunSpeed)
 		owner:SetWalkSpeed(self.OldWalkSpeed)
 		owner:SetJumpPower(self.OldJumpPower)
+
+		--clean up posing
+		local arm_right = owner:LookupBone( "ValveBiped.Bip01_R_UpperArm" )
+		local arm_right2 = owner:LookupBone( "ValveBiped.Bip01_R_ForeArm" )
+		local arm_left = owner:LookupBone( "ValveBiped.Bip01_L_UpperArm" )
+		local arm_left2 = owner:LookupBone( "ValveBiped.Bip01_L_ForeArm" )
+		local spine = owner:LookupBone( "ValveBiped.Bip01_Spine1" )
+
+		if arm_left and arm_left2 then
+			owner:ManipulateBoneAngles( arm_left, Angle(0,0,0) )
+			owner:ManipulateBoneAngles( arm_left2, Angle(0,0,0) )
+		end
+
+		if arm_right and arm_right2 then
+			owner:ManipulateBoneAngles( arm_right, Angle(0,0,0) )
+			owner:ManipulateBoneAngles( arm_right2, Angle(0,0,0) )
+		end
+
+		if spine then
+			owner:ManipulateBoneAngles( spine, Angle(0,0,0) )
+		end
 	end
 end
 
@@ -112,11 +135,11 @@ function SWEP:DrawWorldModel()
 	local spine = ent:LookupBone( "ValveBiped.Bip01_Spine1" )
 
 
-	for i=0, ent:GetBoneCount() do
+	--[[for i=0, ent:GetBoneCount() do
 
-		--print( tostring( ent:GetBoneName( i ) ) )
+		print( tostring( ent:GetBoneName( i ) ) )
 
-	end
+	end]]
 
 	local t = 0--CurTime() * 1000
 
@@ -142,9 +165,25 @@ end
 
 function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
 
-end
+	if IsValid(ply) then
+        local movex = ply:GetPoseParameter("move_x") or 0.5
+        local movey = ply:GetPoseParameter("move_y") or 0.5
+		local playback = 0.5 + ply:GetVelocity():Length2DSqr() / 1280000 --(800 * 800 * 2)
 
-function SWEP:ViewModelDrawn( viewmodel )
+        self.CurPoseX = self.CurPoseX or 0.5
+        self.CurPoseY = self.CurPoseY or 0.5
+		self.CurPlayback = self.CurPlayback or 0.5
+
+        -- Approach goal
+        local APPROACH_SPEED = 2
+        self.CurPoseX = math.Approach(self.CurPoseX, movex, FrameTime() * APPROACH_SPEED)
+        self.CurPoseY = math.Approach(self.CurPoseY, movey, FrameTime() * APPROACH_SPEED)
+		self.CurPlayback = math.Approach(self.CurPlayback, playback, FrameTime() * APPROACH_SPEED)
+
+        viewmodel:SetPoseParameter("move_x", math.Remap( self.CurPoseX, 0, 1, -1, 1))
+        viewmodel:SetPoseParameter("move_y", math.Remap( self.CurPoseY, 0, 1, -1, 1))
+		viewmodel:SetPlaybackRate(self.CurPlayback)
+    end
 
 end
 

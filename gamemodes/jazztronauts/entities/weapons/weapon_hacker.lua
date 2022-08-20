@@ -14,7 +14,7 @@ SWEP.WorldModel				= "models/weapons/w_hackergoggles.mdl"
 
 SWEP.UseHands		= true
 
-SWEP.HoldType				= "duel"
+SWEP.HoldType				= "magic"
 
 util.PrecacheModel( SWEP.ViewModel )
 util.PrecacheModel( SWEP.WorldModel )

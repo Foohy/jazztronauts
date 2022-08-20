@@ -84,6 +84,8 @@ function SWEP:Deploy()
 		self.OldJumpPower = owner:GetJumpPower()
 	end
 
+	self:SendWeaponAnim(ACT_VM_IDLE)
+
 	return true
 
 end
@@ -163,9 +165,25 @@ end
 
 function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
 
-end
+	if IsValid(ply) then
+        local movex = ply:GetPoseParameter("move_x") or 0.5
+        local movey = ply:GetPoseParameter("move_y") or 0.5
+		local playback = 0.5 + ply:GetVelocity():Length2DSqr() / 1280000 --(800 * 800 * 2)
 
-function SWEP:ViewModelDrawn( viewmodel )
+        self.CurPoseX = self.CurPoseX or 0.5
+        self.CurPoseY = self.CurPoseY or 0.5
+		self.CurPlayback = self.CurPlayback or 0.5
+
+        -- Approach goal
+        local APPROACH_SPEED = 2
+        self.CurPoseX = math.Approach(self.CurPoseX, movex, FrameTime() * APPROACH_SPEED)
+        self.CurPoseY = math.Approach(self.CurPoseY, movey, FrameTime() * APPROACH_SPEED)
+		self.CurPlayback = math.Approach(self.CurPlayback, playback, FrameTime() * APPROACH_SPEED)
+
+        viewmodel:SetPoseParameter("move_x", math.Remap( self.CurPoseX, 0, 1, -1, 1))
+        viewmodel:SetPoseParameter("move_y", math.Remap( self.CurPoseY, 0, 1, -1, 1))
+		viewmodel:SetPlaybackRate(self.CurPlayback)
+    end
 
 end
 

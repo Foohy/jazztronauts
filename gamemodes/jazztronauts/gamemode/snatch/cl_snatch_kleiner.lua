@@ -11,6 +11,7 @@ local function Handle( scene )
 	--Create mingebag starter-kit
 	local guy = ManagedCSEnt( "mingeboy" .. nextEntityID, "models/jazztronauts/zak/Boneless_Kleiner.mdl" )
 	local physcannon = ManagedCSEnt( "mingeboy" .. nextEntityID, "models/weapons/w_physics.mdl" )
+	physcannon:SetSkin(1)
 	nextEntityID = nextEntityID + 1
 
 	--Build a list of directions to spawn the guy relative to the prop

@@ -153,6 +153,15 @@ function ENT:Arrive()
 	end
 	self:SetNoDraw(false)
 
+	if IsValid(self.Radio) then
+		self.Radio:SetNoDraw(false)
+	end
+	for _, v in pairs(self.Seats) do
+		if IsValid(v) then
+			v:SetNoDraw(false)
+		end
+	end
+	
 	self.BrakeSound:Play()
 
 	self.StartTime = CurTime()
@@ -200,6 +209,7 @@ function ENT:AttachRadio(pos, ang)
 	radio_ent:SetParent(ent)
 	radio_ent:Spawn()
 	radio_ent:Activate()
+	radio_ent:SetNoDraw(true)
 	self.Radio = ent
 
 	-- Attach a looping audiozone
@@ -218,6 +228,7 @@ function ENT:AttachSeat(pos, ang)
 	ent:SetParent(self)
 	ent:Spawn()
 	ent:Activate()
+	ent:SetNoDraw(true)
 
 	self.Seats = self.Seats or {}
 	table.insert(self.Seats, ent)

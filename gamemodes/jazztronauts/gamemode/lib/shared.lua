@@ -1,3 +1,6 @@
+AddCSLuaFile("ext/bsp3.lua") include("ext/bsp3.lua")
+AddCSLuaFile("ext/phy3.lua") include("ext/phy3.lua")
+
 include("sh_gc.lua")
 include("sh_statemachine.lua")
 include("sh_struct.lua")
@@ -29,9 +32,6 @@ include("sh_loadicon.lua")
 
 include("sh_poly.lua")
 include("sh_brush.lua")
-include("sh_phy.lua")
-include("sh_bsptypes.lua")
---include("sh_bsp.lua")
 include("sh_bsp2.lua")
 include("sh_bmodelmap.lua")
 include("sh_bspquery.lua")

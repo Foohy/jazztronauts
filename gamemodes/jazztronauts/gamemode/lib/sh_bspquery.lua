@@ -4,15 +4,15 @@ module( "bsp2", package.seeall )
 
 local map = bsp2.GetCurrent()
 
---[[for k,v in pairs( map[bsp2.LUMP_TEXINFO] ) do
+--[[for k,v in pairs( map[bsp3.LUMP_TEXINFO] ) do
 	--if string.find( v.texdata.material, "TOOLS/" ) then PrintTable(v) end
 end
 
-for k,v in pairs( map[bsp2.LUMP_TEXDATA_STRING_DATA] ) do
+for k,v in pairs( map[bsp3.LUMP_TEXDATA_STRING_DATA] ) do
 	if string.find( v, "TOOLS/" ) then print(v) end
 end
 
-for k,v in pairs( map[bsp2.LUMP_TEXDATA] ) do
+for k,v in pairs( map[bsp3.LUMP_TEXDATA] ) do
 	if string.find( v.material, "TOOLS/" ) then PrintTable(v) end
 end]]
 

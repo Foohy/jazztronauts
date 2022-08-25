@@ -246,6 +246,12 @@ function ENT:DoConstipatedEffects()
 		self:VomitMultiple(self.ConstipateCount)
 		self.Constipated = false -- If they somehow had more props, trickle the rest out
 
+		local death_zone = ents.FindByName("prop_killer")[1]
+		if IsValid(death_zone) then
+			death_zone:Fire("Enable")
+			death_zone:Fire("Disable")
+		end
+
 		jazzboards.UpdateLeaderboards(self.CurrentUser, -self.TotalCount)
 	end )
 end

@@ -3,6 +3,11 @@ AddCSLuaFile()
 module( "bsp2", package.seeall )
 
 LUMPS_DEFAULT = {
+	bsp3.LUMP_VERTEXES,		--All vertices that make up map geometry
+	bsp3.LUMP_EDGES,			--Edges between vertices in map geometry
+	bsp3.LUMP_SURFEDGES,		--Indexing between vertices
+	bsp3.LUMP_FACES,		--Poligonal faces
+
 	bsp3.LUMP_ENTITIES,				--All in-map entities
 	bsp3.LUMP_PLANES,				--Plane equations for map geometry
 	bsp3.LUMP_BRUSHES,				--Brushes
@@ -14,16 +19,14 @@ LUMPS_DEFAULT = {
 	bsp3.LUMP_LEAFBRUSHES,			--Indexing between leafs and brushes
 	bsp3.LUMP_TEXDATA,				--Texture data (width / height / name)
 	bsp3.LUMP_TEXDATA_STRING_DATA,	--Names of textures
-	bsp3.LUMP_TEXINFO				--Surface texture info
+	bsp3.LUMP_TEXINFO,				--Surface texture info
+	bsp3.LUMP_DISPINFO,
+	bsp3.LUMP_DISP_VERTS,
 }
 
 LUMPS_DEFAULT_CLIENT =
 {
-	bsp3.LUMP_VERTEXES,		--All vertices that make up map geometry
-	bsp3.LUMP_EDGES,			--Edges between vertices in map geometry
-	bsp3.LUMP_SURFEDGES,		--Indexing between vertices
-	--bsp3.LUMP_FACES,		--Poligonal faces
-	bsp3.LUMP_ORIGINALFACES,	--Original poligonal faces before BSP splitting
+	--bsp3.LUMP_ORIGINALFACES,	--Original poligonal faces before BSP splitting
 	bsp3.LUMP_LEAFFACES,		--Indexing between leafs and faces
 	bsp3.LUMP_WORLDLIGHTS,	--Extended information for light_* entities
 	bsp3.LUMP_CUBEMAPS,		--env_cubemap locations and sizes
@@ -199,7 +202,7 @@ function LoadBSP( filename, path, requested_lumps, callback )
 
 end
 
-_G["LOADED_BSP"] = nil
+--_G["LOADED_BSP"] = nil
 if _G["LOADED_BSP"] == nil then
 	_G["LOADED_BSP"] = LoadBSP( game.GetMap(), nil,
 		SERVER and LUMPS_DEFAULT or LUMPS_DEFAULT_CLIENT,

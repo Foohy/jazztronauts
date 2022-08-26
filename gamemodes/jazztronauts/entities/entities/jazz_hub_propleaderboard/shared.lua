@@ -51,6 +51,8 @@ end
 
 if SERVER then return end
 
+include("jazz_localize.lua")
+
 surface.CreateFont( "JazzLeaderboardEntryFont", {
 	font	  = "Impact",
 	size	  = 60,
@@ -81,7 +83,7 @@ function ENT:AddPlayerPanel(id, name, count)
 	nameLabel:Dock(FILL)
 
 	local countLabel = vgui.Create("DLabel", panel)
-	countLabel:SetText(count .. " props")
+	countLabel:SetText(JazzLocalize("jazz.leaderboard.props",count))
 	countLabel:SetFont("JazzLeaderboardEntryFont")
 	countLabel:SetContentAlignment(6)
 	countLabel:Dock(FILL)
@@ -107,7 +109,7 @@ function ENT:RebuildPanel()
 	lst:SetPaintedManually(true)
 
 	local titleLabel = vgui.Create("DLabel", lst)
-	titleLabel:SetText(jazzboards.Boards[id].title)
+	titleLabel:SetText(JazzLocalize(jazzboards.Boards[id].title))
 	titleLabel:SetFont("JazzLeaderboardTitleFont")
 	titleLabel:SetContentAlignment(8)
 	titleLabel:DockMargin(0, 0, 0, 80.0)

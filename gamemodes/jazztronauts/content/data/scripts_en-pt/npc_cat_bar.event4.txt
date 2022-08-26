@@ -1,0 +1,213 @@
+SKIP_OPEN = true
+
+begin:
+
+###All the cats are sat in the water room. Singer between Pianist 
+###and Cellist, Bartender sat in front of them, closest to player
+
+    *txout*
+    *setfov 70*
+	spawngang()
+		*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
+	*setposang cat_singer setpos -2094.381348 519.835144 -64;setang -90 90 0.000000*
+	*setposang cat_cello setpos -2118.969971 573.165955 -64;setang -90 105.0 0.00000*
+	*setposang cat_piano setpos -2115.982422 464.703918 -64;setang -90 75 0.000000*
+	*setposang cat_bar setpos -2184.213867 516.635986 -64;setang -90 90 0.000000*
+	*setposang player setpos -1908.471802 464.384277 -64;setang 9.193229 172.696442 0.000000*
+	*setanim cat_bar pose_sit01*
+	*setanim cat_piano pose_sit01*
+	*setanim cat_cello pose_sit01*
+	*setanim cat_singer pose_sit01*
+	*setskin cat_piano 4*
+	*setskin cat_singer 4*
+	*setskin cat_bar 4*
+	*setskin cat_cello 4*
+    *setspeaker cat_bar*
+	*setcam setpos -2478.000977 372.681641 16.944340;setang 7.223375 22.772840 0.000000*
+	*tweencam 40 setpos -2690.671875 283.400543 46.178429;setang 7.223375 22.772840 0.000000*
+	*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 2.0*
+	*txin*
+	*wait .15*
+	*show*
+    Alright.%%% Now,% breathe in.%%%% One,%% two,%% three,%% four.
+    &a2
+
+a2:
+    Hold for four.
+    &a3
+
+a3: 
+    Slowly release.%%%% One,%% two,%% three,%% four.
+    &a4
+
+a4:
+	*setcam setpos -2261.979492 557.981018 -24.090858;setang -1.614466 -11.992874 0.000000*
+    Ah, *player*!%%%% 
+	Care to join us in our meditations?
+    player:
+         &dingus: Do I have to hum while I breathe because I don't have that 
+              kind of breath control.
+         &a5: Sure.
+         &leave: Uh, I'll...pass. Have fun though. (exit)
+
+###EARLY EXIT
+
+leave:
+    Of course.%%% We'll be out in a little while.
+    &exit
+
+
+### DINGUS ANSWER
+dingus:
+	*setcam setpos -2204.526367 467.057617 -27.270088;setang 0.408657 16.597002 0.000000*
+    *setspeaker cat_piano*
+	*setskin cat_piano 0*
+    If you start humming I will punch you in the face.%%%%*setskin cat_piano 4* 
+    This is our quiet time.
+    &dingus2
+
+dingus2:
+	*setcam setpos -2227.285889 381.638916 -31.860832;setang 1.207254 43.802742 0.000000*
+    *setspeaker cat_bar*
+	*setskin cat_bar 2*
+    %.%.%.%It's not necessary,%% no.%%%*setskin cat_bar 4* Neither are threats of violence,% Pianist.
+    player:
+         &a5: Sure.
+         &leave: Uh,% I'll%.%.%.%%pass.%%% Have fun though. (exit)
+
+
+###MAIN THROUGHLINE
+a5:
+	*setposang player setpos -2192.571045 467.875122 -64;setang -3.690856 178.553116 0.000000*
+	*setanim player sit_zen*
+    *setspeaker narrator*
+	*setcam setpos -2323.443359 388.313568 16.408169;setang 13.239491 32.089962 0.000000*
+	*setskin cat_bar 1*
+    > The Bartender smiles,%% and you sit down beside her. 
+    &a6
+
+a6:
+    *setspeaker cat_bar*
+    Excellent,%% a pleasure to have you. 
+    &a7
+
+a7:
+	*setskin cat_bar 0*
+    This is a very simple meditation,%% if you'd care to follow along.
+    &a8
+
+a8:
+	*setcam setpos -2360.776611 1260.713745 -109.530563;setang -2.093598 -65.551727 0.000000*
+	*tweencam 30 setpos -2520.542969 1188.078979 -109.530563;setang -2.040358 -65.551727 0.000000*
+	*setskin cat_bar 4*
+    Sit up straight,% and put your hands on your knees.%%%% Focus on the 
+    points where your body makes contact with the surface beneath you. 
+    &a9
+
+a9:
+    We are following a four count breathing rhythm today.%%%% Inhale for 
+    four seconds,%% hold for four seconds,%% and then slowly release your  
+    breath for four seconds. 
+    &a10
+
+a10:
+	*setcam setpos -2161.344238 520.817505 -24.739239;setang 0.408679 25.541904 0.000000*
+    *setspeaker cat_cello*
+	*setskin cat_cello 0*
+    also make sure you keep breathing too or else youll go kinda blue 
+    and start making wheezing noises and that throws everyone else off 
+    their rhythm*setskin cat_cello 4*
+    &a11
+
+a11:
+    *setspeaker cat_singer*
+    > The Singer nods,%% once.
+    &a12
+
+a12:
+	*setcam setpos -2318.219482 575.459900 -2.380165;setang 9.299764 -22.959793 0.000000*
+	*tweencam 30 setpos -2972.309326 853.024719 113.971649;setang 9.299764 -23.013035 0.000000*
+    *setspeaker cat_bar*
+    Now just keep up that breathing rhythm.
+    &a13
+
+a13:
+    Think of a place that makes you happy.%%% Somewhere you feel at home 
+    and at peace.
+    &a14
+
+a14:
+    Populate that space with your favourite sounds and textures. 
+    &a15
+
+a15:
+    Just sit,%%% and relax in the stillness.
+    &a16
+
+##[fade out, linger a moment on the black, fade back in. Cellist is now
+##passed out cold on the floor, but everyone else is standing]
+
+a16:
+	*hide*
+	*txout*
+	*wait 2*
+	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 .75 2.0*
+	*setposang cat_singer setpos -2094.381348 519.835144 -64;setang -90 90 0.000000*
+	*setposang cat_cello setpos -2118.969971 573.165955 -64;setang -90 105.00 0000*
+	*setposang cat_piano setpos -2115.982422 464.703918 -64;setang -90 75 0.000000*
+	*setposang cat_bar setpos -2184.213867 516.635986 -64;setang -90 -90 0.000000*
+	*setanim cat_piano idle*
+	*setanim cat_singer idle*
+	*setanim cat_bar idle*
+	*setskin cat_bat 0*
+	*setskin cat_piano 0*
+	*setskin cat_singer 0*
+	*setanim player idle_all_01*
+	*setanim cat_cello pose_passedout*
+	*setposang player setpos -2192.571045 467.875122 -64;setang 12.174686 32.835201 0.000000*
+	*setcam setpos -2092.409912 652.855896 43.299713;setang 25.058817 -109.785210 0.000000*
+	*txin*
+	*show*
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_clap 1 idle*
+    That was an excellent session,%%% everyone!
+    &a17
+
+a17:
+	*setcam setpos -2129.073486 558.672058 -26.355873;setang -4.063434 -110.530540 0.000000*
+	*setanim cat_bar gesture_agree 1 idle*
+    Pianist,%%*setskin cat_bar 0* I noticed you broke your record before needing to do some
+    pushups.%%%%*setanim cat_bar gesture_clap 1 idle* Congratulations!% I'm very proud.
+    &a18
+
+a18:
+    *setspeaker cat_piano*
+	*setskin cat_piano 3*
+	*setanim cat_piano gesture_embarass 1 idle*
+    Thanks,%% boss.
+    &a19
+
+a19:
+	*setskin cat_piano 0*
+	*setskin cat_bar 0*
+	*setanim cat_bar gesture_anger 1 idle*
+    *setspeaker narrator*
+	*setcam setpos -2199.189209 570.780457 -10.404617;setang 34.375881 -11.131420 0.000000*
+    >The Bartender nudges the Cellist with her foot.%%% 
+	He lets out a loud and kinda gross snore.
+    &a20
+
+a20:
+	*setcam setpos -2107.698486 545.623291 -10.404617;setang 5.573047 -143.060379 0.000000*
+    *setspeaker cat_bar*
+	*setanim cat_bar gesture_shrug 1 idle*
+    Well,% at least he was able to relax this time.
+    &a21
+
+a21:
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_agree 1 idle*
+    Thank you for joining us,%%% *player*.%%% 
+	It was lovely to spend a while relaxing in your company.*mark_seen*
+    &exit

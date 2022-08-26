@@ -111,7 +111,7 @@ if CLIENT then
 end
 
 
-AddLeaderboard(BOARD_TOTALPROPS, "THE BEST PROP THIEVES", function(counts)
+AddLeaderboard(BOARD_TOTALPROPS, "jazz.leaderboard.totals", function(counts)
 	local all = {}
 
 	for _, v in pairs(counts) do
@@ -123,7 +123,7 @@ AddLeaderboard(BOARD_TOTALPROPS, "THE BEST PROP THIEVES", function(counts)
 	return all
 end )
 
-AddLeaderboard(BOARD_SESSIONPROPS, "REDEEMED THIS MAP", function(counts)
+AddLeaderboard(BOARD_SESSIONPROPS, "jazz.leaderboard.session", function(counts)
 	local all = {}
 
 	for k, v in pairs(SessionProps) do
@@ -133,7 +133,7 @@ AddLeaderboard(BOARD_SESSIONPROPS, "REDEEMED THIS MAP", function(counts)
 	return all
 end )
 
-AddLeaderboard(BOARD_RECENTS,  "THE MOST PATIENT", function(counts)
+AddLeaderboard(BOARD_RECENTS,  "jazz.leaderboard.patient", function(counts)
 	local all = {}
 
 	for _, v in pairs(counts) do

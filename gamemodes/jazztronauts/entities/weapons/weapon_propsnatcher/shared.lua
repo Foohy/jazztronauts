@@ -5,9 +5,9 @@ if SERVER then
 end
 
 SWEP.Base					= "weapon_basehold"
-SWEP.PrintName				= "Prop Snatcher"
+SWEP.PrintName				= JazzLocalize("jazz.weapon.snatcher")
 SWEP.Slot					= 0
-SWEP.Category				= "Jazztronauts"
+SWEP.Category				= "#jazz.weapon.category"
 SWEP.WepSelectIcon			= Material( "weapons/weapon_propsnatcher.png" )
 
 SWEP.ViewModel				= "models/weapons/c_stunstick.mdl"
@@ -58,51 +58,51 @@ SWEP.MissSounds = {
 }
 
 local snatch_cone = jstore.RegisterSeries("snatch_cone", 20000, 10, {
-	name = "Aim Cone",
-	desc = "Increase the radius of your center aim cone, so you can see and steal with minimal effort.",
+	name = JazzLocalize("jazz.weapon.snatcher.upgrade.cone"),
+	desc = JazzLocalize("jazz.weapon.snatcher.upgrade.cone.desc"),
 	type = "upgrade",
-	cat = "Prop Snatcher",
+	cat = JazzLocalize("jazz.weapon.snatcher"),
 	priceMultiplier = 1.5,
 })
 local snatch_range = jstore.RegisterSeries("snatch_range", 10000, 10, {
-	name = "Steal Range",
-	desc = "Increase the range from which you can steal things.",
+	name = JazzLocalize("jazz.weapon.snatcher.upgrade.range"),
+	desc = JazzLocalize("jazz.weapon.snatcher.upgrade.range.desc"),
 	type = "upgrade",
-	cat = "Prop Snatcher",
+	cat = JazzLocalize("jazz.weapon.snatcher"),
 	priceMultiplier = 1.5,
 })
 local snatch2 = jstore.Register("snatch2", 10000, {
-	name = "Auto-Auto Aim",
-	cat = "Prop Snatcher",
-	desc = "Hold down left click to automate picking up many props at a time.",
+	name = JazzLocalize("jazz.weapon.snatcher.upgrade.auto"),
+	cat = JazzLocalize("jazz.weapon.snatcher"),
+	desc = JazzLocalize("jazz.weapon.snatcher.upgrade.auto.desc"),
 	type = "upgrade"
 })
 
 local snatch_world = jstore.Register("snatch_world", 10000, {
-	name = "Ultimate Aim",
-	cat = "Prop Snatcher",
-	desc = "No matter where you aim, you're picking something up. Hold right click to steal world brushes",
+	name = JazzLocalize("jazz.weapon.snatcher.upgrade.world"),
+	cat = JazzLocalize("jazz.weapon.snatcher"),
+	desc = JazzLocalize("jazz.weapon.snatcher.upgrade.world.desc"),
 	type = "upgrade"
 })
 local snatch_multi = jstore.Register("snatch_multi", 50000, {
-	name = "Multi Tasking",
-	cat = "Prop Snatcher",
-	desc = "Multi-task by being able to both steal world brushes and props at the same time",
+	name = JazzLocalize("jazz.weapon.snatcher.upgrade.multi"),
+	cat = JazzLocalize("jazz.weapon.snatcher"),
+	desc = JazzLocalize("jazz.weapon.snatcher.upgrade.multi.desc"),
 	requires = snatch_world,
 	type = "upgrade"
 })
 local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 1, 10, {
-	name = "World Stealing Speed",
-	desc = "Steal the world 100% faster",
+	name = JazzLocalize("jazz.weapon.snatcher.upgrade.wspeed"),
+	desc = JazzLocalize("jazz.weapon.snatcher.upgrade.wspeed.desc"),
 	requires = snatch_world,
 	type = "upgrade",
-	cat = "Prop Snatcher",
+	cat = JazzLocalize("jazz.weapon.snatcher"),
 	priceMultiplier = 10,
 })
 
 
 
-CreateConVar("jazz_debug_snatch_allups", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY }, "Temporarily enable all upgrades for snatcher")
+CreateConVar("jazz_debug_snatch_allups", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY }, JazzLocalize("Temporarily enable all upgrades for snatcher"))
 
 function SWEP:Initialize()
 	self.BaseClass.Initialize( self )

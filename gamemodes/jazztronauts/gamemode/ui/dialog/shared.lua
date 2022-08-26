@@ -29,7 +29,7 @@ CMD_EXIT = "exit"
 ScriptSources = ScriptSources or {} -- Raw uncompiled script sources, transmitted to clients
 g_graph = g_graph or {} 			-- Compiled script graphs
 
-local ScriptPath = "data/scripts/"
+local ScriptPath = "data/scripts_"..string.lower(GetConVar("gmod_language"):GetString()).."/"
 local HIGH_PRIORITY_SCRIPTS = { 
 	["macros.txt"] = true,
 	["jazz_bar_intro.txt"] = true,

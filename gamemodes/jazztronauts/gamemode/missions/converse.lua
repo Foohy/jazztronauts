@@ -1,7 +1,7 @@
 AddCSLuaFile("converselist.lua")
 
 -- no these aren't a brand of shoes
-ScriptsList = "scripts"
+ScriptsList = "scripts_"..string.lower(GetConVar("gmod_language"):GetString()) --TODO: no way to backup to english on this (like GMod does when the selected localization isn't available) In fact, this will likely error out horribly in those instances.
 unlocks.Register(ScriptsList)
 
 --if CLIENT then return end
@@ -35,7 +35,7 @@ function AddMission(mid, script, mcond)
 end
 
 local function hasSeen(ply, script)
-	return unlocks.IsUnlocked("scripts", ply, script)
+	return unlocks.IsUnlocked(ScriptsList, ply, script)
 end
 
 -- Just add some additional conditions for NPC dialog

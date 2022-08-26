@@ -1,6 +1,8 @@
 
 module( "propfeed", package.seeall )
 
+include("jazz_localize.lua")
+
 //How long an entry with no updates will stay up
 StayDuration = 6
 
@@ -19,20 +21,6 @@ local function nice_prop_name(prop)
 	local found = string.find(prop, "/[^/]*$")
 	if not found then return prop end
 	return string.sub(prop, found + 1, -1)
-
-end
-
-function comma_value(amount)
-
-	local formatted = amount
-	while true do
-		formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
-		if k == 0 then
-			break
-		end
-	end
-
-	return formatted
 
 end
 
@@ -57,16 +45,16 @@ net.Receive("brushcollect", function()
 		ply.bstreaktotal = worth
 
 		brush_streaks[ply:EntIndex()] = eventfeed.Create()
-			:Title("%name STOLE %count %brushes", 
+			:Title(JazzLocalize("jazz.message.stole","%name","%count","%brushes"), 
 				{
 					name = function() return IsValid(ply) and ply:Nick() or "<player>" end, 
 					count = function() return IsValid(ply) and ply.bstreakcount or 0 end,
-					brushes = function() return ( IsValid(ply) and ply.bstreakcount > 1 ) and "brushes" or "brush" end,
+					brushes = function() return ( IsValid(ply) and ply.bstreakcount > 1 ) and JazzLocalize("jazz.message.brushes") or JazzLocalize("jazz.message.brush") end,
 				}
 			)
 			:Body("%total", 
 				{
-					total = function() return "$".. comma_value( IsValid(ply) and ply.bstreaktotal or 0) end
+					total = function() return JazzLocalize("jazz.hud.money",comma_value( IsValid(ply) and ply.bstreaktotal or 0)) end
 				}
 			)
 			:SetHighlighted( ply == LocalPlayer() )
@@ -101,16 +89,16 @@ net.Receive("propcollect", function()
 		ply.streaktotal = worth
 
 		prop_streaks[ply:EntIndex()] = eventfeed.Create()
-			:Title("%name STOLE %count %props", 
+			:Title(JazzLocalize("jazz.message.stole","%name","%count","%props"), 
 				{
 					name = function() return IsValid(ply) and ply:Nick() or "<player>" end, 
 					count = function() return IsValid(ply)and ply.streakcount or 0 end,
-					props = function() return ( IsValid(ply) and ply.streakcount > 1 ) and "props" or "prop" end,
+					props = function() return ( IsValid(ply) and ply.streakcount > 1 ) and JazzLocalize("jazz.message.props") or JazzLocalize("jazz.message.prop") end,
 				}
 			)
 			:Body("%total", 
 				{
-					total = function() return "$" .. comma_value(IsValid(ply) and ply.streaktotal or 0 ) end
+					total = function() return JazzLocalize("jazz.hud.money",comma_value( IsValid(ply) and ply.streaktotal or 0)) end
 				}
 			)
 			:SetHighlighted( ply == LocalPlayer() )

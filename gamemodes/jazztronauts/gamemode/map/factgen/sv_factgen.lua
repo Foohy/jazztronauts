@@ -2,14 +2,14 @@ module("factgen", package.seeall)
 
 local function getComment(bsp)
 	local winfo = bsp.entities and bsp.entities[1]
-	if not winfo then return "Unknown" end
+	if not winfo then return "jazz.fact.unknown" end
 
-	return winfo.comment or winfo.description or "None"
+	return winfo.comment or winfo.description or "jazz.fact.none"
 end
 
 local function getSkybox(bsp)
 	local winfo = bsp.entities and bsp.entities[1]
-	if not winfo then return "Unknown" end
+	if not winfo then return "jazz.fact.unknown" end
 
 	return winfo.skyname
 end
@@ -17,12 +17,12 @@ end
 local function getMapSize(bsp)
 
 	local winfo = bsp.entities and bsp.entities[1]
-	if not winfo then return "Unknown" end
+	if not winfo then return "jazz.fact.unknown" end
 
 	local maxs, mins = Vector(winfo.world_maxs), Vector(winfo.world_mins)
 	local size = maxs - mins
 
-	return size.x .. " wide\n" .. size.y .. " deep\n" .. size.z .. " tall"
+	return size.x..","..size.y..","..size.z
 end
 
 local function getAddonTags(info)
@@ -45,17 +45,16 @@ local function getWorkshopFacts(wsid, addFact)
 
 	local info = task.Await(fileinfoTask)
 	if info and info.result != 9 then
-		-- PrintTable(info)
+		PrintTable(info)
 		addFact("ws_owner", info.owner)
-		addFact("ws_views", "Views:\n" .. info.views)
-		addFact("ws_filesize", "Filesize:\n" .. string.NiceSize(tonumber(info.file_size) or 0))
-		addFact("ws_favorites", "Favorites:\n" .. info.favorited)
-		addFact("ws_subscriptions", "Subscriptions:\n" .. info.subscriptions)
-		addFact("ws_upload_date", "Upload Date:\n" .. os.date("%H:%M:%S - %d/%m/%Y", tonumber(info.time_created) or 0))
-		addFact("ws_update_date", "Last Modified:\n" .. os.date("%H:%M:%S - %d/%m/%Y", tonumber(info.time_updated) or 0))
-		addFact("ws_update_date", "Last Modified:\n" .. os.date("%H:%M:%S - %d/%m/%Y", tonumber(info.time_updated) or 0))
+		addFact("ws_views", "jazz.fact.views,"..tostring(info.views))
+		addFact("ws_filesize", "jazz.fact.filesize,"..string.NiceSize(tonumber(info.file_size) or 0))
+		addFact("ws_favorites", "jazz.fact.favs,"..tostring(info.favorited))
+		addFact("ws_subscriptions", "jazz.fact.subs,"..tostring(info.subscriptions))
+		addFact("ws_upload_date", "jazz.fact.uploaded,"..tostring(os.date("%H:%M:%S - %d/%m/%Y", tonumber(info.time_created) or 0)))
+		addFact("ws_update_date", "jazz.fact.modified,"..tostring(os.date("%H:%M:%S - %d/%m/%Y", tonumber(info.time_updated) or 0)))
 		addFact("ws_screenshots", info.preview_url) --#TODO: How to grab ALL preview images?
-		addFact("ws_tags", "Tags:\n" .. getAddonTags(info))
+		addFact("ws_tags", "jazz.fact.tags,"..tostring(getAddonTags(info)))
 
 		-- Fetch a random comment
 		local commentTask = task.NewCallback(function(done)
@@ -90,13 +89,13 @@ local function getBSPFacts(mapname, wsid, addFact)
 	task.Await(bsp:GetLoadTask())
 
 	-- Now grab map facts
-	addFact("map_size", "Map Size:\n" .. getMapSize(bsp))
-	addFact("skybox", "Skybox:\n" .. getSkybox(bsp))
-	addFact("map_comment", "Map Metadata:\n" .. getComment(bsp)) -- Almost all decompiled maps will have a comment
-	addFact("brush_count", "Brush Count:\n" .. table.Count(bsp.brushes or {}))
-	addFact("static_props", "Static Props:\n" .. table.Count(bsp.props or {}))
-	addFact("entity_count", "Entity Count:\n" .. table.Count(bsp.entities or {}))
-	addFact("map_name", "Map Name:\n" .. mapname)
+	addFact("map_size", "jazz.fact.mapsize,"..tostring(getMapSize(bsp)))
+	addFact("skybox", "jazz.fact.skybox,"..tostring(getSkybox(bsp)))
+	addFact("map_comment", "jazz.fact.metadata,"..tostring(getComment(bsp))) -- Almost all decompiled maps will have a comment
+	addFact("brush_count", "jazz.fact.brushes,"..tostring(table.Count(bsp.brushes or {})))
+	addFact("static_props", "jazz.fact.staticprops,"..tostring(table.Count(bsp.props or {})))
+	addFact("entity_count", "jazz.fact.entities,"..tostring(table.Count(bsp.entities or {})))
+	addFact("map_name", "jazz.fact.map,"..tostring(mapname))
 end
 
 local function loadMapFacts(mapname, wsid)

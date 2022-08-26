@@ -3,10 +3,10 @@ if SERVER then
 end
 
 SWEP.Base					= "weapon_basehold"
-SWEP.PrintName				= "Stan"
+SWEP.PrintName				= JazzLocalize("jazz.weapon.stan")
 SWEP.Slot					= 0
-SWEP.Category				= "Jazztronauts"
-SWEP.Purpose				= "Teleport through solid walls, brushes, and playerclips by summoning the power of Stan"
+SWEP.Category				= "#jazz.weapon.category"
+SWEP.Purpose				= "#jazz.weapon.stan.desc"
 SWEP.WepSelectIcon			= Material( "weapons/weapon_stan.png" )
 
 SWEP.ViewModel				= "models/weapons/c_stan.mdl"
@@ -48,16 +48,16 @@ local storeStan = jstore.Register(SWEP, 4000, { type = "tool" })
 
 -- Create 3 items to be purchased one after the other that control range
 local storeRange = jstore.RegisterSeries("stan_range", 2000, 10, {
-	name = "Range",
+	name = JazzLocalize("jazz.weapon.stan.upgrade.range"),
 	requires = storeStan,
-	desc = "Increases range and depth of walls to travel through",
+	desc = JazzLocalize("jazz.weapon.stan.upgrade.range.desc"),
 	type = "upgrade",
 	priceMultiplier = 2,
 })
 local storeSpeed = jstore.RegisterSeries("stan_speed", 1000, 10, {
-	name = "Speed",
+	name = JazzLocalize("jazz.weapon.stan.upgrade.speed"),
 	requires = storeStan,
-	desc = "Decreases warm up time",
+	desc = JazzLocalize("jazz.weapon.stan.upgrade.speed.desc"),
 	type = "upgrade",
 	priceMultiplier = 2,
 })

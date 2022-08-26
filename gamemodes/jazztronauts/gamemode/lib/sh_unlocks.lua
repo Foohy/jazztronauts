@@ -8,18 +8,30 @@ module( "unlocks", package.seeall )
 unlock_lists = unlock_lists or {}
 
 function IsValid( list_name )
+	--take our localization off of the list name
+	local split = string.Explode("_",tostring(list_name))
+	local name = ""
+	for i=1,#split-1 do
+		name = name..split[i]
+	end
 
-	return unlock_lists[list_name] ~= nil
+	return unlock_lists[name] ~= nil
 
 end
 
 function Clear( list_name )
 
 	if SERVER then
+		--take our localization off of the list name
+		local split = string.Explode("_",tostring(list_name))
+		local name = ""
+		for i=1,#split-1 do
+			name = name..split[i]
+		end
 
-		local table_name = "unlocklist_" .. list_name
-		sql.Query( "DROP TABLE " .. table_name )
-		print("Dropping " .. table_name)
+		local table_name = "unlocklist_" .. name
+		sql.Query( "DROP TABLE " .. name )
+		print("Dropping " .. name)
 
 	end
 
@@ -33,18 +45,25 @@ end
 
 function Register( list_name )
 
-	if unlock_lists[list_name] ~= nil then return end
+	--take our localization off of the list name
+	local split = string.Explode("_",tostring(list_name))
+	local name = ""
+	for i=1,#split-1 do
+		name = name..split[i]
+	end
+
+	if unlock_lists[name] ~= nil then return end
 
 	if CLIENT then
 
-		unlock_lists[list_name] = {
+		unlock_lists[name] = {
 			keys = {},
 			values = {},
 		}
 
 	else
 
-		local table_name = "unlocklist_" .. list_name
+		local table_name = "unlocklist_" .. name
 		local columns = "steamid bigint(64) DEFAULT '0', strkey varchar(32)"
 
 		--for testing
@@ -58,7 +77,7 @@ function Register( list_name )
 			end
 		end
 
-		unlock_lists[list_name] = table_name
+		unlock_lists[name] = table_name
 
 	end
 
@@ -66,17 +85,24 @@ end
 
 function IsUnlocked( list_name, ply, key )
 
+	--take our localization off of the list name
+	local split = string.Explode("_",tostring(list_name))
+	local name = ""
+	for i=1,#split-1 do
+		name = name..split[i]
+	end
+
 	if CLIENT then
 
-		if unlock_lists[list_name] == nil then return false end
-		return unlock_lists[list_name]["keys"][key] or false
+		if unlock_lists[name] == nil then return false end
+		return unlock_lists[name]["keys"][key] or false
 
 	else
 
-		if not unlock_lists[list_name] then return false end
+		if not unlock_lists[name] then return false end
 		local steam_id = ply:SteamID64()
-		local result = sql.Query( ("SELECT * FROM %s WHERE steamid = '%s' AND strkey = '%s'"):format(
-			unlock_lists[list_name],
+		local result = sql.Query( ("SELECT * FROM \"%s\" WHERE steamid = '%s' AND strkey = '%s'"):format(
+			unlock_lists[name],
 			steam_id,
 			key ) )
 
@@ -95,25 +121,32 @@ end
 
 function Unlock( list_name, ply, key )
 
-	if not unlock_lists[list_name] then return false end
-	if IsUnlocked( list_name, ply, key ) then return false end
+	--take our localization off of the list name
+	local split = string.Explode("_",tostring(list_name))
+	local name = ""
+	for i=1,#split-1 do
+		name = name..split[i]
+	end
+
+	if not unlock_lists[name] then return false end
+	if IsUnlocked( name, ply, key ) then return false end
 
 	if CLIENT then
 
-		--print("UNLOCKED: " .. "[" .. list_name .. "] " .. key)
+		--print("UNLOCKED: " .. "[" .. name .. "] " .. key)
 
-		local list = unlock_lists[list_name]
+		local list = unlock_lists[name]
 		list["keys"][key] = true
 		table.insert( list["values"], key )
 
-		hook.Call( "OnUnlocked", nil, list_name, key, ply )
+		hook.Call( "OnUnlocked", nil, name, key, ply )
 		return true
 
 	end
 
 	local steam_id = ply:SteamID64()
-	local result = sql.Query( ("INSERT INTO %s VALUES ('%s','%s')"):format(
-		unlock_lists[list_name],
+	local result = sql.Query( ("INSERT INTO \"%s\" VALUES ('%s','%s')"):format(
+		unlock_lists[name],
 		steam_id,
 		key ) )
 
@@ -122,10 +155,10 @@ function Unlock( list_name, ply, key )
 		return false
 	end
 
-	hook.Call( "OnUnlocked", nil, list_name, key, ply )
+	hook.Call( "OnUnlocked", nil, name, key, ply )
 
 	net.Start( "unlock_msg" )
-	net.WriteString( list_name )
+	net.WriteString( name )
 	net.WriteString( key )
 	net.Send( ply )
 
@@ -135,15 +168,22 @@ end
 
 function GetAll( list_name, ply )
 
+	--take our localization off of the list name
+	local split = string.Explode("_",tostring(list_name))
+	local name = ""
+	for i=1,#split-1 do
+		name = name..split[i]
+	end
+
 	if CLIENT then
 
-		return unlock_lists[list_name]["values"]
+		return unlock_lists[name]["values"]
 
 	end
 
 	local steam_id = ply:SteamID64()
-	local result = sql.Query( ("SELECT * FROM %s WHERE steamid = '%s'"):format(
-		unlock_lists[list_name],
+	local result = sql.Query( ("SELECT * FROM \"%s\" WHERE steamid = '%s'"):format(
+		unlock_lists[name],
 		steam_id ) )
 
 	if false == result then
@@ -165,6 +205,7 @@ if CLIENT then
 	net.Receive( "unlock_msg", function()
 
 		local list_name = net.ReadString()
+		
 		local key = net.ReadString()
 
 		if not unlock_lists[list_name] then
@@ -181,9 +222,16 @@ end
 
 local function EncodeList( list_name, ply )
 
-	local blob = list_name .. '\0'
+	--take our localization off of the list name
+	local split = string.Explode("_",tostring(list_name))
+	local name = ""
+	for i=1,#split-1 do
+		name = name..split[i]
+	end
 
-	for x, str in pairs( GetAll( list_name, ply ) ) do
+	local blob = tostring(name) .. '\0'
+
+	for x, str in pairs( GetAll( tostring(name), ply ) ) do
 		blob = blob .. str .. '\0'
 	end
 
@@ -248,16 +296,23 @@ end )
 
 function DownloadToPlayer( list_name, ply )
 
+	--take our localization off of the list name
+	local split = string.Explode("_",tostring(list_name))
+	local name = ""
+	for i=1,#split-1 do
+		name = name..split[i]
+	end
+
 	if CLIENT then return end
 
-	local data = EncodeList( list_name, ply )
+	local data = EncodeList( name, ply )
 	if #data > 0 then
 
-		print("QUEUED DOWNLOAD FOR LIST: " .. list_name .. " TO PLAYER " .. tostring( ply ) )
+		print("QUEUED DOWNLOAD FOR LIST: " .. name .. " TO PLAYER " .. tostring( ply ) )
 
 		local dl = download.Start( "download_unlocks", data, ply, 50000 )
 		if dl then
-			dl.list_name = list_name
+			dl.list_name = name
 		end
 	end
 
@@ -276,7 +331,14 @@ end )
 
 hook.Add( "OnUnlocked", "unlock_test", function( list_name, key, ply )
 
-	--print( ("  UNLOCKED[ %s ] => %s (for %s)" ):format( list_name, key, tostring(ply) ) )
+	--take our localization off of the list name
+	--[[local split = string.Explode("_",tostring(list_name))
+	local name = ""
+	for i=1,#split-1 do
+		name = name..split[i]
+	end
+
+	print( ("  UNLOCKED[ %s ] => %s (for %s)" ):format( name, key, tostring(ply) ) )]]
 
 end )
 

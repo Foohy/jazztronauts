@@ -3,10 +3,10 @@ if SERVER then
 end
 
 SWEP.Base					= "weapon_base"
-SWEP.PrintName				= "Hacking Goggles"
+SWEP.PrintName				= JazzLocalize("jazz.weapon.hacker")
 SWEP.Slot					= 0
-SWEP.Category				= "Jazztronauts"
-SWEP.Purpose				= "Peek into the inner I/O workings of the map"
+SWEP.Category				= "#jazz.weapon.category"
+SWEP.Purpose				= "#jazz.weapon.hacker.desc"
 SWEP.WepSelectIcon			= Material( "weapons/weapon_hacker.png" )
 
 SWEP.ViewModel				= "models/weapons/c_hackergoggles.mdl"
@@ -37,9 +37,9 @@ SWEP.RequestInfo			= {}
 local storeHacker = jstore.Register(SWEP, 35000, { type = "tool" })
 
 local upgrade_enableWrites = jstore.Register("hacker_write", 500000, {
-	name = "Privilege Escalation",
-	cat = "Hacking Goggles",
-	desc = "Enables write access on the hacking goggles to manually trigger map I/O events",
+	name = JazzLocalize("jazz.weapon.hacker.upgrade.io"),
+	cat = JazzLocalize("jazz.weapon.hacker"),
+	desc = JazzLocalize("jazz.weapon.hacker.upgrade.io.desc"),
 	type = "upgrade",
 	requires = storeHacker
 })

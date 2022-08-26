@@ -1,0 +1,339 @@
+SKIP_OPEN = true
+
+begin:
+    # Scene setup
+    *txout*
+    *setfov 40*
+	*setcam setpos -2541.998535 2766.207031 47.017006;setang -4.312444 145.029892 0.000000*
+	*bgmplay sound/jazztronauts/music/events/plumskinzz.mp3 1.0 2.0*
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
+	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
+	*setnpcid cat_bar npc_cat_bar*
+	*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
+    *setanim cat_bar gesture_washing*
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setposang cat_piano setpos -2910.271484 2959.740967 37;setang -90 0 0.000000*
+	*setnpcid cat_piano npc_cat_piano*
+	*setposang player setpos -2819.218018 2921.491211 0;setang -1.969878 148.162308 0.000000*
+	*txin*
+	
+###### START
+	*setspeaker narrator*
+	*show 0.5*
+	>The Pianist and the Bartender are having a chat at the Samsara...
+	&b1
+	
+b1:
+	*setspeaker cat_piano*
+	-All I'm saying is*setanim cat_piano gesture_shrug 1 idle*,% we'd pro*setcam setpos -2781.879395 3055.809082 68.602539;setang -1.149190 -150.279190 0.500000*bably get more customers through here if 
+	there was a place to cut loose.%% Don't*setanim cat_piano gesture_disagree 1 idle* get me wrong 
+	I love the aesthetic we have but it's so%.%.%.%
+	&b2
+	
+b2:
+	*setfov 70*
+	*setcam setpos -946.128357 319.598175 221.469360;setang 14.655734 159.629013 0.000000*
+	.%.%.%Serene.
+	&b3
+	
+b3:
+	*setspeaker cat_bar*
+	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
+	A*setskin cat_bar 4*n *setskin cat_bar 3*interesting*setanim cat_bar gesture_confused 1 idle* proposal that I would entertain,%*setskin cat_bar 0* if not for the 
+	fact that I know what your concept of %"cutting loose" is.%%%%
+	It'*setskin cat_bar 4*s*setskin cat_bar 2* very difficult to get blood out of tile grout,% you know.
+	&b4
+	
+b4:
+	>The*setskin cat_bar 1* Bartender notices you and waves,% visibly relieved.
+	&b5
+	
+b5:
+	*setfov 30*
+	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000*
+	Ah,% *player*!%% Welcome,*setskin cat_bar 0*% have a seat.%% 
+	Would*setanim cat_bar gesture_confused 1 idle* you care for a snickerdoodle?%% I can\-
+	&b6
+	
+b6:
+	*setposang cat_piano setpos -2910.271484 2959.740967 37;setang -90 270 0.000000*
+	*setspeaker cat_piano*
+	*setfov 70*
+	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
+	>The Pianist*setanim cat_piano gesture_anger 1 idle* slams her paw down on the bar and 
+	turns to face you,% eyes narrowing.
+	&b7
+	
+b7:
+	You.%%*setanim cat_piano gesture_jab 1 idle* Back me up here.%%
+	This*setskin cat_piano 1* place would be infinitely more appealing if there was room for 
+	activities more stimulating than meditation% or erudite conversation.
+	&b8
+	
+b8:
+	*setskin cat_piano 0*
+	*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000*
+	*setfov 60*
+	Something*setanim cat_piano gesture_agree 1 idle* to get the blood pumpin.
+	%%%%*setskin cat_piano 1*
+	Like a coliseum.
+	
+	player:
+	&r1a1:
+		I prefer my blood pumping inside my body. 
+		I'll take a snickerdoodle to go, though. (Exit)
+	&r2a1:
+		Okay, excellent suggestion, but hear me out here\: Dance fighting.
+		All of the thrill, none of the murder.
+	&r3a1:
+		If the floor is sand you don't need to worry about blood in the grout!
+	
+	
+###### Branch 1 (early exit)
+r1a1:
+	*setspeaker cat_piano*
+	*setskin cat_piano 0*
+	*setanim cat_piano gesture_disagree 1 idle*
+	*setfov 70*
+	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
+	>The Pianist rolls her eyes.
+	&r1a2
+	
+r1a2:
+	Nobody*setanim cat_piano gesture_sigh 1 idle* appreciates my artistic vision.%% We've got the bread,% 
+	we need the circus.%% History*setskin cat_piano 1* is on my side here.
+	&r1a3
+	
+r1a3:
+	*setspeaker cat_bar*
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_exchange 1 idle*
+	>The Bartender pushes the plate of cookies over to you,% beaming.
+	&r1a4
+	
+r1a4:
+	*setanim cat_bar gesture_agree 1 idle*
+	Thank you for your custom,% *player*.%%%
+	
+	>She turns her attention back*setanim cat_bar gesture_facepalm* to the*setskin cat_bar 4* Pianist and 
+	puts a paw over her face.
+	&r1a5
+	
+r1a5:
+	*setskin cat_bar 2*
+	*setanim cat_bar gesture_sigh 1 idle*
+	Pianist.%% We've talked about this.%%%%
+	Plenty of establishments manage to thrive without having a dedicated 
+	avenue for ritual combat.%% We have no need-
+	&r1a6
+	
+r1a6:
+	*setspeaker narrator*
+	>They resume normal conversation.%% 
+	You decide to grab your cookies and bounce.
+	&exit
+	
+###### Branch 2
+r2a1:
+	*setspeaker cat_piano*
+	*setskin cat_piano 0*
+	*setanim cat_piano gesture_confused 1 idle*
+	*setfov 70*
+	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
+	>The Pianist stares at you.%% Her head tilts to one side.%%%
+	Her blank expression makes it difficult to tell if she's thinking about 
+	your suggestion,% or mapping out the optimal way to dismember you.
+	&r2a2
+	
+r2a2:
+	*setanim cat_piano gesture_disagree 1 idle*
+	*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000*
+	*setfov 60*
+	No.
+	&r2a3
+	
+r2a3:
+	*setspeaker cat_bar*
+	*setanim cat_bar gesture_confused 1 idle*
+	*setfov 40*
+	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000*
+	I don't know,% I find the idea quite charming.%% And there would be no 
+	need to build an additional venue to facilitate it.%%%*setanim cat_bar gesture_laugh 1 idle* We*setskin cat_bar 1* have plenty of 
+	space!% I could have the singer make us a nice banner,%% 
+	put out some pamphlets%.%.%.
+	&r2a4
+	
+r2a4:
+	*setspeaker cat_piano*
+	*setanim cat_piano gesture_disagree 1 idle*
+	I cannot believe you're taking this seriously.
+	&r2a5
+	
+r2a5:
+	*setspeaker cat_bar*
+	*setskin cat_car 4*
+	*setanim cat_bar gesture_foldarms 1 idle*
+	*setfov 70*
+	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
+	>The Bartender appears to be in deep thought.*setskin cat_bar 1* 
+	S*setanim cat_bar gesture_clap 1 idle*he claps, brightening.
+	&r2a6
+	
+r2a6:
+	*setfov 40*
+	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000*
+	Oh!*setskin cat_bar 0* We could let the clintele vote on the theme.% *setanim cat_bar gesture_agree*
+	Community participation!
+	&r2a7
+	
+r2a7:
+	*setspeaker cat_piano*
+	*shake 1.25*
+	*setskin cat_bar 3*
+	>The Pianist slams her head on the bar.%*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
+
+	.*setfov 70*%.%.%it was pretty loud too%.%.%.
+	&r2a8
+	
+r2a8:
+	*setskin cat_bar 0*
+	I'm going to die.%%%
+	You're going to find me one day under a table% with a little epitaph 
+	carved into the blade of the axe you won't let me use.%% 
+	And all it'll say is% "Here lies the Pianist.%% Died of boredom"
+	&m1
+	
+###### Branch 3
+r3a1:
+	*setspeaker cat_piano*
+	*setfov 70*
+	*setcam setpos -2923.515625 3047.270020 83.972519;setang 4.538206 -44.430779 0.000000*
+	*setskin cat_piano 1*
+	*setanim cat_piano gesture_clap 1 idle*
+	See!%%
+	Now we're cooking with gas.%
+	This one gets it.
+	&r3a2
+	
+r3a2:
+	*setanim cat_piano gesture_foldarms*
+	*setskin cat_piano 4*
+	*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000*
+	*setfov 60*
+	Nice sand floor,% elevated seats to reduce the chance of being 
+	slapped in the face by a stray hand%.%.%.% 
+	pretzels%.%.%.
+	&r3a3
+	
+r3a3:
+	*setskin cat_piano 1*
+	We'd finally have a fuckin' use for all the Singer's toys,% too.%%*setanim cat_piano gesture_agree 1 idle*
+	It's genius.
+	&r3a4
+	
+r3a4:
+	*setspeaker cat_bar*
+	*setskin cat_bar 2*
+	*setanim cat_bar gesture_disagree 1 idle*
+	*setfov 40*
+	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000*
+	Sand gets everywhere, Pianist. I know you're excited, but you have to 
+	think about the practical consequences of these things.%%*setskin cat_bar 0* 
+	Do you really*setanim cat_bar gesture_sigh 1 idle* want to have to spend
+	five hours trying to get all the viscera soaked grit out of your fur?
+	&r3a5
+	
+r3a5:
+	*setspeaker cat_piano*
+	*setanim cat_piano gesture_agree 1 idle*
+	*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000*
+	*setfov 60*
+	Yes.
+	&m1
+	
+	
+###### MERGE BACK TO COMMON ROUTE
+m1:
+	*setspeaker cat_bar*
+	*setfov 70*
+	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
+	*setskin cat_bar 0*
+	*setanim cat_bar gesture_disagree 1 idle*
+	.%.%.%I'm sorry,% but I'm afraid I will have to continue to veto the idea of 
+	a coliseum.%%% For one thing,%% all ethical concerns aside,% trying to get 
+	planning*setanim cat_bar gesture_shrug 1 idle* permission for that sort of thing 
+	would be an unending nightmare.
+	&m2
+	
+m2:
+	*setfov 40*
+	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000*
+	And for the other concern,% I can't help but fell you would end up%.%.%.%% 
+	killing% all of our customers.%%%% *setskin cat_bar 3*
+	
+	Am I wrong?
+	&m3
+	
+m3:
+	*setspeaker cat_piano*
+	*setanim cat_piano gesture_disagree 1 idle*
+	*setfov 70*
+	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
+	%.%.%.%*setskin cat_piano 0*No.
+	&m4
+	
+m4:
+	*setspeaker cat_bar*
+	*setskin cat_bar 1*
+	*setanim cat_bar gesture_confused 1 idle*
+	I didn't think so.%%%% 
+	
+	I*setanim cat_bar gesture_shrug 1 idle* know*setskin cat_bar 4* it's a chore,% but you'll have to find some 
+	other way to entertain yourself.*setskin cat_bar 0*
+	&m5
+	
+m5:
+	*setspeaker cat_piano*
+	*setskin cat_piano 2*
+	Fine.*setskin cat_piano 0*
+	&m6
+	
+m6:
+	> The Pianist knocks back the rest of her drink.%%
+	Then*setanim cat_piano gesture_exchange 1 idle* she grabs a pawful of snickerdoodles and stalks off.
+	&m7
+	
+m7:
+	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000*
+	*setspeaker cat_bar*
+	> The Bartender turns her attention back to you,%%*setskin cat_bar 1* and smiles.
+	&m8
+	
+m8:
+	*setskin cat_bar 0*
+	Now,% what can I get you?
+	*mark_seen*
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

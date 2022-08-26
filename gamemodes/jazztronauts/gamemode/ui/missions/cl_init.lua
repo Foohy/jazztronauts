@@ -1,3 +1,5 @@
+include("jazz_localize.lua")
+
 surface.CreateFont( "Mission_ProgressPercent", {
 	font = "KG Shake it Off Chunky",
 	extended = false,
@@ -120,9 +122,9 @@ local function DrawMission(mission, x, y)
 	if not mission.completed then
 		drawProgressBar(m, x + 5, y + height - 25, width-10, 20, missions.Active[mid], minfo.Count, animclip)
 	elseif mission.completed then
-		draw.SimpleText("FINISHED!!!", font, x + 5, y + 5 + 20, Color(255, 255, 0))
+		draw.SimpleText(JazzLocalize("jazz.mission.finished"), font, x + 5, y + 5 + 20, Color(255, 255, 0))
 	else
-		draw.SimpleText("<Locked>", font, x + 5, y + 5 + 20, Color(200, 200, 200))
+		draw.SimpleText(JazzLocalize("jazz.mission.locked"), font, x + 5, y + 5 + 20, Color(200, 200, 200))
 	end
 
 	animclip:SetClip(false)

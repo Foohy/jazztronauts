@@ -1,0 +1,76 @@
+HIDE_MOUSE = true
+NO_FREEZE = true
+PRINT_RATE = 0.7
+AUTO_ADVANCE = 1.2
+CMD_DELAY = 0
+SKIP_OPEN = true
+
+###### START
+setup1:
+spawngang() # SETUP
+*setposang cat_bar -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+*setposang cat_cello -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+*setposang cat_piano -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+*setposang cat_singer -12698.176758 -2644.846924 1048.03125;setang -90 180 0.000000*
+
+*setspeaker narrator*
+*show 0.4*
+>A stun baton seems to have fallen from a hole in the ceiling.
+&begin1
+
+
+begin1:
+*setspeaker cat_piano*
+Nice job,% asshole.%% Can't believe you tripped over a corpse.%%
+How many times have we had to step around dead bodies now?
+&begin2
+
+begin2:
+*setspeaker cat_cello*
+not as many times as youve had to%%
+i aint the one who busts skulls.%% hell% im probably too 
+blitzed to throw a punch without hitting myself right now
+&begin3
+
+begin3: 
+*setspeaker cat_bar*
+I'm stunned.
+&begin4
+
+begin4:
+*setspeaker cat_cello*
+quit being a shitty actor and help me up% jackass
+
+%.%.%.%wait%.%.%.% goD DAMNIT
+&begin5
+
+begin5:
+*setspeaker cat_piano*
+Did you actually hurt yourself?%%
+Hang on, let me break out the medi-
+&begin6
+
+begin6:
+*setspeaker cat_cello*
+i dropped my prop snatcher down the fuckin grate
+&begin7
+
+begin7:
+*setspeaker cat_bar*
+Oh dear.%% We'd best find a way down, then.
+&begin8
+
+begin8:
+*setspeaker cat_piano*
+We'd better.%% Things ain't cheap.%%
+C'mon dumbass,% let's go.
+&begin9
+
+begin9:
+*setspeaker narrator*
+>3 sets of footsteps, accompanied by the sound of
+a person being dragged across the floor, fades
+away overhead... 
+&exit
+
+###### END OF EVENT

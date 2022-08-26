@@ -1,0 +1,10 @@
+begin:
+	Hi there!
+	&response
+
+response:
+	I'll go%.%.%.% check my \*bank account\* now.
+	*shake*
+	%%%%%
+	As you were.
+	&exit

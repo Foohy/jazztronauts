@@ -1,7 +1,7 @@
 AddCSLuaFile("converselist.lua")
 
 -- no these aren't a brand of shoes
-ScriptsList = "scripts_"..string.lower(GetConVar("gmod_language"):GetString()) --TODO: no way to backup to english on this (like GMod does when the selected localization isn't available) In fact, this will likely error out horribly in those instances.
+ScriptsList = "scripts"
 unlocks.Register(ScriptsList)
 
 --if CLIENT then return end

@@ -5,16 +5,22 @@ end
 
 module( "unlocks", package.seeall )
 
-unlock_lists = unlock_lists or {}
-
-function IsValid( list_name )
-	--take our localization off of the list name
-	local split = string.Explode("_",tostring(list_name))
+--take our localization off of the list name
+local function localization_strip(list_name)
+	if not isstring(list_name) then return list_name end
+	if not string.find(list_name,"_",1,false) then return list_name end
+	local split = string.Explode("_",list_name)
 	local name = ""
 	for i=1,#split-1 do
 		name = name..split[i]
 	end
+	return name
+end
 
+unlock_lists = unlock_lists or {}
+
+function IsValid( list_name )
+	local name = localization_strip(list_name)
 	return unlock_lists[name] ~= nil
 
 end
@@ -22,16 +28,11 @@ end
 function Clear( list_name )
 
 	if SERVER then
-		--take our localization off of the list name
-		local split = string.Explode("_",tostring(list_name))
-		local name = ""
-		for i=1,#split-1 do
-			name = name..split[i]
-		end
-
+		local name = localization_strip(list_name)
+		
 		local table_name = "unlocklist_" .. name
-		sql.Query( "DROP TABLE " .. name )
-		print("Dropping " .. name)
+		sql.Query( "DROP TABLE \"" .. table_name .."\"" )
+		print("Dropping " .. table_name)
 
 	end
 
@@ -45,12 +46,7 @@ end
 
 function Register( list_name )
 
-	--take our localization off of the list name
-	local split = string.Explode("_",tostring(list_name))
-	local name = ""
-	for i=1,#split-1 do
-		name = name..split[i]
-	end
+	local name = localization_strip(list_name)
 
 	if unlock_lists[name] ~= nil then return end
 
@@ -85,13 +81,8 @@ end
 
 function IsUnlocked( list_name, ply, key )
 
-	--take our localization off of the list name
-	local split = string.Explode("_",tostring(list_name))
-	local name = ""
-	for i=1,#split-1 do
-		name = name..split[i]
-	end
-
+	local name = localization_strip(list_name)
+	
 	if CLIENT then
 
 		if unlock_lists[name] == nil then return false end
@@ -120,13 +111,7 @@ function IsUnlocked( list_name, ply, key )
 end
 
 function Unlock( list_name, ply, key )
-
-	--take our localization off of the list name
-	local split = string.Explode("_",tostring(list_name))
-	local name = ""
-	for i=1,#split-1 do
-		name = name..split[i]
-	end
+	local name = localization_strip(list_name)
 
 	if not unlock_lists[name] then return false end
 	if IsUnlocked( name, ply, key ) then return false end
@@ -168,12 +153,7 @@ end
 
 function GetAll( list_name, ply )
 
-	--take our localization off of the list name
-	local split = string.Explode("_",tostring(list_name))
-	local name = ""
-	for i=1,#split-1 do
-		name = name..split[i]
-	end
+	local name = localization_strip(list_name)
 
 	if CLIENT then
 
@@ -222,13 +202,8 @@ end
 
 local function EncodeList( list_name, ply )
 
-	--take our localization off of the list name
-	local split = string.Explode("_",tostring(list_name))
-	local name = ""
-	for i=1,#split-1 do
-		name = name..split[i]
-	end
-
+	local name = localization_strip(list_name)
+	
 	local blob = tostring(name) .. '\0'
 
 	for x, str in pairs( GetAll( tostring(name), ply ) ) do
@@ -296,13 +271,8 @@ end )
 
 function DownloadToPlayer( list_name, ply )
 
-	--take our localization off of the list name
-	local split = string.Explode("_",tostring(list_name))
-	local name = ""
-	for i=1,#split-1 do
-		name = name..split[i]
-	end
-
+	local name = localization_strip(list_name)
+	
 	if CLIENT then return end
 
 	local data = EncodeList( name, ply )
@@ -331,14 +301,9 @@ end )
 
 hook.Add( "OnUnlocked", "unlock_test", function( list_name, key, ply )
 
-	--take our localization off of the list name
-	--[[local split = string.Explode("_",tostring(list_name))
-	local name = ""
-	for i=1,#split-1 do
-		name = name..split[i]
-	end
+	--local name = localization_strip(list_name)
 
-	print( ("  UNLOCKED[ %s ] => %s (for %s)" ):format( name, key, tostring(ply) ) )]]
+	--print( ("  UNLOCKED[ %s ] => %s (for %s)" ):format( name, key, tostring(ply) ) )
 
 end )
 

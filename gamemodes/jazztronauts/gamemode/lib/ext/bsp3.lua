@@ -993,7 +993,6 @@ lump_handlers[LUMP_GAME_LUMP] = function(lump, params)
         for i=1, num_entries do leaf_dict[#leaf_dict+1] = uint16() end
 
         local count = int32()
-        local props = {}
         for i=1, count do
             local prop = structure()
             prop.model = dict[ prop.proptype + 1 ]

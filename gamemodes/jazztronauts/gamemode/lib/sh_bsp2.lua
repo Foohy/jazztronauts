@@ -202,7 +202,7 @@ function LoadBSP( filename, path, requested_lumps, callback )
 
 end
 
---_G["LOADED_BSP"] = nil
+_G["LOADED_BSP"] = nil
 if _G["LOADED_BSP"] == nil then
 	_G["LOADED_BSP"] = LoadBSP( game.GetMap(), nil,
 		SERVER and LUMPS_DEFAULT or LUMPS_DEFAULT_CLIENT,

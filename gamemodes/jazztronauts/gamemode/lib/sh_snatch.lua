@@ -100,7 +100,7 @@ if SERVER then
 	]]
 
 	function SpawnProxies()
-		print("Server loaded map, creating proxies")
+		print("Server loaded map, creating proxies: " .. tostring(#(map.props or {})))
 
 		for k,v in pairs( map.props or {} ) do
 			local exist = findPropProxy( v.id )

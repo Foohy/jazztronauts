@@ -38,9 +38,9 @@ local storeRun = jstore.Register(SWEP, 10000, { type = "tool" })
 
 -- No fall damage upgrade
 local run_nofall = jstore.Register("run_nofall", 15000, {
-	name = JazzLocalize("jazz.weapon.stan.upgrade.nofall"),
+	name = JazzLocalize("jazz.weapon.run.upgrade.nofall"),
 	--cat = JazzLocalize("jazz.weapon.run"),
-	desc = JazzLocalize("jazz.weapon.stan.upgrade.nofall.desc"),
+	desc = JazzLocalize("jazz.weapon.run.upgrade.nofall.desc"),
 	type = "upgrade",
 	requires = storeRun
 })

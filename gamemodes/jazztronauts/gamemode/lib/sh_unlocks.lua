@@ -94,7 +94,6 @@ function IsUnlocked( list_name, ply, key )
 end
 
 function Unlock( list_name, ply, key )
-	local name = localization_strip(list_name)
 
 	if not unlock_lists[list_name] then return false end
 	if IsUnlocked( list_name, ply, key ) then return false end

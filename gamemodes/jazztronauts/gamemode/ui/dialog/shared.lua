@@ -29,7 +29,7 @@ CMD_EXIT = "exit"
 ScriptSources = ScriptSources or {} -- Raw uncompiled script sources, transmitted to clients
 g_graph = g_graph or {} 			-- Compiled script graphs
 
-local ScriptPath = "data/scripts/"
+local ScriptPath = "data/scripts"--_"..string.lower(GetConVar("gmod_language"):GetString()).."/"
 local HIGH_PRIORITY_SCRIPTS = { 
 	["macros.txt"] = true,
 	["jazz_bar_intro.txt"] = true,
@@ -440,16 +440,38 @@ function CompileScripts(sources)
 	return compiled
 end
 
+local function GetScriptPathForLang(lang)
+	return ScriptPath .. "_" .. string.lower(lang) .. "/"
+end
+
 function LoadScripts()
+	local en_scriptpath = GetScriptPathForLang("en")
+	local local_scriptpath = GetScriptPathForLang(GetConVar("gmod_language"):GetString())
+	local en_scripts, _ = file.Find( en_scriptpath .. "*.txt", "GAME" )
+	local local_scripts, _ = file.Find( local_scriptpath .. "*.txt", "GAME" )
 	if SERVER then -- This info is loaded from the server
-		print("[Jazz Dialog] Loading script sources...")
-		local scripts, _ = file.Find( ScriptPath .. "*.txt", "GAME" )
-		for _, script in pairs( scripts ) do
-			ScriptSources[script] = file.Read( ScriptPath .. script, "GAME" )
+
+		print("[Jazz Dialog] Loading english script sources...")
+		-- On server, first load specifically english scripts since that is a known complete script set
+		for _, script in pairs( en_scripts ) do
+			ScriptSources[script] = file.Read( en_scriptpath .. script, "GAME" )
+		end
+
+		print("[Jazz Dialog] Overlaying script sources...[" .. GetConVar("gmod_language"):GetString() .. "]")
+		-- Optionally overlay with serverside local language
+		for _, script in pairs( local_scripts ) do
+			print(script)
+			ScriptSources[script] = file.Read( local_scriptpath .. script, "GAME" )
 		end
 	end
 	if CLIENT then
+		-- It is expected that the server has sent us a complete set of all scripts used in game
 		if table.Count(ScriptSources) == 0 then return end
+
+		-- On client, overlay local language onto scripts, with server-sent scripts as backup
+		for _, script in pairs( local_scripts ) do
+			ScriptSources[script] = file.Read( local_scriptpath .. script, "GAME" )
+		end
 	end
 
 	print("[Jazz Dialog] Compiling scripts...")
@@ -459,7 +481,7 @@ function LoadScripts()
 	LinkScripts( compiled )
 
 	if SERVER then -- This info is loaded from the server
-	print("[Jazz Dialog] Downloading to clients...")
+		print("[Jazz Dialog] Downloading to clients...")
 		for _, pl in pairs( player.GetAll() ) do
 			DownloadToPlayer( ScriptSources, pl )
 		end

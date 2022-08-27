@@ -2,6 +2,8 @@ if SERVER then
 	AddCSLuaFile()
 end
 
+include("jazz_localize.lua")
+
 SWEP.PrintName				= "Holding"
 SWEP.Slot					= 0
 

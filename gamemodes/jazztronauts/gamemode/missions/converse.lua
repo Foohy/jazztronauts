@@ -35,7 +35,7 @@ function AddMission(mid, script, mcond)
 end
 
 local function hasSeen(ply, script)
-	return unlocks.IsUnlocked("scripts", ply, script)
+	return unlocks.IsUnlocked(ScriptsList, ply, script)
 end
 
 -- Just add some additional conditions for NPC dialog

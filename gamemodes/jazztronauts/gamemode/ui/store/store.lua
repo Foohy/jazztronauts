@@ -2,6 +2,8 @@ module("jstore", package.seeall) -- Extend jstore module
 
 -- #TODO: Derma skin? Sanity check??? Don't ever let me make UI again.
 
+include("jazz_localize.lua")
+
 -- Background jazzy tile
 local bgmat = Material("materials/ui/jazz_grid.png", "noclamp")
 local newIcon = "materials/ui/jazztronauts/catcoin.png"
@@ -108,7 +110,7 @@ local function addButton(parent, item)
 	local name = vgui.Create("DLabel")
 	name:SetFont("JazzStoreName")
 	name:SetTextColor(textColor)
-	name:SetText(" " .. item.name .. " - $" .. string.Comma(item.price))
+	name:SetText(JazzLocalize("jazz.store.listing",item.name,string.Comma(item.price)))
 	name:SizeToContents()
 	itemInfo:Add(name)
 
@@ -155,7 +157,7 @@ local function addButton(parent, item)
 			btn:SetEnabled(false)
 
 			if item.requires then
-				tooltip = tooltip .. "\n" .. "REQUIRES " .. string.upper(item.requires)
+				tooltip = tooltip.."\n"..JazzLocalize("jazz.store.requires",string.upper(item.requires))
 			end
 
 		-- Ready to buy
@@ -265,7 +267,7 @@ local function createListButton(parent, item)
 	-- Add price information to right side
 	local priceDock = ScreenScale(1)
 	local price = vgui.Create("DLabel", btn)
-	price:SetText(" $" .. string.Comma(item.price) .. " ")
+	price:SetText(JazzLocalize("jazz.store.price",string.Comma(item.price)))
 	price:SetFont("JazzUpgradePrice")
 	price:SetColor(textColor)
 	price:SetContentAlignment(5)
@@ -306,7 +308,7 @@ local function createListButton(parent, item)
 			self:SetEnabled(false)
 
 			if item.requires then
-				tooltip = tooltip .. "\n" .. "REQUIRES " .. string.upper(item.requires)
+				tooltip = tooltip.."\n"..JazzLocalize("jazz.store.requires",string.upper(item.requires))
 			end
 
 		-- Ready to buy
@@ -458,7 +460,7 @@ function GetStoreItems(storeName)
 end
 
 function OpenStore()
-	local frame, layout = createStoreFrame("Tools")
+	local frame, layout = createStoreFrame(JazzLocalize("jazz.store.toollabel"))
 
 	-- Create a button for each store item
 	local items = GetStoreItems("tools")
@@ -495,7 +497,7 @@ local function getBaseItem(item)
 end
 
 function OpenUpgradeStore()
-	local frame, layout = createStoreFrame("Upgrades")
+	local frame, layout = createStoreFrame(JazzLocalize("jazz.store.upgradelabel"))
 
 	-- Create a button for each store item
 	-- Sort the items by number of requirements, and then by name

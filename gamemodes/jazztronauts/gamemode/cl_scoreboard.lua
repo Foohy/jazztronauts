@@ -1,5 +1,7 @@
 -- TODO
 
+include("jazz_localize.lua")
+
 if SERVER then return end
 
 local start = CurTime()
@@ -22,9 +24,9 @@ local function getPlayerName(id64)
 	if entry and entry.name then return entry.name end
 
 	if not entry then
-		nameLookups[id64] = { name = "Loading..." }
+		nameLookups[id64] = { name = JazzLocalize("jazz.hud.loading") }
 		steamworks.RequestPlayerInfo(id64, function(plyName)
-			nameLookups[id64].name = plyName or "Unknown"
+			nameLookups[id64].name = plyName or JazzLocalize("jazz.hud.unknown")
 		end )
 	end
 
@@ -104,13 +106,13 @@ hook.Add("HUDPaint", "graph_test", function()
 	--drawPieElement( cx, cy, 0, 120, 100 )
 	--PrintTable(shardValues)
 	--PrintTable(moneyValues)
-	graph.drawPieChart( cx + XOff, YOff, Radius, moneyValues, 1-bounce, 2, function(v) return v[1] .. " earned $" .. v[2] end )
-	graph.drawPieChart( cx + XOff, YOff*2, Radius, moneyValues, 1-bounce2, 3, function(v) return v[1] .. " spent $" .. v[3] end )
-	graph.drawPieChart( cx + XOff, YOff*3, Radius, shardValues, 1-bounce2, 2, function(v) return v[1] .. " found " .. v[2] .. " shards" end )
+	graph.drawPieChart( cx + XOff, YOff, Radius, moneyValues, 1-bounce, 2, function(v) return JazzLocalize("jazz.hud.earned",v[1],v[2]) end )
+	graph.drawPieChart( cx + XOff, YOff*2, Radius, moneyValues, 1-bounce2, 3, function(v) return JazzLocalize("jazz.hud.spent",v[1],v[3]) end )
+	graph.drawPieChart( cx + XOff, YOff*3, Radius, shardValues, 1-bounce2, 2, function(v) return JazzLocalize("jazz.hud.found",v[1],v[2]) end )
 
 
 	-- Also draw a little hint on how to kill themselves
-	draw.SimpleText("Hold mouse 1 + mouse 2 to respawn", "JazzRespawnHint", ScrW()/2, ScrH() - ScreenScale(10), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText(JazzLocalize("jazz.hud.kys"), "JazzRespawnHint", ScrW()/2, ScrH() - ScreenScale(10), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 end)
 
 function GM:ScoreboardHide()

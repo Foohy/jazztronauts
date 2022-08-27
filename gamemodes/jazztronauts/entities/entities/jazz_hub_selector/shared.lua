@@ -109,7 +109,7 @@ function ENT:MapFinishedEffects(success, ermsg)
 		self:EmitSound(SUCCESS_SOUND)
 		util.ScreenShake(self:GetPos(), 2, 10, 1, 1500)
 	else
-		factgen.SetFailure(self:GetScanStateString() .. (ermsg and ("\n\n" .. ermsg) or ""))
+		factgen.SetFailure(string.upper(string.Replace(self:GetScanStateString(),".","_")) --[[Looks nicer imo]] .. (ermsg and ("\n\n" .. ermsg) or ""))
 		self:EmitSound(FAIL_SOUND)
 	end
 end
@@ -216,15 +216,15 @@ end
 
 function ENT:GetScanStateString()
 	local state = self:GetScanState()
-	if state == SCAN_IDLE then return "IDLE"
-	elseif state == SCAN_SCANNING then return "SCANNING"
-	elseif state == SCAN_COMPLETE then return "SCAN COMPLETE"
-	elseif state == SCAN_FAILED_NOMAP then return "SCAN FAILURE - ADDON HAS NO MAPS"
-	elseif state == SCAN_FAILED_NETWORK then return "SCAN FAILURE - FAILED TO DOWNLOAD"
-	elseif state == SCAN_FAILED_NOSPACE then return "SCAN FAILURE - DISK FULL"
+	if state == SCAN_IDLE then return JazzLocalize("jazz.levelselect.idle")
+	elseif state == SCAN_SCANNING then return JazzLocalize("jazz.levelselect.scan")
+	elseif state == SCAN_COMPLETE then return JazzLocalize("jazz.levelselect.done")
+	elseif state == SCAN_FAILED_NOMAP then return JazzLocalize("jazz.levelselect.fail.nomap")
+	elseif state == SCAN_FAILED_NETWORK then return JazzLocalize("jazz.levelselect.fail.network")
+	elseif state == SCAN_FAILED_NOSPACE then return JazzLocalize("jazz.levelselect.fail.nospace")
 	end
 
-	return "SCAN FAILURE"
+	return JazzLocalize("jazz.levelselect.fail")
 end
 
 if SERVER then return end
@@ -369,7 +369,7 @@ hook.Add("HUDPaint", "JazzDrawIntermissionFreeze", function()
 	if not freezeTime or freezeTime == 0 then return end
 	local time = freezeTime - CurTime()
 	local timeStr = math.max(0, math.Round(time))
-	if timeStr < 1 then timeStr = "MERGING WORLDS" end
+	if timeStr < 1 then timeStr = JazzLocalize("jazz.levelselect.merge") end
 
 	draw.SimpleText(timeStr, "JazzIntermissionCountdown", ScrW() / 2, ScrH() / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 

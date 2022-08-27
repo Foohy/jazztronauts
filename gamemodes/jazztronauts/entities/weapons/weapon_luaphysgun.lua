@@ -3,8 +3,8 @@
 AddCSLuaFile()
 
 SWEP.Author			= "Zak"
-SWEP.Instructions	= "Lua Physics Gun"
-SWEP.Category		= "Jazztronauts"
+SWEP.Instructions	= "#jazz.weapon.physlua"
+SWEP.Category		= "#jazz.weapon.category"
 
 SWEP.Spawnable			= true
 SWEP.AdminOnly			= false

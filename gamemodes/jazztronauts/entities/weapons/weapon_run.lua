@@ -3,10 +3,10 @@ if SERVER then
 end
 
 SWEP.Base					= "weapon_basehold"
-SWEP.PrintName				= "Run"
+SWEP.PrintName				= JazzLocalize("jazz.weapon.run")
 SWEP.Slot					= 0
-SWEP.Category				= "Jazztronauts"
-SWEP.Purpose				= "Jump higher and run faster. "
+SWEP.Category				= "#jazz.weapon.category"
+SWEP.Purpose				= "#jazz.weapon.run.desc"
 SWEP.WepSelectIcon			= Material( "weapons/weapon_run.png" )
 
 SWEP.ViewModel				= "models/weapons/c_run.mdl"
@@ -38,9 +38,9 @@ local storeRun = jstore.Register(SWEP, 10000, { type = "tool" })
 
 -- No fall damage upgrade
 local run_nofall = jstore.Register("run_nofall", 15000, {
-	name = "Ignore Fall Damage",
-	cat = "Run",
-	desc = "Fall from any height, and while Run is equipped, you will take zero fall damage.",
+	name = JazzLocalize("jazz.weapon.stan.upgrade.nofall"),
+	--cat = JazzLocalize("jazz.weapon.run"),
+	desc = JazzLocalize("jazz.weapon.stan.upgrade.nofall.desc"),
 	type = "upgrade",
 	requires = storeRun
 })

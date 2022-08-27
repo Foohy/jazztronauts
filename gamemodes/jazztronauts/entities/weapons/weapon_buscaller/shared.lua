@@ -3,9 +3,9 @@ if SERVER then
 end
 
 SWEP.Base					= "weapon_basehold"
-SWEP.PrintName				= "Portable Bus Stop"
+SWEP.PrintName				= JazzLocalize("jazz.weapon.buscaller")
 SWEP.Slot					= 5
-SWEP.Category				= "Jazztronauts"
+SWEP.Category				= "#jazz.weapon.category"
 SWEP.WepSelectIcon			= Material( "weapons/weapon_buscaller.png" )
 
 SWEP.ViewModel				= "models/weapons/c_bus_summoner.mdl"

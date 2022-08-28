@@ -153,8 +153,8 @@ function ENT:Arrive()
 	end
 	self:SetNoDraw(false)
 
-	if IsValid(self.Radio) then
-		self.Radio:SetNoDraw(false)
+	if IsValid(self.RadioEnt) then
+		self.RadioEnt:SetNoDraw(false)
 	end
 	for _, v in pairs(self.Seats) do
 		if IsValid(v) then
@@ -201,6 +201,7 @@ function ENT:AttachRadio(pos, ang)
 	ent:SetParent(self)
 	ent:Spawn()
 	ent:Activate()
+	self.Radio = ent
 
 	local radio_ent = ents.Create("prop_dynamic")
 	radio_ent:SetModel(self.RadioModel)
@@ -210,7 +211,7 @@ function ENT:AttachRadio(pos, ang)
 	radio_ent:Spawn()
 	radio_ent:Activate()
 	radio_ent:SetNoDraw(true)
-	self.Radio = ent
+	self.RadioEnt = radio_ent
 
 	-- Attach a looping audiozone
 	self.RadioMusic = CreateSound(ent, self.RadioMusicName)

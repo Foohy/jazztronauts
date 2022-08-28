@@ -1,4 +1,5 @@
 include("playerwait.lua")
+include("jazz_localize.lua")
 
 surface.CreateFont( "JazzWaitingCountdown", {
 	font	  = "KG Shake it Off Chunky",
@@ -83,7 +84,7 @@ local function DrawWhiteboard()
 end
 
 local function DrawStatusOverlay()
-	draw.SimpleText("WAITING FOR PLAYERS", "JazzWaitingCountdown", ScrW() / 2, 0, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+	draw.SimpleText(JazzLocalize("jazz.hud.waiting"), "JazzWaitingCountdown", ScrW() / 2, 0, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 	local w, h = surface.GetTextSize("W")
 	local offset = h
 	local num = 0

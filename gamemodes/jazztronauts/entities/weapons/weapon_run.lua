@@ -32,6 +32,9 @@ SWEP.Secondary.Ammo		= "none"
 
 SWEP.Spawnable				= true
 SWEP.RequestInfo			= {}
+SWEP.JumpMultiplier			= 1
+SWEP.CrouchTime				= -1
+SWEP.JumpChargeSound		= Sound( "sierra/run/jump_chargeup.wav" )
 
 -- List this weapon in the store
 local storeRun = jstore.Register(SWEP, 10000, { type = "tool" })
@@ -45,17 +48,55 @@ local run_nofall = jstore.Register("run_nofall", 15000, {
 	requires = storeRun
 })
 
+-- Super Jump
+local run_highjump = jstore.Register("run_highjump", 25000, {
+	name = JazzLocalize("jazz.weapon.run.upgrade.highjump"),
+	desc = JazzLocalize("jazz.weapon.run.upgrade.highjump.desc"),
+	type = "upgrade",
+	requires = run_nofall
+})
+
+function SWEP:PlayChargeSound(pitch)
+
+	pitch = pitch or 100
+
+	if not self.ChargeSound then
+		self.ChargeSound = CreateSound(self, self.JumpChargeSound)
+		self.ChargeSound:SetSoundLevel(75)
+		self.ChargeSound:Play()
+		self.ChargeSound:ChangeVolume(1)
+	end
+	if self.ChargeSound then
+		self.ChargeSound:ChangePitch(pitch)
+	end
+
+end
+
+function SWEP:StopChargeSound()
+	if self.ChargeSound then
+		self.ChargeSound:Stop()
+		self.ChargeSound = nil
+	end
+end
+
 function SWEP:Initialize()
 
 	self.BaseClass.Initialize( self )
 	self:SetWeaponHoldType( self.HoldType )
 
+	self.LastThink = CurTime()
+	self.JumpMultiplier	= 1
+	self.CrouchTime = -1
+
 	if CLIENT then
 		self:SetUpgrades()
 	end
+
 end
 
 function SWEP:OwnerChanged()
+	self.JumpMultiplier	= 1
+	self.CrouchTime	= -1
 	self:SetUpgrades()
 end
 
@@ -65,6 +106,7 @@ function SWEP:SetUpgrades()
 	if not IsValid(owner) then return end
 
 	self.IgnoreFallDamage = unlocks.IsUnlocked("store", owner, run_nofall)
+	self.HighJump = unlocks.IsUnlocked("store", owner, run_highjump)
 end
 
 function SWEP:ShouldTakeFallDamage()
@@ -83,6 +125,9 @@ function SWEP:Deploy()
 		self.OldWalkSpeed = owner:GetWalkSpeed()
 		self.OldJumpPower = owner:GetJumpPower()
 	end
+
+	self.JumpMultiplier	= 1
+	self.CrouchTime	= -1
 
 	self:SendWeaponAnim(ACT_VM_IDLE)
 
@@ -118,6 +163,7 @@ function SWEP:Cleanup()
 			owner:ManipulateBoneAngles( spine, Angle(0,0,0) )
 		end
 	end
+	self:StopChargeSound()
 end
 
 function SWEP:DrawWorldModel()
@@ -206,10 +252,46 @@ end
 function SWEP:Think()
 
 	local owner = self:GetOwner()
-	owner:SetWalkSpeed( 800 )
-	owner:SetRunSpeed( 800 )
-	owner:SetJumpPower( 500 )
 
+	if IsValid(owner) then
+		if self.HighJump then
+			if owner:Crouching() then
+				if self.CrouchTime < 0 then
+					--print("crouching at "..tostring(CurTime()))
+					self.CrouchTime = CurTime()
+					self:PlayChargeSound(math.Remap(self.JumpMultiplier,1,3,70,150))
+				end
+			else
+				--if self.CrouchTime > 0 then print("uncrouch") end
+				self.CrouchTime = -1
+			end
+			if self.CrouchTime > 0 and self.CrouchTime <= CurTime() - 1 then --wait a second to start charging
+				if self.JumpMultiplier < 3 then
+					self.JumpMultiplier = math.min(3,self.JumpMultiplier + (CurTime() - self.LastThink) * .5)
+				else
+					self.JumpMultiplier = 3
+				end
+				self:PlayChargeSound(math.Remap(self.JumpMultiplier,1,3,70,150))
+			end
+			--drain full jump power with movement
+			if not owner:Crouching() or owner:KeyDown(IN_FORWARD) or owner:KeyDown(IN_BACK) or owner:KeyDown(IN_MOVELEFT) or owner:KeyDown(IN_MOVERIGHT) then
+				if self.CrouchTime > 0 then
+					self.CrouchTime = math.min(self.CrouchTime,CurTime() - .75) --slight delay to recharge
+					--print("moving while crouched, crouch time now "..tostring(self.CrouchTime))
+				end
+				self.JumpMultiplier = math.max(1,self.JumpMultiplier - (CurTime() - self.LastThink) * 2)
+			end
+
+			if self.CrouchTime < 0 or self.JumpMultiplier <= 1 or owner:InVehicle() then
+				self:StopChargeSound()
+			end 
+		end
+		owner:SetWalkSpeed( 800 )
+		owner:SetRunSpeed( 800 )
+		--print(self.CrouchTime, self.JumpMultiplier)
+		owner:SetJumpPower( 500 * self.JumpMultiplier)
+	end
+	self.LastThink = CurTime()
 end
 
 function SWEP:CanPrimaryAttack()

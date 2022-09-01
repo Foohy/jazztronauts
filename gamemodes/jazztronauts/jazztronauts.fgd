@@ -78,6 +78,8 @@
 [
 	output OnMapSelected(void) : "Fires when a map has been selected and is starting the download process."
 	output OnMapDownloaded(integer) : "Fires when a map has finished downloading and is ready to be analyzed. 1 means successful, 0 means failure."
+	output OnMapSuccess(void) : "Fires when a map has successfully finished downloading without error."
+	output OnMapFailed(void) : "Fires when a map has failed to download or has errors making it unexplorable."
 	output OnMapAnalyzed(void) : "Fires when a map has finished being analyzed and facts have been extracted."
 
 	input SelectAddon(void)  : "Select the currently-browsed addon. Begins downloading and mounting the map"

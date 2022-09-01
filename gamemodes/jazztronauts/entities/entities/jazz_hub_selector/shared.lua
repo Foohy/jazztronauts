@@ -22,6 +22,8 @@ local outputs =
 {
 	"OnMapSelected",
 	"OnMapDownloaded",
+	"OnMapSuccess",
+	"OnMapFailed",
 	"OnMapAnalyzed"
 }
 
@@ -123,7 +125,7 @@ function ENT:SelectDestination(dest)
 	if not dest or #dest == 0 then
 		self:SetScanState(SCAN_IDLE)
 		self.CurrentlyScanning = nil
-		self:TriggerOutput("OnMapDownloaded", self, 0)
+		self:TriggerOutput("OnMapDownloaded", self, 0) -- why is this here?
 		return
 	end
 
@@ -140,6 +142,13 @@ function ENT:SelectDestination(dest)
 		mapcontrol.SetSelectedMap(mapname)
 
 		self:TriggerOutput("OnMapDownloaded", self, mapname and 1 or 0)
+		if mapname then
+			self:TriggerOutput("OnMapSuccess", self)
+		else
+			self:TriggerOutput("OnMapFailed", self)
+			
+		end
+
 		self:SetPortalSequence("Settle")
 
 		-- At this point we'd start analyzing the map (bsp magic)

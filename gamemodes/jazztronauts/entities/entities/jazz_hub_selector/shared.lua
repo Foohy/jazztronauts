@@ -125,7 +125,6 @@ function ENT:SelectDestination(dest)
 	if not dest or #dest == 0 then
 		self:SetScanState(SCAN_IDLE)
 		self.CurrentlyScanning = nil
-		self:TriggerOutput("OnMapDownloaded", self, 0) -- why is this here?
 		return
 	end
 

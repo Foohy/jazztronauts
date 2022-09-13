@@ -249,7 +249,7 @@ function traceDisplacement( disps, tw )
 			for i=1, #indices, 3 do
 
 				local hit_t, toi_t, hitpos, hitnormal, u,v,w = RayIntersectIndexedTriangle( indices, positions, i, pos, dir )
-				if hit_t then
+				if hit_t and toi_t < tw.t then
 
 					tw.Hit = true
 					tw.HitPos = hitpos
@@ -414,6 +414,8 @@ local function drawDisplacement( disp )
 		render.DrawLine( v2, v0, col, true )
 
 	end
+
+	render.DrawWireframeBox(Vector(0,0,0), Angle(0,0,0), disp.mins, disp.maxs, Color(255,100,100), true)
 
 end
 

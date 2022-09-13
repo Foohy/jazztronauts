@@ -61,6 +61,30 @@ end
 
 if SERVER then return end
 
+include("jazz_localize.lua")
+
+local function randomlocalization(strang)
+	
+	if strang == nil then return nil end
+	
+	--TODO (maybe): all screens use the same instance of their fail text, this commented out code would want them all called individually
+
+	--[[if string.find(strang,"jazz.levelselect.fail",1,true) == nil then return strang end --we're not randomizing any other strings
+	strang = tostring(strang)
+	local localizationtable = {
+		".en",
+		".es",
+		".fr",
+		".jp",
+		".uk",
+	}
+	local localizationstrs = setmetatable(localizationtable, {__index = function() return "" end} )
+
+	return JazzLocalize(strang..localizationstrs[math.random(#localizationstrs+3)]) -- 3 (or more if it's present) times more likely to display our language, with others mixed in for flavor]]
+	
+	return JazzLocalize(strang)
+end
+
 local RTWidth = 512
 local RTHeight = 512
 local VisibleHeight = 0.5
@@ -107,7 +131,7 @@ local isOn = false
 local function renderFact(rt, f, title, bgcolor, font)
 
 	rt:Render( function()
-		local mostr = "<font=" .. (font or "FactScreenFont") ..">" .. f.fact .. "</font>"
+		local mostr = "<font=" .. (font or "FactScreenFont") ..">" .. randomlocalization(f.fact) .. "</font>"
 		local mo = markup.Parse(mostr, RTWidth * 0.98)
 
 		cam.Start2D()
@@ -116,7 +140,7 @@ local function renderFact(rt, f, title, bgcolor, font)
 			surface.DrawRect(0, 0, 512, 512)
 			surface.SetTextColor(0, 0, 0)
 			surface.SetFont("FactScreenFont")
-			draw.SimpleText(title or "", "FactScreenTitle", RTWidth/2, RTHeight * 0.28, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+			draw.SimpleText(randomlocalization(title) or "", "FactScreenTitle", RTWidth/2, RTHeight * 0.28, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 			mo:Draw(RTWidth/2 - mo:GetWidth()/2, VisibleHeight * RTHeight - mo:GetHeight()/2, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 		cam.End2D()
 	end )

@@ -187,6 +187,86 @@ function meta:AreLeafsConnected(a, b, check, visited)
 
 end
 
+function meta:CreateDisplacementUnlitMaterial( disp_id )
+
+	local disp = self.displacements[disp_id]
+	assert(disp, "no displacement for index: " .. disp_id)
+
+	local face = disp.face
+	assert(face, "displacement[" .. disp_id .. "] has no face")
+
+	local texinfo = face.texinfo
+	assert(texinfo, "displacement[" .. disp_id .. "] face has no tex info")
+
+	local texdata = texinfo.texdata
+	assert(texinfo, "displacement[" .. disp_id .. "] texinfo has no texdata")
+
+	local material = Material( texdata.material )
+	local basetexture = material:GetTexture("$basetexture")
+	local texture2 = material:GetTexture("$basetexture2") or basetexture
+
+	if basetexture == nil then return Material("color/white") end
+
+	return CreateMaterial("disp_unlit_" .. disp_id .. "_tt", "UnlitTwoTexture", {
+		["$basetexture"] = basetexture:GetName(),
+		["$texture2"] = texture2:GetName(),
+	})
+
+end
+
+function meta:CreateDisplacementMesh( disp_id, expand, custom_material )
+
+	local disp = self.displacements[disp_id]
+	assert(disp, "no displacement for index: " .. disp_id)
+
+	local face = disp.face
+	assert(face, "displacement[" .. disp_id .. "] has no face")
+
+	local texinfo = face.texinfo
+	assert(texinfo, "displacement[" .. disp_id .. "] face has no tex info")
+
+	local texdata = texinfo.texdata
+	assert(texinfo, "displacement[" .. disp_id .. "] texinfo has no texdata")
+
+	local material = custom_material or Material( texdata.material )
+	local Vertex = nil
+	local vp = Vector()
+	local center = (disp.mins + disp.maxs) / 2
+
+	expand = expand or 0
+
+	Vertex = function( pos, normal, alpha )
+
+		local u,v = texinfo.textureVecs:GetUV( pos )
+		mesh.Position(pos)
+		mesh.Color(1,1,1,alpha)
+		mesh.Normal(normal)
+		mesh.TexCoord(0, u / texdata.width, v / texdata.height)
+		mesh.AdvanceVertex()
+
+	end
+
+	local msh = ManagedMesh(material)
+	mesh.Begin(msh:Get(), MATERIAL_TRIANGLES, #disp.indices / 3 )
+
+	for _, idx in ipairs(disp.indices) do
+
+		local pos = disp.positions[idx]
+		local normal = disp.normals[idx]
+		vp:Set( normal )
+		vp:Mul( expand )
+		vp:Add( pos )
+		vp:Sub( center )
+		Vertex( vp, normal, disp.alphas[idx] )
+
+	end
+
+	mesh.End()
+
+	return msh, center, material
+
+end
+
 table.Merge( bsp3.GetMetaTable(), meta )
 
 function LoadBSP( filename, path, requested_lumps, callback )

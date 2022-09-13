@@ -397,6 +397,12 @@ local function drawModel( model )
 
 end
 
+local prev_disp = nil
+local current_disp_mesh = nil
+local current_disp_center = nil
+local current_disp_material = nil
+local refract_mat = Material("effects/jazz_void_refract.vmt")
+local offset_mtx = Matrix()
 local function drawDisplacement( disp )
 
 	local col = Color(255,100,255)
@@ -412,6 +418,24 @@ local function drawDisplacement( disp )
 		render.DrawLine( v0, v1, col, true )
 		render.DrawLine( v1, v2, col, true )
 		render.DrawLine( v2, v0, col, true )
+
+	end
+
+	if prev_disp ~= disp then
+		local mat = refract_mat
+		prev_disp = disp
+		print("CREATING MESH")
+		current_disp_mesh, current_disp_center, current_disp_material = map:CreateDisplacementMesh( disp.id, 0.5, mat )
+	end
+
+	if current_disp_mesh then
+
+		--print("Rendering Mesh: " .. tostring( current_disp_center ))
+		render.SetMaterial(current_disp_material)
+		offset_mtx:SetTranslation( current_disp_center )
+		cam.PushModelMatrix(offset_mtx)
+		current_disp_mesh:Draw()
+		cam.PopModelMatrix()
 
 	end
 

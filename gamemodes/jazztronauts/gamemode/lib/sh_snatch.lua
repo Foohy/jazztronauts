@@ -291,44 +291,47 @@ function meta:RunWorld( brush_id )
 	//print("WINDINGS READY, CREATE BRUSH PROXY")
 	if self.mode then
 		local entity = ManagedCSEnt( "brushproxy_" .. brush_id, "models/hunter/blocks/cube025x025x025.mdl", false )
+		if not IsValid(entity) then return end
 		local actual = entity:Get()
 
-		actual.mesh = test_mesh
-		actual:SetPos( brush.center - EyeAngles():Forward() * 5 )
-		--actual:PhysicsInitConvex( convex )
-		--actual:PhysicsInit( SOLID_VPHYSICS )
-		--actual:SetSolid( SOLID_VPHYSICS )
-		--actual:SetMoveType( MOVETYPE_VPHYSICS )
-		actual:SetRenderBounds( brush.min - brush.center, brush.max - brush.center )
-		actual:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
-		//actual:SetModelScale( 0 )
-		--actual:GetPhysicsObject():Wake()
-		--actual:GetPhysicsObject():AddVelocity( Vector(0,0,100) )
-		actual.brush = brush
-		actual.RenderOverride = function( self )
+		if IsValid(actual) then
+			actual.mesh = test_mesh
+			actual:SetPos( brush.center - EyeAngles():Forward() * 5 )
+			--actual:PhysicsInitConvex( convex )
+			--actual:PhysicsInit( SOLID_VPHYSICS )
+			--actual:SetSolid( SOLID_VPHYSICS )
+			--actual:SetMoveType( MOVETYPE_VPHYSICS )
+			actual:SetRenderBounds( brush.min - brush.center, brush.max - brush.center )
+			actual:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
+			//actual:SetModelScale( 0 )
+			--actual:GetPhysicsObject():Wake()
+			--actual:GetPhysicsObject():AddVelocity( Vector(0,0,100) )
+			actual.brush = brush
+			actual.RenderOverride = function( self )
 
-			if self.hide then return end
+				if self.hide then return end
 
-			//actual:DrawModel()
+				//actual:DrawModel()
 
-			local mtx = Matrix()
-			mtx:SetTranslation( actual:GetPos() )
-			mtx:SetAngles( actual:GetAngles() )
-			mtx:SetScale(vec_one * (actual:GetModelScale() or 1))
+				local mtx = Matrix()
+				mtx:SetTranslation( actual:GetPos() )
+				mtx:SetAngles( actual:GetAngles() )
+				mtx:SetScale(vec_one * (actual:GetModelScale() or 1))
 
-			cam.PushModelMatrix( mtx )
-			self.brush:Render()
-			cam.PopModelMatrix()
+				cam.PushModelMatrix( mtx )
+				self.brush:Render()
+				cam.PopModelMatrix()
 
+			end
+
+			self.handle = entity
+			self.fake = actual
+			self.real = actual
+
+			//print("PROXY READY, SNATCH IT")
+
+			hook.Call( "HandlePropSnatch", GAMEMODE, self )
 		end
-
-		self.handle = entity
-		self.fake = actual
-		self.real = actual
-
-		//print("PROXY READY, SNATCH IT")
-
-		hook.Call( "HandlePropSnatch", GAMEMODE, self )
 	end
 
 end
@@ -380,7 +383,9 @@ function meta:RunProp( prop )
 	self.is_prop = true
 
 	--Draw the fake entity
-	self.fake:SetNoDraw( false )
+	if IsValid(self.fake) then
+		self.fake:SetNoDraw( false )
+	end
 
 	--Don't draw the real entity
 	self.real:SetNoDraw( true )
@@ -731,6 +736,9 @@ elseif CLIENT then
 
 		--Create clientside entity
 		local cl = ManagedCSEnt( "scene_entity_" .. tostring(nextEntityID), ent:GetModel(), should_ragdoll )
+
+		if not IsValid(cl) then return nil, false end
+		
 		nextEntityID = nextEntityID + 1
 
 		--Copy basic parameters

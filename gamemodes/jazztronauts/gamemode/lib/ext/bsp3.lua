@@ -1125,7 +1125,7 @@ lump_handlers[LUMP_PAKFILE] = function(lump)
             assert(extrafieldlen == 0)
             --assert(compressed == uncompressed)
 
-            local name = table.concat( array_of( char, namelen ) )
+            local name = vcharstr( namelen )
             local data_ofs = tell_data()
             seek_data( data_ofs + compressed )
 
@@ -1259,7 +1259,7 @@ local function loadBSPData( handle, requested, params )
 
         if lump.uncompressedSize ~= 0 then
             begin_data( lump_data[lump_id] )
-            local sig = table.concat(array_of(char, 4))
+            local sig = vcharstr(4)
             local actualSize = uint32()
             local lzmaSize = uint32()
             local props = array_of(uint8, 5)

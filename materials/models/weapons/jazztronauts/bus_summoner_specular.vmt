@@ -2,13 +2,6 @@ VertexlitGeneric
 {
 	$basetexture			"models/weapons/jazztronauts/bus_summoner"
 	$bumpmap				"models/weapons/jazztronauts/bus_summoner_normal"
+	$envmap					env_cubemap
 	$surfaceprop			"Weapon"
-	
-	$phong			1
-	$phongboost		3
-	$phongexponent	15
-	
-	$rimlight			1
-	$rimlightboost		2
-	$rimlightexponent	4
 }

@@ -1,7 +1,7 @@
 VertexlitGeneric
 {
-	$basetexture			"models/weapons/jazztronauts/bus_summoner"
-	$bumpmap				"models/weapons/jazztronauts/bus_summoner_normal"
+	$basetexture			"models/weapons/jazztronauts/w_bus_summoner"
+	$bumpmap				"models/weapons/jazztronauts/w_bus_summoner_normal"
 	$surfaceprop			"Weapon"
 	
 	$phong			1

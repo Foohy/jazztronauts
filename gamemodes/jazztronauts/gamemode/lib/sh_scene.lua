@@ -91,8 +91,10 @@ local function AllocEntityNode( id, model, ragdoll )
 	local CSEnt = ManagedCSEnt( id, model, ragdoll )
 	local node = {}
 
-	CSEnt:SetNoDraw( true )
-	CSEnt:SetLOD( 0 )
+	if IsValid(CSEnt) then
+		CSEnt:SetNoDraw( true )
+		CSEnt:SetLOD( 0 )
+	end
 
 	node.__csent = CSEnt
 	node.Get = function(self)

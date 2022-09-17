@@ -1,5 +1,7 @@
 AddCSLuaFile()
 
+include("jazz_localize.lua")
+
 ENT.Type = "anim"
 ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
@@ -109,7 +111,7 @@ function ENT:MapFinishedEffects(success, ermsg)
 		self:EmitSound(SUCCESS_SOUND)
 		util.ScreenShake(self:GetPos(), 2, 10, 1, 1500)
 	else
-		factgen.SetFailure(string.upper(string.Replace(self:GetScanStateString(),".","_")) --[[Looks nicer imo]] .. (ermsg and ("\n\n" .. ermsg) or ""))
+		factgen.SetFailure(self:GetScanStateString() .. (ermsg and ("\n\n" .. ermsg) or ""))
 		self:EmitSound(FAIL_SOUND)
 	end
 end
@@ -216,15 +218,15 @@ end
 
 function ENT:GetScanStateString()
 	local state = self:GetScanState()
-	if state == SCAN_IDLE then return JazzLocalize("jazz.levelselect.idle")
-	elseif state == SCAN_SCANNING then return JazzLocalize("jazz.levelselect.scan")
-	elseif state == SCAN_COMPLETE then return JazzLocalize("jazz.levelselect.done")
-	elseif state == SCAN_FAILED_NOMAP then return JazzLocalize("jazz.levelselect.fail.nomap")
-	elseif state == SCAN_FAILED_NETWORK then return JazzLocalize("jazz.levelselect.fail.network")
-	elseif state == SCAN_FAILED_NOSPACE then return JazzLocalize("jazz.levelselect.fail.nospace")
+	if state == SCAN_IDLE then return "jazz.levelselect.idle"
+	elseif state == SCAN_SCANNING then return "jazz.levelselect.scan"
+	elseif state == SCAN_COMPLETE then return "jazz.levelselect.done"
+	elseif state == SCAN_FAILED_NOMAP then return "jazz.levelselect.fail.nomap"
+	elseif state == SCAN_FAILED_NETWORK then return "jazz.levelselect.fail.network"
+	elseif state == SCAN_FAILED_NOSPACE then return "jazz.levelselect.fail.nospace"
 	end
 
-	return JazzLocalize("jazz.levelselect.fail")
+	return "jazz.levelselect.fail"
 end
 
 if SERVER then return end
@@ -251,7 +253,7 @@ function ENT:UpdateRenderTarget()
 			local title = self.AddonTitle or ""
 			draw.SimpleTextOutlined( title, "JazzTVChannel", sizeX/2, sizeY * 0.3, Color(60,255,60), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, color_black )
 
-			local scanstate = self:GetScanStateString()
+			local scanstate = JazzLocalize(self:GetScanStateString())
 			draw.SimpleTextOutlined( scanstate, "JazzTVChannel", sizeX/2, sizeY/2, Color(60,255,60), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, color_black )
 		cam.End2D()
 

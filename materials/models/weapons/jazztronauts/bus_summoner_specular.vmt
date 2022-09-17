@@ -1,0 +1,7 @@
+VertexlitGeneric
+{
+	$basetexture			"models/weapons/jazztronauts/bus_summoner"
+	$bumpmap				"models/weapons/jazztronauts/bus_summoner_normal"
+	$envmap					env_cubemap
+	$surfaceprop			"Weapon"
+}

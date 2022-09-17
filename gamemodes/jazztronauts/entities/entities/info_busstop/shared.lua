@@ -6,7 +6,7 @@ include("sh_honk.lua")
 ENT.Type = "anim"
 ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
-ENT.Model			= "models/props/cs_assault/streetsign01.mdl"
+ENT.Model			= "models/props_bar/streetsign.mdl"
 
 ENT.BusOffset = Vector(90, 230, 0)
 function ENT:Initialize()

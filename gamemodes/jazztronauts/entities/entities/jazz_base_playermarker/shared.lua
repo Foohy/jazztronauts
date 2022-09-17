@@ -4,7 +4,7 @@ AddCSLuaFile()
 ENT.Type = "anim"
 ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
-ENT.Model	   = "models/props_trainstation/trainstation_clock001.mdl"
+ENT.Model	   = "models/weapons/bus_summoner_marker.mdl"
 
 ENT.RemoveDelay = 0.5
 

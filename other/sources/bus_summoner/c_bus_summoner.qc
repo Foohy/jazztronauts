@@ -29,42 +29,58 @@ $Attachment "muzzle" "ValveBiped.Weapon_Bone" 0 0 -2.625 rotate -0.0 -0.0 -90
 
 $jigglebone "keychain01"
 {
-	is_rigid
+	is_flexible
 	{
-		tip_mass 100
+		tip_mass 1000
 		length 20
 		pitch_constraint -5 5
-		yaw_constraint -60 60
+		yaw_constraint -60 20
+		yaw_stiffness	10
+		pitch_stiffness	10
+		pitch_damping	10
+		yaw_damping		10
 	}
 }
 $jigglebone "keychain02"
 {
-	is_rigid
+	is_flexible
 	{
-		tip_mass 100
+		tip_mass 1000
 		length 20
-		pitch_constraint -60 60
+		pitch_constraint -60 20
 		yaw_constraint -30 30
+		yaw_stiffness	10
+		pitch_stiffness	10
+		pitch_damping	10
+		yaw_damping		10
 	}
 }
 $jigglebone "keychain03"
 {
-	is_rigid
+	is_flexible
 	{
-		tip_mass 100
+		tip_mass 1000
 		length 20
 		pitch_constraint -5 5
-		yaw_constraint -60 60
+		yaw_constraint -60 40
+		yaw_stiffness	10
+		pitch_stiffness	10
+		pitch_damping	10
+		yaw_damping		10
 	}
 }
 $jigglebone "keychain04"
 {
-	is_rigid
+	is_flexible
 	{
-		tip_mass 100
+		tip_mass 1000
 		length 20
 		pitch_constraint 0 0
 		yaw_constraint -60 60
+		yaw_stiffness	10
+		pitch_stiffness	10
+		pitch_damping	10
+		yaw_damping		10
 	}
 }
 // This defines the IK chains. This viewmodel uses IK so the idle sequence can actually only be

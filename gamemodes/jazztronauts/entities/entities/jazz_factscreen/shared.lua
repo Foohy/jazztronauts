@@ -189,7 +189,7 @@ local function renderSlideshow()
 			surface.DrawRect(0, 0, RTWidth, RTHeight)
 
 			surface.SetMaterial(slideMat)
-			surface.DrawTexturedRect(0, RTHeight * 0.26, RTWidth * 1.07,  RTHeight * 0.93)
+			surface.DrawTexturedRectUV(0, RTHeight * 0.25, RTWidth,  RTHeight * 0.75,0,0,1,1.525)
 
 		cam.End2D()
 	end)

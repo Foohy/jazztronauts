@@ -4,7 +4,7 @@ if SERVER then return end
 
 module("drugs", package.seeall )
 
-local bDrugsOn = true
+local bDrugsOn = false
 
 local drugs_front_buffer = CreateMaterial("DrugsFrontBuffer", "UnLitGeneric", {
 	["$vertexcolor"] = 1,

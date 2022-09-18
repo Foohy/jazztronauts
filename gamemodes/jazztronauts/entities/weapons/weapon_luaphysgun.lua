@@ -139,11 +139,13 @@ end
 function SWEP:PhysPunt( phys )
 
 	phys:ApplyForceCenter( self:GetOwner():EyeAngles():Forward() * 2000 * self:GetPowerFactor() * phys:GetMass() )
-	sound.Play( Launch, self:GetPos(), 100, 100, 1.0 )
+	if SERVER then self:GetOwner():EmitSound( Launch ) end
 
 end
 
 function SWEP:PrimaryAttack()
+
+	if not IsFirstTimePredicted() then return end
 
 	if not self:GetNWBool("bHoldingProp") then
 
@@ -172,14 +174,17 @@ function SWEP:PrimaryAttack()
 		end
 		return
 
-	end
+	else
 
-	if SERVER then
-		self:PhysPunt( self.holdingPhys )
+		if IsValid( self.holdingPhys ) then
+			self:PhysPunt( self.holdingPhys )
+		end
 		self:Drop()
-	end
-	self:Animate()
+		self:Animate()
 
+	end
+
+	self:SetNextPrimaryFire( CurTime() + 1 )
 
 end
 
@@ -281,8 +286,8 @@ function SWEP:Pickup()
 	self:SetNWVector("HoldingPivot", self.entPivot)
 	GAMEMODE:GravGunOnPickedUp(self:GetOwner(), self.holding)
 
-	sound.Play( PickupSound, self:GetPos(), 100, 100, 1.0 )
-	sound.Play( ClawsOpen, self:GetPos(), 100, 100, 1.0 )
+	self:GetOwner():EmitSound( PickupSound )
+	self:GetOwner():EmitSound( ClawsOpen )
 
 	self.holdPatch = CreateSound( self:GetOwner(), HoldSound )
 	self.holdPatch:PlayEx(1, 50)
@@ -302,8 +307,8 @@ function SWEP:Drop()
 	local washolding = self.holding
 	self.holding = nil
 
-	sound.Play( ClawsClose, self:GetPos(), 100, 100, 1.0 )
-	sound.Play( DropSound, self:GetPos(), 100, 100, 1.0 )
+	self:GetOwner():EmitSound( ClawsClose )
+	self:GetOwner():EmitSound( DropSound )
 
 	self.snapRotate = nil
 	self:SetNWBool("bHoldingProp", false)
@@ -325,6 +330,7 @@ function SWEP:Drop()
 		GAMEMODE:GravGunOnDropped(self:GetOwner(), washolding)
 	end
 
+	self.holdingPhys = nil
 	washolding._heldByPhysgun = false
 
 end
@@ -654,6 +660,8 @@ end
 
 function SWEP:SecondaryAttack()
 
+	if not IsFirstTimePredicted() then return end
+
 	if self.holding then
 		self:Drop()
 	else
@@ -819,39 +827,37 @@ if CLIENT then
 	end
 
 	hook.Add("PostDrawTranslucentRenderables", "fphysgun_fx", function()
-		if true then return end //Disabled for now
+
 		for _,ply in pairs(player.GetAll()) do
 
 			local weapon = ply:GetActiveWeapon()
+			if not IsValid(weapon) or weapon:GetClass() ~= "weapon_luaphysgun" then continue end
+
 			if ply == LocalPlayer() then
 				local vm = LocalPlayer():GetViewModel()
+				if not IsValid(vm) then continue end
 
-				if IsValid(weapon) and IsValid(vm) and weapon:GetClass() == "weapon_luaphysgun" then
-					local attach = vm:GetAttachment(1)
+				local attach = vm:GetAttachment(1)
+				local pos, ang = attach.Pos, attach.Ang
+				weapon.prongs = weapon.prongs or 0
 
-					local pos, ang = attach.Pos, attach.Ang
+				if weapon:GetNWBool("bHoldingProp") then
+					local propEnt = weapon:GetNWEntity("HoldingProp")
+					if IsValid(propEnt) then
 
-					weapon.prongs = weapon.prongs or 0
+						renderGrabEffect(propEnt, weapon:GetNWVector("HoldingPivot"), pos)
 
-
-					if weapon:GetNWBool("bHoldingProp") then
-						local propEnt = weapon:GetNWEntity("HoldingProp")
-						if IsValid(propEnt) then
-
-							renderGrabEffect(propEnt, weapon:GetNWVector("HoldingPivot"), pos)
-
-						end
-
-						weapon.prongs = weapon.prongs + FrameTime() * 4
-					else
-						weapon.prongs = weapon.prongs - FrameTime() * 4
 					end
 
-					weapon.prongs = math.Clamp(weapon.prongs, 0, 1)
-					vm:SetPoseParameter( "active", weapon.prongs )
-
-					renderVMFx(weapon, vm, pos)
+					weapon.prongs = weapon.prongs + FrameTime() * 4
+				else
+					weapon.prongs = weapon.prongs - FrameTime() * 4
 				end
+
+				weapon.prongs = math.Clamp(weapon.prongs, 0, 1)
+				vm:SetPoseParameter( "active", weapon.prongs )
+
+				renderVMFx(weapon, vm, pos)
 
 			else
 
@@ -869,7 +875,6 @@ if CLIENT then
 			end
 
 		end
-
 
 	end)
 

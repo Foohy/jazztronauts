@@ -22,8 +22,6 @@ local outputs =
 {
 	"OnMapSelected",
 	"OnMapDownloaded",
-	"OnMapSuccess",
-	"OnMapFailed",
 	"OnMapAnalyzed"
 }
 
@@ -125,6 +123,7 @@ function ENT:SelectDestination(dest)
 	if not dest or #dest == 0 then
 		self:SetScanState(SCAN_IDLE)
 		self.CurrentlyScanning = nil
+		self:TriggerOutput("OnMapDownloaded", self, 0)
 		return
 	end
 
@@ -141,13 +140,6 @@ function ENT:SelectDestination(dest)
 		mapcontrol.SetSelectedMap(mapname)
 
 		self:TriggerOutput("OnMapDownloaded", self, mapname and 1 or 0)
-		if mapname then
-			self:TriggerOutput("OnMapSuccess", self)
-		else
-			self:TriggerOutput("OnMapFailed", self)
-			
-		end
-
 		self:SetPortalSequence("Settle")
 
 		-- At this point we'd start analyzing the map (bsp magic)
@@ -197,15 +189,15 @@ function ENT:SelectDestination(dest)
 	-- Attempt to mount the given addon (cache-aware)
 	self.CurrentlyScanning = dest
 	local wsid = tonumber(dest)
-	if wsid then
+	if wsid and wsid != 0 then
 		if (not workshop.IsAddonCached(wsid)) then
 			self:EmitSound(DOWNLOAD_START_SOUND)
 		end
 		mapcontrol.InstallAddon(tostring(wsid), onMounted, onPreDecompress)
 	else
-		self:SetScanState(SCAN_COMPLETE)
-		self:MapFinishedEffects(true)
-		setActiveMap(dest)
+		self:SetScanState(SCAN_FAILED_NOMAP)
+		self:MapFinishedEffects(false)
+		setActiveMap(nil)
 	end
 
 end

@@ -163,31 +163,39 @@ for i=1, 6 do
 	end
 end
 
+local rt_back_buffer = nil
+local rt_front_buffer = nil
+local rt_initialized = false
+
 hook.Add("HUDPaint", "drugs", function()
 
 	if not bDrugsOn then return end
+	if not rt_initialized then
+
+		-- Setup rendertargets
+		rt_initialized = true
+		rt_front_buffer = irt.New("drugbuffer", w, h)
+			:EnableDepth(true,true)
+			:EnableFullscreen(true)
+			:EnablePointSample(false)
+			:SetAlphaBits(8)
+
+		rt_back_buffer = irt.New("drugbackbuffer", w, h)
+			:EnableDepth(true,true)
+			:EnableFullscreen(true)
+			:EnablePointSample(false)
+			:SetAlphaBits(8)
+
+	end
 
 	local time, w, h = CurTime(), ScrW(), ScrH()
 
-	-- Setup rendertargets
-	local rt = irt.New("drugbuffer", w, h)
-		:EnableDepth(true,true)
-		:EnableFullscreen(true)
-		:EnablePointSample(false)
-		:SetAlphaBits(8)
-
-	local back_rt = irt.New("drugbackbuffer", w, h)
-		:EnableDepth(true,true)
-		:EnableFullscreen(true)
-		:EnablePointSample(false)
-		:SetAlphaBits(8)
-
 	-- Bind to materials
-	drugs_front_buffer:SetTexture("$basetexture", rt:GetTarget())
-	drugs_back_buffer:SetTexture("$basetexture", back_rt:GetTarget())
+	drugs_front_buffer:SetTexture("$basetexture", rt_front_buffer:GetTarget())
+	drugs_back_buffer:SetTexture("$basetexture", rt_back_buffer:GetTarget())
 
 	-- Push frontbuffer rendertarget
-	render.PushRenderTarget(rt:GetTarget())
+	render.PushRenderTarget(rt_front_buffer:GetTarget())
 	render.Clear( 0, 0, 0, 255, true, true )
 
 	-- Draw backbuffer into frontbuffer (with a bit of transparency so it doesn't blow out)
@@ -275,11 +283,11 @@ hook.Add("HUDPaint", "drugs", function()
 	cam.End3D()
 
 	-- Copy frontbuffer into backbuffer
-	render.CopyRenderTargetToTexture(back_rt:GetTarget())
+	render.CopyRenderTargetToTexture(rt_back_buffer:GetTarget())
 	render.PopRenderTarget()
 
 	-- Apply blur to taste
-	render.BlurRenderTarget(back_rt:GetTarget(), 0.2, 8, 2)
+	render.BlurRenderTarget(rt_back_buffer:GetTarget(), 0.2, 8, 2)
 
 end)
 

@@ -11,7 +11,7 @@ ENT.Model			= "models/props_bar/streetsign.mdl"
 ENT.BusOffset = Vector(90, 230, 0)
 function ENT:Initialize()
 	self:SetModel( self.Model )
-	self:PhysicsInit( SOLID_VPHYSICS )
+	self:PhysicsInit( SOLID_NONE )
 	self:SetMoveType( MOVETYPE_NONE )
 
 	local phys = self:GetPhysicsObject()
@@ -58,5 +58,5 @@ end
 if SERVER then return end
 
 function ENT:Draw()
-	self:DrawModel()
+	--self:DrawModel()
 end

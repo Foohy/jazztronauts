@@ -2,7 +2,7 @@
 ENT.Type = "anim"
 ENT.Base = "jazz_base_playermarker"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
-ENT.Model	   = "models/props_trainstation/trainstation_clock001.mdl"
+ENT.Model	   = "models/weapons/bus_summoner_marker.mdl"
 
 ENT.ActivateDelay = 3
 ENT.CircleCone = 3

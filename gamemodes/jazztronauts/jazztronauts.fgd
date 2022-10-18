@@ -37,7 +37,7 @@
 	input Lock(void) : "Lock the door"
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop() = jazz_door_eclipse : "False door that acts as a waypoint for eclipse cat encounters"
+@PointClass base(Targetname, Origin, Angles) studioprop("models/props_c17/gravestone_coffinpiece001a.mdl") = jazz_door_eclipse : "False door that acts as a waypoint for eclipse cat encounters"
 [
 
 ]
@@ -74,7 +74,7 @@
 	input TurnOff(void)    : "Turn off the tv, blocking any channel change inputs."
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazz_tv02.mdl") = jazz_hub_selector : "Jazz Map Selector"
+@PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazzportal.mdl") = jazz_hub_selector : "Jazz Map Selector"
 [
 	output OnMapSelected(void) : "Fires when a map has been selected and is starting the download process."
 	output OnMapDownloaded(integer) : "Fires when a map has finished downloading and is ready to be analyzed. 1 means successful, 0 means failure."
@@ -91,10 +91,15 @@
         1 : "Bartender" 
         2 : "Singer" 
         3 : "Pianist" 
-		4 : "Chello"
+		4 : "Cellist"
     ]
 
 	idleanim(string) : "Idle Animation" : : "Overrides the default idle animation"
+]
+
+@PointClass base(Targetname, Origin, Angles) studioprop("models/props_combine/combine_interface001.mdl") = jazz_bus_selector : "Custom Workshop ID Loader"
+[
+    
 ]
 
 @PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propleaderboard : "Prop Leaderboard"

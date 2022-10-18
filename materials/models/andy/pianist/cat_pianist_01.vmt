@@ -5,11 +5,12 @@
 	"$detailtexturetransform"	"center .5 .5 scale 1 1 rotate 0 translate -0.09375 -0.109375"
 	"$detailblendmode"			"2"
 	"$detailblendfactor"		"1"
+	"$lightwarptexture" "sunabouzu/lightwarp"
+	"$nodecal"					"1"
 
 	"$phong" "1"
 	"$phongexponent" "10"
 	"$phongboost" ".3"	
-	"$lightwarptexture" "sunabouzu/lightwarp"
 	"$phongfresnelranges"	"[.3 1 8]"
 	"$halflambert" "0"
 

@@ -55,6 +55,20 @@ function ENT:KeyValue( key, value )
 	if key == "npcid" then
 		self.NPCID = tonumber(value)
 	end
+	
+	if key == "skin" then
+		self:SetSkin(tonumber(value))
+	end
+end
+
+
+function ENT:AcceptInput( name, activator, caller, data )
+
+	if name == "Skin" then self:SetSkin(tonumber(data)) return true end
+
+	if name == "SetIdle" then self:SetIdleAnim(tostring(data)) return true end
+
+	return false
 end
 
 function ENT:SetIdleAnim(anim)

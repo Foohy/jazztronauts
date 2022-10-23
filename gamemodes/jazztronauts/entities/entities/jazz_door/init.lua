@@ -77,6 +77,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 	if name == "Lock" then self:SetLocked(true) return true end
 	if name == "Unlock" then self:SetLocked(false) return true end
 	if name == "Teleport" then self:Use(activator, caller) return true end
+	if name == "Skin" then self:SetSkin(tonumber(data)) return true end
 
 	return false
 end

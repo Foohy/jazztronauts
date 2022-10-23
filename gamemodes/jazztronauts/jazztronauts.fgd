@@ -41,6 +41,7 @@
 	input Teleport(void) : "Teleport the activator"
 	input Unlock(void) : "Unlock the door"
 	input Lock(void) : "Lock the door"
+	input Skin(integer) : "Changes the model skin to the specified number."
 ]
 
 @PointClass base(Targetname, Origin, Angles) studioprop("models/props_c17/gravestone_coffinpiece001a.mdl") = jazz_door_eclipse : "False door that acts as a waypoint for eclipse cat encounters"
@@ -102,6 +103,10 @@
 	output OnPicked(void) : "Fires when this spawn is selected."
 	output OnNotPicked(void) : "Fires when this spawn is not selected."
 
+	input Skin(integer) : "Changes the model skin to the specified number."
+	input SetIdle(string) : "Changes the idle animation to the specified sequence."
+
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 	idleanim(string) : "Idle Animation" : : "Overrides the default idle animation"
 ]
 

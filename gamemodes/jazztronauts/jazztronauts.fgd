@@ -19,13 +19,19 @@
 
 @PointClass base(Targetname, Origin, Angles) studioprop() = jazz_door : "Door to teleport players between locations"
 [
+	model(studio) : "World Model" : "models/sunabouzu/jazzdoor.mdl"
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 	teleportentity(target_destination) : "Teleport To" : : "The name of the teleport entity." 
 	opendoorsound(sound) : "Door Open sound" : : "The sound the door will make when it opens."
 	closedoorsound(sound) : "Door Close sound" : : "The sound the door will make when it closes."
-	lockdoorsound(sound) : "Door Locked sound" : : "The sound the door will make when it's locked(Or attempted at)."
-	unlockdoorsound(sound) : "Door Unlocked sound" : : "The sound the door will make when it's unlocked."
-	loadingscreen(string) : "Loading Screen" : : "Overrides the random loading screen"
-	startlocked(integer) : "Start Locked" : 0 : "Whether or not this door should start locked"
+	lockdoorsound(sound) : "Door Locked sound" : : "The sound the door will make when it's attempted at while locked."
+//	unlockdoorsound(sound) : "Door Unlocked sound" : : "The sound the door will make when it's unlocked."
+//	loadingscreen(string) : "Loading Screen" : : "Overrides the random loading screen"
+	startlocked(choices) : "Start Locked" : 0 : "Whether or not this door should start locked" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 	
 	output OnTeleport(void) : "Fires on Teleport"
 	output OnUnlock(void) : "Fires when the door is unlocked"
@@ -93,6 +99,8 @@
         3 : "Pianist" 
 		4 : "Cellist"
     ]
+	output OnPicked(void) : "Fires when this spawn is selected."
+	output OnNotPicked(void) : "Fires when this spawn is not selected."
 
 	idleanim(string) : "Idle Animation" : : "Overrides the default idle animation"
 ]

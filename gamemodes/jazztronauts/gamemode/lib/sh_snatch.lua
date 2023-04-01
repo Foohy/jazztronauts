@@ -13,6 +13,9 @@ local debug_resnatch = false
 removed_brushes = removed_brushes or {}
 local waitingBrushes = {}
 
+removed_displacements = removed_displacements or {}
+local waitingDisplacements = {}
+
 removed_staticprops = removed_staticprops or {}
 local waitingProps = {}
 
@@ -21,12 +24,15 @@ if SERVER then
 	nettable.Create("snatch_removed_brushes", nettable.TRANSMIT_ONCE)
 	nettable.Set("snatch_removed_brushes", removed_brushes)
 
+	nettable.Create("snatch_removed_displacements", nettable.TRANSMIT_ONCE)
+	nettable.Set("snatch_removed_displacements", removed_displacements)
+
 	nettable.Create("snatch_removed_staticprops", nettable.TRANSMIT_ONCE)
 	nettable.Set("snatch_removed_staticprops", removed_staticprops)
 end
 
 -- Voidmesh stuff, rendered separately in jazzvoid module
-max_map_verts = 2048
+MAX_MAP_VERTS = 2048
 map_meshes = map_meshes or {}
 current_mesh = current_mesh or { num = 1, mesh = nil, vertices = {} }
 
@@ -76,6 +82,10 @@ hook.Add( "CurrentBSPReady", "snatchReady", onSnatchInfoReady )
 
 function IsBrushStolen(brushid)
 	return removed_brushes[brushid] != nil
+end
+
+function IsDisplacementStolen(dispid)
+	return removed_displacements[dispid] != nil
 end
 
 if SERVER then
@@ -172,6 +182,7 @@ function meta:StartWorld( position, owner, brushid )
 	self.position = position
 	self.is_prop = false
 	self.is_world = true
+	self.is_displacement = false
 
 	if map:IsLoading() then
 		print("BRUSH UPDATE BUT NOT LOADED")
@@ -200,14 +211,40 @@ function meta:StartWorld( position, owner, brushid )
 	hook.Call("JazzBrushStolen", GAMEMODE, brushid)
 end
 
+function meta:StartDisplacement( position, owner, dispid )
+	if not SERVER then return end
+
+	self.real = Entity(0)
+	self.owner = owner
+	self.position = position
+	self.is_prop = false
+	self.is_world = true
+	self.is_displacement = true
+
+	if map:IsLoading() then
+		print("BRUSH UPDATE BUT NOT LOADED")
+		return
+	end
+
+	if not dispid or removed_displacements[dispid] == true then return end
+	removed_displacements[dispid] = true
+
+	self.brush = dispid
+
+	-- print("***SNATCH DISPLACEMENT: " .. dispid .. " ***")
+	SV_SendPropSceneToClients( self )
+
+	hook.Call("JazzDisplacementStolen", GAMEMODE, dispid)
+end
+
+
 local function emptySide(side)
 	return !side.texinfo or side.texinfo.texdata.material == "TOOLS/TOOLSNODRAW"
 end
 
 function meta:AppendBrushToMapMesh(brush)
 
-	-- Update the current mesh
-	current_mesh.mesh = ManagedMesh(void_mat)
+	local new_vertices = {}
 
 	-- Add vertices for every side
 	local to_brush = brush.center
@@ -218,17 +255,36 @@ function meta:AppendBrushToMapMesh(brush)
 		local texinfo = side.texinfo
 		local texdata = texinfo.texdata
 		side.winding:Move( to_brush )
-		side.winding:EmitMesh(texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_brush, current_mesh.vertices)
+		side.winding:EmitMesh(texinfo.textureVecs, texinfo.lightmapVecs, texdata.width, texdata.height, -to_brush, new_vertices)
 		side.winding:Move( -to_brush )
 
 	end
+
+	-- Add to optimized map mesh
+	self:AppendVerticesToMapMesh(new_vertices)
+end
+
+function meta:AppendDisplacementToMapMesh(disp_id)
+
+	local new_vertices = {}
+	map:CreateDisplacementMesh(disp_id, 0.5, nil, new_vertices)
+	
+	-- Update with all of the meshes
+	self:AppendVerticesToMapMesh(new_vertices)
+end
+
+function meta:AppendVerticesToMapMesh(new_verts)
+	-- Update the current mesh
+	current_mesh.mesh = ManagedMesh(void_mat)
+
+	table.Add(current_mesh.vertices, new_verts)
 
 	-- Update with all of the meshes
 	current_mesh.mesh:BuildFromTriangles(current_mesh.vertices)
 	map_meshes[current_mesh.num] = current_mesh.mesh
 
 	-- Enforce a soft limit. If the mesh is now over the vert limit, spill over into a new mesh next time
-	if #current_mesh.vertices > max_map_verts then
+	if #current_mesh.vertices > MAX_MAP_VERTS then
 		print("Finished mesh: ", current_mesh.num, " (", #current_mesh.vertices, " vertices)")
 		current_mesh.num = current_mesh.num + 1
 		current_mesh.vertices = {}
@@ -236,6 +292,79 @@ function meta:AppendBrushToMapMesh(brush)
 end
 
 local vec_one = Vector(1, 1, 1)
+local invcolor = 1/255
+local lightmapTex = nil
+if CLIENT then
+	local lightmaprt = irt.New("jazz_snatch_lightmaptex", 64, 64)
+	lightmapTex = lightmaprt:GetTarget()
+	lightmaprt:Render(function() render.Clear(12, 12, 12, 255) end )
+end
+function meta:RunDisplacement(disp_id)
+	if map:IsLoading() then
+		print("disp_id " .. disp_id .. " stolen with no map loaded, saving for later")
+		waitingDisplacements[brush_id] = true
+		return
+	end
+
+	local disp_list = map.displacements
+	local disp = disp_list[disp_id]--:Copy( true )
+
+	if not disp then
+		ErrorNoHalt( "Displacement not found: " .. tostring( disp_id ))
+		return
+	end
+
+
+	table.insert( removed_displacements, disp )
+
+	self:AppendDisplacementToMapMesh(disp_id)
+
+	if self.mode then
+		local material = Material( disp.face.texinfo.texdata.material )
+		
+		local current_disp_mesh, current_disp_center, current_disp_material = map:CreateDisplacementMesh( disp_id, 0.5, material )
+
+		local entity = ManagedCSEnt( "dispproxy_" .. disp_id, "models/hunter/blocks/cube025x025x025.mdl", false )
+		local actual = entity:Get()
+
+		actual.mesh = test_mesh
+		actual:SetPos( current_disp_center - EyeAngles():Forward() * 5 )
+
+		actual:SetRenderBounds( disp.mins - current_disp_center, disp.maxs - current_disp_center )
+		actual:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
+
+		actual.displacement = disp
+		actual.RenderOverride = function( self )
+
+			if self.hide then return end
+
+			//actual:DrawModel()
+
+			local mtx = Matrix()
+			mtx:SetTranslation( actual:GetPos() )
+			mtx:SetAngles( actual:GetAngles() )
+			mtx:SetScale(vec_one * (actual:GetModelScale() or 1))
+
+			cam.PushModelMatrix( mtx )
+				render.SetLightmapTexture(lightmapTex)
+				render.SetLightingOrigin( current_disp_center)
+				render.SetMaterial(current_disp_material)
+				
+				current_disp_mesh:Draw()
+			cam.PopModelMatrix()
+
+		end
+
+		self.handle = entity
+		self.fake = actual
+		self.real = actual
+
+		//print("PROXY READY, SNATCH IT")
+
+		hook.Call( "HandlePropSnatch", GAMEMODE, self )
+	end
+end
+
 function meta:RunWorld( brush_id )
 
 	if map:IsLoading() then
@@ -295,16 +424,9 @@ function meta:RunWorld( brush_id )
 
 		actual.mesh = test_mesh
 		actual:SetPos( brush.center - EyeAngles():Forward() * 5 )
-		--actual:PhysicsInitConvex( convex )
-		--actual:PhysicsInit( SOLID_VPHYSICS )
-		--actual:SetSolid( SOLID_VPHYSICS )
-		--actual:SetMoveType( MOVETYPE_VPHYSICS )
 		actual:SetRenderBounds( brush.min - brush.center, brush.max - brush.center )
 		actual:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
-		//actual:SetModelScale( 0 )
-		--actual:GetPhysicsObject():Wake()
-		--actual:GetPhysicsObject():AddVelocity( Vector(0,0,100) )
-		actual.brush = brush
+
 		actual.RenderOverride = function( self )
 
 			if self.hide then return end
@@ -317,7 +439,7 @@ function meta:RunWorld( brush_id )
 			mtx:SetScale(vec_one * (actual:GetModelScale() or 1))
 
 			cam.PushModelMatrix( mtx )
-			self.brush:Render()
+			brush:Render()
 			cam.PopModelMatrix()
 
 		end
@@ -654,7 +776,10 @@ if SERVER then
 		net.Start( "remove_prop_scene" )
 		net.WriteUInt( scene.mode or 1, 8 )
 		net.WriteBit( scene.is_world and 1 or 0 )
-		if not scene.is_world then
+
+		if scene.is_world then
+			net.WriteBit( scene.is_displacement and 1 or 0 )	
+		else
 			net.WriteBit( scene.real.IsProxy and 1 or 0 )
 		end
 		net.WriteFloat( scene.time )
@@ -775,7 +900,10 @@ elseif CLIENT then
 		local mode = net.ReadUInt( 8 )
 		local is_world = net.ReadBit() == 1
 		local is_proxy = false
-		if not is_world then
+		local is_displacement = false
+		if is_world then
+			is_displacement = net.ReadBit() == 1
+		else
 			is_proxy = net.ReadBit() == 1
 		end
 		local time = net.ReadFloat()
@@ -785,12 +913,21 @@ elseif CLIENT then
 			local pos = net.ReadVector()
 			local brush = net.ReadInt( 32 )
 
-			New( {
-				mode = mode,
-				time = time,
-				pos = pos,
-				owner = owner,
-			} ):RunWorld( brush )
+			if is_displacement then
+				New( {
+					mode = mode,
+					time = time,
+					pos = pos,
+					owner = owner,
+				} ):RunDisplacement( brush )
+			else
+				New( {
+					mode = mode,
+					time = time,
+					pos = pos,
+					owner = owner,
+				} ):RunWorld( brush )
+			end
 
 		elseif is_proxy then
 			local ent = net.ReadEntity()
@@ -840,6 +977,20 @@ elseif CLIENT then
 		task.Yield("brushesdone")
 	end
 
+	local function stealDisplacements(displacements)
+		local total = table.Count(displacements)
+		local cur = 0
+		for k, v in pairs(displacements) do
+			cur = cur + 1
+			if removed_displacements[k] then continue end
+
+			-- Steal the brush, but don't bother with any effects
+			New( {} ):RunDisplacement( k )
+			task.YieldPer(5, "dispsprogress", cur, total)
+		end
+		task.Yield("dispsdone")
+	end
+
 	local function stealStaticProps(propids)
 		local total = table.Count(propids)
 		local cur = 0
@@ -856,18 +1007,26 @@ elseif CLIENT then
 		task.Yield("propsdone")
 	end
 
-	local function stealCurrentVoid(brushids, propids)
-		local function stealVoid(brushids, propids)
+	local function stealCurrentVoid(brushids, dispids, propids)
+		local function stealVoid(brushids, dispids, propids)
 			loadicon.PushLoadState("Loading stolen brushes")
 			stealBrushes(brushids)
+
+			loadicon.PushLoadState("Loading stolen displacements")
+			stealDisplacements(dispids)
 
 			loadicon.PushLoadState("Loading stolen static props")
 			stealStaticProps(propids)
 		end
 
-		local loadPropsTask = task.New(stealVoid, 1, brushids, propids)
+		local loadPropsTask = task.New(stealVoid, 1, brushids, dispids, propids)
 		function loadPropsTask:brushesprogress(num, total)
 			local ldstr = string.format("LOADING: Stolen brushes: %d/%d (%d%%)", num, total, math.Round(num * 100 / total))
+			loadicon.SetLoadState(ldstr)
+		end
+
+		function loadPropsTask:dispsprogress(num, total)
+			local ldstr = string.format("LOADING: Stolen displacements: %d/%d (%d%%)", num, total, math.Round(num * 100 / total))
 			loadicon.SetLoadState(ldstr)
 		end
 
@@ -877,6 +1036,10 @@ elseif CLIENT then
 		end
 
 		function loadPropsTask:brushesdone()
+			loadicon.PopLoadState()
+		end
+
+		function loadPropsTask:dispsdone()
 			loadicon.PopLoadState()
 		end
 
@@ -957,14 +1120,18 @@ elseif CLIENT then
 
 	end
 
-	--precacheMapProps()
-
-	hook.Add("JazzSnatchMapReady", "snatchUpdateNetworkedBrushSpawn", function()
+	local function stealBrushesInstant()
+		-- Get all networked removed brushes and merge with client state
 		local brushes = nettable.Get("snatch_removed_brushes")
-
 		local allBrushes = {}
 		table.Merge(allBrushes, brushes or {})
 		table.Merge(allBrushes, waitingBrushes or {})
+
+		-- Ditto with displacements
+		local displacements = nettable.Get("snatch_removed_displacements")
+		local allDisps = {}
+		table.Merge(allDisps, displacements or {})
+		table.Merge(allDisps, waitingDisplacements or {})
 
 		-- Do the same with static props
 		-- #TODO: Async load expanded brush models and wait on that
@@ -973,11 +1140,17 @@ elseif CLIENT then
 		table.Merge(allProps, props or {})
 		table.Merge(allProps, waitingProps or {})
 
-		stealCurrentVoid(allBrushes, allProps)
+		stealCurrentVoid(allBrushes, allDisps, allProps)
 
 		if game.GetMap() != mapcontrol.GetHubMap() then
 			precacheMapProps()
 		end
+	end
+
+	--precacheMapProps()
+
+	hook.Add("JazzSnatchMapReady", "snatchUpdateNetworkedBrushSpawn", function()	
+		stealBrushesInstant()
 	end )
 
 	--precacheMapProps()
@@ -987,7 +1160,7 @@ elseif CLIENT then
 	nettable.Hook("snatch_removed_brushes", "snatchUpdateWorldBrushBackup", function(changed, removed)
 		if map:IsLoading() then return end
 
-		stealBrushesInstant(changed)
+		stealBrushesInstant()
 	end )
 
 

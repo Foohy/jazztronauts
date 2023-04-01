@@ -214,7 +214,7 @@ function meta:CreateDisplacementUnlitMaterial( disp_id )
 
 end
 
-function meta:CreateDisplacementMesh( disp_id, expand, custom_material )
+function meta:CreateDisplacementMesh( disp_id, expand, custom_material, vertices )
 
 	local disp = self.displacements[disp_id]
 	assert(disp, "no displacement for index: " .. disp_id)
@@ -236,18 +236,31 @@ function meta:CreateDisplacementMesh( disp_id, expand, custom_material )
 	expand = expand or 0
 
 	Vertex = function( pos, normal, alpha )
-
 		local u,v = texinfo.textureVecs:GetUV( pos )
-		mesh.Position(pos)
-		mesh.Color(1,1,1,alpha)
-		mesh.Normal(normal)
-		mesh.TexCoord(0, u / texdata.width, v / texdata.height)
-		mesh.AdvanceVertex()
 
+		if vertices then
+			table.insert(vertices, {
+				pos = pos + center, 
+				u = u / texdata.width, 
+				v = v / texdata.height, 
+				normal = normal, 
+				color = Color(1,1,1,alpha)
+			})
+		else
+			mesh.Position(pos)
+			mesh.Color(1,1,1,alpha)
+			mesh.Normal(normal)
+			mesh.TexCoord(0, u / texdata.width, v / texdata.height)
+			mesh.AdvanceVertex()
+		end
 	end
 
-	local msh = ManagedMesh(material)
-	mesh.Begin(msh:Get(), MATERIAL_TRIANGLES, #disp.indices / 3 )
+	local msh = nil 
+
+	if not vertices then 
+		msh = ManagedMesh(material)
+		mesh.Begin(msh:Get(), MATERIAL_TRIANGLES, #disp.indices / 3 )
+	end
 
 	for _, idx in ipairs(disp.indices) do
 
@@ -257,11 +270,14 @@ function meta:CreateDisplacementMesh( disp_id, expand, custom_material )
 		vp:Mul( expand )
 		vp:Add( pos )
 		vp:Sub( center )
+
 		Vertex( vp, normal, disp.alphas[idx] )
 
 	end
 
-	mesh.End()
+	if not vertices then
+		mesh.End()
+	end
 
 	return msh, center, material
 

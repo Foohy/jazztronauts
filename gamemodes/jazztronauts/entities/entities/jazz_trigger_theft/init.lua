@@ -21,6 +21,10 @@ function ENT:Initialize()
 		self:OnBrushStolen(brushid)
 	end)
 
+	hook.Add("JazzDisplacementStolen", self, function(self, dispid)
+		self:OnDisplacementStolen(dispid)
+	end)
+
 	-- Build a list of nearby brushes
 	timer.Simple(0, function()
 		self:WaitForMapInfo()
@@ -43,6 +47,7 @@ function ENT:RefreshInsideBrushes()
 	if not map.brushes then return end
 
 	self.NearBrushes = {}
+	self.NearDisplacements = {}
 	for k, v in pairs(map.brushes) do
 		if self:ContainsPoint(v.center) then
 
@@ -52,6 +57,8 @@ function ENT:RefreshInsideBrushes()
 			self.NearBrushes[k] = snatch.IsBrushStolen(k)
 		end
 	end
+
+	-- TODO, calculate NearDisplacements?
 end
 
 function ENT:GetInsideBrushes()
@@ -105,6 +112,35 @@ function ENT:OnBrushStolen(brushid)
 			self:TriggerOutput("OnThresholdHit")
 		end
 	end
+end
+
+function ENT:OnDisplacementStolen(displacementid)
+
+	-- Check if one of our brushes or already stolen
+	/*
+	if self.NearDisplacements[displacementid] == nil or self.NearDisplacements[displacementid] then
+		return
+	end
+	self.NearDisplacements[displacementid] = true
+
+	self:TriggerOutput("OnBrushStolen")
+
+	-- Check if first stolen
+	if not self.InitialStolen then
+		self.InitialStolen = true
+		self:TriggerOutput("OnInitialBrushStolen")
+	end
+
+	-- Check if above threshold
+	if not self.ThresholdHit then
+		local total, stolen = self:GetStolenAmount()
+		--print(total, stolen, stolen * 1.0 / total)
+		if stolen * 1.0 / total > self.TriggerThreshold then
+			self.ThresholdHit = true
+			self:TriggerOutput("OnThresholdHit")
+		end
+	end
+	*/
 end
 
 function ENT:KeyValue(key, value)

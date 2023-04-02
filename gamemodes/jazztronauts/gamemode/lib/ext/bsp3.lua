@@ -294,7 +294,7 @@ local function lump_array( func, element_size )
 
         local res = {}
         local count = lump.length / element_size
-        assert(math.floor(count) == count, "Array element size not multiple of array data: " .. lump.length .. "/" .. element_size)
+        assert(math.floor(count) == count, "Array element size not multiple of array data [" .. tostring(lump.name) .. "]: " .. lump.length .. "/" .. element_size)
 
         for i=1, count do
             res[#res+1] = func( lump )
@@ -655,16 +655,25 @@ lump_handlers[LUMP_NODES] = lump_array( function()
 
 end, 32 )
 
+local tmeta = {}
+
+local __dot = FindMetaTable("Vector").Dot
+function tmeta:GetUV(p)
+    return __dot(p, self.uAxis) + self.uOffset, __dot(p, self.vAxis) + self.vOffset
+end
+
+function tmeta:GetNormalized()
+    return setmetatable({
+        uAxis = self.uAxis:GetNormalized(),
+        uOffset = self.uOffset,
+        vAxis = self.vAxis:GetNormalized(),
+        vOffset = self.vOffset,
+    }, tmeta)
+end
+
+tmeta.__index = tmeta
+
 lump_handlers[LUMP_TEXINFO] = lump_array( function()
-
-    local tmeta = {}
-
-    local __dot = FindMetaTable("Vector").Dot
-    function tmeta:GetUV(p)
-        return __dot(p, self.uAxis) + self.uOffset, __dot(p, self.vAxis) + self.vOffset
-    end
-
-    tmeta.__index = tmeta
 
     local function TexMatrix()
         return setmetatable({
@@ -1236,13 +1245,34 @@ local function loadBSPData( handle, requested, params )
 
     params = params or {}
 
+    print("BSP Version: " .. header.version)
+
+    local is_l4d2 = false
     for i=0, 63 do
-        header.lumps[i] = {
+        local lump = {
             offset = int32(),
             length = int32(),
             version = int32(),
             uncompressedSize = int32(),
         }
+        
+        header.lumps[i] = lump
+
+        -- L4D2 maps have swizzled lump struct members
+        -- This is detectable by finding any non-zero-length lump having an invalid offset of 0
+        if header.version == 21 and lump.length > 0 and lump.offset == 0 then is_l4d2 = true end
+    end
+
+    if is_l4d2 then
+
+        print("BSP IS L4D2, Swizzling lumps...")
+        for i=0, 63 do
+
+            local lump = header.lumps[i]
+            lump.version, lump.offset, lump.length = lump.offset, lump.length, lump.version
+
+        end
+
     end
 
     end_data()
@@ -1250,7 +1280,8 @@ local function loadBSPData( handle, requested, params )
     for _, lump_id in ipairs(requested) do
 
         local lump = header.lumps[lump_id]
-        print("LOAD: " .. lump_names[lump_id + 1] .. " : " .. lump.length .. " bytes")
+        lump.name = lump_names[lump_id + 1]
+        print("LOAD: " .. lump.name .. " : " .. lump.length .. " bytes : ver : " .. lump.version)
 
         if lump.length > 0 then
             handle:Seek(lump.offset)
@@ -1258,6 +1289,7 @@ local function loadBSPData( handle, requested, params )
         end
 
         if lump.uncompressedSize ~= 0 then
+            print("LUMP " .. lump.name .. " is compressed")
             begin_data( lump_data[lump_id] )
             local sig = vcharstr(4)
             local actualSize = uint32()
@@ -1268,7 +1300,7 @@ local function loadBSPData( handle, requested, params )
             assert(sig == "LZMA", "Lump is compressed, but is not valid LZMA")
             assert(actualSize == lump.uncompressedSize, "Compressed size does not match")
 
-            print("DECOMPRESS: " .. lump_names[lump_id + 1] .. " to " .. actualSize .. " bytes")
+            print("DECOMPRESS: " .. lump.name .. " to " .. actualSize .. " bytes")
 
             local str = lump_data[lump_id]
             local prop_bytes = str_char( unpack(props) )

@@ -149,28 +149,65 @@ function meta:SetMode( mode )
 
 end
 
-function TakeItAll()
+if SERVER then
+	local HelpMsg = "Quickly steal all brushes in the map with a few different effects\n"
+	.. "Usage: jazz_debug_take_it_all mode [reverse] [rate]"
+	.. "\n\tmode: Which type of effect to use for stealing everything (1-3)"
+	.. "\n\treverse: If set to non-zero or true, steals everything in the opposite order (farthest first, instead of closest first)"
+	.. "\n\trate: The rate at which brushes should be stolen, per second. Default is 25. If set to <= 0, will steal everything instantly"
+	concommand.Add("jazz_debug_take_it_all", function(ply, cmd, args)
+		if map:IsLoading() then print("STILL LOADING") return end
 
-	if map:IsLoading() then print("STILL LOADING") return end
+		if #args == 0 then
+			print(HelpMsg)
+			return
+		end
 
-	local t = 0.1
+		local mode 		= args[1] and tonumber(args[1])
+		if mode <= 0 then mode = nil end
+		
+		local reverse 	= tobool(args[2])
+		local rate 		= args[3] and tonumber(args[3])
+		if rate <= 0 then rate = math.huge end
+		local center = ply and ply:GetPos() or Vector()
 
-	for k,v in pairs( map.brushes ) do
+		local all_things = {}
+		for _, v in pairs(map.brushes) do 
+			table.insert(all_things, {center = v.center, id = v.id, type = "brush"})
+		end
+		for _, v in pairs(map.displacements) do 
+			table.insert(all_things, {center = (v.mins + v.maxs)/2, id = v.id, type = "displacement"})
+		end
 
-		--v:CreateWindings()
+		table.sort(all_things, 
+			function(a, b)
+				if reverse then a, b = b, a end
+				return a.center:Distance(center) < b.center:Distance(center)
+			end)
 
-		local center = v.center
+		local t = 0.1
+		for k,v in pairs( all_things ) do
 
-		timer.Simple( t, function()
+			--v:CreateWindings()
 
-			New():StartWorld( center, player.GetAll()[1] )
+			local center = v.center
 
-		end)
+			timer.Simple( t, function()
+				local theft = New()
+				if mode then theft:SetMode(mode) end
 
-		t = t + .04
+				if v.type == "displacement" then
+					theft:StartDisplacement( center, player.GetAll()[1], v.id )
+				else
+					theft:StartWorld( center, player.GetAll()[1], v.id )
+				end
 
-	end
+			end)
 
+			t = t + (1.0 / rate)
+
+		end
+	end, nil, HelpMsg, FCVAR_CHEAT )
 end
 
 function meta:StartWorld( position, owner, brushid )

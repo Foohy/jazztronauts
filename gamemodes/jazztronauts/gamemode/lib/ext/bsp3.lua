@@ -1632,7 +1632,7 @@ local function LinkBSPData( data )
     data.leafs = data[LUMP_LEAFS]
     data.models = data[LUMP_MODELS]
     data.props = data[LUMP_GAME_LUMP] and data[LUMP_GAME_LUMP].props
-    data.displacements = data[LUMP_DISPINFO]
+    data.displacements = data[LUMP_DISPINFO] or {}
     data.vis = data[LUMP_VISIBILITY]
     data.cluster_leafs = cluster_leafs
     data.num_clusters = num_clusters

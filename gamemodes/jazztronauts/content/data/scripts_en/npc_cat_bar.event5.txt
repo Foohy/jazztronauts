@@ -28,14 +28,14 @@ a2:
 	*setskin cat_bar 3*
 	*setanim cat_bar gesture_shock 1 idle*
     Ah!% *player*!%%%%*setskin cat_bar 1* 
-    I was going to come find you,% actually.%%%*setskin cat_bar 0* We're going on a little field
+    I was going to come to find you,% actually.%%%*setskin cat_bar 0* We're going on a little field
     trip to the hot spring,%%*setanim cat_bar gesture_confused 1 idle* would you care to join us?
     &a3
 
 a3:
     *setspeaker narrator*
     (This is the last event. You may want to give the other players
-    a heads up that you'll be busy for a little while.)
+    a heads-up that you'll be busy for a little while.)
     player:
          &a4: Yeah sure,% I'm down for free food.
          &leave: I have some stuff to do,% but maybe later? (exit)
@@ -241,7 +241,7 @@ a25:
 
 a26:
 	*setskin cat_bar 4*
-    Humiliated and aimless,%%*setskin cat_bar 0* I limped through the Void with my only my 
+    Humiliated and aimless,%%*setskin cat_bar 0* I limped through the Void with only my 
     faithful shadow still clinging to me.
     &a27
 

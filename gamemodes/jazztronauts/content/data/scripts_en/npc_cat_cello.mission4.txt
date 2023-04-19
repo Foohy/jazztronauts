@@ -20,7 +20,7 @@ a4:
     &a5
 a5:
    just bring one of him back to me and we'll see what we 
-   can�t accomplish when we put our heads together
+   can't accomplish when we put our heads together
    *start 4*
    &exit
 
@@ -30,7 +30,7 @@ idle:
 i2:
    by which i mean i am only barely capable of stringing together
    a coherent sentence and when I am saying that you probably 
-   understand the ass blastingly incomprehensible qualia
+   understand the ass-blastingly incomprehensible qualia
    i am attempting to parse right now
    &i3
 i3: 

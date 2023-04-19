@@ -93,7 +93,7 @@ a14:
      It will be perfect.
      player:
           &badend:
-*setcam setpos 7244.212891 -58.720615 3589.071533;setang -15.669834 164.932739 0.000000*		  
+		  *setcam setpos 7244.212891 -58.720615 3589.071533;setang -15.669834 164.932739 0.000000*		  
 		  Sure, why not?
           &badend2: 
 		  *setcam setpos 7244.212891 -58.720615 3589.071533;setang -15.669834 164.932739 0.000000*
@@ -129,14 +129,14 @@ lose:
 	&lose2
 	
 lose2:
-	> Try again after completing all the cat's side
+	> Try again after completing all the cats' side
 	missions!
 	&ohyeahnomoney
 	
 ohyeahnomoney:
 	> Additionally, you do not have to do all side
 	missions in one run to be able to see the true 
-	ending. All your runs count twoards it!
+	ending. All your runs count toward it!
     &exit
 
 ##cinematic stuff goes here, maybe the void cat throws you physically into the Last Shard or something if you didnt co-operate, boot player to waiting room
@@ -163,9 +163,9 @@ trueend2:
     I do not understand.
     &t1
 
-The trolley hurtles through the void/wall/offscreen and smacks into the eclipse cat with the cow catcher, 
-sends them hurtling out of view. Bartender is driving, Singer’s hanging out of the window, Pianist dangles out of the door 
-and stares in direction the eclipse cat was flung. If we can give the Pianist A Gun that’d be rad, if not that’s fine. 
+The trolley hurtles through the void/wall/offscreen and smacks into the eclipse cat with the cowcatcher, 
+sending them hurtling out of view. Bartender is driving, Singer’s hanging out of the window, Pianist dangles out of the door 
+and stares in the direction the eclipse cat was flung. If we can give the Pianist A Gun that’d be rad, if not that’s fine. 
 Cellist dangles out the other side of the door and has his hand outstretched
 
 
@@ -313,11 +313,11 @@ t13:
 	*setspeaker cat_singer*
 	> The Singer lunges,% tablet clattering out of their hands 
 	and lost out the window to the void.%% They claw forward,% 
-	climbing the rows of seats,% and grab the Pianist’s paw.
+	climbing the rows of seats,% and grabbing the Pianist’s paw.
     &t14
 
 t14:
-    > They grit their teeth and yank,% with strength 
+    > They grit their teeth and yank,% with a strength 
     you wouldn’t expect from the smallest of the bunch.%% 
     The Bartender shoots another look back over her 
     shoulder,% at you. 
@@ -347,7 +347,7 @@ t14c:
 	*emitsound npc/antlion/distract1.wav .8 .45*
 	*shake 2*
 	*setspeaker cat_eclipse*
-	> You hear a blood curdling shriek that radiates from 
+	> You hear a blood-curdling shriek that radiates from 
 	the epicenter of the storm above you.  
 	&t15
 
@@ -375,8 +375,8 @@ t17:
 	*setspeaker cat_singer*
 	*setskin cat_singer 6*
         > The Singer rapidly punches the side of the trolley 
-        with their free paw,% spelling out a message in morse 
-        code\: “OF COURSE WE FORGIVE YOU.%% YOU IDIOTS.%% 
+        with their free paw,% spelling out a message in Morse 
+        Code\: “OF COURSE WE FORGIVE YOU.%% YOU IDIOTS.%% 
         WE LOVE YOU.” 
     &t18
 
@@ -531,7 +531,7 @@ t31:
 	*setskin cat_singer 6*
         *setspeaker cat_singer*
 	*setcam setpos 1790.002930 575.927551 -1850.974731;setang 4.987455 177.390213 0.000000*
-        > The Singer runs off to the Mewseum,% and return with a fresh 
+        > The Singer runs off to the Mewseum,% and returns with a fresh 
         tablet.%%% Their paws are shaky,% and they clearly have to edit 
         their message a few times.
         &t32
@@ -685,7 +685,7 @@ r2:
 r2a:
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_agree 1 idle*
-    The Bar Samara is my opus.%%% I had no true purpose before we built this 
+    The Bar Samsara is my opus.%%% I had no true purpose before we built this 
     place around a forgotten tool in the Voidway.%%%%*setanim cat_bar gesture_agree 1 idle* 
 	It has honestly changed my life.
     &r2b
@@ -745,7 +745,7 @@ r3:
 	*wait .35*
 	*setskin cat_bar 4*
 	*setanim cat_bar gesture_disagree 1 idle*
-    A host who does not ensure the welfare*setskin cat_bar 0* of her honoured guests 
+    A host who does not ensure the welfare*setskin cat_bar 0* of her honored guests 
     is a poor one indeed. 
     &r3a
 r3a:
@@ -786,7 +786,7 @@ t42:
      yeah everyone’s got their own path to walk and you’re welcome to hang 
      as long as you want but uh%%%%
 
-     we kinda can’t pay you any more
+     we kinda can’t pay you anymore
      &t43
 
 [The Singer nods sadly.]

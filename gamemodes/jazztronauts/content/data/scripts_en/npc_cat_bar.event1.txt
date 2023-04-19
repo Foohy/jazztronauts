@@ -50,7 +50,7 @@ begin3:
 	*setskin cat_cello 1*
 	*setcam setpos -1480.707764 3117.885986 56.487091;setang 7.240627 -137.106567 0.000000*
 	*setanim cat_cello gesture_disagree 1 idle*
-	ok no see,% brown-nosing the gods don't work. 
+	ok no see,% brown-nosing the gods doesn't work. 
 	%%%%%overtly insulting them gets your shit slapped.	
 	&begin4
 	
@@ -139,7 +139,7 @@ resp2c:
 resp2d:
     *setspeaker cat_cello*
 	*setanim cat_cello gesture_anger 2 idle*
-	WE AGREED YOU WOULDN't SAY THAT PIECE OF 
+	WE AGREED THAT YOU WOULDN'T SAY THAT PIECE OF 
 	SHITS NAME IN HERE AGAIN
     &resp2e
     
@@ -398,7 +398,7 @@ resp6a:
 	*setskin cat_bar 0*
 	*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
 	*setanim cat_bar gesture_confused 1 idle*
-	Hit your limit?%%%% It's rare to have anyone else with self control at this table.%%%% 
+	Hit your limit?%%%% It's rare to have anyone else with self-control at this table.%%%% 
 	Take care,% and stop by the bar sometime.
 	&exit
 	
@@ -433,7 +433,7 @@ merge2d:
 	*setanim cat_piano gesture_confused 1 idle*
 	*setspeaker cat_piano*
 	I don't know what you expected.%%% 
-	There's not a lot of people that can pull one over her.%%*setanim cat_piano gesture_shrug 1 idle* 
+	There are not a lot of people that can pull one over her.%%*setanim cat_piano gesture_shrug 1 idle* 
 	Well,% living people at least.
 	&merge2e
 	

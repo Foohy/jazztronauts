@@ -25,9 +25,9 @@ begin:
      *setspeaker narrator*
 	 *show*
      >The Bar Samsara.%%%%%%*setcam setpos -92.599274 2894.528809 95.031448;setang 7.010281 47.859997 0.000000* You’re minding your own business at a booth near 
-     the bar,%% taking some time to rest your legs and watch the Cellist 
+     the bar,%% taking some time to rest your legs and watch The Cellist 
      knock back what looks suspiciously like shots of antifreeze,%*emitsound physics/wood/wood_panel_impact_hard1.wav 0.45*%*setcam setpos -2889.212646 3035.416260 68.696411;setang 4.880709 -48.762085 0.000000* when 
-     the Singer storms in.%%% They look,% uh,%% miffed.
+     The Singer storms in.%%% They look,% uh,%% miffed.
      &a2
 
 a2:
@@ -58,7 +58,7 @@ a3:
 	*setposang cat_cello setpos -2912.563965 2959.992920 36;setang -90 231 0.000000*
 	*setposang cat_singer setpos -2786.335693 2828.759277 0;setang -90 51 0.000000*
      *setspeaker cat_singer*
-     >You can only see part of the Singer’s tablet from where you’re 
+     >You can only see part of The Singer’s tablet from where you’re 
      sitting,%% but even the little bit you can see has a lot of cursing 
      on it.%%%%%*setanim cat_singer gesture_anger 1.7 idle* 
      Like,%*setanim cat_cello gesture_shock 1.4 idle* a LOT of cursing.
@@ -96,7 +96,7 @@ a6:
 a7:
 	*setcam setpos -2899.017090 3001.060791 74.680466;setang 12.094728 -81.194077 0.000000*
      *setspeaker narrator*
-     >%.%.%.%you notice the Cellist’s grip around the shot glass has gotten 
+     >%.%.%.%you notice The Cellist’s grip around the shot glass has gotten 
      tight as a vise right before it shatters in his paw,%% and his 
      composure snaps.
      &a8
@@ -113,7 +113,7 @@ a9:
 	*setcam setpos -2858.027832 2916.603027 50.138813;setang 13.851631 144.117416 0.000000*
 	*setskin cat_singer 5*
 	*setanim cat_cello gesture_anger 2 idle*
-     they’re just robots. shitty dime store robots that have all the 
+     they’re just robots. shitty dime-store robots that have all the 
      awareness of a furby.%%%*setanim cat_cello gesture_clap .5 idle* they.%% are.%% not.%% real.%%%%% they’re never going to 
      BE*setanim cat_cello gesture_disagree 1,6 idle* real.%%%% all you are doing is projecting feelings onto simulacra 
      dumber than a chatbot,%% do you get it?%%%%*setanim cat_cello gesture_anger 2 idle* THEY AREN’T FUCKING REAL.

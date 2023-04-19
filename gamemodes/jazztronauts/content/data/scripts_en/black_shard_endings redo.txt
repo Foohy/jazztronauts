@@ -324,9 +324,9 @@ t14:
 
 t14b:
 	*setspeaker narrator*
-	> You start moving without thinking, before the Bartender 
+	> You start moving without thinking before the Bartender 
         has even finished speaking. You hook an arm around the 
-        Singer’s waist, and all four of your friends hiss as the 
+        Singer’s waist and all four of your friends hiss as the 
         void above you crackles with vicious intent.
 	player:
 		&t14c: I’ve got you. It’s going to be okay. We’re going to be okay.
@@ -335,7 +335,7 @@ t14b:
 14c:
 	[appropriate scream?]
 	*setspeaker cat_eclipse*
-	> You hear a blood curdling shriek that radiates from 
+	> You hear a blood-curdling shriek that radiates from 
 	the epicenter of the storm above you.  
 	&t15
 
@@ -362,8 +362,8 @@ t17:
 	*setspeaker cat_singer*
 	[tears]
         > The Singer rapidly punches the side of the trolley 
-        with their free paw, spelling out a message in morse 
-        code: “OF COURSE WE FORGIVE YOU. YOU IDIOTS. 
+        with their free paw, spelling out a message in Morse 
+        Code: “OF COURSE WE FORGIVE YOU. YOU IDIOTS. 
         WE LOVE YOU.” 
     &t18
 
@@ -487,7 +487,7 @@ t31:
 	[sad]
         *setspeaker cat_singer*
 	*setcam setpos 1790.002930 575.927551 -1850.974731;setang 4.987455 177.390213 0.000000*
-        > The Singer runs off to the Mewseum, and return with a fresh 
+        > The Singer runs off to the Mewseum, and returns with a fresh 
         tablet. Their paws are shaky, and they clearly have to edit 
         their message a few times.
         &32
@@ -635,7 +635,7 @@ r2:
 r2a:
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_agree 1 idle*
-    The Bar Samara is my opus.%%% I had no true purpose before we built this 
+    The Bar Samsara is my opus.%%% I had no true purpose before we built this 
     place around a forgotten tool in the Voidway.%%%%*setanim cat_bar gesture_agree 1 idle* It has honestly changed my 
     life.
     &r2b
@@ -697,7 +697,7 @@ r3:
 	*wait .35*
 	*setskin cat_bar 4*
 	*setanim cat_bar gesture_disagree 1 idle*
-    A host who does not ensure the welfare*setskin cat_bar 0* of her honoured guests 
+    A host who does not ensure the welfare*setskin cat_bar 0* of her honored guests 
     is a poor one indeed. 
     &r3a
 r3a:

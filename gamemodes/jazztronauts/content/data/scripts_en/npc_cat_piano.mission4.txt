@@ -10,14 +10,14 @@ a1:
 	&a1b
 	
 a1b:
-	When I woke up from the first good night's sleep I've 
+	When I woke up from the first good night's sleep I'd 
 	had in uh,% ever,%% I was kinda pissed that I could 
 	string coherent thoughts together.
 	&a2
 	
 a2:
 	%.%.%.%This is a very roundabout way to say that I flushed fifteen bottles of 
-	what looked like essence of mulched clowns and psychological issues 
+	what looked like the essence of mulched clowns and psychological issues 
 	down the can,%% panicked immediately%, and%.%.%.%%
 	&a3
 	
@@ -32,9 +32,9 @@ a4:
 	&a5
 	
 a5:
-	So!%% I'm going to pay you an exorbinant finders fee,% and you're going 
+	So!%% I'm going to pay you an exorbitant finders fee,% and you're going 
 	to get me something flashy enough to wipe my sins from The Cellist's 
-	barely functional short term memory\:%%%% 
+	barely functional short-term memory\:%%%% 
 	A Massive Horse Statue. *start 4*
 	&exit
 	
@@ -134,7 +134,7 @@ t10:
 t11:
 	*setspeaker narrator*
 	>The Cellist happily crawls around the horse statue.%%%%
-	Wordlessly,% you are given REWARD NUMBER by The Pianist.%%%*finish 4*
+	Wordlessly,% you are given $25,000 by The Pianist.%%%*finish 4*
 	Looks like everything's just fine,% somehow.
 	&exit
 	

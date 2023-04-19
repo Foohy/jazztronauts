@@ -264,7 +264,7 @@ t21:
 	
 t21b:
 	*setspeaker narrator*
-	After a few moments,%% The Singer waves and you two and 
+	After a few moments,%% The Singer waves to you two and 
 	walks towards the Mewseum,%% chatting with the metrocop.
 	&t22
 	

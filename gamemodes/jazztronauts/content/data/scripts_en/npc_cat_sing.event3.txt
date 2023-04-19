@@ -271,13 +271,13 @@ m17:
 	*setspeaker narrator*
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_clap 1 idle*
-	> They give both cats a hug and tell you to find them 
+	> They hug both cats and tell you to find them 
 	later for another job before hopping up on top of the booth 
 	and curling up to resume their nap.*setskin cat_singer 0*
 	&m17b
 		
 m17b:
-	> The Cellist and The Pianist go their seperate ways,%% 
+	> The Cellist and The Pianist go their separate ways,%% 
 	each looking thoroughly chastised. *mark_seen*
 	&exit
 	

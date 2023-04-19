@@ -145,7 +145,7 @@ r5a2:
 hotfix:
 	*setanim cat_cello gesture_laugh 1 idle* 
 	-it's entirely reasonable to look at a glass that looks like 
-	some sort of fourth dimensional clown tears and go*setanim cat_cello gesture_disagree 1 idle*
+	some sort of fourth-dimensional clown tears and go*setanim cat_cello gesture_disagree 1 idle*
 	fuck that shit i'm out.
 	&r5a3
 	

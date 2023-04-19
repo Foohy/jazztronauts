@@ -33,7 +33,7 @@ a1:
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_shrug 1 idle*
 	*setskin cat_piano 1*
-    Gee.%%% I wonder if someone in this room is excited for trash night.
+    Gee.%%% I wonder if someone in this room is excited about trash night.
     &a2
 
 a2:
@@ -74,7 +74,7 @@ a5:
 	*setskin cat_cello 1*
 	*setanim cat_cello gesture_sweep 1 idle*
     personally i hope some brave hero is about to instruct my sorry ass 
-    on proper stone cutting technique or some shit
+    on proper stone-cutting technique or some shit
     &a6
 
 a6:
@@ -223,7 +223,7 @@ c3:
 	*setskin cat_piano 1*
 	*setskin cat_bar 3*
 	*setskin cat_singer 1*
-    >Suddenly,%%% a Ninja appears*setskin cat_bar 1* behind a middle aged businessman 
+    >Suddenly,%%% a Ninja appears*setskin cat_bar 1* behind a middle-aged businessman 
 	attempting to pitch out of the sandtrap on the 9th hole.%%%% 
 	This has taken a turn.
     &c4
@@ -315,7 +315,7 @@ c12:
     *setspeaker narrator*
 	*setskin cat_bar 0*
     > %.%.%.%The Bartender seems to be talking about how the Ninja is currently 
-	in a high speed police chase,% and is on top of a police cruiser.%%% 
+	in a high-speed police chase,% and is on top of a police cruiser.%%% 
 	He's pulling out his katana%.%.%.%
     &c13
 
@@ -324,7 +324,7 @@ c13:
     *setspeaker cat_piano*
 	*setskin cat_piano 2*
 	*setanim cat_piano gesture_jab 1 idle*
-    Man c'mon I know*setskin cat_piano 0* where he's going with this but that thing aint gonna-
+    Man c'mon I know*setskin cat_piano 0* where he's going with this but that thing ain't gonna-
     &c14
 
 c14:
@@ -436,6 +436,6 @@ c28:
     *setspeaker narrator*
     > The night devolves into enthusiastic chatting about the film,% 
 	and B-movies in general.%%% They don't seem to remember that 
-	there's more tapes to watch%.%.%.%%%
+	there are more tapes to watch%.%.%.%%%
     Ah well,% might as well let 'em have this.*mark_seen*
     &exit

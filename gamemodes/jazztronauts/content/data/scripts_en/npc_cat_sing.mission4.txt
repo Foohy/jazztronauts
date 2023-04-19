@@ -6,7 +6,7 @@ accept:
 	&a1
 	
 a1:
-	> They thank you again for the help with the pots earlier, and inform you
+	> They thank you again for the help with the pots earlier and inform you
 	that the early experiments are promising. 
 	&a1b
 	
@@ -34,10 +34,10 @@ a3b:
 	&a4
 	
 a4:
-	> They further elaborate that wile there's a fairly robust collection of 
-	entities in the Mewseum, they found reference to an npc named Alyx that 
+	> They further elaborate that while there's a fairly robust collection of 
+	entities in the Mewseum, they found a reference to an NPC named Alyx that 
 	appears to be relatively uncommon and thus needs to be preserved in a hurry. 
-	You'll be paid at a  premium for tracking one down. *start 4*
+	You'll be paid a premium for tracking one down. *start 4*
 	&exit
 	
 	
@@ -84,12 +84,12 @@ t1:
 	&t2
 	
 t2:
-	> They thank you for your work, and their tablet dings. 
+	> They thank you for your work and their tablet dings. 
 	&t2b
 	
 t2b:
 	> This is apparently the signal that the Alyx arrived at the Mewseum 
-	intact, and NUMBER is transferred to your account 
+	intact, and $25,000 is transferred to your account 
 	for your efforts! *finish 4*
 	&t3
 	

@@ -77,7 +77,7 @@ begin100:
 
 begin100_2:
     > They can barely stand still, they keep pointing to the 
-	shard tank, then the Bartender, then the shard tank again.
+	shard tank, then The Bartender, then the shard tank again.
     *mark_seen*
     &exit
 	
@@ -112,7 +112,7 @@ com3:
 	
 com4:
 	*setspeaker cat_singer*
-	> The Singer punches the Cellist in the arm. Apparently,
+	> The Singer punches The Cellist in the arm. Apparently,
 	it's a gift from all of them, and they want you
 	to have it.
 	&com5

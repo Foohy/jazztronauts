@@ -20,7 +20,7 @@ begin:
 ###### START
 	*setspeaker narrator*
 	*show*
-	>The Cellist appears to be ranting about something at the Pianist,
+	>The Cellist appears to be ranting about something at The Pianist,
 	who appears to be enjoying this about as much as someone cornered
 	by Jehovah's Witnesses.
 	&b1
@@ -79,7 +79,7 @@ b5:
 	*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 48 0.000000*
 	*setspeaker narrator*
 	>The Pianist sprints out of the room past you,% 
-	leaving you and the Cellist.%%%*setskin cat_cello 1* He watches her run off 
+	leaving you and The Cellist.%%%*setskin cat_cello 1* He watches her run off 
 	with a stoned,% smug smile before turning to look at you.
 	player:
 	&r1a1:

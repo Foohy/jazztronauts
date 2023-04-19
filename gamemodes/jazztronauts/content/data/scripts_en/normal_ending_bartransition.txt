@@ -26,7 +26,7 @@ a2:
      It won’t harm you, I assure you. 
      player:
           &batcountry: 
-            Yo hold up no, I know what that stuff does to the Cellist.
+            Yo hold up no, I know what that stuff does to The Cellist.
           &slammin:
             Alright, let’s party. [Slam that shit]
 

@@ -40,7 +40,7 @@ idle:
 
 idle2:
     oh, if you're worrying about me going sober this time %
-    i finally found my emergency stash of bug spray the Bartender locked up 
+    i finally found my emergency stash of bug spray The Bartender locked up 
     &idle3
 	
 idle3:

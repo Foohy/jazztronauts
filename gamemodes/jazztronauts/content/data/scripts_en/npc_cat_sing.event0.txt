@@ -27,7 +27,7 @@
 b1:
 	*setcam setpos 2815.425049 7859.031250 36.395782;setang 0.438521 79.219254 0.000000* ###### CAT AND PLAYER
 	*setspeaker cat_singer*
-	> As you approach,% the Singer's ears*setskin cat_singer 4* perk up.%% They tur*setskin cat_singer 0*n,% and wave 
+	> As you approach,% The Singer's ears*setskin cat_singer 4* perk up.%% They tur*setskin cat_singer 0*n,% and wave 
 	when they*setanim cat_singer gesture_exchange 1.2 idle* recognize you.%%% Beckoning,% t*setskin cat_singer 1*hey invite you over.
 	&b2
 	
@@ -44,7 +44,7 @@ b3:
 	*setcam setpos 2815.425049 7859.031250 36.395782;setang 0.438521 79.219254 0.000000* ###### CAT AND PLAYER
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_laugh 1 idle*
-	> Turning the tablet around,% they're clearly trying to take the Bartender's
+	> Turning the tablet around,% they're clearly trying to take The Bartender's
 	earlier tip about not bouncing while you read into consideration.%%%%*setskin cat_singer 0* 
 	After seeing you squint in confusion at the bedazzled,% 
 	glimmering font%.%.%.%%%*setskin cat_singer 3* they change it to comic sans.
@@ -90,7 +90,7 @@ r2a1:
 	*setskin cat_singer 4*
 	> The Singer blinks,*setskin cat_singer 0* then shakes *setanim cat_singer gesture_disagree 1 idle*their head.%%%% 
 	Apparently they'd just called it The Museum originally,% 
-	but the Bartender suggested the change.
+	but The Bartender suggested the change.
 	&r2a2
 	
 r2a2:
@@ -188,7 +188,7 @@ m5:
 	*setskin cat_singer 0*
 	*setanim cat_singer gesture_clap 1 idle*
 	> Apparently for as long as the cats have been stripping places along 
-	Voidway 66 for parts,% the Singer has been dedicated to preserving at 
+	Voidway 66 for parts,% The Singer has been dedicated to preserving at 
 	least one of every unique thing they find.
 	&m5b
 	

@@ -116,7 +116,7 @@ resp2a:
 	*setskin cat_bar 3*
 	*setanim cat_bar gesture_shock 1 idle*
 	*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
-	Oh dear.% Agreeing with the Cellist?%%*setskin cat_bar 0*%*setanim cat_bar gesture_confused 1 idle* 
+	Oh dear.% Agreeing with The Cellist?%%*setskin cat_bar 0*%*setanim cat_bar gesture_confused 1 idle* 
 	Have you developed a fever?
     &resp2b
 
@@ -476,7 +476,7 @@ merge2i:
 merge2j:
 	*setspeaker cat_bar*
 	As you wish.%*setskin cat_bar 0* Well then,%%*setanim cat_bar gesture_confused 1 idle* shall we call it quits for tonight? 
-	%%%Let's help the Singer clean up and then get back to work.
+	%%%Let's help The Singer clean up and then get back to work.
 	&merge2k
 	
 merge2k:

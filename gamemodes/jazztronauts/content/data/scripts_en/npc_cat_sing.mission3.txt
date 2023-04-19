@@ -2,7 +2,7 @@
 
 accept:
 	*setspeaker narrator*
-	> The Singer and the Bartender are here...
+	> The Singer and The Bartender are here...
 	there a teracotta pot on the table.
 	&a1
 	
@@ -68,7 +68,7 @@ idle:
 idle2:
 	> While they are very excited to try turning theory into reality, 
 	they don't want you to overwork yourself and encourage taking 
-	regular breaks. And also visiting the Bartender for snacks.
+	regular breaks. And also visiting The Bartender for snacks.
 	&exit
 
 turnin:
@@ -93,7 +93,7 @@ t1:
 	&t2
 	
 t2:
-	> Eventually the Singer remembers that they actually need to 
+	> Eventually The Singer remembers that they actually need to 
 	start planting, and hand you your pay of NUMBER. 
 	&t3
 

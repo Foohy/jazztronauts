@@ -33,7 +33,7 @@ b1:
 	*setspeaker cat_singer*
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_exchange 2 idle*
-	> It's the Singer!%%% They wave with their free hand and hurry over 
+	> It's The Singer!%%% They wave with their free hand and hurry over 
 	towards you.
 	&b1b
 	
@@ -57,7 +57,7 @@ b2:
 b3:
 	*setanim cat_singer pose_sit01 1 idle*
 	> The Singer hit the floor pretty hard%.%.%.%and there's%.%.%%%fluff in the air?%%*setskin cat_singer 2*%*setcam setpos -2890.010742 2810.836914 64.296967;setang 26.426382 -17.573183 0.000000*
-	You peek over the crate and see the Singer cradling a knee.%%%*setskin cat_singer 6* 
+	You peek over the crate and see The Singer cradling a knee.%%%*setskin cat_singer 6* 
 	They notice the dino plush on the floor,% ripped and mangled.
 	&b4
 	
@@ -80,7 +80,7 @@ b5:
 	
 b6:
 	*setspeaker narrator*
-	>This is the last Event in the Singers's quest line.%%
+	>This is the last Event in The Singers's quest line.%%
 	It may take you a while to watch,% you can come back to it
 	without penalty if you are in a hurry.
 	player:
@@ -169,7 +169,7 @@ r3a3:
 	*txin*
 	*wait 2*
 	*show*
-	> You give the Singer sidelong glances as you set out the 
+	> You give The Singer sidelong glances as you set out the 
 	needle and thread you pulled out of the Mewseum's digital archives.
 	&r3a4
 	
@@ -189,7 +189,7 @@ m2:
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_exchange .75 idle*
 	> While you're carefully pushing the filling back into the 
-	wound where it belongs,%% the Singer takes out their tablet and 
+	wound where it belongs,%% The Singer takes out their tablet and 
 	places it on the table between you so you can just see as they type.
 	&m3
 	
@@ -327,7 +327,7 @@ m15:
 		
 end:
 	*setspeaker narrator*
-	You share a pleasant moment with the Singer. *mark_seen*
+	You share a pleasant moment with The Singer. *mark_seen*
 	&exit
 	
 	

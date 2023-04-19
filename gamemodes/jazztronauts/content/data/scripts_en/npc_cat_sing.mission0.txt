@@ -3,7 +3,7 @@
 	*setnpcid narrator npc_narrator*
 *setspeaker narrator*
 	>Oh, it's the cat who spotted you in the first place and 
-	landed you in this.. job?? They were the Singer, you think.
+	landed you in this.. job?? They were The Singer, you think.
 	&a1
 	
 a1:
@@ -94,7 +94,7 @@ t3:
 	
 t4:
 	*setspeaker narrator*
-	> You leave the Singer clapping over the binders you deliver, 
+	> You leave The Singer clapping over the binders you deliver, 
 	and they wave to you as you go.
 	&exit
 	

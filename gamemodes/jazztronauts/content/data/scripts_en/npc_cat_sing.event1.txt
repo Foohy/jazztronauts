@@ -23,14 +23,14 @@ begin:
 ###### START
 	*setposang player setpos 2227.926758 7157.481934 0;setang 0 38.391869 0.000000*
 	> The Mewseum is quiet as usual.%%%
-	Except for the Singer,% who is tapping away at their tablet in
+	Except for The Singer,% who is tapping away at their tablet in
 	front of one of those dolls you got for them.
 	&b1
 	
 b1:
 	*setposang player setpos 3253.138184 7768.483398 0;setang 6.052056 85.722305 0.000000*
 	*setcam setpos 3078.050781 7687.246094 96.607208;setang 11.429294 40.840954 0.000000*
-	> You approach the Singer,%% but for once they don't immediately 
+	> You approach The Singer,%% but for once they don't immediately 
 	look up when you get close.%%%% In fact,% they don't seem to have 
 	noticed your presence at all.%%
 	You hunker down in front of them and wave.

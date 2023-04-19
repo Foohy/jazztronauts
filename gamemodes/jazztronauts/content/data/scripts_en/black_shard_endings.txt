@@ -165,7 +165,7 @@ trueend2:
 
 The trolley hurtles through the void/wall/offscreen and smacks into the eclipse cat with the cowcatcher, 
 sending them hurtling out of view. Bartender is driving, Singer’s hanging out of the window, Pianist dangles out of the door 
-and stares in the direction the eclipse cat was flung. If we can give the Pianist A Gun that’d be rad, if not that’s fine. 
+and stares in the direction the eclipse cat was flung. If we can give The Pianist A Gun that’d be rad, if not that’s fine. 
 Cellist dangles out the other side of the door and has his hand outstretched
 
 
@@ -253,7 +253,7 @@ t5:
 	&t5b
 	
 t5b:
-	>He locks eyes with the Pianist as he hurtles out the door.
+	>He locks eyes with The Pianist as he hurtles out the door.
      &t6
 
 t6:
@@ -296,7 +296,7 @@ t10:
      
 t11:
 	The Pianist yowls,% digging her claws into the 
-	upholstery of a seat as she and the Cellist are 
+	upholstery of a seat as she and The Cellist are 
 	thrown around.%%% She’s going to lose her grip!
     &t12
 
@@ -304,7 +304,7 @@ t12:
 	*setskin cat_bar 3*
 	*setanim cat_bar gesture_shock 1.5 idle*
 	*setspeaker cat_bar*
-	Singer!% Grab the Pianist!!
+	Singer!% Grab The Pianist!!
      &t13
 
 
@@ -313,7 +313,7 @@ t13:
 	*setspeaker cat_singer*
 	> The Singer lunges,% tablet clattering out of their hands 
 	and lost out the window to the void.%% They claw forward,% 
-	climbing the rows of seats,% and grabbing the Pianist’s paw.
+	climbing the rows of seats,% and grabbing The Pianist’s paw.
     &t14
 
 t14:
@@ -331,7 +331,7 @@ t14:
 
 t14b:
 	*setspeaker narrator*
-	> You start moving without thinking,% before the Bartender 
+	> You start moving without thinking,% before The Bartender 
   	has even finished speaking.%% You hook an arm around the 
   	Singer’s waist,% and all four of your friends hiss as the 
   	void above you crackles with vicious intent.
@@ -505,7 +505,7 @@ t27:
         “thank fuck we’re alive” party sounds ideal. 
     &t29
 
-[cut to the Cellist with a smear of white powder under his nose, with his pupils expanded to fill almost the entire white of his eyes]
+[cut to The Cellist with a smear of white powder under his nose, with his pupils expanded to fill almost the entire white of his eyes]
 
 t29:
 	*setskin cat_cello 3*
@@ -547,7 +547,7 @@ t32:
 t33:
         > “What you said in the trolley,% Pianist,% Cellist.%% I’m so sorry!!%%
         I’m so sorry you felt so alone and unwanted and i promise neither 
-        the Bartender or i ever wanted you to feel like that.% Of course 
+        The Bartender or i ever wanted you to feel like that.% Of course 
         we forgive you.”
         &t34
 
@@ -563,9 +563,9 @@ t35:
 
 t36:
         > There’s a moment of silence after everyone finishes reading.%%% 
-        The Bartender puts an arm around the Singer,% who is openly 
+        The Bartender puts an arm around The Singer,% who is openly 
         sobbing.%% She holds out her other paw,% and after exchanging 
-        glances,%% the Cellist and the Pianist join the group hug. 
+        glances,%% The Cellist and The Pianist join the group hug. 
         &t37
 
 t37:
@@ -610,7 +610,7 @@ t39:
 many plates of those cookie and drink assets out. Pianist and Cellist laughing together with beverages 
 off to the side, Singer bouncing next to their assistant metrocop. The trolley pulls up and another metrocop 
 gets out. The Singer sprints over and drags them back to meet the other one, paws flapping. Focus on the glass 
-on the bar in front of the player and the Bartender looking at them with a Thoughtful expression]
+on the bar in front of the player and The Bartender looking at them with a Thoughtful expression]
 
 t40:
 	*setposang cat_bar setpos 328.994995 704.156860 -1871.968750;setang -90 180 0.000000*
@@ -669,7 +669,7 @@ r2e:
     player:
     &r2: Do you ever worry about getting stuck in a rut?
     &r3: Thanks for coming to get me.
-    &t41: I think the Pianist wants to talk to us...? (continue)
+    &t41: I think The Pianist wants to talk to us...? (continue)
 
 ###RESPONSE 2
 
@@ -733,7 +733,7 @@ r2g:
      player:
      &r1: I can’t stop thinking about that other cat.
      &r3: Thanks for coming to get me.
-     &t41: I think the Pianist wants to talk to us...? (continue)
+     &t41: I think The Pianist wants to talk to us...? (continue)
 
 ###RESPONSE 3
 
@@ -762,7 +762,7 @@ r3b:
      player:
      &r1: I can't stop thinking about that other cat.
      &r2: Do you ever worry about getting stuck in a rut?
-     &t41: I think the Pianist wants to talk to us...? (continue)
+     &t41: I think The Pianist wants to talk to us...? (continue)
 
 ### MERGE POINT
 

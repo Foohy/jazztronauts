@@ -12,12 +12,12 @@ a1:
 	
 a1b:
 	> Thanks to some vigorous application of fertilizer they, borrowed, 
-	from the Cellist's supplies, the first shoots have already appeared!
+	from The Cellist's supplies, the first shoots have already appeared!
 	&a2
 	
 a2:
 	> They also apologize for your having to witness the tiff between the 
-	Pianist and the Cellist. The squabbles have been less frequent since you 
+	Pianist and The Cellist. The squabbles have been less frequent since you 
 	arrived, and involved less wanton destruction, but they 
 	know how sound can carry through the bar.
 	&a3
@@ -64,7 +64,7 @@ i1:
 	&exit
 
 turnin:
-	> You're a little unsure how to best wake the Singer, so you settle for 
+	> You're a little unsure how to best wake The Singer, so you settle for 
 	hunkering down and lightly poking their paw. 
 	&turnin1
 	

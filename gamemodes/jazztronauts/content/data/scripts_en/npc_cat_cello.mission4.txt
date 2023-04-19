@@ -20,7 +20,7 @@ a4:
     &a5
 a5:
    just bring one of him back to me and we'll see what we 
-   can’t accomplish when we put our heads together
+   canï¿½t accomplish when we put our heads together
    *start 4*
    &exit
 
@@ -48,7 +48,7 @@ turnin:
 t1: 
    *setspeaker narrator*
    >The Kleiner's wireframe is smashed into a horrifying 
-   nightmare blunt that the Cellist rips in one go.
+   nightmare blunt that The Cellist rips in one go.
    &t2
 
 t2:

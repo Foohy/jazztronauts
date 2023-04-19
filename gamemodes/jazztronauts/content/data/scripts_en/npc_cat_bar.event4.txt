@@ -89,7 +89,7 @@ a5:
 
 a6:
     *setspeaker cat_bar*
-    Excellent,%% a pleasure to have you. 
+    Excellent,%% pleasure to have you. 
     &a7
 
 a7:
@@ -106,7 +106,7 @@ a8:
     &a9
 
 a9:
-    We are following a four count breathing rhythm today.%%%% Inhale for 
+    We are following a four-count breathing rhythm today.%%%% Inhale for 
     four seconds,%% hold for four seconds,%% and then slowly release your  
     breath for four seconds. 
     &a10
@@ -138,7 +138,7 @@ a13:
     &a14
 
 a14:
-    Populate that space with your favourite sounds and textures. 
+    Populate that space with your favorite sounds and textures. 
     &a15
 
 a15:

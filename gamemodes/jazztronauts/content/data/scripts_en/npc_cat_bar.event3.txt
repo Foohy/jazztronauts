@@ -33,7 +33,7 @@ a3:
 	*setspeaker narrator*
 	*setcam setpos -2935.495605 3060.559570 90.541382;setang 8.554376 -39.650562 0.000000* 
 	> The Mewseum door is kicked open!%% Intruder alert!!%%%%*setcam setpos -2654.359619 2872.613281 45.377167;setang 4.667855 -47.210667 0.000000*
-	%.%.%.%oh,% it's just the Cellist.
+	%.%.%.%Oh,% it's just the Cellist.
 	player:
 		 &a4: This ought to be good.
 		 &leave: ha ha nope i'm out (exit)
@@ -166,7 +166,7 @@ c4:
 
 c5:
 	i bet you ain't even got a double black diamond back there it's 
-	probably some weak ass bunny slope shi-
+	probably some weak-ass bunny slope shi-
 	&c6
 
 c6:

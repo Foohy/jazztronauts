@@ -31,7 +31,7 @@ bar_bark1:
 
 bar_bark2:
     *setauto*
-    Oh! I didn’t see you there. Have you seen the Cellist about? 
+    Oh! I didn’t see you there. Have you seen the Cellist around? 
     I’m concerned he may be planning a heist. 
     I store the decanted shard essence in crystal form, you see…%
     &exit
@@ -97,10 +97,10 @@ singer_bark2:
 
 singer_bark3:
      > You find the Singer sitting with the Cellist. They both appear 
-     to be...meditating? You sit with them both a while.
+     to be...meditating? You sit with them both for a while.
 
 singer_bark4:
-     > The Singer smiles, but seems a little sad. They confess that 
+     > The Singer smiles but seems a little sad. They confess that 
      they’re going to miss you very much when you leave.
 
 singer_bark5:
@@ -108,7 +108,7 @@ singer_bark5:
      their report on the progress of the Mewseum's residents. 
 
 singer_bark6:
-     > The Singer is sat watching the Bartender with starry eyes, as 
+     > The Singer is sitting watching the Bartender with starry eyes, as 
      the other cat plays them a sweet tune on her trumpet. You leave them
      to it. 
 
@@ -163,7 +163,7 @@ bar_truebark3:
      *player*.
 
 bar_truebark4:
-     I’ve been thinking of putting Ambrosia back on the menu one day, 
+     I’ve been thinking of putting Ambrosia back on the menu one day 
      if the Cellist keeps up this streak of responsible consumption. 
      Perhaps in fifty years or so.
 
@@ -192,7 +192,7 @@ piano_truebark2:
 piano_truebark3:
 
      Hey, uh, have you seen the Singer? I got the guest beds set up in 
-     the old study wing of the Mewseum like they asked. 
+     the old study wing of the Mewseum as they asked. 
 
 piano_truebark4:
 
@@ -213,11 +213,11 @@ piano_truebark6:
 ---
 
 singer_truebark1:
-     > The Singer is sat with the Bartender, playing Go. They both greet 
+     > The Singer is sitting with the Bartender, playing Go. They both greet 
      you fondly and you spend a while watching them play.
 
 singer_truebark2:
-     > The Singer gives you a hug. You sit together and they tell you 
+     > The Singer hugs you. You sit together and they tell you 
      about the help the Pianist and Cellist have been giving them at the
      Mewseum. They're very proud of both of them.
 
@@ -234,7 +234,7 @@ singer_truebark4:
 
 singer_truebark5:
      > The Singer waves! They show you the blueprints for a Mewseum 
-     expansion. Apparently the Bar Samsara will also be expanding into 
+     expansion. The Bar Samsara will also be expanding into 
      a hotel soon.
 
 singer_truebark6:
@@ -265,7 +265,7 @@ cello_truebark4:
 
      hey. between you and me? thanks for being such a good friend to 
      pipes. they’ve always had issues making friends that weren’t robots 
-     cause they’re wired a little different than most but you made them 
+     cause they’re wired a little differently than most but you made them 
      feel as comfortable as we do. that ain’t common.
 
 cello_truebark5:

@@ -16,7 +16,7 @@ a1:
 	&a2
 	
 a2:
-	> They assure you this'll be a paid job and 
+	> They assure you this will be a paid job and 
 	run off in pursuit of hot water bottles. *start 2*
 	&exit
 	
@@ -44,7 +44,7 @@ i2:
 turnin:
 	*setspeaker npc_cat_sing*
 	> The Singer looks incredibly relieved. You help them wheel the 
-	radiators into the Mewseum and set up alongside the NPC's, 
+	radiators into the Mewseum and set up alongside the NPCs, 
 	who do not react in any way to the surge of warmth in the 
 	slightly chilly space.
 	&turnin2

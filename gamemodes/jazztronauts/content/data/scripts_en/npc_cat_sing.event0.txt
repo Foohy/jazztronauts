@@ -35,7 +35,7 @@ b2:
 	*setcam setpos 2819.321533 7934.137207 43.848587;setang 3.253592 118.690002 0.000000* #### SINGER ALONE
 	*setskin cat_singer 4*
 	*setanim cat_singer gesture_confused .69 idle*
-	> They rest a paw against their chin of a moment,%%*setanim cat_singer gesture_sweep 1 idle* be*setskin cat_singer 0*fore making a 
+	> They rest a paw against their chin for a moment,%%*setanim cat_singer gesture_sweep 1 idle* be*setskin cat_singer 0*fore making a 
 	sweeping gesture around the room and tapping out a 
 	short message for you.
 	&b3
@@ -89,7 +89,7 @@ r2a1:
 	*setspeaker cat_singer*
 	*setskin cat_singer 4*
 	> The Singer blinks,*setskin cat_singer 0* then shakes *setanim cat_singer gesture_disagree 1 idle*their head.%%%% 
-	Apparently they'd just called it The Museum originally,% 
+	Apparently, they'd just called it The Museum originally,% 
 	but The Bartender suggested the change.
 	&r2a2
 	
@@ -151,7 +151,7 @@ m1:
 	*setskin cat_singer 0*
 	*show*
 	> The Singer has taken you over to the npc_combine playpen.%%%%%
-	%%.%.%.%there's a bunch of combine soldiers walking in place and falling over.
+	%%.%.%.%there's a bunch of Combine soldiers walking in place and falling over.
 	&m2
 	
 ###### CAMERA SHOULD IMPLY A FIRST PERSON PERSPECTIVE FOR NEXT BIT

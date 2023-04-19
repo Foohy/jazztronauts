@@ -93,7 +93,7 @@ resp3a:
 	*setanim cat_piano gesture_facepalm*
 	They know.%%% I thought I'd timed it right,%% and they were conked out on top
 	of the bar,% but no,% this is the one %*setanim cat_piano gesture_anger 2.2 idle*f*setskin cat_piano 2*ucking% time they break routine and 
-	come to check on their glorified tamagotchi collection at the Mewseum 
+	come to check on their glorified Tamagotchi collection at the Mewseum 
 	before the fifth nap.%%%%*setanim cat_piano gesture_sigh 1.5 idle* They saw everything.
 	
 	player:
@@ -110,7 +110,7 @@ resp4a:
 	*setskin cat_piano 3*
 	>The Pianist stares at you.%%% You stare back.%%%%
 	The Silence extends,%% and becomes cripplingly awkward.%%%%*setcam setpos 350.197205 174.538849 54.377182;setang 2.288677 88.377617 0.000000*
-	A rich*setskin cat_piano 1* array of e*setskin cat_piano 2*motions cross over her face.
+	A rich*setskin cat_piano 1* array of e*setskin cat_piano 2*motions crosses over her face.
 	&resp4b
 	
 resp4b:
@@ -143,7 +143,7 @@ resp5a:
 	And I suppose none of your ideas have ever*setanim cat_piano gesture_shrug* backfired *player*,
 	the sole clean and pure being in this universe who has never made a 
 	goddamn mistake.%%% Forgive me.%*setanim cat_piano gesture_jab 1 idle* I*setskin cat_piano 2* didn't know I was in the presence of 
-	the chosen one,% the saviour - 
+	the chosen one,% the savior - 
 	&resp5b
 	
 resp5b:

@@ -55,7 +55,7 @@ turnin:
 t1:
     now i can put the finishing touches on this here moonshine and 
 	i'll be safe from the horrible specter of metacognition for 
-	the next couple months or so
+	the next couple of months or so
     &t2
 t2:
     go get yourself something nice with this

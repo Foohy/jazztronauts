@@ -8,7 +8,7 @@ a2:
     &a3
 a3:
     like%% you'd think all you do is crack open a can of Bougie Beige% and 
-    do a zoom shot of a paint roller covering about three foot of wall and 
+    do a zoom shot of a paint roller covering about three feet of wall and 
 	bam you're in an immaculately stenciled dining room with trim that 
 	changes color in different lighting
     &a4

@@ -80,8 +80,8 @@ b5:
 	
 b6:
 	*setspeaker narrator*
-	>This is the last Event in The Singers's quest line.%%
-	It may take you a while to watch,% you can come back to it
+	>This is the last Event in The Singer's quest line.%%
+	It may take you a while to watch,% but you can come back to it
 	without penalty if you are in a hurry.
 	player:
 	&r1a1:
@@ -153,7 +153,7 @@ r3a1:
 r3a2:
 	*setcam setpos -2682.924805 3044.944580 143.522476;setang 21.331928 -124.585342 0.000000*
 	*setanim cat_singer gesture_exchange .6 idle*
-	> They message they show you is just one word\:%%% "ok"
+	> The message they show you is just one word\:%%% "ok"
 	&r3a3
 	
 r3a3:
@@ -175,7 +175,7 @@ r3a3:
 	
 r3a4:
 	*setcam setpos 64.944397 2947.811768 42.192295;setang -5.926938 89.856796 0.000000*
-	They're huddled up and starting intently at the gash in the side of 
+	They're huddled up and staring intently at the gash in the side of 
 	the plush with a morose expression.
 	&m1
 	
@@ -317,7 +317,7 @@ m14:
 m15:
 	*setskin cat_singer 0*
 	*setanim cat_singer gesture_agree 1.2 idle*
-	> "And for listening and letting my be myself!%%%% 
+	> "And for listening and letting me be myself!%%%% 
 	Maybe I can start finding where I lost my words again now!!!!"
 	player:
 	&end:

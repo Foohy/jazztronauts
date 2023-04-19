@@ -53,7 +53,7 @@ b1:
 	player:
 	&r1a1:
 		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		Thanks, but i'll take mine to go. I've got stuff to do. (Exit)
+		Thanks, but I'll take mine to go. I've got stuff to do. (Exit)
 	&r2a1:
 		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
 		I don't actually know how old that stuff is, you know. 
@@ -112,7 +112,7 @@ r2a2:
 	player:
 	&r1a1:
 		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		Thanks, but i'll take mine to go. I've got stuff to do. (Exit)
+		Thanks, but I'll take mine to go. I've got stuff to do. (Exit)
 	&r3a1:
 		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
 		I will literally never turn down free food.

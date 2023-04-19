@@ -58,7 +58,7 @@ a5:
      *setspeaker narrator*
     *wait 1.0*
      *show 0.5*
-     >You feel a sudden lurch in your stomach, and the whole
+     >You feel a sudden lurch in your stomach and the whole
      world breaks like a cheap wine glass! You're falling into
      the Void!
      player:

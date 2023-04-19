@@ -35,9 +35,9 @@ b1:
 	*setspeaker cat_piano*
 	*setcam setpos -2776.685059 3001.112305 58.127655;setang -0.901774 -160.140305 0.000000*
 	Y'know.%%% I envy you,% *player*.%%%%%
-	At first I thought maybe I hate you?%%
+	At first, I thought maybe I hate you?%%
 	But,% I did some talking to The Bartender,%% 
-	and I realized it's a different feeling.
+	and I realized it was a different feeling.
 	&b2
 	
 b2:
@@ -134,7 +134,7 @@ r3a2:
 r3a3:
 	*setspeaker cat_piano*
 	That never goes away for me.%%% It's my natural state of being.%%%%*setanim cat_piano pianist_drunk_to_idle .4*%%*setcam setpos -2883.771484 3021.438965 56.788147;setang -4.633031 -123.137527 0.000000*
-	I can't take a shit without planning it advance.
+	I can't take a shit without planning it in advance.
 	&r3a4
 
 r3a4:

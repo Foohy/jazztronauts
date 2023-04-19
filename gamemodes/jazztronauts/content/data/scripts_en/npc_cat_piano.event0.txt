@@ -75,13 +75,13 @@ b8:
 	*setskin cat_piano 0*
 	*setcam setpos -2847.833496 2995.645752 86.707962;setang -2.016987 -150.368286 0.000000*
 	*setfov 60*
-	Something*setanim cat_piano gesture_agree 1 idle* to get the blood pumpin.
+	Something*setanim cat_piano gesture_agree 1 idle* to get the blood pumpin'.
 	%%%%*setskin cat_piano 1*
 	Like a coliseum.
 	
 	player:
 	&r1a1:
-		I prefer my blood pumping inside my body. 
+		I prefer my blood to pump inside my body. 
 		I'll take a snickerdoodle to go, though. (Exit)
 	&r2a1:
 		Okay, excellent suggestion, but hear me out here\: Dance fighting.
@@ -130,7 +130,7 @@ r1a5:
 	
 r1a6:
 	*setspeaker narrator*
-	>They resume normal conversation.%% 
+	>They resume their normal conversation.%% 
 	You decide to grab your cookies and bounce.
 	&exit
 	
@@ -241,7 +241,7 @@ r3a4:
 	Sand gets everywhere, Pianist. I know you're excited, but you have to 
 	think about the practical consequences of these things.%%*setskin cat_bar 0* 
 	Do you really*setanim cat_bar gesture_sigh 1 idle* want to have to spend
-	five hours trying to get all the viscera soaked grit out of your fur?
+	five hours trying to get all the viscera-soaked grit out of your fur?
 	&r3a5
 	
 r3a5:
@@ -269,7 +269,7 @@ m1:
 m2:
 	*setfov 40*
 	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000*
-	And for the other concern,% I can't help but fell you would end up%.%.%.%% 
+	And for the other concern,% I can't help but feel you would end up%.%.%.%% 
 	killing% all of our customers.%%%% *setskin cat_bar 3*
 	
 	Am I wrong?

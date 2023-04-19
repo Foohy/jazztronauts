@@ -43,7 +43,7 @@ a6:
 
 idle:
 	I don't smell sweet and sour chicken,%% buddy.%%% 
-	What's the hold up?
+	What's the hold-up?
 	&i1
 	
 i1:

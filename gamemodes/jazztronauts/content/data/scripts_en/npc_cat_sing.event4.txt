@@ -30,7 +30,7 @@ b1:
 	*setanim cat_bar gesture_foldarms .75 idle*
 	> The Bartender is reading whatever The Singer has written on 
 	their tablet with great rapture.%%% Her expression shifts into a 
-	broad smile*setskin cat_bar 1*,%*setanim cat_bar gesture_agree 1 idle* and*setskin cat_singer 1* the*setanim cat_singer gesture_clap 1 idle* Singer claps.
+	broad smile*setskin cat_bar 1*,%*setanim cat_bar gesture_agree 1 idle* and*setskin cat_singer 1* The*setanim cat_singer gesture_clap 1 idle* Singer claps.
 	&b2
 	
 b2:
@@ -72,7 +72,7 @@ r1a1:
 	*setspeaker cat_singer*
 	*setskin cat_bar 1*
 	*setskin cat_singer 1*
-	The Singer smiles and waves as you head off,% and the 
+	The Singer smiles and waves as you head off,% and The 
 	Bartender salutes you with an empty glass. 
 	&r1a2
 	
@@ -117,8 +117,8 @@ r3a1b:
 	*setskin cat_singer 4*
 	*setanim cat_singer gesture_foldarms .7 idle*
 	> Apparently they have been telling The Bartender all about the 
-	behaviours they've observed from the new Mewseum resident you 
-	acquired for them,%%%*setskin cat_singer 0* and of some new behaviours older 
+	behaviors they've observed from the new Mewseum resident you 
+	acquired for them,%%%*setskin cat_singer 0* and of some new behaviors older 
 	subjects have displayed in response.
 	&r3a2
 	
@@ -128,7 +128,7 @@ r3a2:
 	*setanim cat_singer gesture_jab .85 idle*
 	*setskin cat_singer 0*
 	> The Singer runs a program in which they expose the NPCs to 
-	different things you have stolen to*setanim cat_singer gesture_confused .9 idle* see whether there's any 
+	different things you have stolen to*setanim cat_singer gesture_confused .9 idle* see whether there are any 
 	changes in their routines. 
 	&r3a2b
 	
@@ -136,7 +136,7 @@ r3a2b:
 	*setanim cat_singer gesture_shrug 1 idle*
 	> At present, they're essentially animatronics.%%%%*setanim cat_singer gesture_sigh .85 idle* 
 	They have no reaction on any level to stimuli outside of
-	pre-programmed behaviours.
+	pre-programmed behaviors.
 	&m1
 	
 m1:

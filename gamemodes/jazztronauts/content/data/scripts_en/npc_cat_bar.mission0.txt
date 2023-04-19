@@ -37,7 +37,7 @@ i2:
     They are typically quite rich in valuables to pluck.
     &i3
 i3:
-    If you find one that seems to heavily favor Half Life 2 content,% 
+    If you find one that seems to heavily favor Half-Life 2 content,% 
     you'll definitely find what we need. %
     I just hope we can get them before someone steps on a stray LEGO...
 

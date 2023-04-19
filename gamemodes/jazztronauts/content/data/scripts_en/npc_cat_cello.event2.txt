@@ -54,7 +54,7 @@ b3:
 	*setcam setpos -1302.162842 3144.007813 74.543724;setang 6.131691 -151.295532 0.000000*
 	*setskin cat_piano 1*
 	*setspeaker narrator*
-	>The Pianist notices you gawking, and senses her chance to escape.
+	>The Pianist notices you gawking and senses her chance to escape.
 	player:
 	&b4:
 	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
@@ -78,7 +78,7 @@ b5:
 	*setposang cat_piano setpos 0 0 0;setang -90 290 0.000000*
 	*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 48 0.000000*
 	*setspeaker narrator*
-	>The Pianist sprints out of the room past the player,% 
+	>The Pianist sprints out of the room past you,% 
 	leaving you and the Cellist.%%%*setskin cat_cello 1* He watches her run off 
 	with a stoned,% smug smile before turning to look at you.
 	player:
@@ -146,7 +146,7 @@ r1a4:
 	michelangelo did way more interesting things than a jumbo size statue 
 	of a dude with big hands and a wee bepis though,%*setcam setpos -1534.614624 3062.087891 57.589897;setang 13.052918 -61.852760 0.000000*%*setanim cat_cello gesture_sweep 1 idle* like that time he 
 	painted a picture of a critic burning in hell so 
-	sick it became a world renowned tourist attraction
+	sick it became a world-renowned tourist attraction
 	player:
 	&owntheplayer:
 	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*

@@ -42,7 +42,7 @@ b1:
 	*setskin cat_piano 0*
 	*setanim cat_piano gesture_anger 2*
 	There you are.%%%
-	Listen,%% the Cellist needs your help.
+	Listen,%% The Cellist needs your help.
 	&b2
 	
 b2:
@@ -79,8 +79,8 @@ b6:
 	*setspeaker cat_singer*
 	*setskin cat_singer 5*
 	*setanim cat_singer gesture_exchange 1.4 idle*
-	> The Singer anxiously explains that the Cellist won't listen to
-	any of them,%% not even when the Singer tried to make it clear they
+	> The Singer anxiously explains that The Cellist won't listen to
+	any of them,%% not even when The Singer tried to make it clear they
 	were more concerned about him than upset with his outburst by giving
 	a peace offering of a weighted blanket covered in weed leaf decals.
 	&b7
@@ -96,7 +96,7 @@ b7:
 b8:
 	*setcam setpos -3009.787842 2799.737305 87.404266;setang 7.835631 19.437826 0.000000* 
 	*setspeaker narrator*
-	> This is the last event in the Cellist's questline.%% You may
+	> This is the last event in The Cellist's questline.%% You may
 	want to give the other players a heads up that you'll be busy
 	for a bit,%%% if you continue.
 	&b9
@@ -104,7 +104,7 @@ b8:
 b9:
 	*setspeaker narrator*
 	> Additionally,%% the following scene contains a more serious 
-	depiction of the Cellist's many issues.%%%% An option has been 
+	depiction of The Cellist's many issues.%%%% An option has been 
 	provided below to skip it and read a summary instead,% if you
 	would prefer to avoid playing through it.
 	player:
@@ -126,7 +126,7 @@ r1a1:
 	*setspeaker narrator*
 	*wait .1*
 	*show*
-	Upon reaching the roof, the Cellist lashes out at you in anger,
+	Upon reaching the roof, The Cellist lashes out at you in anger,
 	thinking you're there only to pity him or give him hollow
 	platitudes, before apologizing for losing his temper again.
 	&r1a2
@@ -153,7 +153,7 @@ r1a4:
 	&r1a5
 	
 r1a5:
-	Realizing this makes the Cellist's emotional dam break, and he falls
+	Realizing this makes The Cellist's emotional dam break, and he falls
 	apart crying. You sit with him until he calms down, both of you knowing
 	his problems are far from resolved, but he now understands what
 	his friends are trying to do, and will let them help. *mark_seen*
@@ -207,9 +207,9 @@ m5:
 	*setcam setpos 3155.001221 515.577759 61.548340;setang 2.618130 -1.689524 0.000000*
 	*tweencam 40 setpos 3295.045654 512.204102 55.122147;setang 2.644750 -0.890923 0.00000*
 	to say something magical that takes all of the shit on my soul
-	away,%%% to channel mr. rogers and give me a nice three minute pep
+	away,%%% to channel mr. rogers and give me a nice three-minute pep
 	talk that reminds me it's okay to be sad sometimes and not know
-	how to handle it and that it'll be okay some time soon
+	how to handle it and that it'll be okay sometime soon
 	&m6
 	
 m6:
@@ -406,7 +406,7 @@ n12:
 	*setskin cat_cello 4*
 	*setanim cat_cello gesture_facepalm 1 idle*
 	So just,%% leave me alone.%%%*setskin cat_cello 5* Let me destroy what's left of me in peace.%%%%
-	If there's nothing left of me to care,%% or there's anybody left to
+	If there's nothing left of me to care,%% or there's nobody left to
 	care for me%.%.%.%
 	&n13
 	
@@ -428,7 +428,7 @@ n14:
 		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
 		I don't pretend to know what you're going through, 
 		but I can tell you you're wrong about your friends. 
-		They see you hurting, and want to help.
+		They see you hurting and want to help.
 		
 n15:
 	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
@@ -436,7 +436,7 @@ n15:
 	*setskin cat_cello 2*
 	*setanim cat_cello gesture_anger 2 idle*
 	And when they try I just end up hurting them back.%%%% You saw what
-	happened with the Singer.%%% *setanim cat_cello gesture_disagree 1.3 idle*They didn't deserve that shit.% 
+	happened with The Singer.%%% *setanim cat_cello gesture_disagree 1.3 idle*They didn't deserve that shit.% 
 	None of them do.%%%%% I care about them too much 
 	to see them go through that.
 	player:
@@ -480,7 +480,7 @@ n18:
 	*setposang player setpos 3578.333008 494.673340 5;setang 12.760320 -1.751974 0.000000*
 	*setanim player sit*
 	*setspeaker narrator*
-	> With that,%%% something inside the Cellist finally breaks open,% and he
+	> With that,%%% something inside The Cellist finally breaks open,% and he
 	slumps to the ground as a wail tears itself free from his throat.%
 	&n18b
 	
@@ -503,7 +503,7 @@ n19:
 	&n20
 	
 n20:
-	and the Cellist has finally realized it's time to let
+	and The Cellist has finally realized it's time to let
 	some walk with him. *mark_seen*
 	&exit
 	

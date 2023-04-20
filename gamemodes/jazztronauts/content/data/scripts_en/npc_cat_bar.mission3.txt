@@ -1,7 +1,7 @@
 accept:
      Oh thank f- *player*, I'm afraid I desperately need your help. 
      All of our propane has gone missing. And by gone missing, I mean I 
-     found the Cellist floating face down in the contemplation pond 
+     found The Cellist floating face down in the contemplation pond 
      surrounded by empty tanks.
      &a1
 
@@ -13,11 +13,11 @@ a1:
 a2:
      Regardless, he's left me in a bit of a pickle. Our stovetop is gas 
      operated, you see. Inelegant, I know, but until we can get our hands
-     something more advanced we must make do.
+     on something more advanced we must make do.
      &a3
 
 a3:
-     Given the need for some urgency, this will be your best paid job 
+     Given the need for some urgency, this will be your best-paid job 
      from me yet. Fifteen tanks should be sufficient to build a 
      buffer against any further experimentation by our mutual friend. *start 3*
      &exit
@@ -38,8 +38,8 @@ turnin:
      &a5
 
 a5:
-     Thank you! Thank you. If I had to make another baked alaska in a 
-     wood powered bread oven I was going to cry. 
+     Thank you! Thank you. If I had to make another Baked Alaska in a 
+     wood-powered bread oven I was going to cry. 
      &a6
 
 a6:

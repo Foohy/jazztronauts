@@ -16,14 +16,14 @@ a1:
 	&a2
 	
 a2:
-	> They assure you this'll be a paid job and 
+	> They assure you this will be a paid job and 
 	run off in pursuit of hot water bottles. *start 2*
 	&exit
 	
 	
 idle:
 	*setspeaker narrator*
-	> You find the Singer slumped over the bar, passed out.
+	> You find The Singer slumped over the bar, passed out.
 	The Bartender gives you a nod when you approach.
 	&i1
 	
@@ -31,26 +31,26 @@ i1:
 	*setspeaker npc_cat_bar*
 	Here about the radiators? I understand if you're having difficulty 
 	finding them and would like to assure you that nothing drastic will 
-	occur should it take a while. I am helping the Singer keep the 
+	occur should it take a while. I am helping The Singer keep the 
 	Mewseum inhabitants warm, in shifts.
 	&i2
 	
 i2:
 	*setspeaker npc_cat_bar*
 	While they do not feel the temperature, or anything else by any 
-	metric the Singer has been able to check via tests, they worry.
+	metric The Singer has been able to check via tests, they worry.
 	&exit
 
 turnin:
 	*setspeaker npc_cat_sing*
 	> The Singer looks incredibly relieved. You help them wheel the 
-	radiators into the Mewseum and set up alongside the NPC's, 
+	radiators into the Mewseum and set up alongside the NPCs, 
 	who do not react in any way to the surge of warmth in the 
 	slightly chilly space.
 	&turnin2
 	
 turnin2:
-	> But the Singer is happy, and you receive $15000 for your efforts!*finish 2*
+	> But The Singer is happy, and you receive $15000 for your efforts!*finish 2*
 	&t1
 	
 t1:

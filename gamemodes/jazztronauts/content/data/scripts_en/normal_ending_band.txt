@@ -13,16 +13,16 @@ begin:
 	*setcam setpos -7283.202148 -1279.565552 3168.028809;setang 9.796160 -88.578621 0.000000*
 
 	*spawn podge dummy*
-  *setname podge Podge*
+     *setname podge Podge*
 
-  *spawn rungo dummy*
-  *setname rungo Rungo*
+     *spawn rungo dummy*
+     *setname rungo Rungo*
 
-  *spawn georff dummy*
-  *setname georff Georff*
+     *spawn georff dummy*
+     *setname georff Georff*
 
-  *spawn rob dummy*
-  *setname rob Rob*
+     *spawn rob dummy*
+     *setname rob Rob*
 *tweencam 1.5 setpos -7285.830078 -1363.527954 3217.524658;setang -30.879200 -91.719673 0.000000*
 	*bgmplay sound/jazztronauts/music/events/bigbang_funk.mp3 .5 30*
 	*setspeaker narrator*
@@ -74,7 +74,7 @@ a5:
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
      *setspeaker podge*
      Oh you with the cats?%% Cool.% Cool.%%% Yeah,% they come here once in 
-	 a while with a group of confused lookin video game blokes like you.%%%% 
+	 a while with a group of confused lookin' video game blokes like you.%%%% 
 	 We’re used to it.
      &a6
 
@@ -161,7 +161,7 @@ h6:
      &h7
 
 h7:     
-     Thing is,% ain’t one thing alone what validates a person,%% they’re big 
+     Thing is,% ain’t one thing alone that validates a person,%% they’re big 
      dumb complicated meat machines that have a million different bits all 
      screaming for their attention.%%%% There ain't no one key to happiness
      because each and every person has their own unique lock to pop open.

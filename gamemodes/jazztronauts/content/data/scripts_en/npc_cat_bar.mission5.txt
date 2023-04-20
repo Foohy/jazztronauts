@@ -8,7 +8,7 @@ a1:
      &a2
 
 a2:
-     I have a final job for you. A special order. I require, antlions. 
+     I have a final job for you. A special order. I require antlions. 
      Ten antlions, to be exact. *start 5*
      &a3
 
@@ -43,12 +43,12 @@ a6:
 a7:
      Feel free to take your time on this one, I have a lot to do on my 
      end. If you're having trouble finding them, look for arena maps,
-     or the Half Life 2 maps that feature them.
+     or the Half-Life 2 maps that feature them.
      &exit
 
 
 turnin:
-     Delightful. Thank you kindly for your service. In a few years I'll 
+     Delightful. Thank you kindly for your service. In a few years, I'll 
      be able to put scrambled antlion eggs back on the secret menu.
      &a8
 

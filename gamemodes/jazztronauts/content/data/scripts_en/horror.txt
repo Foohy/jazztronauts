@@ -67,7 +67,7 @@ mattress2:
     Beneath the sheet, small lumps shiver.
     &mattress2b
 mattress2b:
-    A crawling beneath the fingernails.
+    Crawling beneath the fingernails.
     &exit
 
 mattress3:
@@ -100,17 +100,17 @@ Cigarette ash and bleach coat the tongue.
 &exit
 
 bathroomdoor3a:
-    It's locked. Liquid leaks from beneath the door, the sucking cough of backed up plumbing a putrid bark in the stillness.
+    It's locked. Liquid leaks from beneath the door, the sucking cough of backed-up plumbing a putrid bark in the stillness.
     &exit
 
 
 
 painting1a:
-    A empty picture frame, its art long having disappeared.
+    An empty picture frame, its art long having disappeared.
     &exit
 
 painting1b:
-    Time is unkind the picture frame; In place of paint, only dust.
+    Time is unkind to the picture frame; In place of paint, only dust.
     &exit
 
 painting1c:
@@ -133,11 +133,11 @@ painting2c:
     &exit
 
 painting3a:
-    A empty picture frame, the art long having disappeared.
+    An empty picture frame, the art long having disappeared.
     &exit
 
 painting3b:
-    Time is unkind the picture frame; In place of paint, only dust.
+    Time is unkind to the picture frame; In place of paint, only dust.
     &exit
 
 painting3c:
@@ -150,7 +150,7 @@ closetinspect1:
     &exit
 
 closetinspectb1:
-    There are tattered shirts, poorly darned pants. 
+    There are tattered shirts and poorly darned pants. 
 
     &closetinspectb2
 

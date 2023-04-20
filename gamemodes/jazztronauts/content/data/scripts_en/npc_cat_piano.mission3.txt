@@ -32,13 +32,13 @@ idle:
 i1:
 	You know I don't think I could have made it more 
 	obvious I was trying to sleep unless I put up a sign.%%%% 
-	Can't a girl have an ennui driven depression nap in peace?
+	Can't a girl have an ennui-driven depression nap in peace?
 	&i2
 	
 i2:
 	Look.%% I get what you're trying to do,% but it's not helpful 
 	right now,% okay?%% I know what I need,% and what I need is the 
-	sweet,% sweet sting of carbonated knock off beverages.
+	sweet,% sweet sting of carbonated knockoff beverages.
 	&i3
 	
 i3:
@@ -48,7 +48,7 @@ i3:
 turnin:
 	Hell yeah,%% now we're talking.%%% Some of those look fully stocked.
 	Booze is all well and good but sometimes you just get a 
-	hankering for a run of the mill sugar rush y'know?
+	hankering for a run-of-the-mill sugar rush y'know?
 	&t1
 	
 t1:
@@ -65,7 +65,7 @@ t2:
 	&t3
 	
 t3:
-	>The Pianist hands you NUMBER!
+	>The Pianist hands you $20,000!
 	Certainly enough for a nice spa weekend,% at least. *finish 3*
 	&t4
 	

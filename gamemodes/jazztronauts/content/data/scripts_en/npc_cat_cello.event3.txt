@@ -123,7 +123,7 @@ m3:
 	*setcam setpos -1634.641235 313.098297 -17.854397;setang 0.089285 72.784676 0.000000*
 	*setanim cat_cello gesture_disagree 1 idle*
 	y'see last time we spent entirely too much time on artists who were
-	mostly functional people%% and that's erasure of complete disasters
+	mostly functional people%% and that's an erasure of complete disasters
 	who happen to be extremely skilled in their chosen field,%*setanim cat_cello gesture_jab 1 idle* also
 	known as my kind of people
 	&m4
@@ -170,7 +170,7 @@ m8:
 	*setcam setpos -1554.421021 379.891327 -15.690666;setang -0.283385 98.286629 0.000000*
 	*setanim cat_cello gesture_sweep .6 idle*
 	%.%.%.%argued with clergy over proper portrayal of religious figures,%%
-	showed the apostles and the virgin mary as incredibly improverished
+	showed the apostles and the virgin mary as incredibly impoverished
 	people as a pointed political statement when the church started 
 	getting shitty about poor people after the counter-reformation%.%.%.%
 	&m9
@@ -256,7 +256,7 @@ r3a4:
 r3a5:
 	*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
 	*setanim cat_cello gesture_sweep 1 idle*
-	this is mostly backed up by the fact that long term lead poisoning
+	this is mostly backed up by the fact that long-term lead poisoning
 	can make you unpredictable and violent% and the body most people
 	are pretty sure was his has a shit-ton of lead in the skeleton.
 	&r3a6
@@ -265,7 +265,7 @@ r3a6:
 	*setanim cat_cello gesture_foldarms 1 idle*
 	i'm predisposed to believe that one% because there is something
 	deeply resonant about the idea that his artistic drive was the direct
-	cause of a slow death by poisoning that drove him to self destructive
+	cause of a slow death by poisoning that drove him to self-destructive
 	fits that caused him to seek solace in what was killing him.
 	&n1
 

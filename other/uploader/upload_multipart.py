@@ -84,6 +84,7 @@ def buildGMA(pack, filemap, tempdir):
 	except CalledProcessError as e:
 		print("gmad FAILURE!!")
 		print(e.output)
+		raise
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Organize multi-part addon uploads")
@@ -145,6 +146,11 @@ if __name__ == "__main__":
 
 			filemap[f] = curpack
 
+	excluded = list(filter(lambda x : x == 'ignore', allpacks))
+	for pack in excluded:
+		print("\tExcluding pack \"" + pack + "\"")
+		allpacks.remove(pack)
+	
 	for pack in allpacks:
 		print("{0:<35}: {1}".format(pack, sizeof_fmt(getPackSize(pack, filemap))))
 

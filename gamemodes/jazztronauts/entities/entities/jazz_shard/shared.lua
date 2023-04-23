@@ -105,9 +105,19 @@ function ENT:GetTheftTrigger()
 	return nil
 end
 
+local function TestSphereAABBOverlap(mins, maxs, center, radius)
+	local r2 = radius * radius
+	local dmin = 0
+	for i=1, 3 do
+		if center[i] < mins[i] then dmin = dmin + math.pow(center[i] - mins[i], 2)
+		elseif center[i] > maxs[i] then dmin = dmin + math.pow(center[i] - maxs[i], 2) end
+	end
+	return dmin <= radius * radius
+end
+
 function ENT:GetNearbyBrushes()
-	local brushes = bsp2.GetCurrent().brushes
-	if !brushes then print("SHARDS DIDN'T GRAB BRUSHES - MAP STILL LOADING") return end
+	local map = bsp2.GetCurrent()
+	if !map or !map.brushes then print("SHARDS DIDN'T GRAB BRUSHES - MAP STILL LOADING") return end
 
 	-- Maybe only grab within shard theft trigger
 	local trigger = self:GetTheftTrigger()
@@ -117,53 +127,77 @@ function ENT:GetNearbyBrushes()
 	end
 
 	self.NearBrushes = {}
-	for k, v in pairs(brushes) do
+	local NearbyWorld = {}
+	for k, v in pairs(map.brushes) do
 
 		-- Optionally hard limit which brushes we touch
 		if limitbrushes and limitbrushes[k] == nil then continue end
 
 		-- Check if our danger sphere encompasses that brush
-		if v:IntersectsSphere(self:GetPos(), self.BrushMaxDestroyRadius) and not snatch.removed_brushes[v] then
+		if not snatch.removed_brushes[v.id] and v:IntersectsSphere(self:GetPos(), self.BrushMaxDestroyRadius) then
 			v:CreateWindings()
 
 			-- Skip if not solid
-			if bit.band(v.contents, CONTENTS_SOLID) != CONTENTS_SOLID then continue end
+			if bit.band(v.contents, CONTENTS_SOLID + CONTENTS_OPAQUE + CONTENTS_GRATE) == 0 then continue end
 
 			local info = {
 				id = k,
-				dist = self:GetPos():Distance((v.min + v.max) / 2)
+				dist = self:GetPos():Distance((v.min + v.max) / 2),
+				type = "brush"
 			}
 
-			table.insert(self.NearBrushes, info)
+			table.insert(NearbyWorld, info)
 		end
 	end
 
-	table.SortByMember(self.NearBrushes, "dist", true)
+	-- Also grab displacements
+	for _, v in pairs(map.displacements) do
+		if snatch.removed_displacements[v.id] then continue end
+		if TestSphereAABBOverlap(v.mins, v.maxs, self:GetPos(), self.BrushMaxDestroyRadius) then
+			local info = {
+				id = v.id,
+				dist = self:GetPos():Distance((v.mins + v.maxs) / 2),
+				type = "displacement"
+			}
 
-	print("Found ", #self.NearBrushes .. " nearby brushes")
+			table.insert(NearbyWorld, info)
+		end
+	end
+
+	table.SortByMember(NearbyWorld, "dist", true)
+	self.NearbyWorld = NearbyWorld
+	print("Found ", #self.NearbyWorld .. " nearby brushes/displacements")
 end
 
 function ENT:DestroyNearbyBrushesAndSelf(maxdist)
 	print("Begin destruction, ", maxdist)
-	if not self.NearBrushes then
+	if not self.NearbyWorld then
 		self:GetNearbyBrushes()
-		return
+
+		-- If still not valid then exit early
+		if not self.NearbyWorld then return end
 	end
+	
 
 	local pos = self:GetPos()
 	local actual = 0
-	for k, v in ipairs(self.NearBrushes) do
+	for k, v in ipairs(self.NearbyWorld) do
 		-- Don't continue if we hit the specified max range
 		if v.dist > maxdist then break end
 
 		-- Ignore meshes that have already been taken
-		if snatch.removed_brushes[v.id] then continue end
+		local theft_check = v.type == "displacement" and snatch.removed_displacements or snatch.removed_brushes
+		if theft_check[v.id] then continue end
 
 		-- Random delay
 		timer.Simple(actual * self.BrushDestroyInterval, function()
 			local yoink = snatch.New()
 			yoink:SetMode(self.SnatchMode)
-			yoink:StartWorld( pos, self, v.id )
+			if v.type == "displacement" then
+				yoink:StartDisplacement( pos, self, v.id )
+			else
+				yoink:StartWorld( pos, self, v.id )
+			end
 		end )
 
 		actual = actual + 1
@@ -177,7 +211,7 @@ function ENT:DestroyNearbyBrushesAndSelf(maxdist)
 		self:OnFinished()
 	end )
 
-	self.NearBrushes = nil
+	self.NearbyWorld = nil
 end
 
 function ENT:OnFinished()

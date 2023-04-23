@@ -715,8 +715,9 @@ local strainsounds = {
 	Sound("physics/metal/metal_box_strain4.wav")
 }
 
-local function getBrushScale(brush)
-	local size = brush.max - brush.min
+local function getBrushScale(marker)
+	local min, max = marker:GetBrushBounds()
+	local size = max - min
 	local scale = math.Clamp((size.x + size.y + size.z) * 0.0004 - 0.15, 0, 1)
 
 	return scale
@@ -724,9 +725,9 @@ end
 
 function SWEP:CalcView(ply, pos, ang, fov)
 	local marker = self:GetCurSnatchMarker(newMarker)
-	if not IsValid(marker) or not marker.GetProgress or not marker.Brush then return end
+	if not IsValid(marker) or not marker.GetProgress or not marker.BrushInfo then return end
 
-	local scale = getBrushScale(marker.Brush)
+	local scale = getBrushScale(marker)
 	scale = math.max(0, scale - self.WorldStealSpeed * 0.000001)
 
 	self.PullShake = self.PullShake or 0
@@ -796,7 +797,7 @@ function SWEP:Think()
 					if self:GetCurSnatchMarker() != newMarker then return end
 					if not IsValid(owner) then return end
 
-					local scale = getBrushScale(newMarker.BrushInfo)
+					local scale = getBrushScale(newMarker)
 					owner:ViewPunch(Angle(scale * 30, 0, 0))
 				end )
 			end

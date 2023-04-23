@@ -104,7 +104,7 @@ end
 
 function Await( other, ... )
 
-	if g_task ~= nil then
+	if g_task ~= nil and other ~= nil then
 		assert( getmetatable(other) == meta )
 		if not other.running then return other.result end
 		for _, w in pairs(other.waiters) do

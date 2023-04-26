@@ -600,3 +600,11 @@ end )
 dialog.RegisterFunc("voiddisable", function(d, song, volume, fadetime)
 	jazzvoid.SetShouldRender(false)
 end )
+
+dialog.RegisterFunc("drugson", function()
+	drugs.Enable( true )
+end)
+
+dialog.RegisterFunc("drugsoff", function()
+	drugs.Enable( false )
+end)

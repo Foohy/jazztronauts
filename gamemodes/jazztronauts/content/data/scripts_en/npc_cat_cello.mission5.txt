@@ -4,17 +4,17 @@ accept:
     &a2
 a2:
     and keep your mouth shut because i've got one last request for you. 
-    i'm staking what’s left of my liquid cash until we hit up our fence 
+    i'm staking what's left of my liquid cash until we hit up our fence 
     again on this working so you better not fuck this up.
     &a3
 a3:
    i need you to go out there and find me milk cartons. a lot of milk 
-   cartons. i don’t care if they’ve been left out and gotten all gross 
-   and nasty and starting to like congeal and shit, in fact that’s ideal.
+   cartons. i don't care if they've been left out and gotten all gross 
+   and nasty and starting to like congeal and shit, in fact that's ideal.
    &a4
 a4:
     
-   i can't go to the bartender for this because that would require 
+   i can't go to The Bartender for this because that would require 
    explaining what i want to do with it and i do not have the capacity 
    to lie to her convincingly at this juncture so just do me a solid here 
    okay

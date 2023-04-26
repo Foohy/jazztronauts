@@ -4,15 +4,15 @@ module( "bsp2", package.seeall )
 
 local map = bsp2.GetCurrent()
 
---[[for k,v in pairs( map[bsp2.LUMP_TEXINFO] ) do
+--[[for k,v in pairs( map[bsp3.LUMP_TEXINFO] ) do
 	--if string.find( v.texdata.material, "TOOLS/" ) then PrintTable(v) end
 end
 
-for k,v in pairs( map[bsp2.LUMP_TEXDATA_STRING_DATA] ) do
+for k,v in pairs( map[bsp3.LUMP_TEXDATA_STRING_DATA] ) do
 	if string.find( v, "TOOLS/" ) then print(v) end
 end
 
-for k,v in pairs( map[bsp2.LUMP_TEXDATA] ) do
+for k,v in pairs( map[bsp3.LUMP_TEXDATA] ) do
 	if string.find( v.material, "TOOLS/" ) then PrintTable(v) end
 end]]
 
@@ -230,6 +230,61 @@ function traceNode( node, tw )
 
 end
 
+function traceDisplacement( disps, tw )
+
+	local pos, dir = tw.pos, tw.dir
+	local hu, hv, hw = nil, nil, nil
+
+	tw.Steps = 0
+	tw.t = tw.tmax
+	for _, disp in ipairs(disps) do
+
+		local hit, toi = IntersectRayBox(pos, dir, disp.mins, disp.maxs)
+		if hit and toi < tw.t then
+
+			tw.Steps = tw.Steps + 1
+
+			local indices = disp.indices
+			local positions = disp.positions
+			for i=1, #indices, 3 do
+
+				local hit_t, toi_t, hitpos, hitnormal, u,v,w = RayIntersectIndexedTriangle( indices, positions, i, pos, dir )
+				if hit_t and toi_t < tw.t then
+
+					tw.Hit = true
+					tw.HitPos = hitpos
+					tw.HitNormal = hitnormal
+					tw.HitWorld = true
+					tw.t = toi_t
+					tw.Displacement = disp.id
+					tw.DisplacementTriangle = i
+					hu, hv, hw = u,v,w
+
+				end
+
+			end
+
+		end
+
+	end
+
+	if tw.Hit then
+
+		tw.HitPos = pos + dir * tw.t
+		local disp = disps[ tw.Displacement ]
+		local i = tw.DisplacementTriangle
+		local indices = disp.indices
+		local positions = disp.positions
+		local normals = disp.normals
+		local u,v,w = hu,hv,hw
+
+		local normal = normals[ indices[i] ] * u + normals[ indices[i+1] ] * v + normals[ indices[i+2] ] * w
+		tw.HitNormal = normal
+
+	end
+
+end
+
 local function buildFilterMap(filter, dest)
 	table.Empty(dest)
 	if not filter then return end
@@ -245,6 +300,11 @@ function meta:Trace( tdata)
 	local tdatacopy = table.Copy(tdata)
 	local res = traceNode( self.models[1].headnode, tdata )
 	buildFilterMap(tdata.filter, filterMap)
+
+	local d = table.Copy(tdatacopy)
+	traceDisplacement( self.displacements, d )
+	d.Steps = (res and (d.Steps + res.Steps)) or d.Steps
+	res = (res and res.t < d.t) and res or d
 
 	if not tdata.ignoreents then
 		for k,v in pairs( self.entities ) do
@@ -337,6 +397,52 @@ local function drawModel( model )
 
 end
 
+local prev_disp = nil
+local current_disp_mesh = nil
+local current_disp_center = nil
+local current_disp_material = nil
+local refract_mat = Material("effects/jazz_void_refract.vmt")
+local offset_mtx = Matrix()
+local function drawDisplacement( disp )
+
+	local col = Color(255,100,255)
+
+	local indices = disp.indices
+	local positions = disp.positions
+	for i=1, #indices, 3 do
+
+		local v0 = positions[ indices[i] ]
+		local v1 = positions[ indices[i+1] ]
+		local v2 = positions[ indices[i+2] ]
+
+		render.DrawLine( v0, v1, col, true )
+		render.DrawLine( v1, v2, col, true )
+		render.DrawLine( v2, v0, col, true )
+
+	end
+
+	if prev_disp ~= disp then
+		local mat = refract_mat
+		prev_disp = disp
+		print("CREATING MESH")
+		current_disp_mesh, current_disp_center, current_disp_material = map:CreateDisplacementMesh( disp.id, 0.5, mat )
+	end
+
+	if current_disp_mesh then
+
+		--print("Rendering Mesh: " .. tostring( current_disp_center ))
+		render.SetMaterial(current_disp_material)
+		offset_mtx:SetTranslation( current_disp_center )
+		cam.PushModelMatrix(offset_mtx)
+		current_disp_mesh:Draw()
+		cam.PopModelMatrix()
+
+	end
+
+	render.DrawWireframeBox(Vector(0,0,0), Angle(0,0,0), disp.mins, disp.maxs, Color(255,100,100), true)
+
+end
+
 local convar_run_test = CreateClientConVar("jazz_debug_bspquery", "0", false, false, "Toggle on screen debugging of the bsp query module.")
 
 local trace_res = nil
@@ -404,7 +510,7 @@ hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky )
 		tmin = 0,
 		tmax = 10000,
 		mask = mask,
-		--ignoreents = true,
+		ignoreents = true,
 	} )
 
 	--trace( map.models[1].headnode, d )
@@ -453,10 +559,18 @@ hook.Add( "PostDrawOpaqueRenderables", "dbgquery", function( bdepth, bsky )
 
 			gfx.renderAngle( res.HitPos, res.HitNormal:Angle() )
 
-			if not res.Brush then
-				drawLeaf( res.leaf, res.mtx )
+			if res.Displacement then
+
+				drawDisplacement( map.displacements[ res.Displacement ] )
+
 			else
-				drawBrush( res.Brush, res.mtx  )
+
+				if not res.Brush then
+					drawLeaf( res.leaf, res.mtx )
+				else
+					drawBrush( res.Brush, res.mtx  )
+				end
+
 			end
 
 		end

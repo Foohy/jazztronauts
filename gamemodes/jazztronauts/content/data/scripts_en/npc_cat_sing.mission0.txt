@@ -3,7 +3,7 @@
 	*setnpcid narrator npc_narrator*
 *setspeaker narrator*
 	>Oh, it's the cat who spotted you in the first place and 
-	landed you in this.. job?? They were the Singer, you think.
+	landed you in this.. job?? They were The Singer, you think.
 	&a1
 	
 a1:
@@ -14,7 +14,7 @@ a1:
 	&a2
 	
 a2:
-	>When they've finished and show you, your eyes glaze over
+	>When they've finished and shown you, your eyes glaze over
 	at the wall of text.
 	&a2b
 	
@@ -29,26 +29,26 @@ a3:
 	&a4
 	
 a4:
-	>When you reach the bottom of the paragraph, the Singer has
+	>When you reach the bottom of the paragraph, The Singer has
 	outlined the job in sparkling gradient text.
 	It's a little hard to read, but you squint to make it out\:
 	&a5
 	
 a5:
 	> "I would super appreciate it if you could track down 10 document
-	binders for me!!! I really need to reorganized my filing system...
+	binders for me!!! I really need to reorganize my filing system...
 	(\=ㅇ༝ㅇ\=)
 	&a6
 	
 a6:
-	> "Plus sometimes there's neat things to read inside them!!!
+	> "Plus sometimes there are neat things to read inside them!!!
 	I'll be sure to pay you for your troubles, so just come find me
 	when you're all finished ฅ/ᐠ｡ᆽ｡ᐟ \” *start 0*
 	&exit
 	
 	
 idle:
-	> You find the singer working away at something on their tablet with
+	> You find The Singer working away at something on their tablet with
 	and expression of intense concentration, but when they see you 
 	they beam with apparent delight. 
 	&idle2
@@ -59,7 +59,7 @@ idle2:
 	&i1
 	
 i1:
-	> They are just happy to see you, and tell you that there is no 
+	> They are just happy to see you and tell you that there is no 
 	time limit on the request so you can take your time. 
 	&i1b
 	
@@ -94,7 +94,7 @@ t3:
 	
 t4:
 	*setspeaker narrator*
-	> You leave the Singer clapping over the binders you deliver, 
+	> You leave The Singer clapping over the binders you deliver, 
 	and they wave to you as you go.
 	&exit
 	

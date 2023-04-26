@@ -7,22 +7,28 @@ ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 ENT.RemoveDelay = 0
 
-JazzWorldSnatches = JazzWorldSnatches or {}
+local STEAL_BRUSH = "brush"
+local STEAL_DISPL = "displacement"
+
+JazzWorldSnatches 				= JazzWorldSnatches or {}
+JazzWorldSnatches[STEAL_BRUSH]	= JazzWorldSnatches[STEAL_BRUSH] or {}
+JazzWorldSnatches[STEAL_DISPL]	= JazzWorldSnatches[STEAL_DISPL] or {}
+
 
 local mask = bit.bor( MASK_SOLID, CONTENTS_DETAIL )
 mask = bit.bor( mask, CONTENTS_GRATE )
 mask = bit.bor( mask, CONTENTS_TRANSLUCENT )
 
-local function createMarkerForBrush(pos, ang, brush)
+local function createMarkerForBrush(pos, ang, data, type, id)
 	local ent = ents.Create("jazz_snatch_target")
 	ent:Spawn()
 	ent:Activate()
 	ent:SetPos(pos)
 	ent:SetAngles(ang)
-	ent:SetBrushID(brush.id)
-	ent.BrushInfo = brush
+	ent:SetBrushID(type == STEAL_BRUSH and id or -id)
+	ent.BrushInfo = data
 
-	JazzWorldSnatches[brush.id] = ent
+	JazzWorldSnatches[type][id] = ent
 end
 
 function snatch.FindOrCreateWorld(pos, dir, dist)
@@ -37,17 +43,46 @@ function snatch.FindOrCreateWorld(pos, dir, dist)
 		filter = { "func_dustmotes" }
 	})
 
-	local brush = res and res.Hit and res.Brush and res.Brush
-	if not brush or snatch.removed_brushes[brush.id] then return nil end
-	if IsValid(JazzWorldSnatches[brush.id]) then return JazzWorldSnatches[brush.id] end
+	-- Must have hit something
+	if not res or not res.Hit then return nil end
 
-	return createMarkerForBrush(res.HitPos, res.HitNormal:Angle(), brush)
+	-- Hit a brush?
+	if res.Brush and not snatch.removed_brushes[res.Brush.id] then
+		if not IsValid(JazzWorldSnatches[STEAL_BRUSH][res.Brush.id]) then
+			createMarkerForBrush(res.HitPos, res.HitNormal:Angle(), res.Brush, STEAL_BRUSH, res.Brush.id)
+		end
+
+		return JazzWorldSnatches[STEAL_BRUSH][res.Brush.id]
+	end
+
+	-- Hit a displacement?
+	if res.Displacement and not snatch.removed_displacements[res.Displacement] then
+		if not IsValid(JazzWorldSnatches[STEAL_DISPL][res.Displacement]) then
+			createMarkerForBrush(res.HitPos, res.HitNormal:Angle(), map.displacements[res.Displacement], STEAL_DISPL, res.Displacement)
+		end
+
+		return JazzWorldSnatches[STEAL_DISPL][res.Displacement]
+	end
+
+	return nil
 end
 
+function ENT:IsDisplacement()
+	return self.GetBrushID && self:GetBrushID() < 0
+end
 
 function ENT:SetupDataTables()
 	self.BaseClass.SetupDataTables(self)
 	self:NetworkVar("Int", 1, "BrushID")
+end
+
+function ENT:GetBrushBounds()
+	local size = 0 
+	if self:IsDisplacement() then
+		return self.BrushInfo.mins, self.BrushInfo.maxs
+	else
+		return self.BrushInfo.min, self.BrushInfo.max
+	end 
 end
 
 if SERVER then
@@ -59,7 +94,8 @@ if SERVER then
 	end
 
 	function ENT:GetBrushSizeMultiplier()
-		local size = self.BrushInfo.max - self.BrushInfo.min
+		local min, max = self:GetBrushBounds()
+		local size = max - min
 
 		local length = size.x + size.y + size.z
 
@@ -88,18 +124,20 @@ if SERVER then
 
 		local yoink = snatch.New()
 		yoink:SetMode(2)
-		yoink:StartWorld(self:GetPos(), self:GetOwner(), self:GetBrushID())
 
-		hook.Run("CollectBrush", self.BrushInfo, self.PlayerList)
+		if self:IsDisplacement() then
+			yoink:StartDisplacement(self:GetPos(), self:GetOwner(), math.abs(self:GetBrushID()))
+			hook.Run("CollectDisplacement", self.BrushInfo, self.PlayerList)
+		else
+			yoink:StartWorld(self:GetPos(), self:GetOwner(), self:GetBrushID())
+			hook.Run("CollectBrush", self.BrushInfo, self.PlayerList)
+		end
 	end
 
 	function ENT:UpdateSpeed()
 		local brushsize = self:GetBrushSizeMultiplier()
 		local playerspeeds = self:GetPlayerMultiplier()
-		//print(brushsize, playerspeeds)
-		//print(1.0 / (brushsize + playerspeeds * (1 + 0.001 * brushsize)))
-		//print(playerspeeds, brushsize)
-		//print(1.0 / (playerspeeds * brushsize))
+
 		self:SetSpeed(playerspeeds * brushsize)
 	end
 end
@@ -167,15 +205,64 @@ if CLIENT then
 
 		return brush
 	end
+	local lightmapTex = nil
+	if CLIENT then
+		local lightmaprt = irt.New("jazz_snatch_lightmaptex", 64, 64)
+		lightmapTex = lightmaprt:GetTarget()
+		lightmaprt:Render(function() render.Clear(12, 12, 12, 255) end )
+	end
+	function ENT:BuildDisplacementMesh(disp_id, extrude, matOverride)
+		local map = bsp2.GetCurrent()
+		if map:IsLoading() then return end
+		local displacement = table.Copy(map.displacements[disp_id])
+		local material = matOverride or Material( displacement.face.texinfo.texdata.material )
+
+		local displacementMesh, center = map:CreateDisplacementMesh(disp_id, 0.5, material)
+		self:SetRenderBoundsWS(displacement.mins, displacement.maxs)
+
+		-- Make a sneaky render fn to imitate sh_poly from brushes
+		displacement.Render = function(self)
+
+			render.SetLightmapTexture(lightmapTex)
+			render.SetLightingOrigin( center)
+			render.SetMaterial(material)
+			
+			displacementMesh:Draw()
+
+			local col = Color(255,100,255, 40)
+
+			local indices = self.indices
+			local positions = self.positions
+			for i=1, #indices, 3 do
+		
+				local v0 = positions[ indices[i] ] - center
+				local v1 = positions[ indices[i+1] ] - center
+				local v2 = positions[ indices[i+2] ] - center
+
+				render.DrawLine( v0, v1, col, false )
+				render.DrawLine( v1, v2, col, false )
+				render.DrawLine( v2, v0, col, false )
+		
+			end
+		end
+
+		return displacement
+	end
+
+	function ENT:BuildMesh(inputId, extrude, matOverride)
+		local id = math.abs(inputId)
+		if inputId < 0 then return self:BuildDisplacementMesh(id, extrude, matOverride) end
+		return self:BuildBrushMesh(id, extrude, matOverride)
+	end
 
 	function ENT:Think()
 		self.BaseClass.Think(self)
 
-		if not self.Brush and self.GetBrushID then
-			self.Brush = self:BuildBrushMesh(self:GetBrushID())
+		if not self.BrushInfo and self.GetBrushID then
+			self.BrushInfo = self:BuildMesh(self:GetBrushID())
 			local voidTex = jazzvoid.GetVoidTexture()
 			voidOnly:SetTexture("$basetexture", voidTex:GetName())
-			self.VoidBrush = self:BuildBrushMesh(self:GetBrushID(), -1, voidOnly)
+			self.VoidBrush = self:BuildMesh(self:GetBrushID(), -1, voidOnly)
 		end
 
 		-- Random shake think
@@ -202,23 +289,23 @@ if CLIENT then
 	end
 
 	function ENT:OnPortalRendered()
-		if not self.Brush then return end
-
-		local brushCenter = (self.Brush.min + self.Brush.max) / 2
+		if not self.BrushInfo then return end
+		local min, max = self:GetBrushBounds()
+		local brushCenter = (min + max) / 2
 
 		local mtx = Matrix()
 		mtx:SetTranslation(brushCenter)
 		self:GetBrushOffset(mtx)
 
 		cam.PushModelMatrix( mtx )
-			self.Brush:Render()
+			self.BrushInfo:Render()
 		cam.PopModelMatrix()
 	end
 
 	function ENT:Draw()
-		if not self.Brush then return end
-
-		local brushCenter = (self.Brush.min + self.Brush.max) / 2
+		if not self.BrushInfo then return end
+		local min, max = self:GetBrushBounds()
+		local brushCenter = (min + max) / 2
 
 		local mtx = Matrix()
 		mtx:SetTranslation(brushCenter)
@@ -229,7 +316,7 @@ if CLIENT then
 
 		self:GetBrushOffset(mtx)
 		cam.PushModelMatrix( mtx )
-			self.Brush:Render()
+			self.BrushInfo:Render()
 		cam.PopModelMatrix()
 	end
 end

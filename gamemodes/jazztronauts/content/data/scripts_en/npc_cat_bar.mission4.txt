@@ -4,15 +4,15 @@ accept:
      &a1
 
 a1:
-     I will be frank. I adore my friends, truly, but the Cellist and 
-     Pianist both make such a mess. Neither empty their pockets before 
-     giving me their laundry, and despite my best efforts, some detritus
+     I will be frank. I adore my friends, truly, but The Cellist and 
+     Pianist both make such a mess. Neither empties their pockets before 
+     giving me their laundry and despite my best efforts, some detritus
      always finds its way into our washing machines.
      &a2
 
 a2:
      Which are now broken, because fingerbones, bullets, conkers and 
-     glass phials full of battery acid really aren't supposed to get 
+     glass vials full of battery acid really aren't supposed to get 
      jammed in the drums, as you might imagine. 
      &a3
 
@@ -52,5 +52,5 @@ a7:
 
 a8:
      If you'll kindly excuse me, I need to go put my own suits through 
-     the wash and then take a much needed nap. *finish 4*
+     the wash and then take a much-needed nap. *finish 4*
      &exit

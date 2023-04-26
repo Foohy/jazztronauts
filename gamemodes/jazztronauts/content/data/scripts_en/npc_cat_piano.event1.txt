@@ -22,7 +22,7 @@ begin:
 ###### START
 	*setspeaker player*
 	*show*
-	>You could have sworn you saw the Pianist here just now%.%.%.%
+	>You could have sworn you saw The Pianist here just now%.%.%.%
 	&b1
 	
 b1:
@@ -44,7 +44,7 @@ b3:
 	*setskin cat_piano 0*
 	*setanim cat_piano gesture_shock 1 idle*
 	>The Singer dead sprints past both of you!%%%*setcam setpos 299.437592 130.605087 45.050888;setang 0.911092 42.797482 0.000000* 
-	On instinct,% you dive into the hiding spot the pianist%*setposang player setpos 447.148926 140.181595 0;setang 8.465133 131.800262 0.000000*
+	On instinct,% you dive into the hiding spot The Pianist%*setposang player setpos 447.148926 140.181595 0;setang 8.465133 131.800262 0.000000*
 	is in.*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 210 0.000000*
 	
 	
@@ -54,7 +54,7 @@ b3:
 	&resp2a:
 		Wow. You look like shit.
 	&resp3a:
-		Why, exactly are we hiding from the Singer?
+		Why, exactly are we hiding from The Singer?
 		
 ###### Branch 1 (early exit)
 resp1a:
@@ -93,7 +93,7 @@ resp3a:
 	*setanim cat_piano gesture_facepalm*
 	They know.%%% I thought I'd timed it right,%% and they were conked out on top
 	of the bar,% but no,% this is the one %*setanim cat_piano gesture_anger 2.2 idle*f*setskin cat_piano 2*ucking% time they break routine and 
-	come to check on their glorified tamagotchi collection at the Mewseum 
+	come to check on their glorified Tamagotchi collection at the Mewseum 
 	before the fifth nap.%%%%*setanim cat_piano gesture_sigh 1.5 idle* They saw everything.
 	
 	player:
@@ -110,7 +110,7 @@ resp4a:
 	*setskin cat_piano 3*
 	>The Pianist stares at you.%%% You stare back.%%%%
 	The Silence extends,%% and becomes cripplingly awkward.%%%%*setcam setpos 350.197205 174.538849 54.377182;setang 2.288677 88.377617 0.000000*
-	A rich*setskin cat_piano 1* array of e*setskin cat_piano 2*motions cross over her face.
+	A rich*setskin cat_piano 1* array of e*setskin cat_piano 2*motions crosses over her face.
 	&resp4b
 	
 resp4b:
@@ -143,7 +143,7 @@ resp5a:
 	And I suppose none of your ideas have ever*setanim cat_piano gesture_shrug* backfired *player*,
 	the sole clean and pure being in this universe who has never made a 
 	goddamn mistake.%%% Forgive me.%*setanim cat_piano gesture_jab 1 idle* I*setskin cat_piano 2* didn't know I was in the presence of 
-	the chosen one,% the saviour - 
+	the chosen one,% the savior - 
 	&resp5b
 	
 resp5b:
@@ -168,7 +168,7 @@ resp5d:
 	*setposang cat_singer setpos 225.003738 239.833725 0;setang -90 240 0.000000*
 	*setcam setpos 347.364136 39.186989 73.691208;setang 8.877127 84.903648 0.000000*
 	*setspeaker player*
-	>The Singer appears to have drifted into view behind the Pianist.
+	>The Singer appears to have drifted into view behind The Pianist.
 	
 	player:
 	&merge1:
@@ -185,7 +185,7 @@ merge1:
 	*setskin cat_singer 2*
 	*setskin cat_piano 0*
 	>The Singer sprints over to you both and%.%.%.%.%%%*setskin cat_singer 6*%*setcam setpos 309.501709 128.670517 52.932980;setang 7.546001 81.787277 0.000000*
-	ineff*setanim cat_singer gesture_anger 1 idle*ectually shoves the Pianist's shoulder.%% Their eyes are brimming
+	ineff*setanim cat_singer gesture_anger 1 idle*ectually shoves The Pianist's shoulder.%% Their eyes are brimming
 	with tears,% and they tap agitatedly at their tablet while bouncing
 	in clear distress.
 	&merge2
@@ -202,7 +202,7 @@ merge3:
 	*setcam setpos 309.501709 128.670517 52.932980;setang 7.546001 81.787277 0.000000*
 	*setskin cat_singer 2*
 	>%.%.%.%The Singer pulls*setanim cat_singer gesture_anger 2.6 idle* at their ears,% tail thrashing,*setanim cat_singer gesture_exchange 2 idle* tucks the tablet
-	under their left arm and flips the Pianist the double bird. 
+	under their left arm and flips The Pianist the double bird. 
 	%%%%%
 	They might actually be a bit mad.
 	&merge4
@@ -218,7 +218,7 @@ merge4:
 merge5:
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_anger 2 idle*
-	>The Singer chastises the Pianist for not listening.%%%
+	>The Singer chastises The Pianist for not listening.%%%
 	The problem is not that they saw what happened in the Mewseum.%
 	It's the*setanim cat_singer gesture_sigh 1 idle* f*setskin cat_singer 4*act that it happened in the first place.
 	&merge6
@@ -249,7 +249,7 @@ merge9:
 	*setcam setpos 340.657898 181.261932 49.324711;setang 3.312768 127.402878 0.175000*
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_anger 2 idle*
-	>The Singer makes a clear 'zip it' gesture at the Pianist.
+	>The Singer makes a clear 'zip it' gesture at The Pianist.
 	&merge10
 	
 merge10:
@@ -257,7 +257,7 @@ merge10:
 	*setskin cat_singer 4*
 	*setanim cat_singer gesture_sigh 1.5 idle*
 	>The Singer turns their attention to*setskin cat_singer 0* you.%%% 
-	They*setanim cat_singer gesture_embarass 1 idle* write out an apology for the Pianist getting you involved in
+	They*setanim cat_singer gesture_embarass 1 idle* write out an apology for The Pianist getting you involved in
 	a personal hissy fit,%*setskin cat_singer 1* and sends you on your way.
 	&merge11
 	
@@ -267,7 +267,7 @@ merge11:
 	*setskin cat_singer 0*
 	*setskin cat_piano 3*
 	*setanim cat_singer gesture_exchange 1 idle*
-	>As you leave,%% you look over your shoulder and see the Singer pass
+	>As you leave,%% you look over your shoulder and see The Singer pass
 	the*setanim cat_piano gesture_embarass 1 idle* Pianist $2500 and give her a reassuring pat on the shoulder.
 	&merge12
 	

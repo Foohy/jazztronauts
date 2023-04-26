@@ -16,3 +16,6 @@ addon_jazz.json:1452613192
 #materials/sunabouzu/**
 #maps/**
 #lua/autorun/jazz_addon_c2_deprecated.lua
+
+ignore:
+export/**

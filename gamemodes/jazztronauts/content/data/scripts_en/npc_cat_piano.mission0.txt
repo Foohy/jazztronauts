@@ -13,7 +13,7 @@ a2:
 	&a3
 
 a3:
-	I'll be real with you for a moment. Pop a squat and i'll share some lore.
+	I'll be real with you for a moment. Pop a squat and I'll share some lore.
 	Listen close 'cause this is primo shit.
 	You ready?
 	&a4

@@ -114,7 +114,7 @@ on them, didn't we?%% Take five,% get one free!
 
 begin14:
 *setspeaker narrator*
->They both turn from scowling at each other, 
+>They both turn from scowling at each other 
 to glaring at the orange cat.%% Before the argument can go anywhere,
 the silent cat starts waving their arms around. *setanim cat_singer singer_whistle 1 idle* *setskin cat_bar 0*
 &begin15

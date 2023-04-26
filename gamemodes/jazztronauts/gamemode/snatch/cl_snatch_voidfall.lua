@@ -23,8 +23,8 @@ local popbig = {
 }
 
 local function getScale(scene)
-	local brush = scene.handle:Get().brush
-	local size = brush.max - brush.min
+	local min, max = scene:GetEntity():GetRenderBounds()
+	local size = max - min
 
 	local scale = math.max(size.x * size.y, size.x * size.z, size.y * size.z)
 	local remapped = math.Clamp(math.Remap(scale, 1000, 700000, 0, 1), 0, 1)

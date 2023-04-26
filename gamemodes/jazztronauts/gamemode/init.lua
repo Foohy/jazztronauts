@@ -327,6 +327,10 @@ function GM:GetPrimaryBrushMaterial(brush)
 	return maxmaterial, maxarea
 end
 
+function GM:GetPrimaryDisplacementMaterial(displacement)
+	return displacement.face.texinfo.texdata.material
+end
+
 function GM:CollectBrush(brush, players)
 
 	local material, area = self:GetPrimaryBrushMaterial(brush)
@@ -355,6 +359,29 @@ function GM:CollectBrush(brush, players)
 	end
 	*/
 end
+
+function GM:CollectDisplacement(displacement, players)
+
+	local material, area = self:GetPrimaryDisplacementMaterial(displacement)
+
+	local size = displacement.maxs - displacement.mins
+	local length = size.x + size.y + size.z
+
+	local worth = math.pow(length, 1.1) / 15.0
+
+	-- Collect the prop to the poop chute
+	if worth and worth > 0 then --TODO: Check if worth > 1 not 0
+		worth = worth * newgame.GetMultiplier()
+		for _, ply in pairs(players) do
+			if not IsValid(ply) then continue end
+
+			local newCount = snatch.AddProp(ply, material, worth, "displacement")
+			propfeed.notify_brush( material, ply, worth )
+			--propfeed.notify( prop, ply, newCount, worth)
+		end
+	end
+end
+
 
 function GM:JazzDialogFinished(ply, script, markseen)
 

@@ -31,7 +31,7 @@ bar_bark1:
 
 bar_bark2:
     *setauto*
-    Oh! I didn’t see you there. Have you seen the Cellist about? 
+    Oh! I didn’t see you there. Have you seen The Cellist around? 
     I’m concerned he may be planning a heist. 
     I store the decanted shard essence in crystal form, you see…%
     &exit
@@ -67,7 +67,7 @@ piano_bark1:
 
 piano_bark2:
 
-     Don’t tell him I said this, but the Cellist has been less of a pain 
+     Don’t tell him I said this, but The Cellist has been less of a pain 
      in the ass recently. Don’t know what you did, but thanks. 
 
 piano_bark3:
@@ -86,21 +86,21 @@ piano_bark6:
      Make sure you visit, yeah? Gonna miss you. 
 
 singer_bark1:
-     >You find the Singer hard at work on that bootleg plant cloning
+     >You find The Singer hard at work on that bootleg plant cloning
      program you helped them with. They've been having quite a lot of 
      success, and they're quite proud of their latest bunch of Mr. 
      Stripeys. They weren't kidding when they said tomato names got weird.
 
 singer_bark2:
-     > You get a wave when you head over, and the Singer thanks you for 
-     helping the Pianist. She’s been smiling a lot more lately, it’s nice.
+     > You get a wave when you head over, and The Singer thanks you for 
+     helping The Pianist. She’s been smiling a lot more lately, it’s nice.
 
 singer_bark3:
-     > You find the Singer sitting with the Cellist. They both appear 
-     to be...meditating? You sit with them both a while.
+     > You find The Singer sitting with The Cellist. They both appear 
+     to be...meditating? You sit with them both for a while.
 
 singer_bark4:
-     > The Singer smiles, but seems a little sad. They confess that 
+     > The Singer smiles but seems a little sad. They confess that 
      they’re going to miss you very much when you leave.
 
 singer_bark5:
@@ -108,7 +108,7 @@ singer_bark5:
      their report on the progress of the Mewseum's residents. 
 
 singer_bark6:
-     > The Singer is sat watching the Bartender with starry eyes, as 
+     > The Singer is sitting watching The Bartender with starry eyes, as 
      the other cat plays them a sweet tune on her trumpet. You leave them
      to it. 
 
@@ -124,13 +124,13 @@ cello_bark2:
      y'know
 
 cello_bark3:
-     one of these days i'm going to find out where the Bartender locked
+     one of these days i'm going to find out where The Bartender locked
      up all the absinthe. i don't even particularly want to drink it, 
      it doesn't even make you hallucinate a little bit, but it's a matter
      of pride at this point
 
 cello_bark4:
-     you seen the Pianist lately? i realize i've been kind of a bastard
+     you seen The Pianist lately? i realize i've been kind of a bastard
      lately and i've been meaning to apologize but i think she's still mad
      about the time i tried to set up a cane toad breeding program. little
      bastards didn't even give a high worth the heart attack
@@ -153,7 +153,7 @@ bar_truebark1:
      The Bar Samsara isn’t the same without you.
 
 bar_truebark2:
-     The Pianist and the Cellist have been getting along better than 
+     The Pianist and The Cellist have been getting along better than 
      I ever dreamed, as of late. Thank you again for the role you 
      played in their reconciliation. 
 
@@ -163,8 +163,8 @@ bar_truebark3:
      *player*.
 
 bar_truebark4:
-     I’ve been thinking of putting Ambrosia back on the menu one day, 
-     if the Cellist keeps up this streak of responsible consumption. 
+     I’ve been thinking of putting Ambrosia back on the menu one day 
+     if The Cellist keeps up this streak of responsible consumption. 
      Perhaps in fifty years or so.
 
 bar_truebark5:
@@ -173,7 +173,7 @@ bar_truebark5:
      Bar Samsara.
 
 bar_truebark6:
-     I saw the Pianist smile while helping at the Mewseum earlier. I 
+     I saw The Pianist smile while helping at the Mewseum earlier. I 
      nearly dropped a bottle in shock. 
 
 
@@ -191,8 +191,8 @@ piano_truebark2:
 
 piano_truebark3:
 
-     Hey, uh, have you seen the Singer? I got the guest beds set up in 
-     the old study wing of the Mewseum like they asked. 
+     Hey, uh, have you seen The Singer? I got the guest beds set up in 
+     the old study wing of the Mewseum as they asked. 
 
 piano_truebark4:
 
@@ -203,7 +203,7 @@ piano_truebark4:
 piano_truebark5:
 
      I managed another improvisation yesterday. I thought it was pretty 
-     shit, but the Bartender loved it. It’s a start, right?
+     shit, but The Bartender loved it. It’s a start, right?
 
 piano_truebark6:
 
@@ -213,12 +213,12 @@ piano_truebark6:
 ---
 
 singer_truebark1:
-     > The Singer is sat with the Bartender, playing Go. They both greet 
+     > The Singer is sitting with The Bartender, playing Go. They both greet 
      you fondly and you spend a while watching them play.
 
 singer_truebark2:
-     > The Singer gives you a hug. You sit together and they tell you 
-     about the help the Pianist and Cellist have been giving them at the
+     > The Singer hugs you. You sit together and they tell you 
+     about the help The Pianist and Cellist have been giving them at the
      Mewseum. They're very proud of both of them.
 
 singer_truebark3:
@@ -227,14 +227,14 @@ singer_truebark3:
      happiness you’ve gifted them during your stay.
 
 singer_truebark4:
-     > You see the Singer in the middle of a lesson plan in the Mewseum,
+     > You see The Singer in the middle of a lesson plan in the Mewseum,
      reading to a gaggle of Combine soldiers. You smile at how hard they
      have to choke back tears of joy when one raises a hand to ask
      them a question.
 
 singer_truebark5:
      > The Singer waves! They show you the blueprints for a Mewseum 
-     expansion. Apparently the Bar Samsara will also be expanding into 
+     expansion. The Bar Samsara will also be expanding into 
      a hotel soon.
 
 singer_truebark6:
@@ -258,19 +258,19 @@ cello_truebark2:
 
 cello_truebark3:
 
-     it’s been so long since the Pianist smiled this much that i forgot 
+     it’s been so long since The Pianist smiled this much that i forgot 
      how nice one looked on her. you did good by her, kid.
 
 cello_truebark4:
 
      hey. between you and me? thanks for being such a good friend to 
      pipes. they’ve always had issues making friends that weren’t robots 
-     cause they’re wired a little different than most but you made them 
+     cause they’re wired a little differently than most but you made them 
      feel as comfortable as we do. that ain’t common.
 
 cello_truebark5:
 
-     the Bartender’s holding me to that promise I made about cutting back
+     The Bartender’s holding me to that promise I made about cutting back
      and let me tell you it’s an odd hour that goes by when i don’t want 
      to go back in time and punch myself for agreeing to that. i’m 
      noticing improvements in my health, though. begrudgingly.
@@ -278,7 +278,7 @@ cello_truebark5:
 cello_truebark6:
 
      can I ask you a favor? if you see a metrocop with a little cat 
-     emblem pin out there in the Void, tell them the Cellist says 
+     emblem pin out there in the Void, tell them The Cellist says 
      hello...and that he’s sorry.
 
 

@@ -69,14 +69,14 @@ local function getWorkshopFacts(wsid, addFact)
 	end
 end
 local loadLumps = {
-	LUMP_ENTITIES,				--All in-map entities
+	bsp3.LUMP_ENTITIES,				--All in-map entities
 	--LUMP_PLANES,				--Plane equations for map geometry
-	LUMP_BRUSHES,				--Brushes
+	bsp3.LUMP_BRUSHES,				--Brushes
 	--LUMP_BRUSHSIDES,			--Sides of brushes
-	LUMP_GAME_LUMP,				--Static props and detail props
+	bsp3.LUMP_GAME_LUMP,				--Static props and detail props
 	--LUMP_NODES,					--Spatial partitioning nodes
 	--LUMP_LEAFS,					--Spatial partitioning leafs
-	LUMP_MODELS,				--Brush models (trigger_* / func_*)
+	bsp3.LUMP_MODELS,				--Brush models (trigger_* / func_*)
 	--LUMP_LEAFBRUSHES,			--Indexing between leafs and brushes
 	--LUMP_TEXDATA,				--Texture data (width / height / name)
 	--LUMP_TEXDATA_STRING_DATA,	--Names of textures

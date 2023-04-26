@@ -811,12 +811,15 @@ local function LoadModel( model, fast )
 
 	task.Yield("section", "VTX")
 	local vtx = LoadVTX( model, fast )
+	if not vtx then return end
 
 	task.Yield("section", "VVD")
 	local vvd = LoadVVD( model, fast )
+	if not vvd then return end
 
 	task.Yield("section", "MDL")
 	local mdl = LoadMDL( model, fast )
+	if not mdl then return end
 
 	if not vtx then print("Failed to load .dx90.vtx for model: " .. tostring( model )) return end
 	if not vvd then print("Failed to load .vvd for model: " .. tostring( model )) return end

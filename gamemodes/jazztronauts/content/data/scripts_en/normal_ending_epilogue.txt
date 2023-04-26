@@ -94,7 +94,7 @@ a9:
 	*setcam setpos 6.081810 423.574524 67.019852;setang 0.568399 89.705330 0.000000*
     *setspeaker npc_cat_bar*
 	*setskin npc_cat_bar 2*
-    Which I will be placing in the Singer's Mewseum vaults for safekeeping,%%*setskin npc_cat_bar 0* before you 
+    Which I will be placing in The Singer's Mewseum vaults for safekeeping,%%*setskin npc_cat_bar 0* before you 
     two get any ideas.
     &a10
 
@@ -102,7 +102,7 @@ a10:
 	*setcam setpos -63.723694 670.468201 68.035347;setang -1.188524 -42.587250 0.000000*
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_agree 1.3 idle*
-    > The Singer nods firmly, and narrows their eyes when both the Cellist 
+    > The Singer nods firmly and narrows their eyes when both The Cellist 
     and Pianist start to object.%%% They shut up immediately. 
     &a11
 
@@ -120,7 +120,7 @@ a11:
 
 incomplete1:
 	*setanim npc_cat_bar gesture_confused 1 idle*
-    We have more work for you, if you’re interested. 
+    We have more work for you if you’re interested. 
     &a12
 
 complete1:
@@ -137,7 +137,7 @@ a12:
     &a13
 
 a13:
-    To begin anew, have you your group summon the shard tank one more 
-    time, resetting your progress and beginning and your *c 0 200 0*NG+*c* adventure.
+    To begin anew, have your group summon the shard tank one more 
+    time, resetting your progress and beginning your *c 0 200 0*NG+*c* adventure.
     *mark_seen*
     &exit

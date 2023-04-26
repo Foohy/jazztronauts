@@ -18,12 +18,12 @@ begin:
 	*setspeaker narrator*
 	*show*
 	> You seem to have taken a wrong turn on your way to the Mewseum%.%.%.%%%
-	This looks vaguely like a hotel area.%% I guess the Bartender planned
+	This looks vaguely like a hotel area.%% I guess The Bartender planned
 	for thi-%*emitsound ambient/explosions/explode_1.wav .4 .8*%*shake 2*%####*setanim cat_cello cellist_fly 1*%%% 
 	&b1
 	
 b1:
-	> %%.%.%.%Was that the Cellist? 
+	> %%.%.%.%Was that The Cellist? 
 	&b2
 	
 b2:
@@ -31,7 +31,7 @@ b2:
 	*setposang cat_cello setpos -680.394653 3805.560303 0;setang -90 150 0.000000*
 	*setcam setpos -733.464111 3644.593994 56.454197;setang 3.220997 72.641579 0.000000*
 	> You take a few steps further into the hallway to check on 
-	the Cellist,%% but he staggers into view from around the corner.%%%% 
+	The Cellist,%% but he staggers into view from around the corner.%%%% 
 	He smells like gunpowder,% bong rips,%% and water softener.
 	&b3
 	
@@ -59,7 +59,7 @@ b4:
 		You seem remarkably unfazed by being blown up.
 	&r1a1:
 		*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
-		Is this a regular occurance?
+		Is this a regular occurrence?
 	&r2a1:
 		*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 		Y'know that feels like something you could have figured out
@@ -204,7 +204,7 @@ comrad2:
 	*setskin cat_cello 1*
 	*setanim cat_cello gesture_laugh 1 idle*
 	you'll get to know the rest of the nerds here if you talk to 'em,%%*setskin cat_cello 0* they're 
-	all starved for company.%%%% the Bartender's always willing to chat but you
+	all starved for company.%%%% The Bartender's always willing to chat but you
 	better enjoy the creeping sensation that you're being*setskin cat_cello 2* fucked*setanim cat_cello gesture_sigh 1 idle* with for
 	her amusement 'cause boy howdy
 	&comrad3
@@ -214,7 +214,7 @@ comrad3:
 	*setskin cat_cello 0*
 	*setanim cat_cello gesture_sweep 1 idle*
 	the curmudgeonly ivory-tickling one with resting axe murderer face is 
-	the Pianist.%%%*setanim cat_cello gesture_shrug 1 idle* she's fun to fuck with but it's almost too easy these days.%%
+	The Pianist.%%%*setanim cat_cello gesture_shrug 1 idle* she's fun to fuck with but it's almost too easy these days.%%
 	i'd say she's harmless but%% uh%%% she super isn't so watch your mouth around
 	her.%%%*setanim cat_cello gesture_disagree 1 idle* or don't because that's way funnier.
 	&comrad4
@@ -222,7 +222,7 @@ comrad3:
 comrad4:
 	*setcam setpos -538.476379 3494.054932 77.769257;setang 7.037041 154.169189 0.000000* ###### PLAYER AND CELLO
 	*setanim cat_cello gesture_agree 1 idle*
-	the one with the snazzy coattails is the Singer.%% they're the heart of
+	the one with the snazzy coattails is The Singer.%% they're the heart of
 	the crew,%% really.%%% they run the Mewseum and seem to love doing so which
 	confuses*setanim cat_cello gesture_confused 1 idle* the hell out of me but hey,% good for them,%% at least somebody
 	takes care of all those weirdos we adopt.

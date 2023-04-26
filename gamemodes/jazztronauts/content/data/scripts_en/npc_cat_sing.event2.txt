@@ -21,13 +21,13 @@
 	
 ###### START
 	*setspeaker narrator*
-	> The Bar Samsara%.%.%.%% somber as usual.
+	> The Bar Samsara%.%.%.%% It's somber as usual.
 	%%%%%.%.%.%?%%%
 	&b1
 	
 b1:
 	*setcam setpos -3052.458984 3075.262695 76.520706;setang 7.329771 -46.792278 0.000000*
-	> You see the Singer en route back to the Mewseum 
+	> You see The Singer en route back to the Mewseum 
 	and head over to say hi.
 	&b1b
 	
@@ -82,7 +82,7 @@ r2a1:
 	*setanim cat_singer gesture_agree .8 idle*
 	> Hesitantly,%% they nod,% and take out their tablet.%%%*setskin cat_singer 0* 
 	They possess a great deal of admiration for the humble brontosaurus.%%*setskin cat_singer 1* 
-	It's their favourite dinosaur.
+	It's their favorite dinosaur.
 	&r2a2
 
 r2a2:
@@ -91,7 +91,7 @@ r2a2:
 	*setanim cat_singer gesture_clap 1.4 idle*
 	> Seemingly delighted that you're still listening,%% 
 	they tell you that the*setanim cat_singer gesture_sweep 1 idle* name has been an intense source of 
-	drama in palentologist circles.
+	drama in paleontologist circles.
 	&r2a3
 	
 r2a3:
@@ -140,7 +140,7 @@ r3a2:
 	*setfov 70*
 	*setanim cat_singer gesture_exchange 2 idle*
 	*setskin cat_singer 0*
-	>Tucking the brontosaurus under their arm,%% the Singer tells 
+	>Tucking the brontosaurus under their arm,%% The Singer tells 
 	you that it was a gift from one*setanim cat_singer gesture_sweep 1 idle* of the six people that 
 	stayed here before you did.
 	&r3a3
@@ -174,7 +174,7 @@ r3a5b:
 	*setanim cat_singer gesture_agree 1 idle*
 	> They tell you that they really appreciate
 	the help you've been giving them so far and that*setskin cat_singer 1* 
-	it's been nice to have time to catalogue properly.
+	it's been nice to have time to catalog properly.
 	&r3a6
 
 r3a6:
@@ -203,8 +203,8 @@ end:
 	*setskin cat_singer 4*
 	*setcam setpos -2568.861328 3097.417969 211.555511;setang 16.966259 -159.484085 0.000000*
 	*setspeaker narrator*
-	> The Singer yawns, and jumps onto the top of the bar.%% 
-	They curl up with the dino plush and zonk out pretty quick.%%%% 
+	> The Singer yawns and jumps onto the top of the bar.%% 
+	They curl up with the dino plush and zonk out pretty quickly.%%%% 
 	You decide to head back. *mark_seen*
 	&exit
 	

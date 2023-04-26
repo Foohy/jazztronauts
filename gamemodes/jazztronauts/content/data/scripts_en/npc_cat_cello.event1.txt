@@ -145,7 +145,7 @@ r5a2:
 hotfix:
 	*setanim cat_cello gesture_laugh 1 idle* 
 	-it's entirely reasonable to look at a glass that looks like 
-	some sort of fourth dimensional clown tears and go*setanim cat_cello gesture_disagree 1 idle*
+	some sort of fourth-dimensional clown tears and go*setanim cat_cello gesture_disagree 1 idle*
 	fuck that shit i'm out.
 	&r5a3
 	
@@ -249,6 +249,7 @@ m2:
 	*setspeaker cat_cello*
 	*wait 1*
 	*show*
+	*drugson*
 	wbk bmh've fhljy goagfgbys gvdr'f ynpcpkbr  
 	player:
 	&m3:
@@ -272,6 +273,7 @@ m4:
 	&m5
 	
 m5:
+	*drugsoff*
 	*setfov 70*
 	*fadeblind 1*
 	*setposang cat_cello setpos 43.167946 3032.861572 0;setang -90 230 0.000000*

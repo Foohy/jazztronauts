@@ -71,6 +71,10 @@ function ENT:Initialize()
 		return self:OnBrushStolen(brush, players)
 	end)
 
+	hook.Add("CollectDisplacement", self, function(self, brush, players)
+		return self:OnDisplacementStolen(brush, players)
+	end)
+
 	hook.Add("CollectProp", self, function(self, prop, ply)
 		return self:OnPropStolen(prop, ply)
 	end)
@@ -97,6 +101,10 @@ function ENT:OnBrushStolen(brush, players)
 
 	self:AddToQueue(material, "brush")
 	self.RandomStealRate = self.RandomStealRate + self.RandomStealAccel
+end
+
+function ENT:OnDisplacementStolen(brush, players)
+	print("TODO")
 end
 
 function ENT:OnPropStolen(prop, ply)

@@ -49,7 +49,7 @@ b3:
 	*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 	*setskin cat_piano 1*
 	*setanim cat_piano gesture_foldarms 1 idle*
-	I know, it's a lot to take in,% remember to breathe.%%
+	I know, it's a lot to take in,% but remember to breathe.%%
 	My trust is not lightly bestowed,% but I think you've earned it.%%
 	But*setanim cat_piano gesture_disagree 1 idle* we should not forget our origins.
 	&b4
@@ -65,7 +65,7 @@ b4:
 	&r1a1:
 		*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
 		I don't like the look in your eye and I don't want to cause 
-		another incident with the Singer. So I'm gonna have to 
+		another incident with The Singer. So I'm gonna have to 
 		pass on whatever you've got planned here. (exit and complete)
 	&r2a1:
 		*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
@@ -108,7 +108,7 @@ r2a2:
 	&r1a1:
 	*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
 		I don't like the look in your eye and I don't want to cause 
-		another incident with the Singer. So i'm gonna have to 
+		another incident with The Singer. So i'm gonna have to 
 		pass on whatever you've got planned here. (exit and complete)
 	&r3a1:
 	*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
@@ -159,7 +159,7 @@ m1:
 m2:
 	*setanim cat_piano gesture_jab 1 idle*
 	*setcam setpos -2862.619141 3833.609863 21.781422;setang -1.518007 84.334892 0.000000*
-	>The Pianist holds up her paw,% then points at the Cellist's%.%.%.% workbench?%%%
+	>The Pianist holds up her paw,% then points at The Cellist's%.%.%.% workbench?%%%
 	The range of paraphernalia on display is both a marvel,% 
 	and a probable violation of pretty much every drug law there is.
 	&m3
@@ -255,7 +255,7 @@ m11:
 	*setskin cat_piano 1*
 	*setanim cat_piano gesture_laugh 1 idle*
 	We fucking did it.%% We have scored,% the Good Shit.%%%*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
-	He knows that*setanim cat_piano gesture_shrug 1 idle* I know he hides the hard stuff,% so of course he 
+	He knows that*setanim cat_piano gesture_shrug 1 idle* I know he hides the hard stuff,% so, of course, he 
 	left it out in the open as something obvious and innocuous.%%%% 
 	Cellist*setanim cat_piano gesture_confused 1 idle* is smarter than he looks,% you know.
 	&m12
@@ -264,8 +264,8 @@ m12:
 	*setspeaker narrator*
 	>She lights the thing with a blowtorch,%% which is the kind of 
 	excessive action you have come to expect.%%% 
-	She takes a deep drag,% ears flattening against her 
-	head and pupils dialating.
+	She takes a deep drag,% her ears flattening against her 
+	head and pupils dilating.
 	&m13
 	
 m13:
@@ -293,7 +293,7 @@ m15:
 m16:
 	*setposang cat_cello setpos -1057.220947 528.489380 -64;setang -90 105.667139 0.000000*
 	*setspeaker narrator*
-	As you turn to leave her to her nap,%% the Cellist steps into view and 
+	As you turn to leave her to her nap,%% The Cellist steps into view and 
 	squats beside her.
 	&m17
 	

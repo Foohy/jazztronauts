@@ -57,6 +57,8 @@
 	output OnVomitStartEmpty(void) : "Fires when there has been a successful pull of the lever, but the player had no props."
 
 	input Vomit(void)  : "Begin vomiting props"
+	input SetSpeed(integer) : "Set props per vomit think (default 2)"
+	input SetConstipateOdds(integer) : "1 out of n chance to constipate (0 always constipate)"
 ]
 
 @PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter_dummy : "Prop Poop Chute - Ending 1"

@@ -7,7 +7,7 @@
 	"playlooping"
 	{
 		"volume"	".85"
-		"soundlevel" "SNDLVL_30dB"
+		"soundlevel"	"SNDLVL_30dB"
 		"pitch"		"100"
 		"wave"		"jazztronauts/bar_ambience.wav"
 	}
@@ -20,7 +20,7 @@
 	"playlooping"
 	{
 		"volume"	".95"
-		"soundlevel" "SNDLVL_30dB"
+		"soundlevel"	"SNDLVL_30dB"
 		"pitch"		"100"
 		"wave"		"jazztronauts/wind_inside.wav"
 	}
@@ -33,7 +33,7 @@
 	{
 		"volume"	"0.3"
 		"pitch"		"85"
-		"soundlevel" "SNDLVL_30dB"
+		"soundlevel"	"SNDLVL_30dB"
 		"wave"		"ambient\atmosphere\cargo_hold2.wav"
 	}
 }
@@ -42,9 +42,9 @@
 {
 	"playlooping"
 	{
-		"volume"	"0.3"
+		"volume"	"0.2"
 		"pitch"		"95"
-		"soundlevel" "SNDLVL_30dB"
+		"soundlevel"	"SNDLVL_30dB"
 		"wave"		"ambient\water\water_run1.wav"
 	}
 }
@@ -55,18 +55,46 @@
 	{
 		"volume"	"0.25"
 		"pitch"		"92"
-		"soundlevel" "SNDLVL_30dB"
+		"soundlevel"	"SNDLVL_30dB"
 		"wave"		"ambient\atmosphere\undercity_loop1.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.4"
+		"pitch"		"100"
+		"soundlevel"	"SNDLVL_STATIC"
+		"channel"	"CHAN_STATIC"
+		"wave"		"ambient\fire\fire_med_loop1.wav"
+		"position"	"0"
 	}
 }
 
 "player_camp_selector"
 {
+	"playsoundscape"
+	{
+		"name"	"player_camp_selector_noprinter"
+		"volume" "1.0"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.3"
+		"pitch"		"100"
+		"soundlevel"	"SNDLVL_STATIC"
+		"wave"		"ambient\levels\labs\equipment_printer_loop1.wav"
+		"position"	"0"
+	}
+}
+
+"player_camp_selector_noprinter"
+{
 	"playlooping"
 	{
 		"volume"	"0.5"
 		"pitch"		"95"
-		"soundlevel" "SNDLVL_30dB"
+		"soundlevel"	"SNDLVL_30dB"
 		"wave"		"ambient\machines\lab_loop1.wav"
 	}
 }
@@ -79,5 +107,16 @@
 		"pitch"		"95"
 		"soundlevel" "SNDLVL_30dB"
 		"wave"		"ambient\atmosphere\trainstation_ambient_loop1.wav"
+	}
+}
+
+"mewseum"
+{
+	"playlooping"
+	{
+		"volume"	"0.3"
+		"pitch"		"85"
+		"soundlevel"	"SNDLVL_30dB"
+		"wave"		"ambient\atmosphere\cargo_hold2.wav"
 	}
 }

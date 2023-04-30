@@ -299,7 +299,7 @@ AddMission(1, NPC_CAT_BAR, {
 			--truck, not truck sign or handtruck
 			(string.match(mdl, "truck") and 
 				not (string.match(mdl, "sign") or
-					string.match(mdl, "hand")))) or
+					string.match(mdl, "hand"))) or
 			--pickup, not powerup or item or etc.
 			(string.match(mdl, "pickup") and 
 				not (string.match(mdl, "powerup") or
@@ -312,7 +312,7 @@ AddMission(1, NPC_CAT_BAR, {
 				string.match(mdl, "tire") or
 				string.match(mdl, "wheel") or
 				string.match(mdl, "glass") or
-				string.match(mdl, "gib"))
+				string.match(mdl, "gib")))
 	end,
 	Count = count,
 	Prerequisites = { IndexToMID(0, NPC_CAT_BAR)  },

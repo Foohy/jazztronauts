@@ -116,6 +116,8 @@ if SERVER then
 			local exist = findPropProxy( v.id )
 			if not exist then
 
+				if not v.model then print("Unable to create proxy for null model : " .. tostring(v.id)) continue end
+
 				local ent = ents.Create("jazz_static_proxy")
 				if not IsValid( ent ) then print("!!!Failed to create proxy") continue end
 

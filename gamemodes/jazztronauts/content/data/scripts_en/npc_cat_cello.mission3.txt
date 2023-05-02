@@ -66,5 +66,5 @@ t2:
     what
     %%%%%%
     you thought i was going to paint with this? %%%
-    what do you take me for %% somebody functional
+    what do you take me for%% somebody functional
     &exit

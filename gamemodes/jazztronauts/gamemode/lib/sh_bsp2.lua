@@ -287,6 +287,7 @@ table.Merge( bsp3.GetMetaTable(), meta )
 
 function LoadBSP( filename, path, requested_lumps, callback )
 
+	print("LOADING BSP VIA BSP3...")
 	local data = bsp3.LoadBSP( "maps/" .. filename .. ".bsp", requested_lumps, path )
 	if not data then return end
 
@@ -298,9 +299,11 @@ function LoadBSP( filename, path, requested_lumps, callback )
 
 end
 
---_G["LOADED_BSP"] = nil
-if _G["LOADED_BSP"] == nil then
-	_G["LOADED_BSP"] = LoadBSP( game.GetMap(), nil,
+print("LOADING BSP...")
+
+--_G["JAZZ_LOADED_BSP"] = nil
+if _G["JAZZ_LOADED_BSP"] == nil then
+	_G["JAZZ_LOADED_BSP"] = LoadBSP( game.GetMap(), nil,
 		SERVER and LUMPS_DEFAULT or LUMPS_DEFAULT_CLIENT,
 		SERVER and BLOCK_THREAD or function()
 
@@ -311,13 +314,13 @@ if _G["LOADED_BSP"] == nil then
 	if SERVER then
 
 		print("SERVER FINISHED LOADING BSP")
-		print( PrintTable( _G["LOADED_BSP"].entities[1] ) )
+		print( PrintTable( _G["JAZZ_LOADED_BSP"].entities[1] ) )
 		hook.Call( "CurrentBSPReady" )
 
 	end
 end
 
-local current_map = _G["LOADED_BSP"]
+local current_map = _G["JAZZ_LOADED_BSP"]
 
 function GetCurrent()
 

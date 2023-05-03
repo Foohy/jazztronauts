@@ -411,7 +411,7 @@ if SERVER then
 		local maxs, mins = Vector(winfo.world_maxs), Vector(winfo.world_mins)
 
 		-- Calculate only area, ignoring Z because people make bigass fucking skyboxes
-		local area = math.clamp(math.abs(maxs.x - mins.x) * math.abs(maxs.y - mins.y), 8000, 100000)
+		local area = math.Clamp(math.abs(maxs.x - mins.x) * math.abs(maxs.y - mins.y), 8000, 100000)
 		print(area)
 		-- Shard count dependent on map size
 		local shardcount = math.Remap(area, 8000, 100000, 4, 24)

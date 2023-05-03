@@ -414,7 +414,7 @@ if SERVER then
 		local area = math.clamp(math.abs(maxs.x - mins.x) * math.abs(maxs.y - mins.y), 8000, 100000)
 		print(area)
 		-- Shard count dependent on map size
-		local shardcount = math.max(1, math.Remap(area, 8000, 100000, 4, 24))
+		local shardcount = math.Remap(area, 8000, 100000, 4, 24)
 		return math.ceil(shardcount)
 	end
 

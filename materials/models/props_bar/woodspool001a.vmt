@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "Props/woodspool001a"
+	"$surfaceprop" "wood_lowdensity"
+}

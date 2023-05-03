@@ -22,6 +22,8 @@ a2:
 	
 	
 idle:
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*setspeaker narrator*
 	> You find The Singer slumped over the bar, passed out.
 	The Bartender gives you a nod when you approach.

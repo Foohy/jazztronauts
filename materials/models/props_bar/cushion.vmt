@@ -1,0 +1,7 @@
+"VertexlitGeneric"
+{
+	$detail				"models/props_bar/cushion"
+	$detailscale		1
+	$detailblendfactor	0.95
+	$detailblendmode	8
+}

@@ -1,6 +1,8 @@
 ﻿###### the accept phase of this mission requires camera work
 
 accept:
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*setspeaker narrator*
 	> The Singer and The Bartender are here...
 	there is a terracotta pot on the table.

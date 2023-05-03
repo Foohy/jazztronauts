@@ -226,3 +226,10 @@
 	input PlayPauseMedia(void) : "Toggles the play or pause state of the current media"
 	input ClearMedia(void) : "Clears all queued and active media"
 ]
+
+@PointClass base(Targetname, Origin, Angles) studioprop() = jazz_waterprop : "Detail props that gently bob in the water"
+[
+	model(studio) : "World Model" : "models/sunabouzu/jazzlily01.mdl"
+	bodygroup(string) : "Bodygroup" : "0" : "Sets the model's bodygroups. Uses the GMod method, so each character in the string represents a separate bodygroup. (0 to 9, a to z being 10 to 35)"
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
+]

@@ -56,43 +56,57 @@ local function oildrums(mdl)
 			"models/props_phx/oildrum001_explosive.mdl",
 			"models/props_phx/oildrum001.mdl"
 		})]]
-	return (string.match(mdl, "drum") and
-			not (string.match(mdl, "fairground") or string.match(mdl, "weapons") or string.match(mdl, "drummer"))) or
-		MatchesAny(mdl, {
+	return MatchesAny(mdl, {
 			"models/props_phx/facepunch_barrel.mdl",
 			--L4D
 			"models/props_industrial/barrel_fuel.mdl",
 			--ASW
 			"models/swarm/barrel/barrel.mdl"
-		})
-end
+		}) or
+		--drum, without weapons or the instrument (hopefully)
+		(string.match(mdl, "drum") and
+			not string.match(mdl, "fairground") and
+			not string.match(mdl, "weapons") and 
+			not string.match(mdl, "set") and 
+			not string.match(mdl, "drummer"))
+		end
 
 local function gasoline(mdl)
 	--gas can, gas pump
 	return string.match(mdl, "gas") and
-		(string.match(mdl, "can") or 
+			(string.match(mdl, "can") or 
 			(string.match(mdl, "pump") and not string.match(mdl, "_p%d+"))) -- L4D gas_pump_p<N>
 end
 
 local function propane(mdl)
-	return string.match(mdl,"propane") or 
-		(string.match(mdl,"canister") and not string.match(mdl,"chunk"))
+	return	 string.match(mdl,"propane") or 
+			(string.match(mdl,"canister") and not string.match(mdl,"chunk"))
 end
 
 local function fuel(mdl)
-	return oildrums(mdl) or
-		gasoline(mdl) or
-		propane (mdl)
+	return	oildrums(mdl) or
+			gasoline(mdl) or
+			propane(mdl)
 end
 
 local function beer(mdl)
-	return mdl == "models/props/cs_militia/caseofbeer01.mdl" or 
+	return MatchesAny(mdl, {
+		"models/props/cs_militia/caseofbeer01.mdl",
+		--TF2
+		"models/props_trainyard/beer_keg001.mdl",
+		"models/props_medical/beer_barrels.mdl",
+		"models/player/items/taunts/beer_crate/beer_crate.mdl",
+		"models/weapons/w_models/w_beer_stein.mdl"
+	}) or 
+	--bottle, without gibs, water bottle, or plastic bottle
 	(string.match(mdl, "bottle") and
-		not (string.match(mdl, "chunk") or 
-			string.match(mdl, "break") or 
-			string.match(mdl, "water") or 
-			string.match(mdl, "plastic") or 
-			string.match(mdl, "frag"))) or 
+		not string.match(mdl, "chunk") and
+		not string.match(mdl, "break") and
+		not string.match(mdl, "water") and 
+		not string.match(mdl, "plastic") and 
+		not string.match(mdl, "frag")) or 
+	--beer cans
+	(string.match(mdl, "beer") and string.match(mdl, "can")) or
 	string.match(mdl, "molotov") or
 	string.match(mdl, "molly")
 end
@@ -164,8 +178,8 @@ AddMission(2, NPC_CAT_CELLO, {
 			string.match(mdl, "jar") or
 			(string.match(mdl, "bottle") and
 				(string.match(mdl, "plastic") or
-				string.match(mdl, "flask") or
-				string.match(mdl, "pill"))) or
+				 string.match(mdl, "flask") or
+				 string.match(mdl, "pill"))) or
 			propane(mdl) or
 			--ASW
 			string.match(mdl, "biomass") 
@@ -184,9 +198,9 @@ AddMission(3, NPC_CAT_CELLO, {
 	-- Can be as broad or as specific as you want
 	Filter = function(mdl)
 		return string.match(mdl, "paint") and
-			(string.match(mdl, "can") or
-			string.match(mdl, "bucket") or
-			string.match(mdl, "tool"))
+					(string.match(mdl, "can") or
+					 string.match(mdl, "bucket") or
+					 string.match(mdl, "tool"))
 	end,
 
 	-- They need to collect 1 of em' to complete the mission.
@@ -214,12 +228,26 @@ AddMission(4, NPC_CAT_CELLO, {
 	Prerequisites = { IndexToMID(3, NPC_CAT_CELLO)  },
 	OnCompleted = GrantMoney(25000)
 })
-
+--[[ --old mission 5, dialog mentions getting milk so this is ???
 count = 1
 AddMission(5, NPC_CAT_CELLO, {
 	Instructions = JazzLocalize("jazz.mission.cactus",count),
 	Filter = function(mdl)
 		return mdl == "models/props_lab/cactus.mdl"
+	end,
+	Count = count,
+	Prerequisites = { IndexToMID(4, NPC_CAT_CELLO)  },
+	OnCompleted = GrantMoney(30000)
+})]]
+
+count = 10
+AddMission(5, NPC_CAT_CELLO, {
+	Instructions = JazzLocalize("jazz.mission.milk",count),
+	Filter = function(mdl)
+		return mdl == "models/props_2fort/cow001_reference.mdl" or
+			string.match(mdl, "milk") and 
+			not string.match(mdl, "hat") and 
+			not string.match(mdl, "crate")
 	end,
 	Count = count,
 	Prerequisites = { IndexToMID(4, NPC_CAT_CELLO)  },
@@ -295,24 +323,24 @@ AddMission(1, NPC_CAT_BAR, {
 			--police car, race car
 			(string.match(mdl, "car") and 
 				(string.match(mdl, "police") or
-				string.match(mdl, "race"))) or
+				 string.match(mdl, "race"))) or
 			--truck, not truck sign or handtruck
 			(string.match(mdl, "truck") and 
 				not (string.match(mdl, "sign") or
-					string.match(mdl, "hand"))) or
+					 string.match(mdl, "hand"))) or
 			--pickup, not powerup or item or etc.
 			(string.match(mdl, "pickup") and 
 				not (string.match(mdl, "powerup") or
-					string.match(mdl, "item") or
-					string.match(mdl, "emitter") or
-					string.match(mdl, "load") or
-					string.match(mdl, "swarm"))))
+					 string.match(mdl, "item") or
+					 string.match(mdl, "emitter") or
+					 string.match(mdl, "load") or
+					 string.match(mdl, "swarm")))) and
 			--no glass/window/tire/wheel/gib
-			and not (string.match(mdl, "window") or
-				string.match(mdl, "tire") or
-				string.match(mdl, "wheel") or
-				string.match(mdl, "glass") or
-				string.match(mdl, "gib")))
+			not (string.match(mdl, "window") or
+				 string.match(mdl, "tire") or
+				 string.match(mdl, "wheel") or
+				 string.match(mdl, "glass") or
+				 string.match(mdl, "gib")))
 	end,
 	Count = count,
 	Prerequisites = { IndexToMID(0, NPC_CAT_BAR)  },
@@ -345,11 +373,18 @@ count = 5
 AddMission(4, NPC_CAT_BAR, {
 	Instructions = JazzLocalize("jazz.mission.washers",count),
 	Filter = function(mdl)
-		return MatchesAny(mdl, {
+		return --[[MatchesAny(mdl, {
 			"models/props_c17/furniturewashingmachine001a.mdl",
-			"models/props_wasteland/laundry_washer001a.mdl",
-			"models/props_wasteland/laundry_dryer002.mdl"
-		})
+			--"models/props_wasteland/laundry_washer001a.mdl",
+			--"models/props_wasteland/laundry_dryer002.mdl"
+		}) or ]]
+		--wash, without dishwasher or washington
+		(string.match(mdl, "wash") and 
+			not mdl == "models/props_street/window_washer_button.mdl" and 
+			not string.match(mdl, "dish") and
+			not string.match(mdl, "washington")) or
+		(string.match(mdl, "dryer") and 
+			not mdl == "models/props_pipes/brick_dryer_pipes.mdl")
 	end,
 	Count = count,
 	Prerequisites = { IndexToMID(3, NPC_CAT_BAR)  },
@@ -365,7 +400,8 @@ AddMission(5, NPC_CAT_BAR, {
 			"models/antlion_worker.mdl",
 			"models/antlion_guard.mdl",
 			"models/antlion_grub.mdl"
-		})
+		}) or 
+		string.match(mdl, "hive/nest")
 	end,
 	Count = count,
 	Prerequisites = { IndexToMID(4, NPC_CAT_BAR)  },
@@ -387,9 +423,9 @@ AddMission(0, NPC_CAT_PIANO, {
 				not string.match(mdl, "chunk") and
 				not string.match(mdl, "gib") and
 				not string.match(mdl, "damage")) or 
-			string.match(mdl, "seat") or
-			(string.match(mdl, "stool") and not string.match(mdl, "toadstool")) or
-			string.match(mdl, "couch")
+				 string.match(mdl, "seat") or
+				(string.match(mdl, "stool") and not string.match(mdl, "toadstool")) or
+				 string.match(mdl, "couch")
 	end,
 	Count = count,
 	Prerequisites = nil,
@@ -521,9 +557,19 @@ count = 10
 AddMission(0, NPC_CAT_SING, {
 	Instructions = JazzLocalize("jazz.mission.documents",count),
 	Filter = function(mdl)
-		return string.match(mdl, "binder") or
-			string.match(mdl, "file") or
-			(string.match(mdl, "book") and not (string.match(mdl, "sign") or string.match(mdl, "stand"))) --Too many "bookshelf" or "bookcase" have books to feel right excluding them
+		return	string.match(mdl, "binder") or
+				string.match(mdl, "file") or
+				string.match(mdl, "filing") or --not used in Valve props, but could be in custom stuff
+				string.match(mdl, "folder") or
+			--Too many "bookshelf" or "bookcase" have books to feel right excluding them
+			   (string.match(mdl, "book") and 
+				not string.match(mdl, "sign") and
+				not string.match(mdl, "stand")) or
+			--Paper, not toilet paper, paper towel, or paper plate
+			   (string.match(mdl, "paper") and 
+				not string.match(mdl, "toilet") and
+				not string.match(mdl, "towel") and
+				not string.match(mdl, "plate"))
 	end,
 	Count = count,
 	Prerequisites = nil,
@@ -534,12 +580,16 @@ count = 5
 AddMission(1, NPC_CAT_SING, {
 	Instructions = JazzLocalize("jazz.mission.dolls",count),
 	Filter = function(mdl)
-		return MatchesAny(mdl, {
+		--[[return MatchesAny(mdl, {
 			"models/props_lab/huladoll.mdl",
 			"models/props_c17/doll01.mdl",
 			"models/maxofs2d/companion_doll.mdl",
 			"models/props_unique/doll01.mdl", --L4D
-		}) or 
+		}) or]] 
+		--doll, not ragdoll or dollar
+		return (string.match(mdl, "doll") and 
+			not (string.match(mdl, "ragdoll") or 
+				 string.match(mdl, "dollar"))) or
 		string.match(mdl, "teddy")
 	end,
 	Count = count,
@@ -551,8 +601,8 @@ count = 15
 AddMission(2, NPC_CAT_SING, {
 	Instructions = JazzLocalize("jazz.mission.radiators",count),
 	Filter = function(mdl)
-		return string.match(mdl, "radiator") or
-			string.match(mdl, "_heater")
+		return	string.match(mdl, "radiator") or
+				string.match(mdl, "_heater")
 	end,
 	Count = count,
 	Prerequisites = { IndexToMID(1, NPC_CAT_SING)  },
@@ -580,7 +630,8 @@ AddMission(3, NPC_CAT_SING, {
 		}) or 
 		string.match(mdl, "planter") or
 		-- pot(ted) plant, no gibs
-		(string.match(mdl, "plant") and string.match(mdl, "pot") and not (string.match(mdl, "gib") or string.match(mdl, "_p%d+")))
+		(string.match(mdl, "plant") and string.match(mdl, "pot") and
+			not (string.match(mdl, "gib") or string.match(mdl, "_p%d+")))
 	end,
 	Count = count,
 	Prerequisites = { IndexToMID(2, NPC_CAT_SING)  },
@@ -616,10 +667,12 @@ AddMission(5, NPC_CAT_SING, {
 			"models/props_radiostation/radio_antenna01.mdl"
 		})]]
 		return mdl == "models/props_radiostation/radio_antenna01.mdl" or
-			string.match(mdl, "radio") and
-				--radio, without station or radioactive
+			--radio, without station or radioactive
+			(string.match(mdl, "radio") and
 				not (string.match(mdl, "station") or
-					string.match(mdl, "radioactive"))
+					 string.match(mdl, "radioactive"))) or 
+			--get jukeboxes in here too
+			(string.match(mdl, "juke") and string.match(mdl, "box"))
 	end,
 	Count = count,
 	Prerequisites = { IndexToMID(4, NPC_CAT_SING)  },

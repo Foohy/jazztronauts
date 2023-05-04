@@ -84,6 +84,7 @@ end
 
 function ENT:SetupDataTables()
 	self:NetworkVar("Bool", 0, "IsFinished")
+	self:NetworkVar("Bool", 0, "Collected")
 end
 
 -- Wait for the map info to be ready, then grab all the nearby brushes
@@ -219,9 +220,9 @@ function ENT:OnFinished()
 end
 
 function ENT:Touch(ply)
-	if CLIENT or self.Collected or !IsValid(ply) or !ply:IsPlayer() then return end
+	if CLIENT or self:GetCollected() or !IsValid(ply) or !ply:IsPlayer() then return end
 
-	self.Collected = true
+	self:SetCollected(true)
 	GAMEMODE:CollectShard( self, ply )
 
 	local expl = ents.Create( "env_explosion" )

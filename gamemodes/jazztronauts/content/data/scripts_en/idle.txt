@@ -8,42 +8,30 @@ begin:
 begin1:
     *setauto 0*
     condition:
-     &bar_bark1:
-          return not state("ended")
-          return maybe(6, 1)
-     &bar_bark2:
-          return not state("ended")
-          return maybe(6, 2)
-     &bar_bark3:
-          return not state("ended")
-          return maybe(6, 3)
-     &bar_bark4:
-          return not state("ended")
-          return maybe(6, 4)
-     &bar_bark5:
-          return not state("ended")
-          return maybe(6, 5)
-     &bar_bark6:
-          return state("ending") == 2
-          return maybe(6, 6)
-     &bar_truebark1:
-          return state("ending") == 2
-          return maybe(6, 1)
-     &bar_truebark2:
-          return state("ending") == 2
-          return maybe(6, 2)
-     &bar_truebark3:
-          rreturn state("ending") == 2
-          return maybe(6, 3)
-     &bar_truebark4:
-          return state("ending") == 2
-          return maybe(6, 4)
-     &bar_truebark5:
-          return state("ending") == 2
-          return maybe(6, 5)
-     &bar_truebark6:
-          return state("ending") == 2
-          return maybe(6, 6)
+          &bar_bark1:
+               return not state("ended") and maybe(6, 1)
+          &bar_bark2:
+               return not state("ended") and maybe(6, 2)
+          &bar_bark3:
+               return not state("ended") and maybe(6, 3)
+          &bar_bark4:
+               return not state("ended") and maybe(6, 4)
+          &bar_bark5:
+               return not state("ended") and maybe(6, 5)
+          &bar_bark6:
+               return not state("ended") and maybe(6, 6)
+          &bar_truebark1:
+               return state("ending") == 2 and maybe(6, 1)
+          &bar_truebark2:
+               return state("ending") == 2 and maybe(6, 2)
+          &bar_truebark3:
+               return state("ending") == 2 and maybe(6, 3)
+          &bar_truebark4:
+               return state("ending") == 2 and maybe(6, 4)
+          &bar_truebark5:
+               return state("ending") == 2 and maybe(6, 5)
+          &bar_truebark6:
+               return state("ending") == 2 and maybe(6, 6)
 
 begin4:
      *setauto 0*

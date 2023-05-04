@@ -92,6 +92,7 @@ local function ParseLine(script, line)
 		table.insert(script.tokens, {tok = tok, type = type}) tok = ""
 	end
 	local i = 1
+	
 	local inExec = false
 	repeat
 		local ch = line[i]

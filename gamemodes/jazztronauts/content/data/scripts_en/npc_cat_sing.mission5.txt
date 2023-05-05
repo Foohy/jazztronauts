@@ -95,9 +95,10 @@ turnin:
 	*show*
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_laugh 1 idle*
+	*setspeaker cat_singer*
 	> When The Singer sees you,% they light up with joy.%%%*setskin cat_singer 0* They're nearly 
-	vibrating with how fast they're bouncing.%%*setcam setpos 3074.511963 7828.708008 31.442722;setang -0.815863 100.875572 0.000000*%*setposang player setpos 3018.282959 7930.246094 0;setang 0 -11.833597 0.000000*% After handing over your pay of 
-	20k,%% they take the radios inside the Mewseum and gesture for 
+	vibrating with how fast they're bouncing.%%*setposang player setpos 3018.282959 7930.246094 0;setang 0 -11.833597 0.000000**setcam setpos 3074.511963 7828.708008 31.442722;setang -0.815863 100.875572 0.000000*%% After handing over your pay of 
+	30k,%% they take the radios inside the Mewseum and gesture for 
 	you to follow. *finish 5*
 	&t1
 	
@@ -125,39 +126,43 @@ t3:
 	*setspeaker narrator*
 	> A song blasts out of the wall of radios!%%%% 
 	%.%.%.%there seems to be no visible effect on any of the NPCs.
+	&t4
 	
-t3:
+t4:
 	*setcam setpos 3062.110596 7840.094238 35.197525;setang 0.248931 86.137184 0.000000*
 	*setskin cat_singer 7*
 	> The Singer's shoulders slump.%%%% 
 	> They turn away and start to open a door.
-	&t4
-	
-t4:
-	*setcam setpos 3001.355225 7909.104980 55.273945;setang -4.169990 -118.748055 0.000000*
-	*setspeaker clever_combine*
-	> Hey,% can you turn that down?%%% I have a headache.
 	&t5
 	
 t5:
-	*setspeaker cat_singer*
-	*setskin cat_singer 5*
-	> The Singer nearly drops their tablet in shock,%%*setcam setpos 3577.167969 6896.290039 884.149780;setang 38.901165 119.500954 0.000000* and immediately turns 
-	off the radios.%%%% They apologize to the NPC who spoke,%% 
-	and you both hurry out of the Mewseum.
+	*setcam setpos 3001.355225 7909.104980 55.273945;setang -4.169990 -118.748055 0.000000*
+	*setspeaker combine01*
+	Hey,% can you turn that down?%%% I have a headache.
 	&t6
 	
 t6:
-	*setskin cat_singer 6*
-	> The Singer is actually crying with joy.%%%% 
+	*setspeaker cat_singer*
+	*setskin cat_singer 5*
+	> The Singer nearly drops their tablet in shock,%%*setcam setpos 3577.167969 6896.290039 884.149780;setang 38.901165 119.500954 0.000000* and immediately turns 
+	off the radios.*stopsound*%%%% They apologize to the NPC who spoke,%% 
+	and you both hurry out of the Mewseum.
 	&t7
 	
 t7:
-	> They tell you that they will never be able to fully express
-	how much you've helped them and their research out-%% 
+	*setposang cat_singer setpos 373 71 0;setang -90 315 0*
+	*setposang player setpos 410 121 0;setang 0 210 0*
+	*setcam setpos 339 157 80;setang 20.2231 311.64 0*
+	*setskin cat_singer 6*
+	> The Singer is actually crying with joy.%%%% 
 	&t8
 	
 t8:
+	> They tell you that they will never be able to fully express
+	how much you've helped them and their research out-%% 
+	&t9
+	
+t9:
 	> and thanks to your help they're going to be able to 
 	fulfill a promise to an old friend.%%%% 
 	They'd like to talk later if you have the time.

@@ -60,8 +60,26 @@ function SWEP:Initialize()
 		--[[get our sources of glitchiness - shards, radiation, and magnets
 			none of these things are likely to just spawn in,
 			so we'll just get a table of them to refer to when we init]]
-		self.GlitchSources = ents.FindByClass("jazz_shard*")
-		--todo other sources
+		self.GlitchSources = ents.FindByClass("jazz_shard")
+		table.Add(self.GlitchSources,ents.FindByClass("jazz_shard_black"))
+		--[[ - just kidding everything else is server only, not worth doing all this on the server for that.
+		--get trigger hurts that deal radiation
+		local tab = ents.FindByClass("trigger_hurt")
+		PrintTable(tab)
+		for key, value in ipairs(tab) do
+			if IsValid(value) then
+				local radiation = bit.band(value:GetInternalVariable("m_bitsDamageInflict"),DMG_RADIATION)
+				print(radiation)
+				if radiation > 0 then
+					table.insert(self.GlitchSources,value)
+				end
+			end
+		end
+		--are magnets even worth searching for? I've never seen one used other than the coast.
+		table.Add(self.GlitchSources,ents.FindByClass("phys_magnet"))
+		]]
+	else
+		
 	end
 end
 
@@ -86,7 +104,8 @@ function SWEP:Holster()
 end
 
 function SWEP:Deploy()
-
+	self:CalcGlitch()
+	self.Glitch = self.GlitchIdeal
 	return true
 end
 
@@ -119,8 +138,7 @@ function SWEP:CalcView( ply, pos, ang, fov )
 
 end
 
-function SWEP:Think()
-
+function SWEP:CalcGlitch()
 	--glitchiness think
 	if CLIENT and IsValid(self.Owner) then
 
@@ -135,8 +153,9 @@ function SWEP:Think()
 			for key, value in ipairs(self.GlitchSources) do
 				if IsValid(value) then
 					--first, shards
-					if value:GetClass() == "jazz_shard" or value:GetClass() == "jazz_shard_black" then
-						local dist = math.DistanceSqr(value:GetPos().x,value:GetPos().y,pos.x,pos.y)
+					--if value:GetClass() == "jazz_shard" or value:GetClass() == "jazz_shard_black" then --only doing shards now, no need to check
+						local vpos = value:GetPos()
+						local dist = vpos:DistToSqr(pos)
 						if dist < maxrange then
 							if value:GetCollected() then
 								--This shard is actively fucking shit up, so we get extra fucked up too
@@ -146,8 +165,8 @@ function SWEP:Think()
 								self.GlitchIdeal = self.GlitchIdeal + ((maxrange - dist) / maxrange * 0.25)
 							end
 						end
-					--elseif string.find(value:GetClass(),"trigger_hurt") then --todo: other sources
-					end
+					--elseif string.find(value:GetClass(),"trigger_hurt") then
+					--end
 				end
 			end
 
@@ -158,7 +177,13 @@ function SWEP:Think()
 			viewmodel:SetPoseParameter("glitch", self.Glitch)
 			viewmodel:InvalidateBoneCache()
 		end
+	end
+end
 
+function SWEP:Think()
+
+	if CLIENT then
+		self:CalcGlitch()
 		self:SetNextClientThink(CurTime() + 0.1)
 	end
 end

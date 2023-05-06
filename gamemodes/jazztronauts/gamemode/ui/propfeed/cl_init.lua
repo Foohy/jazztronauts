@@ -52,7 +52,7 @@ net.Receive("brushcollect", function()
 			)
 			:Body("%total", 
 				{
-					total = function() return jazzloc.Localize("jazz.hud.money",comma_value( IsValid(ply) and ply.bstreaktotal or 0)) end
+					total = function() return jazzloc.Localize("jazz.hud.money",jazzloc.AddSeperators( IsValid(ply) and ply.bstreaktotal or 0)) end
 				}
 			)
 			:SetHighlighted( ply == LocalPlayer() )
@@ -96,7 +96,7 @@ net.Receive("propcollect", function()
 			)
 			:Body("%total", 
 				{
-					total = function() return jazzloc.Localize("jazz.hud.money",comma_value( IsValid(ply) and ply.streaktotal or 0)) end
+					total = function() return jazzloc.Localize("jazz.hud.money",jazzloc.AddSeperators( IsValid(ply) and ply.streaktotal or 0)) end
 				}
 			)
 			:SetHighlighted( ply == LocalPlayer() )

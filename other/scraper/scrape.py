@@ -1,7 +1,7 @@
 import sys
 import json
 import time
-import urllib2
+import urllib.request
 import re
 
 HOST = "http://api.steampowered.com"
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     while True:
         req = "{0}/{1}?key={2}&appid={3}&requiredtags[0]=map&numperpage={4}&page={5}&return_metadata=1&query_type=1".format(HOST, ENDPOINT, key, APPID, NUMPERPAGE, page)
-        response = urllib2.urlopen(req).read()
+        response = urllib.request.urlopen(req).read()
         resobj = json.loads(response.decode("utf-8", "ignore"))
         total = resobj["response"]["total"]
 
@@ -68,6 +68,10 @@ if __name__ == "__main__":
             # so valve doesn't get angry at us
             time.sleep(DELAY)
     
+    # Results come back sorted, but reverse it so
+    # newer entries are added at the end instead of shifting everything at the beginning
+    workshopids.reverse()
+
     print("Dumping {0} addons to {1}".format(len(workshopids), FILENAME))
     for id in workshopids:
         f.write(id + "\n")

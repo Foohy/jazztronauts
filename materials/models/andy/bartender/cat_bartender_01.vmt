@@ -6,6 +6,7 @@
 	"$detailblendmode"			"2"
 	"$detailblendfactor"		"1"
 	"$lightwarptexture"			"sunabouzu/lightwarp"
+	"$nodecal"					"1"
 
 	"$phong" "1"
 	"$phongexponent" "10"

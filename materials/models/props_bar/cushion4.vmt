@@ -1,0 +1,8 @@
+"Patch"
+{
+	include "materials\models\props_bar\cushion.vmt"
+	insert
+	{
+		$basetexture "props\carpetfloor006a"
+	}
+}

@@ -9,12 +9,12 @@
 	*setnpcid cat_singer npc_cat_sing*
 	*setcam setpos 1161.969727 182.516861 201.877747;setang 13.789205 120.113113 0.000000*
 	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
-	*setposang cat_piano setpos -1182.562256 445.995911 -64;setang -90 270 0.000000*
+	*setposang cat_piano setpos -1182.562256 445.995911 -640;setang -90 270 0.000000*
 	*setnpcid cat_piano npc_cat_piano*
 	*spawn narrator dummy*
 	*setnpcid narrator npc_narrator*
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
-	*setposang cat_cello setpos -1182.562256 445.995911 -64;setang -90 270 0.000000*
+	*setposang cat_cello setpos -1182.562256 445.995911 -640;setang -90 270 0.000000*
 	*setnpcid cat_cello npc_cat_cello*
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1 2.0*
 	*setposang player setpos 980.507080 632.255981 0;setang 0 -121.321289 0.000000*
@@ -46,7 +46,7 @@ b2:
 	*wait .1*
 	*show*
 	> You make it to the Performance Hall*setcam setpos -830.770874 423.708344 -12.305580;setang 2.458383 95.515366 0.000000* relatively quickly as you w-%%%
-	%.%.%.%wait did  The Cellist fly past you just now?%%%%*setcam setpos -748.055054 591.843384 25.641350;setang 12.760325 -141.553528 0.000000* You turn around to see
+	%.%.%.%wait did The Cellist fly past you just now?%%%%*setcam setpos -748.055054 591.843384 25.641350;setang 12.760325 -141.553528 0.000000* You turn around to see
 	what launched him and see The Pianist charging after The Cellist!
 	&b3
 	
@@ -199,7 +199,7 @@ m10:
 	*setspeaker cat_singer*
 	*setskin cat_singer 4*
 	*setanim cat_singer gesture_sigh 1 idle*
-	> The Singer sighs.%%%%%*setskin cat_singer 2* 
+	> The Singer sighs.%%%%%*setskin cat_singer 2*
 	The other two immediately avert their eyes.
 	&m11
 	

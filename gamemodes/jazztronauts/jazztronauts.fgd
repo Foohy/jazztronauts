@@ -19,13 +19,19 @@
 
 @PointClass base(Targetname, Origin, Angles) studioprop() = jazz_door : "Door to teleport players between locations"
 [
+	model(studio) : "World Model" : "models/sunabouzu/jazzdoor.mdl"
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 	teleportentity(target_destination) : "Teleport To" : : "The name of the teleport entity." 
 	opendoorsound(sound) : "Door Open sound" : : "The sound the door will make when it opens."
 	closedoorsound(sound) : "Door Close sound" : : "The sound the door will make when it closes."
-	lockdoorsound(sound) : "Door Locked sound" : : "The sound the door will make when it's locked(Or attempted at)."
-	unlockdoorsound(sound) : "Door Unlocked sound" : : "The sound the door will make when it's unlocked."
-	loadingscreen(string) : "Loading Screen" : : "Overrides the random loading screen"
-	startlocked(integer) : "Start Locked" : 0 : "Whether or not this door should start locked"
+	lockdoorsound(sound) : "Door Locked sound" : : "The sound the door will make when it's attempted at while locked."
+//	unlockdoorsound(sound) : "Door Unlocked sound" : : "The sound the door will make when it's unlocked."
+//	loadingscreen(string) : "Loading Screen" : : "Overrides the random loading screen"
+	startlocked(choices) : "Start Locked" : 0 : "Whether or not this door should start locked" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 	
 	output OnTeleport(void) : "Fires on Teleport"
 	output OnUnlock(void) : "Fires when the door is unlocked"
@@ -35,9 +41,10 @@
 	input Teleport(void) : "Teleport the activator"
 	input Unlock(void) : "Unlock the door"
 	input Lock(void) : "Lock the door"
+	input Skin(integer) : "Changes the model skin to the specified number."
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop() = jazz_door_eclipse : "False door that acts as a waypoint for eclipse cat encounters"
+@PointClass base(Targetname, Origin, Angles) studioprop("models/props_c17/gravestone_coffinpiece001a.mdl") = jazz_door_eclipse : "False door that acts as a waypoint for eclipse cat encounters"
 [
 
 ]
@@ -50,6 +57,8 @@
 	output OnVomitStartEmpty(void) : "Fires when there has been a successful pull of the lever, but the player had no props."
 
 	input Vomit(void)  : "Begin vomiting props"
+	input SetSpeed(integer) : "Set props per vomit think (default 2)"
+	input SetConstipateOdds(integer) : "1 out of n chance to constipate (0 always constipate)"
 ]
 
 @PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter_dummy : "Prop Poop Chute - Ending 1"
@@ -74,7 +83,7 @@
 	input TurnOff(void)    : "Turn off the tv, blocking any channel change inputs."
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazz_tv02.mdl") = jazz_hub_selector : "Jazz Map Selector"
+@PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazzportal.mdl") = jazz_hub_selector : "Jazz Map Selector"
 [
 	output OnMapSelected(void) : "Fires when a map has been selected and is starting the download process."
 	output OnMapDownloaded(integer) : "Fires when a map has finished downloading and is ready to be analyzed. 1 means successful, 0 means failure."
@@ -91,10 +100,21 @@
         1 : "Bartender" 
         2 : "Singer" 
         3 : "Pianist" 
-		4 : "Chello"
+		4 : "Cellist"
     ]
+	output OnPicked(void) : "Fires when this spawn is selected."
+	output OnNotPicked(void) : "Fires when this spawn is not selected."
 
+	input Skin(integer) : "Changes the model skin to the specified number."
+	input SetIdle(string) : "Changes the idle animation to the specified sequence."
+
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 	idleanim(string) : "Idle Animation" : : "Overrides the default idle animation"
+]
+
+@PointClass base(Targetname, Origin, Angles) studioprop("models/props_combine/combine_interface001.mdl") = jazz_bus_selector : "Custom Workshop ID Loader"
+[
+    
 ]
 
 @PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propleaderboard : "Prop Leaderboard"
@@ -205,4 +225,11 @@
 	input RemoveAllPlayers(void) : "Removes all players from the list of media listeners"
 	input PlayPauseMedia(void) : "Toggles the play or pause state of the current media"
 	input ClearMedia(void) : "Clears all queued and active media"
+]
+
+@PointClass base(Targetname, Origin, Angles) studioprop() = jazz_waterprop : "Detail props that gently bob in the water"
+[
+	model(studio) : "World Model" : "models/sunabouzu/jazzlily01.mdl"
+	bodygroup(string) : "Bodygroup" : "0" : "Sets the model's bodygroups. Uses the GMod method, so each character in the string represents a separate bodygroup. (0 to 9, a to z being 10 to 35)"
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 ]

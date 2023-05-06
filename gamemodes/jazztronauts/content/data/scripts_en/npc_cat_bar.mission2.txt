@@ -17,32 +17,38 @@ a2:
      &exit
 
 idle:
-     >The Bartender is intensely contemplating the bottles on the 
-     shelves.
-     &a3
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
+	*setspeaker narrator*
+	> The Bartender is intensely contemplating the bottles on the 
+	shelves.
+	&a3
 
 a3:
-     Hm. No need to restock the sugar cider yet, we have an ample supply 
-     of void gin, and- 
-     &a4
+	*setspeaker cat_bar*
+	Hm. No need to restock the sugar cider yet, we have an ample supply 
+	of void gin, and- 
+	&a4
 
 a4:
-     Oh! I didn't hear you approach, *player*. 
-     &a5
+	Oh! I didn't hear you approach, *player*. 
+	&a5
 
 a5:
-     Just doing a stock check. It'll take me a while, so there's no need
-     to fret about the watermelons yet. I need to fill out an order form
-     for chilled starlight, and that will be a whole separate ordeal. 
-     &exit
+	Just doing a stock check. It'll take me a while, so there's no need
+	to fret about the watermelons yet. I need to fill out an order form
+	for chilled starlight, and that will be a whole separate ordeal. 
+	&exit
 
 turnin:
-    *setspeaker narrator*
-    > The Bartender claps when she sees you approach!
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
+	*setspeaker narrator*
+	> The Bartender claps when she sees you approach!
     &a6
 
 a6:
-    *setspeaker cat_bar
+    *setspeaker cat_bar*
     Excellent, excellent! Oh, I'm almost giddy. I haven't had the chance 
     to make one of these in about fifty years. Here is your payment. 
     &a7

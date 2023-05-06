@@ -1,6 +1,8 @@
 ﻿###### the accept phase of this mission requires camera work
 
 accept:
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
 	*setspeaker narrator*
 	> The Singer and The Bartender are here...
 	there is a terracotta pot on the table.
@@ -13,7 +15,7 @@ a1:
 	&a2
 	
 a2:
-	*setspeaker npc_cat_piano*
+	*setspeaker npc_cat_singer*
 	> The Singer nods so fast their head is nearly a blur.
 	They seem to be putting in a conscious effort to 
 	restrain their bounces.
@@ -52,7 +54,7 @@ a7:
 	
 a7b:
 	But to put it into practice I'm going to need your help again, 
-	/ᐠ. ｡.ᐟ\ We need 10 flower pots for science!!!!"
+	/ᐠ. ｡.ᐟ\\ We need 10 flower pots for science!!!!"
 	&a8
 	
 a8:

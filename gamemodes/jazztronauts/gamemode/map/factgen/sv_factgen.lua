@@ -64,6 +64,7 @@ local function getWorkshopFacts(wsid, addFact)
 		local comments = task.Await(commentTask)
 		if #comments > 0 then
 			local comm = table.Random(comments)
+			comm.message = string.Replace(comm.message,",","‚") --replaces comma with U+201A "Single Low-9 Quotation Mark" (commas cause comment rendering to break on fact screens)
 			addFact("comment", "\"" .. comm.message .. "\"\n-" .. comm.author)
 		end
 	end
@@ -86,15 +87,18 @@ local function getBSPFacts(mapname, wsid, addFact)
 
 	-- Load the map asynchronously first
 	local bsp = bsp2.LoadBSP( mapname, nil, loadLumps )
-	task.Await(bsp:GetLoadTask())
+	if IsValid(bsp) then
+		task.Await(bsp:GetLoadTask())
 
-	-- Now grab map facts
-	addFact("map_size", "jazz.fact.mapsize,"..tostring(getMapSize(bsp)))
-	addFact("skybox", "jazz.fact.skybox,"..tostring(getSkybox(bsp)))
-	addFact("map_comment", "jazz.fact.metadata,"..tostring(getComment(bsp))) -- Almost all decompiled maps will have a comment
-	addFact("brush_count", "jazz.fact.brushes,"..tostring(table.Count(bsp.brushes or {})))
-	addFact("static_props", "jazz.fact.staticprops,"..tostring(table.Count(bsp.props or {})))
-	addFact("entity_count", "jazz.fact.entities,"..tostring(table.Count(bsp.entities or {})))
+		-- Now grab map facts
+		addFact("map_size", "jazz.fact.mapsize,"..tostring(getMapSize(bsp)))
+		addFact("skybox", "jazz.fact.skybox,"..tostring(getSkybox(bsp)))
+		addFact("map_comment", "jazz.fact.metadata,"..tostring(getComment(bsp))) -- Almost all decompiled maps will have a comment
+		addFact("brush_count", "jazz.fact.brushes,"..tostring(table.Count(bsp.brushes or {})))
+		addFact("static_props", "jazz.fact.staticprops,"..tostring(table.Count(bsp.props or {})))
+		addFact("entity_count", "jazz.fact.entities,"..tostring(table.Count(bsp.entities or {})))
+	end
+	--todo: while this IsValid fixes the lua error, we probably should put some sort of warning here because maps that do this aren't going to work
 	addFact("map_name", "jazz.fact.map,"..tostring(mapname))
 end
 

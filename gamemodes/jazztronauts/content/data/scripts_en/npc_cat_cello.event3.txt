@@ -27,7 +27,7 @@ b1:
 	*setanim cat_cello gesture_confused 1 idle*
 	you're really starting to become a fixture around here,%%% huh.%%%*setanim cat_cello gesture_agree 1 idle*
 	makes the whole place feel more alive.%% haven't had so much
-	hustle and/or bustle in%.%.%.%*setanim cat_cello gesture_sigh 1 idle*%%a long time.
+	hustle and/or bustle in%.%.%.%*setanim cat_cello gesture_sigh 1 idle*%% a long time.
 	&b2
 	
 b2:

@@ -23,12 +23,12 @@ SWEP.Primary.Automatic		= true
 
 SWEP.Secondary.ClipSize		= -1
 SWEP.Secondary.DefaultClip	= -1
-SWEP.Secondary.Ammo		= "none"
+SWEP.Secondary.Ammo			= "none"
 
 -- General settings
 SWEP.ReticleCircleMaterial	= Material("ui/jazztronauts/circle")
 local LongRangeDefault		= 300
-local ShortRangeDefault	= 175
+local ShortRangeDefault		= 175
 SWEP.MaxRange				= LongRangeDefault
 SWEP.CloseRange				= ShortRangeDefault
 
@@ -44,7 +44,7 @@ SWEP.Spawnable				= true
 SWEP.RequestInfo			= {}
 SWEP.KillsPeople			= true
 
-SWEP.StartShootTime		= 0
+SWEP.StartShootTime			= 0
 SWEP.LastCursorPos			= Vector()
 
 SWEP.SnatchSounds = {

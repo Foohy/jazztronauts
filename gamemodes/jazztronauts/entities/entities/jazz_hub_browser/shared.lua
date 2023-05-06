@@ -153,7 +153,7 @@ surface.CreateFont( "JazzTVChannel", {
 	font	  = "VCR OSD Mono",
 	size	  = 30,
 	weight	= 500,
-	//antialias = true,
+	antialias = false,
 	additive  = false,
 	blursize  = 1,
 	scanlines = 3

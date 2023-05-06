@@ -13,6 +13,5 @@
 	$detailscale 2
 	$detailblendfactor .3
 	$detailblendmode 0
-	"$surfaceprop" "plaster"
 	"%keywords" "jazz"
 }

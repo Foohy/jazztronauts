@@ -4,7 +4,7 @@ end
 
 SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= JazzLocalize("jazz.weapon.stan")
-SWEP.Slot					= 0
+SWEP.Slot					= 2
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.stan.desc"
 SWEP.WepSelectIcon			= Material( "weapons/weapon_stan.png" )

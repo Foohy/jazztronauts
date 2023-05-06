@@ -7,6 +7,12 @@ include("sh_chatmenu.lua")
 
 util.AddNetworkString("JazzRequestChatStart")
 
+local outputs =
+{
+	"OnPicked",
+	"OnNotPicked",
+}
+
 function ENT:Initialize()
 
 	-- Lookup corresponding npc model
@@ -37,6 +43,11 @@ function ENT:Initialize()
 end
 
 function ENT:KeyValue( key, value )
+
+	if table.HasValue(outputs, key) then
+		self:StoreOutput(key, value)
+	end
+
 	if key == "idleanim" then
 		self.IdleAnim = value
 	end
@@ -44,6 +55,20 @@ function ENT:KeyValue( key, value )
 	if key == "npcid" then
 		self.NPCID = tonumber(value)
 	end
+	
+	if key == "skin" then
+		self:SetSkin(tonumber(value))
+	end
+end
+
+
+function ENT:AcceptInput( name, activator, caller, data )
+
+	if name == "Skin" then self:SetSkin(tonumber(data)) return true end
+
+	if name == "SetIdle" then self:SetIdleAnim(tostring(data)) return true end
+
+	return false
 end
 
 function ENT:SetIdleAnim(anim)
@@ -96,9 +121,16 @@ hook.Add("InitPostEntity", "JazzPlaceSingleCat", function()
 	for id, npcs in pairs(NPCS) do
 		local survivor = table.Random(npcs)
 
+		if IsValid(survivor) then
+			survivor:TriggerOutput("OnPicked", survivor)
+		end
+
 		-- Kill the rest
 		for _, v in pairs(npcs) do
-			if v != survivor then v:Remove() end
+			if v != survivor then
+				v:TriggerOutput("OnNotPicked", v)
+				v:Remove()
+			end
 		end
 	end
 end )

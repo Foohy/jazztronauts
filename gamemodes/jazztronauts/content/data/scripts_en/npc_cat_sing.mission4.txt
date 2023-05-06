@@ -23,8 +23,8 @@ a2:
 	&a3
 	
 a3:
-	> The Singer stares over the water, then shakes their head and passes you 
-	your mission briefing\: 
+	> The Singer stares over the water, then shakes their head and passes
+	you your mission briefing\: 
 	&a3b
 	
 a3b:
@@ -35,9 +35,9 @@ a3b:
 	
 a4:
 	> They further elaborate that while there's a fairly robust collection of 
-	entities in the Mewseum, they found a reference to an NPC named Alyx that 
-	appears to be relatively uncommon and thus needs to be preserved in a hurry. 
-	You'll be paid a premium for tracking one down. *start 4*
+	entities in the Mewseum, they found a reference to an NPC named Alyx 
+	that appears to be relatively uncommon and thus needs to be preserved 
+	in a hurry. You'll be paid a premium for tracking one down. *start 4*
 	&exit
 	
 	

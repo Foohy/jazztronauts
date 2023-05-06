@@ -6,7 +6,7 @@ AddCSLuaFile("cl_init.lua")
 
 ENT.DoorOpen = Sound("doors/door1_move.wav")
 ENT.DoorClose = Sound("doors/door_wood_close1.wav")
---ENT.DoorLocked = --Sound("d")
+ENT.DoorLocked = Sound("doors/default_locked.wav")
 
 local outputs =
 {
@@ -77,6 +77,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 	if name == "Lock" then self:SetLocked(true) return true end
 	if name == "Unlock" then self:SetLocked(false) return true end
 	if name == "Teleport" then self:Use(activator, caller) return true end
+	if name == "Skin" then self:SetSkin(tonumber(data)) return true end
 
 	return false
 end
@@ -181,8 +182,12 @@ function ENT:KeyValue(key, value)
 			self.DoorOpen = Sound( value )
 		elseif key == "closedoorsound" then
 			self.DoorClose = Sound( value )
+		elseif key == "lockdoorsound" then
+			self.DoorLocked = Sound( value )
 		elseif key == "model" then
 			self:SetModel(Model(value))
+		elseif key == "skin" then
+			self:SetSkin(tonumber(value))
 		elseif key == "startlocked" then
 			self.StartLocked = tobool(value)
 		end

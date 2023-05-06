@@ -41,7 +41,7 @@ surface.CreateFont("JazzLoadStateFont", {
 	font		= "VCR OSD Mono",
 	size		= ScreenScale(6),
 	weight		= 500,
-	antialias	= true
+	antialias	= false
 })
 
 local CurAlpha = 0

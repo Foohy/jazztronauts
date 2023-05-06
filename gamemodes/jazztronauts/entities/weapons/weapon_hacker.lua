@@ -4,7 +4,7 @@ end
 
 SWEP.Base					= "weapon_base"
 SWEP.PrintName				= JazzLocalize("jazz.weapon.hacker")
-SWEP.Slot					= 0
+SWEP.Slot					= 4
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.hacker.desc"
 SWEP.WepSelectIcon			= Material( "weapons/weapon_hacker.png" )
@@ -12,7 +12,7 @@ SWEP.WepSelectIcon			= Material( "weapons/weapon_hacker.png" )
 SWEP.ViewModel				= "models/weapons/c_hackergoggles.mdl"
 SWEP.WorldModel				= "models/weapons/w_hackergoggles.mdl"
 
-SWEP.UseHands		= true
+SWEP.UseHands				= true
 
 SWEP.HoldType				= "magic"
 
@@ -32,6 +32,9 @@ SWEP.Secondary.Ammo		= "none"
 
 SWEP.Spawnable				= true
 SWEP.RequestInfo			= {}
+SWEP.Glitch					= 0.0 --weapon's actual current glitchiness
+SWEP.GlitchIdeal			= 0.0 --weapons's ideal glitchiness (lerp glitch towards this)
+SWEP.GlitchSources			= {} --what glitches us out
 
 -- List this weapon in the store
 local storeHacker = jstore.Register(SWEP, 35000, { type = "tool" })
@@ -53,6 +56,30 @@ function SWEP:Initialize()
 		hook.Add("JazzShouldDrawHackerview", self, function()
 			return self:ShouldDrawHackerview()
 		end)
+
+		--[[get our sources of glitchiness - shards, radiation, and magnets
+			none of these things are likely to just spawn in,
+			so we'll just get a table of them to refer to when we init]]
+		self.GlitchSources = ents.FindByClass("jazz_shard")
+		table.Add(self.GlitchSources,ents.FindByClass("jazz_shard_black"))
+		--[[ - just kidding everything else is server only, not worth doing all this on the server for that.
+		--get trigger hurts that deal radiation
+		local tab = ents.FindByClass("trigger_hurt")
+		PrintTable(tab)
+		for key, value in ipairs(tab) do
+			if IsValid(value) then
+				local radiation = bit.band(value:GetInternalVariable("m_bitsDamageInflict"),DMG_RADIATION)
+				print(radiation)
+				if radiation > 0 then
+					table.insert(self.GlitchSources,value)
+				end
+			end
+		end
+		--are magnets even worth searching for? I've never seen one used other than the coast.
+		table.Add(self.GlitchSources,ents.FindByClass("phys_magnet"))
+		]]
+	else
+		
 	end
 end
 
@@ -77,7 +104,8 @@ function SWEP:Holster()
 end
 
 function SWEP:Deploy()
-
+	self:CalcGlitch()
+	self.Glitch = self.GlitchIdeal
 	return true
 end
 
@@ -110,8 +138,54 @@ function SWEP:CalcView( ply, pos, ang, fov )
 
 end
 
+function SWEP:CalcGlitch()
+	--glitchiness think
+	if CLIENT and IsValid(self.Owner) then
+
+		local viewmodel = self.Owner:GetViewModel()
+
+		if IsValid(viewmodel) then
+			
+			local maxrange = 640000 --800^2 (HL2 geiger counter starts going off at 800HU)
+			local pos = self.Owner:GetPos()
+			self.GlitchIdeal = 0.0 --reset ideal glitchiness
+
+			for key, value in ipairs(self.GlitchSources) do
+				if IsValid(value) then
+					--first, shards
+					--if value:GetClass() == "jazz_shard" or value:GetClass() == "jazz_shard_black" then --only doing shards now, no need to check
+						local vpos = value:GetPos()
+						local dist = vpos:DistToSqr(pos)
+						if dist < maxrange then
+							if value:GetCollected() then
+								--This shard is actively fucking shit up, so we get extra fucked up too
+								self.GlitchIdeal = self.GlitchIdeal + ((maxrange - dist) / maxrange * 2)
+							else
+								--Shard exists, but hasn't been touched, only glitch up a bit
+								self.GlitchIdeal = self.GlitchIdeal + ((maxrange - dist) / maxrange * 0.25)
+							end
+						end
+					--elseif string.find(value:GetClass(),"trigger_hurt") then
+					--end
+				end
+			end
+
+			--move our glitchiness towards the ideal (this is never gonna be exact other than at 0, but it doesn't matter)
+			if self.Glitch > self.GlitchIdeal then self.Glitch = self.Glitch - math.max(0.01,math.abs(self.Glitch-self.GlitchIdeal)/100) end
+			if self.Glitch < self.GlitchIdeal then self.Glitch = self.Glitch + math.max(0.01,math.abs(self.Glitch-self.GlitchIdeal)/100) end
+
+			viewmodel:SetPoseParameter("glitch", self.Glitch)
+			viewmodel:InvalidateBoneCache()
+		end
+	end
+end
+
 function SWEP:Think()
 
+	if CLIENT then
+		self:CalcGlitch()
+		self:SetNextClientThink(CurTime() + 0.1)
+	end
 end
 
 function SWEP:CanPrimaryAttack()

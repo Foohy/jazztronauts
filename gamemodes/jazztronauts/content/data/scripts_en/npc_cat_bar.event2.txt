@@ -405,14 +405,14 @@ c22:
 	*setskin cat_cello 1*
 	*setanim cat_cello gesture_agree 1 idle*
     *setspeaker cat_cello*
-    yeah sure i'm pretty sure that's how that works
+    yeah i'm pretty sure that's how that works
     &c24
 
 c24:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
     > Yep.%% The Ninja is now up to his neck in the earth.%%%% There's an evil laugh 
-    sound playing,% and the Ninja seems waiting for more cops?%%%% It fades to 
+    sound playing,% and the Ninja seems to be waiting for more cops?%%%% It fades to 
 	black shortly after,% and the credits roll.
     &c25
 

@@ -175,6 +175,10 @@ function IsAvailable(ply, name)
 	local itm = GetItem(name)
 
 	if not itm then return false end
+
+	-- Player already unlocked this item
+	if unlocks.IsUnlocked(list_name, ply, itm.unlock) then return false end
+
 	if not itm.requires then return true end -- No ownership requirements
 
 	-- "requires" can either be a plain string, indicating only a single prerequisite item

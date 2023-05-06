@@ -2,7 +2,7 @@
 module( "propfeed", package.seeall )
 
 //How long an entry with no updates will stay up
-StayDuration = 6
+StayDuration = CreateClientConVar( "jazz_propfeed_stayduration", "6", true, false, "How long an entry with no updates will stay up in the prop feed. Default 6", 0.1 )
 
 local function strip_mdl(prop)
 
@@ -57,14 +57,14 @@ net.Receive("brushcollect", function()
 			)
 			:SetHighlighted( ply == LocalPlayer() )
 			:SetIconModel( model, nil, mat )
-			:Dispatch( StayDuration, (prop_streak and not prop_streak:Done() and prop_streak) or "bottom" )
+			:Dispatch( StayDuration:GetFloat(), (prop_streak and not prop_streak:Done() and prop_streak) or "bottom" )
 
 	elseif streak ~= nil then
 
 		ply.bstreakcount = (ply.bstreakcount or 0) + 1
 		ply.bstreaktotal = (ply.bstreaktotal or 0) + worth
 
-		streak:Ping( StayDuration )
+		streak:Ping( StayDuration:GetFloat() )
 		streak:SetIconModel( model, nil, mat )
 
 	end
@@ -101,7 +101,7 @@ net.Receive("propcollect", function()
 			)
 			:SetHighlighted( ply == LocalPlayer() )
 			:SetIconModel( model, skin )
-			:Dispatch( StayDuration, (brush_streak and not brush_streak:Done() and brush_streak) or "bottom" )
+			:Dispatch( StayDuration:GetFloat(), (brush_streak and not brush_streak:Done() and brush_streak) or "bottom" )
 
 	elseif streak ~= nil and ply.streakcount then
 
@@ -109,7 +109,7 @@ net.Receive("propcollect", function()
 		ply.streaktotal = ply.streaktotal + worth
 
 		streak:SetIconModel( model, skin )
-		streak:Ping( StayDuration )
+		streak:Ping( StayDuration:GetFloat() )
 
 	end
 

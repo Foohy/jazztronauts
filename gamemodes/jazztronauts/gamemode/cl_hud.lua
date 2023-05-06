@@ -18,7 +18,7 @@ local VisualAmount = 0
 local HideTime = mapcontrol.IsInHub() and math.huge or 0
 local moneyFillDelay = 0 //Delay before the money begin filling into the main dude
 local moneyFillVelocity = 1 //Amount of money to fill per frame. Adjusted based on how many money to fill
-local lastMoneyCount = 0
+local lastMoneyCount = -1
 local isFadingOut = false
 
 local catcoin = Material("materials/ui/jazztronauts/catcoin.png", "smooth")
@@ -71,20 +71,27 @@ local function drawTextRotated(text, font, x, y, color, rotation, maxWidth)
 end
 
 local function DrawNoteCount()
-	local amt = LocalPlayer() && LocalPlayer():GetNotes() or 0
-	if amt != lastMoneyCount then
+	local amt = LocalPlayer() and LocalPlayer():GetNotes() or 0
+
+	--fix just loading in
+	if lastMoneyCount < 0 and amt ~= 0 then
+		lastMoneyCount = amt
+		VisualAmount = amt
+	end
+
+	if amt ~= lastMoneyCount then
 		-- Only delay if earning money
 		if amt > lastMoneyCount then
-			moneyFillDelay = CurTime() + FillDelay
+			moneyFillDelay = CurTime() + FillDelay:GetFloat()
 		end
 
 		lastMoneyCount = amt
 	end
-	if amt != VisualAmount then
+	if amt ~= VisualAmount then
 		HideTime = CurTime() + HideDelay
 	end
 
-	if CurTime() > HideTime && CurAlpha <= 0 then return //Don't draw if the alpha is 0
+	if CurTime() > HideTime and CurAlpha <= 0 then return //Don't draw if the alpha is 0
 	elseif CurTime() > HideTime then
 		CurAlpha = math.Clamp(CurAlpha - (FrameTime() * FadeSpeed ), 0, 255 )
 	else
@@ -121,7 +128,7 @@ local function DrawNoteCount()
 	end
 	text = text .. tostring( amt - VisualAmount )
 
-	if amt - VisualAmount != 0 then
+	if amt - VisualAmount ~= 0 then
 		draw.DrawText( text, "JazzNoteFill", ScrW() - distFromSide, bgHeight + ScreenScale(6), color, TEXT_ALIGN_RIGHT)
 	end
 

@@ -180,11 +180,6 @@ function ENT:VomitNewProps(ply)
 		local loadTime = CurTime() - loadStartTime
 		print("LOAD TOOK: " .. loadTime .. " seconds!")
 
-		-- Add this as a 'session' prop for leaderboards
-		if IsValid(self.CurrentUser) then
-			jazzboards.AddSessionProps(self.CurrentUser:SteamID64(), self.TotalCount)
-		end
-
 		-- Random chance for the pipe to be constipated
 		local empty = next(self.SpawnQueue) == nil
 		self.Constipated = not empty

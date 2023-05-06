@@ -87,7 +87,7 @@ local function getBSPFacts(mapname, wsid, addFact)
 
 	-- Load the map asynchronously first
 	local bsp = bsp2.LoadBSP( mapname, nil, loadLumps )
-	if IsValid(bsp) then
+	if bsp ~= nil then
 		task.Await(bsp:GetLoadTask())
 
 		-- Now grab map facts
@@ -98,7 +98,7 @@ local function getBSPFacts(mapname, wsid, addFact)
 		addFact("static_props", "jazz.fact.staticprops,"..tostring(table.Count(bsp.props or {})))
 		addFact("entity_count", "jazz.fact.entities,"..tostring(table.Count(bsp.entities or {})))
 	end
-	--todo: while this IsValid fixes the lua error, we probably should put some sort of warning here because maps that do this aren't going to work
+	--todo: while this nil check fixes the lua error, we probably should put some sort of warning here because maps that do this aren't going to work
 	addFact("map_name", "jazz.fact.map,"..tostring(mapname))
 end
 

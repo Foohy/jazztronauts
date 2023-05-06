@@ -3,6 +3,10 @@ AddCSLuaFile()
 module( "jazzloc", package.seeall )
 
 if CLIENT then
+	MaterialLocMap = MaterialLocMap or {}
+	DummyTestMaterial = CreateMaterial("jazz_dummy_localization_material", "UnlitGeneric", {
+		["$basetexture"] = "color/white"
+	})
 
 	Localize = function(...)
 	
@@ -25,6 +29,81 @@ if CLIENT then
 		return strang
 		
 	end
+
+	local function loadTexture(texturepath)
+		DummyTestMaterial:SetTexture("$basetexture", texturepath)
+		local texture = DummyTestMaterial:GetTexture("$basetexture")
+
+		return texture and not texture:IsError() and not texture:IsErrorTexture() and texture or nil
+	end
+
+	local function doLocalizeMaterial(matpath)
+		assert(MaterialLocMap[matpath])
+		local matinfo = MaterialLocMap[matpath]
+
+		if matinfo.orig_name then
+
+			-- Build the translated name of the base texture based on our current language
+			local lang = string.lower(GetConVar("gmod_language"):GetString())
+			local translated = matinfo.orig_name .. "_" .. string.lower(lang)
+			local currentName = matinfo.texture and string.lower(matinfo.texture:GetName()) or nil
+			local mat = matinfo.material
+
+			-- Check if we even need to translate anything
+			if currentName == translated or (lang == "en" and currentName == matinfo.orig_name) then
+				--print("Texture is already the correct translation")
+				return
+			end
+
+			-- Try loading the translated texture, and only if it succeeds do we override the base material
+			local new_texture = loadTexture(translated)
+			if new_texture then
+				print("Localizing " .. mat:GetName() .. ": " .. matinfo.orig_name .. " -> " .. translated)
+
+			-- Check if we need to revert
+			elseif currentName != matinfo.orig_name then
+				new_texture = loadTexture(matinfo.orig_name)
+				print("Reverting to original texture for " .. mat:GetName() .. ": " .. tostring(currentName) .. " -> " .. tostring(matinfo.orig_name))
+			else
+				print("No translation found for " .. mat:GetName() .. ": " .. matinfo.orig_name .. " -> " .. translated)
+			end
+
+			-- Apply the new texture
+			if new_texture then
+				matinfo.material:SetTexture("$basetexture", new_texture)
+				matinfo.texture = new_texture
+			end
+		end
+	end
+
+	LocalizeMaterial = function(matpath)
+		if not MaterialLocMap[matpath] then
+			local mat = Material(matpath)
+			local basetexture = mat:GetTexture("$basetexture")
+					
+			print("LocalizeMaterial(" .. matpath .. ") = " .. tostring(mat))
+			MaterialLocMap[matpath] = {
+				material  = mat,
+				texture   = basetexture,
+				orig_name = basetexture and basetexture:GetName() or nil,
+			}
+		end
+
+		doLocalizeMaterial(matpath)
+	end
+
+	RefreshMaterials = function()
+		for matpath, _ in pairs(MaterialLocMap) do
+			doLocalizeMaterial(matpath)
+		end
+	end
+
+	cvars.AddChangeCallback("gmod_language", RefreshMaterials, "jazz_localization_listener")
+
+	concommand.Add("jazz_loc_refreshmats", function()
+		RefreshMaterials()
+	end )
+
 	
 else --no localization on server, so we'll just tack on the arguments to the localization token there
 

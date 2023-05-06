@@ -2,17 +2,15 @@ module( "missions", package.seeall )
 
 ResetMissions()
 
-include("jazz_localize.lua")
-
 NPC_COMPUTER = 666
-AddNPC("NPC_CAT_BAR", JazzLocalize("jazz.cat.bartender"), "models/andy/bartender/cat_bartender.mdl")
-AddNPC("NPC_CAT_SING", JazzLocalize("jazz.cat.singer"), "models/andy/singer/cat_singer.mdl")
-AddNPC("NPC_CAT_PIANO", JazzLocalize("jazz.cat.pianist"), "models/andy/pianist/cat_pianist.mdl")
-AddNPC("NPC_CAT_CELLO", JazzLocalize("jazz.cat.cellist"), "models/andy/cellist/cat_cellist.mdl")
+AddNPC("NPC_CAT_BAR", jazzloc.Localize("jazz.cat.bartender"), "models/andy/bartender/cat_bartender.mdl")
+AddNPC("NPC_CAT_SING", jazzloc.Localize("jazz.cat.singer"), "models/andy/singer/cat_singer.mdl")
+AddNPC("NPC_CAT_PIANO", jazzloc.Localize("jazz.cat.pianist"), "models/andy/pianist/cat_pianist.mdl")
+AddNPC("NPC_CAT_CELLO", jazzloc.Localize("jazz.cat.cellist"), "models/andy/cellist/cat_cellist.mdl")
 AddNPC("NPC_NARRATOR", "", "models/npc/cat.mdl")
 AddNPC("NPC_BAR", "")
-AddNPC("NPC_CAT_VOID", JazzLocalize("jazz.cat.unknown"), "models/andy/basecat/cat_all.mdl")
-AddNPC("NPC_CAT_ASH", JazzLocalize("jazz.cat.ash"), "models/andy/basecat/cat_all.mdl")
+AddNPC("NPC_CAT_VOID", jazzloc.Localize("jazz.cat.unknown"), "models/andy/basecat/cat_all.mdl")
+AddNPC("NPC_CAT_ASH", jazzloc.Localize("jazz.cat.ash"), "models/andy/basecat/cat_all.mdl")
 
 -- Utility function for giving a player a monetary reward
 local function GrantMoney(amt)
@@ -117,7 +115,7 @@ local count = 15
 AddMission(0, NPC_CAT_CELLO, {
 
 	-- User-friendly instructions for what the player should collect
-	Instructions = JazzLocalize("jazz.mission.drums",count),
+	Instructions = jazzloc.Localize("jazz.mission.drums",count),
 
 	-- The accept function for what props count towards the mission
 	-- Can be as broad or as specific as you want
@@ -140,7 +138,7 @@ AddMission(0, NPC_CAT_CELLO, {
 count = 10
 AddMission(1, NPC_CAT_CELLO, {
 	-- User-friendly instructions for what the player should collect
-	Instructions = JazzLocalize("jazz.mission.gasbeer",count),
+	Instructions = jazzloc.Localize("jazz.mission.gasbeer",count),
 
 	-- The accept function for what props count towards the mission
 	-- Can be as broad or as specific as you want
@@ -161,7 +159,7 @@ AddMission(1, NPC_CAT_CELLO, {
 
 count = 10
 AddMission(2, NPC_CAT_CELLO, {
-	Instructions = JazzLocalize("jazz.mission.chems",count),
+	Instructions = jazzloc.Localize("jazz.mission.chems",count),
 	Filter = function(mdl)
 		return MatchesAny(mdl, {
 				--"models/props_junk/garbage_plasticbottle001a.mdl",
@@ -192,7 +190,7 @@ AddMission(2, NPC_CAT_CELLO, {
 count = 5
 AddMission(3, NPC_CAT_CELLO, {
 	-- User-friendly instructions for what the player should collect
-	Instructions = JazzLocalize("jazz.mission.paint",count),
+	Instructions = jazzloc.Localize("jazz.mission.paint",count),
 
 	-- The accept function for what props count towards the mission
 	-- Can be as broad or as specific as you want
@@ -216,7 +214,7 @@ AddMission(3, NPC_CAT_CELLO, {
 
 count = 1
 AddMission(4, NPC_CAT_CELLO, {
-	Instructions = JazzLocalize("jazz.mission.drk",count),
+	Instructions = jazzloc.Localize("jazz.mission.drk",count),
 	Filter = function(mdl)
 		return MatchesAny(mdl, {
 			"models/kleiner.mdl",
@@ -231,7 +229,7 @@ AddMission(4, NPC_CAT_CELLO, {
 --[[ --old mission 5, dialog mentions getting milk so this is ???
 count = 1
 AddMission(5, NPC_CAT_CELLO, {
-	Instructions = JazzLocalize("jazz.mission.cactus",count),
+	Instructions = jazzloc.Localize("jazz.mission.cactus",count),
 	Filter = function(mdl)
 		return mdl == "models/props_lab/cactus.mdl"
 	end,
@@ -242,7 +240,7 @@ AddMission(5, NPC_CAT_CELLO, {
 
 count = 10
 AddMission(5, NPC_CAT_CELLO, {
-	Instructions = JazzLocalize("jazz.mission.milk",count),
+	Instructions = jazzloc.Localize("jazz.mission.milk",count),
 	Filter = function(mdl)
 		return mdl == "models/props_2fort/cow001_reference.mdl" or
 			string.match(mdl, "milk") and 
@@ -261,7 +259,7 @@ AddMission(5, NPC_CAT_CELLO, {
 */
 count = 10
 AddMission(0, NPC_CAT_BAR, {
-	Instructions = JazzLocalize("jazz.mission.crates",count),
+	Instructions = jazzloc.Localize("jazz.mission.crates",count),
 	Filter = function(mdl)
 		return string.match(mdl, "crate") and
 			not string.match(mdl, "chunk") and
@@ -275,7 +273,7 @@ AddMission(0, NPC_CAT_BAR, {
 
 count = 10
 AddMission(1, NPC_CAT_BAR, {
-	Instructions = JazzLocalize("jazz.mission.cars",count),
+	Instructions = jazzloc.Localize("jazz.mission.cars",count),
 	Filter = function(mdl)
 		return MatchesAny(mdl, {
 				"models/buggy.mdl",
@@ -349,7 +347,7 @@ AddMission(1, NPC_CAT_BAR, {
 
 count = 10
 AddMission(2, NPC_CAT_BAR, {
-	Instructions = JazzLocalize("jazz.mission.melons",count),
+	Instructions = jazzloc.Localize("jazz.mission.melons",count),
 	Filter = function(mdl)
 		return string.match(mdl, "watermelon")
 	end,
@@ -360,7 +358,7 @@ AddMission(2, NPC_CAT_BAR, {
 
 count = 15
 AddMission(3, NPC_CAT_BAR, {
-	Instructions = JazzLocalize("jazz.mission.propane",count),
+	Instructions = jazzloc.Localize("jazz.mission.propane",count),
 	Filter = function(mdl)
 		return propane(mdl)
 	end,
@@ -371,7 +369,7 @@ AddMission(3, NPC_CAT_BAR, {
 
 count = 5
 AddMission(4, NPC_CAT_BAR, {
-	Instructions = JazzLocalize("jazz.mission.washers",count),
+	Instructions = jazzloc.Localize("jazz.mission.washers",count),
 	Filter = function(mdl)
 		return --[[MatchesAny(mdl, {
 			"models/props_c17/furniturewashingmachine001a.mdl",
@@ -393,7 +391,7 @@ AddMission(4, NPC_CAT_BAR, {
 
 count = 10
 AddMission(5, NPC_CAT_BAR, {
-	Instructions = JazzLocalize("jazz.mission.antlions",count),
+	Instructions = jazzloc.Localize("jazz.mission.antlions",count),
 	Filter = function(mdl)
 		return MatchesAny(mdl, {
 			"models/antlion.mdl",
@@ -417,7 +415,7 @@ AddMission(5, NPC_CAT_BAR, {
 */
 count = 5
 AddMission(0, NPC_CAT_PIANO, {
-	Instructions = JazzLocalize("jazz.mission.chairs",count),
+	Instructions = jazzloc.Localize("jazz.mission.chairs",count),
 	Filter = function(mdl)
 		return ((string.match(mdl, "chair") or string.match(mdl, "bench")) and
 				not string.match(mdl, "chunk") and
@@ -434,7 +432,7 @@ AddMission(0, NPC_CAT_PIANO, {
 
 count = 10
 AddMission(1, NPC_CAT_PIANO, {
-	Instructions = JazzLocalize("jazz.mission.crabs",count),
+	Instructions = jazzloc.Localize("jazz.mission.crabs",count),
 	Filter = function(mdl)
 		return string.match(mdl, "eadcrab") or --gets canisters and headcrabprep too (which is fine imo), leaving off the 'h' also gives us TF2 breadcrab
 			MatchesAny(mdl, {
@@ -465,7 +463,7 @@ AddMission(1, NPC_CAT_PIANO, {
 
 count = 20
 AddMission(2, NPC_CAT_PIANO, {
-	Instructions = JazzLocalize("jazz.mission.meals",count),
+	Instructions = jazzloc.Localize("jazz.mission.meals",count),
 	Filter = function(mdl)
 		return string.match(mdl, "watermelon") or 
 			MatchesAny(mdl, {
@@ -512,7 +510,7 @@ AddMission(2, NPC_CAT_PIANO, {
 
 count = 30
 AddMission(3, NPC_CAT_PIANO, {
-	Instructions = JazzLocalize("jazz.mission.vending",count),
+	Instructions = jazzloc.Localize("jazz.mission.vending",count),
 	Filter = function(mdl)
 		return string.match(mdl, "vending") and string.match(mdl, "machine")
 	end,
@@ -523,7 +521,7 @@ AddMission(3, NPC_CAT_PIANO, {
 
 count = 1
 AddMission(4, NPC_CAT_PIANO, {
-	Instructions = JazzLocalize("jazz.mission.horse",count),
+	Instructions = jazzloc.Localize("jazz.mission.horse",count),
 	Filter = function(mdl)
 		return string.match(mdl, "horse") and string.match(mdl, "statue")
 	end,
@@ -534,7 +532,7 @@ AddMission(4, NPC_CAT_PIANO, {
 
 count = 3
 AddMission(5, NPC_CAT_PIANO, {
-	Instructions = JazzLocalize("jazz.mission.metropolice",count),
+	Instructions = jazzloc.Localize("jazz.mission.metropolice",count),
 	Filter = function(mdl)
 		return MatchesAny(mdl, {
 			"models/police.mdl",
@@ -555,7 +553,7 @@ AddMission(5, NPC_CAT_PIANO, {
 */
 count = 10
 AddMission(0, NPC_CAT_SING, {
-	Instructions = JazzLocalize("jazz.mission.documents",count),
+	Instructions = jazzloc.Localize("jazz.mission.documents",count),
 	Filter = function(mdl)
 		return	string.match(mdl, "binder") or
 				string.match(mdl, "file") or
@@ -578,7 +576,7 @@ AddMission(0, NPC_CAT_SING, {
 
 count = 5
 AddMission(1, NPC_CAT_SING, {
-	Instructions = JazzLocalize("jazz.mission.dolls",count),
+	Instructions = jazzloc.Localize("jazz.mission.dolls",count),
 	Filter = function(mdl)
 		--[[return MatchesAny(mdl, {
 			"models/props_lab/huladoll.mdl",
@@ -599,7 +597,7 @@ AddMission(1, NPC_CAT_SING, {
 
 count = 15
 AddMission(2, NPC_CAT_SING, {
-	Instructions = JazzLocalize("jazz.mission.radiators",count),
+	Instructions = jazzloc.Localize("jazz.mission.radiators",count),
 	Filter = function(mdl)
 		return	string.match(mdl, "radiator") or
 				string.match(mdl, "_heater")
@@ -611,7 +609,7 @@ AddMission(2, NPC_CAT_SING, {
 
 count = 10
 AddMission(3, NPC_CAT_SING, {
-	Instructions = JazzLocalize("jazz.mission.plants",count),
+	Instructions = jazzloc.Localize("jazz.mission.plants",count),
 	Filter = function(mdl)
 		return MatchesAny(mdl, {
 			"models/props/de_inferno/claypot03.mdl",
@@ -640,7 +638,7 @@ AddMission(3, NPC_CAT_SING, {
 
 count = 1
 AddMission(4, NPC_CAT_SING, {
-	Instructions = JazzLocalize("jazz.mission.alyx",count),
+	Instructions = jazzloc.Localize("jazz.mission.alyx",count),
 	Filter = function(mdl)
 		return MatchesAny(mdl, {
 			"models/alyx.mdl",
@@ -657,7 +655,7 @@ AddMission(4, NPC_CAT_SING, {
 
 count = 10
 AddMission(5, NPC_CAT_SING, {
-	Instructions = JazzLocalize("jazz.mission.radios",count),
+	Instructions = jazzloc.Localize("jazz.mission.radios",count),
 	Filter = function(mdl)
 		--[[return MatchesAny(mdl, {
 			"models/infra/props_clutter/cheap_radio.mdl",

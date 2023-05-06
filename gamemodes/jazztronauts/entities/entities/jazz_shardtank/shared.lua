@@ -67,8 +67,6 @@ if SERVER then
 	end
 
 else
-	include("jazz_localize.lua")
-
 	ENT.TankAmbientSound = "ambient/water/water_in_boat1.wav"
 	ENT.TankSplashSounds = {
 		"ambient/water/water_splash1.wav",
@@ -275,10 +273,10 @@ else
 			local collected = self:GetCollectedShardCount()
 			render.Clear(c.r, c.g, c.b, 255)
 			cam.Start2D()
-				local ctext =  JazzLocalize("jazz.tank.shard"..(collected ~= 1 and "s" or ""),collected)
-				local ntext =  JazzLocalize("jazz.tank.need",mapgen.GetTotalRequiredShards())
+				local ctext =  jazzloc.Localize("jazz.tank.shard"..(collected ~= 1 and "s" or ""),collected)
+				local ntext =  jazzloc.Localize("jazz.tank.need",mapgen.GetTotalRequiredShards())
 				if newgame.GetGlobal("ended") then
-					ntext = JazzLocalize("jazz.tank.newgameplus")
+					ntext = jazzloc.Localize("jazz.tank.newgameplus")
 				end
 
 				draw.SimpleText(ctext, "JazzShardTankFont", sizeX / 2, sizeY / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)

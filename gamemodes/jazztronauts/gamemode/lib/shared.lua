@@ -1,6 +1,7 @@
 AddCSLuaFile("ext/bsp3.lua") include("ext/bsp3.lua")
 AddCSLuaFile("ext/phy3.lua") include("ext/phy3.lua")
 
+include("sh_jazzloc.lua")
 include("sh_gc.lua")
 include("sh_statemachine.lua")
 include("sh_struct.lua")

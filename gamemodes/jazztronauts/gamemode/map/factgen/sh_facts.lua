@@ -77,8 +77,6 @@ if SERVER then
 end
 
 if CLIENT then
-	include("jazz_localize.lua")
-
 	Callbacks = Callbacks or {}
 	CombinedFacts = CombinedFacts or {}
 	ActiveFacts = ActiveFacts or {}
@@ -119,7 +117,7 @@ if CLIENT then
 
 			combinedFacts[k] = {
 				id = k,
-				fact = JazzLocalize(string.Explode(",",v)), 
+				fact = jazzloc.Localize(string.Explode(",",v)), 
 				name = factNames[k]
 			}
 

@@ -61,8 +61,6 @@ end
 
 if SERVER then return end
 
-include("jazz_localize.lua")
-
 local function randomlocalization(strang)
 	
 	if strang == nil then return nil end
@@ -80,9 +78,9 @@ local function randomlocalization(strang)
 	}
 	local localizationstrs = setmetatable(localizationtable, {__index = function() return "" end} )
 
-	return JazzLocalize(strang..localizationstrs[math.random(#localizationstrs+3)]) -- 3 (or more if it's present) times more likely to display our language, with others mixed in for flavor]]
+	return jazzloc.Localize(strang..localizationstrs[math.random(#localizationstrs+3)]) -- 3 (or more if it's present) times more likely to display our language, with others mixed in for flavor]]
 	
-	return JazzLocalize(strang)
+	return jazzloc.Localize(strang)
 end
 
 local RTWidth = 512

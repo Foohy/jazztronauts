@@ -1,8 +1,6 @@
 
 module( "propfeed", package.seeall )
 
-include("jazz_localize.lua")
-
 //How long an entry with no updates will stay up
 StayDuration = 6
 
@@ -45,16 +43,16 @@ net.Receive("brushcollect", function()
 		ply.bstreaktotal = worth
 
 		brush_streaks[ply:EntIndex()] = eventfeed.Create()
-			:Title(JazzLocalize("jazz.message.stole","%name","%count","%brushes"), 
+			:Title(jazzloc.Localize("jazz.message.stole","%name","%count","%brushes"), 
 				{
 					name = function() return IsValid(ply) and ply:Nick() or "<player>" end, 
 					count = function() return IsValid(ply) and ply.bstreakcount or 0 end,
-					brushes = function() return ( IsValid(ply) and ply.bstreakcount > 1 ) and JazzLocalize("jazz.message.brushes") or JazzLocalize("jazz.message.brush") end,
+					brushes = function() return ( IsValid(ply) and ply.bstreakcount > 1 ) and jazzloc.Localize("jazz.message.brushes") or jazzloc.Localize("jazz.message.brush") end,
 				}
 			)
 			:Body("%total", 
 				{
-					total = function() return JazzLocalize("jazz.hud.money",comma_value( IsValid(ply) and ply.bstreaktotal or 0)) end
+					total = function() return jazzloc.Localize("jazz.hud.money",comma_value( IsValid(ply) and ply.bstreaktotal or 0)) end
 				}
 			)
 			:SetHighlighted( ply == LocalPlayer() )
@@ -89,16 +87,16 @@ net.Receive("propcollect", function()
 		ply.streaktotal = worth
 
 		prop_streaks[ply:EntIndex()] = eventfeed.Create()
-			:Title(JazzLocalize("jazz.message.stole","%name","%count","%props"), 
+			:Title(jazzloc.Localize("jazz.message.stole","%name","%count","%props"), 
 				{
 					name = function() return IsValid(ply) and ply:Nick() or "<player>" end, 
 					count = function() return IsValid(ply)and ply.streakcount or 0 end,
-					props = function() return ( IsValid(ply) and ply.streakcount > 1 ) and JazzLocalize("jazz.message.props") or JazzLocalize("jazz.message.prop") end,
+					props = function() return ( IsValid(ply) and ply.streakcount > 1 ) and jazzloc.Localize("jazz.message.props") or jazzloc.Localize("jazz.message.prop") end,
 				}
 			)
 			:Body("%total", 
 				{
-					total = function() return JazzLocalize("jazz.hud.money",comma_value( IsValid(ply) and ply.streaktotal or 0)) end
+					total = function() return jazzloc.Localize("jazz.hud.money",comma_value( IsValid(ply) and ply.streaktotal or 0)) end
 				}
 			)
 			:SetHighlighted( ply == LocalPlayer() )

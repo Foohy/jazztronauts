@@ -4,6 +4,7 @@ module( "jazzloc", package.seeall )
 
 if CLIENT then
 	MaterialLocMap = MaterialLocMap or {}
+	MaterialSystemReady = MaterialSystemReady or false
 	DummyTestMaterial = CreateMaterial("jazz_dummy_localization_material", "UnlitGeneric", {
 		["$basetexture"] = "color/white"
 	})
@@ -41,6 +42,23 @@ if CLIENT then
 		assert(MaterialLocMap[matpath])
 		local matinfo = MaterialLocMap[matpath]
 
+		-- Lua starts before the material system is ready and can cause a crash
+		if not MaterialSystemReady then
+			return
+		end
+
+		-- Fill out metadata if this material isn't in the system yet
+		if not matinfo.orig_name then
+			local mat = Material(matpath)
+			local basetexture = mat:GetTexture("$basetexture")
+					
+			--print("LocalizeMaterial(" .. matpath .. ") = " .. tostring(mat))
+			matinfo.material  = mat
+			matinfo.texture   = basetexture
+			matinfo.orig_name = basetexture and basetexture:GetName() or nil
+		end
+
+
 		if matinfo.orig_name then
 
 			-- Build the translated name of the base texture based on our current language
@@ -65,7 +83,7 @@ if CLIENT then
 				new_texture = loadTexture(matinfo.orig_name)
 				print("Reverting to original texture for " .. mat:GetName() .. ": " .. tostring(currentName) .. " -> " .. tostring(matinfo.orig_name))
 			else
-				print("No translation found for " .. mat:GetName() .. ": " .. matinfo.orig_name .. " -> " .. translated)
+				--print("No translation found for " .. mat:GetName() .. ": " .. matinfo.orig_name .. " -> " .. translated)
 			end
 
 			-- Apply the new texture
@@ -77,19 +95,15 @@ if CLIENT then
 	end
 
 	LocalizeMaterial = function(matpath)
+		-- print("LocalizeMaterial(" .. matpath .. ")")
+	
+		-- Add to system, but don't fill out metadata until material system initialized
 		if not MaterialLocMap[matpath] then
-			local mat = Material(matpath)
-			local basetexture = mat:GetTexture("$basetexture")
-					
-			print("LocalizeMaterial(" .. matpath .. ") = " .. tostring(mat))
-			MaterialLocMap[matpath] = {
-				material  = mat,
-				texture   = basetexture,
-				orig_name = basetexture and basetexture:GetName() or nil,
-			}
+			MaterialLocMap[matpath] = {}
 		end
 
 		doLocalizeMaterial(matpath)
+
 	end
 
 	RefreshMaterials = function()
@@ -98,8 +112,17 @@ if CLIENT then
 		end
 	end
 
+	-- Refresh after material system initialized
+	timer.Simple(0, function()
+		MaterialSystemReady = true
+		print("Initialized material system, refreshing localized materials")
+		RefreshMaterials()
+	end )
+
+	-- Refresh on language change
 	cvars.AddChangeCallback("gmod_language", RefreshMaterials, "jazz_localization_listener")
 
+	-- Refresh on concommand
 	concommand.Add("jazz_loc_refreshmats", function()
 		RefreshMaterials()
 	end )

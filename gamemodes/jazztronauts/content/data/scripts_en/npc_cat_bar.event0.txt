@@ -140,9 +140,9 @@ merge1c:
     %%*setskin cat 3*Ah, one other*setskin cat 0* thing.%.%.
     &merge1d
 merge1d:
-    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000*This isn't required of you,%*setanim cat gesture_jab 1.0 idle*  but can I ask you to spend some time 
+    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000*This isn't required of you,%*setanim cat gesture_jab 1.0 idle* but can I ask you to spend some time 
     with the rest of my peers?%%%*setskin cat 1* They won't admit it,% but they do 
-    enjoy the company%.%.%.*setskin cat 0*and exposure to different worldviews 
+    enjoy the company%.%.%.*setskin cat 0* and exposure to different worldviews 
     couldn't hurt them either.
     &merge1e
 merge1e:

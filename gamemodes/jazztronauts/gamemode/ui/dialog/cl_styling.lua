@@ -283,7 +283,7 @@ DialogCallbacks.Paint = function(_dialog)
 		surface.SetFont( "JazzDialogFontHint" )
 		local contstr = "Click to continue...	"
 		local tw,th = surface.GetTextSize(contstr)
-		local contX = x + w/2 - tw //* (localspeaker and 0.2 or 1)
+		local contX = x + w/2 - tw // * (localspeaker and 0.2 or 1)
 		if localspeaker then
 			contX = contX - ScreenScale(65)
 		end

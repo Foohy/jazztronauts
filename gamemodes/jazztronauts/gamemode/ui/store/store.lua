@@ -547,7 +547,7 @@ function IsItemNewlyAffordable(itemName)
 	if LocalPlayer():GetNotes() < item.price then return false end
 
 	-- Check if already seen
-	return not LocalPlayer():GetPData("jazz_seenitems_" .. item.name, false)
+	return not LocalPlayer():GetPData("jazz_seenitems_" .. item.unlock, false)
 end
 
 function HasNewItems(storeName)
@@ -566,12 +566,12 @@ function MarkItemSeen(itemName)
 	local item = jstore.GetItem(itemName)
 	if not item then return end
 
-	LocalPlayer():SetPData("jazz_seenitems_" .. item.name, true)
+	LocalPlayer():SetPData("jazz_seenitems_" .. item.unlock, true)
 end
 
 function ResetSeenItems()
 	for _, v in pairs(jstore.GetItems()) do
-		LocalPlayer():RemovePData("jazz_seenitems_" .. v.name)
+		LocalPlayer():RemovePData("jazz_seenitems_" .. v.unlock)
 	end
 end
 

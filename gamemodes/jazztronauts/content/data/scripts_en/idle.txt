@@ -560,9 +560,29 @@ begin12:
 
 # TODO: need begin2 and begin3 (for Pianist and Singer)
 
+begin2:
+	*setauto*
+	> The Singer excitedly greets you and thanks you again,% 
+	for what you've done to help her. This has to be at least% 
+	the tenth time she's thanked you for your work today,% 
+	and it certainly won't be stopping anytime soon.
+	&exit
+
+begin3:
+	*setauto*
+	Let me tell you something, *player*.%
+	Lately,%%% well.%%% Ever since you came here, at least when% 
+	I got my hand back at playing the piano,% just,%%% things in general,%
+	they've gotten ~ohsomuch~ better. So,%%% uh...%%% Thanks.
+	&exit
+
 begin4:
-    thanks for doing my grocery shopping
+	*setauto*
+	ever since that.. incident a while back i must say you've been%
+	of so much assistance to me, to put me back on the rails. i can't say
+	where i'd be without you.
     &exit
+    
 begin32:
     WOW!!!!! it's*c 255 0 0* fucking nothing *c*
     *c 50* go fuck yourself

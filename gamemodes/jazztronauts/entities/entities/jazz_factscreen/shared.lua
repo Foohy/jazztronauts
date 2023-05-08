@@ -132,6 +132,7 @@ local function renderFact(rt, f, title, bgcolor, font)
 
 	rt:Render( function()
 		local mostr = "<font=" .. (font or "FactScreenFont") ..">" .. randomlocalization(f.fact) .. "</font>"
+		mostr = string.Replace(mostr,"‚",",") --replaces U+201A "Single Low-9 Quotation Mark" with comma (we're done with localization, commas are safe again)
 		local mo = markup.Parse(mostr, RTWidth * 0.98)
 
 		cam.Start2D()

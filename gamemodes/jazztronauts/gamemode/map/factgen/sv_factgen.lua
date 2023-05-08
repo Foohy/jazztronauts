@@ -64,7 +64,7 @@ local function getWorkshopFacts(wsid, addFact)
 		local comments = task.Await(commentTask)
 		if #comments > 0 then
 			local comm = table.Random(comments)
-			comm.message = string.Replace(comm.message,",","‚") --replaces comma with U+201A "Single Low-9 Quotation Mark" (commas cause comment rendering to break on fact screens)
+			comm.message = string.Replace(comm.message,",","‚") --replaces comma with U+201A "Single Low-9 Quotation Mark" (commas in comments break running through screen localization)
 			addFact("comment", "\"" .. comm.message .. "\"\n-" .. comm.author)
 		end
 	end

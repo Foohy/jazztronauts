@@ -14,6 +14,9 @@ begin:
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos -2907.271484 2958.740967 -64;setang -90 10.601639 0.000000*
 	*setnpcid cat_cello npc_cat_cello*
+
+	*spawn good_shit models/sierra/good_shit.mdl*
+	*setposang good_shit setpos -2867 4266 32;setang 0 75 0.000000*
 	
 	*setposang player setpos -1069.755615 521.588379 -64;setang 0 -165.918091 0.000000*
 	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
@@ -225,13 +228,13 @@ m8b:
 	&m9
 	
 m9:
-	*setposang cat_piano setpos -2863.152832 4235.968750 -10;setang -90 0 0.000000*
-	*setcam setpos -2818.711670 4181.534668 54.234352;setang 8.238340 122.789406 0.000000*
+	*setposang cat_piano setpos -2863.152832 4235.968750 0;setang -90 0 0.000000*
+	*setcam setpos -2818.711670 4181.534668 64.234352;setang 8.238340 122.789406 0.000000*
 	*setspeaker narrator*
-	>Her tail rigid behind her,% she leans in%.%.%.%%%*setcam setpos -2823.478516 4228.416992 42.383907;setang -0.745903 148.544296 0.000000*
+	>Her tail rigid behind her,% she leans in%.%.%.%%%*setcam setpos -2823.478516 4228.416992 52.383907;setang 5.745903 148.544296 0.000000*
 	and in%.%.%.%%%
-	and%.%.%.%%*setcam setpos -2850.054443 4247.673828 42.791172;setang 10.664083 139.080826 0.000000*%*setanim cat_piano gesture_exchange 3 idle*
-	got it!
+	and%.%.%.%%*setcam setpos -2850.054443 4247.673828 47.791172;setang 15.664083 139.080826 0.000000*%*setanim cat_piano gesture_exchange 3 idle*
+	got it!*setposang good_shit setpos -2867 4266 -32;setang 0 75 0.000000*
 	&m10
 	
 m10:
@@ -279,6 +282,7 @@ m14:
 	*setspeaker cat_piano*
 	The contract of friendship is sealed.%%%%*setskin cat_piano 4*
 	*setanim cat_piano pose_passedout*
+	*setposang good_shit setpos -1195 485 -64;setang 0 75 0*
 	>The Pianist's eyes go blank,% and she falls backward onto the floor.
 	&m15
 	

@@ -5,7 +5,7 @@ if SERVER then
 end
 
 SWEP.Base					= "weapon_basehold"
-SWEP.PrintName				= JazzLocalize("jazz.weapon.snatcher")
+SWEP.PrintName				= jazzloc.Localize("jazz.weapon.snatcher")
 SWEP.Slot					= 0
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.WepSelectIcon			= Material( "weapons/weapon_propsnatcher.png" )
@@ -58,51 +58,51 @@ SWEP.MissSounds = {
 }
 
 local snatch_cone = jstore.RegisterSeries("snatch_cone", 20000, 10, {
-	name = JazzLocalize("jazz.weapon.snatcher.upgrade.cone"),
-	desc = JazzLocalize("jazz.weapon.snatcher.upgrade.cone.desc"),
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.cone"),
+	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.cone.desc"),
 	type = "upgrade",
-	cat = JazzLocalize("jazz.weapon.snatcher"),
+	cat = jazzloc.Localize("jazz.weapon.snatcher"),
 	priceMultiplier = 1.5,
 })
 local snatch_range = jstore.RegisterSeries("snatch_range", 10000, 10, {
-	name = JazzLocalize("jazz.weapon.snatcher.upgrade.range"),
-	desc = JazzLocalize("jazz.weapon.snatcher.upgrade.range.desc"),
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.range"),
+	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.range.desc"),
 	type = "upgrade",
-	cat = JazzLocalize("jazz.weapon.snatcher"),
+	cat = jazzloc.Localize("jazz.weapon.snatcher"),
 	priceMultiplier = 1.5,
 })
 local snatch2 = jstore.Register("snatch2", 10000, {
-	name = JazzLocalize("jazz.weapon.snatcher.upgrade.auto"),
-	cat = JazzLocalize("jazz.weapon.snatcher"),
-	desc = JazzLocalize("jazz.weapon.snatcher.upgrade.auto.desc"),
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.auto"),
+	cat = jazzloc.Localize("jazz.weapon.snatcher"),
+	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.auto.desc"),
 	type = "upgrade"
 })
 
 local snatch_world = jstore.Register("snatch_world", 10000, {
-	name = JazzLocalize("jazz.weapon.snatcher.upgrade.world"),
-	cat = JazzLocalize("jazz.weapon.snatcher"),
-	desc = JazzLocalize("jazz.weapon.snatcher.upgrade.world.desc"),
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.world"),
+	cat = jazzloc.Localize("jazz.weapon.snatcher"),
+	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.world.desc"),
 	type = "upgrade"
 })
 local snatch_multi = jstore.Register("snatch_multi", 50000, {
-	name = JazzLocalize("jazz.weapon.snatcher.upgrade.multi"),
-	cat = JazzLocalize("jazz.weapon.snatcher"),
-	desc = JazzLocalize("jazz.weapon.snatcher.upgrade.multi.desc"),
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.multi"),
+	cat = jazzloc.Localize("jazz.weapon.snatcher"),
+	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.multi.desc"),
 	requires = snatch_world,
 	type = "upgrade"
 })
 local snatch_world_speed = jstore.RegisterSeries("snatch_world_speed", 1, 10, {
-	name = JazzLocalize("jazz.weapon.snatcher.upgrade.wspeed"),
-	desc = JazzLocalize("jazz.weapon.snatcher.upgrade.wspeed.desc"),
+	name = jazzloc.Localize("jazz.weapon.snatcher.upgrade.wspeed"),
+	desc = jazzloc.Localize("jazz.weapon.snatcher.upgrade.wspeed.desc"),
 	requires = snatch_world,
 	type = "upgrade",
-	cat = JazzLocalize("jazz.weapon.snatcher"),
+	cat = jazzloc.Localize("jazz.weapon.snatcher"),
 	priceMultiplier = 10,
 })
 
 
 
-CreateConVar("jazz_debug_snatch_allups", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY }, JazzLocalize("Temporarily enable all upgrades for snatcher"))
+CreateConVar("jazz_debug_snatch_allups", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY }, jazzloc.Localize("Temporarily enable all upgrades for snatcher"))
 
 function SWEP:Initialize()
 	self.BaseClass.Initialize( self )

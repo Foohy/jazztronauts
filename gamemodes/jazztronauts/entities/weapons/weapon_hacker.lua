@@ -3,7 +3,7 @@ if SERVER then
 end
 
 SWEP.Base					= "weapon_base"
-SWEP.PrintName				= JazzLocalize("jazz.weapon.hacker")
+SWEP.PrintName				= jazzloc.Localize("jazz.weapon.hacker")
 SWEP.Slot					= 4
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.hacker.desc"
@@ -40,9 +40,9 @@ SWEP.GlitchSources			= {} --what glitches us out
 local storeHacker = jstore.Register(SWEP, 35000, { type = "tool" })
 
 local upgrade_enableWrites = jstore.Register("hacker_write", 500000, {
-	name = JazzLocalize("jazz.weapon.hacker.upgrade.io"),
-	cat = JazzLocalize("jazz.weapon.hacker"),
-	desc = JazzLocalize("jazz.weapon.hacker.upgrade.io.desc"),
+	name = jazzloc.Localize("jazz.weapon.hacker.upgrade.io"),
+	cat = jazzloc.Localize("jazz.weapon.hacker"),
+	desc = jazzloc.Localize("jazz.weapon.hacker.upgrade.io.desc"),
 	type = "upgrade",
 	requires = storeHacker
 })

@@ -1,5 +1,4 @@
 include("shared.lua")
-include("jazz_localize.lua")
 
 ENT.ScreenHeight = 0
 ENT.ScreenWidth = ENT.ScreenHeight * 1.80
@@ -97,10 +96,10 @@ end
 
 local function ProgressString(col, total)
 	if col == total then
-		return JazzLocalize("jazz.shards.all",total)
+		return jazzloc.Localize("jazz.shards.all",total)
 	end
 
-	return JazzLocalize("jazz.shards.partial",col,total)
+	return jazzloc.Localize("jazz.shards.partial",col,total)
 end
 
 -- HOLY FUCK MAKE THESE INHERIT ALREADY

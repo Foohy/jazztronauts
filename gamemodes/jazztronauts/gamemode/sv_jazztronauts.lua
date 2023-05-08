@@ -1,6 +1,6 @@
 module("jazz", package.seeall)
 
-GAME_VERSION = 1.9
+GAME_VERSION = 2.0
 MAIN_ADDON = "1452613192"
 
 WORKSHOP_IDS = WORKSHOP_IDS or

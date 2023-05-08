@@ -3,7 +3,7 @@ if SERVER then
 end
 
 SWEP.Base					= "weapon_basehold"
-SWEP.PrintName				= JazzLocalize("jazz.weapon.run")
+SWEP.PrintName				= jazzloc.Localize("jazz.weapon.run")
 SWEP.Slot					= 3
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.run.desc"
@@ -41,17 +41,17 @@ local storeRun = jstore.Register(SWEP, 10000, { type = "tool" })
 
 -- No fall damage upgrade
 local run_nofall = jstore.Register("run_nofall", 15000, {
-	name = JazzLocalize("jazz.weapon.run.upgrade.nofall"),
-	--cat = JazzLocalize("jazz.weapon.run"),
-	desc = JazzLocalize("jazz.weapon.run.upgrade.nofall.desc"),
+	name = jazzloc.Localize("jazz.weapon.run.upgrade.nofall"),
+	--cat = jazzloc.Localize("jazz.weapon.run"),
+	desc = jazzloc.Localize("jazz.weapon.run.upgrade.nofall.desc"),
 	type = "upgrade",
 	requires = storeRun
 })
 
 -- Super Jump
 local run_highjump = jstore.Register("run_highjump", 25000, {
-	name = JazzLocalize("jazz.weapon.run.upgrade.highjump"),
-	desc = JazzLocalize("jazz.weapon.run.upgrade.highjump.desc"),
+	name = jazzloc.Localize("jazz.weapon.run.upgrade.highjump"),
+	desc = jazzloc.Localize("jazz.weapon.run.upgrade.highjump.desc"),
 	type = "upgrade",
 	requires = run_nofall
 })

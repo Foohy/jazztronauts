@@ -3,7 +3,7 @@ if SERVER then
 end
 
 SWEP.Base					= "weapon_basehold"
-SWEP.PrintName				= JazzLocalize("jazz.weapon.stan")
+SWEP.PrintName				= jazzloc.Localize("jazz.weapon.stan")
 SWEP.Slot					= 2
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.stan.desc"
@@ -48,16 +48,16 @@ local storeStan = jstore.Register(SWEP, 4000, { type = "tool" })
 
 -- Create 3 items to be purchased one after the other that control range
 local storeRange = jstore.RegisterSeries("stan_range", 2000, 10, {
-	name = JazzLocalize("jazz.weapon.stan.upgrade.range"),
+	name = jazzloc.Localize("jazz.weapon.stan.upgrade.range"),
 	requires = storeStan,
-	desc = JazzLocalize("jazz.weapon.stan.upgrade.range.desc"),
+	desc = jazzloc.Localize("jazz.weapon.stan.upgrade.range.desc"),
 	type = "upgrade",
 	priceMultiplier = 2,
 })
 local storeSpeed = jstore.RegisterSeries("stan_speed", 1000, 10, {
-	name = JazzLocalize("jazz.weapon.stan.upgrade.speed"),
+	name = jazzloc.Localize("jazz.weapon.stan.upgrade.speed"),
 	requires = storeStan,
-	desc = JazzLocalize("jazz.weapon.stan.upgrade.speed.desc"),
+	desc = jazzloc.Localize("jazz.weapon.stan.upgrade.speed.desc"),
 	type = "upgrade",
 	priceMultiplier = 2,
 })

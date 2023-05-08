@@ -3,7 +3,7 @@ if SERVER then
 end
 
 SWEP.Base					= "weapon_basehold"
-SWEP.PrintName				= JazzLocalize("jazz.weapon.buscaller")
+SWEP.PrintName				= jazzloc.Localize("jazz.weapon.buscaller")
 SWEP.Slot					= 5
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.WepSelectIcon			= Material( "weapons/weapon_buscaller.png" )

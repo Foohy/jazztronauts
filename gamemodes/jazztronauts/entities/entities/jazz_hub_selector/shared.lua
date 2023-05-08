@@ -1,7 +1,5 @@
 AddCSLuaFile()
 
-include("jazz_localize.lua")
-
 ENT.Type = "anim"
 ENT.Base = "base_anim"
 ENT.RenderGroup = RENDERGROUP_OPAQUE
@@ -253,7 +251,7 @@ function ENT:UpdateRenderTarget()
 			local title = self.AddonTitle or ""
 			draw.SimpleTextOutlined( title, "JazzTVChannel", sizeX/2, sizeY * 0.3, Color(60,255,60), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, color_black )
 
-			local scanstate = JazzLocalize(self:GetScanStateString())
+			local scanstate = jazzloc.Localize(self:GetScanStateString())
 			draw.SimpleTextOutlined( scanstate, "JazzTVChannel", sizeX/2, sizeY/2, Color(60,255,60), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, color_black )
 		cam.End2D()
 
@@ -371,7 +369,7 @@ hook.Add("HUDPaint", "JazzDrawIntermissionFreeze", function()
 	if not freezeTime or freezeTime == 0 then return end
 	local time = freezeTime - CurTime()
 	local timeStr = math.max(0, math.Round(time))
-	if timeStr < 1 then timeStr = JazzLocalize("jazz.levelselect.merge") end
+	if timeStr < 1 then timeStr = jazzloc.Localize("jazz.levelselect.merge") end
 
 	draw.SimpleText(timeStr, "JazzIntermissionCountdown", ScrW() / 2, ScrH() / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 

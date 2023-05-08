@@ -106,8 +106,6 @@ if SERVER then
 
 else
 
-	include("jazz_localize.lua")
-
 	function GM:DrawDeathNotice(x, y)
 		return true
 	end
@@ -119,12 +117,12 @@ else
 
 		local name = IsValid(ply) and ply:Nick() or "<Player>"
 
-		ev:Title(JazzLocalize("jazz.message.shard","%name"),
+		ev:Title(jazzloc.Localize("jazz.message.shard","%name"),
 			{ name = name }
 		)
 
 		ev:Body("%total",
-			{ total = JazzLocalize("jazz.hud.money",comma_value(1000)) } --TODO: does this get affected by NG+ multiplier?
+			{ total = jazzloc.Localize("jazz.hud.money",jazzloc.AddSeperators(1000)) } --TODO: does this get affected by NG+ multiplier?
 		)
 
 		ev:SetHue("rainbow")
@@ -148,26 +146,26 @@ else
 
 		if dmg == DMG_FALL then
 
-			ev:Title(JazzLocalize("jazz.death.fall","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.fall","%name"), 
 				{ name = name }
 			)
 
 		elseif attacker == ply then
 
-			ev:Title(JazzLocalize("jazz.death.self","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.self","%name"), 
 				{ name = name }
 			)
 
 		elseif IsValid(attacker) then
 
-			ev:Title(JazzLocalize("jazz.death.killer","%name","%killer"), 
+			ev:Title(jazzloc.Localize("jazz.death.killer","%name","%killer"), 
 				{ name = name, killer = attacker:GetClass() },
 				{ killer = "red_name" }
 			)
 
 		else
 
-			ev:Title(JazzLocalize("jazz.death.generic","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.generic","%name"), 
 				{ name = name }
 			)
 

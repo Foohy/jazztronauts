@@ -93,7 +93,7 @@
 	input CancelAddon(void)  : "Turn off the selector, switching off all the fact screens."
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop("models/andy/bartender/cat_bartender.mdl") = jazz_cat : "Jazz Cat"
+@PointClass base(Targetname, Origin, Angles) studioprop("models/editor/cat_start.mdl") = jazz_cat : "Jazz Cat"
 [
     npcid(choices) : "Cat Character" : "1" =
     [
@@ -109,7 +109,7 @@
 	input SetIdle(string) : "Changes the idle animation to the specified sequence."
 
 	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
-	idleanim(string) : "Idle Animation" : : "Overrides the default idle animation"
+	DefaultAnim(string) : "Idle Animation" : : "Overrides the default idle animation"
 ]
 
 @PointClass base(Targetname, Origin, Angles) studioprop("models/props_combine/combine_interface001.mdl") = jazz_bus_selector : "Custom Workshop ID Loader"
@@ -232,4 +232,9 @@
 	model(studio) : "World Model" : "models/sunabouzu/jazzlily01.mdl"
 	bodygroup(string) : "Bodygroup" : "0" : "Sets the model's bodygroups. Uses the GMod method, so each character in the string represents a separate bodygroup. (0 to 9, a to z being 10 to 35)"
 	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
+]
+
+@PointClass base(Targetname) iconsprite("editor/busstop.vmt") = info_busstop : "Marker for summoned trolley to travel to"
+[
+	
 ]

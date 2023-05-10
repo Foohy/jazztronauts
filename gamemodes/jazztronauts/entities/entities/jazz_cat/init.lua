@@ -52,7 +52,7 @@ function ENT:KeyValue( key, value )
 		self:StoreOutput(key, value)
 	end
 
-	if key == "idleanim" then
+	if key == "DefaultAnim" or key == "idleanim" then
 		self.IdleAnim = value
 	end
 

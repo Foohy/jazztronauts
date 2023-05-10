@@ -11,6 +11,7 @@ begin:
 	*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000* ######## ESTABLISHING SHOT
 	*setanim cat_bar gesture_washing*
 	*setposang cat_cello setpos -2578.243896 2791.908447 0;setang -90 45 0.000000*
+	*setanim cat_cello idle*
 	*setposang player setpos -2911.472656 2960.678223 36;setang 14.517221 62.446011 0.000000*
 	*setanim player sit*
 	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
@@ -31,7 +32,7 @@ a2:
 
 a3:
 	*setspeaker narrator*
-	*setcam setpos -2935.495605 3060.559570 90.541382;setang 8.554376 -39.650562 0.000000* 
+	*setcam setpos -2935.495605 3060.559570 90.541382;setang 8.554376 -39.650562 0.000000**emitsound physics/wood/wood_crate_impact_hard1.wav 1 .8*
 	> The Mewseum door is kicked open!%% Intruder alert!!%%%%*setcam setpos -2654.359619 2872.613281 45.377167;setang 4.667855 -47.210667 0.000000*
 	%.%.%.%Oh,% it's just The Cellist.
 	player:
@@ -255,10 +256,11 @@ c16:
 	*setspeaker narrator*
 	*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000* ######## ESTABLISHING SHOT
 	*setskin cat_bar 0*
-	> The Cellist downs the drink in one gulp,%%%*setposang cat_cello setpos -2815.444336 2903.284912 0;setang -90 45 0.000000*%*setanim cat_cello pose_passedout* and immediately falls off the 
-	chair and bursts into flames.%%%*setanim cat_bar gesture_clap 1 idle* The Bartender is clapping.
+	> The Cellist downs the drink in one gulp,%%%*setposang cat_cello setpos -2815.444336 2903.284912 0;setang -90 45 0.000000*%*setanim cat_cello pose_passedout**ignite cat_cello* immediately falls off the 
+	chair, and bursts into flames.%%%*setanim cat_bar gesture_clap 1 idle* The Bartender is clapping.
 	&c16b
 
 c16b:
 	%.%.%.%you decide to leave.*mark_seen*
+	*extinguish cat_cello* ###we *could* leave him burning through the end of the scene but it doesn't clean up properly, might be an issue if another scene wants to play in here
 	&exit

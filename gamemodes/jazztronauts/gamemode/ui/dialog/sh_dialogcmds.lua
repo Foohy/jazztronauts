@@ -398,6 +398,24 @@ dialog.RegisterFunc("stopsound", function(d)
 	RunConsoleCommand("stopsound")
 end )
 
+dialog.RegisterFunc("ignite", function(d, name, attach)
+	local prop = FindByName(name)
+
+	if IsValid(prop) then
+		game.AddParticles( "particles/fire_01.pcf" )
+		PrecacheParticleSystem( "env_fire_small" )
+		prop.burnfx = prop:CreateParticleEffect( "env_fire_small", attach or 0)
+	end
+end )
+
+dialog.RegisterFunc("extinguish", function(d, name)
+	local prop = FindByName(name)
+
+	if IsValid(prop) and IsValid(prop.burnfx) then
+		prop.burnfx:StopEmission()
+	end
+end )
+
 function ResetScene()
 	for k, v in pairs(sceneModels) do
 		removeSceneEntity(k)

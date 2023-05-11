@@ -1,0 +1,5 @@
+SplineRope
+{
+$baseTexture "cable/condemned"
+$bumpmap	"dev/flat_normal"
+}

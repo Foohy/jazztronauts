@@ -558,8 +558,6 @@ begin12:
     *setskin focus 0*
     &exit
 
-# TODO: need begin2 and begin3 (for Pianist and Singer)
-
 begin4:
     thanks for doing my grocery shopping
     &exit

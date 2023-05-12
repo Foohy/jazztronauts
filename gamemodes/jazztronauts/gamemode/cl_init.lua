@@ -13,6 +13,7 @@ include( "player.lua" )
 include( "cl_scoreboard.lua" )
 include( "cl_jazzphysgun.lua")
 include( "cl_hud.lua" )
+include("cl_texturelocs.lua")
 
 GM.HideHUD = {
 	"CHudHealth",

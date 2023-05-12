@@ -26,6 +26,7 @@ AddCSLuaFile( "playerwait/cl_init.lua")
 AddCSLuaFile( "newgame/cl_init.lua")
 
 AddCSLuaFile( "cl_hud.lua" )
+AddCSLuaFile("cl_texturelocs.lua")
 
 util.AddNetworkString("shard_notify")
 

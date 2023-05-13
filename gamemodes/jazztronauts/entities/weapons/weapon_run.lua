@@ -7,7 +7,7 @@ SWEP.PrintName				= jazzloc.Localize("jazz.weapon.run")
 SWEP.Slot					= 3
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.run.desc"
-SWEP.WepSelectIcon			= Material( "weapons/weapon_run.png" )
+SWEP.WepSelectIcon			= Material( "entities/weapon_run.png" )
 
 SWEP.ViewModel				= "models/weapons/c_run.mdl"
 SWEP.WorldModel				= "models/weapons/w_run.mdl"

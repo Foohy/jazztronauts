@@ -8,7 +8,7 @@ SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= jazzloc.Localize("jazz.weapon.snatcher")
 SWEP.Slot					= 0
 SWEP.Category				= "#jazz.weapon.category"
-SWEP.WepSelectIcon			= Material( "weapons/weapon_propsnatcher.png" )
+SWEP.WepSelectIcon			= Material( "entities/weapon_propsnatcher.png" )
 
 SWEP.ViewModel				= "models/weapons/c_stunstick.mdl"
 SWEP.WorldModel				= "models/weapons/w_stunbaton.mdl"

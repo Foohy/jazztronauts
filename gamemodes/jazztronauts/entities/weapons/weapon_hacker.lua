@@ -7,7 +7,7 @@ SWEP.PrintName				= jazzloc.Localize("jazz.weapon.hacker")
 SWEP.Slot					= 4
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.hacker.desc"
-SWEP.WepSelectIcon			= Material( "weapons/weapon_hacker.png" )
+SWEP.WepSelectIcon			= Material( "entities/weapon_hacker.png" )
 
 SWEP.ViewModel				= "models/weapons/c_hackergoggles.mdl"
 SWEP.WorldModel				= "models/weapons/w_hackergoggles.mdl"

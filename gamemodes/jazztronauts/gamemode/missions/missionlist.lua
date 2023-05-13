@@ -378,11 +378,11 @@ AddMission(4, NPC_CAT_BAR, {
 		}) or ]]
 		--wash, without dishwasher or washington
 		(string.match(mdl, "wash") and 
-			not mdl == "models/props_street/window_washer_button.mdl" and 
+			mdl ~= "models/props_street/window_washer_button.mdl" and 
 			not string.match(mdl, "dish") and
 			not string.match(mdl, "washington")) or
 		(string.match(mdl, "dryer") and 
-			not mdl == "models/props_pipes/brick_dryer_pipes.mdl")
+			mdl ~= "models/props_pipes/brick_dryer_pipes.mdl")
 	end,
 	Count = count,
 	Prerequisites = { IndexToMID(3, NPC_CAT_BAR)  },

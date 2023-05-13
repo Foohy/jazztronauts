@@ -6,6 +6,7 @@ SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= jazzloc.Localize("jazz.weapon.buscaller")
 SWEP.Slot					= 5
 SWEP.Category				= "#jazz.weapon.category"
+SWEP.Purpose				= "#jazz.weapon.buscaller.desc"
 SWEP.WepSelectIcon			= Material( "entities/weapon_buscaller.png" )
 
 SWEP.ViewModel				= "models/weapons/c_bus_summoner.mdl"

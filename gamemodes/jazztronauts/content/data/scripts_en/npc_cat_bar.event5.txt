@@ -17,6 +17,7 @@ begin:
 	*txin*
 	*wait .15*
 	*show*
+    *setspeaker narrator*
     >The Bar Samsara%.%.%.%%%
     You see The Bartender packing supplies into a picnic basket.%% She 
     beams when she catches sight of you.

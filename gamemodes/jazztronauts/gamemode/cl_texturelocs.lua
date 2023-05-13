@@ -21,3 +21,6 @@ jazzloc.LocalizeMaterial("sunabouzu/tutorials/tut_types")
 
 -- teehee
 jazzloc.LocalizeMaterial("dev/dev_measurewall01c")
+
+-- intro
+jazzloc.LocalizeMaterial("decals/standhereidiots")

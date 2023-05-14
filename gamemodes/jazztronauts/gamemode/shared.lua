@@ -92,11 +92,15 @@ if SERVER then
 	util.AddNetworkString("death_notice")
 
 	function GM:DoPlayerDeath( ply, attacker, dmg )
-
+		local weapon = nil
+		if attacker:IsNPC() then weapon = attacker:GetWeapons()[1] end
 		net.Start("death_notice")
 		net.WriteEntity( ply )
 		net.WriteEntity( attacker )
+		net.WriteString( attacker:GetClass()) --sending attacker class separately lets us still get it if it's a server-only entity
+		net.WriteString( attacker:GetName()) --name is only available on server, so grab it now
 		net.WriteEntity( dmg:GetInflictor() )
+		net.WriteEntity( weapon )
 		net.WriteUInt( dmg:GetDamageType(), 32 )
 		net.Broadcast()
 
@@ -132,13 +136,34 @@ else
 
 	end )
 
+	local function getDamageTypes(dmg)
+		
+		local damtab = {}
+		if dmg == DMG_GENERIC then
+			table.insert(damtab,"0")
+		else
+			for var = 0, 31 do
+				local dmgtype = math.pow(2,var)
+				if bit.band(dmg,dmgtype) > 0 then
+					table.insert(damtab,tostring(dmgtype))
+				end
+			end
+		end
+
+		return damtab
+	end
+
 	net.Receive( "death_notice", function()
 
 		print("DEATH NOTICE MESSAGE!")
 
 		local ply = net.ReadEntity()
 		local attacker = net.ReadEntity()
+		local attackclass = net.ReadString()
+		if attackclass == "" and IsValid(attacker) then attackclass = attacker:GetClass() end
+		local attackname = net.ReadString() --namely for specific Jazztronauts entities
 		local inflictor = net.ReadEntity()
+		local weapon = net.ReadEntity()
 		local dmg = net.ReadUInt(32)
 
 		local name = IsValid(ply) and ply:Nick() or "<Player>"
@@ -150,16 +175,38 @@ else
 				{ name = name }
 			)
 
+		elseif dmg == DMG_DROWN then
+			ev:Title(jazzloc.Localize("jazz.death.drown","%name"), 
+				{ name = name }
+			)
 		elseif attacker == ply then
 
 			ev:Title(jazzloc.Localize("jazz.death.self","%name"), 
 				{ name = name }
 			)
 
-		elseif IsValid(attacker) then
+		elseif IsValid(attacker) or attackclass ~= "" then
 
-			ev:Title(jazzloc.Localize("jazz.death.killer","%name","%killer"), 
-				{ name = name, killer = attacker:GetClass() },
+			local damtab = getDamageTypes(dmg)
+			local killedby = jazzloc.Localize(attackclass)
+
+			--projectiles
+			if IsValid(inflictor) and inflictor ~= attacker then
+				killedby = jazzloc.Localize("jazz.death.weapon",jazzloc.Localize(attackclass),jazzloc.Localize(inflictor:GetClass()))
+			--weapons
+			elseif IsValid(weapon) then
+				killedby = jazzloc.Localize("jazz.death.weapon",jazzloc.Localize(attackclass),jazzloc.Localize(weapon:GetClass()))
+			end
+			--jazztronauts specific
+			if attackname == "prop_killer" then
+				killedby = jazzloc.Localize("jazz.death.propchute")
+			end
+			if attackname == "lasermurder" then
+				killedby = jazzloc.Localize("jazz.death.selector")
+			end
+
+			ev:Title(jazzloc.Localize("jazz.death.killer","%name",jazzloc.Localize("dmg." .. damtab[ math.random( #damtab ) ] ),"%killer"), 
+				{ name = name, killer = killedby },
 				{ killer = "red_name" }
 			)
 

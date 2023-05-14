@@ -292,7 +292,7 @@ function ENT:Touch(other)
 	local d = DamageInfo()
 	d:SetDamage((velocity - other:GetVelocity()):Length() )
 	d:SetAttacker(self)
-	d:SetDamageType(DMG_CRUSH)
+	d:SetDamageType(bit.bor(DMG_VEHICLE,DMG_CRUSH))
 	d:SetDamageForce(velocity * 10000) -- Just fuck them up
 
 	other:TakeDamageInfo( d )

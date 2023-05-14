@@ -426,7 +426,11 @@ function meta:Draw( y )
 	self:Update()
 
 	local x_offset = 10
-	local rect = Rect( x_offset, y, generic_gradient_rect.w, generic_gradient_rect.h )
+	local stringw = 1
+	if self.title then
+		stringw = #self.title.raw_string * ScreenScale(8) --get us our rough text size
+	end
+	local rect = Rect( x_offset, y, math.max(generic_gradient_rect.w,stringw), generic_gradient_rect.h )
 	
 	local fx = self.fx
 	local time = self.time

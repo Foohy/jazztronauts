@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\sonador/sonador_hands"
+	"$model" "1"
+	"$surfaceprop" "flesh"
+	$halflambert 1
+}

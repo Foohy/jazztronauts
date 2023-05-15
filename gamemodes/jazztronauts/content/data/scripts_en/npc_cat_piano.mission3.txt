@@ -73,26 +73,3 @@ t4:
 	And,% thanks.%%%
 	For not giving me any hassle about the dinner thing.
 	&exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -109,17 +109,3 @@ t6:
 	you to find them later if you feel like giving them a hand
 	entering the haul into the Mewseum's systems.
 	&exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-

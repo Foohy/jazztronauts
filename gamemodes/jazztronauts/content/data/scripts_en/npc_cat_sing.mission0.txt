@@ -97,17 +97,3 @@ t4:
 	> You leave The Singer clapping over the binders you deliver,
 	and they wave to you as you go.
 	&exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-

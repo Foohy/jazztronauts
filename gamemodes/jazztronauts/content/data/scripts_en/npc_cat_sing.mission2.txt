@@ -60,17 +60,3 @@ t1:
 	in making sure they take care of the Mewseum residents.
 	You leave them to it.
 	&exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-

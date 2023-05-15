@@ -237,4 +237,3 @@ a20:
      direction The Cellist ran.%%%% You have a feeling it’d be best to let
      them handle this one on their own.*mark_seen*
      &exit
-

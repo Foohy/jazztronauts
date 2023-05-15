@@ -97,13 +97,3 @@ t3:
 	> They encourage you to just call their name the next
 	time you need to wake them up.
 	&exit
-
-
-
-
-
-
-
-
-
-

@@ -137,22 +137,3 @@ t11:
 	Wordlessly,% you are given $25,000 by The Pianist.%%%*finish 4*
 	Looks like everything's just fine,% somehow.
 	&exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

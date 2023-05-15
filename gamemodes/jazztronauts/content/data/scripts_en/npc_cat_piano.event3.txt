@@ -335,20 +335,3 @@ m20:
 m21:
 	Bemused,% you snub out the joint and leave the sleeping cat be.*mark_seen*
 	&exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

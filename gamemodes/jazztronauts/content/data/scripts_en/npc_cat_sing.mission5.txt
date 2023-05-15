@@ -167,11 +167,3 @@ t9:
 	fulfill a promise to an old friend.%%%%
 	They'd like to talk later if you have the time.
 	&exit
-
-
-
-
-
-
-
-

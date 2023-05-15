@@ -272,18 +272,3 @@ t22:
 	*setspeaker cat_piano*
 	%.%.%.%Thanks.
 	&exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

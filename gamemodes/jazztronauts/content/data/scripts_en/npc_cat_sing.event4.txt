@@ -206,36 +206,3 @@ m7:
 	You share a plate of exceptionally good pastries and a couple
 	of drinks,%% and it's time well spent. *mark_seen*
 	&exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

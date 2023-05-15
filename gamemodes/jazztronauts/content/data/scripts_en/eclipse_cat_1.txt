@@ -37,4 +37,3 @@ a3:
 a4:
      The answers didn’t matter.
      &exit
-

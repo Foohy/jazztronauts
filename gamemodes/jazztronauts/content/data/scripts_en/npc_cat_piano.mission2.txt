@@ -81,26 +81,3 @@ t2:
 	If you're around later,% come say hi.%%%
 	I can set a fifth place at the table.
 	&exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

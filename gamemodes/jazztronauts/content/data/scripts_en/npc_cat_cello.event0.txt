@@ -319,18 +319,3 @@ n4:
 	aneurysm.%%%% You decide its best to let sleeping cats lie,%%
 	in this case. *mark_seen*
 	&exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -9,10 +9,14 @@ begin:
 	
 	*setcam setpos -2579.370361 2721.580811 64.031250;setang 3.736192 140.947372 0.000000*
 	*setposang cat_bar setpos -2880.668457 2908.302490 0;setang -90 210 0.000000*
-	*setposang cat_cello setpos -2189.791260 6927.904785 10;setang -90 30 0.000000*
-	*setposang cat_piano setpos -2069.482910 7009.310547 10;setang -90 30 0.000000*
-    *setposang cat_singer setpos -2205.779297 7010.829590  10;setang -90 30 0.000000*
-	*setposang player setpos -2649.127686 2834.540283 00;setang 0.328832 157.771545 0.000000*
+	*setposang cat_cello setpos -2189.791260 6927.904785 0;setang -90 30 0.000000*
+	*setposang cat_piano setpos -2069.482910 7009.310547 0;setang -90 30 0.000000*
+    *setposang cat_singer setpos -2205.779297 7010.829590  -6;setang -90 30 0.000000*
+	*setposang player setpos -2649.127686 2834.540283 0;setang 0.328832 157.771545 0.000000*
+	*setanim cat_cello idle*
+	*setanim cat_piano idle*
+	*setanim cat_singer idle*
+	*setanim cat_bar idle*
 	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
 	*txin*
 	*wait .15*
@@ -69,13 +73,14 @@ a5:
     little nook in the mountains. 
     &a6
 a6:
-    >There a pool here,% it's bubbling and steaming.%%% The entire spot is 
-    pleasantly warm.%%%
+    >There's a pool here,% it's bubbling and steaming.%%% 
+    The entire spot is pleasantly warm.%%%
 	&a6b
 	
 a6b:
+
 	*setcam setpos -2524.658447 6763.020996 69.986847;setang 8.634292 54.538803 0.000000*
-	*setposang cat_cello setpos -2471.215820 7207.445313 -15;setang -90 10 0.000000*
+	*setposang cat_cello setpos -2471.215820 7207.445313 -28;setang -90 10 0.000000*
     >The Cellist is the first to break from the group and head towards 
     the pool.
     &a7
@@ -106,7 +111,7 @@ a9:
 
 a10:
 	*setcam setpos -2176.871094 6942.420898 20.880489;setang 1.500134 133.014374 0.000000*
-	*setposang cat_cello setpos -2471.215820 7207.445313 6;setang -90 210 0.000000*
+	*setposang cat_cello setpos -2471.215820 7207.445313 -28;setang -90 210 0.000000*
     *setspeaker narrator*
 	*setskin cat_cello 2*
 	*setanim cat_cello gesture_anger 1.5 idle*
@@ -138,7 +143,7 @@ a13:
 
 a14:
     > She cracks her knuckles and drops into a wide stance,%%% before her 
-    fists whip out and break chunks*shake 2* off*emitsound physics\concrete\concrete_break3.wav .5* a large boulder.%%%% This appears to
+    fists whip out and break chunks*shake 2* off*emitsound physics/concrete/concrete_break3.wav .5* a large boulder.%%%% This appears to
     be her idea of relaxation??
     &a15
 a15:
@@ -184,8 +189,8 @@ a18:
 a19:
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_agree 1 idle*
-    I believe that's a trait that's not valued as highly as it ought.%%%*setskin cat_bar 0* The
-    ability to look at a stranger on their path,% be a little confused,%% 
+    I believe that's a trait that's not valued as highly as it ought to be.%%%*setskin cat_bar 0* 
+    The ability to look at a stranger on their path,% be a little confused,%% 
     but say 'let's see where this ends up.'
     &a20
 
@@ -302,8 +307,6 @@ a33:
 a34:
     *setspeaker narrator*
     >The Bartender gets up and walks towards the others.
-    &a35
-
-a35:
-    >You follow along shortly after.*mark_seen*
+    
+    %%%%You follow along shortly after.*mark_seen*
     &exit

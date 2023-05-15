@@ -228,7 +228,7 @@ a17:
      *setspeaker narrator*
 	 *setskin cat_singer 1*
 	 *setanim cat_singer gesture_clap 1 idle*
-     >The Singer runs over to the edge of the seat and starts jumping 
+     >The Singer runs over to the edge of the stage and starts jumping 
      up and down.
      &a18
 

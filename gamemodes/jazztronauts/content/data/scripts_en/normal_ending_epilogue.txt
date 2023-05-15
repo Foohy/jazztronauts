@@ -94,8 +94,8 @@ a9:
 	*setcam setpos 6.081810 423.574524 67.019852;setang 0.568399 89.705330 0.000000*
     *setspeaker npc_cat_bar*
 	*setskin npc_cat_bar 2*
-    Which I will be placing in The Singer's Mewseum vaults for safekeeping,%%*setskin npc_cat_bar 0* before you 
-    two get any ideas.
+    Which I will be placing in The Singer's Mewseum vaults for safekeeping,%%*setskin npc_cat_bar 0*
+    before you two get any ideas.
     &a10
 
 a10:
@@ -110,8 +110,8 @@ a11:
 	*setcam setpos -185.023544 678.457520 65.429253;setang -0.230201 -31.948051 0.000000*
     *setspeaker npc_cat_bar*
 	*setanim npc_cat_bar gesture_agree 1 idle*
-    We are deeply grateful for your help,%% *player*.%%%% It’s been such a long time 
-    since our last proper vacation.
+    We are deeply grateful for your help,%% *player*.%%%% It’s been such a 
+    long time since our last proper vacation.
     condition:
     &complete1:
         return finishedmissions()
@@ -125,8 +125,8 @@ incomplete1:
 
 complete1:
 	*setanim npc_cat_bar gesture_laugh 1 idle*
-    It’s been a pleasure having you around, and you are of course welcome to stay 
-    at the Bar Samsara as long as you like.
+    It’s been a pleasure having you around, and you are of course welcome 
+    to stay at the Bar Samsara as long as you like.
     &a12
 
 a12:

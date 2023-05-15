@@ -71,7 +71,7 @@ a6:
 	*shake 1*
 	> The Cellist slams a paw down on the counter,% his head cast 
 	dramatically towards the earth.%%%*setanim cat_cello pose_sit01* He snaps his head back and takes 
-	a drag off a%.%.%.%%%yep,%%% yep that's a vape he's holding.%%%% It smells 
+	a drag off a%.%.%.%%%yep,%%% that's a vape he's holding.%%%% It smells 
 	threateningly like strawberry.
 	&a7
 

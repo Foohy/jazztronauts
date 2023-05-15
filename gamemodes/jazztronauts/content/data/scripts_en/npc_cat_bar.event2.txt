@@ -198,10 +198,10 @@ c1:
 	*hide*
 	*txout*
 	*wait .1*
-	*txin*
-	*show*
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
+	*txin*
+	*show*
     > We've gotten past the credits,%% it was a lot of establishing shots 
     of golf courses.%%%% The mood is bleak.
     &c2
@@ -369,13 +369,13 @@ c18:
 	*hide*
 	*txout*
 	*wait .1*
-	*txin*
-	*show*
     *setskin cat_piano 1*
     *setspeaker narrator*
-    > There was a really dope car chase.%%%% The Ninja took down a helicopter by 
-    jumping up to it and uppercutting the pilot.%%% At any rate he's surrounded 
-    by like,% 50 dead bodies.
+	*txin*
+	*show*
+    > There was a really dope car chase.%%%% The Ninja took down a helicopter 
+    by jumping up to it and uppercutting the pilot.%%% At any rate he's 
+    surrounded by like,% 50 dead bodies.
     &c19
 
 c19:
@@ -411,9 +411,9 @@ c22:
 c24:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
-    > Yep.%% The Ninja is now up to his neck in the earth.%%%% There's an evil laugh 
-    sound playing,% and the Ninja seems to be waiting for more cops?%%%% It fades to 
-	black shortly after,% and the credits roll.
+    > Yep.%% The Ninja is now up to his neck in the earth.%%%% There's an evil laugh *emitsound sierra/evil-laugh.wav .5*
+    sound playing,% and the Ninja seems to be waiting for more cops?%%%%
+    It fades to black shortly after,% and the credits roll.
     &c25
 
 c25:

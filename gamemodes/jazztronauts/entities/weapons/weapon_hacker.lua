@@ -109,11 +109,6 @@ function SWEP:Deploy()
 	return true
 end
 
-
-function SWEP:DrawWorldModel()
-
-end
-
 function SWEP:PreDrawViewModel(viewmodel, weapon, ply)
 
 end

@@ -150,17 +150,17 @@ function SWEP:Cleanup()
 		local spine = owner:LookupBone( "ValveBiped.Bip01_Spine1" )
 
 		if arm_left and arm_left2 then
-			owner:ManipulateBoneAngles( arm_left, Angle(0,0,0) )
-			owner:ManipulateBoneAngles( arm_left2, Angle(0,0,0) )
+			owner:ManipulateBoneAngles( arm_left, angle_zero )
+			owner:ManipulateBoneAngles( arm_left2, angle_zero )
 		end
 
 		if arm_right and arm_right2 then
-			owner:ManipulateBoneAngles( arm_right, Angle(0,0,0) )
-			owner:ManipulateBoneAngles( arm_right2, Angle(0,0,0) )
+			owner:ManipulateBoneAngles( arm_right, angle_zero )
+			owner:ManipulateBoneAngles( arm_right2, angle_zero )
 		end
 
 		if spine then
-			owner:ManipulateBoneAngles( spine, Angle(0,0,0) )
+			owner:ManipulateBoneAngles( spine, angle_zero )
 		end
 	end
 	self:StopChargeSound()

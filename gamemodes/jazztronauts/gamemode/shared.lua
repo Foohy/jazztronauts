@@ -126,7 +126,7 @@ else
 		)
 
 		ev:Body("%total",
-			{ total = jazzloc.Localize("jazz.hud.money",jazzloc.AddSeperators(1000)) } --TODO: does this get affected by NG+ multiplier?
+			{ total = jazzloc.Localize("jazz.hud.money",jazzloc.AddSeperators(1000 * newgame.GetMultiplier())) }
 		)
 
 		ev:SetHue("rainbow")

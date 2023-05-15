@@ -40,7 +40,8 @@ if SERVER then
 	end )
 
 	hook.Add("JazzDialogFinished", "JazzRemoveDialogPVS", function(ply, script, mark)
-		ply.JazzDialogPVS = nil
+		--delay by a bit so we can transition out
+		timer.Simple(2, function() if IsValid(ply) then ply.JazzDialogPVS = nil end end)
 	end)
 
 	hook.Add("SetupPlayerVisibility", "JazzAddDialogPVS", function(ply, view)

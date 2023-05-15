@@ -12,7 +12,7 @@
 
 	"$phong" "1"
 	"$phongexponent" "4"
-	"$phongboost" "0.02"	
+	"$phongboost" "0.02"
 	"$phongfresnelranges" "[0.25 0.5 1]"
 
 

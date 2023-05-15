@@ -284,7 +284,7 @@ function SWEP:Think()
 
 			if self.CrouchTime < 0 or self.JumpMultiplier <= 1 or owner:InVehicle() then
 				self:StopChargeSound()
-			end 
+			end
 		end
 		owner:SetWalkSpeed( 800 )
 		owner:SetRunSpeed( 800 )

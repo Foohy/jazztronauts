@@ -28,7 +28,7 @@ end
 function transitionIn(delay, nosound, drawearly, fade)
 	if GAMEMODE && GAMEMODE:GetDevMode() >= 2 then
 		transitioning = 0
-		return 
+		return
 	end
 	if not nosound then
 		if delay ~= nil then

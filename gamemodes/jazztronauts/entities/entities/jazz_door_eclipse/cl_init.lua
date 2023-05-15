@@ -63,7 +63,7 @@ function ENT:SpawnShardCount()
 		candle:SetPos(self:GetPos() + Vector(math.cos(ang) * self.CandleRadiusX, math.sin(ang) * self.CandleRadiusY, -9))
 
 		table.insert(self.CandleEnts, candle)
-		
+
 		if shardcount > 0 then
 			shardcount = shardcount - 1
 			ParticleEffect("jazzCandle", candle:GetPos() + Vector(0, 0, 12), candle:GetAngles(), candle:Get() )

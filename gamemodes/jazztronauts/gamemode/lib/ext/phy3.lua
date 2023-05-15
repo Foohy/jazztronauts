@@ -328,7 +328,7 @@ local function LoadPhysCollideCompactSurface( header, index )
     num_ledges * CompactLedgeSize +
     num_tris * CompactTriangleSize
 
-    local point_bytes = (surf.byte_size - (point_addr - base)) - 
+    local point_bytes = (surf.byte_size - (point_addr - base)) -
     num_nodes * CompactLedgeTreeNodeSize
 
     local num_points = point_bytes / CompactPolyPointSize
@@ -408,13 +408,13 @@ function LoadVCollideFile( filename, path )
 
         local solids = {}
         for i=1, header.solidCount do
-    
+
             local size = int32()
             local nextaddr = tell_data() + size
             solids[#solids+1] = LoadPhysCollide( size, i )
-    
+
             seek_data( nextaddr )
-    
+
         end
 
         end_data()
@@ -448,7 +448,7 @@ function DrawCompactLedge( ledge, points )
 
     points = ledge.points or points
     local c = ColorRand()
-     
+
     local ok = true
     mesh_begin( MATERIAL_TRIANGLES, #ledge.triangles )
 
@@ -457,12 +457,12 @@ function DrawCompactLedge( ledge, points )
         for _, tri in ipairs(ledge.triangles) do
 
             for i=#tri.edges, 1, -1 do
-                
+
                 local p = points[tri.edges[i].start+1]
                 if p then
 
-                    mesh_position(p) 
-                    mesh_color(c.r,c.g,c.b,c.a) 
+                    mesh_position(p)
+                    mesh_color(c.r,c.g,c.b,c.a)
                     mesh_advance()
 
                 else
@@ -472,7 +472,7 @@ function DrawCompactLedge( ledge, points )
                 end
 
             end
-        
+
         end
 
     end)

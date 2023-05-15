@@ -20,7 +20,7 @@ $keyvalues
 {
 	prop_data
 	{
-		base			Wooden.Huge 
+		base			Wooden.Huge
 		allowstatic		1
 	}
 }

@@ -4,7 +4,7 @@
     that's% basically my entire hierarchy of needs met
     &a2
 a2:
-    its time to self-actualize by chugging random bottles 
+    its time to self-actualize by chugging random bottles
 	given to me by strangers
     &a3
 a3:
@@ -14,15 +14,15 @@ a3:
     &a4
 a4:
     this allows %(and requires)% me to pursue novel forms of intoxication
-    in ways that would ordinarily be considered particularly 
+    in ways that would ordinarily be considered particularly
 	overengineered suicide attempts
     &a5
 a5:
-    the problem is trying to figure out a way to synthesize those experiences 
+    the problem is trying to figure out a way to synthesize those experiences
     outside of the laboratory of my nightmare funhouse biology, but we'll
     burn that bridge when we come to it.
     &a6
-	
+
 a6:
     for now %%i'm gonna need a shit-ton of random chemicals.%
     buckets, %% jugs, %%bottles, %%mysterious glowing cubes, %%whatever.%%%
@@ -53,7 +53,7 @@ t3:
     *finish 2*
     &t4
 t4:
-    in the meantime %i'm gonna do a kegstand of whatever's in this 
-    one and see if i can't find all those colors only 
+    in the meantime %i'm gonna do a kegstand of whatever's in this
+    one and see if i can't find all those colors only
 	mantis shrimp can see
     &exit

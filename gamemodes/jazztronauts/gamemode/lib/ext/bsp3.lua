@@ -636,7 +636,7 @@ lump_handlers[LUMP_OCCLUSION] = function()
         occluders = occluder_data,
         polygons = poly_data,
         vertexIndicies = vertexIndicies,
-    }   
+    }
 
 end
 
@@ -1040,7 +1040,7 @@ lump_handlers[LUMP_GAME_LUMP] = function(lump, params)
 
         local sprites = {}
         local num_entries = int32()
-        for i=1, num_entries do 
+        for i=1, num_entries do
             sprites[#sprites+1] = {
                 m_UL = { float32(), float32() },
                 m_LR = { float32(), float32() },
@@ -1051,7 +1051,7 @@ lump_handlers[LUMP_GAME_LUMP] = function(lump, params)
 
         local detail_objects = {}
         local num_entries = int32()
-        for i=1, num_entries do 
+        for i=1, num_entries do
             detail_objects[#detail_objects+1] = {
                 m_Origin = vector32(),
                 m_Angles = angle32(),
@@ -1219,7 +1219,7 @@ lump_handlers[LUMP_LEAF_AMBIENT_INDEX] = lump_array( function()
         ambientSampleCount = uint16(),
         firstAmbientSample = uint16(),
     }
-    
+
 end, 4 )
 
 lump_handlers[LUMP_LEAF_AMBIENT_INDEX_HDR] = lump_handlers[LUMP_LEAF_AMBIENT_INDEX]
@@ -1255,7 +1255,7 @@ local function loadBSPData( handle, requested, params )
             version = int32(),
             uncompressedSize = int32(),
         }
-        
+
         header.lumps[i] = lump
 
         -- L4D2 maps have swizzled lump struct members
@@ -1524,7 +1524,7 @@ local function LinkBSPData( data )
         disp.indices = {}
 
         if not data[LUMP_FACES] or not verts then continue end
-        
+
         disp.face = data[LUMP_FACES][ disp.faceID+1 ]
 
         iVertex = iVertex + disp.numVerts
@@ -1539,12 +1539,12 @@ local function LinkBSPData( data )
         end
         for i=0, startidx-1 do p0,p1,p2,p3 = p1,p2,p3,p0 end
 
-        local indices, width, positions, normals, alphas, firstVert = 
+        local indices, width, positions, normals, alphas, firstVert =
         disp.indices, disp.width, disp.positions, disp.normals, disp.alphas, disp.firstVert
 
         local min_x, min_y, min_z = math.huge, math.huge, math.huge
         local max_x, max_y, max_z = -math.huge, -math.huge, -math.huge
-        local interval = 1 / (width - 1) 
+        local interval = 1 / (width - 1)
         local e0 = (p1 - p0) * interval
         local e1 = (p2 - p3) * interval
 
@@ -1602,7 +1602,7 @@ local function LinkBSPData( data )
 
                 local n0 = TriangleNormal(a,c,w,positions)
                 local n1 = TriangleNormal(x,y,z,positions)
-                
+
                 normals[a]:Add(n0)
                 normals[c]:Add(n0)
                 normals[w]:Add(n0)
@@ -1859,7 +1859,7 @@ function BuildGammaTable( gamma, texGamma, brightness, overbright )
     local g1 = texGamma * g
     local g3 = 0
 
-    if brightness <= 0 then 
+    if brightness <= 0 then
         g3 = 0.125
     elseif brightness > 1.0 then
         g3 = 0.05

@@ -2,15 +2,15 @@ VertexlitGeneric
 {
 	$basetexture		"models/weapons/jazztronauts/w_run"
 	$bumpmap			"models/weapons/jazztronauts/w_run_normal"
-	
+
 	$phong				1
 	$phongboost			.5
 	$phongexponent		15
-	
+
 	$rimlight			1
 	$rimlightboost		2
 	$rimlightexponent	4
-	
+
 	Proxies
 	{
 		PlayerWeaponColor

@@ -16,7 +16,7 @@
 	"$reflectivity" "[ 1  1  1]"
 	"$phong" "0"
 	"$phongexponent" "4"
-	"$phongboost" "0.02"	
+	"$phongboost" "0.02"
 //	"$phongfresnelranges" "[.6 2 5]"
 	"$phongfresnelranges" "[0.25 0.5 1]"
 // END ENV and Reflections

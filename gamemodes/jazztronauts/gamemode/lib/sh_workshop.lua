@@ -83,10 +83,10 @@ function FetchComments(addon, func)
 				local comments = string.gsub(ret.comments_html, "\\%a", "")
 				local comm = splitelements(comments)
 				func(comm)
-			else 
+			else
 				print(url, body)
 				func({})
-			end		
+			end
 		end,
 		function()
 			print("Failed to get workshop comments")
@@ -263,7 +263,7 @@ net.Receive("jazz_workshop_downloadlisten", function(len, ply)
 				active_downloadgma.cb(filepath)
 				active_downloadgma = nil
 			else
-				print("Received wrong response for file results: ", active_downloadgma.ply, (active_downloadgma.ply == ply) and "==" or "!=", ply, 
+				print("Received wrong response for file results: ", active_downloadgma.ply, (active_downloadgma.ply == ply) and "==" or "!=", ply,
 					active_downloadgma.wsid, (active_downloadgma.wsid == wsid) and "==" or "!=", wsid)
 			end
 		else
@@ -280,10 +280,10 @@ local function DownloadGMA_Listen(wsid, func, decompress_func, hostply)
 	active_downloadgma = {
 		wsid = tostring(wsid),
 		cb = function(f)
-			if f and #f > 0 then 
+			if f and #f > 0 then
 				func(f)
-			else 
-				func(nil, "Failed to download from workshop") 
+			else
+				func(nil, "Failed to download from workshop")
 			end
 		end,
 		ply = hostply

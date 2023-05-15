@@ -9,15 +9,15 @@
 
 	"$envmap" "env_cubemap"
 
-	"$basemapalphaenvmapmask" 1 
+	"$basemapalphaenvmapmask" 1
 //	"$lightwarptexture" "krio/lightwarp"
 	"$envmaptint" "[.2 .2 .2]"
 	"$phong" "1"
 	"$phongexponent" "4"
-	"$phongboost" "8"	
+	"$phongboost" "8"
 	"$phongfresnelranges" "[0.25 0.5 1]"
 	"$rimlight" "1"
-	"$rimlightexponent" "4"	
+	"$rimlightexponent" "4"
 	"$rimlightboost" "1"
 // END Textures
 

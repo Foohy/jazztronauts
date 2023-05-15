@@ -178,7 +178,7 @@ function ENT:DestroyNearbyBrushesAndSelf(maxdist)
 		-- If still not valid then exit early
 		if not self.NearbyWorld then return end
 	end
-	
+
 
 	local pos = self:GetPos()
 	local actual = 0

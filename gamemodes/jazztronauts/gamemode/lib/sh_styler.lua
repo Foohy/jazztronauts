@@ -136,7 +136,7 @@ function element_meta:Update()
 	local needs_reparse = false
 	for k,v in pairs( self.data ) do
 
-		local val = GetValue( self.data, k ) 
+		local val = GetValue( self.data, k )
 		if self.shadow[k] ~= val then
 			needs_reparse = true
 			self.shadow[k] = val
@@ -170,7 +170,7 @@ function New( style_table, parent )
 	end
 
 	return setmetatable( {
-		style_table = style_table, 
+		style_table = style_table,
 	}, styler_meta )
 
 end

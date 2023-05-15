@@ -161,7 +161,7 @@ function ENT:Arrive()
 			v:SetNoDraw(false)
 		end
 	end
-	
+
 	self.BrakeSound:Play()
 
 	self.StartTime = CurTime()
@@ -172,7 +172,7 @@ function ENT:Arrive()
 		local MoveDistance = math.Clamp(self.ExitPortal:DistanceToVoid(self:GetFront(), true), 50, self.HalfLength*2)
 		self.GoalPos = self:GetPos() + self:GetAngles():Right() * MoveDistance
 	end
-	
+
 end
 
 function ENT:Leave()

@@ -14,10 +14,10 @@ spawngang()
 *setposang cat_piano setpos -4641.176270 -251.455917 1518.031250;setang -90 195.270870 0.000000*
 *setposang cat_singer setpos -4564.032715 -434.864349 -1528.031250;setang -90 173.223053 0.000000*
 *setspeaker cat_cello*
-*setanim cat_cello cellist_bendgesture 1 idle* 
+*setanim cat_cello cellist_bendgesture 1 idle*
 *setcam setpos -4614.864258 -348.649139 1563.988403;setang 8.141761 70.646194 0.000000*
 *txin*
-*show 0.5* 
+*show 0.5*
 holy shit%*setskin cat_cello 1* look at this garbage%%%*setskin cat_cello 0* *bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0*
 whoever made this place really phoned it in% huh
 &begin2
@@ -29,39 +29,39 @@ The gray one starts jeering at the monster corpse next to it.
 &begin3
 
 begin3:
-*setspeaker cat_piano* 
+*setspeaker cat_piano*
 *setcam setpos -4621.874512 -296.848511 1561.714600;setang 1.014253 106.313759 0.000000*
-Dunno what you expected,% it's pretty dead around here at this point.%% 
+Dunno what you expected,% it's pretty dead around here at this point.%%
 *setskin cat_piano 1*The last place we looked?*setanim cat_piano gesture_foldarms 1 idle*% Could barely even call that a map.
 &begin4
 
 begin4:
-*setspeaker cat_cello* 
+*setspeaker cat_cello*
 *tweencam .75 setpos -4599.150879 -306.177002 1561.454712;setang 4.308485 45.520340 0.000000*
-*setskin cat_cello 2* 
+*setskin cat_cello 2*
 dont you fuckin*setanim cat_cello gesture_jab 1 idle* dare blaspheme dm_juicyasszone.bsp%%%*setskin cat_cello 0*%
 it had a vision
 &begin5
 
 begin5:
 *setspeaker narrator*
-*setanim cat_singer singer_crawl 1 idle* 
+*setanim cat_singer singer_crawl 1 idle*
 *setcam setpos -4707.141602 -469.851654 1574.542236;setang 10.297997 21.203064 0.000000*
 *setposang cat_singer setpos -4564.032715 -434.864349 1518.031250;setang -90 120.223053 0.000000*
->A fourth cat quietly crawls out from under the corpse and 
+>A fourth cat quietly crawls out from under the corpse and
 dusts themselves off.%%%*setcam setpos -4604.807129 -418.146301 1553.832031;setang 3.739498 -48.424809 0.000000* They very excitedly present a strange object
 to the orange cat. *setanim cat_singer singer_showshard 1*
 &begin6
 
 begin6:
 *setspeaker cat_bar*
-*setskin cat_bar 3* 
+*setskin cat_bar 3*
 Ah, a shard!*setanim cat_bar gesture_clap 1**setskin cat_bar 1*%% Keen eyes as always.
 &begin7
 
 begin7:
-*setspeaker narrator* 
-*setanim cat_singer gesture_embarass 1 idle* 
+*setspeaker narrator*
+*setanim cat_singer gesture_embarass 1 idle*
 *setskin cat_singer 1*
 >The cat bashfully looks down and starts fidgeting.
 &begin8
@@ -82,7 +82,7 @@ why are we even bothering with this again
 &begin10
 
 begin10:
-*setspeaker cat_bar* 
+*setspeaker cat_bar*
 *setcam setpos -4618.435059 -439.372253 1552.954712;setang 2.212179 -56.899910 0.000000*
 *setskin cat_bar 0*Well, as I recall,*setanim cat_bar gesture_jab 1 idle* you were the one so very insistent on making
 our last guests leave.
@@ -108,13 +108,13 @@ begin13:
 *setspeaker cat_bar*
 *setskin cat_bar 0*
 *setcam setpos -4791.147461 -371.753510 1557.132446;setang -3.537738 3.532947 0.000000*
-Oh come now, *setanim cat_bar gesture_sweep 1 idle*they were perfectly fine.%% Besides we got a bargain 
+Oh come now, *setanim cat_bar gesture_sweep 1 idle*they were perfectly fine.%% Besides we got a bargain
 on them, didn't we?%% Take five,% get one free!
 &begin14
 
 begin14:
 *setspeaker narrator*
->They both turn from scowling at each other 
+>They both turn from scowling at each other
 to glaring at the orange cat.%% Before the argument can go anywhere,
 the silent cat starts waving their arms around. *setanim cat_singer singer_whistle 1 idle* *setskin cat_bar 0*
 &begin15

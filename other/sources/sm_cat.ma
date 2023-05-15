@@ -90,34 +90,34 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".o" yes;
 createNode transform -n "playerstart";
 	rename -uid "C5682CEF-4B1B-B5B9-6FCB-3C9E89FA4930";
-	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032useFBXASC032globalFBXASC032settings" 
-		-ln "mrFBXASC032displacementFBXASC032useFBXASC032globalFBXASC032settings" -min 0 
+	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032useFBXASC032globalFBXASC032settings"
+		-ln "mrFBXASC032displacementFBXASC032useFBXASC032globalFBXASC032settings" -min 0
 		-max 1 -at "bool";
-	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032viewFBXASC032dependent" 
+	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032viewFBXASC032dependent"
 		-ln "mrFBXASC032displacementFBXASC032viewFBXASC032dependent" -min 0 -max 1 -at "bool";
-	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032method" -ln "mrFBXASC032displacementFBXASC032method" 
+	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032method" -ln "mrFBXASC032displacementFBXASC032method"
 		-smn 6 -smx 6 -at "long";
-	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032smoothingFBXASC032on" 
+	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032smoothingFBXASC032on"
 		-ln "mrFBXASC032displacementFBXASC032smoothingFBXASC032on" -min 0 -max 1 -at "bool";
-	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032edgeFBXASC032length" 
+	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032edgeFBXASC032length"
 		-ln "mrFBXASC032displacementFBXASC032edgeFBXASC032length" -smn 2 -smx 2 -at "double";
-	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032maxFBXASC032displace" 
+	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032maxFBXASC032displace"
 		-ln "mrFBXASC032displacementFBXASC032maxFBXASC032displace" -smn 20 -smx 20 -at "double";
-	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032parametricFBXASC032subdivisionFBXASC032level" 
-		-ln "mrFBXASC032displacementFBXASC032parametricFBXASC032subdivisionFBXASC032level" 
+	addAttr -is true -ci true -k true -sn "mrFBXASC032displacementFBXASC032parametricFBXASC032subdivisionFBXASC032level"
+		-ln "mrFBXASC032displacementFBXASC032parametricFBXASC032subdivisionFBXASC032level"
 		-smn 5 -smx 5 -at "long";
-	addAttr -is true -ci true -h true -k true -sn "MaxHandle" -ln "MaxHandle" -smn 0 
+	addAttr -is true -ci true -h true -k true -sn "MaxHandle" -ln "MaxHandle" -smn 0
 		-smx 0 -at "long";
 	setAttr ".v" no;
 	setAttr ".s" -type "double3" 2.54 2.54 2.54 ;
-	setAttr -k on ".mrFBXASC032displacementFBXASC032useFBXASC032globalFBXASC032settings" 
+	setAttr -k on ".mrFBXASC032displacementFBXASC032useFBXASC032globalFBXASC032settings"
 		yes;
 	setAttr -k on ".mrFBXASC032displacementFBXASC032viewFBXASC032dependent" yes;
 	setAttr -k on ".mrFBXASC032displacementFBXASC032method" 6;
 	setAttr -k on ".mrFBXASC032displacementFBXASC032smoothingFBXASC032on" yes;
 	setAttr -k on ".mrFBXASC032displacementFBXASC032edgeFBXASC032length" 2;
 	setAttr -k on ".mrFBXASC032displacementFBXASC032maxFBXASC032displace" 20;
-	setAttr -k on ".mrFBXASC032displacementFBXASC032parametricFBXASC032subdivisionFBXASC032level" 
+	setAttr -k on ".mrFBXASC032displacementFBXASC032parametricFBXASC032subdivisionFBXASC032level"
 		5;
 	setAttr -k on ".MaxHandle" 2;
 createNode mesh -n "playerstartShape" -p "playerstart";
@@ -2678,7 +2678,7 @@ createNode mesh -n "playerstartShape" -p "playerstart";
 		 0.11350518 0.97002679 0.082000636 0.22874415 0.98131955 0.027588883 0.1903964 0.95817798
 		 0.041059524 0.28321207;
 	setAttr -s 843 -ch 2529 ".fc";
-	setAttr ".fc[0:499]" -type "polyFaces" 
+	setAttr ".fc[0:499]" -type "polyFaces"
 		f 3 0 1 2
 		mu 0 3 95 94 93
 		f 3 3 4 5
@@ -5775,7 +5775,7 @@ createNode mesh -n "polySurfaceShape1" -p "catBartender";
 		 1292 1024 0 993 1292 1 1292 1023 1 1293 1156 0 1128 1293 1 1293 1157 1 1294 1289 0
 		 1295 1283 1 1296 1284 0 1293 1294 1 1294 1295 1 1295 1296 1 1296 1292 1;
 	setAttr -s 1285 -ch 5112 ".fc";
-	setAttr ".fc[0:499]" -type "polyFaces" 
+	setAttr ".fc[0:499]" -type "polyFaces"
 		f 4 777 776 299 298
 		mu 0 4 0 1 2 3
 		f 4 799 798 305 304
@@ -9379,7 +9379,7 @@ createNode mesh -n "catBase5Shape" -p "catBase";
 		 1127 1128 1 1129 956 1 1128 1129 1 1130 968 1 1129 1130 1 1131 1053 1 1130 1131 1
 		 1131 1118 1;
 	setAttr -s 1130 -ch 4506 ".fc";
-	setAttr ".fc[0:499]" -type "polyFaces" 
+	setAttr ".fc[0:499]" -type "polyFaces"
 		f 4 0 1 2 3
 		mu 0 4 0 1 2 3
 		f 4 4 5 -1 6
@@ -12991,7 +12991,7 @@ createNode mesh -n "polySurfaceShape2" -p "catPianist";
 		 1443 1435 1 1442 1443 1 1444 1434 1 1443 1444 1 1445 1433 1 1444 1445 1 1446 1432 1
 		 1445 1446 1 1447 1439 1 1446 1447 1 1448 1438 1 1447 1448 1 1448 1441 1;
 	setAttr -s 1409 -ch 5609 ".fc";
-	setAttr ".fc[0:499]" -type "polyFaces" 
+	setAttr ".fc[0:499]" -type "polyFaces"
 		f 4 -10 27 1586 -29
 		mu 0 4 0 1 2 3
 		f 4 -11 28 1588 -30
@@ -17182,7 +17182,7 @@ createNode mesh -n "catCellistShape" -p "catCellist";
 		 1444 1434 0 1443 1444 1 1445 1435 0 1444 1445 1 1446 1438 0 1447 1439 0 1446 1447 1
 		 1448 1444 0 1447 1448 1 1449 1445 0 1448 1449 1;
 	setAttr -s 1409 -ch 5606 ".fc";
-	setAttr ".fc[0:499]" -type "polyFaces" 
+	setAttr ".fc[0:499]" -type "polyFaces"
 		f 4 -3 11 8 -13
 		mu 0 4 0 1 2 3
 		f 4 12 69 78 -71
@@ -21537,7 +21537,7 @@ createNode mesh -n "catSinger27Shape" -p "catSinger";
 		 1676 931 1 1675 1676 0 1677 940 1 1676 1677 0 1678 939 1 1677 1678 0 1679 938 1 1678 1679 0
 		 1679 1670 0;
 	setAttr -s 1626 -ch 6443 ".fc";
-	setAttr ".fc[0:499]" -type "polyFaces" 
+	setAttr ".fc[0:499]" -type "polyFaces"
 		f 4 55 54 -24 -54
 		mu 0 4 0 3 2 1
 		f 4 24 57 53 -26

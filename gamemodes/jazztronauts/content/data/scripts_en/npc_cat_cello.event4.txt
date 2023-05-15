@@ -11,7 +11,7 @@ begin:
 	*setskin cat_cello 2*
 	*setanim cat_cello pose_sit02*
 	*setnpcid cat_cello npc_cat_cello*
-	*bgmplay sound/jazztronauts/music/events/allspice.mp3 .5 2.0*	
+	*bgmplay sound/jazztronauts/music/events/allspice.mp3 .5 2.0*
     *spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos -2681.986572 2795.670410 0;setang -90 51 0.000000*
 	*setskin cat_singer 2*
@@ -20,13 +20,13 @@ begin:
 	*setposang player setpos 122.167236 3117.539795 24;setang 0 -177.779892 0.000000*
 	*setanim player sit*
 	*txin*
-	
+
 ###### START
      *setspeaker narrator*
 	 *show*
-     >The Bar Samsara.%%%%%%*setcam setpos -92.599274 2894.528809 95.031448;setang 7.010281 47.859997 0.000000* You’re minding your own business at a booth near 
-     the bar,%% taking some time to rest your legs and watch The Cellist 
-     knock back what looks suspiciously like shots of antifreeze,%*emitsound physics/wood/wood_panel_impact_hard1.wav 0.45*%*setcam setpos -2889.212646 3035.416260 68.696411;setang 4.880709 -48.762085 0.000000* when 
+     >The Bar Samsara.%%%%%%*setcam setpos -92.599274 2894.528809 95.031448;setang 7.010281 47.859997 0.000000* You’re minding your own business at a booth near
+     the bar,%% taking some time to rest your legs and watch The Cellist
+     knock back what looks suspiciously like shots of antifreeze,%*emitsound physics/wood/wood_panel_impact_hard1.wav 0.45*%*setcam setpos -2889.212646 3035.416260 68.696411;setang 4.880709 -48.762085 0.000000* when
      The Singer storms in.%%% They look,% uh,%% miffed.
      &a2
 
@@ -36,11 +36,11 @@ a2:
 	 *setskin cat_cello 2*
      oh god here we go huh
      player:
-          &a3: 
+          &a3:
 *setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000*
 		  [watch silently]
-          &cheeseit: 
-			*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000* 
+          &cheeseit:
+			*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000*
 		  I feel like I should be anywhere else right now. (exit)
 
 
@@ -58,9 +58,9 @@ a3:
 	*setposang cat_cello setpos -2912.563965 2959.992920 36;setang -90 231 0.000000*
 	*setposang cat_singer setpos -2786.335693 2828.759277 0;setang -90 51 0.000000*
      *setspeaker cat_singer*
-     >You can only see part of The Singer’s tablet from where you’re 
-     sitting,%% but even the little bit you can see has a lot of cursing 
-     on it.%%%%%*setanim cat_singer gesture_anger 1.7 idle* 
+     >You can only see part of The Singer’s tablet from where you’re
+     sitting,%% but even the little bit you can see has a lot of cursing
+     on it.%%%%%*setanim cat_singer gesture_anger 1.7 idle*
      Like,%*setanim cat_cello gesture_shock 1.4 idle* a LOT of cursing.
      &a4
 
@@ -69,17 +69,17 @@ a4:
      *setspeaker cat_cello*
 	 *setskin cat_cello 4*
 	 *setanim cat_cello gesture_facepalm 1 idle*
-     yeah look i know you know about the kleiner% and i get that you’re 
-     mad about this% but*setskin cat_cello 0* we have so many of the things already you’ve said 
+     yeah look i know you know about the kleiner% and i get that you’re
+     mad about this% but*setskin cat_cello 0* we have so many of the things already you’ve said
      yourself we had to hook them up to the prop snatchers to%%%*setanim cat_cello gesture_disagree 1 idle* “give them
      something to do”
      &a5
 
 a5:
 	*setanim cat_cello gesture_shrug 1 idle*
-     i realize and acknowledge that my method of stealing its knowledge 
+     i realize and acknowledge that my method of stealing its knowledge
      was a little unorthodox% but what would you have me do,%%*setanim cat_cello gesture_confused 1.2 idle* decompile
-     the thing?%%% chop off its head and steal its quickening?%%%%*setanim cat_cello gesture_disagree 1 idle* it wasn’t 
+     the thing?%%% chop off its head and steal its quickening?%%%%*setanim cat_cello gesture_disagree 1 idle* it wasn’t
      any crueler than half the shit we’ve seen trolley-hopping
      &a6
 
@@ -87,17 +87,17 @@ a6:
 	*setcam setpos -2598.027100 3051.372070 79.533783;setang 4.561276 -148.862167 0.000000*
      *setspeaker cat_singer*
 	 *setanim cat_singer gesture_anger 2 idle*
-     >The Singer’s impassioned flailing lets you see more of the tablet 
-     this time.%%%%*setanim cat_singer gesture_shock 1 idle* They seem to be viscerally horrified by the way the 
-     Kleiner was irrevocably destroyed,%%*setanim cat_singer gesture_anger 2 idle* and going on a screed about how 
+     >The Singer’s impassioned flailing lets you see more of the tablet
+     this time.%%%%*setanim cat_singer gesture_shock 1 idle* They seem to be viscerally horrified by the way the
+     Kleiner was irrevocably destroyed,%%*setanim cat_singer gesture_anger 2 idle* and going on a screed about how
      afraid it must have been when it realized what was happening.
      &a7
 
 a7:
 	*setcam setpos -2899.017090 3001.060791 74.680466;setang 12.094728 -81.194077 0.000000*
      *setspeaker narrator*
-     >%.%.%.%you notice The Cellist’s grip around the shot glass has gotten 
-     tight as a vise right before it shatters in his paw,%% and his 
+     >%.%.%.%you notice The Cellist’s grip around the shot glass has gotten
+     tight as a vise right before it shatters in his paw,%% and his
      composure snaps.
      &a8
 
@@ -113,9 +113,9 @@ a9:
 	*setcam setpos -2858.027832 2916.603027 50.138813;setang 13.851631 144.117416 0.000000*
 	*setskin cat_singer 5*
 	*setanim cat_cello gesture_anger 2 idle*
-     they’re just robots. shitty dime-store robots that have all the 
-     awareness of a furby.%%%*setanim cat_cello gesture_clap .5 idle* they.%% are.%% not.%% real.%%%%% they’re never going to 
-     BE*setanim cat_cello gesture_disagree 1,6 idle* real.%%%% all you are doing is projecting feelings onto simulacra 
+     they’re just robots. shitty dime-store robots that have all the
+     awareness of a furby.%%%*setanim cat_cello gesture_clap .5 idle* they.%% are.%% not.%% real.%%%%% they’re never going to
+     BE*setanim cat_cello gesture_disagree 1,6 idle* real.%%%% all you are doing is projecting feelings onto simulacra
      dumber than a chatbot,%% do you get it?%%%%*setanim cat_cello gesture_anger 2 idle* THEY AREN’T FUCKING REAL.
      &a10
 
@@ -123,9 +123,9 @@ a10:
 	*setcam setpos -2871.787842 2911.376709 24.914227;setang -33.106087 109.990471 0.000000*
 	*setskin cat_singer 6*
 	*setanim cat_cello gesture_facepalm 1.5 idle*
-     a koala with irreparable brain damage has more self-awareness than 
-     those things do.%%%%*setanim cat_cello gesture_shrug 1 idle* they don’t CARE about you working so hard to keep 
-     them warm and fed and making sure they have nice cozy pillows to 
+     a koala with irreparable brain damage has more self-awareness than
+     those things do.%%%%*setanim cat_cello gesture_shrug 1 idle* they don’t CARE about you working so hard to keep
+     them warm and fed and making sure they have nice cozy pillows to
      sleep on because they can’t*setanim cat_cello gesture_anger 2 idle* fucking FEEL
      &a11
 
@@ -134,15 +134,15 @@ a11:
 	*setanim cat_cello gesture_disagree 1.5 idle*
      i did you a fucking favor by inhaling that thing because if i didn’t
      you’d*setanim cat_cello gesture_jab 1.3 idle* have given it a name and treated it like a person and put your
-     whole soul into its care until the day you realize*setanim cat_cello gesture_sigh 1.3 idle* you are 
+     whole soul into its care until the day you realize*setanim cat_cello gesture_sigh 1.3 idle* you are
      meticulously pampering glorified pieces of motile scenery and break.
      &a12
 
 a12:
 	*setcam setpos -2870.269043 2919.815918 15;setang -45 131.073303 0.000000*
 	*setanim cat_cello gesture_facepalm 1.5 idle*
-     you’re doing all of this just because you made a promise you can’t 
-     keep to something that didn’t fucking care about us because if they 
+     you’re doing all of this just because you made a promise you can’t
+     keep to something that didn’t fucking care about us because if they
      did*setanim cat_cello gesture_anger 2 idle* THEY WOULD HAVE STAYED.
      &a13
 
@@ -150,8 +150,8 @@ a13:
 	*setfov 50*
 	*setanim cat_cello gesture_disagree 1.3 idle*
      at this point it’s starting to feel more like you’re just doing this
-     because you know what seeing*setanim cat_cello gesture_anger 2 idle* those fucking things does to me and 
-     this is revenge on behalf of that %‘friend’%% you clearly care about 
+     because you know what seeing*setanim cat_cello gesture_anger 2 idle* those fucking things does to me and
+     this is revenge on behalf of that %‘friend’%% you clearly care about
      so much more than me you heartless piece of shi-*setcam setpos -2911.438721 2963.478271 83.287720;setang 25.644358 -47.431377 0.000000**setfov 70*
      &a14
 
@@ -165,15 +165,15 @@ a15:
     *setskin cat_cello 5*
 	 *setspeaker cat_cello*
 	*setanim cat_cello gesture_shock 1.4 idle*
-     %%%.%.%.%pipes no i -%%%*setskin cat_cello 2*%*setcam setpos -3261.866699 2754.966064 2.898863;setang -4.968647 23.803549 0.000000* 
-     i didn’t mean-%%%%%*setanim cat_cello gesture_embarass 1 idle* 
-     you don’t- 
+     %%%.%.%.%pipes no i -%%%*setskin cat_cello 2*%*setcam setpos -3261.866699 2754.966064 2.898863;setang -4.968647 23.803549 0.000000*
+     i didn’t mean-%%%%%*setanim cat_cello gesture_embarass 1 idle*
+     you don’t-
      &a16
 
 a16:
      *setspeaker narrator*
 	*setcam setpos -92.599274 2894.528809 95.031448;setang 7.010281 47.859997 0.000000*
-     >The Cellist makes barely coherent strangled pleas,%% as his brain 
+     >The Cellist makes barely coherent strangled pleas,%% as his brain
      visibly catches up to what his mouth was saying.%%%% The sounds escalate
      into an overloaded yowl,%% and he runs,%%%% blindly seeking an escape from
      the words that now hang in the air. *setposang cat_cello setpos 0 0 0;setang -90 0 0.000000*
@@ -188,16 +188,16 @@ b1:
 	*setanim player idle_all_02
      *setspeaker narrator*
 	 *setanim cat_singer gesture_disagree 1 idle*
-     >You start after The Cellist,%% only to be stopped by The Singer 
+     >You start after The Cellist,%% only to be stopped by The Singer
      practically tackling you from behind to hold you back.
      &b2
 
 b2:
      *setspeaker cat_singer*
 	*setanim cat_singer gesture_disagree 2 idle*
-     >They shake their head frantically,%%% still blinking away tears,%% 
-     before hastily typing out a plea for you to let The Cellist have 
-     some time alone. 
+     >They shake their head frantically,%%% still blinking away tears,%%
+     before hastily typing out a plea for you to let The Cellist have
+     some time alone.
      &a17
 
 ### MINI BRANCH 2
@@ -215,8 +215,8 @@ c1:
 a17:
 	*setskin cat_singer 7*
 	*setanim cat_singer gesture_sigh 1 idle*
-     >"The Cellist can have bad days but this is something new and I'm 
-     worried about him???%%%%*setskin cat_singer 0* We need to give him some time to cool down 
+     >"The Cellist can have bad days but this is something new and I'm
+     worried about him???%%%%*setskin cat_singer 0* We need to give him some time to cool down
      before we go after him.%%%*setanim cat_singer gesture_exchange 1 idle*%*setskin cat_singer 1* I'll be okay!!%% It was unexpected but you saw
      his face,%*setskin cat_singer 0* he knows he crossed the line."
      &a18
@@ -224,8 +224,8 @@ a17:
 a18:
 	*setskin cat_singer 3*
 	*setanim cat_singer gesture_laugh 1 idle*
-     >”I'll sit that paranoid motherfucker down once he’s had some time 
-     to breathe and then we'll have a talk about healthy ways to 
+     >”I'll sit that paranoid motherfucker down once he’s had some time
+     to breathe and then we'll have a talk about healthy ways to
      communicate frustration (Φ ᆺ Φ)”
      &a20
 
@@ -233,8 +233,8 @@ a20:
      *setspeaker narrator*
 	 *setskin cat_singer 0*
      >The Singer,%% having composed themselves with the resolve to lovingly
-     and respectfully tear The Cellist a new asshole,%%% walks off in the 
-     direction The Cellist ran.%%%% You have a feeling it’d be best to let 
+     and respectfully tear The Cellist a new asshole,%%% walks off in the
+     direction The Cellist ran.%%%% You have a feeling it’d be best to let
      them handle this one on their own.*mark_seen*
      &exit
-     
+

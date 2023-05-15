@@ -2,7 +2,7 @@
 {
 	$model 1
 
-	$basetexture "models/matt/jazz_trolley_floor_d"	
+	$basetexture "models/matt/jazz_trolley_floor_d"
 
 	$envmap "env_cubemap"
 	$envmapcontrast 1

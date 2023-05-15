@@ -55,7 +55,7 @@ function ENT:KeyValue( key, value )
 	if key == "npcid" then
 		self.NPCID = tonumber(value)
 	end
-	
+
 	if key == "skin" then
 		self:SetSkin(tonumber(value))
 	end

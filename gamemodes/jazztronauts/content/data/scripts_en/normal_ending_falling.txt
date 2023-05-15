@@ -16,16 +16,16 @@ begin:
      *setspeaker cat_bar*
      That’s it! The void shell is collapsing!%%%
      &a1
-	
+
 a1:
      *setspeaker cat_piano*
      HELL YES, TIME FOR THE FUN PART!%%%
      &a2
-	
+
 a2:
      *setspeaker cat_cello*
      i suggest you hold firmly onto both of your ass cheeks
-     because if riding the bus freaks you out swan diving 
+     because if riding the bus freaks you out swan diving
      directly into the Void is probably gonna make you shit
      your entire skeleton out%%%
      &a3
@@ -34,7 +34,7 @@ a3:
      *setspeaker player*
      Wait, we're WHAT!?
      *emitsound ambient/levels/labs/teleport_preblast_suckin1.wav*
-     &a4	
+     &a4
 a4:
 	*setspeaker cat_cello*
 
@@ -64,7 +64,7 @@ a5:
      player:
 	&a6: AAAAAAAAAAAAAAAGH
 
-a6: 
+a6:
      >You're falling past a thousand impossible worlds!
      player:
         &a7: (continued screaming)
@@ -75,7 +75,7 @@ a7:
      player:
         &a8: (strangled screaming)
 
-a8: 
+a8:
     *tweenposang tunnel 5.0 -4004 -3978.834473 1000;setang 0 0 -90*
     >Falling...?
 		player:
@@ -85,4 +85,4 @@ a9:
     *tweenposang tunnel 5.0 -4004 -3978.834473 0;setang 0 0 -90*
      >Wait, when'd it get this dark?
     *dsp 0*
-     &exit              
+     &exit

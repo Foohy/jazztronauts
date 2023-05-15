@@ -28,11 +28,11 @@ How many times have we had to step around dead bodies now?
 begin2:
 *setspeaker cat_cello*
 not as many times as youve had to%%
-i aint the one who busts skulls.%% hell% im probably too 
+i aint the one who busts skulls.%% hell% im probably too
 blitzed to throw a punch without hitting myself right now
 &begin3
 
-begin3: 
+begin3:
 *setspeaker cat_bar*
 I'm stunned.
 &begin4
@@ -70,7 +70,7 @@ begin9:
 *setspeaker narrator*
 >3 sets of footsteps, accompanied by the sound of
 a person being dragged across the floor fades
-away overhead... 
+away overhead...
 &exit
 
 ###### END OF EVENT

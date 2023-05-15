@@ -2,7 +2,7 @@
 {
 	$model 1
 
-	$basetexture "models/matt/jazz_trolley_door_d"	
+	$basetexture "models/matt/jazz_trolley_door_d"
 	$bumpmap "models/matt/jazz_trolley_door_n"
 	$envmaptint "[.15 .15 .15]"
 

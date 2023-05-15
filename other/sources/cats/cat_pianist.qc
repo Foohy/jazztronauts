@@ -291,10 +291,10 @@ $Sequence "pianist_drunk_slam" {
 }
 
 $animation "a_standard_size" "cat_bartender.dmx"
-$animation "a_pianist_adjust" "cat_pianist.dmx" subtract a_standard_size 0 
+$animation "a_pianist_adjust" "cat_pianist.dmx" subtract a_standard_size 0
 
 $sequence "pianist_adjust" {
-	a_pianist_adjust 
+	a_pianist_adjust
 	delta
 	hidden
 	autoplay

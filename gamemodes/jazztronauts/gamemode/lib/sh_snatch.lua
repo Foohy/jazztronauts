@@ -167,21 +167,21 @@ if SERVER then
 
 		local mode 		= args[1] and tonumber(args[1])
 		if mode <= 0 then mode = nil end
-		
+
 		local reverse 	= tobool(args[2])
 		local rate 		= args[3] and tonumber(args[3])
 		if rate <= 0 then rate = math.huge end
 		local center = ply and ply:GetPos() or Vector()
 
 		local all_things = {}
-		for _, v in pairs(map.brushes) do 
+		for _, v in pairs(map.brushes) do
 			table.insert(all_things, {center = v.center, id = v.id, type = "brush"})
 		end
-		for _, v in pairs(map.displacements) do 
+		for _, v in pairs(map.displacements) do
 			table.insert(all_things, {center = (v.mins + v.maxs)/2, id = v.id, type = "displacement"})
 		end
 
-		table.sort(all_things, 
+		table.sort(all_things,
 			function(a, b)
 				if reverse then a, b = b, a end
 				return a.center:Distance(center) < b.center:Distance(center)
@@ -307,7 +307,7 @@ function meta:AppendDisplacementToMapMesh(disp_id)
 
 	local new_vertices = {}
 	map:CreateDisplacementMesh(disp_id, 0.5, nil, new_vertices)
-	
+
 	-- Update with all of the meshes
 	self:AppendVerticesToMapMesh(new_vertices)
 end
@@ -360,7 +360,7 @@ function meta:RunDisplacement(disp_id)
 
 	if self.mode then
 		local material = Material( disp.face.texinfo.texdata.material )
-		
+
 		local current_disp_mesh, current_disp_center, current_disp_material = map:CreateDisplacementMesh( disp_id, 0.5, material )
 
 		local entity = ManagedCSEnt( "dispproxy_" .. disp_id, "models/hunter/blocks/cube025x025x025.mdl", false )
@@ -388,7 +388,7 @@ function meta:RunDisplacement(disp_id)
 				render.SetLightmapTexture(lightmapTex)
 				render.SetLightingOrigin( current_disp_center)
 				render.SetMaterial(current_disp_material)
-				
+
 				current_disp_mesh:Draw()
 			cam.PopModelMatrix()
 
@@ -821,7 +821,7 @@ if SERVER then
 		net.WriteBit( scene.is_world and 1 or 0 )
 
 		if scene.is_world then
-			net.WriteBit( scene.is_displacement and 1 or 0 )	
+			net.WriteBit( scene.is_displacement and 1 or 0 )
 		else
 			net.WriteBit( scene.real.IsProxy and 1 or 0 )
 		end
@@ -901,7 +901,7 @@ elseif CLIENT then
 		local cl = ManagedCSEnt( "scene_entity_" .. tostring(nextEntityID), ent:GetModel(), should_ragdoll )
 
 		if not IsValid(cl) then return nil, false end
-		
+
 		nextEntityID = nextEntityID + 1
 
 		--Copy basic parameters
@@ -1195,7 +1195,7 @@ elseif CLIENT then
 
 	--precacheMapProps()
 
-	hook.Add("JazzSnatchMapReady", "snatchUpdateNetworkedBrushSpawn", function()	
+	hook.Add("JazzSnatchMapReady", "snatchUpdateNetworkedBrushSpawn", function()
 		stealBrushesInstant()
 	end )
 

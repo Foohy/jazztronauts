@@ -7,7 +7,7 @@ ADVANCE_KEYS = IN_USE, MOUSE_LEFT
 
 doorinspectlocked1:
     It's locked.
-    
+
     &exit
 
 doorinspectlocked2:
@@ -17,50 +17,50 @@ doorinspectlocked2:
 
 doorinspectlocked3:
     It's locked. It's locked. It's locked.
-    
+
     &exit
 
 doorinspectlocked4:
     You're not listening.
-    
+
     &exit
 
 doorinspectlockedquestionable:
     It's %%%%%%%%%%%%%%%%%%%%%%%. %%%%%%%%%%%%%%%%%%%%%%%. %%%%%%%%%%%%%%%%%%%%%%%. %%%%%%%%%%%%%%%%%%%%%%%locked?
-    
+
     &exit
 
 oven1:
     Don't really feel like cooking right now.
-    
+
     &exit
 
 ovenb:
     The oven is crusted shut with carbon and a thick slime.
-    
+
     &exit
 
 ovenc:
-    The handle crumbles beneath curious hands, which crumble in turn. 
-    
+    The handle crumbles beneath curious hands, which crumble in turn.
+
     &ovenc2
 
 ovenc2:
     Pieced back together, glued with muck.
-    
+
     &exit
 
 
 
 bedroomentry:
     You don't recall entering the bedroom door.
-    
+
     &exit
 
 
 mattress1:
     There's no way I'm touching that without gloves on.
-    
+
     &exit
 
 mattress2:
@@ -77,7 +77,7 @@ mattress3:
 
 bathroomdoor1a:
 
-It's locked. 
+It's locked.
 
 &bathroomdoor1b
 
@@ -123,7 +123,7 @@ painting2a:
     &exit
 
 painting2b:
-    The sun rises. It cuts a gash through the cool waters, narrowly missing the lonely boat. 
+    The sun rises. It cuts a gash through the cool waters, narrowly missing the lonely boat.
 
     &exit
 
@@ -142,7 +142,7 @@ painting3b:
 
 painting3c:
     Grime and scum, nothing more.
-    &exit    
+    &exit
 
 closetinspect1:
     Just an ordinary closet. Something is preventing it from being opened. . .
@@ -150,12 +150,12 @@ closetinspect1:
     &exit
 
 closetinspectb1:
-    There are tattered shirts and poorly darned pants. 
+    There are tattered shirts and poorly darned pants.
 
     &closetinspectb2
 
 closetinspectb2:
-    Unwashed and musty. 
+    Unwashed and musty.
 
     &exit
 
@@ -175,7 +175,7 @@ closetinspectafter1:
     &exit
 
 youshouldntbehere:
-    
+
     You shouldn't be here.
 
 &exit

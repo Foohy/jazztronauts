@@ -43,14 +43,14 @@ net.Receive("brushcollect", function()
 		ply.bstreaktotal = worth
 
 		brush_streaks[ply:EntIndex()] = eventfeed.Create()
-			:Title(jazzloc.Localize("jazz.message.stole","%name","%count","%brushes"), 
+			:Title(jazzloc.Localize("jazz.message.stole","%name","%count","%brushes"),
 				{
-					name = function() return IsValid(ply) and ply:Nick() or "<player>" end, 
+					name = function() return IsValid(ply) and ply:Nick() or "<player>" end,
 					count = function() return IsValid(ply) and ply.bstreakcount or 0 end,
 					brushes = function() return ( IsValid(ply) and ply.bstreakcount > 1 ) and jazzloc.Localize("jazz.message.brushes") or jazzloc.Localize("jazz.message.brush") end,
 				}
 			)
-			:Body("%total", 
+			:Body("%total",
 				{
 					total = function() return jazzloc.Localize("jazz.hud.money",jazzloc.AddSeperators( IsValid(ply) and ply.bstreaktotal or 0)) end
 				}
@@ -87,14 +87,14 @@ net.Receive("propcollect", function()
 		ply.streaktotal = worth
 
 		prop_streaks[ply:EntIndex()] = eventfeed.Create()
-			:Title(jazzloc.Localize("jazz.message.stole","%name","%count","%props"), 
+			:Title(jazzloc.Localize("jazz.message.stole","%name","%count","%props"),
 				{
-					name = function() return IsValid(ply) and ply:Nick() or "<player>" end, 
+					name = function() return IsValid(ply) and ply:Nick() or "<player>" end,
 					count = function() return IsValid(ply)and ply.streakcount or 0 end,
 					props = function() return ( IsValid(ply) and ply.streakcount > 1 ) and jazzloc.Localize("jazz.message.props") or jazzloc.Localize("jazz.message.prop") end,
 				}
 			)
-			:Body("%total", 
+			:Body("%total",
 				{
 					total = function() return jazzloc.Localize("jazz.hud.money",jazzloc.AddSeperators( IsValid(ply) and ply.streaktotal or 0)) end
 				}

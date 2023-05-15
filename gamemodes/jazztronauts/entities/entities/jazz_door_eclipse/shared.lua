@@ -11,5 +11,5 @@ ENT.DEST_ENDGAME	= 2
 
 function ENT:GetDestination()
 	local dest, changelevel = mapcontrol.GetNextEncounter()
-	return dest 
+	return dest
 end

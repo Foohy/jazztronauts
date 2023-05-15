@@ -113,7 +113,7 @@ function Ticker( tm )
 	if not tm then return nil end
 
 	local tv = { v=0, r=1 }
-	local t = setmetatable({ 
+	local t = setmetatable({
 		tm = tm,
 		time = tv,
 	}, t_meta):Init()

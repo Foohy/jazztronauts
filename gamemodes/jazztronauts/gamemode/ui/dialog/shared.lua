@@ -30,10 +30,10 @@ ScriptSources = ScriptSources or {} -- Raw uncompiled script sources, transmitte
 g_graph = g_graph or {} 			-- Compiled script graphs
 
 local ScriptPath = "data/scripts"--_"..string.lower(GetConVar("gmod_language"):GetString()).."/"
-local HIGH_PRIORITY_SCRIPTS = { 
+local HIGH_PRIORITY_SCRIPTS = {
 	["macros.txt"] = true,
 	["jazz_bar_intro.txt"] = true,
-	["jazz_bar_shardprogress.txt"] = true, 
+	["jazz_bar_shardprogress.txt"] = true,
 	["no_singleplayer_allowed.txt"] = true,
 }
 
@@ -92,7 +92,7 @@ local function ParseLine(script, line)
 		table.insert(script.tokens, {tok = tok, type = type}) tok = ""
 	end
 	local i = 1
-	
+
 	local inExec = false
 	repeat
 		local ch = line[i]
@@ -436,8 +436,8 @@ function CompileScripts(sources)
 			end
 		end
 	end
-	
-	
+
+
 	return compiled
 end
 
@@ -618,7 +618,7 @@ local function DecodeScripts( blob )
 
 			name = nil
 			lastbuf = i+1
-			
+
 		elseif !name and blob[i] == ':' then
 			name = string.sub(blob, lastbuf, i-1)
 			lastbuf = i+1

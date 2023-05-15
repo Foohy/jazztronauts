@@ -183,45 +183,45 @@ bar_bark1:
 
 bar_bark2:
     *setauto*
-    Oh! I didn’t see you there. Have you seen The Cellist around? 
-    I’m concerned he may be planning a heist. 
+    Oh! I didn’t see you there. Have you seen The Cellist around?
+    I’m concerned he may be planning a heist.
     I store the decanted shard essence in crystal form, you see…%
     &exit
 
 bar_bark3:
     *setauto*
-    The Pianist seems much more relaxed these days. 
+    The Pianist seems much more relaxed these days.
     You’ve had quite the effect on her, you know.%
     &exit
 
-bar_bark4: 
+bar_bark4:
     *setauto*
-    The Singer has been telling me about your exploits assisting them 
+    The Singer has been telling me about your exploits assisting them
     with their research. I haven’t seen them smile so much in a long time.%
     &exit
 
-bar_bark5:  
+bar_bark5:
     *setauto*
-    I keep thinking about the Band. I wonder if they’d 
+    I keep thinking about the Band. I wonder if they’d
     be open to a creative collaboration one day?%
     &exit
 
-bar_bark6: 
+bar_bark6:
     *setauto*
-    The Bar Samsara hasn’t been so alive for an age. 
+    The Bar Samsara hasn’t been so alive for an age.
     I hope this is the start of something good, for all of us. %
     &exit
 
 piano_bark1:
     *setauto*
-     Hey. Did you enjoy the festival? We don’t often bring guests 
-     along, the Band seemed pretty happy to see a new face. 
+     Hey. Did you enjoy the festival? We don’t often bring guests
+     along, the Band seemed pretty happy to see a new face.
      &exit
 
 piano_bark2:
     *setauto*
-     Don’t tell him I said this, but The Cellist has been less of a pain 
-     in the ass recently. Don’t know what you did, but thanks. 
+     Don’t tell him I said this, but The Cellist has been less of a pain
+     in the ass recently. Don’t know what you did, but thanks.
      &exit
 
 piano_bark3:
@@ -231,79 +231,79 @@ piano_bark3:
 
 piano_bark4:
     *setauto*
-     Ugh. Why did I agree to help out at the Mewseum, these paws are made 
+     Ugh. Why did I agree to help out at the Mewseum, these paws are made
      for carnage, not data entry.
      &exit
 
 piano_bark5:
     *setauto*
-     You know, the Boss likes you. She only brings out the snickerdoodles 
+     You know, the Boss likes you. She only brings out the snickerdoodles
      for special guests.
      &exit
 
 piano_bark6:
     *setauto*
-     Make sure you visit, yeah? Gonna miss you. 
+     Make sure you visit, yeah? Gonna miss you.
      &exit
 
 singer_bark1:
     *setauto*
      >You find The Singer hard at work on that bootleg plant cloning
-     program you helped them with. They've been having quite a lot of 
-     success, and they're quite proud of their latest bunch of Mr. 
+     program you helped them with. They've been having quite a lot of
+     success, and they're quite proud of their latest bunch of Mr.
      Stripeys. They weren't kidding when they said tomato names got weird.
      &exit
 
 singer_bark2:
     *setauto*
-     > You get a wave when you head over, and The Singer thanks you for 
+     > You get a wave when you head over, and The Singer thanks you for
      helping The Pianist. She’s been smiling a lot more lately, it’s nice.
      &exit
 
 singer_bark3:
     *setauto*
-     > You find The Singer sitting with The Cellist. They both appear 
+     > You find The Singer sitting with The Cellist. They both appear
      to be...meditating? You sit with them both for a while.
      &exit
 
 singer_bark4:
     *setauto*
-     > The Singer smiles but seems a little sad. They confess that 
+     > The Singer smiles but seems a little sad. They confess that
      they’re going to miss you very much when you leave.
      &exit
 
 singer_bark5:
     *setauto*
-     > The Singer brightens when you approach! You spend a while reading 
-     their report on the progress of the Mewseum's residents. 
+     > The Singer brightens when you approach! You spend a while reading
+     their report on the progress of the Mewseum's residents.
      &exit
 
 singer_bark6:
     *setauto*
-     > The Singer is sitting watching The Bartender with starry eyes, as 
+     > The Singer is sitting watching The Bartender with starry eyes, as
      the other cat plays them a sweet tune on her trumpet. You leave them
-     to it. 
+     to it.
      &exit
 
 cello_bark1:
     *setauto*
      you know for how much people talk up pufferfish toxin i think they're
-     just cowards. i love to take bites out of them like apples and look 
+     just cowards. i love to take bites out of them like apples and look
      at me, i'm the picture of health
      &exit
 
 cello_bark2:
     *setauto*
-     i really need to talk to pipes one of these days about getting more 
-     proper literature in the library. a man can only read so many prima 
-     strategy guides before he longs for some good ol' william burroughs 
+     i really need to talk to pipes one of these days about getting more
+     proper literature in the library. a man can only read so many prima
+     strategy guides before he longs for some good ol' william burroughs
      y'know
      &exit
 
 cello_bark3:
     *setauto*
      one of these days i'm going to find out where The Bartender locked
-     up all the absinthe. i don't even particularly want to drink it, 
+     up all the absinthe. i don't even particularly want to drink it,
      it doesn't even make you hallucinate a little bit, but it's a matter
      of pride at this point
      &exit
@@ -319,11 +319,11 @@ cello_bark4:
 cello_bark5:
     *setauto*
      people keep bitching about the fact that they don't have flying cars
-     yet. i'm over here wondering why in the hell we don't have robots 
-     that recite "there will come soft rains" as they do your household 
+     yet. i'm over here wondering why in the hell we don't have robots
+     that recite "there will come soft rains" as they do your household
      chores just to fuck with you
      &exit
-     
+
 cello_bark6:
     *setauto*
      sometimes i wonder about that one old poet who wondered if he was a
@@ -340,74 +340,74 @@ cello_bark7:
 
 bar_truebark1:
     *setauto*
-     Ah, always a pleasure to see you, *player*. 
+     Ah, always a pleasure to see you, *player*.
      The Bar Samsara isn’t the same without you.
      &exit
 
 bar_truebark2:
     *setauto*
-     The Pianist and The Cellist have been getting along better than 
-     I ever dreamed, as of late. Thank you again for the role you 
-     played in their reconciliation. 
+     The Pianist and The Cellist have been getting along better than
+     I ever dreamed, as of late. Thank you again for the role you
+     played in their reconciliation.
      &exit
 
 bar_truebark3:
     *setauto*
-     The Singer was telling me that you helped fix Emily Bronto. 
-     That was very kind. The world needs more people like you, 
+     The Singer was telling me that you helped fix Emily Bronto.
+     That was very kind. The world needs more people like you,
      *player*.
      &exit
 
 bar_truebark4:
     *setauto*
-     I’ve been thinking of putting Ambrosia back on the menu one day 
-     if The Cellist keeps up this streak of responsible consumption. 
+     I’ve been thinking of putting Ambrosia back on the menu one day
+     if The Cellist keeps up this streak of responsible consumption.
      Perhaps in fifty years or so.
      &exit
 
 bar_truebark5:
     *setauto*
-     I must say, I’ll miss you dearly when your path takes you away from 
-     us. Should you visit, there will always be a seat for you at the 
+     I must say, I’ll miss you dearly when your path takes you away from
+     us. Should you visit, there will always be a seat for you at the
      Bar Samsara.
      &exit
 
 bar_truebark6:
     *setauto*
-     I saw The Pianist smile while helping at the Mewseum earlier. I 
-     nearly dropped a bottle in shock. 
+     I saw The Pianist smile while helping at the Mewseum earlier. I
+     nearly dropped a bottle in shock.
      &exit
 
 
 
 piano_truebark1:
     *setauto*
-     Good to see you. How’s life as a freelancer treating ya? 
+     Good to see you. How’s life as a freelancer treating ya?
      &exit
 
 piano_truebark2:
     *setauto*
-     Between you and me, I think this ‘going legit’ thing won’t last too  
+     Between you and me, I think this ‘going legit’ thing won’t last too
      long. Give it a hundred years, and you’ll probably see us out on the
-     Voidway again. 
+     Voidway again.
      &exit
 
 piano_truebark3:
     *setauto*
-     Hey, uh, have you seen The Singer? I got the guest beds set up in 
-     the old study wing of the Mewseum as they asked. 
+     Hey, uh, have you seen The Singer? I got the guest beds set up in
+     the old study wing of the Mewseum as they asked.
      &exit
 
 piano_truebark4:
     *setauto*
-     Don’t tell him I said this, but it’s been nice hanging out with the 
-     Cellist recently. Thanks for helping him out. It’s good to have my 
-     friend back. 
+     Don’t tell him I said this, but it’s been nice hanging out with the
+     Cellist recently. Thanks for helping him out. It’s good to have my
+     friend back.
      &exit
 
 piano_truebark5:
     *setauto*
-     I managed another improvisation yesterday. I thought it was pretty 
+     I managed another improvisation yesterday. I thought it was pretty
      shit, but The Bartender loved it. It’s a start, right?
      &exit
 
@@ -422,21 +422,21 @@ piano_truebark6:
 
 singer_truebark1:
     *setauto*
-     > The Singer is sitting with The Bartender, playing Go. They both greet 
+     > The Singer is sitting with The Bartender, playing Go. They both greet
      you fondly and you spend a while watching them play.
      &exit
 
 singer_truebark2:
     *setauto*
-     > The Singer hugs you. You sit together and they tell you 
+     > The Singer hugs you. You sit together and they tell you
      about the help The Pianist and Cellist have been giving them at the
      Mewseum. They're very proud of both of them.
      &exit
 
 singer_truebark3:
     *setauto*
-     > The Singer looks sad. They’ve been trying not to think about the 
-     fact you’ll be leaving soon. But they thank you earnestly for the 
+     > The Singer looks sad. They’ve been trying not to think about the
+     fact you’ll be leaving soon. But they thank you earnestly for the
      happiness you’ve gifted them during your stay.
      &exit
 
@@ -450,59 +450,59 @@ singer_truebark4:
 
 singer_truebark5:
     *setauto*
-     > The Singer waves! They show you the blueprints for a Mewseum 
-     expansion. The Bar Samsara will also be expanding into 
+     > The Singer waves! They show you the blueprints for a Mewseum
+     expansion. The Bar Samsara will also be expanding into
      a hotel soon.
      &exit
 
 singer_truebark6:
     *setauto*
-     > The Singer is taking a nap with Emily Bronto, who looks downright 
+     > The Singer is taking a nap with Emily Bronto, who looks downright
      fearsome with her new battle scars.
      &exit
 
 cello_truebark1:
     *setauto*
-     welcome back my friends to the show that never ends 
-     we’re so glad you could attend 
-     and so on and so forth. 
+     welcome back my friends to the show that never ends
+     we’re so glad you could attend
+     and so on and so forth.
      naw for real though it’s always good to see you
      &exit
 
 cello_truebark2:
     *setauto*
-     listen i’m still not used to expressing most of my emotions without 
-     fifteen different layers of irony and/or hallucinogens in the way, 
-     but...thanks for not giving up on me when i lost my grip. i don’t 
+     listen i’m still not used to expressing most of my emotions without
+     fifteen different layers of irony and/or hallucinogens in the way,
+     but...thanks for not giving up on me when i lost my grip. i don’t
      think i’ll ever figure out the words that say what that meant to me.
      &exit
 
 cello_truebark3:
     *setauto*
-     it’s been so long since The Pianist smiled this much that i forgot 
+     it’s been so long since The Pianist smiled this much that i forgot
      how nice one looked on her. you did good by her, kid.
      &exit
 
 cello_truebark4:
     *setauto*
-     hey. between you and me? thanks for being such a good friend to 
-     pipes. they’ve always had issues making friends that weren’t robots 
-     cause they’re wired a little differently than most but you made them 
+     hey. between you and me? thanks for being such a good friend to
+     pipes. they’ve always had issues making friends that weren’t robots
+     cause they’re wired a little differently than most but you made them
      feel as comfortable as we do. that ain’t common.
      &exit
 
 cello_truebark5:
     *setauto*
      The Bartender’s holding me to that promise I made about cutting back
-     and let me tell you it’s an odd hour that goes by when i don’t want 
-     to go back in time and punch myself for agreeing to that. i’m 
+     and let me tell you it’s an odd hour that goes by when i don’t want
+     to go back in time and punch myself for agreeing to that. i’m
      noticing improvements in my health, though. begrudgingly.
      &exit
 
 cello_truebark6:
     *setauto*
-     can I ask you a favor? if you see a metrocop with a little cat 
-     emblem pin out there in the Void, tell them The Cellist says 
+     can I ask you a favor? if you see a metrocop with a little cat
+     emblem pin out there in the Void, tell them The Cellist says
      hello...and that he’s sorry.
      &exit
 

@@ -62,9 +62,9 @@ end
 if SERVER then return end
 
 local function randomlocalization(strang)
-	
+
 	if strang == nil then return nil end
-	
+
 	--TODO (maybe): all screens use the same instance of their fail text, this commented out code would want them all called individually
 
 	--[[if string.find(strang,"jazz.levelselect.fail",1,true) == nil then return strang end --we're not randomizing any other strings
@@ -79,7 +79,7 @@ local function randomlocalization(strang)
 	local localizationstrs = setmetatable(localizationtable, {__index = function() return "" end} )
 
 	return jazzloc.Localize(strang..localizationstrs[math.random(#localizationstrs+3)]) -- 3 (or more if it's present) times more likely to display our language, with others mixed in for flavor]]
-	
+
 	return jazzloc.Localize(strang)
 end
 

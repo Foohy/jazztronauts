@@ -1,6 +1,6 @@
 $ModelName "weapons/w_hackergoggles.mdl"
 
-$Model "goggles" "w_hackergoggles.dmx" 
+$Model "goggles" "w_hackergoggles.dmx"
 $bodygroup	"paw"
 {
 	studio "hackergoggles.dmx"

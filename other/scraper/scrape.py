@@ -20,7 +20,7 @@ def containsIgnoreWords(str):
     for word in ignore_words:
         if containsIgnoreWord(str, word):
             return True
-        
+
     return False
 
 if __name__ == "__main__":
@@ -64,10 +64,10 @@ if __name__ == "__main__":
 
         if page * NUMPERPAGE > resobj["response"]["total"]:
             break
-        else:   
+        else:
             # so valve doesn't get angry at us
             time.sleep(DELAY)
-    
+
     # Results come back sorted, but reverse it so
     # newer entries are added at the end instead of shifting everything at the beginning
     workshopids.reverse()

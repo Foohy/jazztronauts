@@ -7,38 +7,38 @@ a2:
     shit's harder than you'd think from the commercials
     &a3
 a3:
-    like%% you'd think all you do is crack open a can of Bougie Beige% and 
-    do a zoom shot of a paint roller covering about three feet of wall and 
-	bam you're in an immaculately stenciled dining room with trim that 
+    like%% you'd think all you do is crack open a can of Bougie Beige% and
+    do a zoom shot of a paint roller covering about three feet of wall and
+	bam you're in an immaculately stenciled dining room with trim that
 	changes color in different lighting
     &a4
 a4:
     then you take the thing home and suddenly you gotta deal with %
-	color theory% and %dry times% and %masking tape% and %viscosity% and 
+	color theory% and %dry times% and %masking tape% and %viscosity% and
 	%the fact that wood breathes%
     &a5
 a5:
-    like consider the phrasing of that shit you make an 
-    entire standing structure of chopped and pressed plant corpses 
-    and that shits still going hundreds of years after death, 
+    like consider the phrasing of that shit you make an
+    entire standing structure of chopped and pressed plant corpses
+    and that shits still going hundreds of years after death,
     literal physical intake of air as it expands and contracts.
 	&a5b
-	
+
 a5b:
-    like%% think if you stuck% a million dudes in a cement mixer% and 
-    poured out meat mortar and if you listened real close at night% 
+    like%% think if you stuck% a million dudes in a cement mixer% and
+    poured out meat mortar and if you listened real close at night%
     you could hear them beneath that thin skin of latex and oil
     &a6
 a6:
-    countless death rattles stretched out into infinity in a single 
-    monstrous chorus as the walls themselves pulse to the rhythm of a 
-	heart they lost long ago, straining against color designed 
+    countless death rattles stretched out into infinity in a single
+    monstrous chorus as the walls themselves pulse to the rhythm of a
+	heart they lost long ago, straining against color designed
 	to be overlooked and forgotten
     &a7
 a7:
     completely unrelatedly %%
     i need about five cans of paint %
-    so if you could bring those by the next time you're here 
+    so if you could bring those by the next time you're here
 	that'd be swell
     *start 3*
     &exit
@@ -49,7 +49,7 @@ idle:
 i2:
     damn%%%%
     well%% i'd appreciate bein' snappy with this one %%
-    cause% i really need the paint before i can get anything else done 
+    cause% i really need the paint before i can get anything else done
 	with my current, uh, endeavor
     &exit
 
@@ -61,7 +61,7 @@ t1:
     *finish 3*
     >The Cellist pops the lid and huffs deeply.
 	&t2
-	
+
 t2:
     what
     %%%%%%

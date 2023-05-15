@@ -206,7 +206,7 @@ function IntersectRayBox(origin, dir, min, max)
 	local t4 = (z0 - oz) * dz
 	local t5 = (z1 - oz) * dz
 
-	local tmin = 
+	local tmin =
 	fmax(
 		fmax(
 			fmin(t0,t1),
@@ -215,7 +215,7 @@ function IntersectRayBox(origin, dir, min, max)
 		fmin(t4,t5)
 	)
 
-	local tmax = 
+	local tmax =
 	fmin(
 		fmin(
 			fmax(t0,t1),

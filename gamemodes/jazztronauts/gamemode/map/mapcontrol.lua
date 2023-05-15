@@ -76,8 +76,8 @@ function GetNextEncounter()
 	local isngp = newgame.GetResetCount() > 0
 	if not isngp then return nil end
 
-	local seen1, seen2, seen3 = tobool(newgame.GetGlobal("encounter_1")), 
-		tobool(newgame.GetGlobal("encounter_2")), 
+	local seen1, seen2, seen3 = tobool(newgame.GetGlobal("encounter_1")),
+		tobool(newgame.GetGlobal("encounter_2")),
 		tobool(newgame.GetGlobal("encounter_3"))
 	local halfway = math.Round(bshardReq / 2)
 
@@ -227,7 +227,7 @@ if SERVER then
 		end
 
 		-- Download from internet and mount
-		if not server_ugc then 
+		if not server_ugc then
 			workshop.DownloadGMA(wsid, function(filepath, errmsg)
 				PostDownload(filepath, errmsg)
 			end, decompFunc)

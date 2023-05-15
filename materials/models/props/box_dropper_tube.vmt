@@ -13,8 +13,8 @@
 
 //	"$phong" "1"
 	"$phongexponenttexture" "models\props\box_dropper_tube_exponent"
-	"$phongexponent" "1"	
-	"$phongboost" "1"	
+	"$phongexponent" "1"
+	"$phongboost" "1"
 //	"$lightwarptexture" "models\props\box_dropper_tube_lightwarp"
 	"$phongfresnelranges"	"[1 2 5]"
 

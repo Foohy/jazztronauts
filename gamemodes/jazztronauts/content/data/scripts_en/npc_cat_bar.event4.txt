@@ -2,7 +2,7 @@ SKIP_OPEN = true
 
 begin:
 
-###All the cats are sat in the water room. Singer between Pianist 
+###All the cats are sat in the water room. Singer between Pianist
 ###and Cellist, Bartender sat in front of them, closest to player
 
     *txout*
@@ -37,16 +37,16 @@ a2:
     Hold for four.
     &a3
 
-a3: 
+a3:
     Slowly release.%%%% One,%% two,%% three,%% four.
     &a4
 
 a4:
 	*setcam setpos -2261.979492 557.981018 -24.090858;setang -1.614466 -11.992874 0.000000*
-    Ah, *player*!%%%% 
+    Ah, *player*!%%%%
 	Care to join us in our meditations?
     player:
-         &dingus: Do I have to hum while I breathe because I don't have that 
+         &dingus: Do I have to hum while I breathe because I don't have that
               kind of breath control.
          &a5: Sure.
          &leave: Uh, I'll...pass. Have fun though. (exit)
@@ -63,7 +63,7 @@ dingus:
 	*setcam setpos -2204.526367 467.057617 -27.270088;setang 0.408657 16.597002 0.000000*
     *setspeaker cat_piano*
 	*setskin cat_piano 0*
-    If you start humming I will punch you in the face.%%%%*setskin cat_piano 4* 
+    If you start humming I will punch you in the face.%%%%*setskin cat_piano 4*
     This is our quiet time.
     &dingus2
 
@@ -84,12 +84,12 @@ a5:
     *setspeaker narrator*
 	*setcam setpos -2323.443359 388.313568 16.408169;setang 13.239491 32.089962 0.000000*
 	*setskin cat_bar 1*
-    > The Bartender smiles,%% and you sit down beside her. 
+    > The Bartender smiles,%% and you sit down beside her.
     &a6
 
 a6:
     *setspeaker cat_bar*
-    Excellent,%% pleasure to have you. 
+    Excellent,%% pleasure to have you.
     &a7
 
 a7:
@@ -101,22 +101,22 @@ a8:
 	*setcam setpos -2360.776611 1260.713745 -109.530563;setang -2.093598 -65.551727 0.000000*
 	*tweencam 30 setpos -2520.542969 1188.078979 -109.530563;setang -2.040358 -65.551727 0.000000*
 	*setskin cat_bar 4*
-    Sit up straight,% and put your hands on your knees.%%%% Focus on the 
-    points where your body makes contact with the surface beneath you. 
+    Sit up straight,% and put your hands on your knees.%%%% Focus on the
+    points where your body makes contact with the surface beneath you.
     &a9
 
 a9:
-    We are following a four-count breathing rhythm today.%%%% Inhale for 
-    four seconds,%% hold for four seconds,%% and then slowly release your  
-    breath for four seconds. 
+    We are following a four-count breathing rhythm today.%%%% Inhale for
+    four seconds,%% hold for four seconds,%% and then slowly release your
+    breath for four seconds.
     &a10
 
 a10:
 	*setcam setpos -2161.344238 520.817505 -24.739239;setang 0.408679 25.541904 0.000000*
     *setspeaker cat_cello*
 	*setskin cat_cello 0*
-    also make sure you keep breathing too or else youll go kinda blue 
-    and start making wheezing noises and that throws everyone else off 
+    also make sure you keep breathing too or else youll go kinda blue
+    and start making wheezing noises and that throws everyone else off
     their rhythm*setskin cat_cello 4*
     &a11
 
@@ -133,12 +133,12 @@ a12:
     &a13
 
 a13:
-    Think of a place that makes you happy.%%% Somewhere you feel at home 
+    Think of a place that makes you happy.%%% Somewhere you feel at home
     and at peace.
     &a14
 
 a14:
-    Populate that space with your favorite sounds and textures. 
+    Populate that space with your favorite sounds and textures.
     &a15
 
 a15:
@@ -194,7 +194,7 @@ a19:
 	*setanim cat_bar gesture_anger 1 idle*
     *setspeaker narrator*
 	*setcam setpos -2199.189209 570.780457 -10.404617;setang 34.375881 -11.131420 0.000000*
-    >The Bartender nudges The Cellist with her foot.%%% 
+    >The Bartender nudges The Cellist with her foot.%%%
 	He lets out a loud and kinda gross snore.
     &a20
 
@@ -208,6 +208,6 @@ a20:
 a21:
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_agree 1 idle*
-    Thank you for joining us,%%% *player*.%%% 
+    Thank you for joining us,%%% *player*.%%%
 	It was lovely to spend a while relaxing in your company.*mark_seen*
     &exit

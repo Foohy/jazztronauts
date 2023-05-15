@@ -79,7 +79,7 @@ function SWEP:Initialize()
 		table.Add(self.GlitchSources,ents.FindByClass("phys_magnet"))
 		]]
 	else
-		
+
 	end
 end
 
@@ -145,7 +145,7 @@ function SWEP:CalcGlitch()
 		local viewmodel = self.Owner:GetViewModel()
 
 		if IsValid(viewmodel) then
-			
+
 			local maxrange = 640000 --800^2 (HL2 geiger counter starts going off at 800HU)
 			local pos = self.Owner:GetPos()
 			self.GlitchIdeal = 0.0 --reset ideal glitchiness
@@ -190,7 +190,7 @@ end
 
 function SWEP:CanPrimaryAttack()
 
-	return unlocks.IsUnlocked("store", self:GetOwner(), upgrade_enableWrites) 
+	return unlocks.IsUnlocked("store", self:GetOwner(), upgrade_enableWrites)
 
 end
 

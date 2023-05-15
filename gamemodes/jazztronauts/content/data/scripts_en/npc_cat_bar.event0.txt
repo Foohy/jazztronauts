@@ -46,7 +46,7 @@ begin:
 resp1a:
     *setspeaker cat*
     *setskin cat 2*%%*setskin cat 0*No, that was not our handiwork.%
-    *setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000*The camp and the wash room next to it are %%*setskin cat 3*new additions%%%*setskin cat 0*. 
+    *setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000*The camp and the wash room next to it are %%*setskin cat 3*new additions%%%*setskin cat 0*.
     The last group before you,% actually.%%*setskin cat 1* Lovely bunch.
     &resp1b
 
@@ -66,7 +66,7 @@ resp1b:
 resp1c:
     *setspeaker cat*
     *setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000**setanim cat idle**setskin cat 2*Like*setanim cat gesture_sweep 1.0 idle* I said, not my story to tell.%*setskin cat 0*
-    It's not anything particularly scandalous,% just a silly thing 
+    It's not anything particularly scandalous,% just a silly thing
     that I'd feel rather %%*setskin cat 1*catty%%*setskin cat 0* talking about behind their backs.
     &resp1d
 
@@ -74,7 +74,7 @@ resp1d:
     *setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000**setskin cat 1**setanim cat gesture_foldarms*Honestly,% I don't think I've ever met such a cheery,% energetic bunch.
     They %clearly loved just spending time with each other%.%.%.
     didn't even seem to mind they were trapped here,%
-    so long as they were enjoying themselves. 
+    so long as they were enjoying themselves.
     &resp1e
 
 resp1e:
@@ -85,8 +85,8 @@ resp1e:
 
 ###### Branch 2
 resp2a:
-    *setspeaker cat* 
-    The jury-rigged Combine machinery with a giant CRT connected 
+    *setspeaker cat*
+    The jury-rigged Combine machinery with a giant CRT connected
     to it, I assume?%% *setskin cat 1*Yes,% it does stand out,%% doesn't it.
     &resp2b
 
@@ -96,16 +96,16 @@ resp2b:
     &resp2c
 
 resp2c:
-    *setskin cat 2**setanim cat gesture_sweep 1.0 idle* Back before we had it,%% we had to manually drive up and down 
-    Voidway 66 trying to find a place to salvage,% hoping any 
+    *setskin cat 2**setanim cat gesture_sweep 1.0 idle* Back before we had it,%% we had to manually drive up and down
+    Voidway 66 trying to find a place to salvage,% hoping any
     given wormhole would be worthwhile.
     &resp2d
 resp2d:
-    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* It was not optimal,*setanim cat gesture_foldarms*% to say the least.%%*setskin cat 1* Eventually a guest 
-    had the idea to make a compass that pointed to the closest dimensional 
+    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* It was not optimal,*setanim cat gesture_foldarms*% to say the least.%%*setskin cat 1* Eventually a guest
+    had the idea to make a compass that pointed to the closest dimensional
     breach.%%%%*setskin cat 0* I think a piece of it is still in that machine somewhere.
     &resp2e
-    
+
 resp2e:
     Then another guest wired some gizmo they had to it,%
     and then*setanim cat gesture_sweep 1.0 idle* another,%% and another,%% a little bit at a time%
@@ -119,7 +119,7 @@ resp2f:
 ###### Branch 3
 resp3a:
     *setspeaker cat*
-    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* *setskin cat 1**setanim cat gesture_sweep 1.0 idle*Of course it is.%%% Please,% take as much time as you need,% 
+    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* *setskin cat 1**setanim cat gesture_sweep 1.0 idle*Of course it is.%%% Please,% take as much time as you need,%
     and let me know when you'd like a new drink.
     &exit
 
@@ -127,8 +127,8 @@ resp3a:
 merge1a:
     *setspeaker cat*
     *setcam setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000**setskin cat 0**setanim cat gesture_sweep 1.0 idle*In any event,%% it's come a long way from the empty room that it once was.%%
-    I'll admit,% hearing laughter and commotion coming from 
-    the camp again does fill me with a sort of pride. 
+    I'll admit,% hearing laughter and commotion coming from
+    the camp again does fill me with a sort of pride.
     &merge1b
 
 merge1b:
@@ -140,9 +140,9 @@ merge1c:
     %%*setskin cat 3*Ah, one other*setskin cat 0* thing.%.%.
     &merge1d
 merge1d:
-    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000*This isn't required of you,%*setanim cat gesture_jab 1.0 idle* but can I ask you to spend some time 
-    with the rest of my peers?%%%*setskin cat 1* They won't admit it,% but they do 
-    enjoy the company%.%.%.*setskin cat 0* and exposure to different worldviews 
+    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000*This isn't required of you,%*setanim cat gesture_jab 1.0 idle* but can I ask you to spend some time
+    with the rest of my peers?%%%*setskin cat 1* They won't admit it,% but they do
+    enjoy the company%.%.%.*setskin cat 0* and exposure to different worldviews
     couldn't hurt them either.
     &merge1e
 merge1e:

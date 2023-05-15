@@ -1,5 +1,5 @@
 accept:
-    oh right you live here now,%% 
+    oh right you live here now,%%
 	we hired you,%%%
 	that was a thing we did
     &a2
@@ -11,7 +11,7 @@ a3:
 	%%i'll just skip to the part where i need something from you%
 	because using people is my comfort zone
 	&a3b
-	
+
 a3b:
 	i'm still low on the Good Shit% and i'm looking to hoard up for the
 	winter of my discontent with sobriety.
@@ -27,7 +27,7 @@ a5:
 	forgot is a strong word.% it's more that my ability to care was stunted
 	below the level necessary to stop me.
 	&a6
-	
+
 a6:
 	what i'm saying is your job is to go get me two dozen beer bottles to
 	replace that case before i end up snorting something else
@@ -40,11 +40,11 @@ idle:
 
 idle2:
     oh, if you're worrying about me going sober this time %
-    i finally found my emergency stash of bug spray The Bartender locked up 
+    i finally found my emergency stash of bug spray The Bartender locked up
     &idle3
-	
+
 idle3:
-	i'll be able to crutch out on cascading organ failure long enough to 
+	i'll be able to crutch out on cascading organ failure long enough to
     keep me going until you get me that stuff i asked for
 	&exit
 
@@ -53,8 +53,8 @@ turnin:
 	now i get why rich people hire minions
     &t1
 t1:
-    now i can put the finishing touches on this here moonshine and 
-	i'll be safe from the horrible specter of metacognition for 
+    now i can put the finishing touches on this here moonshine and
+	i'll be safe from the horrible specter of metacognition for
 	the next couple of months or so
     &t2
 t2:

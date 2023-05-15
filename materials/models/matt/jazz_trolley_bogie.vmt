@@ -2,7 +2,7 @@
 {
 	$model 1
 
-	$basetexture "models/matt/jazz_trolley_bogie_d"	
+	$basetexture "models/matt/jazz_trolley_bogie_d"
 	$bumpmap "models/matt/jazz_trolley_bogie_n"
 
 	$envmap "env_cubemap"

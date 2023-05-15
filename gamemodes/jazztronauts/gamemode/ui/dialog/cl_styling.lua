@@ -350,7 +350,7 @@ DialogCallbacks.ListOptions = function(data)
 			end
 		end
 
-		btn.DoClick = function()	
+		btn.DoClick = function()
 			dialog.SetFocusProxy(LocalPlayer())
 			dialog.StartGraph(v.data[1], true)
 			frame:Close()

@@ -1,6 +1,6 @@
 accept:
     Thank you for agreeing to assist me.%%
-    You see,% my cohorts tend to ask.%.%.favors %of our guests. 
+    You see,% my cohorts tend to ask.%.%.favors %of our guests.
     &a1
 a1:
     Now,% while I delight in them opening up to new faces,
@@ -8,8 +8,8 @@ a1:
     store the goods they ask for.
     &a2
 
-a2: 
-    As a preventative measure, I like to ask new guests to 
+a2:
+    As a preventative measure, I like to ask new guests to
     prospect for items we can use for storage.%%
     I believe 10 crates of any size will suffice. *start 0*
     &a3
@@ -32,12 +32,12 @@ idle:
     they are usually rather common.
     &i2
 i2:
-    Keep browsing for maps with the prefix "PH_"%% which 
+    Keep browsing for maps with the prefix "PH_"%% which
     stands for "prop hunt." %
     They are typically quite rich in valuables to pluck.
     &i3
 i3:
-    If you find one that seems to heavily favor Half-Life 2 content,% 
+    If you find one that seems to heavily favor Half-Life 2 content,%
     you'll definitely find what we need. %
     I just hope we can get them before someone steps on a stray LEGO...
 
@@ -56,8 +56,8 @@ t2:
 
     &t3
 t3:
-    Stop by again soon. I very much enjoy listening to our guests 
-    recount their adventures over a glass of something refreshing. 
+    Stop by again soon. I very much enjoy listening to our guests
+    recount their adventures over a glass of something refreshing.
     You'll be no exception, I hope?
-    
+
     &exit

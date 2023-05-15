@@ -9,19 +9,19 @@
 	]
 
 	script(string)							: "Script" : "" : "Script to run"
-	
+
 	input Start(void)  : "Starts Dialog"
 
 	output OnPlayerFinished(void) : "Fires when a player has finished with the dialog sequence. The player is the activator"
 	output OnEveryoneFinished(void) : "Fires when everyone has finished playing this sequence."
-	
+
 ]
 
 @PointClass base(Targetname, Origin, Angles) studioprop() = jazz_door : "Door to teleport players between locations"
 [
 	model(studio) : "World Model" : "models/sunabouzu/jazzdoor.mdl"
 	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
-	teleportentity(target_destination) : "Teleport To" : : "The name of the teleport entity." 
+	teleportentity(target_destination) : "Teleport To" : : "The name of the teleport entity."
 	opendoorsound(sound) : "Door Open sound" : : "The sound the door will make when it opens."
 	closedoorsound(sound) : "Door Close sound" : : "The sound the door will make when it closes."
 	lockdoorsound(sound) : "Door Locked sound" : : "The sound the door will make when it's attempted at while locked."
@@ -32,12 +32,12 @@
 		0 : "No"
 		1 : "Yes"
 	]
-	
+
 	output OnTeleport(void) : "Fires on Teleport"
 	output OnUnlock(void) : "Fires when the door is unlocked"
 	output OnUse(void) : "Fires when an Entity uses this"
 	output OnUseLocked(void) : "Fires when an Entity uses this while we're locked"
-	
+
 	input Teleport(void) : "Teleport the activator"
 	input Unlock(void) : "Unlock the door"
 	input Lock(void) : "Lock the door"
@@ -97,9 +97,9 @@
 [
     npcid(choices) : "Cat Character" : "1" =
     [
-        1 : "Bartender" 
-        2 : "Singer" 
-        3 : "Pianist" 
+        1 : "Bartender"
+        2 : "Singer"
+        3 : "Pianist"
 		4 : "Cellist"
     ]
 	output OnPicked(void) : "Fires when this spawn is selected."
@@ -114,16 +114,16 @@
 
 @PointClass base(Targetname, Origin, Angles) studioprop("models/props_combine/combine_interface001.mdl") = jazz_bus_selector : "Custom Workshop ID Loader"
 [
-    
+
 ]
 
 @PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propleaderboard : "Prop Leaderboard"
 [
 	leaderboardid(choices) : "Leaderboard Type" : "1" =
     [
-        1 : "All Time" 
-        2 : "Redeemed Current Map" 
-        3 : "Total Unredeemed" 
+        1 : "All Time"
+        2 : "Redeemed Current Map"
+        3 : "Total Unredeemed"
     ]
 ]
 
@@ -164,14 +164,14 @@
 @PointClass base(Targetname, Origin, Angles) iconsprite("editor/env_shooter.vmt") = jazz_concommand : "Jazz Console Command Executer"
 [
 	Concommand(string)	: "Console Command" : "" : "Command to run on the server."
-	
+
 	input RunCommand(void)  : "Executes the console command on the server."
 ]
 
 @PointClass base(Targetname, Origin, Angles) iconsprite("editor/env_shooter.vmt") = jazz_changelevel : "Jazz Level Changer"
 [
 	level(string)	: "Level Name" : "" : "Which level to change to"
-	
+
 	input ChangeLevel(void)  : "Changes the current level"
 ]
 
@@ -195,9 +195,9 @@
 [
 	globalstate(choices) : "Global State to Set" : : "The state to set on or off." =
 	[
-		"finished_intro" : "Fresh restart, whether or not they've finished the intro" 
-		"ended" : "Ending has been seen and the game is ready to be restarted for NG+" 
-		"unlocked_encounter" : "If enabled, allows safe travel to the eclipse cat horror apartment. Kicks out otherwise." 
+		"finished_intro" : "Fresh restart, whether or not they've finished the intro"
+		"ended" : "Ending has been seen and the game is ready to be restarted for NG+"
+		"unlocked_encounter" : "If enabled, allows safe travel to the eclipse cat horror apartment. Kicks out otherwise."
 		"encounter_1" : "Mark that we have done the first encounter with the cat"
 		"encounter_2" : "Mark that we have done the second encounter with the cat"
 		"encounter_3" : "Mark that we have done the third encounter with the cat"

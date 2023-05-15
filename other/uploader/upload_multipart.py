@@ -48,7 +48,7 @@ def copyFile(src, dest):
 	shutil.copy(src, dest)
 
 
-# incredibly lazy, sue me 
+# incredibly lazy, sue me
 # https://stackoverflow.com/questions/1094841/reusable-library-to-get-human-readable-version-of-file-size
 def sizeof_fmt(num, suffix='B'):
     for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
@@ -70,7 +70,7 @@ def buildGMA(pack, filemap, tempdir):
 
 		copyFile(f, relpath)
 
-	# 2. Copy corresponding addon.txt 
+	# 2. Copy corresponding addon.txt
 	print("Copying " + pack)
 	copyFile(pack, os.path.join(tempdir, "addon.json"))
 
@@ -150,7 +150,7 @@ if __name__ == "__main__":
 	for pack in excluded:
 		print("\tExcluding pack \"" + pack + "\"")
 		allpacks.remove(pack)
-	
+
 	for pack in allpacks:
 		print("{0:<35}: {1}".format(pack, sizeof_fmt(getPackSize(pack, filemap))))
 
@@ -174,7 +174,7 @@ if __name__ == "__main__":
 		for pack in allpacks:
 			wsid = packids[pack]
 			try:
-				mode = "create" 
+				mode = "create"
 				extraparam = []
 
 				if wsid != None:

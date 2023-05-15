@@ -1,7 +1,7 @@
 "VertexLitGeneric"
 {
 	"$baseTexture" "models/cat/cat"
-	
+
 	// Blood effects
 	$detail "models/blood.vtf"
 	$detailscale "1.8"
@@ -17,7 +17,7 @@
 		Equals
 		{
 			srcVar1 $detailAmount
-			resultVar $detailblendfactor			
+			resultVar $detailblendfactor
 		}
 	}
 }

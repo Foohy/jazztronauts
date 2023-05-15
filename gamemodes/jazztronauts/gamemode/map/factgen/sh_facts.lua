@@ -117,7 +117,7 @@ if CLIENT then
 
 			combinedFacts[k] = {
 				id = k,
-				fact = jazzloc.Localize(string.Explode(",",v)), 
+				fact = jazzloc.Localize(string.Explode(",",v)),
 				name = factNames[k]
 			}
 

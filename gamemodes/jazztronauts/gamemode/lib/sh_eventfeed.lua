@@ -427,7 +427,7 @@ function meta:Draw( y )
 
 	local x_offset = 10
 	local rect = Rect( x_offset, y, generic_gradient_rect.w, generic_gradient_rect.h )
-	
+
 	local fx = self.fx
 	local time = self.time
 	local pingtime = self.ping_time
@@ -474,24 +474,24 @@ end
 
 
 --[[local cool_guy = Create()
-	:Title("%name is having a chill day", 
+	:Title("%name is having a chill day",
 		{name = "Cool guy"},
 		{name = "green_name"}
 	)
 	:Dispatch( 4 )
 
 local entry = Create()
-	:Title("R.I.P. %name, killed by %killer", 
-		{name = "Foohy", killer = "metrocop"}, 
+	:Title("R.I.P. %name, killed by %killer",
+		{name = "Foohy", killer = "metrocop"},
 		{killer = "red_name", name = "green_name"}
 	)
 	:Dispatch( 15 )
 
 local shard_notify = Create()
-	:Title("%name FOUND a shard", 
+	:Title("%name FOUND a shard",
 		{name = "Foohy"}
 	)
-	:Body("%total", 
+	:Body("%total",
 		{total = function() return "$1,000" end}
 	)
 	:SetHue("rainbow")
@@ -499,10 +499,10 @@ local shard_notify = Create()
 	:Dispatch( 15 )
 
 local entry = Create()
-	:Title("%name STOLE %count props", 
+	:Title("%name STOLE %count props",
 		{name = "Foohy", count = 135}
 	)
-	:Body("%total", 
+	:Body("%total",
 		{total = function() return string.format("$%i",math.random(0,1000)) end}
 	)
 	:SetHighlighted( true )

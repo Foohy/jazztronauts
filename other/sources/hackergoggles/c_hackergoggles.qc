@@ -1,6 +1,6 @@
 $ModelName "weapons/c_hackergoggles.mdl"
 
-$Model "goggles" "hackergoggles.dmx" 
+$Model "goggles" "hackergoggles.dmx"
 
 $SurfaceProp "weapon"
 
@@ -47,7 +47,7 @@ $Sequence "shrinkgrow" {
 	fps 30
 	hidden //hide once we're animated properly, just using this as an easy source for shrink/growing while animating in SFM
 }
-$origin -3 1 -1 
+$origin -3 1 -1
 $sequence anim_draw		"anims/draw.dmx"	fps 26 /*30*/ numframes 45 	 ACT_VM_DRAW -1
 $weightlist "idle_subtle" {
 	"ValveBiped.Bip01_Spine4"		1

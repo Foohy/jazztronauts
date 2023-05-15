@@ -197,9 +197,9 @@ function ENT:OnApproached( ply )
 	local ply_pos = ply:GetPos()
 	local my_pos = self:GetPos()
 	local radius = self.PodiumRadius
-	
+
 	self.PodiumSemiAngle = self.PodiumSemiAngle or (math.atan2( ply_pos.y - my_pos.y, ply_pos.x - my_pos.x ) + self.PodiumSemiCircle / 2)
-	
+
 	local base_angle = self.PodiumSemiAngle - self.PodiumSemiCircle / 2
 	local angle = base_angle
 	local add_angle = (2 * math.pi * (self.PodiumSemiCircle / (math.pi * 2))) / #player.GetAll()

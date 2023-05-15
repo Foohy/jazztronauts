@@ -3,69 +3,69 @@ accept:
 	You know.%
 	Weird.%% Earlier.
 	&a1
-	
+
 a1:
 	>She rubs the back of her head,% avoiding eye contact.
 	&a2
-	
+
 a2:
 	I don't really remember much other than rambling about not killing you.%%%
-	I'm a bit of a lightweight and I drank about uhhh sixty percent more 
+	I'm a bit of a lightweight and I drank about uhhh sixty percent more
 	than it needs to get me goddamn plastered.
 	&a3
-	
+
 a3:
 	But you can rest assured that I was being legit and have zero intention
 	of putting you on ice.
 	&a4
-	
+
 a4:
 	I've been trying uh,% meditation.%%%
-	Gives me a lot of time to think.%% 
+	Gives me a lot of time to think.%%
 	On purpose,% I mean.
 	&a5
-	
+
 a5:
 	I feel like I owe The Singer a more substantial apology than a bribe
-	of shitty takeout.%%% So I'm gonna need your larceny skills again,% 
+	of shitty takeout.%%% So I'm gonna need your larceny skills again,%
 	*player*.%%%
 	This is The Big One.
 	&a6
-	
+
 a6:
-	I need you to get me 3 metrocops.% *start 5* For the Mewseum.%% 
+	I need you to get me 3 metrocops.% *start 5* For the Mewseum.%%
 	They don't have any,% and it'll mean a lot to em'.%%%
-	Of course,% I'll compensate you for you for your efforts. 
+	Of course,% I'll compensate you for you for your efforts.
 	&exit
-	
-	
+
+
 idle:
 	Hey.
 	&idle2
-	
+
 idle2:
-	Don't worry I'm not gonna give you any shit if you 
-	haven't finished the job yet,%% this and the horse thing 
+	Don't worry I'm not gonna give you any shit if you
+	haven't finished the job yet,%% this and the horse thing
 	were niche asks,% I know.
 	&i1
-	
+
 i1:
-	I reckon this'll be the last time I need you to do this sort of thing,% 
-	my "frivolous hiring fees" budget is running a little low and 
-	I'll need to see our fence before I can make any 
+	I reckon this'll be the last time I need you to do this sort of thing,%
+	my "frivolous hiring fees" budget is running a little low and
+	I'll need to see our fence before I can make any
 	more poor fiscal descisions.
 	&i2
-	
+
 i2:
-	But I do want to say that.%%% 
+	But I do want to say that.%%%
 	I really appreciate all the help you've been giving me.%%
 	Your company,% too.%%
 	It's been%.%.%.
 	&i3
-	
+
 i3:
 	Nice.%%%
-	
+
 	Anyway.% Let me know when we're good to go yeah?
 	&exit
 
@@ -92,17 +92,17 @@ turnin:
 	*show*
 	*setspeaker narrator*
 	>The Pianist is sitting in a booth with one of the metrocops you found.%%%
-	%.%.%.%The Pianist is looking around awkwardly.%%% 
+	%.%.%.%The Pianist is looking around awkwardly.%%%
 	She notices you and waves you over.
 	&t1
-	
+
 t1:
 	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*setspeaker cat_piano*
 	Oh,% cool,%% you're back.%%%%
 	They made it before you did,%% we had a Chat.
 	&t2
-	
+
 t2:
 	*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000*
 	*setposang metrocop_model setpos 105.750031 2986.230957 0;setang 4.667794 168.321960 0.000000*
@@ -112,86 +112,86 @@ t2:
 	*finish 5*
 	%.%.%.%Looks like your pay is 30,000 this time!
 	&t3
-	
+
 t3:
 	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*setspeaker cat_piano*
-	A long time ago we had someone here who like.%%% 
+	A long time ago we had someone here who like.%%%
 	Helped.%%%% The Singer,% with,%% their project?%%%
 	And they left.
 	&t4
-	
+
 t4:
 	*setspeaker cat_piano*
 	And I feel.%% Maybe.%%% I was partially responsible for that.%%%%
 	So I talked to the,% people,%% you brought back.%%%
 	This guy here took me up on an employment offer.
 	&t5
-	
+
 t5:
 	*setspeaker cat_piano*
 	After some%.%.%.%%%*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
-	
+
 	Haggling.
 	&t6
-	
+
 t6:
 	*setcam setpos 15.191477 2912.617676 63.811058;setang 0 38.602680 0.000000* #### METROCOP
 	*setspeaker metrocop_model*
 	*emitsound jazztronauts/mc1que_perks.wav .8*
 	So,%% you getting the perks they promise you?
 	&t7
-	
+
 t7:
 	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*setspeaker cat_piano*
 	Chill.%%%%
 	I added the dental.
 	&t8
-	
+
 t8:
 	*setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
 	*setspeaker metrocop_model*
 	*emitsound jazztronauts/mc1que_career.wav .8*
 	Yep,% this was definitely the best career choice I've ever made.
 	&t8b
-	
+
 t8b:
 	*emitsound jazztronauts/mc1que_lastjob.wav .8*
 	Beats the shit out of my last job.
 	&t9
-	
+
 t9:
 	*setspeaker cat_piano*
 	Oh my god can you,%%
 	stop,%%%
 	talking.
 	&t10
-	
+
 t10:
 	*emitsound jazztronauts/mc1ans_bellyaching.wav .8*
 	*setspeaker metrocop_model*
 	Quit yer' bellyaching.
 	&t11
-	
+
 t11:
 	*setspeaker cat_piano*
 	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	This was the worst idea I've ever had.
 	&t12
-	
+
 t12:
 	*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
 	*setspeaker metrocop_model*
 	*emitsound jazztronauts/mc1que_yourwife.wav .8*
 	Your wife doesn't like me,% does she?
 	&t13
-	
+
 t13:
 	*setspeaker cat_piano*
 	OKAY YOU KNOW WHA-
 	&t14
-	
+
 t14:
 	*setcam setpos 65.159882 3145.150391 86.652924;setang 18.297302 -73.573898 0.000000*
 	*setposang cat_singer setpos 100.028259 3020.481445 0;setang -90 4 0.000000*
@@ -199,14 +199,14 @@ t14:
 	>The Singer comes skidding to a halt in front of the Metrocop!
 	They put their arms out to shield them!
 	&t15
-	
+
 t15:
 *setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
 	*setspeaker narrator*
 	>The Pianist wrangles her fury back into its box and shakes off the
 	tension in the air.
 	&t16
-	
+
 t16:
 	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*setspeaker cat_piano*
@@ -214,7 +214,7 @@ t16:
 	Uh.%%%%
 	It's okay.
 	&t17
-	
+
 t17:
 	*setspeaker narrator*
 	*hide*
@@ -228,14 +228,14 @@ t17:
 	I talked,%% to this guy?%%% And we found you a new assistant.%%%%
 	Paid and everything.% Even dental.
 	&t18
-	
+
 t18:
 	*setcam setpos 15.191477 2912.617676 63.811058;setang -0.389936 38.602680 0.000000* #### METROCOP
 	*setspeaker metrocop_model*
 	*emitsound jazztronauts/mc1que_everythingihoped.wav .8*
 	This is everything I hoped it would be.
 	&t19
-	
+
 t19:
 	*setcam setpos 85.541794 3062.095703 58.737503;setang 16.646872 -74.585396 0.000000* ##### SINGER
 	*setspeaker cat_singer*
@@ -244,7 +244,7 @@ t19:
 	>The Singer beams.%%%% They take out their tablet and tap out a message\:%%%
 	"THANK YOU SO MUCH IM SO PROUD OF YOU!!!"
 	&t20
-	
+
 t20:
 	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*setspeaker cat_piano*
@@ -254,37 +254,36 @@ t20:
 	Sorry.%%
 	About the headcrab,% thing.
 	&t21
-	
+
 t21:
 	*setcam setpos -208.442261 3254.030518 132.024811;setang 10.896953 -42.747852 0.000000*
 	*setspeaker cat_singer*
 	>The Singer hugs The Pianist.%%%% She clearly has no idea how to deal with
 	this.
 	&t21b
-	
+
 t21b:
 	*setspeaker narrator*
-	After a few moments,%% The Singer waves to you two and 
+	After a few moments,%% The Singer waves to you two and
 	walks towards the Mewseum,%% chatting with the metrocop.
 	&t22
-	
+
 t22:
 	*setspeaker cat_piano*
 	%.%.%.%Thanks.
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

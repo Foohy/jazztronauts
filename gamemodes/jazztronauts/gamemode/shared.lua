@@ -146,26 +146,26 @@ else
 
 		if dmg == DMG_FALL then
 
-			ev:Title(jazzloc.Localize("jazz.death.fall","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.fall","%name"),
 				{ name = name }
 			)
 
 		elseif attacker == ply then
 
-			ev:Title(jazzloc.Localize("jazz.death.self","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.self","%name"),
 				{ name = name }
 			)
 
 		elseif IsValid(attacker) then
 
-			ev:Title(jazzloc.Localize("jazz.death.killer","%name","%killer"), 
+			ev:Title(jazzloc.Localize("jazz.death.killer","%name","%killer"),
 				{ name = name, killer = attacker:GetClass() },
 				{ killer = "red_name" }
 			)
 
 		else
 
-			ev:Title(jazzloc.Localize("jazz.death.generic","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.generic","%name"),
 				{ name = name }
 			)
 

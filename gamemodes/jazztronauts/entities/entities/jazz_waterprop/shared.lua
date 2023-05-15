@@ -18,7 +18,7 @@ function ENT:SetupDataTables()
 	self:NetworkVar( "Int", 1, "NWSkin")
 end
 
-function ENT:Initialize() 
+function ENT:Initialize()
 	self:SetModel( Model(self:GetNWModel()) )
 	self:SetBodyGroups(self:GetNWBodygroup())
 	self:SetSkin(self:GetNWSkin())

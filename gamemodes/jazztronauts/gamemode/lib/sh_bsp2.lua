@@ -240,10 +240,10 @@ function meta:CreateDisplacementMesh( disp_id, expand, custom_material, vertices
 
 		if vertices then
 			table.insert(vertices, {
-				pos = pos + center, 
-				u = u / texdata.width, 
-				v = v / texdata.height, 
-				normal = normal, 
+				pos = pos + center,
+				u = u / texdata.width,
+				v = v / texdata.height,
+				normal = normal,
 				color = Color(1,1,1,alpha)
 			})
 		else
@@ -255,9 +255,9 @@ function meta:CreateDisplacementMesh( disp_id, expand, custom_material, vertices
 		end
 	end
 
-	local msh = nil 
+	local msh = nil
 
-	if not vertices then 
+	if not vertices then
 		msh = ManagedMesh(material)
 		mesh.Begin(msh:Get(), MATERIAL_TRIANGLES, #disp.indices / 3 )
 	end

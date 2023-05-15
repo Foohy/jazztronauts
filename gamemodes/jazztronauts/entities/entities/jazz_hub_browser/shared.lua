@@ -14,7 +14,7 @@ local outputs =
 }
 
 if SERVER then
-	
+
 	concommand.Add("jazz_debug_browse", function(ply, cmd, args)
 		for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
 			v:BrowseToDestination(args[1])
@@ -41,7 +41,7 @@ function ENT:Initialize()
 		self:SetOn(true)
 
 		-- Set current map to whatever the last one we visited was
-		-- Delay because ISteamHTTP may not be initialized yet 
+		-- Delay because ISteamHTTP may not be initialized yet
 		timer.Simple(1, function()
 			local m = progress.GetLastMapSession()
 			if m then

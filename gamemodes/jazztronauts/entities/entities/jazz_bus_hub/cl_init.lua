@@ -71,7 +71,7 @@ function ENT:RefreshWorkshopInfo()
 		-- Try to get the comments for this workshop
 		workshop.FetchComments(result, function(comments)
 			if !self then return end
-			
+
 			local function parseComment(cmt, width)
 				if not cmt then return end
 

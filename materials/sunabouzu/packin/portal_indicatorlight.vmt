@@ -6,13 +6,13 @@
   "%keywords" "portal"
   "$decal" 1
 
-  "Proxies" 
-  { 
+  "Proxies"
+  {
    "ToggleTexture"
    {
     "toggleTextureVar" "$baseTexture"
     "toggleTextureFrameNumVar" "$frame"
     "toggleTextureShouldWrap" "0"
-   } 	
-  } 
+   }
+  }
  }

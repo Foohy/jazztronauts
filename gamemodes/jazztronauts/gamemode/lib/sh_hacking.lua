@@ -783,19 +783,19 @@ local function rayVBox(ox, oy, oz, dx, dy, dz, min, max)
 	local t4 = (z0 - oz) * dz
 	local t5 = (z1 - oz) * dz
 
-	local tmin = 
+	local tmin =
 	fmax(
 		fmax(
-			fmin(t0,t1), 
+			fmin(t0,t1),
 			fmin(t2,t3)
 		),
 		fmin(t4,t5)
 	)
 
-	local tmax = 
+	local tmax =
 	fmin(
 		fmin(
-			fmax(t0,t1), 
+			fmax(t0,t1),
 			fmax(t2,t3)
 		),
 		fmax(t4,t5)

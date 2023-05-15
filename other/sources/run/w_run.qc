@@ -1,5 +1,5 @@
-$ModelName "weapons/w_run.mdl" 
-$Model "model" "w_run.dmx" 
+$ModelName "weapons/w_run.mdl"
+$Model "model" "w_run.dmx"
 
 $SurfaceProp "weapon"
 
@@ -27,7 +27,7 @@ $JiggleBone "jiggle1"
 
 $illumposition 2 0 0 ValveBiped.Bip01_Head1
 
-$sequence idle "w_run.dmx" ACT_IDLE -1 fps 30 
+$sequence idle "w_run.dmx" ACT_IDLE -1 fps 30
 
 $collisionjoints "phys.dmx"
 {

@@ -10,7 +10,7 @@ if CLIENT then
 	})
 
 	Localize = function(...)
-	
+
 		local arg = {...}
 		local strang = ""
 		local strtable = arg
@@ -22,13 +22,13 @@ if CLIENT then
 		else
 			error("jazzloc.Localize needs strings or a table of strings, recieved " .. type(arg) )
 		end
-		
+
 		for i,v in ipairs(strtable) do
 			strang = string.Replace(strang,"%"..i.."%",language.GetPhrase(tostring(v)))
 		end
-		
+
 		return strang
-		
+
 	end
 
 	local function loadTexture(texturepath)
@@ -51,7 +51,7 @@ if CLIENT then
 		if not matinfo.orig_name then
 			local mat = Material(matpath)
 			local basetexture = mat:GetTexture("$basetexture")
-					
+
 			--print("LocalizeMaterial(" .. matpath .. ") = " .. tostring(mat))
 			matinfo.material  = mat
 			matinfo.texture   = basetexture
@@ -96,7 +96,7 @@ if CLIENT then
 
 	LocalizeMaterial = function(matpath)
 		-- print("LocalizeMaterial(" .. matpath .. ")")
-	
+
 		-- Add to system, but don't fill out metadata until material system initialized
 		if not MaterialLocMap[matpath] then
 			MaterialLocMap[matpath] = {}
@@ -127,20 +127,20 @@ if CLIENT then
 		RefreshMaterials()
 	end )
 
-	
+
 else --no localization on server, so we'll just tack on the arguments to the localization token there
 
 	Localize = function(...)
-	
+
 		local arg = {...}
 		local strang = tostring(table.remove(arg,1))
-		
+
 		for i,v in ipairs(arg) do
 			strang = strang..","..tostring(v)
 		end
-		
+
 		return strang
-		
+
 	end
 
 end

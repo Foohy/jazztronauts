@@ -64,20 +64,20 @@ local function oildrums(mdl)
 		--drum, without weapons or the instrument (hopefully)
 		(string.match(mdl, "drum") and
 			not string.match(mdl, "fairground") and
-			not string.match(mdl, "weapons") and 
-			not string.match(mdl, "set") and 
+			not string.match(mdl, "weapons") and
+			not string.match(mdl, "set") and
 			not string.match(mdl, "drummer"))
 		end
 
 local function gasoline(mdl)
 	--gas can, gas pump
 	return string.match(mdl, "gas") and
-			(string.match(mdl, "can") or 
+			(string.match(mdl, "can") or
 			(string.match(mdl, "pump") and not string.match(mdl, "_p%d+"))) -- L4D gas_pump_p<N>
 end
 
 local function propane(mdl)
-	return	 string.match(mdl,"propane") or 
+	return	 string.match(mdl,"propane") or
 			(string.match(mdl,"canister") and not string.match(mdl,"chunk"))
 end
 
@@ -95,14 +95,14 @@ local function beer(mdl)
 		"models/props_medical/beer_barrels.mdl",
 		"models/player/items/taunts/beer_crate/beer_crate.mdl",
 		"models/weapons/w_models/w_beer_stein.mdl"
-	}) or 
+	}) or
 	--bottle, without gibs, water bottle, or plastic bottle
 	(string.match(mdl, "bottle") and
 		not string.match(mdl, "chunk") and
 		not string.match(mdl, "break") and
-		not string.match(mdl, "water") and 
-		not string.match(mdl, "plastic") and 
-		not string.match(mdl, "frag")) or 
+		not string.match(mdl, "water") and
+		not string.match(mdl, "plastic") and
+		not string.match(mdl, "frag")) or
 	--beer cans
 	(string.match(mdl, "beer") and string.match(mdl, "can")) or
 	string.match(mdl, "molotov") or
@@ -180,7 +180,7 @@ AddMission(2, NPC_CAT_CELLO, {
 				 string.match(mdl, "pill"))) or
 			propane(mdl) or
 			--ASW
-			string.match(mdl, "biomass") 
+			string.match(mdl, "biomass")
 	end,
 	Count = count,
 	Prerequisites = { IndexToMID(1, NPC_CAT_CELLO)  },
@@ -243,8 +243,8 @@ AddMission(5, NPC_CAT_CELLO, {
 	Instructions = jazzloc.Localize("jazz.mission.milk",count),
 	Filter = function(mdl)
 		return mdl == "models/props_2fort/cow001_reference.mdl" or
-			string.match(mdl, "milk") and 
-			not string.match(mdl, "hat") and 
+			string.match(mdl, "milk") and
+			not string.match(mdl, "hat") and
 			not string.match(mdl, "crate")
 	end,
 	Count = count,
@@ -319,15 +319,15 @@ AddMission(1, NPC_CAT_BAR, {
 			string.match(mdl, "sherman_tank") or
 			string.match(mdl, "tiger_tank") or
 			--police car, race car
-			(string.match(mdl, "car") and 
+			(string.match(mdl, "car") and
 				(string.match(mdl, "police") or
 				 string.match(mdl, "race"))) or
 			--truck, not truck sign or handtruck
-			(string.match(mdl, "truck") and 
+			(string.match(mdl, "truck") and
 				not (string.match(mdl, "sign") or
 					 string.match(mdl, "hand"))) or
 			--pickup, not powerup or item or etc.
-			(string.match(mdl, "pickup") and 
+			(string.match(mdl, "pickup") and
 				not (string.match(mdl, "powerup") or
 					 string.match(mdl, "item") or
 					 string.match(mdl, "emitter") or
@@ -377,11 +377,11 @@ AddMission(4, NPC_CAT_BAR, {
 			--"models/props_wasteland/laundry_dryer002.mdl"
 		}) or ]]
 		--wash, without dishwasher or washington
-		(string.match(mdl, "wash") and 
-			not mdl == "models/props_street/window_washer_button.mdl" and 
+		(string.match(mdl, "wash") and
+			not mdl == "models/props_street/window_washer_button.mdl" and
 			not string.match(mdl, "dish") and
 			not string.match(mdl, "washington")) or
-		(string.match(mdl, "dryer") and 
+		(string.match(mdl, "dryer") and
 			not mdl == "models/props_pipes/brick_dryer_pipes.mdl")
 	end,
 	Count = count,
@@ -398,7 +398,7 @@ AddMission(5, NPC_CAT_BAR, {
 			"models/antlion_worker.mdl",
 			"models/antlion_guard.mdl",
 			"models/antlion_grub.mdl"
-		}) or 
+		}) or
 		string.match(mdl, "hive/nest")
 	end,
 	Count = count,
@@ -420,7 +420,7 @@ AddMission(0, NPC_CAT_PIANO, {
 		return ((string.match(mdl, "chair") or string.match(mdl, "bench")) and
 				not string.match(mdl, "chunk") and
 				not string.match(mdl, "gib") and
-				not string.match(mdl, "damage")) or 
+				not string.match(mdl, "damage")) or
 				 string.match(mdl, "seat") or
 				(string.match(mdl, "stool") and not string.match(mdl, "toadstool")) or
 				 string.match(mdl, "couch")
@@ -465,7 +465,7 @@ count = 20
 AddMission(2, NPC_CAT_PIANO, {
 	Instructions = jazzloc.Localize("jazz.mission.meals",count),
 	Filter = function(mdl)
-		return string.match(mdl, "watermelon") or 
+		return string.match(mdl, "watermelon") or
 			MatchesAny(mdl, {
 				--"models/props_junk/garbage_takeoutcarton001a.mdl",
 				--"models/food/burger.mdl",
@@ -560,11 +560,11 @@ AddMission(0, NPC_CAT_SING, {
 				string.match(mdl, "filing") or --not used in Valve props, but could be in custom stuff
 				string.match(mdl, "folder") or
 			--Too many "bookshelf" or "bookcase" have books to feel right excluding them
-			   (string.match(mdl, "book") and 
+			   (string.match(mdl, "book") and
 				not string.match(mdl, "sign") and
 				not string.match(mdl, "stand")) or
 			--Paper, not toilet paper, paper towel, or paper plate
-			   (string.match(mdl, "paper") and 
+			   (string.match(mdl, "paper") and
 				not string.match(mdl, "toilet") and
 				not string.match(mdl, "towel") and
 				not string.match(mdl, "plate"))
@@ -583,10 +583,10 @@ AddMission(1, NPC_CAT_SING, {
 			"models/props_c17/doll01.mdl",
 			"models/maxofs2d/companion_doll.mdl",
 			"models/props_unique/doll01.mdl", --L4D
-		}) or]] 
+		}) or]]
 		--doll, not ragdoll or dollar
-		return (string.match(mdl, "doll") and 
-			not (string.match(mdl, "ragdoll") or 
+		return (string.match(mdl, "doll") and
+			not (string.match(mdl, "ragdoll") or
 				 string.match(mdl, "dollar"))) or
 		string.match(mdl, "teddy")
 	end,
@@ -625,7 +625,7 @@ AddMission(3, NPC_CAT_SING, {
 			"models/props/de_inferno/flower_barrel.mdl",
 			"models/props_foliage/flower_barrel_dead.mdl",
 			"models/props_frontline/flowerpot.mdl"
-		}) or 
+		}) or
 		string.match(mdl, "planter") or
 		-- pot(ted) plant, no gibs
 		(string.match(mdl, "plant") and string.match(mdl, "pot") and
@@ -668,7 +668,7 @@ AddMission(5, NPC_CAT_SING, {
 			--radio, without station or radioactive
 			(string.match(mdl, "radio") and
 				not (string.match(mdl, "station") or
-					 string.match(mdl, "radioactive"))) or 
+					 string.match(mdl, "radioactive"))) or
 			--get jukeboxes in here too
 			(string.match(mdl, "juke") and string.match(mdl, "box"))
 	end,

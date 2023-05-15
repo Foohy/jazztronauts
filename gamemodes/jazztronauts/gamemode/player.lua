@@ -28,8 +28,8 @@ end
    Name: gamemode:PlayerSpawnRagdoll( ply, model )
    Desc: Return true if it's allowed
 -----------------------------------------------------------]]
-function GM:PlayerSpawnRagdoll( ply, model )	
-	return SpawnItem(ply, "ragdolls") 
+function GM:PlayerSpawnRagdoll( ply, model )
+	return SpawnItem(ply, "ragdolls")
 		and self.BaseClass.PlayerSpawnRagdoll(self, ply, model)
 end
 

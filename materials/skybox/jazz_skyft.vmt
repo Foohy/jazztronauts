@@ -4,4 +4,4 @@ $nofog 1
 $ignorez 1
 $basetexture	"skybox/jazz_skyft"
 $hdrcompressedtexture	"skybox/jazz_sky_hdrft"
-}	
+}

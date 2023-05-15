@@ -11,5 +11,5 @@
         $phongfresnelranges "[.4 .1 1]"
 	$rimlight "1"
 	$rimlightexponent "20"
-	$rimlightboost "0.5"	
+	$rimlightboost "0.5"
 }

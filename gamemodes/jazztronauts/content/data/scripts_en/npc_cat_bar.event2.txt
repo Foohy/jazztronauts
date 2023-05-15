@@ -24,7 +24,7 @@ begin:
 	*setspeaker narrator*
     *show 0.5*
 	> The Samsara store room%.%.%.%%% It's movie night,% apparently.%%%
-	The Singer is bouncing in their seat as The Bartender 
+	The Singer is bouncing in their seat as The Bartender
 	shuffles through tapes.
 	&a1
 
@@ -47,7 +47,7 @@ a2:
 a3:
     *setspeaker cat_piano*
 	*setskin cat_piano 0*
-    I know you are.%*setanim cat_piano gesture_facepalm 1 idle*%%% That's why I said it with that tone of voice.%%%*setanim cat_piano gesture_disagree 1 idle* 
+    I know you are.%*setanim cat_piano gesture_facepalm 1 idle*%%% That's why I said it with that tone of voice.%%%*setanim cat_piano gesture_disagree 1 idle*
     I wasn't actually aski-
     &a4b
 
@@ -73,7 +73,7 @@ a5:
     *setspeaker cat_cello*
 	*setskin cat_cello 1*
 	*setanim cat_cello gesture_sweep 1 idle*
-    personally i hope some brave hero is about to instruct my sorry ass 
+    personally i hope some brave hero is about to instruct my sorry ass
     on proper stone-cutting technique or some shit
     &a6
 
@@ -88,7 +88,7 @@ a7:
     *setspeaker cat_cello*
 	*setskin cat_cello 2*
 	*setanim cat_cello gesture_shrug 1 idle*
-    listen so long as it isn't yet another mother fucking tae bo tape 
+    listen so long as it isn't yet another mother fucking tae bo tape
     i'll be happy
     &a8
 
@@ -102,8 +102,8 @@ a8:
 
 a9:
     *setspeaker narrator*
-    >There is a logo for a production company on the screen.%%%% It's a blue 
-    hexagon that appears to be a stylized C and G merged.%% The word 
+    >There is a logo for a production company on the screen.%%%% It's a blue
+    hexagon that appears to be a stylized C and G merged.%% The word
     'Cannon' is below it.
     &a10
 
@@ -133,17 +133,17 @@ a13:
 	*setanim cat_bar gesture_foldarms 1 idle*
     This will be interesting,%%%% if nothing else.
     player:
-	
+
 	&branch1:
 	*setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000*
 	 Is that good?
 	&branch2:
-   	*setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000* 
-	Cannon Films!? Please be the one 
+   	*setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000*
+	Cannon Films!? Please be the one
         where space vampires eat Picard.
-	&branch3: 
+	&branch3:
 	 *setcam setpos -1924.575073 3021.162109 48.970943;setang 1.633228 -143.166870 0.000000*
-	 Nope. I'm out. 
+	 Nope. I'm out.
 	 I know exactly where this is going. (Exit)
 
 #### BRANCH 1
@@ -152,14 +152,14 @@ branch1:
 	*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
 	*setanim cat_piano gesture_agree 1 idle*
     *setspeaker cat_piano*
-    Yeah this is pretty rare.%%%% 
+    Yeah this is pretty rare.%%%%
 	We're lucky if we get a movie.
     &b1a
 
 b1a:
 	*setanim cat_cello gesture_disagree 1 idle*
     *setspeaker cat_cello*
-    nevermind that it might be a movie where everyone is a hundred percent 
+    nevermind that it might be a movie where everyone is a hundred percent
     definitely hammered during the entirety of filming
     &c1
 
@@ -179,16 +179,16 @@ b2a:
 	*setspeaker cat_cello*
 	listen all i remember is that there was a scene where
 	patrick stewart's head explodes and all the gore becomes
-	a naked lady who in turns explodes into even more gore 
+	a naked lady who in turns explodes into even more gore
         and that's about where i blacked out laughing
 	&c1
-	
+
 #### BRANCH 3 (EARLY EXIT)
 branch3:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUPs
 	*setskin cat_piano gesture_agree 1 idle*
     *setspeaker cat_piano*
-    Yeah that's probably smarter than staying here.%%% You should leave 
+    Yeah that's probably smarter than staying here.%%% You should leave
     before we turn feral.
     &exit
 
@@ -202,7 +202,7 @@ c1:
 	*show*
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
-    > We've gotten past the credits,%% it was a lot of establishing shots 
+    > We've gotten past the credits,%% it was a lot of establishing shots
     of golf courses.%%%% The mood is bleak.
     &c2
 
@@ -211,8 +211,8 @@ c2:
     *setspeaker cat_cello*
 	*setskin cat_cello 2*
 	*setanim cat_cello gesture_jab 1 idle*
-    fucks sake are we sure this is a cannon films movie cause by now in 
-    most of these someone's*setanim cat_cello gesture_shrug 1 idle* gained ten pounds from all the bullets they've 
+    fucks sake are we sure this is a cannon films movie cause by now in
+    most of these someone's*setanim cat_cello gesture_shrug 1 idle* gained ten pounds from all the bullets they've
     been filled with,%%%*setanim cat_cello gesture_confused 1 idle* who put on Ingmar Bergman Presents\: The PGA Tour
     &c3
 
@@ -223,8 +223,8 @@ c3:
 	*setskin cat_piano 1*
 	*setskin cat_bar 3*
 	*setskin cat_singer 1*
-    >Suddenly,%%% a Ninja appears*setskin cat_bar 1* behind a middle-aged businessman 
-	attempting to pitch out of the sandtrap on the 9th hole.%%%% 
+    >Suddenly,%%% a Ninja appears*setskin cat_bar 1* behind a middle-aged businessman
+	attempting to pitch out of the sandtrap on the 9th hole.%%%%
 	This has taken a turn.
     &c4
 
@@ -238,9 +238,9 @@ c4:
 c5:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
-    > As if spurred on by The Pianist, the Ninja takes the man's golf ball,%%% 
-    and crushes it to dust in front of him*setanim cat_piano gesture_clap 1.3 idle* with his bare hands before 
-    punching and stabbing everyone in sight. 
+    > As if spurred on by The Pianist, the Ninja takes the man's golf ball,%%%
+    and crushes it to dust in front of him*setanim cat_piano gesture_clap 1.3 idle* with his bare hands before
+    punching and stabbing everyone in sight.
     &c6
 
 c6:
@@ -248,8 +248,8 @@ c6:
     *setspeaker cat_cello*
 	*setskin cat_cello 4*
 	*setanim cat_cello gesture_agree .65 idle*
-    i would like to formally rescind my complaint and personally thank the 
-    inventors of cocaine for*setskin cat_cello 0* everything i am seeing 
+    i would like to formally rescind my complaint and personally thank the
+    inventors of cocaine for*setskin cat_cello 0* everything i am seeing
 	with my eyeballs right now
     &c7
 
@@ -261,7 +261,7 @@ c7:
 	*setskin cat_singer 0*
     *setspeaker narrator*
     > The%.%.%.%%% golf police?%%%% Seem to be after the Ninja now.%% Which is fair.%%%
-    He straight up murders one of them with a shuriken,% and the other 
+    He straight up murders one of them with a shuriken,% and the other
     gets a gun out.
     &c8
 
@@ -271,7 +271,7 @@ c8:
 	*setskin cat_piano 2*
 	*setskin cat_bar 3*
 	*setskin cat_singer 3*
-    >%.%.%.%Holy shit,%*setskin cat_piano 1*%% the Ninja whipped out a blowpipe and shot a dart into the 
+    >%.%.%.%Holy shit,%*setskin cat_piano 1*%% the Ninja whipped out a blowpipe and shot a dart into the
     barrel of the cop's gun as he fired,%% making it explode.
     &c9
 
@@ -279,7 +279,7 @@ c9:
 	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_exchange 2.2 idle*
-    > You have*setanim cat_singer gesture_exchange 2.2 idle* never seen The Singer*setanim cat_singer gesture_exchange 2.2 idle* this riled up.%%% They're shadow*setanim cat_singer gesture_exchange 2.2 idle* boxing 
+    > You have*setanim cat_singer gesture_exchange 2.2 idle* never seen The Singer*setanim cat_singer gesture_exchange 2.2 idle* this riled up.%%% They're shadow*setanim cat_singer gesture_exchange 2.2 idle* boxing
 	in their seat,%%*setanim cat_singer gesture_anger 2.3 idle* and their tail is quite puffed out.
     &c10
 
@@ -299,7 +299,7 @@ c10:
 	*txin*
 	*show*
     *setspeaker narrator*
-    > So far the movie has been about 45 minutes of a Ninja owning 
+    > So far the movie has been about 45 minutes of a Ninja owning
     rich people.%%% Frankly,% it's amazing.
     &c11
 
@@ -314,8 +314,8 @@ c11:
 c12:
     *setspeaker narrator*
 	*setskin cat_bar 0*
-    > %.%.%.%The Bartender seems to be talking about how the Ninja is currently 
-	in a high-speed police chase,% and is on top of a police cruiser.%%% 
+    > %.%.%.%The Bartender seems to be talking about how the Ninja is currently
+	in a high-speed police chase,% and is on top of a police cruiser.%%%
 	He's pulling out his katana%.%.%.%
     &c13
 
@@ -330,14 +330,14 @@ c13:
 c14:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
-    > The Ninja has just stabbed a police officer in the skull through the top 
-    of their police cruiser.%%%% The officer driving the car does not appear to be 
+    > The Ninja has just stabbed a police officer in the skull through the top
+    of their police cruiser.%%%% The officer driving the car does not appear to be
     cool with any part of this.
     &c15
 
 c15:
     *setspeaker narrator*
-    >Ah,% problem solved.%%% The Ninja blinded him by punching him in the eyes.%% 
+    >Ah,% problem solved.%%% The Ninja blinded him by punching him in the eyes.%%
 	With a shuriken.%%% Through the roof of the car.%%% Again.
     &c16
 
@@ -346,8 +346,8 @@ c16:
     *setspeaker cat_piano*
 	*setskin cat_piano 2*
 	*setanim cat_piano gesture_anger 2.2 idle*
-    Oh come the fuck on,% there's no*setanim cat_piano gesture_disagree 1 idle* way that this guy could puncture the 
-	steel of a police car chassis,%%*setanim cat_piano gesture_confused 1 idle* right?%%% 
+    Oh come the fuck on,% there's no*setanim cat_piano gesture_disagree 1 idle* way that this guy could puncture the
+	steel of a police car chassis,%%*setanim cat_piano gesture_confused 1 idle* right?%%%
 	Back me up here,% Singer.
     &c17
 
@@ -355,8 +355,8 @@ c17:
     *setspeaker cat_singer*
 	*setskin cat_singer 3*
 	*setanim cat_signer gesture_exchange 2 idle*
-    > The Singer has their tablet in their lap,%% with a txt doc that just says 
-    'FUCK THE POLICE' on it.%%%% 72pt font,% looks like Impact.%%% Guess they're 
+    > The Singer has their tablet in their lap,%% with a txt doc that just says
+    'FUCK THE POLICE' on it.%%%% 72pt font,% looks like Impact.%%% Guess they're
     rooting for the Ninja.
     &c18
 
@@ -373,15 +373,15 @@ c18:
 	*show*
     *setskin cat_piano 1*
     *setspeaker narrator*
-    > There was a really dope car chase.%%%% The Ninja took down a helicopter by 
-    jumping up to it and uppercutting the pilot.%%% At any rate he's surrounded 
+    > There was a really dope car chase.%%%% The Ninja took down a helicopter by
+    jumping up to it and uppercutting the pilot.%%% At any rate he's surrounded
     by like,% 50 dead bodies.
     &c19
 
 c19:
 	*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000* ####### PLAYER AND BAR
     *setspeaker cat_bar*
-    Well now.% I'm sure this is all this movie had.%%%%*setanim cat_bar gesture_confused 1 idle* Rather*setskin cat_bar 1* good though,% 
+    Well now.% I'm sure this is all this movie had.%%%%*setanim cat_bar gesture_confused 1 idle* Rather*setskin cat_bar 1* good though,%
     wouldn't you agree?
     &c20
 
@@ -389,14 +389,14 @@ c20:
 	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_agree 1 idle*
-    Yeah I got into it at the end. 
+    Yeah I got into it at the end.
     &c21
 
 c21:
     *setspeaker narrator*
-    > Oh wait something else is happening.%%%*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* Ah,% the ninja is putting his hands 
+    > Oh wait something else is happening.%%%*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* Ah,% the ninja is putting his hands
     together and chanting%.%.%.%%%now he's spinning in place%.%.%.%%%%%
-   
+
     the Ninja is drilling into the earth.
     &c22
 
@@ -411,8 +411,8 @@ c22:
 c24:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
-    > Yep.%% The Ninja is now up to his neck in the earth.%%%% There's an evil laugh 
-    sound playing,% and the Ninja seems to be waiting for more cops?%%%% It fades to 
+    > Yep.%% The Ninja is now up to his neck in the earth.%%%% There's an evil laugh
+    sound playing,% and the Ninja seems to be waiting for more cops?%%%% It fades to
 	black shortly after,% and the credits roll.
     &c25
 
@@ -420,7 +420,7 @@ c25:
 	*setskin cat_piano 0*
 	*setanim cat_piano gesture_shock 1 idle*
     *setspeaker cat_piano*
-    Damn,% that's a hardcore ninja dude.%%%*setanim cat_piano gesture_agree 1 idle* Respect.%%%% 
+    Damn,% that's a hardcore ninja dude.%%%*setanim cat_piano gesture_agree 1 idle* Respect.%%%%
 	Never enough blood for him.
     &c27
 
@@ -428,14 +428,14 @@ c27:
     *setspeaker cat_cello*
 	*setskin cat_cello 0*
 	*setanim cat_cello gesture_exchange 1 idle*
-    yo holy shit what if they made a movie where it was like a bloodthirsty 
+    yo holy shit what if they made a movie where it was like a bloodthirsty
     ninja but fuckin get this what if*setskin cat_cello 1* it was dracula and dracula's a ninja now
     &c28
 
 c28:
     *setspeaker narrator*
-    > The night devolves into enthusiastic chatting about the film,% 
-	and B-movies in general.%%% They don't seem to remember that 
+    > The night devolves into enthusiastic chatting about the film,%
+	and B-movies in general.%%% They don't seem to remember that
 	there are more tapes to watch%.%.%.%%%
     Ah well,% might as well let 'em have this.*mark_seen*
     &exit

@@ -23,22 +23,22 @@ begin:
 	*show*
 	*setskin npc_cat_bar 1*
 	*setanim npc_cat_bar gesture_confused 1 idle*
-    I do so adore visiting the Center.*setskin npc_cat_bar 0* 
+    I do so adore visiting the Center.*setskin npc_cat_bar 0*
     &a1
 
 a1:
 	*setcam setpos -88.607697 734.805664 73.845703;setang 3.762802 -56.225506 0.000000*
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_shrug 1 idle*
-    > The Singer thinks they should all go more often, the band 
-    seemed a little lonely this time. 
+    > The Singer thinks they should all go more often, the band
+    seemed a little lonely this time.
     &a2
 
 a2:
 	*setcam setpos 64.112801 698.983398 68.279556;setang -8.162957 -100.041962 0.000000*
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_agree 1 idle*
-    Agreed. Signed and sealed. 
+    Agreed. Signed and sealed.
     &a3
 
 a3:
@@ -46,9 +46,9 @@ a3:
     *setspeaker cat_cello*
 	*setanim cat_cello gesture_shrug 1 idle*
     yeah i could do with sandblasting the crust of existential
-    despair off my brain more often 
+    despair off my brain more often
     player:
-        &a4: 
+        &a4:
 		*setcam setpos -185.023544 678.457520 65.429253;setang -0.230201 -31.948051 0.000000*
 		How is the bar so pristine?
         Because I distinctly remember royally fucking it up.
@@ -58,16 +58,16 @@ a4:
     *setspeaker npc_cat_bar*
 	*setanim npc_cat_bar gesture_sweep 1 idle*
     To reach the Center, you must discard all earthly %- or Voidly -%%
-    attachments.%%%*setanim npc_cat_bar gesture_jab 1 idle* Including your attachments to yourself,%% which is 
-    what the shard juice is for. 
+    attachments.%%%*setanim npc_cat_bar gesture_jab 1 idle* Including your attachments to yourself,%% which is
+    what the shard juice is for.
     &a5
 
 a5:
 	*setcam setpos 167.714569 698.494568 69.958344;setang 0.461915 -155.030075 0.000000*
     *setspeaker cat_cello*
 	*setanim cat_cello gesture_laugh 1 idle*
-    turns out that the distilled essence of creativity can overload your 
-    neurons and temporarily render you a transcendent being that can 
+    turns out that the distilled essence of creativity can overload your
+    neurons and temporarily render you a transcendent being that can
     see through time and space
     &a6
 
@@ -78,7 +78,7 @@ a6:
 
 a7:
 	*setanim cat_cello gesture_agree 1 idle*
-    long story short we didn’t actually go anywhere physical we just sat 
+    long story short we didn’t actually go anywhere physical we just sat
     in the bus and went on a profound mental journey powered by all
     those shards you've been stealing
     &a8
@@ -86,15 +86,15 @@ a7:
 a8:
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_confused 1 idle*
-    Should have enough for twenty more visits, easy, thanks to your help 
-    gettin’ all that shard goop ready. 
+    Should have enough for twenty more visits, easy, thanks to your help
+    gettin’ all that shard goop ready.
     &a9
 
 a9:
 	*setcam setpos 6.081810 423.574524 67.019852;setang 0.568399 89.705330 0.000000*
     *setspeaker npc_cat_bar*
 	*setskin npc_cat_bar 2*
-    Which I will be placing in The Singer's Mewseum vaults for safekeeping,%%*setskin npc_cat_bar 0* before you 
+    Which I will be placing in The Singer's Mewseum vaults for safekeeping,%%*setskin npc_cat_bar 0* before you
     two get any ideas.
     &a10
 
@@ -102,42 +102,42 @@ a10:
 	*setcam setpos -63.723694 670.468201 68.035347;setang -1.188524 -42.587250 0.000000*
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_agree 1.3 idle*
-    > The Singer nods firmly and narrows their eyes when both The Cellist 
-    and Pianist start to object.%%% They shut up immediately. 
+    > The Singer nods firmly and narrows their eyes when both The Cellist
+    and Pianist start to object.%%% They shut up immediately.
     &a11
 
 a11:
 	*setcam setpos -185.023544 678.457520 65.429253;setang -0.230201 -31.948051 0.000000*
     *setspeaker npc_cat_bar*
 	*setanim npc_cat_bar gesture_agree 1 idle*
-    We are deeply grateful for your help,%% *player*.%%%% It’s been such a long time 
+    We are deeply grateful for your help,%% *player*.%%%% It’s been such a long time
     since our last proper vacation.
     condition:
     &complete1:
         return finishedmissions()
     &incomplete1:
-        return true	
+        return true
 
 incomplete1:
 	*setanim npc_cat_bar gesture_confused 1 idle*
-    We have more work for you if you’re interested. 
+    We have more work for you if you’re interested.
     &a12
 
 complete1:
 	*setanim npc_cat_bar gesture_laugh 1 idle*
-    It’s been a pleasure having you around, and you are of course welcome to stay 
+    It’s been a pleasure having you around, and you are of course welcome to stay
     at the Bar Samsara as long as you like.
     &a12
 
 a12:
     *setspeaker narrator*
-    You have unlocked *c 0 200 0*New Game Plus*c*! This mode will allow you to start 
+    You have unlocked *c 0 200 0*New Game Plus*c*! This mode will allow you to start
     the game fresh with a multiplier to cash earned.
     It may have some bonus story content too...
     &a13
 
 a13:
-    To begin anew, have your group summon the shard tank one more 
+    To begin anew, have your group summon the shard tank one more
     time, resetting your progress and beginning your *c 0 200 0*NG+*c* adventure.
     *mark_seen*
     &exit

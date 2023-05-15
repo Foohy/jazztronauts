@@ -2,20 +2,20 @@ accept:
     whatup fresh meat welcome to fetch quest hell
     &a1
 a1:
-    listen the rest of the idiots around here might have like, 
+    listen the rest of the idiots around here might have like,
 	%%reasons%%%%, well thought out justifications,%%%%
-    or like gripping passion plays that speak to a deeper 
+    or like gripping passion plays that speak to a deeper
 	meaning about humanity %%%%
     &a1b
-	
+
 a1b:
 
-   y'know,%% to disguise their constant requests to have 
+   y'know,%% to disguise their constant requests to have
    stupid bullshit delivered to them like its sketchy takeout%%%%
    (sometimes it may in fact be sketchy takeout)
    &a2
 
-a2: 
+a2:
     me,%% i take pride in being direct about this
     &a3
 
@@ -26,9 +26,9 @@ a3:
     &a4
 
 a4:
-    in exchange i'll hook you up with some of the good shit if that's 
+    in exchange i'll hook you up with some of the good shit if that's
 	your thing, %%and if you're straight edge i guess i can work with that
-    %%%yknow im p sure that's what they said to CM Punk right before 
+    %%%yknow im p sure that's what they said to CM Punk right before
 	Mickey Gall fed him his own lungs
     &a5
 
@@ -48,18 +48,18 @@ idle:
     &i2
 i2:
     i mean%% i appreciate the visit and all% but i gave you a shopping list %%
-    and %b%e%l%i%e%v%e me it is in your best interest for you to get 
+    and %b%e%l%i%e%v%e me it is in your best interest for you to get
     that back to me before this tab wears off
 	&i3
-	
+
 i3:
-	i haven't been sober in seventeen years%% 
-    and i %do %not% want to screw up this attempt 
+	i haven't been sober in seventeen years%%
+    and i %do %not% want to screw up this attempt
 	to beat my record at the halfway mark %%%again
 	&exit
 
 turnin:
-	oh thank fuck% i was beginning to perceive time as a linear series 
+	oh thank fuck% i was beginning to perceive time as a linear series
     of cause and effect%%% that shit's terrifying
     &t2
 t2:
@@ -68,8 +68,8 @@ t2:
     &t3
 t3:
     i suggest you find somewhere else to be for the next few hours %
-    unless you like living dangerously %%%and by living dangerously 
-    i mean living dangerously close to class 1.1 explosive materials 
+    unless you like living dangerously %%%and by living dangerously
+    i mean living dangerously close to class 1.1 explosive materials
     being hit with a hammer
-    
+
     &exit

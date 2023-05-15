@@ -5,9 +5,9 @@ timer.Simple(0, function() -- Gross, but gives all weapons a chance to register 
 		lookup[v.ClassName] = v
 	end
 	local function AddWeapon(name, price, options)
-		if not lookup[name] then 
+		if not lookup[name] then
 			print("Can't add " .. name .. " to Jazztronauts store. Not registered yet!")
-			return 
+			return
 		end
 
 		options = options or {}

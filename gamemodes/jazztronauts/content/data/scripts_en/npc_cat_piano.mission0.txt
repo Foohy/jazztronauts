@@ -1,12 +1,12 @@
 accept:
-Oh. Right. 
+Oh. Right.
     &a1
 
 a1:
 	I didn't really consider the need for introductions when we nabbed y'all,
 	but I suppose it'd be polite.
 	&a2
-	
+
 a2:
 	Not feeling that at this juncture though, so let's talk about what you
 	can get for me\:*c 255 0 0*       Chairs.
@@ -17,29 +17,29 @@ a3:
 	Listen close 'cause this is primo shit.
 	You ready?
 	&a4
-	
+
 a4:
 	I'm fucking poor.
 	&a5
 
 a5:
-	People out there have too much stuff; time on their hands; 
-	and no sense of aesthetics. It's shameful. 
+	People out there have too much stuff; time on their hands;
+	and no sense of aesthetics. It's shameful.
 	You're gonna redistribute that wealthy to where it belongs\:
 	under my fluffy ass.
 	&a6
-	
+
 a6:
-	I'll compensate you for your time, and we can have a 
-	discussion about how to best eat the rich in a civilized 
-	and polite manner when we're sitting pretty on the 
+	I'll compensate you for your time, and we can have a
+	discussion about how to best eat the rich in a civilized
+	and polite manner when we're sitting pretty on the
 	fruits of your labor. Five ought to do. *start 0*
 	&a7
-	
+
 a7:
-	And hey, if it makes you feel better about it, 
+	And hey, if it makes you feel better about it,
 	consider yourself an antiques dealer.
-	You'll be joining the ranks of a storied profession with 
+	You'll be joining the ranks of a storied profession with
 	a legacy of selling other people's shit.
 	&exit
 
@@ -47,51 +47,51 @@ a7:
 
 
 idle:
-	Have you looked around yet? 
-	Gotten a feel for the place? 
+	Have you looked around yet?
+	Gotten a feel for the place?
 	Appreciated the sick vaporwave foliage?
 	&iidle
-	
+
 iidle:
 	Don't answer that. I don't actually care.
 	&i1
-	
+
 i1:
-	You know, I'm looking at you and aside from the 
-	general... Thing... you've got going on there, do you 
+	You know, I'm looking at you and aside from the
+	general... Thing... you've got going on there, do you
 	know what stands out the most to me?
 	&i1b
-	
+
 i1b:
 	The criminal lack of chairs accompanying you.
 	&i2
-	
+
 i2:
 	Fix that, and we can talk.
 	&exit
 
 turnin:
-	Sweet. You can follow basic instructions, 
+	Sweet. You can follow basic instructions,
 	so you're already ahead of the curve. *finish 0*
 	Here, try not to spend it all at once.
 	&t1
-	
+
 t1:
-	>The cat hands you a wad of cash. 
+	>The cat hands you a wad of cash.
 	You've been rewarded $2500 for your efforts!
 	&t2
-	
+
 t2:
-	What? Did you think I was actually broke? 
-	I'm morally bankrupt, not destitute. 
+	What? Did you think I was actually broke?
+	I'm morally bankrupt, not destitute.
 	&t2b
-	
+
 t2b:
-	Look. I said we were going to redistribute wealth, 
-	and we did. My wealth has been redistributed to 
+	Look. I said we were going to redistribute wealth,
+	and we did. My wealth has been redistributed to
 	your pockets. For goods and services.
 	&t3
-	
+
 t3:
 	You can call me Pianist, by the way.
 	&exit

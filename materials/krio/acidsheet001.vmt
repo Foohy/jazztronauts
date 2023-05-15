@@ -8,7 +8,7 @@
 
 	"$phong" "1"
 	"$phongexponent" "4"
-	"$phongboost" "20"	
+	"$phongboost" "20"
 //	"$phongfresnelranges" "[.6 2 5]"
 	"$phongfresnelranges" "[0.25 0.5 1]"
 // END Textures

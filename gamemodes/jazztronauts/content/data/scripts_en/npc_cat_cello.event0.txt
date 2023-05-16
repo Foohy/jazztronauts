@@ -54,15 +54,18 @@ b4:
 	*setanim cat_cello gesture_shrug 1 idle*
 	i suppose the adrenaline and endorphins secondary to getting
 	tempered glass acupuncture of the face counted as getting high
-	though so I'm gonna chalk that one down as something to revisit.*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
+	though so I'm gonna chalk that one down as something to revisit.
 	player:
 	&r1a1:
+		*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
 		*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 		You seem remarkably unfazed by being blown up.
 	&r1a1:
+		*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
 		*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 		Is this a regular occurrence?
 	&r2a1:
+		*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
 		*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
 		Y'know that feels like something you could have figured out
 		with common sense.

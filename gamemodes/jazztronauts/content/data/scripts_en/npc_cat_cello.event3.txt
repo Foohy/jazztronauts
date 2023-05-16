@@ -234,7 +234,7 @@ r3a1:
 	*setspeaker cat_cello*
 	well,%% his biographies and contemporary accounts are full of
 	different testimonies.%%%*setanim cat_cello gesture_disagree 1 idle* some say he died of heatstroke or
-	chronically bad health while on a trip,-
+	chronically bad health while on a trip-
 	&r3a2
 		
 r3a2:
@@ -258,7 +258,7 @@ r3a5:
 	*setanim cat_cello gesture_sweep 1 idle*
 	this is mostly backed up by the fact that long-term lead poisoning
 	can make you unpredictable and violent% and the body most people
-	are pretty sure was his has a shit-ton of lead in the skeleton.
+	are pretty sure was his had a shit-ton of lead in the skeleton.
 	&r3a6
 	
 r3a6:
@@ -326,79 +326,3 @@ n2:
 	been nice chatting with you,% though.%%%%
 	see you around. *mark_seen*
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

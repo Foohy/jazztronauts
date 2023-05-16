@@ -7,7 +7,8 @@ begin:
 	*spawn narrator dummy*
 	*setnpcid narrator npc_narrator*
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
-	*setposang cat_cello setpos -677 3819 0;setang -90 270 0.000000*
+	*setposang cat_cello setpos -883 3862 70;setang 0 270 0* ###So this angle puts the Cellist's light origin in the wall to start. This makes him very dark, which actually kinda works here, like he was covered in soot.
+	*setanim cat_cello pose_passedout*
 	*setnpcid cat_cello npc_cat_cello*
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1.0 2.0*
 	*setposang player setpos -705.046448 3488.125977 0;setang 0 82.384605 0.000000*
@@ -19,7 +20,7 @@ begin:
 	*show*
 	> You seem to have taken a wrong turn on your way to the Mewseum%.%.%.%%%
 	This looks vaguely like a hotel area.%% I guess The Bartender planned
-	for thi-%*emitsound ambient/explosions/explode_1.wav .4 .8*%*shake 2*%####*setanim cat_cello cellist_fly 1*%%% 
+	for thi*emitsound ambient/explosions/explode_1.wav .4 .8**tweenposang cat_cello .5 setpos -634 3862 0;setang -90 270 0.000000*-%*shake 2*%%
 	&b1
 	
 b1:
@@ -28,6 +29,7 @@ b1:
 	
 b2:
 	*setskin cat_cello 0*
+	*setanim cat_cello idle*
 	*setposang cat_cello setpos -680.394653 3805.560303 0;setang -90 150 0.000000*
 	*setcam setpos -733.464111 3644.593994 56.454197;setang 3.220997 72.641579 0.000000*
 	> You take a few steps further into the hallway to check on 
@@ -311,6 +313,7 @@ n3:
 	&n4
 	
 n4:
+	*setanim player cidle_all*
 	*setposang player setpos -689.756470 3525.622070 0;setang 31.633858 70.191818 0.000000*
 	*setcam setpos -731.334839 3735.929199 14.077698;setang -6.565836 -73.023735 0.000000*
 	*setspeaker narrator*
@@ -319,19 +322,3 @@ n4:
 	aneurysm.%%%% You decide its best to let sleeping cats lie,%% 
 	in this case. *mark_seen*
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

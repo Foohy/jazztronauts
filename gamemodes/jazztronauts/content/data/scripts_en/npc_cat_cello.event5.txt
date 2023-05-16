@@ -1,9 +1,9 @@
 ﻿SKIP_OPEN = true
 
 begin:
-    # Scene setup
-    *txout*
-    *setfov 70*
+	# Scene setup
+	*txout*
+	*setfov 70*
 	*spawn narrator dummy*
 	*setnpcid narrator npc_narrator*
 	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
@@ -34,9 +34,9 @@ begin:
 	&b1
 
 b1:
-	*setposang cat_bar setpos -2889.937988 2926.586670 0;setang -90 216 0.000000*
-	*setposang cat_piano setpos -2927.378174 2883.511963 0;setang -90 230 0.000000*
-	*setposang cat_singer setpos -2856.525635 2876.622559 0;setang -90 216 0.000000*
+	*tweenposang cat_bar .35 setpos -2889.937988 2926.586670 0;setang -90 216 0.000000*
+	*tweenposang cat_piano .35 setpos -2927.378174 2883.511963 0;setang -90 230 0.000000*
+	*tweenposang cat_singer .35 setpos -2856.525635 2876.622559 0;setang -90 216 0.000000*
 	*setspeaker cat_piano*
 	*setcam setpos -2851.549805 2833.720459 57.335415;setang 8.687464 145.084076 0.000000* #### PIANO
 	*setskin cat_piano 0*
@@ -381,7 +381,7 @@ n9:
 	
 n9b:
 	It's been so long I'm not even sure if that memory is real anymore,% 
-        or some gaslight phantom my mind's come up with to justify 
+	or some gaslight phantom my mind's come up with to justify 
 	its self-destruction.
 	&n10
 	
@@ -506,69 +506,3 @@ n20:
 	and The Cellist has finally realized it's time to let
 	some walk with him. *mark_seen*
 	&exit
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

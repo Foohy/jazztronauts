@@ -1,10 +1,10 @@
 SKIP_OPEN = true
 
 begin:
-    # Scene setup
-    *txout*
-    *setfov 70*
-		*spawn narrator dummy*
+	# Scene setup
+	*txout*
+	*setfov 70*
+	*spawn narrator dummy*
 	*setnpcid narrator npc_narrator*
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos 4.526166 3119.696289 25;setang -90 270 0.000000*
@@ -310,45 +310,3 @@ m9:
 	*setspeaker narrator*
 	>The Cellist helps you up and walks helps you walk over to the bar%.%.%.%% *mark_seen*
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

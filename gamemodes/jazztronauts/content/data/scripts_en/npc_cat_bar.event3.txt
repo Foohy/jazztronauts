@@ -32,7 +32,7 @@ a2:
 
 a3:
 	*setspeaker narrator*
-	*setcam setpos -2935.495605 3060.559570 90.541382;setang 8.554376 -39.650562 0.000000**emitsound physics/wood/wood_crate_impact_hard1.wav 1 .8*
+	*setcam setpos -2935.495605 3060.559570 90.541382;setang 8.554376 -39.650562 0.000000**emitsound physics/wood/wood_panel_impact_hard1.wav 0.45*
 	> The Mewseum door is kicked open!%% Intruder alert!!%%%%*setcam setpos -2654.359619 2872.613281 45.377167;setang 4.667855 -47.210667 0.000000*
 	%.%.%.%Oh,% it's just The Cellist.
 	player:

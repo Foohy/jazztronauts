@@ -365,7 +365,7 @@ if SERVER then
 		crazy2:Add(ang:Forward() * 1024) -- TODO: 1024 forward is just a rough estimate for exit bore, figure out how much the trolley actually needs!
 
 		--figure out if any of these are cray-zay
-		print("Am I crazy? ",crazycheck,crazy2)
+		--print("Am I crazy? ",crazycheck,crazy2)
 		local craycray = math.max(math.abs(crazycheck.x),math.abs(crazycheck.y),math.abs(crazycheck.z),math.abs(crazy2.x),math.abs(crazy2.y),math.abs(crazy2.z))
 
 		if craycray >= 16000 then

@@ -32,6 +32,8 @@ util.AddNetworkString("shard_notify")
 
 local LOADING_SCREEN_URL = "host.foohy.net/public/Documents/Jazz/"
 
+CreateConVar("crazyfix","0",bit.bor(FCVAR_PROTECTED,FCVAR_UNREGISTERED,FCVAR_UNLOGGED))
+
 concommand.Add( "jazz_test_lzma", function()
 
 	print("RUNNING LZMA TEST")
@@ -165,6 +167,11 @@ function GM:JazzMapStarted()
 	if game.GetMap() == mapcontrol.GetIntroMap() then
 		--newgame.SetGlobal("finished_intro", true)
 	end
+
+	crazywarn = crazywarn or GetConVar("sv_crazyphysics_warning"):GetString()
+	crazydefuse = crazydefuse or GetConVar("sv_crazyphysics_defuse"):GetString()
+	crazyremove = crazyremove or GetConVar("sv_crazyphysics_remove"):GetString()
+
 end
 
 function GM:GenerateJazzEntities(noshards)
@@ -233,6 +240,15 @@ end
 function GM:ShutDown()
 	if not mapcontrol.IsInHub() then
 		progress.UpdateMapSession(game.GetMap())
+	end
+
+	--revert crazyphysics settings
+	local crazyfix = GetConVar("crazyfix")
+	if crazyfix:GetBool() == true then
+		if crazywarn then RunConsoleCommand("sv_crazyphysics_warning",crazywarn) end
+		if crazydefuse then RunConsoleCommand("sv_crazyphysics_defuse",crazydefuse) end
+		if crazyremove then RunConsoleCommand("sv_crazyphysics_remove",crazyremove) end
+		crazyfix:SetBool(false)
 	end
 
 	if not mapcontrol.IsLaunching() then
@@ -498,3 +514,20 @@ concommand.Add("jazz_reset_progress", function(ply, cmd, args)
 	print("Dump'd.")
 
 end, nil, "Reset all jazztronauts progress entirely. This wipes all player progress, map history, purchases, unlocks, and previous game data.")
+
+--keep track of changes to crazyphysics
+cvars.AddChangeCallback("sv_crazyphysics_warning",function(convar,oldval,newval)
+	if not GetConVar("crazyfix"):GetBool() then
+		crazywarn = newval
+	end
+end)
+cvars.AddChangeCallback("sv_crazyphysics_defuse",function(convar,oldval,newval)
+	if not GetConVar("crazyfix"):GetBool() then
+		crazydefuse = newval
+	end
+end)
+cvars.AddChangeCallback("sv_crazyphysics_remove",function(convar,oldval,newval)
+	if not GetConVar("crazyfix"):GetBool() then
+		crazyremove = newval
+	end
+end)

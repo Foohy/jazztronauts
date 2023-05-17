@@ -18,6 +18,9 @@
 	*setnpcid cat_cello npc_cat_cello*
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1 2.0*
 	*setposang player setpos 980.507080 632.255981 0;setang 0 -121.321289 0.000000*
+	*setanim cat_piano idle*
+	*setanim cat_singer idle*
+	*setanim cat_cello pose_passedout*
 	*txin*
 	*show*
 	
@@ -26,7 +29,7 @@
 	> The Home Base%.%.%.%%% 
 	It's the usual scene.%% Map browsing,% quiet lazing about,% 
 	the hum of the shard tank%.%.%.%% Might not be a bad chance 
-	to sneak in a nap- *emitsound weapons/mortar/mortar_shell_incoming.wav*%% -?%%% Fuck was that sound?
+	to sneak in a nap- *emitsound weapons/mortar/mortar_shell_incomming1.wav*%% -?%%% Fuck was that sound?
 	&b1
 	
 b1:
@@ -45,14 +48,14 @@ b2:
 	*txin*
 	*wait .1*
 	*show*
-	> You make it to the Performance Hall*setcam setpos -830.770874 423.708344 -12.305580;setang 2.458383 95.515366 0.000000* relatively quickly as you w-%%%
+	> You make it to the Performance Hall*setcam setpos -830.770874 423.708344 -12.305580;setang 2.458383 95.515366 0.000000**setposang cat_cello setpos -1135 676 5;setang 30 90 -180* relatively quickly as you w*tweenposang cat_cello .5 setpos -544.969666 399.670746 0;setang -90 60 0.000000*-%%%
 	%.%.%.%wait did The Cellist fly past you just now?%%%%*setcam setpos -748.055054 591.843384 25.641350;setang 12.760325 -141.553528 0.000000* You turn around to see
 	what launched him and see The Pianist charging after The Cellist!
 	&b3
 	
 b3:
 	*setposang cat_piano setpos -600.322693 473.704559 0;setang -90 225 0.000000*
-	*setposang cat_cello setpos -544.969666 399.670746 0;setang -90 60 0.000000*
+	*setanim cat_cello idle*
 	*setposang cat_singer setpos -814.982849 597.772827 -64;setang -90 227 0.000000*
 	*setposang player setpos -833.971313 548.056152 -64;setang 0 -21.284431 0.000000*
 	*setcam setpos -945.970520 529.193604 -8.977074;setang -3.397988 -3.662134 0.000000*
@@ -239,7 +242,7 @@ m14:
 	*setskin cat_cello 2*
 	*setanim cat_cello gesture_embarass 1 idle*
 	> The Singer,% having somehow shut The Cellist up,%%% informs 
-	him that he is far from blameless,%% specifically tried to provoke 
+	him that he is far from blameless.%% He specifically tried to provoke 
 	The Pianist with inflammatory statements,%*setanim cat_singer gesture_disagree 1.4 idle* and should cut it the
 	fuck out. 
 	&m14b
@@ -272,7 +275,7 @@ m17:
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_clap 1 idle*
 	> They hug both cats and tell you to find them 
-	later for another job before hopping up on top of the booth 
+	later for another job before hopping up on top of the booth*tweenposang cat_singer .5 setpos -416 427 228.5;setang 0 0 -90*
 	and curling up to resume their nap.*setskin cat_singer 0*
 	&m17b
 		

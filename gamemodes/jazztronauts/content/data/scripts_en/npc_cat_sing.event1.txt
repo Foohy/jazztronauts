@@ -46,9 +46,9 @@ b2:
 	
 b3:
 	*setspeaker cat_singer*
-	*setcam setpos 3059.472168 7854.973145 78.634224;setang 10.018432 18.054348 0.000000*
-	*setposang cat_singer setpos 3259.499512 7881.131348 0;setang -90 60 0.000000*
 	*setposang player setpos 3196.539063 7929.435547 0;setang 5 -41.255119 0.000000*
+	*setcam setpos 3059.472168 7854.973145 78.634224;setang 10.018432 18.054348 0.000000*
+	*tweenposang cat_singer .5 setpos 3259.499512 7881.131348 0;setang -90 60 0.000000*
 	*setskin cat_singer 0*
 	*setanim cat_singer gesture_sweep 1 idle*
 	
@@ -216,7 +216,7 @@ an1b:
 	
 an2:
 	*setcam setpos 3118.949463 7878.477539 48.878284;setang 4.268490 16.217495 0.000000* ###### SINGER AND PLAYER
-	*setposang cat_singer setpos 3259.499512 7881.131348 0;setang -90 180 0.000000*
+	*tweenposang cat_singer .5 setpos 3259.499512 7881.131348 0;setang -90 180 0.000000*
 	>They erase the part about Nannette being able to cure diseases and 
 	adds a description of the physical appearance of the doll.%%%% 
 	They compliment your vivid imagination and
@@ -226,7 +226,7 @@ an2:
 ###### MERGE POINT
 m1:
 	*setcam setpos 3118.949463 7878.477539 48.878284;setang 4.268490 16.217495 0.000000* ###### SINGER AND PLAYER
-	*setposang cat_singer setpos 3259.499512 7881.131348 0;setang -90 60 0.000000*
+	*tweenposang cat_singer .5 setpos 3259.499512 7881.131348 0;setang -90 60 0.000000*
 	*setspeaker cat_singer*
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_clap 1 idle*

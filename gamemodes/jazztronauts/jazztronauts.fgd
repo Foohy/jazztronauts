@@ -177,6 +177,7 @@
 
 @PointClass base(Targetname, Origin, Angles) studioprop() = jazz_factscreen : "Jazz Random Fact Screen"
 [
+	model(studio) : "World Model" : "models/sunabouzu/jazz_tv01.mdl"
 	factname(string) : "Fact Name" : : "Override what fact this will display. Optional"
 ]
 

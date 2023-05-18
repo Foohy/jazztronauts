@@ -16,6 +16,7 @@ if SERVER then
 		end
 		local entName = net.ReadString()
 		local inp = net.ReadString()
+		local delay = net.ReadFloat()
 		local param = net.ReadString()
 
 		if string.sub(entName, 0, #mapTriggerPrefix) != mapTriggerPrefix then
@@ -25,7 +26,7 @@ if SERVER then
 
 		local entities = ents.FindByName(entName)
 		for _, v in pairs(entities) do
-			v:Fire(inp, param)
+			v:Fire(inp, param, delay)
 		end
 	end )
 
@@ -56,15 +57,16 @@ if not CLIENT then return end
 
 -- Fires an output on a named entity on the server
 -- Try to avoid using this unless specifically needed for something
-dialog.RegisterFunc("fire", function(d, entityName, inputName, fireParams)
+dialog.RegisterFunc("fire", function(d, entityName, inputName, delay, fireParams)
 	if not entityName or not inputName then
-		ErrorNoHalt("*fire <entityName> <inputName> [fireParams]* requires an entity name and input name!")
+		ErrorNoHalt("*fire <entityName> <inputName> [delay] [fireParams]* requires an entity name and input name!")
 		return
 	end
 
 	net.Start("dialog_requestcommand")
 		net.WriteString(entityName)
 		net.WriteString(inputName)
+		net.WriteFloat(delay or 0)
 		net.WriteString(fireParams or "")
 	net.SendToServer()
 end)

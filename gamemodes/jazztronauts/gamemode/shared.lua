@@ -136,12 +136,14 @@ else
 
 	end )
 
+	--get a table of all the damage types that made up this damage
 	local function getDamageTypes(dmg)
 		
 		local damtab = {}
 		if dmg == DMG_GENERIC then
 			table.insert(damtab,"0")
 		else
+			--loop through our options. Damage types are stored bitwise, so we're going 2^loopcount to compare
 			for var = 0, 31 do
 				local dmgtype = math.pow(2,var)
 				if bit.band(dmg,dmgtype) > 0 then
@@ -161,7 +163,7 @@ else
 		local attacker = net.ReadEntity()
 		local attackclass = net.ReadString()
 		if attackclass == "" and IsValid(attacker) then attackclass = attacker:GetClass() end
-		local attackname = net.ReadString() --namely for specific Jazztronauts entities
+		local attackname = net.ReadString() or "" --namely for specific Jazztronauts entities
 		local inflictor = net.ReadEntity()
 		local weapon = net.ReadEntity()
 		local dmg = net.ReadUInt(32)
@@ -169,22 +171,38 @@ else
 		local name = IsValid(ply) and ply:Nick() or "<Player>"
 		local ev = eventfeed.Create()
 
+		--tripped on a cloud and fell eight miles high
 		if dmg == DMG_FALL then
 
 			ev:Title(jazzloc.Localize("jazz.death.fall","%name"), 
 				{ name = name }
 			)
-
+		--not likely to show up unless HL2 suit is on
 		elseif dmg == DMG_DROWN then
+
 			ev:Title(jazzloc.Localize("jazz.death.drown","%name"), 
 				{ name = name }
 			)
+		--trust no one, not even yourself
 		elseif attacker == ply then
 
 			ev:Title(jazzloc.Localize("jazz.death.self","%name"), 
 				{ name = name }
 			)
+		--jazztronauts specific
+		elseif attackname == "prop_killer" then
 
+			ev:Title(jazzloc.Localize("jazz.death.propchute","%name"), 
+				{ name = name }
+			)
+
+		elseif attackname == "lasermurder" then
+
+			ev:Title(jazzloc.Localize("jazz.death.selector","%name"), 
+				{ name = name }
+			)
+
+		--agh, you've killed me!
 		elseif IsValid(attacker) or attackclass ~= "" then
 
 			local damtab = getDamageTypes(dmg)
@@ -197,14 +215,7 @@ else
 			elseif IsValid(weapon) then
 				killedby = jazzloc.Localize("jazz.death.weapon",jazzloc.Localize(attackclass),jazzloc.Localize(weapon:GetClass()))
 			end
-			--jazztronauts specific
-			if attackname == "prop_killer" then
-				killedby = jazzloc.Localize("jazz.death.propchute")
-			end
-			if attackname == "lasermurder" then
-				killedby = jazzloc.Localize("jazz.death.selector")
-			end
-
+			--put it all together, with picking a random damage type from the list
 			ev:Title(jazzloc.Localize("jazz.death.killer","%name",jazzloc.Localize("dmg." .. damtab[ math.random( #damtab ) ] ),"%killer"), 
 				{ name = name, killer = killedby },
 				{ killer = "red_name" }

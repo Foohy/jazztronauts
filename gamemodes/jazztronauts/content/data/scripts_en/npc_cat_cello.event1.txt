@@ -9,7 +9,7 @@ begin:
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos 4.526166 3119.696289 25;setang -90 270 0.000000*
 	*setnpcid cat_cello npc_cat_cello*
-	*setskin cat_cello 3*
+	*CELLO_HIGH*
 	*setanim cat_cello pianist_drunk_idle*
 	*setposang player setpos 182.677567 2925.838623 0;setang 0 133.148224 0.000000*
 	*setcam setpos 245.356094 2850.929688 109.212921;setang 14.996230 126.555443 0.000000*
@@ -71,9 +71,9 @@ b6:
 	*setcam setpos 121.876625 3214.729736 89.114357;setang 10.364336 -114.506401 0.000000*
 	*setanim cat_cello pose_sit01*
 	*setspeaker cat_cello*
-	*setskin cat_cello 0*
-	i'm not sure what was in that gasoline,%% or that beer for that matter,%%%*setskin cat_cello 1*
-	but god damn if this isn't the best batch i've had in a while.%%%*setcam setpos 43.395779 3097.821289 50.800999;setang 17.445244 -84.798508 0.000000*%*setskin cat_cello 0* 
+	*CELLO_NEUTRAL*
+	i'm not sure what was in that gasoline,%% or that beer for that matter,%%%*CELLO_GRIN*
+	but god damn if this isn't the best batch i've had in a while.%%%*setcam setpos 43.395779 3097.821289 50.800999;setang 17.445244 -84.798508 0.000000*%*CELLO_NEUTRAL* 
 	maybe it was "essence of subcontracted manual labor"
 	&b7
 	
@@ -158,12 +158,12 @@ r5a3:
 	
 ###### BRANCH 1
 r1a1:
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	*setanim cat_cello gesture_sigh 1 idle*
 	*setspeaker cat_cello*
 	*setcam setpos 96.703232 3121.722656 70.780922;setang 8.500900 -172.307480 0.000000*
 	okay i'll be real with you.%%% much like sausage,% politics,% and 
-	legacy codebases,%%*setskin cat_cello 0* you're gonna be way happier not knowing.
+	legacy codebases,%%*CELLO_NEUTRAL* you're gonna be way happier not knowing.
 	player:
 	&r2a1:
 		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
@@ -191,8 +191,8 @@ r2a1:
 	
 r2a2:
 	*setanim cat_cello gesture_laugh 1 idle*
-	*setskin cat_cello 1*
-	start there and think bigger,%% if you drank a whole glass.%%%*setskin cat_cello 0*
+	*CELLO_GRIN*
+	start there and think bigger,%% if you drank a whole glass.%%%*CELLO_NEUTRAL*
 	one sip should be a little more manageable.
 
 	maybe.

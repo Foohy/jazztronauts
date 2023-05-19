@@ -27,7 +27,7 @@ begin:
 	
 b1:
 	*setspeaker cat_cello*
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_agree 1 idle*
 	*setcam setpos -1464.040039 2978.969971 49.714104;setang 4.215045 -69.891418 0.000000*
 	in summary, when Meat Loaf sings about %%'that'%% in I Would Do Anything 
@@ -36,15 +36,15 @@ b1:
 	
 b1b:
 	-it should be readily apparent that he's referring to a set of statements 
-	that amount to being a callous or unfaithful lover,%*setskin cat_cello 2* you fool.%%%%*setanim cat_cello gesture_disagree 1 idle*
+	that amount to being a callous or unfaithful lover,%*CELLO_MAD* you fool.%%%%*setanim cat_cello gesture_disagree 1 idle*
 	you imbecile.%%% you great ambulatory chode.
 	&b2
 	
 b2:
 	*setspeaker cat_piano*
-	*setskin cat_piano 2*
+	*PIANO_ANGRY*
 	*setanim cat_piano gesture_anger 2*
-	That's fascinating,%%%*setskin cat_piano 0* Cellist,%% but oh*setposang cat_piano setpos -1492.101563 2928.706543 0;setang -90 50 0.000000* HEY *player* 
+	That's fascinating,%%%*PIANO_NEUTRAL* Cellist,%% but oh*setposang cat_piano setpos -1492.101563 2928.706543 0;setang -90 50 0.000000* HEY *player* 
 	wants to talk to you,%*setcam setpos -1332.465942 2897.346680 78.478058;setang 5.066889 141.036346 0.000000*%*setanim cat_piano gesture_embarass 2 idle* and man,% 
 	I'm really into this conversation,*setanim cat_piano gesture_shock 1.3 idle* but I'd hate to be so rude as 
 	to take up all your time, so...
@@ -52,7 +52,7 @@ b2:
 	
 b3:
 	*setcam setpos -1302.162842 3144.007813 74.543724;setang 6.131691 -151.295532 0.000000*
-	*setskin cat_piano 1*
+	*PIANO_SMIRK*
 	*setspeaker narrator*
 	> The Pianist notices you gawking and senses her chance to escape.
 	player:
@@ -70,7 +70,7 @@ b4:
 	*setspeaker cat_piano*
 	*setanim cat_piano gesture_disagree 1 idle*
 	No need to thank me I'll be sure to petition Congress for 
-	a posthumous Medal of Honor,%%*setskin cat_piano 0*
+	a posthumous Medal of Honor,%%*PIANO_NEUTRAL*
 	now if you'll excuse me -
 	&b5
 	
@@ -79,7 +79,7 @@ b5:
 	*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 48 0.000000*
 	*setspeaker narrator*
 	> The Pianist sprints out of the room past you,% 
-	leaving you and The Cellist.%%%*setskin cat_cello 1* He watches her run off 
+	leaving you and The Cellist.%%%*CELLO_GRIN* He watches her run off 
 	with a stoned,% smug smile before turning to look at you.
 	player:
 	&r1a1:
@@ -105,7 +105,7 @@ r1a1:
 	*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 81 0.000000*
 	*setposang player setpos -1496.223877 2928.228027 0;setang 5.971942 -7.068141 0.000000*
 	*setspeaker cat_cello*
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_confused 1 idle*
 	did anyone ever tell you that michelangelo's 
 	david is made of garbage
@@ -117,7 +117,7 @@ mikeyboy:
 	*wait 1*
 	*show .1*
 	*setanim cat_cello gesture_agree 1 idle*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 	it's true look it up i'll wait
 	&r1a2
@@ -133,7 +133,7 @@ r1a2:
 	
 r1a3:
 	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_shrug 1 idle*
 	there's something profound to say in there somewhere 
 	but i am too inebriated to bother trying.
@@ -141,7 +141,7 @@ r1a3:
 	
 r1a4:
 	*setcam setpos -1615.278809 3269.499023 156.285583;setang 16.726448 -68.347870 0.000000*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_agree 1 idle*
 	michelangelo did way more interesting things than a jumbo size statue 
 	of a dude with big hands and a wee bepis though,%*setcam setpos -1534.614624 3062.087891 57.589897;setang 13.052918 -61.852760 0.000000*%*setanim cat_cello gesture_sweep 1 idle* like that time he 
@@ -165,14 +165,14 @@ r1a4:
 owntheplayer:
 	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 	*setspeaker cat_cello*
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_foldarms 1 idle*
 	> The Cellist looks smug.
 	&own1
 	
 own1:
 	*setanim cat_cello gesture_laugh 1 idle*
-	haha you were just picking one of those options*setskin cat_cello 0* at 
+	haha you were just picking one of those options*CELLO_NEUTRAL* at 
 	random and hoping you were right weren't you
 	&own2
 	
@@ -188,7 +188,7 @@ own2:
 ###### ACTUAL ANSWER
 actualanswer:
 	*setanim cat_cello gesture_shock 1 idle*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setspeaker cat_cello*
 	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 	> The Cellist raises an eyebrow.
@@ -203,7 +203,7 @@ actual1:
 ###### YEAH FAIR ENOUGH DUDE
 fairenough:
 	*setanim cat_cello gesture_sigh 1 idle*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setspeaker cat_cello*
 	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 	y'know what thank you,%% it's refreshing to have someone just fucking say 
@@ -213,7 +213,7 @@ fairenough:
 	
 fair1:
 	*setanim cat_cello gesture_laugh 1 idle*
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	said the gigantic hypocritical asshole of course%%%
 	but hey% pobody's nerfect
 	&m1
@@ -222,7 +222,7 @@ fair1:
 ###### MERGE POINT
 m1:
 	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_sweep .5 idle*
 	so anyone who's so much as seen a single meme knows what the big 
@@ -263,17 +263,17 @@ m5:
 	
 m5b:
 	*setspeaker narrator*
-	> The Cellist hits the blunt he's holding.*setskin cat_cello 3*
+	> The Cellist hits the blunt he's holding.*CELLO_HIGH*
 	&m6
 	
 m6:
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setspeaker cat_cello*
 	*setcam setpos -1528.275269 3026.799561 33.071369;setang -3.078806 -63.077377 0.000000* ###### CELLO AND PLAYER
 	*setanim cat_cello gesture_sweep 1 idle*
 	see this dude biagio da cesena,%% the emcee for the pope*setanim cat_cello gesture_agree 1 idle* (which may be 
 	the best job title to ever put on your resume),%%% saw that mike painted
-	everybody's immortal souls as naked*setskin cat_cello 2* people and got*setanim cat_cello gesture_shrug 1 idle* 
+	everybody's immortal souls as naked*CELLO_MAD* people and got*setanim cat_cello gesture_shrug 1 idle* 
 	his jorts in a twist over it
 	&m7
 	
@@ -281,12 +281,12 @@ m7:
 	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 	*setanim cat_cello gesture_sweep 1 idle*
 	said it was the sort of thing that belonged in bathhouses and 
-	taverns rather than a church,%%%*setskin cat_cello 0* which reads like a 
+	taverns rather than a church,%%%*CELLO_NEUTRAL* which reads like a 
 	ringing endorsement to me% but what do i know
 	&m8
 	
 m8:
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_laugh 1 idle*
 	in reponse mike painted him in as the pagan judge of the dead,%% 
 	gave him donkey ears to show he was a dumb jackass,%%%*setanim cat_cello gesture_clap 1 idle* and 
@@ -320,18 +320,18 @@ r3a1:
 
 ###### BRANCH 4: I JUST WANTED AN EXCUSE TO CALL HIM BIGGIE
 r4a1:
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_shrug 1 idle*
-	well biggie bitched at the pope about it%% but the pope roasted*setskin cat_cello 1* 
+	well biggie bitched at the pope about it%% but the pope roasted*CELLO_GRIN* 
 	his nuts by saying he didn't have the jurisdiction*setanim cat_cello gesture_laugh 1 idle* 
 	to bail souls out of hell so he'd have to 
 	stay there in the painting
 	&r4a2
 	
 r4a2:
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	*setanim cat_cello gesture_disagree 1 idle*
 	they painted clothes on everybody after mike 
 	bit it though because they were cowards
@@ -341,7 +341,7 @@ r4a2:
 ###### BRANCH 5: HOT TAKES ON PRUDES AND NUDES
 r5a1:
 	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_sweep 1 idle*
 	well you need to understand that for a very long period of time 
@@ -351,10 +351,10 @@ r5a1:
 	
 r5a2:
 	*setcam setpos -1396.545410 3003.127686 36.095726;setang -5.714046 -126.539261 0.000000*
-	*setskin cat_cello 4*
+	*CELLO_BLINK*
 	*setanim cat_cello gesture_foldarms .75 idle*
 	'nude' referred to people imitating the greco-roman style of 
-	the idealized human form presented*setskin cat_cello 0* without clothing for its 
+	the idealized human form presented*CELLO_NEUTRAL* without clothing for its 
 	aesthetic value,%% while 'naked' referred to actually portraying a 
 	real person like they were anything but a controlled object
 	&r5a3
@@ -363,14 +363,14 @@ r5a3:
 	*setanim cat_cello gesture_shrug 1 idle*
 	it thus was seen as a terrible horrible no good very bad thing that had 
 	nothing to do with the fact that it was usually done as a direct critique 
-	of contemporary art and society,%%*setcam setpos -1444.636963 2919.147705 50.134186;setang 6.610850 -5.737509 0.000000*%*setskin cat_cello 1* or that it gave a lot of people 
+	of contemporary art and society,%%*setcam setpos -1444.636963 2919.147705 50.134186;setang 6.610850 -5.737509 0.000000*%*CELLO_GRIN* or that it gave a lot of people 
 	shameful boners.
 	&n1
 	
 ###### MERGE POINT 2
 n1:
 	*setcam setpos -1528.275269 3026.799561 33.071369;setang -3.078806 -63.077377 0.000000* ###### CELLO AND PLAYER
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_laugh 1 idle*
 	art is always most interesting when it's basically just extremely elaborate
@@ -380,11 +380,11 @@ n1:
 	&n2
 
 n2:
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_confused 1 idle*
 	the more elaborate and uptight and demanding a creative form is the 
 	more fun it is when someone uses those rules to make a gigantic 
-	middle finger to gatekeeping pricks.%%%%*setskin cat_cello 0*
+	middle finger to gatekeeping pricks.%%%%*CELLO_NEUTRAL*
 	or just throws a brick through their window.%%%% both work.
 	&n3
 	

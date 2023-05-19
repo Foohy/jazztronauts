@@ -17,7 +17,7 @@ begin:
 
 
     *setfov 70*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setposang player setpos -2012.907837 2954.654785 16;setang 0 30 0.000000*
 	*setanim player sit*
 	*txin*
@@ -32,7 +32,7 @@ a1:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_shrug 1 idle*
-	*setskin cat_piano 1*
+	*PIANO_SMIRK*
     Gee.%%% I wonder if someone in this room is excited about trash night.
     &a2
 
@@ -40,13 +40,13 @@ a2:
 	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_agree 1.5 idle*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
     > The Singer nods enthusiastically.
     &a3
 
 a3:
     *setspeaker cat_piano*
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
     I know you are.%*setanim cat_piano gesture_facepalm 1 idle*%%% That's why I said it with that tone of voice.%%%*setanim cat_piano gesture_disagree 1 idle* 
     I wasn't actually aski-
     &a4b
@@ -56,29 +56,29 @@ a4b:
 	*setposang cat_bar setpos -2021.996704 2994.898438 0;setang -90 260 0.000000*
 	*setspeaker narrator*
 	*setanim cat_piano gesture_shock 1 idle*
-	> The VCR makes a loud ka-CHUNK sound.%%*setskin cat_piano 3*
+	> The VCR makes a loud ka-CHUNK sound.%%*PIANO_FLUSTERED*
     &a4
 
 a4:
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
     *setspeaker cat_bar*
 	*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000* ####### PLAYER AND BAR
-	*setskin cat_bar 1*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_clap 1 idle*
-    Ah,%% there we go.%%%% Fully rewound!%%*setskin cat_bar 0* Let's see what this tape has on it.
+    Ah,%% there we go.%%%% Fully rewound!%%*BAR_NEUTRAL* Let's see what this tape has on it.
     &a5
 
 a5:
 	*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
     *setspeaker cat_cello*
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_sweep 1 idle*
     personally i hope some brave hero is about to instruct my sorry ass 
     on proper stone-cutting technique or some shit
     &a6
 
 a6:
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_agree 1 idle*
     We should be so lucky.
@@ -86,7 +86,7 @@ a6:
 
 a7:
     *setspeaker cat_cello*
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	*setanim cat_cello gesture_shrug 1 idle*
     listen so long as it isn't yet another mother fucking tae bo tape 
     i'll be happy
@@ -95,7 +95,7 @@ a7:
 a8:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker cat_singer*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setanim cat_singer gesture_exchange 1.8 idle*
     > The Singer points excitedly at the screen!
     &a9
@@ -108,14 +108,14 @@ a9:
     &a10
 
 a10:
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
     *setspeaker cat_cello*
 	*setanim cat_cello gesture_shock 1.3 idle*
     no fucking way
     &a11
 
 a11:
-	*setskin cat_piano 1*
+	*PIANO_SMIRK*
 	*setanim cat_piano gesture_agree 1 idle*
     *setspeaker cat_piano*
     Holy shit.
@@ -129,7 +129,7 @@ a12:
 
 a13:
     *setspeaker cat_bar*
-	*setskin cat_bar 4*
+	*BAR_BLINK*
 	*setanim cat_bar gesture_foldarms 1 idle*
     This will be interesting,%%%% if nothing else.
     player:
@@ -186,7 +186,7 @@ b2a:
 #### BRANCH 3 (EARLY EXIT)
 branch3:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUPs
-	*setskin cat_piano gesture_agree 1 idle*
+	*setanim cat_piano gesture_agree 1 idle*
     *setspeaker cat_piano*
     Yeah that's probably smarter than staying here.%%% You should leave 
     before we turn feral.
@@ -209,7 +209,7 @@ c1:
 c2:
 	*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
     *setspeaker cat_cello*
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	*setanim cat_cello gesture_jab 1 idle*
     fucks sake are we sure this is a cannon films movie cause by now in 
     most of these someone's*setanim cat_cello gesture_shrug 1 idle* gained ten pounds from all the bullets they've 
@@ -219,11 +219,11 @@ c2:
 c3:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
-	*setskin cat_cello 1*
-	*setskin cat_piano 1*
-	*setskin cat_bar 3*
-	*setskin cat_singer 1*
-    > Suddenly,%%% a Ninja appears*setskin cat_bar 1* behind a middle-aged businessman 
+	*CELLO_GRIN*
+	*PIANO_SMIRK*
+	*BAR_SURPRISE*
+	*SINGER_HAPPY*
+    > Suddenly,%%% a Ninja appears*BAR_HAPPY* behind a middle-aged businessman 
 	attempting to pitch out of the sandtrap on the 9th hole.%%%% 
 	This has taken a turn.
     &c4
@@ -246,19 +246,19 @@ c5:
 c6:
 	*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
     *setspeaker cat_cello*
-	*setskin cat_cello 4*
+	*CELLO_BLINK*
 	*setanim cat_cello gesture_agree .65 idle*
     i would like to formally rescind my complaint and personally thank the 
-    inventors of cocaine for*setskin cat_cello 0* everything i am seeing 
+    inventors of cocaine for*CELLO_NEUTRAL* everything i am seeing 
 	with my eyeballs right now
     &c7
 
 c7:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
-	*setskin cat_cello 0*
-	*setskin cat_piano 0*
-	*setskin cat_bar 0*
-	*setskin cat_singer 0*
+	*CELLO_NEUTRAL*
+	*PIANO_NEUTRAL*
+	*BAR_NEUTRAL*
+	*SINGER_NEUTRAL*
     *setspeaker narrator*
     > The%.%.%.%%% golf police?%%%% Seem to be after the Ninja now.%% Which is fair.%%%
     He straight up murders one of them with a shuriken,% and the other 
@@ -267,11 +267,11 @@ c7:
 
     [cats all switch to their HOLY SHIT faces at once]
 c8:
-	*setskin cat_cello 3*
-	*setskin cat_piano 2*
-	*setskin cat_bar 3*
-	*setskin cat_singer 3*
-    > %.%.%.%Holy shit,%*setskin cat_piano 1*%% the Ninja whipped out a blowpipe and shot a dart into the 
+	*CELLO_HIGH*
+	*PIANO_ANGRY*
+	*BAR_SURPRISE*
+	*SINGER_MISCHIEF*
+    > %.%.%.%Holy shit,%*PIANO_SMIRK*%% the Ninja whipped out a blowpipe and shot a dart into the 
     barrel of the cop's gun as he fired,%% making it explode.
     &c9
 
@@ -292,10 +292,10 @@ c10:
 	*txout*
 	*wait .1*
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
-	*setskin cat_cello 1*
-	*setskin cat_piano 1*
-	*setskin cat_bar 1*
-	*setskin cat_singer 1*
+	*CELLO_GRIN*
+	*PIANO_SMIRK*
+	*BAR_HAPPY*
+	*SINGER_HAPPY*
 	*txin*
 	*show*
     *setspeaker narrator*
@@ -306,14 +306,14 @@ c10:
 c11:
 	*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000* ####### PLAYER AND BAR
 	*setanim cat_bar gesture_foldarms 1 idle*
-	*setskin cat_bar 4*
+	*BAR_BLINK*
     *setspeaker cat_bar*
     Ah,%% this reminds me of the good old days.
     &c12
 
 c12:
     *setspeaker narrator*
-	*setskin cat_bar 0*
+	*BAR_NEUTRAL*
     > %.%.%.%The Bartender seems to be talking about how the Ninja is currently 
 	in a high-speed police chase,% and is on top of a police cruiser.%%% 
 	He's pulling out his katana%.%.%.%
@@ -322,9 +322,9 @@ c12:
 c13:
 	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
     *setspeaker cat_piano*
-	*setskin cat_piano 2*
+	*PIANO_ANGRY*
 	*setanim cat_piano gesture_jab 1 idle*
-    Man c'mon I know*setskin cat_piano 0* where he's going with this but that thing ain't gonna-
+    Man c'mon I know*PIANO_NEUTRAL* where he's going with this but that thing ain't gonna-
     &c14
 
 c14:
@@ -344,7 +344,7 @@ c15:
 c16:
 	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
     *setspeaker cat_piano*
-	*setskin cat_piano 2*
+	*PIANO_ANGRY*
 	*setanim cat_piano gesture_anger 2.2 idle*
     Oh come the fuck on,% there's no*setanim cat_piano gesture_disagree 1 idle* way that this guy could puncture the 
 	steel of a police car chassis,%%*setanim cat_piano gesture_confused 1 idle* right?%%% 
@@ -353,7 +353,7 @@ c16:
 
 c17:
     *setspeaker cat_singer*
-	*setskin cat_singer 3*
+	*SINGER_MISCHIEF*
 	*setanim cat_signer gesture_exchange 2 idle*
     > The Singer has their tablet in their lap,%% with a txt doc that just says 
     'FUCK THE POLICE' on it.%%%% 72pt font,% looks like Impact.%%% Guess they're 
@@ -369,7 +369,7 @@ c18:
 	*hide*
 	*txout*
 	*wait .1*
-    *setskin cat_piano 1*
+    *PIANO_SMIRK*
     *setspeaker narrator*
 	*txin*
 	*show*
@@ -381,7 +381,7 @@ c18:
 c19:
 	*setcam setpos -1923.104980 2947.054443 44.383396;setang 3.177165 166.574677 0.000000* ####### PLAYER AND BAR
     *setspeaker cat_bar*
-    Well now.% I'm sure this is all this movie had.%%%%*setanim cat_bar gesture_confused 1 idle* Rather*setskin cat_bar 1* good though,% 
+    Well now.% I'm sure this is all this movie had.%%%%*setanim cat_bar gesture_confused 1 idle* Rather*BAR_HAPPY* good though,% 
     wouldn't you agree?
     &c20
 
@@ -402,7 +402,7 @@ c21:
 
 c22:
 	*setcam setpos -1965.221069 2973.723145 66.755920;setang 13.665466 -79.118851 0.000000* ###### CELLO AND PIANO
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_agree 1 idle*
     *setspeaker cat_cello*
     yeah i'm pretty sure that's how that works
@@ -417,7 +417,7 @@ c24:
     &c25
 
 c25:
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_shock 1 idle*
     *setspeaker cat_piano*
     Damn,% that's a hardcore ninja dude.%%%*setanim cat_piano gesture_agree 1 idle* Respect.%%%% 
@@ -426,10 +426,10 @@ c25:
 
 c27:
     *setspeaker cat_cello*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_exchange 1 idle*
     yo holy shit what if they made a movie where it was like a bloodthirsty 
-    ninja but fuckin get this what if*setskin cat_cello 1* it was dracula and dracula's a ninja now
+    ninja but fuckin get this what if*CELLO_GRIN* it was dracula and dracula's a ninja now
     &c28
 
 c28:

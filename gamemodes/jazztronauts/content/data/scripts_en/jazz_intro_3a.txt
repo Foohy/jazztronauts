@@ -26,8 +26,8 @@ begin2:
 *txin*
 *wait .15*
 *show*
-*setskin cat_bar 1*
-Greetings.%%*setskin cat_bar 0* As you can see,% this place does*setanim cat_bar gesture_sweep 1 idle* not seem to have an exit.%%
+*BAR_HAPPY*
+Greetings.%%*BAR_NEUTRAL* As you can see,% this place does*setanim cat_bar gesture_sweep 1 idle* not seem to have an exit.%%
 While I'm sure you can leave through whatever way you came in,%%
 we prefer a different method of travel.
 &begin3
@@ -37,13 +37,13 @@ begin3:
 	> The talking cat gestures behind themselves to the
 	trolley idling in the tunnel.%%
 	
-	> The*setskin cat_cello 1* fashion disaster cat is leaning out of the window.
+	> The*CELLO_GRIN* fashion disaster cat is leaning out of the window.
 	&begin4
 	
 begin4:
 	*setspeaker cat_cello*
 	*setcam setpos -13110.795898 -2601.063232 1075.550293;setang 6.508560 -90.737846 0.000000*
-	we have*setanim cat_cello gesture_clap 1 idle* such% sights% to show you*setskin cat_cello 0*
+	we have*setanim cat_cello gesture_clap 1 idle* such% sights% to show you*CELLO_NEUTRAL*
 	&begin5
 	
 begin5:
@@ -51,7 +51,7 @@ begin5:
 	*setcam setpos -13109.759766 -2500.667969 1047.233032;setang 5.670034 -70.822716 0.000000*
 	We*setanim cat_bar gesture_agree 1 idle* certainly do!%% Our offer is simple\:%% 
 	you may come with us back to our abode,% and entertain a job offer 
-	from our cohort.%% If you aren't interested upon hearing it, %you'll be free to go.*setskin cat_bar 1*%%*setanim cat_bar gesture_confused 1 idle* 
+	from our cohort.%% If you aren't interested upon hearing it, %you'll be free to go.*BAR_HAPPY*%%*setanim cat_bar gesture_confused 1 idle* 
 	%Are you willing to hear us out?
 	&hotfix
 	
@@ -63,7 +63,7 @@ hotfix:
 m1:
 	*setspeaker cat_bar*
 	*setanim cat_bar gesture_clap 1 idle*
-	Excellent!%%%*setskin cat_bar 0* Climb aboard our trolley,% and take a seat wherever you like.
+	Excellent!%%%*BAR_NEUTRAL* Climb aboard our trolley,% and take a seat wherever you like.
 		&m2
 
 m2:
@@ -79,20 +79,20 @@ m2:
 *wait .15*
 *show*
 	You'll want to fasten yourself securely in your seat and brace yourself.%% 
-	The first few trips through the Void can be*setskin cat_bar 4*%.%.%.%
-	*setskin cat_bar 1*...disorienting.
+	The first few trips through the Void can be*BAR_BLINK*%.%.%.%
+	*BAR_HAPPY*...disorienting.
 	&m3
 	
 m3:
 *setspeaker player*
-*setskin cat_bar 0*
+*BAR_NEUTRAL*
 Wait,% what?%% 
 What do you mean by the Void-?
 &m4
 
 m4:
 *setspeaker cat_cello*
-*setskin cat_cello 1*
+*CELLO_GRIN*
 dont worry about it%
 HIT IT, PIPES
 &exit

@@ -177,7 +177,7 @@ t1:
 	*setposang cat_cello setpos 7100.476563 -47.465294 3628;setang -90 90 0.000000*
 	*setposang cat_bar setpos 7183.148438 -33.720730 3628;setang -90 90 0.000000*
 	*wait 4*
-	*setskin cat_piano 2*
+	*PIANO_ANGRY*
 	*setanim cat_piano gesture_anger 2 idle*
     *setspeaker cat_piano*
 	*show*
@@ -187,7 +187,7 @@ t1:
     &t2
 
 t2:
-	*setskin cat_cello 2*
+	*CELLO_MAD*
     *setspeaker cat_cello*
 	*setcam setpos 7147.498047 -85.310432 3686.143799;setang 8.021998 147.744354 0.000000*
 	*setanim cat_cello gesture_disagree 1.5 idle*
@@ -196,7 +196,7 @@ t2:
     &t3
 
 t3:
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
     *setspeaker cat_piano*
 	*setcam setpos 6986.671387 -191.368927 3644.737549;setang -13.753159 13.206947 0.000000*
 	*setanim cat_piano gesture_shock 1.6 idle*
@@ -225,7 +225,7 @@ t4:
     &t4b
 	
 t4b:
-	*setskin cat_bar 2*
+	*BAR_PISSED*
 	*setspeaker cat_bar*
 	*emitsound ambient/atmosphere/terrain_rumble1.wav .45 .7*
 	You okay, *player*? Here, sit dow-*emitsound ambient/atmosphere/terrain_rumble1.wav .58 .8*
@@ -272,7 +272,7 @@ t9:
 	&t9b
 	
 t9b:
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	*setspeaker cat_cello*
 	funny how the sweet embrace of the void suddenly
         gets way fucking scarier as a concept when you
@@ -385,11 +385,11 @@ t19:
 t20:
         *setspeaker cat_bar*
 	*setanim cat_bar gesture_laugh 1.5*
-        I think you mean a%%*setskin cat_bar 1* pu%r%r%suer.
+        I think you mean a%%*BAR_HAPPY* pu%r%r%suer.
     &t21
 
 t21:
-	*setskin cat_cello 2*
+	*CELLO_MAD*
         *setspeaker cat_cello*
 	*setanim cat_cello gesture_disagree 1 idle*
         oh my god fuck you now is not the time for-
@@ -404,7 +404,7 @@ Waves. Turns around and starts walking back. Change view back to interior of tro
 
 t22:
 	
-	*setskin cat_cello 2*
+	*CELLO_MAD*
         *setspeaker cat_cello*
         what
     &t23
@@ -436,15 +436,15 @@ t25:
 	*setposang cat_singer setpos 1719.199829 548.411377 -1896;setang -90 270 0.000000*
 	*setposang cat_piano setpos 1727.565186 600.578552 -1896;setang -90 225 0.000000*
 	*setposang cat_bar setpos 1818.573975 535.002563 -1896;setang -90 90 0.000000*
-	*setskin cat_bar 1*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_confused .85 idle*
-        Now,%%%*setskin cat_bar 0* is everyone alright?%%% All limbs intact? 
+        Now,%%%*BAR_NEUTRAL* is everyone alright?%%% All limbs intact? 
      &t26
 
 [fade to black]
 
 t26:
-	*setskin cat_bar 1*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_clap 1 idle*
         Well, that was existentially horrifying and I’d 
         like to not think about it for a few hours, so I 
@@ -453,8 +453,8 @@ t26:
 
 t27:
 	*setcam setpos 1790.002930 575.927551 -1850.974731;setang 4.987455 177.390213 0.000000*
-	*setskin cat_bar 0*
-	*setskin cat_piano 1*
+	*BAR_NEUTRAL*
+	*PIANO_SMIRK*
         *setspeaker cat_piano*
 	*setanim cat_piano gesture_laugh 1 idle*
         It’s not often something scares the shit out of me,%% so,%%% yes a 
@@ -464,7 +464,7 @@ t27:
 [cut to The Cellist with a smear of white powder under his nose, with his pupils expanded to fill almost the entire white of his eyes]
 
 t29:
-	*setskin cat_cello 3*
+	*CELLO_HIGH*
         *setspeaker cat_cello*
 	*setcam setpos 1771.005737 526.512756 -1850.544189;setang -4.382786 -155.031708 0.000000*
 	*setanim cat_cello gesture_confused 1 idle*
@@ -476,7 +476,7 @@ t29:
 [Cut to player model for Judging Silence]
 
 t30:
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
         look i will make an attempt to stick to standard and known forms 
         of mind altering substances and do no more than fifty (50) doses 
         in a day but i’m gonna be real me and sobriety are gonna have to 
@@ -583,7 +583,7 @@ t40:
 r1:
 	*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
     *setspeaker cat_bar*
-	*setskin cat_bar 4*
+	*BAR_BLINK*
 	*setanim cat_bar gesture_foldarms 1 idle*
     I understand. Neither can I.
      &r1a
@@ -626,14 +626,14 @@ r2e:
 r2:
 	*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
 	*setspeaker cat_bar*
-	*setskin cat_bar 0*
+	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_agree 1 idle*
     Oh my,% yes.%%% Every day.%% Look around you. 
     &r2a
 
      [Pan around party, return]
 r2a:
-	*setskin cat_bar 1*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_agree 1 idle*
     The Bar Samsara is my opus.%%% I had no true purpose before we built this 
     place around a forgotten tool in the Voidway.%%%%*setanim cat_bar gesture_agree 1 idle* It has honestly changed my 
@@ -641,16 +641,16 @@ r2a:
     &r2b
 
 r2b:
-	*setskin cat_bar 0*
+	*BAR_NEUTRAL*
     We poured our hearts into this place.*setanim cat_bar gesture_agree 1 idle* 
 	I do every time I step behind this bar. 
     &r2c
 
 r2c:
-	*setskin cat_bar 4*
+	*BAR_BLINK*
 	*setanim cat_bar gesture_foldarms 1 idle*
     I often wonder whether I am already in a rut,%% 
-	and simply haven’t noticed yet.%%%%*setskin cat_bar 0*
+	and simply haven’t noticed yet.%%%%*BAR_NEUTRAL*
 	&r2c1
 	
 r2c1:
@@ -659,13 +659,13 @@ r2c1:
     &r2d
 
 r2d:
-	*setskin cat_bar 1*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_clap 1 idle*
      But so long as you are working toward happiness,% no time is wasted. 
      &r2e
 
 r2e:
-	*setskin cat_bar 0*
+	*BAR_NEUTRAL*
     And I am happy. %%%%%*setanim cat_bar gesture_disagree 1 idle*
 	Not all the time,% I have bad days like anyone. 
      &r2f
@@ -676,9 +676,9 @@ r2f:
      &r2g
 
 r2g:
-	*setskin cat_bar 1*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_laugh 1 idle*
-     That,% for me,%% for now,%%%*setskin cat_bar 0* is happiness.%%%%% 
+     That,% for me,%% for now,%%%*BAR_NEUTRAL* is happiness.%%%%% 
 	 And should that change,% I shall seek a different engagement.
      player:
      &r1: I can’t stop thinking about that other cat.
@@ -692,24 +692,24 @@ r2g:
 r3:
 	*setcam setpos 327.828461 628.367981 -1827.825073;setang -1.135153 90.351120 0.000000*
 	*setspeaker cat_bar*
-	*setskin cat_bar 3*
+	*BAR_SURPRISE*
 	*setanim cat_bar gesture_shock 1 idle*
 	*wait .35*
-	*setskin cat_bar 4*
+	*BAR_BLINK*
 	*setanim cat_bar gesture_disagree 1 idle*
-    A host who does not ensure the welfare*setskin cat_bar 0* of her honored guests 
+    A host who does not ensure the welfare*BAR_NEUTRAL* of her honored guests 
     is a poor one indeed. 
     &r3a
 r3a:
-	*setskin cat_bar gesture_shrug 1 idle*
+	*setanim cat_bar gesture_shrug 1 idle*
     More than that,% we’d have been awful friends if we just sat 
     on our paws and stayed home.
      &r3b
 
 r3b:
-	*setskin cat_bar 4*
+	*BAR_BLINK*
 	*setanim cat_bar gesture_foldarms 1 idle*
-    We were united in determination to get you out of there,%*setskin cat_bar 0* 
+    We were united in determination to get you out of there,%*BAR_NEUTRAL* 
     and so, we did.
      player:
      &r1: I can't stop thinking about that other cat.
@@ -723,17 +723,17 @@ t41:
 	*setposang cat_cello setpos 484.166382 474.805298 -1896;setang -90 45 0.000000*
 	*setposang cat_singer setpos 481.753113 522.927368 -1896;setang -90 45 0.000000*
 	*setposang cat_piano setpos 517.119995 530.757996 -1896;setang -90 45 0.000000*
-	*setskin cat_piano 3*
+	*PIANO_FLUSTERED*
      *setspeaker cat_piano*
 	*setanim cat_piano gesture_embarass 1 idle*
      Hey,% we were talking and we want to do something to 
-	 show our appreciation*setskin cat_piano 0* for everything 
+	 show our appreciation*PIANO_NEUTRAL* for everything 
 	 you’ve done.%%% Before you head off. 
      &t42
 
 t42:
      *setspeaker cat_cello*
-	 *setskin cat_cello 0*
+	 *CELLO_NEUTRAL*
 	 *setanim cat_cello gesture_shrug 1 idle*
      yeah everyone’s got their own path to walk and you’re welcome to hang 
      as long as you want but uh%%%%
@@ -744,7 +744,7 @@ t42:
 [The Singer nods sadly.]
 
 t43:
-	*setskin cat_singer 0*
+	*SINGER_NEUTRAL*
      *setspeaker cat_singer*
      > The Singer holds up their tablet\:%% “We’re settling down into this 
      business full time!!!%%% Going legit.%% And thanks to your help with my 
@@ -761,7 +761,7 @@ t44:
     &t45
 
 t45:
-	*setspeaker cat_cellist*
+	*setspeaker cat_cello*
     yeah i'll be real i have legitimately forgotten how to 
     communicate without using sardonic detachment, deep cuts, 
     or thinly veiled cries for help but uh
@@ -773,14 +773,14 @@ t45:
     &t46: I’m gonna miss you, you fuckers.
 
 t46:
-	*setskin cat_piano 1*
+	*PIANO_SMIRK*
     *setspeaker cat_piano*
     Oh, right. I dragged the piano out too.%%% 
 	You down for an impromptu concert, boss?
     &t47
 
 t47:
-	*setskin cat_bar 1*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_clap 1.3 idle*
     *setspeaker cat_bar*
     Nothing would make me happier.

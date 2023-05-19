@@ -219,7 +219,7 @@ t17:
 	*setspeaker narrator*
 	*hide*
 	*setcam setpos 85.541794 3062.095703 58.737503;setang 16.646872 -74.585396 0.000000* ##### SINGER
-	*setskin cat_singer 2*
+	*SINGER_MAD*
 	*wait 1.5*
 	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*show*
@@ -239,7 +239,7 @@ t18:
 t19:
 	*setcam setpos 85.541794 3062.095703 58.737503;setang 16.646872 -74.585396 0.000000* ##### SINGER
 	*setspeaker cat_singer*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setanim cat_singer gesture_clap 1 idle*
 	> The Singer beams.%%%% They take out their tablet and tap out a message\:%%%
 	"THANK YOU SO MUCH IM SO PROUD OF YOU!!!"
@@ -248,7 +248,7 @@ t19:
 t20:
 	*setcam setpos 80.705139 3029.091309 73.167290;setang 1.473466 48.185863 0.000000* ##### PIANO
 	*setspeaker cat_piano*
-	*setskin cat_piano 3*
+	*PIANO_FLUSTERED*
 	*setanim cat_piano gesture_shock 1.3 idle*
 	Uh,% well.%%% Yeah.%%%%
 	Sorry.%%

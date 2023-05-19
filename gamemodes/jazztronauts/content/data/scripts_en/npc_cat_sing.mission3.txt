@@ -15,7 +15,7 @@ a1:
 	&a2
 	
 a2:
-	*setspeaker npc_cat_singer*
+	*setspeaker npc_cat_sing*
 	> The Singer nods so fast their head is nearly a blur.
 	They seem to be putting in a conscious effort to 
 	restrain their bounces.
@@ -35,14 +35,14 @@ a4:
 	&a5
 	
 a5:
-	*setspeaker npc_cat_singer*
+	*setspeaker npc_cat_sing*
 	> The Singer continues nodding. At this rate, they're going to get a 
 	hell of a headache. The Bartender appears to have the same thought 
 	and touches a paw to their shoulder.
 	&a6
 	
 a6:
-	*setspeaker npc_cat_singer*
+	*setspeaker npc_cat_sing*
 	> The Singer stops nodding and instead beams at you. They write up 
 	your mission brief and slide the tablet across the table\:
 	&a7

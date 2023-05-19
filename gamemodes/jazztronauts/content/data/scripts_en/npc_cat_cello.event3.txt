@@ -10,7 +10,7 @@ begin:
 	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos -1591.417236 545.902283 -64;setang -90 216 0.000000*
 	*setposang player setpos -1543.828735 493.394104 -64;setang 0 148.702667 0.000000*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 		*bgmplay sound/jazztronauts/music/events/plumskinzz.mp3 1.0 2.0*
 	*setnpcid cat_cello npc_cat_cello*
 	*txin*
@@ -34,7 +34,7 @@ b2:
 	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
 	*setspeaker narrator*
 	> The Cellist trails off,%% and looks blankly into the distance for a few
-	moment*setskin cat_cello 4*s before*setanim cat_cello gesture_disagree 1.6 idle* snapping out of it.*setskin cat_cello 0*
+	moment*CELLO_BLINK*s before*setanim cat_cello gesture_disagree 1.6 idle* snapping out of it.*CELLO_NEUTRAL*
 	&b3
 	
 b3:
@@ -58,7 +58,7 @@ b3:
 r2a1:
 	*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
 	*setspeaker narrator*
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	*setanim cat_cello gesture_shock 1 idle*
 	> The Cellist looks at you for a long moment,%%%
 	visibly sizing you up, guardedly.
@@ -66,10 +66,10 @@ r2a1:
 	
 r2a2:
 	*setcam setpos -1467.164795 516.950806 -12.841831;setang 3.816079 173.940659 0.000000* ###### CELLO OTS
-	*setskin cat_cello 4*
+	*CELLO_BLINK*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_sigh 1 idle*
-	i appreciate the sentiment,%% but i ain't one for*setskin cat_cello 0* sitting around awkwardly
+	i appreciate the sentiment,%% but i ain't one for*CELLO_NEUTRAL* sitting around awkwardly
 	starin' at somebody.%%%%*setanim cat_cello gesture_shrug 1 idle* you wanna hang out it's gonna be easier for me if
 	we talk,%% capiche?
 	player:
@@ -94,10 +94,10 @@ leave:
 ###### BRANCH 1
 r1a1:
 	*setcam setpos -1467.164795 516.950806 -12.841831;setang 3.816079 173.940659 0.000000* ###### CELLO OTS
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_laugh 1 idle*
-	pfff look at this nerd worrying about my dumb ass.%%%%*setskin cat_cello 0*
+	pfff look at this nerd worrying about my dumb ass.%%%%*CELLO_NEUTRAL*
 	i'm*setanim cat_cello gesture_disagree 1 idle* fine as i ever am,%% s'all good.
 	&m1
 	
@@ -105,18 +105,18 @@ r1a1:
 ###### MERGE POINT
 m1:
 	*setcam setpos -1467.164795 516.950806 -12.841831;setang 3.816079 173.940659 0.000000* ###### CELLO OTS
-	*setskin cat_cello 4*
+	*CELLO_BLINK*
 	*setanim cat_cello gesture_foldarms .85 idle*
 	*setspeaker cat_cello*
-	let's see,%%% what's been on my mind lately%.%.%.%%%*setskin cat_cello 0* i mean,% 
+	let's see,%%% what's been on my mind lately%.%.%.%%%*CELLO_NEUTRAL* i mean,% 
 	aside from the drugs,%% those are a given.
 	&m2
 	
 m2:
 	*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
 	*setspeaker cat_cello*
-	*setskin cat_cello 4*
-	%.%.%.%%%%*setskin cat_cello 0*Caravaggio.
+	*CELLO_BLINK*
+	%.%.%.%%%%*CELLO_NEUTRAL*Caravaggio.
 	&m3
 	
 m3:
@@ -300,10 +300,10 @@ r4a3:
 	
 r4a4:
 	*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
-	*setskin cat_cello 4*
+	*CELLO_BLINK*
 	*setanim cat_cello gesture_foldarms .8 idle*
 	%.%.%.%if you believe in the idea that nobody ever dies until their name's
-	spoken for the last time you gotta wonder what*setskin cat_cello 2* it felt like for 
+	spoken for the last time you gotta wonder what*CELLO_MAD* it felt like for 
 	people like him.%%% what would it feel like in that gap between people
 	calling your name?%%%% what would it be like to come back from there?
 	&n1
@@ -311,7 +311,7 @@ r4a4:
 ###### "oh fuck i got way too real there and i need to bail before this gets awkward"
 n1:
 	*setcam setpos -1435.336670 101.609459 68.159439;setang 18.670031 108.242561 0.000000*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_embarass 1 idle*
 	ehhn.%%% starting to get a sore throat from all this yammering.%%

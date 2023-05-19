@@ -16,14 +16,14 @@ spawngang() # SETUP
 *txin*
 *show .4*
 Still*bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0* no sign of that prop snatcher,% eh?%%%
-*setskin cat_bar 2*Ah well.%%*setskin cat_bar 0* It happens.
+*BAR_PISSED*Ah well.%%*BAR_NEUTRAL* It happens.
 &begin2
 
 begin2:
 *setspeaker cat_piano*
-*setskin cat_piano 4*
+*PIANO_BLINK*
 Yes%, it happens.%%
-And each time*setcam setpos -13561.711914 -2139.091064 1050.501587;setang 4.441590 -96.009224 0.000000* it's The Cellist who loses them.*setskin cat_piano 0*%*setanim cat_piano gesture_facepalm 1 idle*%%
+And each time*setcam setpos -13561.711914 -2139.091064 1050.501587;setang 4.441590 -96.009224 0.000000* it's The Cellist who loses them.*PIANO_NEUTRAL*%*setanim cat_piano gesture_facepalm 1 idle*%%
 I wonder why.
 &begin3
 
@@ -37,14 +37,14 @@ begin3:
 begin4:
 *setspeaker cat_piano*
 *setcam setpos -13571.149414 -2157.019287 1042.542480;setang 9.023558 -135.240448 0.000000*
-*setskin cat_piano 2*That*setanim cat_piano gesture_anger 1 idle* was rhet-
+*PIANO_ANGRY*That*setanim cat_piano gesture_anger 1 idle* was rhet-
 &begin5
 
 begin5:
 *setspeaker narrator*
 *setcam setpos -13609.158203 -1964.928223 1061.693237;setang 9.233204 -80.556320 0.000000*
-> The Pianist pauses.%*setskin cat_piano 0*%*setskin cat_cello 1*% She visibly tries*setskin cat_piano 4* to calm herself
-as The Cellist's grin grows wider%%%,*setskin cat_piano 2* then snaps anyway.
+> The Pianist pauses.%*PIANO_NEUTRAL*%*CELLO_GRIN*% She visibly tries*PIANO_BLINK* to calm herself
+as The Cellist's grin grows wider%%%,*PIANO_ANGRY* then snaps anyway.
 &begin6
 
 begin6:
@@ -52,7 +52,7 @@ begin6:
 *setcam setpos -13571.149414 -2157.019287 1042.542480;setang 9.023558 -135.240448 0.000000*
 *setanim cat_piano gesture_shock 1 idle*
 MAKING JOKES ABOUT BEING THE PROBLEM 
-DOESN'T*setanim cat_piano gesture_anger 1 idle* MAKE YOU NOT THE PROBLEM.%%%%*setskin cat_piano 0*
+DOESN'T*setanim cat_piano gesture_anger 1 idle* MAKE YOU NOT THE PROBLEM.%%%%*PIANO_NEUTRAL*
 If we had five wheels,%% you'd be the sixth.
 &begin7
 
@@ -60,13 +60,13 @@ begin7:
 *setspeaker cat_cello*
 *setcam setpos -13559.854492 -2171.333984 1040.833496;setang -1.757542 -41.924026 0.000000*
 ohhhh hell *setanim cat_cello gesture_laugh 1 idle*yeah some motherfuckers trying to serve up a
-plate of beef carpaccio in my house%%*setskin cat_cello 2*, better*setanim cat_cello gesture_jab 1 idle* saddle up
+plate of beef carpaccio in my house%%*CELLO_MAD*, better*setanim cat_cello gesture_jab 1 idle* saddle up
 cause its about to get real salty in here
 &begin8
 
 begin8:
 *setspeaker cat_cello*
-*setskin cat_cello 0*%hey%% remember that*setanim cat_cello gesture_jab 1 idle* time you accidentally tore a player in
+*CELLO_NEUTRAL*%hey%% remember that*setanim cat_cello gesture_jab 1 idle* time you accidentally tore a player in
 half trying to save them from a combine apc that didnt even
 have player collision enabled
 &begin11
@@ -74,16 +74,16 @@ have player collision enabled
 begin11:
 *setspeaker cat_piano*
 *setcam setpos -13571.149414 -2157.019287 1050.542480;setang 9.023558 -135.240448 0.000000*
-*setskin cat_piano 2*Fuck you%,*setanim cat_piano gesture_anger 1 idle* that doesn't count.%%*setskin cat_piano 0* That happened years ago when
+*PIANO_ANGRY*Fuck you%,*setanim cat_piano gesture_anger 1 idle* that doesn't count.%%*PIANO_NEUTRAL* That happened years ago when
 we had barely*setanim cat_piano gesture_shrug 1 idle* any idea how this shitty game engine works.
 &begin12
 
 begin12:
 *setspeaker cat_cello*
 *setcam setpos -13559.854492 -2171.333984 1040.833496;setang -1.757542 -41.924026 0.000000*
-you*setskin cat_cello 2**setanim cat_cello gesture_exchange 1 idle* tore a dude in half trying to get him out of danger
-he was not in because the cars*setskin cat_cello 0*% were ghosts%%%
-you*setskin cat_cello 1* got*setanim cat_cello gesture_clap 1 idle* spooked by ghost cars
+you*CELLO_MAD**setanim cat_cello gesture_exchange 1 idle* tore a dude in half trying to get him out of danger
+he was not in because the cars*CELLO_NEUTRAL*% were ghosts%%%
+you*CELLO_GRIN* got*setanim cat_cello gesture_clap 1 idle* spooked by ghost cars
 &begin14
 
 begin14:
@@ -96,12 +96,12 @@ lose a guest in fucking% flatgrass.
 begin15:
 *setspeaker cat_cello*
 *setcam setpos -13556.934570 -2136.531006 1054.415039;setang 8.544407 -100.501335 0.000000*
-in*setskin cat_cello 0* my*setanim cat_cello gesture_shrug 1 idle* defense i was sober at the time
+in*CELLO_NEUTRAL* my*setanim cat_cello gesture_shrug 1 idle* defense i was sober at the time
 &begin16
 
 begin16:
 *setspeaker cat_piano*
-*setanim cat_piano gesture_anger 1 idle*Oh*setskin cat_piano 2* mY GOD
+*setanim cat_piano gesture_anger 1 idle*Oh*PIANO_ANGRY* mY GOD
 &begin17
 
 begin17:
@@ -119,8 +119,8 @@ begin19:
 begin20:
 *setspeaker narrator*
 *setcam setpos -13527.917969 -2076.759033 1042.751953;setang 18.037712 51.332397 0.000000*
-> The Singer*setanim cat_singer singer_whistle 1 idle* puts their*setskin cat_singer 1* paw to their mouth*setskin cat_singer 0* and whistles very loudly!%%*setcam setpos -13540.255859 -1953.788574 1055.059326;setang 3.460600 -105.256134 0.000000*
-The two *setanim cat_bar gesture_shock*cats*setskin cat_cello 2**setskin cat_piano 2**setanim cat_piano gesture_shock* stop*setanim cat_cello gesture_shock* arguing immediately and clutch their ears!
+> The Singer*setanim cat_singer singer_whistle 1 idle* puts their*SINGER_HAPPY* paw to their mouth*SINGER_NEUTRAL* and whistles very loudly!%%*setcam setpos -13540.255859 -1953.788574 1055.059326;setang 3.460600 -105.256134 0.000000*
+The two *setanim cat_bar gesture_shock*cats*CELLO_MAD**PIANO_ANGRY**setanim cat_piano gesture_shock* stop*setanim cat_cello gesture_shock* arguing immediately and clutch their ears!
 &begin21
 
 begin21:
@@ -137,14 +137,14 @@ begin22:
 *setposang cat_piano setpos -13656.136719 -2104.135498 1000.031250;setang -90 20.847992 0.000000*
 *setposang cat_singer setpos -13546.133789 -2053.541260 1000.031250;setang -90 33.252113 0.000000*
 *setcam setpos -13634.369141 -1805.863525 1055.647705;setang 2.375210 -82.293320 0.000000*
-*setanim cat_singer gesture_jab 1 idle*> The Singer*setskin cat_piano 0* points*setskin cat_cello 0* frantically*setskin cat_bar 0* in*setskin cat_singer 0* your direction!
+*setanim cat_singer gesture_jab 1 idle*> The Singer*PIANO_NEUTRAL* points*CELLO_NEUTRAL* frantically*BAR_NEUTRAL* in*SINGER_NEUTRAL* your direction!
 %%%
 You've definitely been spotted!
 &begin23
 
 begin23:
 *setspeaker cat_bar*
-Ah.*setanim cat_bar gesture_clap 1 idle*% Would*setskin cat_bar 1* you look at what we have here? *setcam setpos -13597.536133 -1903.968750 1056.031250;setang 2.475661 96.035400 0.000000*
+Ah.*setanim cat_bar gesture_clap 1 idle*% Would*BAR_HAPPY* you look at what we have here? *setcam setpos -13597.536133 -1903.968750 1056.031250;setang 2.475661 96.035400 0.000000*
 &begin24
 
 begin24:
@@ -155,19 +155,19 @@ Guests!
 begin25:
 *setspeaker cat_piano*
 *setcam setpos -13721.875000 -2032.966309 1048.535278;setang 6.028872 -51.775673 0.000000*
-Or competition.%%*setskin cat_piano 1*% You want me to...?
+Or competition.%%*PIANO_SMIRK*% You want me to...?
 &begin26
 
 begin26:
 *setspeaker cat_bar*
-No,%*setanim cat_bar gesture_disagree 1 idle* no%*setskin cat_bar 0* I've a better idea.%*setanim cat_bar gesture_jab 1 idle*% You there!%% Through the window!%%
+No,%*setanim cat_bar gesture_disagree 1 idle* no%*BAR_NEUTRAL* I've a better idea.%*setanim cat_bar gesture_jab 1 idle*% You there!%% Through the window!%%
 We've a proposition to make.%%%*setcam setpos -13634.369141 -1805.863525 1055.647705;setang 2.375210 -82.293320 0.000000* The end of these tunnels is just*setanim cat_bar gesture_sweep 1 idle* 
-a little ways ahead -% if you'll meet us there,%*setskin cat_bar 1* we'll give you the details.
+a little ways ahead -% if you'll meet us there,%*BAR_HAPPY* we'll give you the details.
 &begin27
 
 begin27:
 *setspeaker narrator*
-> The*setskin cat_bar 0* Bartender turns*tweencam 3 setpos -13591.134766 -1879.317261 1049.972168;setang 3.453386 99.459183 0.000000* and walks out of view%, 
+> The*BAR_NEUTRAL* Bartender turns*tweencam 3 setpos -13591.134766 -1879.317261 1049.972168;setang 3.453386 99.459183 0.000000* and walks out of view%, 
 the other cats follow after with only a moment's confusion.%%%
 
 Well, that was weird.%%% Might as well hear what they have to say,% though.%%

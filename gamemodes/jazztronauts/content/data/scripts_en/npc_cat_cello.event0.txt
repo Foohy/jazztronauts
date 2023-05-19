@@ -28,7 +28,7 @@ b1:
 	&b2
 	
 b2:
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_cello idle*
 	*setposang cat_cello setpos -680.394653 3805.560303 0;setang -90 150 0.000000*
 	*setcam setpos -733.464111 3644.593994 56.454197;setang 3.220997 72.641579 0.000000*
@@ -38,7 +38,7 @@ b2:
 	&b3
 	
 b3:
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setcam setpos -693.533020 3730.060791 20.466173;setang -8.704757 71.390320 0.000000*
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_shrug 1 idle*
@@ -50,7 +50,7 @@ b3:
 	
 b4:
 	*setcam setpos -562.419739 3412.193115 91.602287;setang 8.332038 137.274857 0.000000*
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	*setanim cat_cello gesture_shrug 1 idle*
 	i suppose the adrenaline and endorphins secondary to getting
 	tempered glass acupuncture of the face counted as getting high
@@ -103,18 +103,18 @@ r2a1:
 	&r2a2
 	
 r2a2:
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_confused 1 idle*
 	like you know how people who grow up in the middle of nowhere get so
-	bored they end up inventing new pastimes based entirely on saying%%%%%*setskin cat_cello 2*
-	"hey y'all watch this"%%%%*setskin cat_cello 1* before doing something*setanim cat_cello gesture_shrug 1 idle* that voids the 
+	bored they end up inventing new pastimes based entirely on saying%%%%%*CELLO_MAD*
+	"hey y'all watch this"%%%%*CELLO_GRIN* before doing something*setanim cat_cello gesture_shrug 1 idle* that voids the 
 	warranty on their limbs,% organs,% and/or skeleton
 	&r2a3
 	
 r2a3:
 	*setcam setpos -459.987152 3425.966797 86.036774;setang 9.140019 142.270187 0.000000*
 	*setanim cat_cello gesture_disagree 1 idle*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	they have only taken the first step down that road to enlightenment.%%%
 	i've had a lot more time to practice.
 	&m1
@@ -124,7 +124,7 @@ r2a3:
 m1:
 	*setcam setpos -538.476379 3494.054932 77.769257;setang 7.037041 154.169189 0.000000* ###### PLAYER AND CELLO
 	*setspeaker cat_cello*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_disagree 1 idle*
 	but enough about me and my decidedly singular life choices.%%%%
 	let's talk about you*setanim cat_cello gesture_jab 1 idle* for a bit.%%%% it takes a certain sort of weirdo
@@ -145,7 +145,7 @@ m1:
 exploration:
 	*setcam setpos -685.808289 3578.998047 48.072960;setang 5.759272 45.772549 0.000000* ###### CELLO 3/4
 	*setspeaker cat_cello*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_agree 1 idle*
 	yeah i get that.%%% its fucking wacky how much there is out there right,%% 
 	from whole worlds that are just tiny featureless cubes to somebody
@@ -156,13 +156,13 @@ exploration:
 exp1:
 	*setcam setpos -658.643433 3586.832275 48.883362;setang 1.979193 86.554512 0.000000* ###### CELLO HEADSHOT
 	*setanim cat_cello gesture_laugh 1 idle*
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	sixteen thousand vast and trunkless repos of maps
 	stand in the desert
 	&exp2
 	
 exp2:
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_agree 1 idle*
 	makes you wanna pick that shit apart don't it?%%%*setanim cat_cello gesture_foldarms 1 idle*
 	make like bootleg indiana jones and really get up in them disasterpieces
@@ -188,7 +188,7 @@ exp4:
 ######THE PLAYER WANTS TO GET TO KNOW THE CHARACTERS
 comraderie:
 	*setcam setpos -538.476379 3494.054932 77.769257;setang 7.037041 154.169189 0.000000* ###### PLAYER AND CELLO
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	*setanim cat_cello gesture_disagree 1 idle*
 	*setspeaker cat_cello*
 	yeah% yeah%% pull the other one
@@ -196,7 +196,7 @@ comraderie:
 	
 comrad1:
 	*setcam setpos -658.643433 3586.832275 48.883362;setang 1.979193 86.554512 0.000000* ###### CELLO HEADSHOT
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_shock .75 idle*
 	%.%.%.%%you're serious?%%% huh.%% well in my case there's not much to tell,% really.%%*setanim cat_cello gesture_foldarms .75 idle*
 	i like long walks on the beach after dropping DMT,%% waking up in a 
@@ -206,17 +206,17 @@ comrad1:
 	
 comrad2:
 	*setcam setpos -685.808289 3578.998047 48.072960;setang 5.759272 45.772549 0.000000* ###### CELLO 3/4
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_laugh 1 idle*
-	you'll get to know the rest of the nerds here if you talk to 'em,%%*setskin cat_cello 0* they're 
+	you'll get to know the rest of the nerds here if you talk to 'em,%%*CELLO_NEUTRAL* they're 
 	all starved for company.%%%% The Bartender's always willing to chat but you
-	better enjoy the creeping sensation that you're being*setskin cat_cello 2* fucked*setanim cat_cello gesture_sigh 1 idle* with for
+	better enjoy the creeping sensation that you're being*CELLO_MAD* fucked*setanim cat_cello gesture_sigh 1 idle* with for
 	her amusement 'cause boy howdy
 	&comrad3
 	
 comrad3:
 	*setcam setpos -454.544678 3664.349609 82.258759;setang 8.341365 -150.381134 0.000000*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_sweep 1 idle*
 	the curmudgeonly ivory-tickling one with resting axe murderer face is 
 	The Pianist.%%%*setanim cat_cello gesture_shrug 1 idle* she's fun to fuck with but it's almost too easy these days.%%
@@ -237,17 +237,17 @@ comrad4:
 agoodtime:
 	*setcam setpos -685.808289 3578.998047 48.072960;setang 5.759272 45.772549 0.000000* ###### CELLO 3/4
 	*setspeaker cat_cello*
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_laugh .9 idle*
 	ah,%% naked avarice and gleeful capriciousness.%%%*setanim cat_cello gesture_agree 1 idle* i see you are a person of
-	culture.%%*setskin cat_cello 0* well you're gonna get plenty of*setanim cat_cello gesture_sweep 1 idle* opportunities to scratch both
+	culture.%%*CELLO_NEUTRAL* well you're gonna get plenty of*setanim cat_cello gesture_sweep 1 idle* opportunities to scratch both
 	those itches let me tell you you're gonna be up to your eyeballs in
 	fabulous riches and weird-ass tech
 	&goodtime1
 	
 goodtime1:
 	*setcam setpos -538.476379 3494.054932 77.769257;setang 7.037041 154.169189 0.000000* ###### PLAYER AND CELLO
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_shrug 1 idle*
 	though i am obligated to note the fabulous riches we provide are not
 	recognized as legal tender in any dimension,% plane,% level,% game,% or
@@ -270,7 +270,7 @@ goodtime2:
 	
 goodtime3:
 	*setcam setpos -658.643433 3586.832275 48.883362;setang 1.979193 86.554512 0.000000* ###### CELLO HEADSHOT
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	*setanim cat_cello gesture_disagree 1 idle*
 	as long as you aint a dick and tell people where you got that sweet
 	kit of course. 
@@ -278,7 +278,7 @@ goodtime3:
 	
 goodtime4:
 	*setcam setpos -538.476379 3494.054932 77.769257;setang 7.037041 154.169189 0.000000* ###### PLAYER AND CELLO
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_laugh 1 idle*
 	i'll have you know i have a crack team of legal 
 	ninjas held in cryostasis who are released only to deliver 
@@ -290,7 +290,7 @@ goodtime4:
 n1:
 	*setcam setpos -538.476379 3494.054932 77.769257;setang 7.037041 154.169189 0.000000* ###### PLAYER AND CELLO
 	*setspeaker cat_cello*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_sigh 1 idle*
 	man you've had me talking so long i'm starting to drop off
 	my buzz here gimme a sec to light this
@@ -309,7 +309,7 @@ n2b:
 	
 n3:
 	*setcam setpos -538.476379 3494.054932 77.769257;setang 7.037041 154.169189 0.000000* ###### PLAYER AND CELLO
-	*setskin cat_cello 3*
+	*CELLO_HIGH*
 	*setanim cat_cello gesture_laugh .69 idle*
 	*setspeaker cat_cello*
 	ahh nothing like a good indica to-*setanim cat_cello pose_passedout*

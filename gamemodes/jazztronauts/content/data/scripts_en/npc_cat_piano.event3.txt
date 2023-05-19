@@ -33,7 +33,7 @@ begin:
 b1:
 	*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 	*setspeaker cat_piano*
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_jab 1 idle*
 	You.%%%%
 	
@@ -41,7 +41,7 @@ b1:
 	&b2
 	
 b2:
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_laugh 1 idle*
 	Listen,% *player*.%%% We've been through a lot together. 
 	We've bonded over the acquisition of suspended-animation takeout.%%*setcam setpos -1153.211426 490.722992 -8.163246;setang 10.643499 -147.581436 -0.175000*%*setanim cat_piano gesture_agree 1 idle*
@@ -50,7 +50,7 @@ b2:
 	
 b3:
 	*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
-	*setskin cat_piano 1*
+	*PIANO_SMIRK*
 	*setanim cat_piano gesture_foldarms 1 idle*
 	I know, it's a lot to take in,% but remember to breathe.%%
 	My trust is not lightly bestowed,% but I think you've earned it.%%
@@ -58,11 +58,11 @@ b3:
 	&b4
 	
 b4:
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_sweep 1 idle*
 	So,% we're gonna cement this friendship in an aptly symbolic and
 	appropriate way\:%%%%*setanim cat_piano gesture_laugh 1 idle*
-	W*setskin cat_piano 1*hich is a very fancy and roundabout way of me telling you that we're 
+	W*PIANO_SMIRK*hich is a very fancy and roundabout way of me telling you that we're 
 	gonna steal more shit for me.
 	player:
 	&r1a1:
@@ -83,7 +83,7 @@ b4:
 r1a1:
 	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
 	*setspeaker cat_piano*
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_sigh 1 idle*
 	Well,% piss.%%% I hadn't really planned for that,% but.%%
 	I respect your autonomy,% pal.%% Go be 'rel*setanim cat_piano gesture_shrug 1 idle*iable' or whatever 
@@ -94,17 +94,17 @@ r1a1:
 r2a1:
 	*setcam setpos -1153.211426 490.722992 -10.163246;setang 10.643499 -147.581436 -0.175000*
 	*setspeaker cat_piano*
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_confused 1 idle*
 	> The Pianist stares at you,% head tilted to one side.%%% 
 	You can almost see the wheels turning in her*setanim cat_piano gesture_disagree 1 idle* head before she
-	shakes*setskin cat_piano 1* it and grins.
+	shakes*PIANO_SMIRK* it and grins.
 	&r2a2
 
 r2a2:
 	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
 	*setanim cat_piano gesture_disagree 1 idle*
-	We don't have that kind of relationship,% buddy.%%*setskin cat_piano 0*
+	We don't have that kind of relationship,% buddy.%%*PIANO_NEUTRAL*
 	Our relationship is based on a different kind of give and take.%*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 	The kind where*setanim cat_piano gesture_jab 1 idle* you take shit from other people and give it to me.
 	player:
@@ -121,7 +121,7 @@ r2a2:
 r3a1:
 	*setspeaker cat_piano*
 	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
-	*setskin cat_piano 1*
+	*PIANO_SMIRK*
 	*setanim cat_piano gesture_clap 1 idle*
 	> The Pianist claps her hands together and beams,% 
 	tail lashing in excitement.
@@ -135,7 +135,7 @@ r3a2:
 	&r3a3
 
 r3a3:
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_sweep 1 idle*
 	I'm gonna lift the package myself,% I just need you to be my lookout.%%
 	And our mark is a*setanim cat_piano gesture_shrug 1 idle* fucking moron with no spatial awareness to speak of.%%%
@@ -173,7 +173,7 @@ m3:
 	
 m4:
 	*setspeaker cat_piano*
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_agree 1 idle*
 	Okay.%% Here's the deal.%%%
 	In,% out.% Ten seconds,% tops.%%%%
@@ -182,7 +182,7 @@ m4:
 	&m5
 
 m5:
-	*setskin cat_piano 1*
+	*PIANO_SMIRK*
 	*setanim cat_piano gesture_disagree 1 idle*
 	I know how this motherfucker works.%%*setcam setpos -2858.916504 3892.224121 51.301437;setang 8.394613 74.811508 0.000000* All those high concept,% 
 	probably explosive materials?%%%%
@@ -192,16 +192,16 @@ m5:
 	
 m6:
 	*setspeaker cat_piano*
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	And I want to get.%%
 	
-	Fucked.%%%*setcam setpos -2845.504395 3920.990967 49.013336;setang 0.159046 42.947407 0.000000*%*setskin cat_piano 1* Up.
+	Fucked.%%%*setcam setpos -2845.504395 3920.990967 49.013336;setang 0.159046 42.947407 0.000000*%*PIANO_SMIRK* Up.
 	&m7
 
 m7:
 	*setcam setpos -2862.619141 3833.609863 21.781422;setang -1.518007 84.334892 0.000000*
 	*setspeaker cat_piano*
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_foldarms 1 idle*
 	I don't wanna be able to think for a week and I want to make really 
 	stupid life choices.%%*setanim cat_piano gesture_jab 1 idle* You just watch for him twitching.
@@ -255,7 +255,7 @@ m11:
 *wait .25*
 *show*
 	*setspeaker cat_piano*
-	*setskin cat_piano 1*
+	*PIANO_SMIRK*
 	*setanim cat_piano gesture_laugh 1 idle*
 	We fucking did it.%% We have scored,% the Good Shit.%%%*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 	He knows that*setanim cat_piano gesture_shrug 1 idle* I know he hides the hard stuff,% so, of course, he 
@@ -280,7 +280,7 @@ m13:
 	
 m14:
 	*setspeaker cat_piano*
-	The contract of friendship is sealed.%%%%*setskin cat_piano 4*
+	The contract of friendship is sealed.%%%%*PIANO_BLINK*
 	*setanim cat_piano pose_passedout*
 	*setposang good_shit setpos -1195 485 -64;setang 0 75 0*
 	> The Pianist's eyes go blank,% and she falls backward onto the floor.
@@ -304,7 +304,7 @@ m16:
 m17:
 	*setcam setpos -1215.927002 386.680145 -10;setang 23.451723 54.179680 0.000000*
 	*setspeaker cat_cello*
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_shrug 1 idle*
 	fucking knew that'd work%%%%
 	she always assumes i have the capacity for mind games and 
@@ -315,7 +315,7 @@ m17:
 m18:
 	*setcam setpos -1108.357666 512.272339 -8.689590;setang 4.641195 20.931328 0.000000*
 	*setspeaker cat_cello*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	oh,%% it's probably worth noting she didn't*setanim cat_cello gesture_disagree 1 idle* actually get my Good Shit%%%%
 	you'd be able to tell if she did by the constant screaming
 	&m19
@@ -323,9 +323,9 @@ m18:
 m19:
 	*setspeaker cat_cello*
 	*setanim cat_cello gesture_shrug 1 idle*
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	i just rolled a blunt full of aromatherapy stuff i stole from bed bath and 
-	beyond%%%*setcam setpos -1215.927002 386.680145 23.725632;setang 23.451723 54.179680 0.000000* it seems to be working.*setskin cat_cello 0*%%*setanim cat_cello gesture_confused 1 idle* now maybe she'll sleep for more than 
+	beyond%%%*setcam setpos -1215.927002 386.680145 23.725632;setang 23.451723 54.179680 0.000000* it seems to be working.*CELLO_NEUTRAL*%%*setanim cat_cello gesture_confused 1 idle* now maybe she'll sleep for more than 
 	an hour and wake up chill and give us all some 
 	peace and quiet for a day or two.
 	&m20

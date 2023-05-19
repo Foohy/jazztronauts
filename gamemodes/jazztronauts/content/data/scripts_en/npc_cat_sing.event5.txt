@@ -31,7 +31,7 @@ cut:
 b1:
 	*setcam setpos -3002.230957 2837.869873 77.731094;setang 6.834046 -10.980259 0.000000*
 	*setspeaker cat_singer*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setanim cat_singer gesture_exchange 2 idle*
 	> It's The Singer!%%% They wave with their free hand and hurry over 
 	towards you.
@@ -41,14 +41,14 @@ b1b:
 	*setcam setpos -2871.305176 2776.962646 53.465935;setang 0.445232 129.688690 0.000000*
 	> They're clearly excited about something,% and don't notice the
 	hula dolls in their path.%%%%%*setanim cat_singer gesture_shock 1 idle*
-	You*setskin cat_singer 5* call out,% but it's too late!
+	You*SINGER_FLUSTERED* call out,% but it's too late!
 	&b2
 	
 b2:
 	*setcam setpos -3018.806641 2836.171143 63.855316;setang 5.556273 -8.202921 0.000000*
 	*setposang cat_singer setpos -2827.382324 2789.024170 0;setang -90 60 0.000000*
 	*setspeaker narrator*
-	*setskin cat_singer 6*
+	*SINGER_CRY*
 	*setanim cat_singer pose_passedout*
 	> The Singer trips over a hula doll!%% They flail wildly on the way down,% 
 	and catch the dinosaur plush on a nail sticking out of the crate!
@@ -56,8 +56,8 @@ b2:
 	
 b3:
 	*setanim cat_singer pose_sit01 1 idle*
-	> The Singer hit the floor pretty hard%.%.%.%and there's%.%.%%%fluff in the air?%%*setskin cat_singer 2*%*setcam setpos -2890.010742 2810.836914 64.296967;setang 26.426382 -17.573183 0.000000*
-	You peek over the crate and see The Singer cradling a knee.%%%*setskin cat_singer 6* 
+	> The Singer hit the floor pretty hard%.%.%.%and there's%.%.%%%fluff in the air?%%*SINGER_MAD*%*setcam setpos -2890.010742 2810.836914 64.296967;setang 26.426382 -17.573183 0.000000*
+	You peek over the crate and see The Singer cradling a knee.%%%*SINGER_CRY* 
 	They notice the dino plush on the floor,% ripped and mangled.
 	&b4
 	
@@ -65,9 +65,9 @@ b4:
 	*setcam setpos -2877.793701 2808.520508 48.880089;setang 3.639660 -13.952859 0.000000*
 	*setspeaker cat_singer*
 	*setanim cat_singer singer_showshard*
-	*setskin cat_singer 6*
+	*SINGER_CRY*
 	> The Singer stares down at the torn dinosaur plush in their paws and 
-	tears leak down their face,%%%*setskin cat_singer 7* a profound aura of 
+	tears leak down their face,%%%*SINGER_DEPRESSED* a profound aura of 
 	deep sorrow settling over them.
 	&b5
 	
@@ -110,8 +110,8 @@ r1a1:
 r2a1:
 	*setcam setpos -2876.490234 2833.769287 62.561646;setang 15.475554 -43.767174 0.000000*
 	*setspeaker cat_singer*
-	*setskin cat_singer 6*
-	> Their head jerks upward,%%*setskin cat_singer 7* and for a moment their expression 
+	*SINGER_CRY*
+	> Their head jerks upward,%%*SINGER_DEPRESSED* and for a moment their expression 
 	is one of numb confusion before the tears stop flowing. 
 	&r2a1b
 	
@@ -144,8 +144,8 @@ r2a3:
 r3a1:
 	*setspeaker cat_singer*
 	*setcam setpos -2876.490234 2833.769287 62.561646;setang 15.475554 -43.767174 0.000000*
-	*setskin cat_singer 4*
-	> They blink.%%% Their*setskin cat_singer 7* reactions seem far slower than normal as they 
+	*SINGER_BLINK*
+	> They blink.%%% Their*SINGER_DEPRESSED* reactions seem far slower than normal as they 
 	reach for their tablet.%%
 	It's like all the bubble and spark has drained out of them.
 	&r3a2
@@ -202,7 +202,7 @@ m3:
 	
 m4:
 	*setcam setpos 66.343414 3251.400391 243.108917;setang 58.227272 -89.934738 0.000000*
-	*setskin cat_singer 4*
+	*SINGER_BLINK*
 	> "a long time ago i saw something amazing.%%% 
 	It was so beautiful,%% I gasped to catch my breath and 
 	find the words to describe it."
@@ -210,61 +210,61 @@ m4:
 	
 m5:
 	*setcam setpos 2.123435 3116.607178 67.896553;setang 2.644690 0.945876 0.000000*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	> The Singer smiles,%%% and their tapping gets a little more confident.
 	&m6
 	
 m6:
 	*setcam setpos 62.515560 2946.465332 67.768532;setang 0.248870 88.951599 0.000000*
-	*setskin cat_singer 0*
-	> "But when I opened my mouth,%%*setskin cat_singer 4* nothing came out.%%%*setskin cat_singer 0* I was lost for words.%%%%
+	*SINGER_NEUTRAL*
+	> "But when I opened my mouth,%%*SINGER_BLINK* nothing came out.%%%*SINGER_NEUTRAL* I was lost for words.%%%%
 	There was no way I could do justice to what I witnessed."
 	&m7
 	
 m7:
 	*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setanim cat_singer gesture_anger 1 idle*
-	> "It utterly overwhelmed me with how incredible it was.%%*setskin cat_singer 0* 
+	> "It utterly overwhelmed me with how incredible it was.%%*SINGER_NEUTRAL* 
 	I'd lost my words before,% but only for a little while.%%%*setanim cat_singer gesture_confused .8 idle* 
 	We kept expecting I'd find them again."
 	&m8
 	
 m8:
 	*setcam setpos -283.871948 2940.037598 72.265640;setang 1.952462 27.991856 0.000000*
-	*setskin cat_singer 4*
+	*SINGER_BLINK*
 	*setanim cat_singer gesture_disagree 1.3 idle*
-	> "But I didn't.%%%%%%%*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000* And that was okay!!!*setskin cat_singer 1*%*setanim cat_singer gesture_confused 1 idle*%% Everyone was so understanding,%%%*setcam setpos 59.296944 2832.452881 64.179871;setang 0.302028 89.590530 0.000000* 
-	even if we didn't perform after that%.%.%.%%*setskin cat_singer 7* 
+	> "But I didn't.%%%%%%%*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000* And that was okay!!!*SINGER_HAPPY*%*setanim cat_singer gesture_confused 1 idle*%% Everyone was so understanding,%%%*setcam setpos 59.296944 2832.452881 64.179871;setang 0.302028 89.590530 0.000000* 
+	even if we didn't perform after that%.%.%.%%*SINGER_DEPRESSED* 
 	&m8b
 
 m8b:
 	*setanim cat_singer gesture_sigh 1 idle*
-	> "I felt bad sometimes.%%% Like a burden.%%%%*setskin cat_singer 0*%%%	*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000* 
-	Bartender told me to cut*setskin cat_singer 1* that*setanim cat_singer gesture_embarass 1 idle* shit out pretty fast when she found out!"*setskin cat_singer 0*
+	> "I felt bad sometimes.%%% Like a burden.%%%%*SINGER_NEUTRAL*%%%	*setcam setpos 64.067345 3107.399170 65.100342;setang 0.568299 14.735083 0.000000* 
+	Bartender told me to cut*SINGER_HAPPY* that*setanim cat_singer gesture_embarass 1 idle* shit out pretty fast when she found out!"*SINGER_NEUTRAL*
 	&m9
 	
 m9:
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setanim cat_singer gesture_laugh 1 idle*
-	> "I've always seen beauty and potential in things the rest didn't,%%*setskin cat_singer 0* 
-	and I knew*setanim cat_singer gesture_shrug 1 idle* that made me kind of weird.%%%*setcam setpos 65.330673 3230.297363 93.212181;setang 16.859674 -89.668564 0.000000* But*setskin cat_singer 4* I don't*setanim cat_singer gesture_disagree 1 idle* mind,% 
-	because it means I*setskin cat_singer 1* see all the good in people too!!!"
+	> "I've always seen beauty and potential in things the rest didn't,%%*SINGER_NEUTRAL* 
+	and I knew*setanim cat_singer gesture_shrug 1 idle* that made me kind of weird.%%%*setcam setpos 65.330673 3230.297363 93.212181;setang 16.859674 -89.668564 0.000000* But*SINGER_BLINK* I don't*setanim cat_singer gesture_disagree 1 idle* mind,% 
+	because it means I*SINGER_HAPPY* see all the good in people too!!!"
 	&m10
 	
 m10:
 	*setcam setpos 109.733604 3126.984375 91.561447;setang 18.936058 -171.232315 0.000000*
 	*setspeaker narrator*
-	*setskin cat_singer 0*
-	> You have finished fixing the plush.%%%*setanim cat_singer gesture_clap 1.5 idle* The Singer*setskin cat_singer 1* bounces in 
-	their seat and grabs it,%*setcam setpos 65.330673 3230.297363 93.212181;setang 16.859674 -89.668564 0.000000* inspecting*setskin cat_singer 0* your neat fabric-flesh suture work.%%%% 
-	They pull at their ears,*setskin cat_singer 1*% hug you,%% and pull at their ears again.
+	*SINGER_NEUTRAL*
+	> You have finished fixing the plush.%%%*setanim cat_singer gesture_clap 1.5 idle* The Singer*SINGER_HAPPY* bounces in 
+	their seat and grabs it,%*setcam setpos 65.330673 3230.297363 93.212181;setang 16.859674 -89.668564 0.000000* inspecting*SINGER_NEUTRAL* your neat fabric-flesh suture work.%%%% 
+	They pull at their ears,*SINGER_HAPPY*% hug you,%% and pull at their ears again.
 	&m11
 	
 m11:
 	*setanim cat_singer gesture_exchange 2*
 	> They flap their hands*setanim cat_singer gesture_foldarms 2.3 idle* under their face and seem almost distres*setanim cat_singer gesture_embarass 1,4 idle*sed,%% 
-	until something changes.%%%%*setskin cat_singer 0* 
+	until something changes.%%%%*SINGER_NEUTRAL* 
 	They tap out another message for you.
 	&m12
 	
@@ -281,7 +281,7 @@ m13:
 	*txout*
 	*setanim player sit_zen*
 	*setanim cat_singer pose_elegant*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setcam setpos -936.734924 510.699097 69.524887;setang -2.998844 -179.529037 0.000000*
 	*setposang cat_singer setpos -2762.572998 492.285400 -64;setang -90 270 0.000000*
 	*setposang player setpos -2050.979492 510.209991 -64;setang 0 179.459274 0.000000*
@@ -309,13 +309,13 @@ m13b:
 m14:
 	*setcam setpos -1968.338745 277.664063 23.926678;setang 8.234809 126.218788 0.000000*
 	*setspeaker cat_singer*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setanim cat_singer gesture_laugh 1.4 idle*
 	> "Thank you so much my dear,%% dear friend for fixing Emily!!!!!"
 	&m15
 	
 m15:
-	*setskin cat_singer 0*
+	*SINGER_NEUTRAL*
 	*setanim cat_singer gesture_agree 1.2 idle*
 	> "And for listening and letting me be myself!%%%% 
 	Maybe I can start finding where I lost my words again now!!!!"

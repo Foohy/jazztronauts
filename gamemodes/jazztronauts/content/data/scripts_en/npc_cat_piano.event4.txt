@@ -22,8 +22,8 @@ begin:
 
 ###### START	
 	*setspeaker narrator*
-	*setskin cat_piano 3*
-	*setskin cat_bar 0*
+	*PIANO_FLUSTERED*
+	*BAR_NEUTRAL*
 	*show*
 	> The Bar Samsara%.%.%.%.%%% The Bartender and Pianist are here.%%%*setcam setpos -2836.795898 2930.008301 72.372398;setang 5.027821 138.527481 0.000000*
 	
@@ -66,7 +66,7 @@ b3:
 		
 ###### Branch 1 (early exit)
 r1a1:
-	*setskin cat_piano 4*
+	*PIANO_BLINK*
 	*setcam setpos -2843.300537 2950.044189 76.034767;setang 4.703950 131.373810 0.000000*
 	*setspeaker narrator*
 	> The Pianist appears to have fallen asleep,% judging by the snoring.%%%*setanim cat_bar gesture_agree 1 idle* 
@@ -82,9 +82,9 @@ r1a2:
 r1a3:
 	*setcam setpos -2864.188965 2990.200684 71.303146;setang 0.211823 89.746773 0.000000*
 	*setspeaker cat_bar*
-	*setskin cat_bar 1*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_agree 1 idle*
-	The Pianist likes you,% you know.%%%*setskin cat_bar 0* That's rather rare.%%%%*setanim cat_bar gesture_exchange 1 idle*
+	The Pianist likes you,% you know.%%%*BAR_NEUTRAL* That's rather rare.%%%%*setanim cat_bar gesture_exchange 1 idle*
 	Thank you for being her friend,% *player*.
 	*mark_seen*
 	&exit
@@ -170,15 +170,15 @@ r3a6:
 		
 ###### Merge 
 m1:
-	*setskin cat_piano 4*
+	*PIANO_BLINK*
 	*setcam setpos -2883.771484 3021.438965 56.788147;setang -4.633031 -123.137527 0.000000*
 	*setspeaker narrator*
 	*emitsound physics/wood/wood_crate_impact_hard2.wav .75*
 	*shake 1*
 	*setanim cat_bar gesture_shock 1.3*
 	*setanim cat_piano pianist_drunk_to_idle 1.1*
-	*setskin cat_bar 3*
-	> The Pianist's head slams down on the bar counter.%%*setskin cat_bar 0*
+	*BAR_SURPRISE*
+	> The Pianist's head slams down on the bar counter.%%*BAR_NEUTRAL*
 	
 	%.%.%.%she appears to have passed out.
 	&m2
@@ -191,46 +191,46 @@ m2:
 	
 m3:
 	*setspeaker cat_bar*
-	*setskin cat_bar 3*
-	Ah.%%%%%%*setskin cat_bar 0*
+	*BAR_SURPRISE*
+	Ah.%%%%%%*BAR_NEUTRAL*
 	There she goes.
 	&m4
 	
 m4:
-	*setskin cat_bar 2*
+	*BAR_PISSED*
 	*setspeaker narrator*
-	> The Bartender sizes you up for a while,%%*setskin cat_bar 4*%*setanim cat_bar gesture_sigh 1 idle* then sighs.
+	> The Bartender sizes you up for a while,%%*BAR_BLINK*%*setanim cat_bar gesture_sigh 1 idle* then sighs.
 	&m5
 	
 m5:
 	*setcam setpos -2864.188965 2990.200684 71.303146;setang 0.211823 89.746773 0.000000*
 	*setspeaker cat_bar*
-	*setskin cat_bar 0*
+	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_disagree 1 idle*
 	The Pianist can't play anymore.%%% Not like she used to.%%%% 
-	Once she was capable of*setanim cat_bar gesture_foldarms 1 idle* the*setskin cat_bar 4* most delightful improvisations on 
-	the piano,% i*setskin cat_bar 0*t was a marvel to watch.
+	Once she was capable of*setanim cat_bar gesture_foldarms 1 idle* the*BAR_BLINK* most delightful improvisations on 
+	the piano,% i*BAR_NEUTRAL*t was a marvel to watch.
 	&m6
 	
 m6:
 	*setspeaker cat_bar*
-	But shortly after the last group like*setskin cat_bar 4* yours left us,% she just%.%.%.%%%
-	lost that*setskin cat_bar 0* ability.%%%*setanim cat_bar gesture_disagree 1 idle* It's been very distressing for her.
+	But shortly after the last group like*BAR_BLINK* yours left us,% she just%.%.%.%%%
+	lost that*BAR_NEUTRAL* ability.%%%*setanim cat_bar gesture_disagree 1 idle* It's been very distressing for her.
 	&m7
 	
 m7:
 	*setcam setpos -2843.300537 2950.044189 76.034767;setang 4.703950 131.373810 0.000000*
 	*setspeaker cat_bar*
-	*setskin cat_bar 4*
+	*BAR_BLINK*
 	*setanim cat_bar gesture_agree 1 idle*
-	Thank you for being her friend.%%%*setskin cat_bar 0* You've brought her more comfort in
-	a short time than I've been able to for years.%%%%%*setskin cat_bar 1* I have no words for how
+	Thank you for being her friend.%%%*BAR_NEUTRAL* You've brought her more comfort in
+	a short time than I've been able to for years.%%%%%*BAR_HAPPY* I have no words for how
 	deeply I appreciate that.
 	&m8
 	
 m8:
 	*setspeaker cat_bar*
-	*setskin cat_bar 0*
+	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_agree 1 idle*
 	Don't worry,% I'll make sure she's taken care of.
 	*mark_seen*

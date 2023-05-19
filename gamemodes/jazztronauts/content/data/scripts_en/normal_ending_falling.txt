@@ -58,31 +58,31 @@ a5:
      *setspeaker narrator*
     *wait 1.0*
      *show 0.5*
-     >You feel a sudden lurch in your stomach and the whole
+     > You feel a sudden lurch in your stomach and the whole
      world breaks like a cheap wine glass! You're falling into
      the Void!
      player:
 	&a6: AAAAAAAAAAAAAAAGH
 
 a6: 
-     >You're falling past a thousand impossible worlds!
+     > You're falling past a thousand impossible worlds!
      player:
         &a7: (continued screaming)
 
 a7:
     *tweenposang tunnel 5.0 -4004 -3978.834473 6000;setang 0 0 -90*
-     >Still fallin'!
+     > Still fallin'!
      player:
         &a8: (strangled screaming)
 
 a8: 
     *tweenposang tunnel 5.0 -4004 -3978.834473 1000;setang 0 0 -90*
-    >Falling...?
+    > Falling...?
 		player:
         &a9: This is taking longer than I thought.
 
 a9:
     *tweenposang tunnel 5.0 -4004 -3978.834473 0;setang 0 0 -90*
-     >Wait, when'd it get this dark?
+     > Wait, when'd it get this dark?
     *dsp 0*
      &exit              

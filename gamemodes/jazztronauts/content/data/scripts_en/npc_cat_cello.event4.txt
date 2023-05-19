@@ -24,7 +24,7 @@ begin:
 ###### START
 	*setspeaker narrator*
 	*show*
-	>The Bar Samsara.%%%%%%*setcam setpos -92.599274 2894.528809 95.031448;setang 7.010281 47.859997 0.000000* You’re minding your own business at a booth near 
+	> The Bar Samsara.%%%%%%*setcam setpos -92.599274 2894.528809 95.031448;setang 7.010281 47.859997 0.000000* You’re minding your own business at a booth near 
 	the bar,%% taking some time to rest your legs and watch The Cellist 
 	knock back what looks suspiciously like shots of antifreeze,%*emitsound physics/wood/wood_panel_impact_hard1.wav 0.45*%*setcam setpos -2889.212646 3035.416260 68.696411;setang 4.880709 -48.762085 0.000000* when 
 	The Singer storms in.%%% They look,% uh,%% miffed.
@@ -59,7 +59,7 @@ a3:
 	*setanim cat_cello pose_sit01*
 	*setposang cat_singer setpos -2786.335693 2828.759277 0;setang -90 51 0.000000*
 	*setspeaker cat_singer*
-	>You can only see part of The Singer’s tablet from where you’re 
+	> You can only see part of The Singer’s tablet from where you’re 
 	sitting,%% but even the little bit you can see has a lot of cursing 
 	on it.%%%%%*setanim cat_singer gesture_anger 1.7 idle* 
 	Like,%*setanim cat_cello gesture_shock 1.4 idle* a LOT of cursing.
@@ -88,7 +88,7 @@ a6:
 	*setcam setpos -2598.027100 3051.372070 79.533783;setang 4.561276 -148.862167 0.000000*
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_anger 2 idle*
-	>The Singer’s impassioned flailing lets you see more of the tablet 
+	> The Singer’s impassioned flailing lets you see more of the tablet 
 	this time.%%%%*setanim cat_singer gesture_shock 1 idle* They seem to be viscerally horrified by the way the 
 	Kleiner was irrevocably destroyed,%%*setanim cat_singer gesture_anger 2 idle* and going on a screed about how 
 	afraid it must have been when it realized what was happening.
@@ -97,7 +97,7 @@ a6:
 a7:
 	*setcam setpos -2899.017090 3001.060791 74.680466;setang 12.094728 -81.194077 0.000000*
 	*setspeaker narrator*
-	>%.%.%.%you notice The Cellist’s grip around the shot glass has gotten 
+	> %.%.%.%you notice The Cellist’s grip around the shot glass has gotten 
 	tight as a vise right before it shatters in his paw,%% and his 
 	composure snaps.
 	&a8
@@ -158,7 +158,7 @@ a13:
 
 a14:
 	*setspeaker cat_singer*
-	>%.%.%.%
+	> %.%.%.%
 	&a15
 
 a15:
@@ -174,7 +174,7 @@ a15:
 a16:
 	*setspeaker narrator*
 	*setcam setpos -92.599274 2894.528809 95.031448;setang 7.010281 47.859997 0.000000*
-	>The Cellist makes barely coherent strangled pleas,%% as his brain 
+	> The Cellist makes barely coherent strangled pleas,%% as his brain 
 	visibly catches up to what his mouth was saying.%%%% The sounds escalate
 	into an overloaded yowl,%% and he runs,%%%% blindly seeking an escape from
 	the words that now hang in the air. *setposang cat_cello setpos 0 0 0;setang -90 0 0.000000*
@@ -189,14 +189,14 @@ b1:
 	*setanim player idle_all_02*
 	*setspeaker narrator*
 	*setanim cat_singer gesture_disagree 1 idle*
-	>You start after The Cellist,%% only to be stopped by The Singer*setanim cat_singer singer_crawl 1 idle* 
+	> You start after The Cellist,%% only to be stopped by The Singer*setanim cat_singer singer_crawl 1 idle* 
 	practically tackling you from behind to hold you back.
 	&b2
 
 b2:
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_disagree 2 idle*
-	>They shake their head frantically,%%% still blinking away tears,%% 
+	> They shake their head frantically,%%% still blinking away tears,%% 
 	before hastily typing out a plea for you to let The Cellist have 
 	some time alone. 
 	&a17
@@ -209,14 +209,14 @@ c1:
 	*setspeaker cat_singer*
 	*setskin cat_singer 5*
 	*setanim cat_singer gesture_agree 1 idle*
-	>The Singer nods even as they fight back tears.%%%% “Thank you, but I’m
+	> The Singer nods even as they fight back tears.%%%% “Thank you, but I’m
 	fine.%% I appreciate you making sure though,% you’re very kind.”
 	&a17
 
 a17:
 	*setskin cat_singer 7*
 	*setanim cat_singer gesture_sigh 1 idle*
-	>“The Cellist can have bad days but this is something new and I'm 
+	> “The Cellist can have bad days but this is something new and I'm 
 	worried about him???%%%%*setskin cat_singer 0* We need to give him some time to cool down 
 	before we go after him.%%%*setanim cat_singer gesture_exchange 1 idle*%*setskin cat_singer 1* I'll be okay!!%% It was unexpected but you saw
 	his face,%*setskin cat_singer 0* he knows he crossed the line.”
@@ -225,7 +225,7 @@ a17:
 a18:
 	*setskin cat_singer 3*
 	*setanim cat_singer gesture_laugh 1 idle*
-	>“I'll sit that paranoid motherfucker down once he’s had some time 
+	> “I'll sit that paranoid motherfucker down once he’s had some time 
 	to breathe and then we'll have a talk about healthy ways to 
 	communicate frustration (Φ ᆺ Φ)”
 	&a20
@@ -233,7 +233,7 @@ a18:
 a20:
 	*setspeaker narrator*
 	*setskin cat_singer 0*
-	>The Singer,%% having composed themselves with the resolve to lovingly
+	> The Singer,%% having composed themselves with the resolve to lovingly
 	and respectfully tear The Cellist a new asshole,%%% walks off in the 
 	direction The Cellist ran.%%%% You have a feeling it’d be best to let 
 	them handle this one on their own.*mark_seen*

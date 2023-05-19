@@ -22,11 +22,11 @@ a2:
 	&a2b
 
 a2b:
-	>She waves you away and resumes napping.
+	> She waves you away and resumes napping.
 	&exit
 	
 idle:
-	>The Pianist opens one eye and glares at you.
+	> The Pianist opens one eye and glares at you.
 	&i1
 
 i1:
@@ -52,7 +52,7 @@ turnin:
 	&t1
 	
 t1:
-	>The Pianist smashes open the front of one of the machines with 
+	> The Pianist smashes open the front of one of the machines with 
 	a baseball bat and cracks open a can of soda.%%%% 
 	After draining it dry in one go,%% she crushes the can on her 
 	forehead and sets it aside on the table.
@@ -65,7 +65,7 @@ t2:
 	&t3
 	
 t3:
-	>The Pianist hands you $20,000!
+	> The Pianist hands you $20,000!
 	Certainly enough for a nice spa weekend,% at least. *finish 3*
 	&t4
 	

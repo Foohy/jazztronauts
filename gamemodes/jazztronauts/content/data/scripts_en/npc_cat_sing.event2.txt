@@ -21,13 +21,13 @@
 	
 ###### START
 	*setspeaker narrator*
-	>The Bar Samsara%.%.%.%% somber as usual.
+	> The Bar Samsara%.%.%.%% somber as usual.
 	%%%%%.%.%.%?%%%
 	&b1
 	
 b1:
 	*setcam setpos -3052.458984 3075.262695 76.520706;setang 7.329771 -46.792278 0.000000*
-	>You see The Singer en route back to the Mewseum 
+	> You see The Singer en route back to the Mewseum 
 	and head over to say hi.
 	%%
 	In their arms is%.%.%.% a plushie of a dinosaur?
@@ -46,7 +46,7 @@ b1b:
 b2:
 	*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000* ###### SINGER ONLY
 	*setskin cat_singer 5*
-	>They seem very interested in the floor suddenly.
+	> They seem very interested in the floor suddenly.
 	player:
 	&r1a1:
 		*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
@@ -69,7 +69,7 @@ r1a1:
 	*setspeaker cat_singer*
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_agree 1.5 idle*
-	>They smile,%% and nod.%%% 
+	> They smile,%% and nod.%%% 
 	You watch them leave with a spring in their step,% 
 	and they don't bother trying to hide the dino as they do.
 	&exit
@@ -82,7 +82,7 @@ r2a1:
 	*setspeaker cat_singer*
 	*setskin cat_singer 5*
 	*setanim cat_singer gesture_agree .8 idle*
-	>Hesitantly,%% they nod,% and take out their tablet.%%%*setskin cat_singer 0* 
+	> Hesitantly,%% they nod,% and take out their tablet.%%%*setskin cat_singer 0* 
 	They possess a great deal of admiration for the humble brontosaurus.%%*setskin cat_singer 1* 
 	It's their favorite dinosaur.
 	&r2a2
@@ -91,7 +91,7 @@ r2a2:
 	*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000* ###### SINGER ONLY
 	*setskin cat_singer 0*
 	*setanim cat_singer gesture_clap 1.4 idle*
-	>Seemingly delighted that you're still listening,%% 
+	> Seemingly delighted that you're still listening,%% 
 	they tell you that the*setanim cat_singer gesture_sweep 1 idle* name has been an intense source of 
 	drama in paleontologist circles.
 	&r2a3
@@ -101,7 +101,7 @@ r2a3:
 	*tweencam 50 setpos -2755.207764 3071.164307 64;setang 0 -90 0.000000*
 	*setskin cat_singer 3*
 	*setanim cat_singer gesture_shock 1.5 idle*
-	>Apparently the guy who discovered them found a second set of*setanim cat_singer gesture_clap 1.3 idle* 
+	> Apparently the guy who discovered them found a second set of*setanim cat_singer gesture_clap 1.3 idle* 
 	bones after naming the new thing the Apatosaurus, assumed this*setskin cat_singer 0* 
 	second set was a new species of even BIGGER dinosaurs,*setanim cat_singer gesture_confused 1.2 idle* then they 
 	thought that wasn't true for a while and then*setanim cat_singer gesture_shrug 1 idle* it was and then not again??
@@ -110,13 +110,13 @@ r2a3:
 r2a4:
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_laugh 1.3 idle*
-	>The Singer beams.%%% "Now it's*setskin cat_singer 0* a GENUS rather than just one 
+	> The Singer beams.%%% "Now it's*setskin cat_singer 0* a GENUS rather than just one 
 	species so there's like three dinosaurs that get the subtitle 
 	of THUNDER LIZARD*setanim cat_singer gesture_clap 1 idle*!!!!%%	*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000*%*setskin cat_singer 1* How fucking rad is that???? ” 
 	&r2a5
 	
 r2a5:
-	>They seem a little less self-conscious now.
+	> They seem a little less self-conscious now.
 	player:
 	&r1a1:
 		*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
@@ -133,16 +133,16 @@ r3a1:
 	*setspeaker cat_singer*
 	*setskin cat_singer 2*
 	*setanim cat_singer gesture_exchange .75 idle*
-	>Slowly,%% they pull the plush out from behind their back.%%%%*setskin cat_singer 1*%%*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000*
+	> Slowly,%% they pull the plush out from behind their back.%%%%*setskin cat_singer 1*%%*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000*
 	%%%*setfov 40*%%%%%
-	>It's fucking adorable.
+	> It's fucking adorable.
 	&r3a2
 	
 r3a2:
 	*setfov 70*
 	*setanim cat_singer gesture_exchange 2 idle*
 	*setskin cat_singer 0*
-	>Tucking the brontosaurus under their arm,%% The Singer tells 
+	> Tucking the brontosaurus under their arm,%% The Singer tells 
 	you that it was a gift from one*setanim cat_singer gesture_sweep 1 idle* of the six people that 
 	stayed here before you did.
 	&r3a3
@@ -150,14 +150,14 @@ r3a2:
 r3a3:
 	*setcam setpos -2880.037109 3046.782959 154.155457;setang 35.107891 -88.949776 0.000000*
 	*setskin cat_singer 7*
-	>They were a dear friend.%%%%
+	> They were a dear friend.%%%%
 	&r3a4
 	
 r3a4:
 	*setcam setpos -2742.628174 3028.066162 77.556114;setang 3.816053 -132.739746 0.000000*
 	*setskin cat_singer 0*
 	*setanim cat_singer gesture_disagree .75 idle*
-	>It has a lot of sentimental value,% but is no substitute 
+	> It has a lot of sentimental value,% but is no substitute 
 	for their company\:%%%% "It gets sort of lonely around here 
 	sometimes.%% And taking care of the Mewseum is much more 
 	work when it's just me ( ._.)"
@@ -165,7 +165,7 @@ r3a4:
 	
 r3a5:
 	*setanim cat_singer singer_survey 1 idle*
-	>The Singer stares off into the distance for a moment 
+	> The Singer stares off into the distance for a moment 
 	and then*setanim cat_singer gesture_disagree 2 idle* visibly snaps themselves*setskin cat_singer 1* out of it*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000* ###### SINGER ONLY 
 	to smile at you.
 	&r3a5b
@@ -174,7 +174,7 @@ r3a5b:
 	*setcam setpos -3028.905762 2701.650879 19.535900;setang -2.439646 46.732281 0.000000*
 	*setskin cat_singer 0*
 	*setanim cat_singer gesture_agree 1 idle*
-	>They tell you that they really appreciate
+	> They tell you that they really appreciate
 	the help you've been giving them so far and that*setskin cat_singer 1* 
 	it's been nice to have time to catalog properly.
 	&r3a6
@@ -183,18 +183,18 @@ r3a6:
 	*setcam setpos -2858.146484 2807.789307 41.191422;setang 7.223329 -15.247751 0.000000* ###### SINGER ONLY
 	*setskin cat_singer 3*
 	*setanim cat_singer singer_showshard*
-	>They let you touch the bronto plushie.
+	> They let you touch the bronto plushie.
 	&r3a7
 	
 r3a7:
-	>It's% so%% fucking%%% soft%%%% holy shit.
+	> It's% so%% fucking%%% soft%%%% holy shit.
 	&r3a8
 	
 r3a8:
 	*setcam setpos -3028.905762 2701.650879 19.535900;setang -2.439646 46.732281 0.000000*
 	*setskin cat_signer 1*
 	*setanim cat_singer gesture_laugh 1 idle*
-	>The Singer bounces and tells you they'll have more 
+	> The Singer bounces and tells you they'll have more 
 	work for you later% but for now they've really *setskin cat_singer 0*
 	gotta catch some Z's.
 	&end
@@ -205,7 +205,7 @@ end:
 	*setskin cat_singer 4*
 	*setcam setpos -2568.861328 3097.417969 211.555511;setang 16.966259 -159.484085 0.000000*
 	*setspeaker narrator*
-	>The Singer yawns and jumps onto the top of the bar.%% 
+	> The Singer yawns and jumps onto the top of the bar.%% 
 	They curl up with the dino plush and zonk out pretty quickly.%%%% 
 	You decide to head back. *mark_seen*
 	&exit

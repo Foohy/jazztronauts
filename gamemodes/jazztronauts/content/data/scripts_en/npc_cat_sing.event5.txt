@@ -19,7 +19,7 @@ begin:
 	
 ###### START
 	*setspeaker narrator*
-	>Somehow you've been stuck packing novelty hula dolls into this crate.%%%%
+	> Somehow you've been stuck packing novelty hula dolls into this crate.%%%%
 	The Cellist insisted it was important.%% Ah well,% it's nearly done.
 	&cut
 	
@@ -80,7 +80,7 @@ b5:
 	
 b6:
 	*setspeaker narrator*
-	>This is the last Event in The Singer's quest line.%%
+	> This is the last Event in The Singer's quest line.%%
 	It may take you a while to watch,% but you can come back to it
 	without penalty if you are in a hurry.
 	player:

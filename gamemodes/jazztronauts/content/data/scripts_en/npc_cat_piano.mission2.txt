@@ -1,7 +1,7 @@
 accept:
 	Ah.%% Hi.%%%
 	
-	>The Pianist is steadfastly not making eye contact and looks rather
+	> The Pianist is steadfastly not making eye contact and looks rather
 	sulky. 
 	&a1
 	
@@ -70,7 +70,7 @@ turnin:
 	&t1
 	
 t1:
-	>The Pianist jams a wad of cash into your hand. *finish 2*
+	> The Pianist jams a wad of cash into your hand. *finish 2*
 	15,000, to be exact.%% A little excessive for a delivery tip,%
 	but you'll fuckin' take it.
 	&t2

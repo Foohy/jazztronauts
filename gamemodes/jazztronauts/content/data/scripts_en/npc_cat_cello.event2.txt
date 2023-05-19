@@ -20,7 +20,7 @@ begin:
 ###### START
 	*setspeaker narrator*
 	*show*
-	>The Cellist appears to be ranting about something at The Pianist,
+	> The Cellist appears to be ranting about something at The Pianist,
 	who appears to be enjoying this about as much as someone cornered
 	by Jehovah's Witnesses.
 	&b1
@@ -54,7 +54,7 @@ b3:
 	*setcam setpos -1302.162842 3144.007813 74.543724;setang 6.131691 -151.295532 0.000000*
 	*setskin cat_piano 1*
 	*setspeaker narrator*
-	>The Pianist notices you gawking and senses her chance to escape.
+	> The Pianist notices you gawking and senses her chance to escape.
 	player:
 	&b4:
 	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
@@ -78,7 +78,7 @@ b5:
 	*setposang cat_piano setpos 0 0 0;setang -90 290 0.000000*
 	*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 48 0.000000*
 	*setspeaker narrator*
-	>The Pianist sprints out of the room past you,% 
+	> The Pianist sprints out of the room past you,% 
 	leaving you and The Cellist.%%%*setskin cat_cello 1* He watches her run off 
 	with a stoned,% smug smile before turning to look at you.
 	player:
@@ -94,7 +94,7 @@ b5:
 r2a1:
 	*setcam setpos -1349.209839 3416.306396 93.879173;setang 7.090014 -119.032204 0.000000*
 	*setspeaker narrator*
-	>Trusting your flight or fight instincts,%% you adopt 
+	> Trusting your flight or fight instincts,%% you adopt 
 	a runner's pose and dead sprint in any direction that will 
 	let you not have this conversation.
 	&exit
@@ -167,7 +167,7 @@ owntheplayer:
 	*setspeaker cat_cello*
 	*setskin cat_cello 1*
 	*setanim cat_cello gesture_foldarms 1 idle*
-	>The Cellist looks smug.
+	> The Cellist looks smug.
 	&own1
 	
 own1:
@@ -191,7 +191,7 @@ actualanswer:
 	*setskin cat_cello 0*
 	*setspeaker cat_cello*
 	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
-	>The Cellist raises an eyebrow.
+	> The Cellist raises an eyebrow.
 	&actual1
 	
 actual1:
@@ -263,7 +263,7 @@ m5:
 	
 m5b:
 	*setspeaker narrator*
-	>The Cellist hits the blunt he's holding.*setskin cat_cello 3*
+	> The Cellist hits the blunt he's holding.*setskin cat_cello 3*
 	&m6
 	
 m6:
@@ -391,7 +391,7 @@ n2:
 n3:
 	*setspeaker narrator*
 	*setcam setpos -1695.300415 3196.161377 114.466461;setang 10.364436 -48.542625 0.000000*
-	>The Cellist hits his blunt again.
+	> The Cellist hits his blunt again.
 	&n4
 	
 n4:

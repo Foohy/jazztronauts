@@ -16,7 +16,7 @@ begin:
 	
 b1:
 	*setspeaker narrator*
-	>This is the last Event in The Pianist's quest line.%%%
+	> This is the last Event in The Pianist's quest line.%%%
 	It may take you a while to watch,% but you can come back to it
 	without penalty if you are in a hurry.
 	player:
@@ -43,7 +43,7 @@ r2a1:
 	*setspeaker cat_piano*
 	*setanim cat_piano gesture_laugh 1 idle*
 	*setskin cat_piano 1*
-	>She laughs,%%% then taps h*setskin cat_piano 0*er*setanim cat_piano gesture_confused 1 idle* chin as if she's weighing up your
+	> She laughs,%%% then taps h*setskin cat_piano 0*er*setanim cat_piano gesture_confused 1 idle* chin as if she's weighing up your
 	demands for a moment.
 	&r2a2
 	
@@ -90,7 +90,7 @@ m1:
 ###### START	
 	*setspeaker narrator*
 	*show*
-	>The Pianist takes you to a%.%.%.%%% custom level?%%%%
+	> The Pianist takes you to a%.%.%.%%% custom level?%%%%
 	It's sure something.%% The Pianist walks further into
 	the room.
 	&m2
@@ -100,7 +100,7 @@ m2:
 	*setposang cat_piano setpos -4042.202148 5043.773438 48;setang -90 214 0.000000*
 	*setspeaker narrator*
 	*setskin cat_piano 0*
-	>The Pianist sits on the edge of the plinth and 
+	> The Pianist sits on the edge of the plinth and 
 	kicks her legs back and forth.%%% 
 	After a good fifteen seconds*setanim cat_piano gesture_shrug 1 idle* she gets up and shrugs.
 	&m3
@@ -126,7 +126,7 @@ r4a1:
 	*setcam setpos -3758.718018 4813.087891 85.153534;setang 1.329798 147.011353 0.000000*
 	*setspeaker cat_piano*
 	*setskin cat_piano 4*
-	>She blinks,%%%%*setskin cat_piano 0* and her face scrunches*setskin cat_piano 3* up like she 
+	> She blinks,%%%%*setskin cat_piano 0* and her face scrunches*setskin cat_piano 3* up like she 
 	just bit into something sour.
 	&r4a2
 	
@@ -157,7 +157,7 @@ r5a1:
 	*setspeaker cat_piano*
 	*setskin cat_piano 3*
 	*setanim cat_piano gesture_sigh 1 idle*
-	>She crumples.%%%*setskin cat_piano 2* Anger, frustration, and despair*setskin cat_piano 1* flash over her face 
+	> She crumples.%%%*setskin cat_piano 2* Anger, frustration, and despair*setskin cat_piano 1* flash over her face 
         before*setskin cat_piano 3* s*setanim cat_piano gesture_facepalm 1 idle*he buries it in her paws.
 	&r5a2
 	
@@ -257,7 +257,7 @@ n1:
 n2:
 	*setspeaker narrator*
 	*setcam setpos -3876.619141 4693.309082 302.305389;setang 27.401285 120.133430 0.000000*
-	>She goes silent for a long time,%%%*setanim cat_piano pose_sit02* then slams her paw down on the keys.
+	> She goes silent for a long time,%%%*setanim cat_piano pose_sit02* then slams her paw down on the keys.
 	&n2b
 	
 n2b:
@@ -271,7 +271,7 @@ n3:
 	*setposang player setpos -4096.396973 4912.637695 32;setang 0.728105 88.409599 0.000000*
 	*setanim player sit*
 	*setspeaker narrator*
-	>The Pianist stops mid-word and stares down at her paw as the 
+	> The Pianist stops mid-word and stares down at her paw as the 
 	accidental chord resonates*setanim cat_piano pose_sit01* through the room.%%%*setskin cat_piano 3* 
 	Tears well and then spill unchecked down her cheeks as*setanim cat_piano pose_sit02* 
 	she hits the keys again.
@@ -314,7 +314,7 @@ n7:
 pianistconclude:
 	*setcam setpos -3659.845703 5146.500488 49.834221;setang -5.021893 -156.280075 0.000000*
 	*setspeaker narrator*
-	>The two of you quietly head back to the bar. *mark_seen*
+	> The two of you quietly head back to the bar. *mark_seen*
 	&exit
 	
 	

@@ -36,7 +36,7 @@ begin:
 	*setskin cat_singer 0*
 	*setskin cat_cello 0*
 	*show*
-	>This is where The Pianist said the party was.%%% You think.%%
+	> This is where The Pianist said the party was.%%% You think.%%
 	All of the cats are here,% seated around the table.%% 
 	%.%.%.%the rotten takeout you got is here too.
 	&b1
@@ -69,7 +69,7 @@ r1a1:
 	*setspeaker cat_piano*
 	*setskin cat_piano 3*
 	*setanim cat_piano gesture_embarass 1 idle*
-	>The Pianist looks,% momentarily,%% crestfallen.*setskin cat_piano 0*
+	> The Pianist looks,% momentarily,%% crestfallen.*setskin cat_piano 0*
 	&r1a2
 	
 r1a2:
@@ -125,7 +125,7 @@ r3a1:
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_clap 1 idle*
 	*setanim cat_piano gesture_clap 1 idle*
-	>The Pianist and Singer clap their hands together.*setskin cat_piano 3* 
+	> The Pianist and Singer clap their hands together.*setskin cat_piano 3* 
 	The Pianist looks*setanim cat_piano gesture_embarass 1 idle* embarrassed and
 	seems to be pretending she did that to kill a bug.%%%
 	You let her think it worked.
@@ -136,7 +136,7 @@ r3a2:
 	*setskin cat_piano 1*
 	Sweet.%%*setanim cat_piano gesture_exchange 1 idle* Here,% I saved you some wonton soup.
 	%
-	>She pushes one of the boxes over to you.
+	> She pushes one of the boxes over to you.
 	&r3a3
 	
 r3a3:
@@ -144,7 +144,7 @@ r3a3:
 	*setspeaker narrator*
 	*setskin cat_cello 0*
 	*setskin cat_bar 0*
-	>Everyone in the room eats in silence.%%% It's only mildly awkward.
+	> Everyone in the room eats in silence.%%% It's only mildly awkward.
 	&r3a4
 	
 r3a4:
@@ -183,7 +183,7 @@ r3a8:
 	*setspeaker narrator*
 	*setskin cat_cello 0*
 	*setanim cat_piano gesture_exchange 1 idle*
-	>The Pianist produces a recorder from her jacket pocket,%%
+	> The Pianist produces a recorder from her jacket pocket,%%
 	and places it on the table.
 	%%%%%
 	The Cellist quickly stands up from his seat.
@@ -219,7 +219,7 @@ r3a12:
 	*setcam setpos -1486.503418 3121.125000 84.735489;setang 12.840269 -81.533890 0.000000* ###### SING AND CELLO
 	*setspeaker cat_singer*
 	*setskin cat_singer 0*
-	>The Singer puts their tablet on the table.%%%%*setskin cat_singer 1*
+	> The Singer puts their tablet on the table.%%%%*setskin cat_singer 1*
 	
 	They*setanim cat_singer gesture_exchange 2 idle* point at The Cellist's chair.
 	&r3a13	
@@ -241,7 +241,7 @@ r3a14:
 r3a15:
 	*setcam setpos -1329.612915 3103.142334 94.227859;setang 14.996481 -171.855530 0.000000* ####### ALL 4
 	*setspeaker cat_cello*
-	>%.%.%.%%The Cellist quietly sits down in his seat.
+	> %.%.%.%%The Cellist quietly sits down in his seat.
 	&r3a16
 	
 r3a16:
@@ -255,7 +255,7 @@ r3a16:
 r3a17:
 	*setspeaker cat_piano*
 	*setcam setpos -1498.261108 3115.454590 54.479294;setang 6.880691 127.231255 0.000000* ###PIANO CLOSEUP
-	>The Pianist plays the recorder.%%%%%
+	> The Pianist plays the recorder.%%%%%
 	
 	%.%*setskin cat_piano 3*.%.%it's%.%.%.%.%%% something alright.
 	&r3a18
@@ -263,7 +263,7 @@ r3a17:
 r3a18:
 	*setposang cat_piano setpos -1524.946167 3146.739746 -128;setang -90 210 0.000000*
 	*setanim cat_piano gesture_exchange 2 idle*
-	>As soon as the song is over The Pianist hurls the recorder
+	> As soon as the song is over The Pianist hurls the recorder
 	across the room and storms out!
 	
 	player:
@@ -292,7 +292,7 @@ m2:
 	*setspeaker cat_singer*
 	*setskin cat_singer 2*
 	*setanim cat_singer gesture_disagree 1.3 idle*
-	>The Singer frowns.%%% They liked it.
+	> The Singer frowns.%%% They liked it.
 	&m3
 	
 m3:
@@ -309,7 +309,7 @@ m4:
 	*setspeaker cat_bar*
 	*setskin 2*
 	*setanim cat_bar gesture_anger 2.4 idle*
-	>The Bartender stands up.*setskin cat_bar 0*
+	> The Bartender stands up.*setskin cat_bar 0*
 	&m5
 	
 m5:

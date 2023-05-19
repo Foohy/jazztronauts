@@ -15,7 +15,7 @@ spawngang() # SETUP
 
 *setspeaker narrator*
 *show 0.4*
->A stun baton seems to have fallen from a hole in the ceiling.
+> A stun baton seems to have fallen from a hole in the ceiling.
 &begin1
 
 
@@ -68,7 +68,7 @@ C'mon dumbass,% let's go.
 
 begin9:
 *setspeaker narrator*
->3 sets of footsteps, accompanied by the sound of
+> 3 sets of footsteps, accompanied by the sound of
 a person being dragged across the floor fades
 away overhead... 
 &exit

@@ -77,7 +77,7 @@ turnin:
 	&t1
 	
 t1:
-	>The cat hands you a wad of cash. 
+	> The cat hands you a wad of cash. 
 	You've been rewarded $2500 for your efforts!
 	&t2
 	

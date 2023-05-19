@@ -50,7 +50,7 @@ idle1:
 	&i1
 	
 i1:
-	>The Pianist stares off into the distance,%% eyes unfocusing.%%%
+	> The Pianist stares off into the distance,%% eyes unfocusing.%%%
 	She frowns.
 	&i2
 	
@@ -91,7 +91,7 @@ t3:
 		
 t4:
 	*setspeaker npc_cat_piano*
-	>The Pianist looks absolutely confused. 
+	> The Pianist looks absolutely confused. 
 	&t5
 	
 t5:
@@ -107,7 +107,7 @@ t6:
 	
 t7:
 	*setspeaker narrator*
-	>The Cellist immediately clambers onto the horse and assumes
+	> The Cellist immediately clambers onto the horse and assumes
 	The Napoleon Position.
 	&t8
 	
@@ -120,7 +120,7 @@ t8:
 	
 t9:
 	*setspeaker narrator*
-	>The Pianist is at a legitimate loss for words,% and is in shock.
+	> The Pianist is at a legitimate loss for words,% and is in shock.
 	&t10
 	
 t10:
@@ -133,7 +133,7 @@ t10:
 	
 t11:
 	*setspeaker narrator*
-	>The Cellist happily crawls around the horse statue.%%%%
+	> The Cellist happily crawls around the horse statue.%%%%
 	Wordlessly,% you are given $25,000 by The Pianist.%%%*finish 4*
 	Looks like everything's just fine,% somehow.
 	&exit

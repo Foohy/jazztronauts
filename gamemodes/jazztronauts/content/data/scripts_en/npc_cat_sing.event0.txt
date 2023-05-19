@@ -1,4 +1,4 @@
-begin:
+﻿begin:
 
 ###### SCENE SETUP
 	*hide*

@@ -33,7 +33,7 @@ a4:
      &exit
 
 turnin: 
-     >The Bartender slams your payment of $20,000 down on the bar as 
+     > The Bartender slams your payment of $20,000 down on the bar as 
      soon as she sees you.
      &a5
 

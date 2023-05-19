@@ -43,7 +43,7 @@ begin4:
 begin5:
 *setspeaker narrator*
 *setcam setpos -13609.158203 -1964.928223 1061.693237;setang 9.233204 -80.556320 0.000000*
->The Pianist pauses.%*setskin cat_piano 0*%*setskin cat_cello 1*% She visibly tries*setskin cat_piano 4* to calm herself
+> The Pianist pauses.%*setskin cat_piano 0*%*setskin cat_cello 1*% She visibly tries*setskin cat_piano 4* to calm herself
 as The Cellist's grin grows wider%%%,*setskin cat_piano 2* then snaps anyway.
 &begin6
 
@@ -107,9 +107,9 @@ begin16:
 begin17:
 *setspeaker narrator*
 *setcam setpos -13634.369141 -1805.863525 1055.647705;setang 2.375210 -82.293320 0.000000*
->The two*setanim cat_singer singer_survey* cats start shouting wild insults and 
+> The two*setanim cat_singer singer_survey* cats start shouting wild insults and 
 accusations at each other.%%%
->The Singer looks around%% and looks right at the window...
+> The Singer looks around%% and looks right at the window...
 &begin19
 
 begin19:
@@ -119,7 +119,7 @@ begin19:
 begin20:
 *setspeaker narrator*
 *setcam setpos -13527.917969 -2076.759033 1042.751953;setang 18.037712 51.332397 0.000000*
->The Singer*setanim cat_singer singer_whistle 1 idle* puts their*setskin cat_singer 1* paw to their mouth*setskin cat_singer 0* and whistles very loudly!%%*setcam setpos -13540.255859 -1953.788574 1055.059326;setang 3.460600 -105.256134 0.000000*
+> The Singer*setanim cat_singer singer_whistle 1 idle* puts their*setskin cat_singer 1* paw to their mouth*setskin cat_singer 0* and whistles very loudly!%%*setcam setpos -13540.255859 -1953.788574 1055.059326;setang 3.460600 -105.256134 0.000000*
 The two *setanim cat_bar gesture_shock*cats*setskin cat_cello 2**setskin cat_piano 2**setanim cat_piano gesture_shock* stop*setanim cat_cello gesture_shock* arguing immediately and clutch their ears!
 &begin21
 
@@ -137,7 +137,7 @@ begin22:
 *setposang cat_piano setpos -13656.136719 -2104.135498 1000.031250;setang -90 20.847992 0.000000*
 *setposang cat_singer setpos -13546.133789 -2053.541260 1000.031250;setang -90 33.252113 0.000000*
 *setcam setpos -13634.369141 -1805.863525 1055.647705;setang 2.375210 -82.293320 0.000000*
-*setanim cat_singer gesture_jab 1 idle*>The Singer*setskin cat_piano 0* points*setskin cat_cello 0* frantically*setskin cat_bar 0* in*setskin cat_singer 0* your direction!
+*setanim cat_singer gesture_jab 1 idle*> The Singer*setskin cat_piano 0* points*setskin cat_cello 0* frantically*setskin cat_bar 0* in*setskin cat_singer 0* your direction!
 %%%
 You've definitely been spotted!
 &begin23
@@ -167,7 +167,7 @@ a little ways ahead -% if you'll meet us there,%*setskin cat_bar 1* we'll give y
 
 begin27:
 *setspeaker narrator*
->The*setskin cat_bar 0* Bartender turns*tweencam 3 setpos -13591.134766 -1879.317261 1049.972168;setang 3.453386 99.459183 0.000000* and walks out of view%, 
+> The*setskin cat_bar 0* Bartender turns*tweencam 3 setpos -13591.134766 -1879.317261 1049.972168;setang 3.453386 99.459183 0.000000* and walks out of view%, 
 the other cats follow after with only a moment's confusion.%%%
 
 Well, that was weird.%%% Might as well hear what they have to say,% though.%%

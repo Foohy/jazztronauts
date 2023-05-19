@@ -65,7 +65,7 @@ a1:
 a2:
 	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
      *setspeaker narrator*
-     >The stage lights up!%%%% The other 3 cats are here too it appears.
+     > The stage lights up!%%%% The other 3 cats are here too it appears.
      &a3
 
 a3:
@@ -228,21 +228,21 @@ a17:
      *setspeaker narrator*
 	 *setskin cat_singer 1*
 	 *setanim cat_singer gesture_clap 1 idle*
-     >The Singer runs over to the edge of the stage and starts jumping 
+     > The Singer runs over to the edge of the stage and starts jumping 
      up and down.
      &a18
 
 a18:
 	*setskin cat_singer 3*
 	*setanim cat_singer gesture_exchange 1 idle*
-     >They stop for second,%% and take out a tablet.%%%% They type on it 
+     > They stop for second,%% and take out a tablet.%%%% They type on it 
      furiously.
      &a19
 
 a19:
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_laugh 1 idle*
-     >The tablet says 'HI IM THE SINGER NICE TO MEET YOU \:D'.%%% 
+     > The tablet says 'HI IM THE SINGER NICE TO MEET YOU \:D'.%%% 
 	 They're holding it above their head,% 
 	 and jumping up and down now.
      &a20
@@ -259,7 +259,7 @@ a20:
 
 a21:
      *setspeaker narrator*
-     >The Pianist hops off her box and walks onto the stage.
+     > The Pianist hops off her box and walks onto the stage.
      &a23
 
 a22:
@@ -460,7 +460,7 @@ a42:
 
 a43:
      *setspeaker cat_singer*
-     >The Singer is holding up their tablet,%% where a bedazzled message 
+     > The Singer is holding up their tablet,%% where a bedazzled message 
      informs you that no, seriously, you need those. They are trying 
      really hard not to bounce, it seems.
      &a44
@@ -524,7 +524,7 @@ a50:
 a51:
      *setspeaker cat_singer*
 	*setanim cat_singer gesture_agree 1 idle*
-     >The Singer nods sagaciously.
+     > The Singer nods sagaciously.
      &a52
 
 a52:
@@ -602,7 +602,7 @@ biz2:
 biz3:      
      *setspeaker narrator*
 	 *setanim cat_piano gesture_agree 1 idle8
-     >The Pianist gives a firm nod in your direction,% and heads out.
+     > The Pianist gives a firm nod in your direction,% and heads out.
      &ending
 
 ### I'M HERE TO MEME
@@ -637,7 +637,7 @@ honk3:
 
 honk4:
      *setspeaker narrator*
-     >The Cellist yawns and staggers out of the room.
+     > The Cellist yawns and staggers out of the room.
      &ending
 
 ### THANK GOD ITS OVER
@@ -645,7 +645,7 @@ honk4:
 ending:
 	*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
      *setspeaker narrator*
-     >The rest of the cats begin to file out of the room.%%% Soon it's just 
+     > The rest of the cats begin to file out of the room.%%% Soon it's just 
      you in the theater.
      &ending2
 

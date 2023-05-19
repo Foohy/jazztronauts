@@ -248,12 +248,12 @@ t5:
 	*wait 4*
 	*shake 6*
 	*show*
-	>The trolley is falling!% The Cellist goes flying 
+	> The trolley is falling!% The Cellist goes flying 
         past you,% swearing incomprehensibly.
 	&t5b
 	
 t5b:
-	>He locks eyes with The Pianist as he hurtles out the door.
+	> He locks eyes with The Pianist as he hurtles out the door.
      &t6
 
 t6:

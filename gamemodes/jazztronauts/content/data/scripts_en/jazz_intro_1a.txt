@@ -24,7 +24,7 @@ whoever made this place really phoned it in% huh
 
 begin2:
 *setspeaker narrator*
->There are three.%.%.%%cats?%%%
+> There are three.%.%.%%cats?%%%
 The gray one starts jeering at the monster corpse next to it.
 &begin3
 
@@ -48,7 +48,7 @@ begin5:
 *setanim cat_singer singer_crawl 1 idle* 
 *setcam setpos -4707.141602 -469.851654 1574.542236;setang 10.297997 21.203064 0.000000*
 *setposang cat_singer setpos -4564.032715 -434.864349 1518.031250;setang -90 120.223053 0.000000*
->A fourth cat quietly crawls out from under the corpse and 
+> A fourth cat quietly crawls out from under the corpse and 
 dusts themselves off.%%%*setcam setpos -4604.807129 -418.146301 1553.832031;setang 3.739498 -48.424809 0.000000* They very excitedly present a strange object
 to the orange cat. *setanim cat_singer singer_showshard 1*
 &begin6
@@ -63,7 +63,7 @@ begin7:
 *setspeaker narrator* 
 *setanim cat_singer gesture_embarass 1 idle* 
 *setskin cat_singer 1*
->The cat bashfully looks down and starts fidgeting.
+> The cat bashfully looks down and starts fidgeting.
 &begin8
 
 begin8:
@@ -114,7 +114,7 @@ on them, didn't we?%% Take five,% get one free!
 
 begin14:
 *setspeaker narrator*
->They both turn from scowling at each other 
+> They both turn from scowling at each other 
 to glaring at the orange cat.%% Before the argument can go anywhere,
 the silent cat starts waving their arms around. *setanim cat_singer singer_whistle 1 idle* *setskin cat_bar 0*
 &begin15
@@ -141,12 +141,12 @@ begin17:
 begin18:
 *setspeaker narrator*
 *setcam setpos -4920.419922 -261.465637 1606.207642;setang -0.662756 -29.560171 0.000000*
->The cats all point a gun at the wall.%%%% *clear**emitsound beamstart7.wav 0.25 1.0*
+> The cats all point a gun at the wall.%%%% *clear**emitsound beamstart7.wav 0.25 1.0*
 A few seconds later they disappear!
 &begin19
 
 begin19:
->You hear a latch unlocking, near the back of the room!%
+> You hear a latch unlocking, near the back of the room!%
 .%.%.%and you're pretty sure that event wasn't a normal part
 of this map%.%.%.
 &exit

@@ -21,7 +21,7 @@ begin:
 ###### START
 	*setspeaker narrator*
 	*show 0.5*
-	>The Pianist and The Bartender are having a chat at the Samsara...
+	> The Pianist and The Bartender are having a chat at the Samsara...
 	&b1
 	
 b1:
@@ -46,7 +46,7 @@ b3:
 	&b4
 	
 b4:
-	>The*setskin cat_bar 1* Bartender notices you and waves,% visibly relieved.
+	> The*setskin cat_bar 1* Bartender notices you and waves,% visibly relieved.
 	&b5
 	
 b5:
@@ -61,7 +61,7 @@ b6:
 	*setspeaker cat_piano*
 	*setfov 70*
 	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
-	>The Pianist*setanim cat_piano gesture_anger 1 idle* slams her paw down on the bar and 
+	> The Pianist*setanim cat_piano gesture_anger 1 idle* slams her paw down on the bar and 
 	turns to face you,% eyes narrowing.
 	&b7
 	
@@ -97,7 +97,7 @@ r1a1:
 	*setanim cat_piano gesture_disagree 1 idle*
 	*setfov 70*
 	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
-	>The Pianist rolls her eyes.
+	> The Pianist rolls her eyes.
 	&r1a2
 	
 r1a2:
@@ -109,14 +109,14 @@ r1a3:
 	*setspeaker cat_bar*
 	*setskin cat_bar 1*
 	*setanim cat_bar gesture_exchange 1 idle*
-	>The Bartender pushes the plate of cookies over to you,% beaming.
+	> The Bartender pushes the plate of cookies over to you,% beaming.
 	&r1a4
 	
 r1a4:
 	*setanim cat_bar gesture_agree 1 idle*
 	Thank you for your custom,% *player*.%%%
 	
-	>She turns her attention back*setanim cat_bar gesture_facepalm* to the*setskin cat_bar 4* Pianist and 
+	> She turns her attention back*setanim cat_bar gesture_facepalm* to the*setskin cat_bar 4* Pianist and 
 	puts a paw over her face.
 	&r1a5
 	
@@ -130,7 +130,7 @@ r1a5:
 	
 r1a6:
 	*setspeaker narrator*
-	>They resume their normal conversation.%% 
+	> They resume their normal conversation.%% 
 	You decide to grab your cookies and bounce.
 	&exit
 	
@@ -141,7 +141,7 @@ r2a1:
 	*setanim cat_piano gesture_confused 1 idle*
 	*setfov 70*
 	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
-	>The Pianist stares at you.%% Her head tilts to one side.%%%
+	> The Pianist stares at you.%% Her head tilts to one side.%%%
 	Her blank expression makes it difficult to tell if she's thinking about 
 	your suggestion,% or mapping out the optimal way to dismember you.
 	&r2a2
@@ -176,7 +176,7 @@ r2a5:
 	*setanim cat_bar gesture_foldarms 1 idle*
 	*setfov 70*
 	*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
-	>The Bartender appears to be in deep thought.*setskin cat_bar 1* 
+	> The Bartender appears to be in deep thought.*setskin cat_bar 1* 
 	S*setanim cat_bar gesture_clap 1 idle*he claps, brightening.
 	&r2a6
 	
@@ -191,7 +191,7 @@ r2a7:
 	*setspeaker cat_piano*
 	*shake 1.25*
 	*setskin cat_bar 3*
-	>The Pianist slams her head on the bar.%*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
+	> The Pianist slams her head on the bar.%*setcam setpos -2800.078125 2837.285889 96.239883;setang 6.929268 109.376999 0.000000*
 
 	.*setfov 70*%.%.%it was pretty loud too%.%.%.
 	&r2a8

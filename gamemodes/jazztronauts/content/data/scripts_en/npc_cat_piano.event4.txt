@@ -25,7 +25,7 @@ begin:
 	*setskin cat_piano 3*
 	*setskin cat_bar 0*
 	*show*
-	>The Bar Samsara%.%.%.%.%%% The Bartender and Pianist are here.%%%*setcam setpos -2836.795898 2930.008301 72.372398;setang 5.027821 138.527481 0.000000*
+	> The Bar Samsara%.%.%.%.%%% The Bartender and Pianist are here.%%%*setcam setpos -2836.795898 2930.008301 72.372398;setang 5.027821 138.527481 0.000000*
 	
 	Though The Pianist appears to be dead,% facedown on the bar.%%%%*setanim cat_piano pianist_drunk_to_player .45*
 	Wait,% no% she's moving.
@@ -69,7 +69,7 @@ r1a1:
 	*setskin cat_piano 4*
 	*setcam setpos -2843.300537 2950.044189 76.034767;setang 4.703950 131.373810 0.000000*
 	*setspeaker narrator*
-	>The Pianist appears to have fallen asleep,% judging by the snoring.%%%*setanim cat_bar gesture_agree 1 idle* 
+	> The Pianist appears to have fallen asleep,% judging by the snoring.%%%*setanim cat_bar gesture_agree 1 idle* 
 	The Bartender gives you a firm nod.
 	&r1a2
 	
@@ -119,7 +119,7 @@ r3a1:
 	*setcam setpos -2988.546143 2925.335693 67.095818;setang 1.915457 26.244995 0.000000*
 	*setspeaker cat_piano*
 	*setanim cat_piano pianist_drunk_slam*
-	>She laughs,%% sharp and sudden like glass breaking.
+	> She laughs,%% sharp and sudden like glass breaking.
 	&r3a2
 	
 r3a2:
@@ -178,7 +178,7 @@ m1:
 	*setanim cat_bar gesture_shock 1.3*
 	*setanim cat_piano pianist_drunk_to_idle 1.1*
 	*setskin cat_bar 3*
-	>The Pianist's head slams down on the bar counter.%%*setskin cat_bar 0*
+	> The Pianist's head slams down on the bar counter.%%*setskin cat_bar 0*
 	
 	%.%.%.%she appears to have passed out.
 	&m2
@@ -186,7 +186,7 @@ m1:
 m2:
 	*setcam setpos -2843.300537 2950.044189 76.034767;setang 4.703950 131.373810 0.000000*
 	*setspeaker narrator*
-	>The Bartender walks over to The Pianist,%%%*setanim cat_bar gesture_exchange 1 idle* and pats her on the head.
+	> The Bartender walks over to The Pianist,%%%*setanim cat_bar gesture_exchange 1 idle* and pats her on the head.
 	&m3
 	
 m3:
@@ -199,7 +199,7 @@ m3:
 m4:
 	*setskin cat_bar 2*
 	*setspeaker narrator*
-	>The Bartender sizes you up for a while,%%*setskin cat_bar 4*%*setanim cat_bar gesture_sigh 1 idle* then sighs.
+	> The Bartender sizes you up for a while,%%*setskin cat_bar 4*%*setanim cat_bar gesture_sigh 1 idle* then sighs.
 	&m5
 	
 m5:

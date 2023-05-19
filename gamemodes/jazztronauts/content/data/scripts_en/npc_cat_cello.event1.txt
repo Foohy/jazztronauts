@@ -19,7 +19,7 @@ begin:
 ###### START
 	*setspeaker narrator*
 	*show*
-	>The Cellist is sprawled out in a booth.%%% He looks down for the 
+	> The Cellist is sprawled out in a booth.%%% He looks down for the 
 	count.%% In front of him,% is a shot glass that appears to be 
 	Every Color.
 	&b1
@@ -27,7 +27,7 @@ begin:
 b1:
 	*setcam setpos 15.987111 3028.354736 87.972946;setang 25.218304 68.204353 0.000000*
 	*setspeaker narrator*
-	>The glass looks like somebody distilled both the visuals of,%%
+	> The glass looks like somebody distilled both the visuals of,%%
 	and all of the illicit substances at,% a Pink Floyd laser light show.%%%
 	Must be the Good Shit.
 	&b2
@@ -36,7 +36,7 @@ b2:
 	*setcam setpos 60.254112 3035.056396 72.716209;setang 23.354883 112.872704 0.000000*
 	*setspeaker narrator*
 	*setanim cat_cello pianist_drunk_to_player .5*
-	>The Cellist opens his eyes blearily.
+	> The Cellist opens his eyes blearily.
 	&b3
 	
 b3:
@@ -88,7 +88,7 @@ b7b:
 	*setcam setpos 41.458935 3104.086914 51.262566;setang 15.848031 -85.694618 0.000000*
 	*setanim cat_cello gesture_exchange .9 idle*
 	*setspeaker narrator*
-	>The Cellist pushes the glass across the table towards you.
+	> The Cellist pushes the glass across the table towards you.
 	&b8
 	
 b8:
@@ -216,7 +216,7 @@ r2a2:
 ###### BRANCH 3
 r3a1:
 	*setspeaker narrator*
-	>The next segment is designed to be visually awful to look at,%% on 
+	> The next segment is designed to be visually awful to look at,%% on 
 	purpose.%%%% If you get motion sickness,%% epilepsy,%% 
 	or any other condition triggered similarly,%%% 
 	you may safely skip it.
@@ -231,7 +231,7 @@ r3a1:
 m1:
 	*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
 	*setspeaker narrator*
-	>You down the shot of the Good Shit.%%% It tastes like someone fermented 
+	> You down the shot of the Good Shit.%%% It tastes like someone fermented 
 	all the different syrups in a soda machine and mixed them into a shot.%%%%%
 	
 	%.%.%.%nothing's happened yet.
@@ -308,5 +308,5 @@ m8:
 	
 m9:
 	*setspeaker narrator*
-	>The Cellist helps you up and walks helps you walk over to the bar%.%.%.%% *mark_seen*
+	> The Cellist helps you up and walks helps you walk over to the bar%.%.%.%% *mark_seen*
 	&exit

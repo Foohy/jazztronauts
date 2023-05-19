@@ -41,7 +41,7 @@ a2:
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_agree 1.5 idle*
 	*setskin cat_singer 1*
-    >The Singer nods enthusiastically.
+    > The Singer nods enthusiastically.
     &a3
 
 a3:
@@ -97,12 +97,12 @@ a8:
     *setspeaker cat_singer*
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_exchange 1.8 idle*
-    >The Singer points excitedly at the screen!
+    > The Singer points excitedly at the screen!
     &a9
 
 a9:
     *setspeaker narrator*
-    >There is a logo for a production company on the screen.%%%% It's a blue 
+    > There is a logo for a production company on the screen.%%%% It's a blue 
     hexagon that appears to be a stylized C and G merged.%% The word 
     'Cannon' is below it.
     &a10
@@ -124,7 +124,7 @@ a11:
 a12:
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_confused 1 idle*
-    >The Singer cocks their head,%% still excited.
+    > The Singer cocks their head,%% still excited.
     &a13
 
 a13:
@@ -223,7 +223,7 @@ c3:
 	*setskin cat_piano 1*
 	*setskin cat_bar 3*
 	*setskin cat_singer 1*
-    >Suddenly,%%% a Ninja appears*setskin cat_bar 1* behind a middle-aged businessman 
+    > Suddenly,%%% a Ninja appears*setskin cat_bar 1* behind a middle-aged businessman 
 	attempting to pitch out of the sandtrap on the 9th hole.%%%% 
 	This has taken a turn.
     &c4
@@ -271,7 +271,7 @@ c8:
 	*setskin cat_piano 2*
 	*setskin cat_bar 3*
 	*setskin cat_singer 3*
-    >%.%.%.%Holy shit,%*setskin cat_piano 1*%% the Ninja whipped out a blowpipe and shot a dart into the 
+    > %.%.%.%Holy shit,%*setskin cat_piano 1*%% the Ninja whipped out a blowpipe and shot a dart into the 
     barrel of the cop's gun as he fired,%% making it explode.
     &c9
 
@@ -337,7 +337,7 @@ c14:
 
 c15:
     *setspeaker narrator*
-    >Ah,% problem solved.%%% The Ninja blinded him by punching him in the eyes.%% 
+    > Ah,% problem solved.%%% The Ninja blinded him by punching him in the eyes.%% 
 	With a shuriken.%%% Through the roof of the car.%%% Again.
     &c16
 

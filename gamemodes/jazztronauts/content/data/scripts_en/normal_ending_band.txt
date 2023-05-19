@@ -67,7 +67,7 @@ a3:
 a4:
      
      *setspeaker narrator*
-     >This is not at all what you were expecting from any of this.
+     > This is not at all what you were expecting from any of this.
      &a5
 
 a5:
@@ -80,7 +80,7 @@ a5:
 
 a6:
      *setspeaker narrator*
-     >The other guitarist stops tuning and chimes in.
+     > The other guitarist stops tuning and chimes in.
      &a7
 
 a7:
@@ -148,7 +148,7 @@ h3:
 h4:
 	*setcam setpos 5898.999023 149.256104 3823.915039;setang 24.996138 -13.980748 0.000000* #### GROUP    
      *setspeaker narrator*
-     >Rungo starts a drum solo of some sort.%% It’s pretty restrained.
+     > Rungo starts a drum solo of some sort.%% It’s pretty restrained.
      &h6
 
 h6:
@@ -424,7 +424,7 @@ s14:
      And really,%% is there anything in life better?
      &finale
 
-<Merge Point> 
+<Merge Point>
 
 finale:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO

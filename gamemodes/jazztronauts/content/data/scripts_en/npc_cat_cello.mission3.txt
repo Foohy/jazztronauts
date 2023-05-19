@@ -59,7 +59,7 @@ turnin:
     &t1
 t1:
     *finish 3*
-    >The Cellist pops the lid and huffs deeply.
+    > The Cellist pops the lid and huffs deeply.
 	&t2
 	
 t2:

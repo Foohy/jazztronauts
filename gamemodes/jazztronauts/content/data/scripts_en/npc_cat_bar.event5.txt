@@ -22,7 +22,7 @@ begin:
 	*wait .15*
 	*show*
     *setspeaker narrator*
-    >The Bar Samsara%.%.%.%%%
+    > The Bar Samsara%.%.%.%%%
     You see The Bartender packing supplies into a picnic basket.%% She 
     beams when she catches sight of you.
     &a2
@@ -73,7 +73,7 @@ a5:
     little nook in the mountains. 
     &a6
 a6:
-    >There's a pool here,% it's bubbling and steaming.%%% 
+    > There's a pool here,% it's bubbling and steaming.%%% 
     The entire spot is pleasantly warm.%%%
 	&a6b
 	
@@ -81,7 +81,7 @@ a6b:
 
 	*setcam setpos -2524.658447 6763.020996 69.986847;setang 8.634292 54.538803 0.000000*
 	*setposang cat_cello setpos -2471.215820 7207.445313 -28;setang -90 10 0.000000*
-    >The Cellist is the first to break from the group and head towards 
+    > The Cellist is the first to break from the group and head towards 
     the pool.
     &a7
 
@@ -212,7 +212,7 @@ a21:
     *setspeaker narrator*
 	*setcam setpos -2733.502930 6687.077637 32.335510;setang -0.256775 86.686752 0.000000* ##### EVANGELION
 	*setanim cat_bar pose_sit01*
-    >The Bartender sits down and stares at the pool.%%%%
+    > The Bartender sits down and stares at the pool.%%%%
     You take a seat next to her.
     &a22
 
@@ -255,7 +255,7 @@ a27:
 	*setcam setpos -2844.950439 6809.655762 28.008850;setang -3.184969 -1.318832 0.000000*
 	*setskin cat_bar 4*
     *setspeaker narrator*
-    >You catch The Bartender staring warmly at The Pianist as she pauses 
+    > You catch The Bartender staring warmly at The Pianist as she pauses 
     to think.%%%%*setskin cat_bar 0* A few seconds later she speaks again.
     &a28
 
@@ -293,7 +293,7 @@ a32:
 	*setcam setpos -2696.399658 6934.754395 33.405151;setang 3.416752 -101.995712 0.000000*
     *setspeaker narrator*
 	*setskin cat_bar 3*
-    >A harpoon lands between*setskin cat_bar 0* you and The Bartender,% puncturing the 
+    > A harpoon lands between*setskin cat_bar 0* you and The Bartender,% puncturing the 
     blanket.%%% Hell of a throw.
     &a33
 
@@ -306,7 +306,7 @@ a33:
 
 a34:
     *setspeaker narrator*
-    >The Bartender gets up and walks towards the others.
+    > The Bartender gets up and walks towards the others.
     
     %%%%You follow along shortly after.*mark_seen*
     &exit

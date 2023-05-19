@@ -248,7 +248,7 @@ piano_bark6:
 
 singer_bark1:
     *setauto*
-     >You find The Singer hard at work on that bootleg plant cloning
+     > You find The Singer hard at work on that bootleg plant cloning
      program you helped them with. They've been having quite a lot of 
      success, and they're quite proud of their latest bunch of Mr. 
      Stripeys. They weren't kidding when they said tomato names got weird.

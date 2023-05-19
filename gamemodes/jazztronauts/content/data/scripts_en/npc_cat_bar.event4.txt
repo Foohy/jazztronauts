@@ -194,7 +194,7 @@ a19:
 	*setanim cat_bar gesture_anger 1 idle*
     *setspeaker narrator*
 	*setcam setpos -2199.189209 570.780457 -10.404617;setang 34.375881 -11.131420 0.000000*
-    >The Bartender nudges The Cellist with her foot.%%% 
+    > The Bartender nudges The Cellist with her foot.%%% 
 	He lets out a loud and kinda gross snore.
     &a20
 

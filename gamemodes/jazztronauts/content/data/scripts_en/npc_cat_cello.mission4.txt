@@ -47,7 +47,7 @@ turnin:
 
 t1: 
    *setspeaker narrator*
-   >The Kleiner's wireframe is smashed into a horrifying 
+   > The Kleiner's wireframe is smashed into a horrifying 
    nightmare blunt that The Cellist rips in one go.
    &t2
 

@@ -71,7 +71,7 @@ turnin:
 	
 t1:
 	*setspeaker narrator*
-	>This feels like one of those rare times you can surprise The Cellist, so 
+	> This feels like one of those rare times you can surprise The Cellist, so 
 	you just quietly open the sack of horrible, haunted dolls in your hands.
 	&t2
 	

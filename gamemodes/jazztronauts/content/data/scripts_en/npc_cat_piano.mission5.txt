@@ -5,7 +5,7 @@ accept:
 	&a1
 	
 a1:
-	>She rubs the back of her head,% avoiding eye contact.
+	> She rubs the back of her head,% avoiding eye contact.
 	&a2
 	
 a2:
@@ -91,7 +91,7 @@ turnin:
 	*wait .5*
 	*show*
 	*setspeaker narrator*
-	>The Pianist is sitting in a booth with one of the metrocops you found.%%%
+	> The Pianist is sitting in a booth with one of the metrocops you found.%%%
 	%.%.%.%The Pianist is looking around awkwardly.%%% 
 	She notices you and waves you over.
 	&t1
@@ -196,14 +196,14 @@ t14:
 	*setcam setpos 65.159882 3145.150391 86.652924;setang 18.297302 -73.573898 0.000000*
 	*setposang cat_singer setpos 100.028259 3020.481445 0;setang -90 4 0.000000*
 	*setspeaker cat_singer*
-	>The Singer comes skidding to a halt in front of the Metrocop!
+	> The Singer comes skidding to a halt in front of the Metrocop!
 	They put their arms out to shield them!
 	&t15
 	
 t15:
 *setcam setpos 7.626283 3141.380859 89.093765;setang 11.376108 -58.373978 0.000000* #### GANG
 	*setspeaker narrator*
-	>The Pianist wrangles her fury back into its box and shakes off the
+	> The Pianist wrangles her fury back into its box and shakes off the
 	tension in the air.
 	&t16
 	
@@ -241,7 +241,7 @@ t19:
 	*setspeaker cat_singer*
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_clap 1 idle*
-	>The Singer beams.%%%% They take out their tablet and tap out a message\:%%%
+	> The Singer beams.%%%% They take out their tablet and tap out a message\:%%%
 	"THANK YOU SO MUCH IM SO PROUD OF YOU!!!"
 	&t20
 	
@@ -258,7 +258,7 @@ t20:
 t21:
 	*setcam setpos -208.442261 3254.030518 132.024811;setang 10.896953 -42.747852 0.000000*
 	*setspeaker cat_singer*
-	>The Singer hugs The Pianist.%%%% She clearly has no idea how to deal with
+	> The Singer hugs The Pianist.%%%% She clearly has no idea how to deal with
 	this.
 	&t21b
 	

@@ -36,7 +36,7 @@ begin:
 	*setskin cat_singer 0*
 	*setskin cat_cello 0*
 	*show*
-	>This is where The Pianist said the party was.%%% You think.%%
+	>This is where the Pianist said the party was.%%% You think.%%
 	All of the cats are here,% seated around the table.%% 
 	%.%.%.%the rotten takeout you got is here too.
 	&b1
@@ -221,7 +221,7 @@ r3a12:
 	*setskin cat_singer 0*
 	>The Singer puts their tablet on the table.%%%%*setskin cat_singer 1*
 	
-	They*setanim cat_singer gesture_exchange 2 idle* point at The Cellist's chair.
+	They*setanim cat_singer gesture_exchange 2 idle* point at the Cellist's chair.
 	&r3a13	
 	
 r3a13:
@@ -241,7 +241,7 @@ r3a14:
 r3a15:
 	*setcam setpos -1329.612915 3103.142334 94.227859;setang 14.996481 -171.855530 0.000000* ####### ALL 4
 	*setspeaker cat_cello*
-	>%.%.%.%%The Cellist quietly sits down in his seat.
+	>%.%.%.%%the Cellist quietly sits down in his seat.
 	&r3a16
 	
 r3a16:
@@ -263,7 +263,7 @@ r3a17:
 r3a18:
 	*setposang cat_piano setpos -1524.946167 3146.739746 -128;setang -90 210 0.000000*
 	*setanim cat_piano gesture_exchange 2 idle*
-	>As soon as the song is over The Pianist hurls the recorder
+	>As soon as the song is over the Pianist hurls the recorder
 	across the room and storms out!
 	
 	player:

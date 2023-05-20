@@ -267,6 +267,7 @@ else
 		//self.AnimShardCount = math.Approach(self.AnimShardCount, self:GetCollectedShards(), 1)
 	end
 
+	local MSqueeze = Matrix()
 	function ENT:DrawRTScreen()
 		screen_rt:Render(function()
 			local c = HSVToColor(math.fmod(CurTime() * 40, 360), 0.8, 0.5)
@@ -278,8 +279,17 @@ else
 				if newgame.GetGlobal("ended") then
 					ntext = jazzloc.Localize("jazz.tank.newgameplus")
 				end
+				surface.SetFont("JazzShardTankFont")
+				ctext = string.Trim(ctext)
+				local tw, th = surface.GetTextSize(ctext)
+				MSqueeze:Identity()
+				MSqueeze:Translate(Vector(sizeX/2, 0, 0))
+				MSqueeze:Scale(Vector(math.min(1, sizeX/tw), 1, 1))
+				MSqueeze:Translate(Vector(-sizeX/2, 0, 0))
+				cam.PushModelMatrix(MSqueeze, true)
+					draw.SimpleText(ctext, "JazzShardTankFont", sizeX / 2, sizeY / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				cam.PopModelMatrix()
 
-				draw.SimpleText(ctext, "JazzShardTankFont", sizeX / 2, sizeY / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 				draw.SimpleText(ntext, "JazzShardTankSubtextFont", sizeX / 2, sizeY / 1.5, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			cam.End2D()
 		end)

@@ -18,7 +18,7 @@ begin:
 	*wait .15*
 	*show*
 	> The Bar Samsara%.%.%.%%% 
-	You're chatting the twilight away with The Bartender.
+	You're chatting the twilight away with the Bartender.
 	&a2
 
 a2:
@@ -33,7 +33,7 @@ a3:
 	*setspeaker narrator*
 	*setcam setpos -2935.495605 3060.559570 90.541382;setang 8.554376 -39.650562 0.000000* 
 	> The Mewseum door is kicked open!%% Intruder alert!!%%%%*setcam setpos -2654.359619 2872.613281 45.377167;setang 4.667855 -47.210667 0.000000*
-	%.%.%.%Oh,% it's just The Cellist.
+	%.%.%.%Oh,% it's just the Cellist.
 	player:
 		 &a4: This ought to be good.
 		 &leave: ha ha nope i'm out (exit)
@@ -42,7 +42,7 @@ a3:
 
 leave:
 	> You decide to slip out in the moment of distraction,%% and deal with
-	The Cellist's madness later.
+	the Cellist's madness later.
 	&exit
 
 a4:
@@ -175,7 +175,7 @@ c6:
 	*shake 1*
 	*setcam setpos -2797.841553 2803.250244 44.586651;setang -3.850489 108.143600 0.000000*
 	*setskin cat_cello 0*
-	> The Cellist is cut off by the sound of The Bartender slamming a pot 
+	> The Cellist is cut off by the sound of the Bartender slamming a pot 
 	of hot water onto the Bar's stove.%%%*setskin cat_bar 1* 
 	&c6b
 	
@@ -202,7 +202,7 @@ c8:
 c9:
 	*setskin cat_cello 4*
 	> He manages to gather up the*setskin cat_cello 2* courage to open his mouth and speak,%%% 
-	but is cut off by*setskin cat_cello 0* The Bartender serving a glass in front of him.
+	but is cut off by*setskin cat_cello 0* the Bartender serving a glass in front of him.
 	&c10
 
 c10:

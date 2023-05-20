@@ -20,7 +20,7 @@ a2:
 	> You shake your head and keep reading\:
 	"I'm really close to a research breakthrough!!!! I'm sure if I 
 	throw more bodies at the problem something will stick but 
-	last time when I asked The Pianist for help she...
+	last time when I asked the Pianist for help she...
 	&a2b
 	
 a2b:
@@ -43,7 +43,7 @@ a4:
 idle:
 	*setspeaker cat_singer*
 	> The Singer waves you over. Their tablet appears to be playing 
-	a recording of a light rainstorm. They explain The Cellist was 
+	a recording of a light rainstorm. They explain the Cellist was 
 	having a nightmare, so they're helping.
 	&idle2
 	
@@ -71,7 +71,7 @@ turnin:
 	
 t1:
 	*setspeaker narrator*
-	>This feels like one of those rare times you can surprise The Cellist, so 
+	>This feels like one of those rare times you can surprise the Cellist, so 
 	you just quietly open the sack of horrible, haunted dolls in your hands.
 	&t2
 	
@@ -85,8 +85,8 @@ t2:
 	
 t3:
 	*setspeaker cat_singer*
-	> Ignoring The Cellist's babbling at the sight of your sack full of 
-	probably-not-haunted children's toys, The Singer takes them off 
+	> Ignoring the Cellist's babbling at the sight of your sack full of 
+	probably-not-haunted children's toys, the Singer takes them off 
 	your hands in exchange for the promised payment of $10000. *finish 1*
 	&t4
 	
@@ -100,7 +100,7 @@ t4:
 	
 t5:
 	*setspeaker cat_singer*
-	> They pat him on the arm and The Cellist squints in continued 
+	> They pat him on the arm and the Cellist squints in continued 
 	suspicion at the sack, but stops rambling about ancient curses. 
 	&t6
 	

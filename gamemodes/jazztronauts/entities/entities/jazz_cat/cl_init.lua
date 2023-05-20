@@ -168,7 +168,7 @@ function ENT:Draw()
 		self:DrawModelFollow()
 	end
 
-	-- Only The Bartender has multiple options, everyone else just chats
+	-- Only the Bartender has multiple options, everyone else just chats
 	if self.ChatChoices and #self.ChatChoices > 0 then
 		self:UpdateChatFade()
 

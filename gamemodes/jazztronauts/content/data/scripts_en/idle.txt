@@ -183,7 +183,7 @@ bar_bark1:
 
 bar_bark2:
     *setauto*
-    Oh! I didn’t see you there. Have you seen The Cellist around? 
+    Oh! I didn’t see you there. Have you seen the Cellist around? 
     I’m concerned he may be planning a heist. 
     I store the decanted shard essence in crystal form, you see…%
     &exit
@@ -220,7 +220,7 @@ piano_bark1:
 
 piano_bark2:
     *setauto*
-     Don’t tell him I said this, but The Cellist has been less of a pain 
+     Don’t tell him I said this, but the Cellist has been less of a pain 
      in the ass recently. Don’t know what you did, but thanks. 
      &exit
 
@@ -248,7 +248,7 @@ piano_bark6:
 
 singer_bark1:
     *setauto*
-     >You find The Singer hard at work on that bootleg plant cloning
+     >You find the Singer hard at work on that bootleg plant cloning
      program you helped them with. They've been having quite a lot of 
      success, and they're quite proud of their latest bunch of Mr. 
      Stripeys. They weren't kidding when they said tomato names got weird.
@@ -256,13 +256,13 @@ singer_bark1:
 
 singer_bark2:
     *setauto*
-     > You get a wave when you head over, and The Singer thanks you for 
-     helping The Pianist. She’s been smiling a lot more lately, it’s nice.
+     > You get a wave when you head over, and the Singer thanks you for 
+     helping the Pianist. She’s been smiling a lot more lately, it’s nice.
      &exit
 
 singer_bark3:
     *setauto*
-     > You find The Singer sitting with The Cellist. They both appear 
+     > You find the Singer sitting with the Cellist. They both appear 
      to be...meditating? You sit with them both for a while.
      &exit
 
@@ -280,7 +280,7 @@ singer_bark5:
 
 singer_bark6:
     *setauto*
-     > The Singer is sitting watching The Bartender with starry eyes, as 
+     > The Singer is sitting watching the Bartender with starry eyes, as 
      the other cat plays them a sweet tune on her trumpet. You leave them
      to it. 
      &exit
@@ -302,7 +302,7 @@ cello_bark2:
 
 cello_bark3:
     *setauto*
-     one of these days i'm going to find out where The Bartender locked
+     one of these days i'm going to find out where the Bartender locked
      up all the absinthe. i don't even particularly want to drink it, 
      it doesn't even make you hallucinate a little bit, but it's a matter
      of pride at this point
@@ -310,7 +310,7 @@ cello_bark3:
 
 cello_bark4:
     *setauto*
-     you seen The Pianist lately? i realize i've been kind of a bastard
+     you seen the Pianist lately? i realize i've been kind of a bastard
      lately and i've been meaning to apologize but i think she's still mad
      about the time i tried to set up a cane toad breeding program. little
      bastards didn't even give a high worth the heart attack
@@ -346,7 +346,7 @@ bar_truebark1:
 
 bar_truebark2:
     *setauto*
-     The Pianist and The Cellist have been getting along better than 
+     The Pianist and the Cellist have been getting along better than 
      I ever dreamed, as of late. Thank you again for the role you 
      played in their reconciliation. 
      &exit
@@ -361,7 +361,7 @@ bar_truebark3:
 bar_truebark4:
     *setauto*
      I’ve been thinking of putting Ambrosia back on the menu one day 
-     if The Cellist keeps up this streak of responsible consumption. 
+     if the Cellist keeps up this streak of responsible consumption. 
      Perhaps in fifty years or so.
      &exit
 
@@ -374,7 +374,7 @@ bar_truebark5:
 
 bar_truebark6:
     *setauto*
-     I saw The Pianist smile while helping at the Mewseum earlier. I 
+     I saw the Pianist smile while helping at the Mewseum earlier. I 
      nearly dropped a bottle in shock. 
      &exit
 
@@ -394,7 +394,7 @@ piano_truebark2:
 
 piano_truebark3:
     *setauto*
-     Hey, uh, have you seen The Singer? I got the guest beds set up in 
+     Hey, uh, have you seen the Singer? I got the guest beds set up in 
      the old study wing of the Mewseum as they asked. 
      &exit
 
@@ -408,7 +408,7 @@ piano_truebark4:
 piano_truebark5:
     *setauto*
      I managed another improvisation yesterday. I thought it was pretty 
-     shit, but The Bartender loved it. It’s a start, right?
+     shit, but the Bartender loved it. It’s a start, right?
      &exit
 
 
@@ -422,14 +422,14 @@ piano_truebark6:
 
 singer_truebark1:
     *setauto*
-     > The Singer is sitting with The Bartender, playing Go. They both greet 
+     > The Singer is sitting with the Bartender, playing Go. They both greet 
      you fondly and you spend a while watching them play.
      &exit
 
 singer_truebark2:
     *setauto*
      > The Singer hugs you. You sit together and they tell you 
-     about the help The Pianist and Cellist have been giving them at the
+     about the help the Pianist and Cellist have been giving them at the
      Mewseum. They're very proud of both of them.
      &exit
 
@@ -442,7 +442,7 @@ singer_truebark3:
 
 singer_truebark4:
     *setauto*
-     > You see The Singer in the middle of a lesson plan in the Mewseum,
+     > You see the Singer in the middle of a lesson plan in the Mewseum,
      reading to a gaggle of Combine soldiers. You smile at how hard they
      have to choke back tears of joy when one raises a hand to ask
      them a question.
@@ -479,7 +479,7 @@ cello_truebark2:
 
 cello_truebark3:
     *setauto*
-     it’s been so long since The Pianist smiled this much that i forgot 
+     it’s been so long since the Pianist smiled this much that i forgot 
      how nice one looked on her. you did good by her, kid.
      &exit
 
@@ -493,7 +493,7 @@ cello_truebark4:
 
 cello_truebark5:
     *setauto*
-     The Bartender’s holding me to that promise I made about cutting back
+     the Bartender’s holding me to that promise I made about cutting back
      and let me tell you it’s an odd hour that goes by when i don’t want 
      to go back in time and punch myself for agreeing to that. i’m 
      noticing improvements in my health, though. begrudgingly.
@@ -502,7 +502,7 @@ cello_truebark5:
 cello_truebark6:
     *setauto*
      can I ask you a favor? if you see a metrocop with a little cat 
-     emblem pin out there in the Void, tell them The Cellist says 
+     emblem pin out there in the Void, tell them the Cellist says 
      hello...and that he’s sorry.
      &exit
 
@@ -558,9 +558,7 @@ begin12:
     *setskin focus 0*
     &exit
 
-begin4:
-    thanks for doing my grocery shopping
-    &exit
+
 begin32:
     WOW!!!!! it's*c 255 0 0* fucking nothing *c*
     *c 50* go fuck yourself

@@ -1,8 +1,8 @@
 -- Register upgrade that allows them to buy back their spawn menu
 jstore.Register("spawnmenu", 100000, {
 	cat = "tools",
-	name = "GMod Spawnmenu",
-	desc = "Buy back your pride and joy, the gmod spawn menu. Spawn anything -- for a price.",
+	name = jazzloc.Localize("jazz.weapon.gmodspawnmenu"),
+	desc = jazzloc.Localize("jazz.weapon.gmodspawnmenu.desc"),
 	thirdparty = true
 })
 

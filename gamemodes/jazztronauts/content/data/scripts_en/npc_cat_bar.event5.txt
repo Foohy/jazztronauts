@@ -18,7 +18,7 @@ begin:
 	*wait .15*
 	*show*
     >The Bar Samsara%.%.%.%%%
-    You see The Bartender packing supplies into a picnic basket.%% She 
+    You see the Bartender packing supplies into a picnic basket.%% She 
     beams when she catches sight of you.
     &a2
 
@@ -109,7 +109,7 @@ a10:
     *setspeaker narrator*
 	*setskin cat_cello 2*
 	*setanim cat_cello gesture_anger 1.5 idle*
-    > The Singer's comment appears to have steamed The Cellist's clams.
+    > The Singer's comment appears to have steamed the Cellist's clams.
     &a11
 
 a11:
@@ -124,7 +124,7 @@ a12:
 	*setposang player setpos -2422.034180 6827.894043 10;setang 8.155142 101.221214 0.000000*
 	*setcam setpos -2487.168457 6947.892090 41.036049;setang -8.934914 -62.536053 0.000000*
     *setspeaker narrator*
-    > The Cellist makes a big show of chasing The Singer around,%%% and they
+    > The Cellist makes a big show of chasing the Singer around,%%% and they
     seem to be enjoying it judging from all the general horseplay.
     &a13
 
@@ -162,7 +162,7 @@ a16:
     *setspeaker narrator*
 	*setskin cat_bar 4*
 	*setanim cat_bar pose_sit01*
-    > You're unpacking the basket with The Bartender.%%%% She's quietly 
+    > You're unpacking the basket with the Bartender.%%%% She's quietly 
     flattening a blanket against the sand,% eyes closed in contentment.
     &a17
 
@@ -249,7 +249,7 @@ a27:
 	*setcam setpos -2844.950439 6809.655762 28.008850;setang -3.184969 -1.318832 0.000000*
 	*setskin cat_bar 4*
     *setspeaker narrator*
-    >You catch The Bartender staring warmly at The Pianist as she pauses 
+    >You catch the Bartender staring warmly at the Pianist as she pauses 
     to think.%%%%*setskin cat_bar 0* A few seconds later she speaks again.
     &a28
 
@@ -287,7 +287,7 @@ a32:
 	*setcam setpos -2696.399658 6934.754395 33.405151;setang 3.416752 -101.995712 0.000000*
     *setspeaker narrator*
 	*setskin cat_bar 3*
-    >A harpoon lands between*setskin cat_bar 0* you and The Bartender,% puncturing the 
+    >A harpoon lands between*setskin cat_bar 0* you and the Bartender,% puncturing the 
     blanket.%%% Hell of a throw.
     &a33
 

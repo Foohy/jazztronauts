@@ -1,7 +1,7 @@
 @include "base.fgd"
 @include "halflife2.fgd"
 
-@PointClass base(Targetname) iconsprite("editor/lua_run.vmt") = jazz_dialog : "Runs Dialog"
+@PointClass base(Targetname) iconsprite("editor/jazz_dialog.vmt") = jazz_dialog : "Runs Dialog"
 [
 	spawnflags(flags) =
 	[
@@ -44,10 +44,7 @@
 	input Skin(integer) : "Changes the model skin to the specified number."
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop("models/props_c17/gravestone_coffinpiece001a.mdl") = jazz_door_eclipse : "False door that acts as a waypoint for eclipse cat encounters"
-[
-
-]
+@PointClass base(Targetname, Origin, Angles) studioprop("models/props_c17/gravestone_coffinpiece001a.mdl") = jazz_door_eclipse : "False door that acts as a waypoint for eclipse cat encounters" []
 
 
 @PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter : "Prop Poop Chute"
@@ -112,10 +109,7 @@
 	DefaultAnim(string) : "Idle Animation" : : "Overrides the default idle animation"
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop("models/props_combine/combine_interface001.mdl") = jazz_bus_selector : "Custom Workshop ID Loader"
-[
-    
-]
+@PointClass base(Targetname, Origin, Angles) studioprop("models/props_combine/combine_interface001.mdl") = jazz_bus_selector : "Custom Workshop ID Loader" []
 
 @PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propleaderboard : "Prop Leaderboard"
 [
@@ -132,7 +126,7 @@
 
 ]
 
-@PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_checkpoint : "Jazz Player Checkpoint"
+@PointClass base(Targetname) iconsprite("editor/jazz_checkpoint.vmt") = jazz_checkpoint : "Jazz Player Checkpoint"
 [
 	TeleportRadius(integer) : "Teleport Radius": 0 : "Radius around the origin to randomly pepper in players"
 
@@ -192,7 +186,7 @@
 	output OnApproached(void) : "Fires when a player enters the activation range, showing our podiums"
 ]
 
-@PointClass base(Targetname) size(-8 -8 -8, 8 8 8) = jazz_global : "An entity to control a global game state of jazztronauts."
+@PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_global : "An entity to control a global game state of jazztronauts."
 [
 	globalstate(choices) : "Global State to Set" : : "The state to set on or off." =
 	[
@@ -216,7 +210,7 @@
 ]
 
 
-@PointClass base(Targetname, Origin, Angles) studioprop() = mediaplayer_tv : "Plays media"
+@PointClass base(Targetname, Angles) studioprop() = mediaplayer_tv : "Plays media"
 [
 	output OnMediaStarted(void) : "Fired when media playback begins"
 	output OnQueueEmpty(void) : "Fired when all queued media finishes playing"
@@ -228,14 +222,12 @@
 	input ClearMedia(void) : "Clears all queued and active media"
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop() = jazz_waterprop : "Detail props that gently bob in the water"
+@PointClass base(Targetname, Angles) studioprop() = jazz_waterprop : "Detail props that gently bob in the water"
 [
 	model(studio) : "World Model" : "models/sunabouzu/jazzlily01.mdl"
 	bodygroup(string) : "Bodygroup" : "0" : "Sets the model's bodygroups. Uses the GMod method, so each character in the string represents a separate bodygroup. (0 to 9, a to z being 10 to 35)"
 	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 ]
 
-@PointClass base(Targetname) iconsprite("editor/busstop.vmt") = info_busstop : "Marker for summoned trolley to travel to"
-[
-	
-]
+@PointClass base(Targetname, Angles) iconsprite("editor/busstop.vmt") = info_busstop : "Marker for summoned trolley to travel to" []
+@PointClass base(Weapon) studioprop("models/weapons/w_stunbaton.mdl") = weapon_propsnatcher : "Prop Snatcher" []

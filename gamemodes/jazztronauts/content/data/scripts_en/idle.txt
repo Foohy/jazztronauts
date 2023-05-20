@@ -558,9 +558,7 @@ begin12:
     *setskin focus 0*
     &exit
 
-begin4:
-    thanks for doing my grocery shopping
-    &exit
+
 begin32:
     WOW!!!!! it's*c 255 0 0* fucking nothing *c*
     *c 50* go fuck yourself

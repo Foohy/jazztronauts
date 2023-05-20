@@ -8,6 +8,8 @@ begin:
 	*setnpcid cat_piano npc_cat_piano*
 	*setposang cat_piano setpos -4009.657715 4751.496094 34.134026;setang -90 30 0.000000*
 	*setspeaker cat_piano*
+	*setanim cat_piano idle*
+	*PIANO_NEUTRAL*
 	*show*
 	Hey.%%% Do you have a minute?%%
 	I really.%%%% Want to talk.%

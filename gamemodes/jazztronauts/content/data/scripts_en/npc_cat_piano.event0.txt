@@ -240,8 +240,8 @@ r3a4:
 	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000*
 	Sand gets everywhere, Pianist. I know you're excited, but you have to 
 	think about the practical consequences of these things.%%*BAR_NEUTRAL* 
-	Do you really*setanim cat_bar gesture_sigh 1 idle* want to have to spend
-	five hours trying to get all the viscera-soaked grit out of your fur?
+	Do you really*setanim cat_bar gesture_sigh 1 idle* want to have to spend five hours trying to get all 
+	the viscera-soaked grit out of your fur?
 	&r3a5
 	
 r3a5:
@@ -262,8 +262,8 @@ m1:
 	*setanim cat_bar gesture_disagree 1 idle*
 	.%.%.%I'm sorry,% but I'm afraid I will have to continue to veto the idea of 
 	a coliseum.%%% For one thing,%% all ethical concerns aside,% trying to get 
-	planning*setanim cat_bar gesture_shrug 1 idle* permission for that sort of thing 
-	would be an unending nightmare.
+	planning*setanim cat_bar gesture_shrug 1 idle* permission for that sort of thing would be 
+	an unending nightmare.
 	&m2
 	
 m2:

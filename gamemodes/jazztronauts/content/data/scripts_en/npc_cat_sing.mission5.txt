@@ -48,7 +48,7 @@ idle:
 i1:
 	*setspeaker npc_cat_piano*
 	They're sleeping.
-	Did you get The Goods yet?
+	You got The Goods yet?
 	&i2
 	
 i2:
@@ -165,7 +165,7 @@ t8:
 t9:
 	> and thanks to your help they're going to be able to 
 	fulfill a promise to an old friend.%%%% 
-	They'd like to talk later if you have the time.
+	They'd like to talk later, if you have the time.
 	&exit
 	
 	

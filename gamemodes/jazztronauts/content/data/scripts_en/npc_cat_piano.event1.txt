@@ -110,7 +110,7 @@ resp4a:
 	*PIANO_FLUSTERED*
 	> The Pianist stares at you.%%% You stare back.%%%%
 	The Silence extends,%% and becomes cripplingly awkward.%%%%*setcam setpos 350.197205 174.538849 54.377182;setang 2.288677 88.377617 0.000000*
-	A rich*PIANO_SMIRK* array of e*PIANO_ANGRY*motions crosses over her face.
+	A rich*PIANO_SMIRK* array of e*PIANO_ANGRY*motions cross over her face.
 	&resp4b
 	
 resp4b:
@@ -143,7 +143,7 @@ resp5a:
 	And I suppose none of your ideas have ever*setanim cat_piano gesture_shrug* backfired *player*,
 	the sole clean and pure being in this universe who has never made a 
 	goddamn mistake.%%% Forgive me.%*setanim cat_piano gesture_jab 1 idle* I*PIANO_ANGRY* didn't know I was in the presence of 
-	the chosen one,% the savior - 
+	the chosen one,% the saviour - 
 	&resp5b
 	
 resp5b:

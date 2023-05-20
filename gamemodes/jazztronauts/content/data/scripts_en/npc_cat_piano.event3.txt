@@ -52,7 +52,7 @@ b3:
 	*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_foldarms 1 idle*
-	I know, it's a lot to take in,% but remember to breathe.%%
+	I know, it's a lot to take in,% remember to breathe.%%
 	My trust is not lightly bestowed,% but I think you've earned it.%%
 	But*setanim cat_piano gesture_disagree 1 idle* we should not forget our origins.
 	&b4
@@ -258,7 +258,7 @@ m11:
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_laugh 1 idle*
 	We fucking did it.%% We have scored,% the Good Shit.%%%*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
-	He knows that*setanim cat_piano gesture_shrug 1 idle* I know he hides the hard stuff,% so, of course, he 
+	He knows that*setanim cat_piano gesture_shrug 1 idle* I know he hides the hard stuff,% so of course he 
 	left it out in the open as something obvious and innocuous.%%%% 
 	Cellist*setanim cat_piano gesture_confused 1 idle* is smarter than he looks,% you know.
 	&m12
@@ -267,7 +267,7 @@ m12:
 	*setspeaker narrator*
 	> She lights the thing with a blowtorch,%% which is the kind of 
 	excessive action you have come to expect.%%% 
-	She takes a deep drag,% her ears flattening against her 
+	She takes a deep drag,% ears flattening against her 
 	head and pupils dilating.
 	&m13
 	

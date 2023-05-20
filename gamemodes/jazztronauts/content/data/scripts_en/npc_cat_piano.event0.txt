@@ -81,10 +81,10 @@ b8:
 	
 	player:
 	&r1a1:
-		I prefer my blood to pump inside my body. 
+		I prefer my blood pumping inside my body. 
 		I'll take a snickerdoodle to go, though. (Exit)
 	&r2a1:
-		Okay, excellent suggestion, but hear me out here\: Dance fighting.
+		Okay, excellent suggestion, but hear me out here\: Dance fighting. 
 		All of the thrill, none of the murder.
 	&r3a1:
 		If the floor is sand you don't need to worry about blood in the grout!
@@ -130,7 +130,7 @@ r1a5:
 	
 r1a6:
 	*setspeaker narrator*
-	> They resume their normal conversation.%% 
+	> They resume their previous conversation.%% 
 	You decide to grab your cookies and bounce.
 	&exit
 	

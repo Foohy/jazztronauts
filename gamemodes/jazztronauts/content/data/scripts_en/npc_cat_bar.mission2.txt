@@ -1,20 +1,20 @@
 accept:
-     Tell me, *player*, have you ever had a Cosmic Squeeze? 
-     It's a favorite cocktail of mine.
-     &a1
+	Tell me, *player*, have you ever had a Cosmic Squeeze? 
+	It's a favourite cocktail of mine.
+	&a1
 
 a1:
-     Unfortunately, preparing it requires a substantial amount of fresh 
-     watermelon juice, and at this juncture, fresh produce is in short 
-     supply around here. Luckily, this dimensional juncture appears to be
-     quite fond of the fruit, as there's a downright odd amount here.
-     &a2
+	Unfortunately, preparing it requires a substantial amount of fresh 
+	watermelon juice, and at this juncture fresh produce is in short 
+	supply. Luckily, this dimensional juncture appears to be quite fond 
+    of the fruit, as there's a downright odd amount here.
+	&a2
 
 a2:
-     If you could obtain ten or so, I could potentially add the Cosmic
-     Squeeze to the menu for the day. I can guarantee you cash for 
-     your efforts, as well. *start 2*
-     &exit
+	If you could obtain ten or so, I could potentially add the Cosmic
+	Squeeze to the menu for the day. I can guarantee you cash for 
+	your efforts, as well. *start 2*
+	&exit
 
 idle:
 	*spawn narrator dummy*
@@ -50,7 +50,7 @@ turnin:
 a6:
     *setspeaker cat_bar*
     Excellent, excellent! Oh, I'm almost giddy. I haven't had the chance 
-    to make one of these in about fifty years. Here is your payment. 
+    to make one of these in about fifty years. Here, your payment. 
     &a7
 
 a7: 

@@ -78,7 +78,7 @@ resp1d:
     &resp1e
 
 resp1e:
-    *setskin cat 0*I admit,%% I have a great deal of respect for people like that.%%
+    *setskin cat 0*I admit,%% I've a great deal of respect for people like that.%%
     I hope the six of them are doing well for themselves,%
     wherever they are now.
     &merge1a

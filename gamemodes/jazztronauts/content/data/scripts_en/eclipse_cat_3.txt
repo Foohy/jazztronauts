@@ -17,11 +17,11 @@ begin:
     *txin*
     *show 0.5*
 	*bgmplay sound/jazztronauts/blackshard_hum.wav .45 10*
-     I’ve seen everything. 
+     I've seen everything. 
      &a1
 	
 a1:
-     I’ve done,%% everything. 
+     I've done,%% everything. 
      &a2
 	
 a2:

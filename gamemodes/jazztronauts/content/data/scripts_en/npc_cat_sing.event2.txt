@@ -84,7 +84,7 @@ r2a1:
 	*setanim cat_singer gesture_agree .8 idle*
 	> Hesitantly,%% they nod,% and take out their tablet.%%%*SINGER_NEUTRAL* 
 	They possess a great deal of admiration for the humble brontosaurus.%%*SINGER_HAPPY* 
-	It's their favorite dinosaur.
+	It's their favourite dinosaur.
 	&r2a2
 
 r2a2:
@@ -176,7 +176,7 @@ r3a5b:
 	*setanim cat_singer gesture_agree 1 idle*
 	> They tell you that they really appreciate
 	the help you've been giving them so far and that*SINGER_HAPPY* 
-	it's been nice to have time to catalog properly.
+	it's been nice to have time to catalogue properly.
 	&r3a6
 
 r3a6:
@@ -205,7 +205,7 @@ end:
 	*SINGER_BLINK*
 	*setcam setpos -2568.861328 3097.417969 211.555511;setang 16.966259 -159.484085 0.000000*
 	*setspeaker narrator*
-	> The Singer yawns and jumps onto the top of the bar.%% 
+	> The Singer yawns, and jumps onto the top of the bar.%% 
 	They curl up with the dino plush and zonk out pretty quickly.%%%% 
 	You decide to head back. *mark_seen*
 	&exit

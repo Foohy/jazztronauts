@@ -10,7 +10,7 @@ accept:
 	&a1
 	
 a1:
-	> The Singer has your next job ready and hands the tablet over to you 
+	> The Singer has your next job ready, and hands the tablet over to you 
 	for you to check the details\: "Okay so bear with me here because I 
 	know how weird it sounds, but I need a bunch of messed up dolls.
 	5, to be more precise."
@@ -72,7 +72,7 @@ turnin:
 t1:
 	*setspeaker narrator*
 	> This feels like one of those rare times you can surprise The Cellist, so 
-	you just quietly open the sack of horrible, haunted dolls in your hands.
+	you just quietly open the sack of horrible haunted dolls in your hands.
 	&t2
 	
 t2:
@@ -106,7 +106,7 @@ t5:
 	
 t6:
 	> The Singer thanks you for your assistance and tells
-	you to find them later if you feel like giving them a hand 
+	you to find them later, if you feel like giving them a hand 
 	entering the haul into the Mewseum's systems.
 	&exit
 	

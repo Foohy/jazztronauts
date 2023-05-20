@@ -168,7 +168,7 @@ a little ways ahead -% if you'll meet us there,%*BAR_HAPPY* we'll give you the d
 begin27:
 *setspeaker narrator*
 > The*BAR_NEUTRAL* Bartender turns*tweencam 3 setpos -13591.134766 -1879.317261 1049.972168;setang 3.453386 99.459183 0.000000* and walks out of view%, 
-the other cats follow after with only a moment's confusion.%%%
+the other cats following after with only a moment's confusion.%%%
 
 Well, that was weird.%%% Might as well hear what they have to say,% though.%%
 ...Right?

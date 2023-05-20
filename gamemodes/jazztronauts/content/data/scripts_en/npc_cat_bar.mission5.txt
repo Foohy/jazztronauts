@@ -8,7 +8,7 @@ a1:
      &a2
 
 a2:
-     I have a final job for you. A special order. I require antlions. 
+     I have a final job for you. A special order. I require.%.%.% antlions. 
      Ten antlions, to be exact. *start 5*
      &a3
 

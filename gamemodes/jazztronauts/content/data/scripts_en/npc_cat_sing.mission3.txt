@@ -24,7 +24,7 @@ a2:
 a3:
 	*setspeaker npc_cat_bar*
 	Incredible work. Having ready access to fresh ingredients would do 
-	wonders for our budget and of course 
+	wonders for our budget, and of course 
 	the quality of our menu. I- Oh!
 	&a4
 	
@@ -37,7 +37,7 @@ a4:
 a5:
 	*setspeaker npc_cat_sing*
 	> The Singer continues nodding. At this rate, they're going to get a 
-	hell of a headache. The Bartender appears to have the same thought 
+	hell of a headache. The Bartender appears to have the same thought, 
 	and touches a paw to their shoulder.
 	&a6
 	
@@ -78,7 +78,7 @@ turnin:
 	&turnin2
 	
 turnin2:
-	Apparently, they went out on an expedition of their own to find 
+	Apparently they went out on an expedition of their own to find 
 	some seeds, and are very excited to try growing three different 
 	varieties of tomatoes for their experiment. 
 	&turnin3
@@ -90,13 +90,13 @@ turnin3:
 	
 t1:
 	> You learn many tomato facts over the next ten minutes. 
-	Namely that there are a lot of tomatoes named after other fruits. 
+	Namely that there's a lot of tomatoes named after other fruits. 
 	Black Cherry. Banana Legs. Green Grape.
 	&t2
 	
 t2:
 	> Eventually The Singer remembers that they actually need to 
-	start planting and hand you your pay of $20,000. 
+	start planting, and hand you your pay of $20,000. 
 	&t3
 
 t3:

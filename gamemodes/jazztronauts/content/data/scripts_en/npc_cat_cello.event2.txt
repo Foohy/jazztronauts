@@ -54,7 +54,7 @@ b3:
 	*setcam setpos -1302.162842 3144.007813 74.543724;setang 6.131691 -151.295532 0.000000*
 	*PIANO_SMIRK*
 	*setspeaker narrator*
-	> The Pianist notices you gawking and senses her chance to escape.
+	> The Pianist notices you gawking, and senses her chance to escape.
 	player:
 	&b4:
 	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*

@@ -69,7 +69,7 @@ C'mon dumbass,% let's go.
 begin9:
 *setspeaker narrator*
 > 3 sets of footsteps, accompanied by the sound of
-a person being dragged across the floor fades
+a person being dragged across the floor, fades
 away overhead... 
 &exit
 

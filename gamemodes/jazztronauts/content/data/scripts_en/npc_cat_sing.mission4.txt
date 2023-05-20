@@ -6,7 +6,7 @@ accept:
 	&a1
 	
 a1:
-	> They thank you again for the help with the pots earlier and inform you
+	> They thank you again for the help with the pots earlier, and inform you
 	that the early experiments are promising. 
 	&a1b
 	
@@ -84,7 +84,7 @@ t1:
 	&t2
 	
 t2:
-	> They thank you for your work and their tablet dings. 
+	> They thank you for your work, and their tablet dings. 
 	&t2b
 	
 t2b:

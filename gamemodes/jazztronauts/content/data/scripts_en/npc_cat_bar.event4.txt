@@ -89,7 +89,7 @@ a5:
 
 a6:
     *setspeaker cat_bar*
-    Excellent,%% pleasure to have you. 
+    Excellent,%% a pleasure to have you. 
     &a7
 
 a7:
@@ -138,7 +138,7 @@ a13:
     &a14
 
 a14:
-    Populate that space with your favorite sounds and textures. 
+    Populate that space with your favourite sounds and textures.
     &a15
 
 a15:

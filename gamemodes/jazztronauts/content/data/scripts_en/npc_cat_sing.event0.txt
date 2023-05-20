@@ -89,7 +89,7 @@ r2a1:
 	*setspeaker cat_singer*
 	*SINGER_BLINK*
 	> The Singer blinks,*SINGER_NEUTRAL* then shakes *setanim cat_singer gesture_disagree 1 idle*their head.%%%% 
-	Apparently, they'd just called it The Museum originally,% 
+	Apparently they'd just called it The Museum originally,% 
 	but The Bartender suggested the change.
 	&r2a2
 	

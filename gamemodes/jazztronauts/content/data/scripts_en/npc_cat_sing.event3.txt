@@ -274,7 +274,7 @@ m17:
 	*setspeaker narrator*
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_clap 1 idle*
-	> They hug both cats and tell you to find them 
+	> They give both cats a hug and tell you to find them 
 	later for another job before hopping up on top of the booth*tweenposang cat_singer .5 setpos -416 427 228.5;setang 0 0 -90*
 	and curling up to resume their nap.*SINGER_NEUTRAL*
 	&m17b

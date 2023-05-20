@@ -23,12 +23,12 @@ a2:
      Drink this. Then we can call the trolley, and proceed to the 
      Festival. 
 
-     It won’t harm you, I assure you. 
+     It won't harm you, I assure you. 
      player:
           &batcountry: 
             Yo hold up no, I know what that stuff does to The Cellist.
           &slammin:
-            Alright, let’s party. [Slam that shit]
+            Alright, let's party. [Slam that shit]
 
 ##### "FUCK NO I AINT GOING THROUGH THAT AGAIN"
 

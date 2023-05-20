@@ -33,7 +33,7 @@ a2:
 	*BAR_SURPRISE*
 	*setanim cat_bar gesture_shock 1 idle*
     Ah!% *player*!%%%%*BAR_HAPPY* 
-    I was going to come to find you,% actually.%%%*BAR_NEUTRAL* We're going on a little field
+    I was going to come find you,% actually.%%%*BAR_NEUTRAL* We're going on a little field
     trip to the hot spring,%%*setanim cat_bar gesture_confused 1 idle* would you care to join us?
     &a3
 

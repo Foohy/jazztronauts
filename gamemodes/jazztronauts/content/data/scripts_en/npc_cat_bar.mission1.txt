@@ -1,7 +1,7 @@
 accept:
      Ah, *player*. I am glad you dropped by, I have a job you might 
      be interested in. Every now and then we are required to scavenge for
-     parts to keep the trolley operational. 
+     parts in order to keep the trolley operational. 
      &a1
 
 a1:
@@ -32,7 +32,7 @@ a4:
      &a5
 
 a5:
-     And since you are doing me a favor with this job, your first three
+     And since you are doing me a favour with this job, your first three
      drinks are on the house!
      &exit
 
@@ -48,7 +48,7 @@ a6:
      &a7
 
 a7:
-     As agreed, here's your payment. 
+     As agreed, your payment. 
      &a8
 
 a8:

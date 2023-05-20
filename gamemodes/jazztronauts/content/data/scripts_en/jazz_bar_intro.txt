@@ -321,7 +321,7 @@ a24:
      *setspeaker cat_bar*
 	 *BAR_HAPPY*
 	 *setanim cat_bar gesture_agree 1 idle*
-     Certainly.%%%*BAR_NEUTRAL* We've got many facilities here in the Bar Samsara.%
+     Certainly.%%%*BAR_NEUTRAL* We've got a number of facilities here in the Bar Samsara.%
      The most important one is the trolley depot.%% The trolley is how you 
      visit a map once you've selected it.%%%*setanim cat_bar gesture_confused 1 idle* Once all players have taken a 
      seat, it'll take care of the rest.
@@ -407,9 +407,9 @@ a34:
 a35:
 	*setanim cat_bar gesture_confused 1 idle*
      We should note,% that the money gained from stealing props is shared
-     between you and your friends.%%%% Every player receives their 
-     own share of money based on the total cash value of all props
-     stolen on the server,% regardless of who stole it.
+     between you and your friends.%%%% Every player receives their own
+     individual share of money based on the total cash value of all 
+     props stolen on the server,% regardless of who stole it.
      &a36
 
 a36:
@@ -442,7 +442,7 @@ a39:
 a40:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
      I am The Bartender.%%% As my name suggests,% I am the one who tends 
-     the bar.%%%% You can spend the money you've gained here on new 
+     the bar.%%%% You can spend the money you've gained here for new 
      equipment,%% or to level up your tools and allow you to explore and 
      steal more freely and easily.
      &a45
@@ -621,7 +621,7 @@ honk2:
      *setspeaker cat_piano*
 	 *PIANO_BLINK*
 	 *setanim cat_piano gesture_facepalm 1 idle*
-     You look like the Platonic form of a used car salesman who got caught in
+     You look like the Platonic form of a used car salesman got caught in
      an explosion at a tweed factory.%%*PIANO_NEUTRAL* It might be illegal for you to give 
      advice about style to anyone.
      &honk3

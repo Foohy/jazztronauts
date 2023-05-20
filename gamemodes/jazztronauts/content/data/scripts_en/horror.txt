@@ -67,7 +67,7 @@ mattress2:
     Beneath the sheet, small lumps shiver.
     &mattress2b
 mattress2b:
-    Crawling beneath the fingernails.
+    A crawling beneath the fingernails.
     &exit
 
 mattress3:

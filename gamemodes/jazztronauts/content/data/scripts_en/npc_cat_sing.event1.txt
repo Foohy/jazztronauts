@@ -53,7 +53,7 @@ b3:
 	*setanim cat_singer gesture_sweep 1 idle*
 	
 	> A hurried message is presented\:%%%*SINGER_HAPPY* "Hi sorry I get super fucking 
-	out of it when I'm cataloging!!!
+	out of it when I'm catalouging!!!
 	&b3b
 	
 b3b:	

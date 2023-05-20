@@ -73,12 +73,12 @@ a5:
 
 a6:
 	*setanim cat_cello gesture_shrug 1 idle*
-    if you can’t use your own creative drive,%% a stolen one is fine
+    if you can't use your own creative drive,%% a stolen one is fine
     &a7
 
 a7:
 	*setanim cat_cello gesture_agree 1 idle*
-    long story short we didn’t actually go anywhere physical we just sat 
+    long story short we didn't actually go anywhere physical we just sat 
     in the bus and went on a profound mental journey powered by all
     those shards you've been stealing
     &a8
@@ -87,7 +87,7 @@ a8:
     *setspeaker cat_piano*
 	*setanim cat_piano gesture_confused 1 idle*
     Should have enough for twenty more visits, easy, thanks to your help 
-    gettin’ all that shard goop ready. 
+    gettin' all that shard goop ready. 
     &a9
 
 a9:
@@ -110,7 +110,7 @@ a11:
 	*setcam setpos -185.023544 678.457520 65.429253;setang -0.230201 -31.948051 0.000000*
     *setspeaker npc_cat_bar*
 	*setanim npc_cat_bar gesture_agree 1 idle*
-    We are deeply grateful for your help,%% *player*.%%%% It’s been such a 
+    We are deeply grateful for your help,%% *player*.%%%% It's been such a 
     long time since our last proper vacation.
     condition:
     &complete1:
@@ -120,12 +120,12 @@ a11:
 
 incomplete1:
 	*setanim npc_cat_bar gesture_confused 1 idle*
-    We have more work for you if you’re interested. 
+    We have more work for you, if you're interested. 
     &a12
 
 complete1:
 	*setanim npc_cat_bar gesture_laugh 1 idle*
-    It’s been a pleasure having you around, and you are of course welcome 
+    It's been a pleasure having you around, and you are of course welcome 
     to stay at the Bar Samsara as long as you like.
     &a12
 

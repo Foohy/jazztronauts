@@ -37,7 +37,7 @@ b1:
 	Y'know.%%% I envy you,% *player*.%%%%%
 	At first, I thought maybe I hate you?%%
 	But,% I did some talking to The Bartender,%% 
-	and I realized it was a different feeling.
+	and I realized it's a different feeling.
 	&b2
 	
 b2:

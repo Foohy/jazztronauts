@@ -11,13 +11,13 @@ begin:
 	*show*
 	Hey.%%% Do you have a minute?%%
 	I really.%%%% Want to talk.%
-	I need a personal favor.
+	I need a personal favour.
 	&b1
 	
 b1:
 	*setspeaker narrator*
 	> This is the last Event in The Pianist's quest line.%%%
-	It may take you a while to watch,% but you can come back to it
+	It may take a while to watch,% you can come back to it
 	without penalty if you are in a hurry.
 	player:
 	&r1a1:
@@ -135,7 +135,7 @@ r4a2:
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_disagree 1 idle*
 	What?% No.%%% It's a piano.%%%%*setanim cat_piano gesture_foldarms 1 idle*
-	I mean,% it's fucking terrible,%% I've been meaning to steal a better one.*setanim cat_piano gesture_sweep 1 idle*%%%%
+	I mean,% it's fucking terrible,%% been meaning to steal a better one.*setanim cat_piano gesture_sweep 1 idle*%%%%
 	     ######make pianist gesture in a direction that has real piano. maybe camera hold on it.
 	&r4a3
 	

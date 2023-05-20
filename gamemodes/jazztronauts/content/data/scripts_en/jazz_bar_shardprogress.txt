@@ -107,7 +107,7 @@ com2:
 	
 com3:
 	*setspeaker cat_cello*
-	Pipes got really worried about you possibly falling into the void
+	Pipes got real worried about you possibly falling into the void
 	or getting stranded somewhere.%%% So they made this.
 	&com4
 	

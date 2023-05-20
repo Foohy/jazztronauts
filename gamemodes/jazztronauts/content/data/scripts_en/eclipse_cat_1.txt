@@ -21,7 +21,7 @@ begin:
      &a1
 	
 a1:
-     It’s quiet here.
+     It's quiet here.
      &a2
 	
 a2:
@@ -35,7 +35,7 @@ a3:
      &a4
 
 a4:
-     The answers didn’t matter. 
+     The answers didn't matter. 
      &exit
 	
 	

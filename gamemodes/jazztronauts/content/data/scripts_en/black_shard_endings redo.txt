@@ -66,21 +66,21 @@ a6:
      I want it to stop.
      &a7
 a7:
-     So I’m going to make it stop. 
+     So I'm going to make it stop. 
      &a8
 a8:
 	*setcam setpos 6967.688477 -722.004883 3672.721680;setang 5.359948 88.693024 0.000000*
-     I’ve done it before.
+     I've done it before.
      &a9
 a9:
-     It’s satisfying. 
+     It's satisfying. 
      &a10
 a10:
      For a moment.
      &a11
 a11:
 	*setcam setpos 7244.212891 -58.720615 3589.071533;setang -15.669834 164.932739 0.000000*
-     You’ve done it before. It’s how you got here.
+     You've done it before. It's how you got here.
      &a12
 a12:
 	*setcam setpos 7155.043945 3.289596 3624.215332;setang -19.343403 2.177998 0.000000*
@@ -158,8 +158,8 @@ trueend2:
     &t1
 
 The trolley hurtles through the void/wall/offscreen and smacks into the eclipse cat with the cow catcher, 
-sends them hurtling out of view. Bartender is driving, Singer’s hanging out of the window, Pianist dangles out of the door 
-and stares in direction the eclipse cat was flung. If we can give The Pianist A Gun that’d be rad, if not that’s fine. 
+sends them hurtling out of view. Bartender is driving, Singer's hanging out of the window, Pianist dangles out of the door 
+and stares in direction the eclipse cat was flung. If we can give The Pianist A Gun that'd be rad, if not that's fine. 
 Cellist dangles out the other side of the door and has his hand outstretched
 
 
@@ -191,7 +191,7 @@ t2:
     *setspeaker cat_cello*
 	*setcam setpos 7147.498047 -85.310432 3686.143799;setang 8.021998 147.744354 0.000000*
 	*setanim cat_cello gesture_disagree 1.5 idle*
-    c’mon buddy we ain’t got all day and i am not dying before 
+    c'mon buddy we ain't got all day and i am not dying before 
     i find out the wu tang secret
     &t3
 
@@ -200,12 +200,12 @@ t3:
     *setspeaker cat_piano*
 	*setcam setpos 6986.671387 -191.368927 3644.737549;setang -13.753159 13.206947 0.000000*
 	*setanim cat_piano gesture_shock 1.6 idle*
-    BOSS IT’S TIME TO GO THAT THING IS BEING WEIRD AND I*setanim cat_piano gesture_disagree 1 idle* 
-	DIDN’T HAVE TIME TO GRAB THE FLAMETHROWER.
+    BOSS IT'S TIME TO GO THAT THING IS BEING WEIRD AND I*setanim cat_piano gesture_disagree 1 idle* 
+	DIDN'T HAVE TIME TO GRAB THE FLAMETHROWER.
     &t4
 
 Cut to the eclipse cat floating in the void, some kind of messed up vfx of it maybe stretching and distorting like 
-when a model gets all fucked up by twisting in ways it shouldn’t. Bartender reverses out of the hole she made and does a
+when a model gets all fucked up by twisting in ways it shouldn't. Bartender reverses out of the hole she made and does a
 sick u-turn on the narrow strip of voidway track. The void should be all fucked up, maybe with the red shard effect? 
 As the trolley starts to go, everything gets shaky and the road starts to crack up.
 
@@ -290,7 +290,7 @@ t10:
 t11:
 	The Pianist yowls, digging her claws into the 
         upholstery of a seat as she and The Cellist are 
-        thrown around. She’s going to lose her grip!
+        thrown around. She's going to lose her grip!
     &t12
 
 t12:	
@@ -306,12 +306,12 @@ t13:
 	> The Singer lunges, tablet clattering out of 
         their hands and lost out the window to the void. 
         They claw forward, climbing the rows of seats, 
-        and grab The Pianist’s paw.
+        and grab The Pianist's paw.
      &t14
 
 t14:
         > They grit their teeth and yank, with strength 
-        you wouldn’t expect from the smallest of the bunch. 
+        you wouldn't expect from the smallest of the bunch. 
         The Bartender shoots another look back over her 
         shoulder, at you. 
     &t15
@@ -326,10 +326,10 @@ t14b:
 	*setspeaker narrator*
 	> You start moving without thinking before The Bartender 
         has even finished speaking. You hook an arm around the 
-        Singer’s waist and all four of your friends hiss as the 
+        Singer's waist and all four of your friends hiss as the 
         void above you crackles with vicious intent.
 	player:
-		&t14c: I’ve got you. It’s going to be okay. We’re going to be okay.
+		&t14c: I've got you. It's going to be okay. We're going to be okay.
 		&t14c: NOT TODAY YOU RAT FUCK, GET YOUR SHITTY PAWS OFF MY FRIENDS. 
 
 14c:
@@ -370,7 +370,7 @@ t17:
 t18:
 	[shocked]
 	*setspeaker cat_bar*
-	They’re right, but now is not the time for touching 
+	They're right, but now is not the time for touching 
 	confessions. Hold on, another wave is coming.
      &t19
 
@@ -379,7 +379,7 @@ t18:
 t19:
     
 	*setspeaker cat_piano*
-        We’ve got a pursuer!
+        We've got a pursuer!
     &t20
 
 t20:
@@ -399,7 +399,7 @@ t21:
 The void slowly fades back to its normal state as the trolley evens out onto a flat path. If possible, have 
 the cats t-posing in the void be Ash.]
 
-[Don’t give Ash a name in game now. They hop down off the cow catcher onto the track beside the trolley. 
+[Don't give Ash a name in game now. They hop down off the cow catcher onto the track beside the trolley. 
 Waves. Turns around and starts walking back. Change view back to interior of trolley. Beat]
 
 t22:
@@ -420,9 +420,9 @@ t23:
 t24:	
 	[shocked]
 	*setspeaker cat_bar*
-	I don’t know what that was. 
+	I don't know what that was. 
         Sit tight, everyone. 
-        Let’s go home.
+        Let's go home.
 
 t25:
 	*setcam setpos 1454.141357 503.886780 -1829.567505;setang -0.602724 -0.324777 0.000000*
@@ -446,7 +446,7 @@ t25:
 t26:
 	*BAR_HAPPY*
 	*setanim cat_bar gesture_clap 1 idle*
-        Well, that was existentially horrifying and I’d 
+        Well, that was existentially horrifying and I'd 
         like to not think about it for a few hours, so I 
         propose a celebration.
     &t27
@@ -457,8 +457,8 @@ t27:
 	*PIANO_SMIRK*
         *setspeaker cat_piano*
 	*setanim cat_piano gesture_laugh 1 idle*
-        It’s not often something scares the shit out of me,%% so,%%% yes a 
-        “thank fuck we’re alive” party sounds ideal. 
+        It's not often something scares the shit out of me,%% so,%%% yes a 
+        “thank fuck we're alive” party sounds ideal. 
     &t28
 
 [cut to The Cellist with a smear of white powder under his nose, with his pupils expanded to fill almost the entire white of his eyes]
@@ -469,7 +469,7 @@ t29:
 	*setcam setpos 1771.005737 526.512756 -1850.544189;setang -4.382786 -155.031708 0.000000*
 	*setanim cat_cello gesture_confused 1 idle*
         sorry did you say something i was too busy attempting to erase 
-        the memory of that sudden caress from the reaper’s bony fingers 
+        the memory of that sudden caress from the reaper's bony fingers 
         by chemically carpet bombing what remains of my fear of death
     &t30
 
@@ -479,8 +479,8 @@ t30:
 	*CELLO_NEUTRAL*
         look i will make an attempt to stick to standard and known forms 
         of mind altering substances and do no more than fifty (50) doses 
-        in a day but i’m gonna be real me and sobriety are gonna have to 
-        dance an extended tango before i know if we’re gonna be a good fit
+        in a day but i'm gonna be real me and sobriety are gonna have to 
+        dance an extended tango before i know if we're gonna be a good fit
      &t31
 
 t31:
@@ -494,13 +494,13 @@ t31:
 
 t32:
         > When they hold it up, everyone looks very serious as they read 
-        the text: “guy we nearly just fucking died. for real. I’m always 
+        the text: “guy we nearly just fucking died. for real. I'm always 
         down to party but i think this is really important.”
         &33
 
 t33:
-        > “What you said in the trolley, Pianist, Cellist. I’m so sorry!! 
-        I’m so sorry you felt so alone and unwanted and i promise neither 
+        > “What you said in the trolley, Pianist, Cellist. I'm so sorry!! 
+        I'm so sorry you felt so alone and unwanted and i promise neither 
         The Bartender or i ever wanted you to feel like that. Of course 
         we forgive you.”
         &34
@@ -516,7 +516,7 @@ t35:
         &36
 
 t36:
-        > There’s a moment of silence after everyone finishes reading. 
+        > There's a moment of silence after everyone finishes reading. 
         The Bartender puts an arm around The Singer, who is openly 
         sobbing. She holds out her other paw, and after exchanging 
         glances, The Cellist and The Pianist join the group hug. 
@@ -556,7 +556,7 @@ t39:
 	 The clink of glass on the bar gets your attention.
      &t40
 
-[Fade back. Ideal Goals is for the place to look festive via many npc’s being present and mingling, 
+[Fade back. Ideal Goals is for the place to look festive via many npc's being present and mingling, 
 many plates of those cookie and drink assets out. Pianist and Cellist laughing together with beverages 
 off to the side, Singer bouncing next to their assistant metrocop. The trolley pulls up and another metrocop 
 gets out. The Singer sprints over and drags them back to meet the other one, paws flapping. Focus on the glass 
@@ -572,7 +572,7 @@ t40:
         That was a close call back there.
      player:
      &r1: 
-	 I can’t stop thinking about that other cat. 
+	 I can't stop thinking about that other cat. 
      &r2: 
 	 Do you ever worry about getting stuck in a rut?
      &r3: 
@@ -595,14 +595,14 @@ r1a:
 
 r2a:
     
-    I don’t know what happened to make them that way, but 
-    I hope they are at peace now. I’ve felt like that before. 
-    That’s what made it so frightening. 
+    I don't know what happened to make them that way, but 
+    I hope they are at peace now. I've felt like that before. 
+    That's what made it so frightening. 
     &r2b
 
 r2b:
     It reminded me of the urge that comes when you finish something 
-    and it doesn’t meet your own standards.
+    and it doesn't meet your own standards.
     &r2c
 
 r2c:  
@@ -650,12 +650,12 @@ r2c:
 	*BAR_BLINK*
 	*setanim cat_bar gesture_foldarms 1 idle*
     I often wonder whether I am already in a rut,%% 
-	and simply haven’t noticed yet.%%%%*BAR_NEUTRAL*
+	and simply haven't noticed yet.%%%%*BAR_NEUTRAL*
 	&r2c1
 	
 r2c1:
     If these days of quiet*setanim cat_bar gesture_shrug 1 idle* contentment will be a thing I resent in time for 
-    ‘robbing’ me of time spent working on some other project.  
+    ‘robbing' me of time spent working on some other project.  
     &r2d
 
 r2d:
@@ -681,7 +681,7 @@ r2g:
      That,% for me,%% for now,%%%*BAR_NEUTRAL* is happiness.%%%%% 
 	 And should that change,% I shall seek a different engagement.
      player:
-     &r1: I can’t stop thinking about that other cat.
+     &r1: I can't stop thinking about that other cat.
      &r3: Thanks for coming to get me.
      &t30: I think The Pianist wants to talk to us...? (continue)
 
@@ -697,12 +697,12 @@ r3:
 	*wait .35*
 	*BAR_BLINK*
 	*setanim cat_bar gesture_disagree 1 idle*
-    A host who does not ensure the welfare*BAR_NEUTRAL* of her honored guests 
+    A host who does not ensure the welfare*BAR_NEUTRAL* of her honoured guests 
     is a poor one indeed. 
     &r3a
 r3a:
 	*setanim cat_bar gesture_shrug 1 idle*
-    More than that,% we’d have been awful friends if we just sat 
+    More than that,% we'd have been awful friends if we just sat 
     on our paws and stayed home.
      &r3b
 
@@ -728,17 +728,17 @@ t41:
 	*setanim cat_piano gesture_embarass 1 idle*
      Hey,% we were talking and we want to do something to 
 	 show our appreciation*PIANO_NEUTRAL* for everything 
-	 you’ve done.%%% Before you head off. 
+	 you've done.%%% Before you head off. 
      &t42
 
 t42:
      *setspeaker cat_cello*
 	 *CELLO_NEUTRAL*
 	 *setanim cat_cello gesture_shrug 1 idle*
-     yeah everyone’s got their own path to walk and you’re welcome to hang 
+     yeah everyone's got their own path to walk and you're welcome to hang 
      as long as you want but uh%%%%
 
-     we kinda can’t pay you any more
+     we kinda can't pay you any more
      &t43
 
 [The Singer nods sadly.]
@@ -746,15 +746,15 @@ t42:
 t43:
 	*SINGER_NEUTRAL*
      *setspeaker cat_singer*
-     > The Singer holds up their tablet\:%% “We’re settling down into this 
+     > The Singer holds up their tablet\:%% “We're settling down into this 
      business full time!!!%%% Going legit.%% And thanks to your help with my 
-     research,% I’ve figured out how to keep us fully supplied without 
+     research,% I've figured out how to keep us fully supplied without 
      needing to scavenge (\=✪ᆽ✪\=)”
      &t44
 
 t44:
 	*setspeaker cat_piano*
-    And we talked, while we were setting up. Realized how much we’d 
+    And we talked, while we were setting up. Realized how much we'd 
     been assuming everyone else knew. All the little shit that had 
     built up and gone sour. We need some time, after this. Figure 
     out how to move forward, together. 
@@ -767,10 +767,10 @@ t45:
     or thinly veiled cries for help but uh
     i'll give it a shot. we all owe you a lot, *player*.
     player:
-    &t46: No debt. We’re friends. If ya’ll had let go I would have gone 
+    &t46: No debt. We're friends. If ya'll had let go I would have gone 
     down to Hell and dragged your asses back out. 
-    &t46: We’re good.
-    &t46: I’m gonna miss you, you fuckers.
+    &t46: We're good.
+    &t46: I'm gonna miss you, you fuckers.
 
 t46:
 	*PIANO_SMIRK*
@@ -786,4 +786,4 @@ t47:
     Nothing would make me happier.
     &exit
 
-[And scene. Credits roll, the cats are performing the title song [or something more fitting]. When it’s over, cut back to the bar.]
+[And scene. Credits roll, the cats are performing the title song [or something more fitting]. When it's over, cut back to the bar.]

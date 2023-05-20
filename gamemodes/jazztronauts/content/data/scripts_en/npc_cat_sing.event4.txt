@@ -20,7 +20,7 @@ begin:
 	
 ###### START
 	*setspeaker narrator*
-	> Passing by the bar, you spot The Singer and The Bartender.
+	> Passing by the bar, you spot the Singer and Bartender.
 	&b1
 	
 b1:
@@ -28,7 +28,7 @@ b1:
 	*setspeaker narrator*
 	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_foldarms .75 idle*
-	> The Bartender is reading whatever The Singer has written on 
+	> The Bartender is reading whatever the Singer has written on 
 	their tablet with great rapture.%%% Her expression shifts into a 
 	broad smile*BAR_HAPPY*,%*setanim cat_bar gesture_agree 1 idle* and*SINGER_HAPPY* the*setanim cat_singer gesture_clap 1 idle* Singer claps.
 	&b2
@@ -51,7 +51,7 @@ b3:
 	*setanim cat_bar gesture_exchange 2 idle*
 	Speaking of which,% welcome!%%*BAR_NEUTRAL* Take a seat,%*setanim cat_bar gesture_sweep 1 idle* and I'll mix you 
 	something up.%% Free of charge,% since you've been such an 
-	invaluable research assistant for The Singer.
+	invaluable research assistant for the Singer.
 	player:
 	&r1a1:
 		*setcam setpos -2827.137939 2962.743408 73.351692;setang 3.443354 -46.724812 0.000000*
@@ -72,7 +72,7 @@ r1a1:
 	*setspeaker cat_singer*
 	*BAR_HAPPY*
 	*SINGER_HAPPY*
-	The Singer smiles and waves as you head off,% and the 
+	> The Singer smiles and waves as you head off,% and the 
 	Bartender salutes you with an empty glass. 
 	&r1a2
 	
@@ -82,7 +82,7 @@ r1a2:
 	*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
 	*BAR_NEUTRAL*
 	*SINGER_NEUTRAL*
-	They immediately return to their conversation and you hear 
+	> They immediately return to their conversation and you hear 
 	something about an 'ascension program' as you walk away.
 	&exit
 	
@@ -116,7 +116,7 @@ r3a1b:
 	*setcam setpos -2782.492188 3007.046875 71.127144;setang 7.276641 -122.636238 0.000000*
 	*SINGER_BLINK*
 	*setanim cat_singer gesture_foldarms .7 idle*
-	> Apparently they have been telling The Bartender all about the 
+	> Apparently they have been telling the Bartender all about the 
 	behaviors they've observed from the new Mewseum resident you 
 	acquired for them,%%%*SINGER_NEUTRAL* and of some new behaviours older 
 	subjects have displayed in response.
@@ -164,7 +164,7 @@ m2b:
 	*setanim cat_singer gesture_foldarms .7 idle*
 	They recount the time in which their assistant spent three 
 	weeks trawling the Voidway searching for a specific level
-	trigger that The Singer had theorized could revolutionize 
+	trigger that the Singer had theorized could revolutionize 
 	the Mewseum's storage system.*SINGER_NEUTRAL*
 	&m3
 	

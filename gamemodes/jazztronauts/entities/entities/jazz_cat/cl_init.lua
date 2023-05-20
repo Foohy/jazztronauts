@@ -172,7 +172,7 @@ function ENT:Draw()
 	local mins, maxs = self:AdjustBounds()
 	render.DrawWireframeBox( self:GetPos(), self:GetAngles(), mins, maxs, color_white)--]]
 
-	-- Only The Bartender has multiple options, everyone else just chats
+	-- Only the Bartender has multiple options, everyone else just chats
 	if self.ChatChoices and #self.ChatChoices > 0 then
 		self:UpdateChatFade()
 

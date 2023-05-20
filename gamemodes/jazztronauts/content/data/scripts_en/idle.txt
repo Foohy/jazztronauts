@@ -262,7 +262,7 @@ singer_bark2:
 
 singer_bark3:
     *setauto*
-     > You find The Singer sitting with the Cellist. They both appear 
+     > You find the Singer sitting with the Cellist. They both appear 
      to be...meditating? You sit with them both for a while.
      &exit
 
@@ -408,7 +408,7 @@ piano_truebark4:
 piano_truebark5:
     *setauto*
      I managed another improvisation yesterday. I thought it was pretty 
-     shit, but The Bartender loved it. It's a start, right?
+     shit, but the Bartender loved it. It's a start, right?
      &exit
 
 
@@ -493,7 +493,7 @@ cello_truebark4:
 
 cello_truebark5:
     *setauto*
-     The Bartender's holding me to that promise I made about cutting back
+     the bartender's holding me to that promise I made about cutting back
      and let me tell you it's an odd hour that goes by when i don't want 
      to go back in time and punch myself for agreeing to that. i'm 
      noticing improvements in my health, though. begrudgingly.
@@ -502,7 +502,7 @@ cello_truebark5:
 cello_truebark6:
     *setauto*
      can I ask you a favor? if you see a metrocop with a little cat 
-     emblem pin out there in the Void, tell them The Cellist says 
+     emblem pin out there in the Void, tell them the cellist says 
      hello...and that he's sorry.
      &exit
 

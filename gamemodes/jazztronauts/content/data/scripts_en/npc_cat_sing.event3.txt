@@ -49,8 +49,8 @@ b2:
 	*wait .1*
 	*show*
 	> You make it to the Performance Hall*setcam setpos -830.770874 423.708344 -12.305580;setang 2.458383 95.515366 0.000000**setposang cat_cello setpos -1135 676 5;setang 30 90 -180* relatively quickly as you w*tweenposang cat_cello .5 setpos -544.969666 399.670746 0;setang -90 60 0.000000*-%%%
-	%.%.%.%wait did The Cellist fly past you just now?%%%%*setcam setpos -748.055054 591.843384 25.641350;setang 12.760325 -141.553528 0.000000* You turn around to see
-	what launched him and see The Pianist charging after The Cellist!
+	%.%.%.%wait did the Cellist fly past you just now?%%%%*setcam setpos -748.055054 591.843384 25.641350;setang 12.760325 -141.553528 0.000000* You turn around to see
+	what launched him and see the Pianist charging after the Cellist!
 	&b3
 	
 b3:
@@ -129,7 +129,7 @@ m3:
 	*SINGER_NEUTRAL*
 	*setanim cat_singer gesture_sweep 1 idle*
 	> Blithely ignoring the crackling tension in the air,%% 
-	The Singer starts tapping away on their tablet.
+	the Singer starts tapping away on their tablet.
 	&m4
 	
 m4:
@@ -141,7 +141,7 @@ m4:
 	*PIANO_FLUSTERED*
 	*setanim cat_piano gesture_embarass 1 idle*
 	> Surprisingly enough,%% this act alone is enough to make the 
-	Pianist AND The Cellist look visibly mortified.
+	Pianist AND Cellist look visibly mortified.
 	&m5
 	
 m5:
@@ -212,7 +212,7 @@ m11:
 	*setcam setpos -502.475708 528.906189 60.026531;setang 6.557827 -131.597961 0.000000*
 	*SINGER_NEUTRAL*
 	*setanim cat_singer gesture_exchange 1 idle*
-	> They give The Cellist and Pianist a reassuring pat on 
+	> They give the Cellist and Pianist a reassuring pat on 
 	the arm before typing out a longer message\: 
 	&m12
 	
@@ -241,7 +241,7 @@ m14:
 	*setanim cat_singer gesture_jab 1.3 idle*
 	*CELLO_MAD*
 	*setanim cat_cello gesture_embarass 1 idle*
-	> The Singer,% having somehow shut The Cellist up,%%% informs 
+	> The Singer,% having somehow shut the Cellist up,%%% informs 
 	him that he is far from blameless.%% He specifically tried to provoke 
 	The Pianist with inflammatory statements,%*setanim cat_singer gesture_disagree 1.4 idle* and should cut it the
 	fuck out. 
@@ -280,7 +280,7 @@ m17:
 	&m17b
 		
 m17b:
-	> The Cellist and The Pianist go their separate ways,%% 
+	> The Cellist and Pianist go their separate ways,%% 
 	each looking thoroughly chastised. *mark_seen*
 	&exit
 	

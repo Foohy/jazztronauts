@@ -36,7 +36,7 @@ begin:
 	*SINGER_NEUTRAL*
 	*CELLO_NEUTRAL*
 	*show*
-	> This is where The Pianist said the party was.%%% You think.%%
+	> This is where the Pianist said the party was.%%% You think.%%
 	All of the cats are here,% seated around the table.%% 
 	%.%.%.%the rotten takeout you got is here too.
 	&b1
@@ -263,7 +263,7 @@ r3a17:
 r3a18:
 	*setposang cat_piano setpos -1524.946167 3146.739746 -128;setang -90 210 0.000000*
 	*setanim cat_piano gesture_exchange 2 idle*
-	> As soon as the song is over The Pianist hurls the recorder
+	> As soon as the song is over the Pianist hurls the recorder
 	across the room and storms out!
 	
 	player:

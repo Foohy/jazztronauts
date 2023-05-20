@@ -1,7 +1,7 @@
 accept:
      Oh thank f- *player*, I'm afraid I desperately need your help. 
      All of our propane has gone missing. And by gone missing, I mean I 
-     found The Cellist floating face down in the contemplation pond 
+     found the Cellist floating face down in the contemplation pond 
      surrounded by empty tanks.
      &a1
 

@@ -25,9 +25,9 @@ begin:
 	*PIANO_FLUSTERED*
 	*BAR_NEUTRAL*
 	*show*
-	> The Bar Samsara%.%.%.%.%%% The Bartender and Pianist are here.%%%*setcam setpos -2836.795898 2930.008301 72.372398;setang 5.027821 138.527481 0.000000*
+	> The Bar Samsara%.%.%.%.%%% the Bartender and Pianist are here.%%%*setcam setpos -2836.795898 2930.008301 72.372398;setang 5.027821 138.527481 0.000000*
 	
-	Though The Pianist appears to be dead,% facedown on the bar.%%%%*setanim cat_piano pianist_drunk_to_player .45*
+	Though the Pianist appears to be dead,% facedown on the bar.%%%%*setanim cat_piano pianist_drunk_to_player .45*
 	Wait,% no% she's moving.
 	&b1
 	
@@ -36,7 +36,7 @@ b1:
 	*setcam setpos -2776.685059 3001.112305 58.127655;setang -0.901774 -160.140305 0.000000*
 	Y'know.%%% I envy you,% *player*.%%%%%
 	At first, I thought maybe I hate you?%%
-	But,% I did some talking to The Bartender,%% 
+	But,% I did some talking to the Bartender,%% 
 	and I realized it's a different feeling.
 	&b2
 	
@@ -186,7 +186,7 @@ m1:
 m2:
 	*setcam setpos -2843.300537 2950.044189 76.034767;setang 4.703950 131.373810 0.000000*
 	*setspeaker narrator*
-	> The Bartender walks over to The Pianist,%%%*setanim cat_bar gesture_exchange 1 idle* and pats her on the head.
+	> The Bartender walks over to the Pianist,%%%*setanim cat_bar gesture_exchange 1 idle* and pats her on the head.
 	&m3
 	
 m3:

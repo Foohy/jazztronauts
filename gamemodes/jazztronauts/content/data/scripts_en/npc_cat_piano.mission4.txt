@@ -33,7 +33,7 @@ a4:
 	
 a5:
 	So!%% I'm going to pay you an exorbitant finders fee,% and you're going 
-	to get me something flashy enough to wipe my sins from The Cellist's 
+	to get me something flashy enough to wipe my sins from the Cellist's 
 	barely functional short-term memory\:%%%% 
 	A Massive Horse Statue. *start 4*
 	&exit
@@ -66,7 +66,7 @@ turnin:
 	*setnpcid narrator npc_narrator*
 	*setspeaker cat_piano*
 	I see that you have,% the horse.%%%
-	I'm gonna go brain him with The Bartender's frying pan,% and while 
+	I'm gonna go brain him with the Bartender's frying pan,% and while 
 	he's knocked out,%% you drag the statue over.
 	&t1
 	
@@ -134,7 +134,7 @@ t10:
 t11:
 	*setspeaker narrator*
 	> The Cellist happily crawls around the horse statue.%%%%
-	Wordlessly,% you are given $25,000 by The Pianist.%%%*finish 4*
+	Wordlessly,% you are given $25,000 by the Pianist.%%%*finish 4*
 	Looks like everything's just fine,% somehow.
 	&exit
 	

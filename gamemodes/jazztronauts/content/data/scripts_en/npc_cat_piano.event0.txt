@@ -21,7 +21,7 @@ begin:
 ###### START
 	*setspeaker narrator*
 	*show 0.5*
-	> The Pianist and The Bartender are having a chat at the Samsara...
+	> The Pianist and Bartender are having a chat at the Samsara...
 	&b1
 	
 b1:
@@ -160,7 +160,7 @@ r2a3:
 	*setcam setpos -2833.329102 2918.047363 67.908310;setang -1.925611 103.680092 -0.450000*
 	I don't know,% I find the idea quite charming.%% And there would be no 
 	need to build an additional venue to facilitate it.%%%*setanim cat_bar gesture_laugh 1 idle* We*BAR_HAPPY* have plenty of 
-	space!% I could have The Singer make us a nice banner,%% 
+	space!% I could have the Singer make us a nice banner,%% 
 	put out some pamphlets%.%.%.
 	&r2a4
 	
@@ -201,7 +201,7 @@ r2a8:
 	I'm going to die.%%%
 	You're going to find me one day under a table% with a little epitaph 
 	carved into the blade of the axe you won't let me use.%% 
-	And all it'll say is% "Here lies The Pianist.%% Died of boredom"
+	And all it'll say is% "Here lies the Pianist.%% Died of boredom"
 	&m1
 	
 ###### Branch 3
@@ -228,7 +228,7 @@ r3a2:
 	
 r3a3:
 	*PIANO_SMIRK*
-	We'd finally have a fuckin' use for all The Singer's toys,% too.%%*setanim cat_piano gesture_agree 1 idle*
+	We'd finally have a fuckin' use for all the Singer's toys,% too.%%*setanim cat_piano gesture_agree 1 idle*
 	It's genius.
 	&r3a4
 	

@@ -57,7 +57,7 @@ a1:
 
 ##Production note:
 ##This line is accompanied with an establishing shot of the stage. 
-##The bartender is standing still, center stage, with The Cellist and the 
+##The bartender is standing still, center stage, with cellist and 
 ##singer jazz hands-ing behind him, at his flanks. Further behind him is a
 ##giant sign saying 'Welcome New Players!' lit up. The pianist is taking a
 ##nap on some crates below it.
@@ -79,7 +79,7 @@ a3:
 a4:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setanim cat_bar gesture_sweep 1*
-     You are currently inside the Bar Samsara.%%% I am The Bartender 
+     You are currently inside the Bar Samsara.%%% I am the Bartender 
      here.%%*setanim cat_bar gesture_agree 1 idle* It is an establishment we run where beings from all dimensions
      can stop in for a visit to relax and refresh.
      &a5
@@ -441,7 +441,7 @@ a39:
 
 a40:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
-     I am The Bartender.%%% As my name suggests,% I am the one who tends 
+     I am the Bartender.%%% As my name suggests,% I am the one who tends 
      the bar.%%%% You can spend the money you've gained here for new 
      equipment,%% or to level up your tools and allow you to explore and 
      steal more freely and easily.

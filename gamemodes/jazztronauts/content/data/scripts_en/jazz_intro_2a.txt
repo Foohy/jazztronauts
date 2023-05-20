@@ -23,7 +23,7 @@ begin2:
 *setspeaker cat_piano*
 *PIANO_BLINK*
 Yes%, it happens.%%
-And each time*setcam setpos -13561.711914 -2139.091064 1050.501587;setang 4.441590 -96.009224 0.000000* it's The Cellist who loses them.*PIANO_NEUTRAL*%*setanim cat_piano gesture_facepalm 1 idle*%%
+And each time*setcam setpos -13561.711914 -2139.091064 1050.501587;setang 4.441590 -96.009224 0.000000* it's Cellist who loses them.*PIANO_NEUTRAL*%*setanim cat_piano gesture_facepalm 1 idle*%%
 I wonder why.
 &begin3
 
@@ -44,7 +44,7 @@ begin5:
 *setspeaker narrator*
 *setcam setpos -13609.158203 -1964.928223 1061.693237;setang 9.233204 -80.556320 0.000000*
 > The Pianist pauses.%*PIANO_NEUTRAL*%*CELLO_GRIN*% She visibly tries*PIANO_BLINK* to calm herself
-as The Cellist's grin grows wider%%%,*PIANO_ANGRY* then snaps anyway.
+as the Cellist's grin grows wider%%%,*PIANO_ANGRY* then snaps anyway.
 &begin6
 
 begin6:

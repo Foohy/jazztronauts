@@ -189,7 +189,7 @@ b1:
 	*setanim player idle_all_02*
 	*setspeaker narrator*
 	*setanim cat_singer gesture_disagree 1 idle*
-	> You start after The Cellist,%% only to be stopped by The Singer*setanim cat_singer singer_crawl 1 idle* 
+	> You start after the Cellist,%% only to be stopped by the Singer*setanim cat_singer singer_crawl 1 idle* 
 	practically tackling you from behind to hold you back.
 	&b2
 
@@ -197,7 +197,7 @@ b2:
 	*setspeaker cat_singer*
 	*setanim cat_singer gesture_disagree 2 idle*
 	> They shake their head frantically,%%% still blinking away tears,%% 
-	before hastily typing out a plea for you to let The Cellist have 
+	before hastily typing out a plea for you to let the Cellist have 
 	some time alone. 
 	&a17
 
@@ -234,7 +234,7 @@ a20:
 	*setspeaker narrator*
 	*SINGER_NEUTRAL*
 	> The Singer,%% having composed themselves with the resolve to lovingly
-	and respectfully tear The Cellist a new asshole,%%% walks off in the 
-	direction The Cellist ran.%%%% You have a feeling it'd be best to let 
+	and respectfully tear the Cellist a new asshole,%%% walks off in the 
+	direction the Cellist ran.%%%% You have a feeling it'd be best to let 
 	them handle this one on their own.*mark_seen*
 	&exit

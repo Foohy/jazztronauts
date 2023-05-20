@@ -17,7 +17,7 @@ a2:
 a3:
     I understand this must seem like a chore but it IS important.%%
     The last time we didn't prepare for the inevitable, %
-    The Singer tripped on a toy dinosaur and cried for hours.
+    the Singer tripped on a toy dinosaur and cried for hours.
 
     &a4
 

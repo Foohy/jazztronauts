@@ -476,7 +476,7 @@ merge2i:
 merge2j:
 	*setspeaker cat_bar*
 	As you wish.%*BAR_NEUTRAL* Well then,%%*setanim cat_bar gesture_confused 1 idle* shall we call it quits for tonight? 
-	%%%Let's help The Singer clean up and then get back to work.
+	%%%Let's help the Singer clean up and then get back to work.
 	&merge2k
 	
 merge2k:

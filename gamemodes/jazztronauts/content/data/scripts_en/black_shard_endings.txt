@@ -1,4 +1,4 @@
-﻿
+
 begin:
 	*hide*
 	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
@@ -505,7 +505,7 @@ t27:
         “thank fuck we're alive” party sounds ideal. 
     &t29
 
-[cut to The Cellist with a smear of white powder under his nose, with his pupils expanded to fill almost the entire white of his eyes]
+[cut to the Cellist with a smear of white powder under his nose, with his pupils expanded to fill almost the entire white of his eyes]
 
 t29:
 	*CELLO_HIGH*

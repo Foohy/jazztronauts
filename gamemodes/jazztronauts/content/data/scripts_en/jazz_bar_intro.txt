@@ -59,7 +59,7 @@ a1:
 ##This line is accompanied with an establishing shot of the stage. 
 ##The bartender is standing still, center stage, with cellist and 
 ##singer jazz hands-ing behind him, at his flanks. Further behind him is a
-##giant sign saying 'Welcome New Players!' lit up. The pianist is taking a
+##giant sign saying 'Welcome New Players!' lit up. The Pianist is taking a
 ##nap on some crates below it.
 
 a2:
@@ -149,7 +149,7 @@ a12:
      situation.
      &aask
 
-#If they rejoined, bartender will re-ask this question
+#If they rejoined, Bartender will re-ask this question
 aask:
 	*setanim cat_bar gesture_confused 1 idle*
      So%.%.%.%%%what do you say?

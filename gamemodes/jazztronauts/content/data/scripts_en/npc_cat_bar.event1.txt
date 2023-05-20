@@ -116,7 +116,7 @@ resp2a:
 	*BAR_SURPRISE*
 	*setanim cat_bar gesture_shock 1 idle*
 	*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
-	Oh dear.% Agreeing with The Cellist?%%*BAR_NEUTRAL*%*setanim cat_bar gesture_confused 1 idle* 
+	Oh dear.% Agreeing with the Cellist?%%*BAR_NEUTRAL*%*setanim cat_bar gesture_confused 1 idle* 
 	Have you developed a fever?
     &resp2b
 
@@ -470,7 +470,7 @@ merge2i:
 	*setspeaker narrator*
 	*BAR_HAPPY*
 	*setanim cat_bar gesture_laugh 1 idle*
-	> The bartender laughs.
+	>The Bartender laughs.
 	&merge2j
 	
 merge2j:
@@ -486,4 +486,3 @@ merge2k:
 	&exit
 	
 	
-

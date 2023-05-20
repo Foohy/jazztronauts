@@ -207,7 +207,7 @@ end
 local function loadOwner(rt, f)
 	steamworks.RequestPlayerInfo(f.fact, function(name)
 		f.fact = name or f.fact
-		renderFact(rt, f, "Owner")
+		renderFact(rt, f, "jazz.fact.owner")
 	end )
 end
 

@@ -43,7 +43,7 @@ a3:
 
 leave:
 	> You decide to slip out in the moment of distraction,%% and deal with
-	The Cellist's madness later.
+	the Cellist's madness later.
 	&exit
 
 a4:

@@ -1,4 +1,4 @@
-﻿###### the accept phase of this mission requires camera work
+###### the accept phase of this mission requires camera work
 
 accept:
 	*spawn narrator dummy*

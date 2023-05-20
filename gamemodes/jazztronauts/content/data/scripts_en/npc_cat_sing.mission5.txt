@@ -1,4 +1,4 @@
-﻿###### singer and pianist are sitting together
+###### singer and pianist are sitting together
 
 accept:
 	*setspeaker npc_cat_sing*

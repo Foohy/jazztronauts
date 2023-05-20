@@ -306,7 +306,7 @@ local function createListButton(parent, item)
 			self:SetEnabled(false)
 
 			if item.requires then
-				tooltip = tooltip.."\n"..jazzloc.Localize("jazz.store.requires",string.upper(item.requires))
+				tooltip = tooltip.."\n"..jazzloc.Localize("jazz.store.requires",string.upper(GetItem(item.requires).name))
 			end
 
 		-- Ready to buy

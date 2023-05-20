@@ -1,4 +1,4 @@
-﻿accept:
+accept:
 *spawn narrator dummy*
 	*setnpcid narrator npc_narrator*
 *setspeaker narrator*

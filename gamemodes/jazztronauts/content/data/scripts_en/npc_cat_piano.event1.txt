@@ -258,7 +258,7 @@ merge10:
 	*setanim cat_singer gesture_sigh 1.5 idle*
 	> The Singer turns their attention to*SINGER_NEUTRAL* you.%%% 
 	They*setanim cat_singer gesture_embarass 1 idle* write out an apology for the Pianist getting you involved in
-	a personal hissy fit,%*SINGER_HAPPY* and sends you on your way.
+	a personal hissy fit,%*SINGER_HAPPY* and send you on your way.
 	&merge11
 	
 merge11:
@@ -277,11 +277,3 @@ merge12:
 	You decide that you've played your part here,%% and head back to
 	the others.
 	&exit
-	
-	
-	
-	
-	
-
-
-	

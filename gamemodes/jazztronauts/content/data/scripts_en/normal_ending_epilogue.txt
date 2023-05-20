@@ -1,4 +1,4 @@
-﻿SKIP_OPEN = true
+SKIP_OPEN = true
 ###### technically 7th bartender event?
 begin:
 	*hide*

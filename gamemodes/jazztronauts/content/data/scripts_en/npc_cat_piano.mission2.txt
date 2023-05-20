@@ -29,7 +29,7 @@ a4:
 	
 a5:
 	Which is where you come in,% *player*,% my dear pal. 
-	I happen to know that our mutual friend The Singer has a 
+	I happen to know that our mutual friend the Singer has a 
 	weakness for fast food. 
 	So,%% you're gonna help me put on a feast. 
 	&a6
@@ -76,7 +76,7 @@ t1:
 	&t2
 	
 t2:
-	Hey.% Thanks.%% The Bar's a nicer place when The Singer is smiling.%%
+	Hey.% Thanks.%% The Bar's a nicer place when the Singer is smiling.%%
 	I gotta go get things ready,% but uh.%%% 
 	If you're around later,% come say hi.%%% 
 	I can set a fifth place at the table.

@@ -24,7 +24,7 @@ begin:
 	*setspeaker narrator*
     *show 0.5*
 	> The Samsara store room%.%.%.%%% It's movie night,% apparently.%%%
-	The Singer is bouncing in their seat as The Bartender 
+	The Singer is bouncing in their seat as the Bartender 
 	shuffles through tapes.
 	&a1
 
@@ -238,7 +238,7 @@ c4:
 c5:
 	*setcam setpos -1899.969360 3068.514404 75.931953;setang 14.517277 -121.977173 0.000000* ##### GROUP
     *setspeaker narrator*
-    > As if spurred on by The Pianist, the Ninja takes the man's golf ball,%%% 
+    > As if spurred on by the Pianist, the Ninja takes the man's golf ball,%%% 
     and crushes it to dust in front of him*setanim cat_piano gesture_clap 1.3 idle* with his bare hands before 
     punching and stabbing everyone in sight. 
     &c6
@@ -279,7 +279,7 @@ c9:
 	*setcam setpos -1951.250977 2965.822510 63.048851;setang 9.619200 -127.993073 0.000000* ##### SINGER AND PIANO
     *setspeaker cat_singer*
 	*setanim cat_singer gesture_exchange 2.2 idle*
-    > You have*setanim cat_singer gesture_exchange 2.2 idle* never seen The Singer*setanim cat_singer gesture_exchange 2.2 idle* this riled up.%%% They're shadow*setanim cat_singer gesture_exchange 2.2 idle* boxing 
+    > You have*setanim cat_singer gesture_exchange 2.2 idle* never seen the Singer*setanim cat_singer gesture_exchange 2.2 idle* this riled up.%%% They're shadow*setanim cat_singer gesture_exchange 2.2 idle* boxing 
 	in their seat,%%*setanim cat_singer gesture_anger 2.3 idle* and their tail is quite puffed out.
     &c10
 

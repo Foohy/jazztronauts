@@ -2,7 +2,7 @@
 
 accept:
 	*setspeaker npc_cat_sing*
-	> The Singer waves you over as usual and The Pianist cracks open an 
+	> The Singer waves you over as usual and the Pianist cracks open an 
 	eye to look you up and down before returning to her meditation. 
 	&accept1
 	
@@ -33,7 +33,7 @@ a2:
 a3:
 	> The Singer tells you that they've really enjoyed working with you 
 	and hope you'll stick around for a while, before settling in to
-	meditate with The Pianist.
+	meditate with the Pianist.
 	&exit
 	
 	
@@ -42,7 +42,7 @@ idle:
 	*spawn narrator dummy*
 	*setnpcid narrator npc_narrator*
 	*setspeaker narrator*
-	> When you approach The Singer, The Pianist raises a paw.
+	> When you approach the Singer, the Pianist raises a paw.
 	&i1
 	
 i1:
@@ -96,7 +96,7 @@ turnin:
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_laugh 1 idle*
 	*setspeaker cat_singer*
-	> When The Singer sees you,% they light up with joy.%%%*setskin cat_singer 0* They're nearly 
+	> When the Singer sees you,% they light up with joy.%%%*setskin cat_singer 0* They're nearly 
 	vibrating with how fast they're bouncing.%%*setposang player setpos 3018.282959 7930.246094 0;setang 0 -11.833597 0.000000**setcam setpos 3074.511963 7828.708008 31.442722;setang -0.815863 100.875572 0.000000*%% After handing over your pay of 
 	30k,%% they take the radios inside the Mewseum and gesture for 
 	you to follow. *finish 5*

@@ -26,7 +26,7 @@ a4:
 	&a5
 	
 a5:
-	I feel like I owe The Singer a more substantial apology than a bribe
+	I feel like I owe the Singer a more substantial apology than a bribe
 	of shitty takeout.%%% So I'm gonna need your larceny skills again,% 
 	*player*.%%%
 	This is The Big One.
@@ -92,7 +92,7 @@ turnin:
 	*show*
 	*setspeaker narrator*
 	>The Pianist is sitting in a booth with one of the metrocops you found.%%%
-	%.%.%.%The Pianist is looking around awkwardly.%%% 
+	%.%.%.%the Pianist is looking around awkwardly.%%% 
 	She notices you and waves you over.
 	&t1
 	
@@ -107,7 +107,7 @@ t2:
 	*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000*
 	*setposang metrocop_model setpos 105.750031 2986.230957 0;setang 4.667794 168.321960 0.000000*
 	*setspeaker narrator*
-	The metrocop gives you a wave while The Pianist puts a briefcase
+	The metrocop gives you a wave while the Pianist puts a briefcase
 	on the table.%%%%
 	*finish 5*
 	%.%.%.%Looks like your pay is 30,000 this time!
@@ -258,13 +258,13 @@ t20:
 t21:
 	*setcam setpos -208.442261 3254.030518 132.024811;setang 10.896953 -42.747852 0.000000*
 	*setspeaker cat_singer*
-	>The Singer hugs The Pianist.%%%% She clearly has no idea how to deal with
+	>The Singer hugs the Pianist.%%%% She clearly has no idea how to deal with
 	this.
 	&t21b
 	
 t21b:
 	*setspeaker narrator*
-	After a few moments,%% The Singer waves to you two and 
+	After a few moments,%% the Singer waves to you two and 
 	walks towards the Mewseum,%% chatting with the metrocop.
 	&t22
 	

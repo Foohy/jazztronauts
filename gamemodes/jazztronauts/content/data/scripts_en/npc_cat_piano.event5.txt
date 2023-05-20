@@ -16,7 +16,7 @@ begin:
 	
 b1:
 	*setspeaker narrator*
-	>This is the last Event in The Pianist's quest line.%%%
+	>This is the last Event in the Pianist's quest line.%%%
 	It may take you a while to watch,% but you can come back to it
 	without penalty if you are in a hurry.
 	player:
@@ -189,7 +189,7 @@ r5a4:
 r5a5:
 	*setanim cat_piano gesture_sweep 1 idle*
 	This was the first thing I tried.%% After it happened.%%%%*setskin cat_piano 3* 
-	I don't know if The Bartender told you or not,% but ages ago something%.%.%.%%*setanim cat_piano gesture_shrug 1 idle*
+	I don't know if the Bartender told you or not,% but ages ago something%.%.%.%%*setanim cat_piano gesture_shrug 1 idle*
 	Snapped.%%% I can't play the piano anymore.
 	&r5a6
 	
@@ -207,7 +207,7 @@ r5a7:
 	*setskin cat_piano 2*
 	*setanim cat_piano gesture_anger 1 idle*
 	It didn't fucking work.%%%%%%*setskin cat_piano 3* Sc*setanim cat_piano gesture_disagree 1 idle*avenging made it worse.%% We went to so many
-	places that were about as well*setanim cat_piano gesture_shrug 1 idle* put together as The Cellist's suit*setskin cat_piano 0*
+	places that were about as well*setanim cat_piano gesture_shrug 1 idle* put together as the Cellist's suit*setskin cat_piano 0*
 	and I wanted to burn them to the ground.
 	&r5a8
 	

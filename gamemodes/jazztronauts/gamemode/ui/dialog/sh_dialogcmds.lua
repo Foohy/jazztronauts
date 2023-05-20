@@ -237,7 +237,9 @@ dialog.RegisterFunc("show", function(d, time)
 	d.open = 1
 end)
 
-dialog.RegisterFunc("setspeaker", function(d, name)
+dialog.RegisterFunc("setspeaker", function(d, name, skinid)
+	skinid = skinid or nil
+	if skinid ~= nil then SetSkinFunc(d, name, skinid) end
 	dialog.SetFocusProxy(FindByName(name))
 end)
 
@@ -302,13 +304,17 @@ dialog.RegisterFunc("setanim", function(d, name, anim, speed, finishIdleAnim)
 end)
 
 dialog.RegisterFunc("setskin", function(d, name, skinid)
+	SetSkinFunc(d, name, skinid)
+end)
+-- Abstracted out for use in both setskin and setspeaker
+function SetSkinFunc(d, name, skinid)
 	local skinid = tonumber(skinid) or 0
 	local prop = FindByName(name)
 
 	if IsValid(prop) then
 		prop:SetSkin(skinid)
 	end
-end )
+end
 
 local view = {}
 dialog.RegisterFunc("setcam", function(d, ...)

@@ -36,9 +36,8 @@ Dunno what you expected,% it's pretty dead around here at this point.%%
 &begin4
 
 begin4:
-*setspeaker cat_cello*
+*setspeaker cat_cello 2*
 *tweencam .75 setpos -4599.150879 -306.177002 1561.454712;setang 4.308485 45.520340 0.000000*
-*setskin cat_cello 2*
 dont *setanim cat_cello gesture_jab 1 idle*you fuckin dare blaspheme dm_juicyasszone%%%%
 *setskin cat_cello 0*it had a vision
 &begin5
@@ -54,8 +53,7 @@ present a strange object to the orange cat. *setanim cat_singer singer_showshard
 &begin6
 
 begin6:
-*setspeaker cat_bar*
-*setskin cat_bar 3*
+*setspeaker cat_bar 3*
 Ah, a shard!%% *setanim cat_bar gesture_clap 1**setskin cat_bar 1*Keen eyes as always.
 &begin7
 
@@ -67,26 +65,25 @@ begin7:
 &begin8
 
 begin8:
-*setspeaker cat_piano*
+*setspeaker cat_piano 0*
 *setcam setpos -4673.240723 -489.003113 1565.306396;setang 4.847563 49.533478 0.000000*
 *setanim cat_singer singer_survey 0.7 idle*
-*setskin cat_piano 0**setanim cat_piano gesture_foldarms 1 idle*Tch.%% I can't believe we're doing grunt work.
+*setanim cat_piano gesture_foldarms 1 idle*Tch.%% I can't believe we're doing grunt work.
 &begin9
 
 begin9:
-*setspeaker cat_cello*
+*setspeaker cat_cello 2*
 *setcam setpos -4585.696289 -314.744690 1560.782227;setang 0.714805 54.894096 0.000000*
 *setposang cat_singer setpos -4510.350098 -597.766235 1518.031250;setang -90.592359 -76.098587 0.000000*
 *setanim cat_cello gesture_shrug 1 idle*
-*setskin cat_cello 2*
 yea this is peasant shit%%
 why are we even bothering with this again
 &begin10
 
 begin10:
-*setspeaker cat_bar*
+*setspeaker cat_bar 0*
 *setcam setpos -4618.435059 -439.372253 1552.954712;setang 2.212179 -56.899910 0.000000*
-*setskin cat_bar 0**setanim cat_bar gesture_jab 1 idle*Well, as I recall,% you were the one
+*setanim cat_bar gesture_jab 1 idle*Well, as I recall,% you were the one
 so very insistent on making our last guests leave.
 &begin11
 
@@ -107,8 +104,7 @@ They'd have been useful for once.
 &begin13
 
 begin13:
-*setspeaker cat_bar*
-*setskin cat_bar 0*
+*setspeaker cat_bar 0*
 *setcam setpos -4791.147461 -371.753510 1557.132446;setang -3.537738 3.532947 0.000000*
 Oh come now, *setanim cat_bar gesture_sweep 1 idle*they were perfectly fine.%%
 Besides we got a bargain on them, didn't we?%%
@@ -130,15 +126,15 @@ pipes over there found a way forward
 &begin16
 
 begin16:
-*setspeaker cat_piano*
-*setskin cat_piano 2*Oh, sure,%*setanim cat_piano gesture_anger 1 idle* just remove yourself from the equation!%%*setskin cat_piano 3**setanim cat_piano gesture_sigh 1 idle*
+*setspeaker cat_piano 2*
+Oh, sure,%*setanim cat_piano gesture_anger 1 idle* just remove yourself from the equation!%%*setskin cat_piano 3**setanim cat_piano gesture_sigh 1 idle*
 %.%.%.%*setskin cat_piano 0*Fine,%*setskin cat_cello 0*% let's go.
 &begin17
 
 begin17:
-*setspeaker cat_bar*
+*setspeaker cat_bar 1*
 *setcam setpos -4609.066406 -413.291779 1559.213867;setang 2.152310 -58.040230 0.000000*
-*setskin cat_bar 1*Onward!
+Onward!
 &begin18
 
 begin18:

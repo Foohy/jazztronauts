@@ -20,7 +20,7 @@ spawngang() # SETUP
 
 
 begin1:
-*setspeaker cat_piano**setskin cat_piano 1**setanim cat_piano gesture_laugh 1 idle*
+*setspeaker cat_piano 1**setanim cat_piano gesture_laugh 1 idle*
 Nice job,% asshole.%% Can't believe you tripped over a corpse.%%*setskin cat_piano 0*
 How many times have we had to step around dead bodies now?
 &begin2
@@ -56,7 +56,7 @@ i dropped my prop snatcher down the fuckin grate
 &begin7
 
 begin7:
-*setspeaker cat_bar**setskin cat_bar 3*
+*setspeaker cat_bar 3*
 *setskin cat_cello 0*
 Oh dear.%% *setskin cat_bar 0*We'd best find a way down then.
 &begin8

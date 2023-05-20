@@ -18,19 +18,19 @@ spawngang() # SETUP
 	> That cat from before is at the*setanim cat_bar gesture_exchange 1 idle* end of the hall,
 	waving you over.%% You decide to head over there.
 	&begin2
+
 begin2:
 *hide*
 *txout*
 *setcam setpos -13086.006836 -2470.082764 1070.884399;setang 14.594378 -110.203735 0.000000*
-*setspeaker cat_bar*
+*setspeaker cat_bar 1*
 *txin*
 *wait .15*
 *show*
-*setskin cat_bar 1*
-Greetings.%%*setskin cat_bar 0* As you can see,% this place does*setanim cat_bar gesture_sweep 1 idle* not seem to have an exit.%%
-While I'm sure you can leave through whatever way you came in,%%
-we prefer a different method of travel.
-&begin3
+	Greetings.%%*setskin cat_bar 0* As you can see,% this place does*setanim cat_bar gesture_sweep 1 idle* not seem to have an exit.%%
+	While I'm sure you can leave through whatever way you came in,%%
+	we prefer a different method of travel.
+	&begin3
 
 begin3:
 	*setspeaker narrator*
@@ -46,9 +46,9 @@ begin4:
 	&begin5
 
 begin5:
-	*setspeaker cat_bar*
+	*setspeaker cat_bar 1*
 	*setcam setpos -13109.759766 -2500.667969 1047.233032;setang 5.670034 -70.822716 0.000000*
-	*setskin cat_bar 1*We*setanim cat_bar gesture_agree 1 idle* certainly do!%%*setskin cat_bar 0* Our offer is simple\:%% you may come with us
+	We*setanim cat_bar gesture_agree 1 idle* certainly do!%%*setskin cat_bar 0* Our offer is simple\:%% you may come with us
 	back to our abode,% and entertain a job offer from our cohort.%%
 	If you aren't interested upon hearing it, %you'll be free to go.%%
 	*setanim cat_bar gesture_confused 1 idle* %*setskin cat_bar 1*Are you willing to hear us out?
@@ -60,9 +60,9 @@ hotfix:
 	&m1
 
 m1:
-	*setspeaker cat_bar*
+	*setspeaker cat_bar 1*
 	*setanim cat_bar gesture_clap 1 idle*
-	*setskin cat_bar 1*Excellent!%%%*setskin cat_bar 0* Climb aboard our trolley,% and take a seat wherever you like.
+	Excellent!%%%*setskin cat_bar 0* Climb aboard our trolley,% and take a seat wherever you like.
 		&m2
 
 m2:

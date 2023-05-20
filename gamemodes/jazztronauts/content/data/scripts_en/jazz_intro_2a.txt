@@ -20,8 +20,7 @@ Still*bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0* no sign of tha
 &begin2
 
 begin2:
-*setspeaker cat_piano*
-*setskin cat_piano 4*
+*setspeaker cat_piano 4*
 Yes%, it happens.%%
 And each time*setcam setpos -13561.711914 -2139.091064 1050.501587;setang 4.441590 -96.009224 0.000000* it's the Cellist who loses them.*setskin cat_piano 0*%*setanim cat_piano gesture_facepalm 1 idle*%%
 I wonder why.
@@ -35,9 +34,9 @@ begin3:
 &begin4
 
 begin4:
-*setspeaker cat_piano*
+*setspeaker cat_piano 2*
 *setcam setpos -13571.149414 -2157.019287 1042.542480;setang 9.023558 -135.240448 0.000000*
-*setskin cat_piano 2*That*setanim cat_piano gesture_anger 1 idle* was rhet-
+That*setanim cat_piano gesture_anger 1 idle* was rhet-
 &begin5
 
 begin5:
@@ -66,21 +65,21 @@ cause its about to get real salty in here
 &begin8
 
 begin8:
-*setspeaker cat_cello*
-*setskin cat_cello 0*%hey%% remember that*setanim cat_cello gesture_jab 1 idle* time you accidentally tore a player in half
+*setspeaker cat_cello 0*
+%hey%% remember that*setanim cat_cello gesture_jab 1 idle* time you accidentally tore a player in half
 trying to save them from a combine apc
 that didnt even have player collision enabled
 &begin11
 
 begin11:
-*setspeaker cat_piano*
+*setspeaker cat_piano 2*
 *setcam setpos -13571.149414 -2157.019287 1050.542480;setang 9.023558 -135.240448 0.000000*
-*setskin cat_piano 2*Fuck you%,*setanim cat_piano gesture_anger 1 idle* that doesn't*setanim cat_bar gesture_foldarms 1 idle* count.%%*setskin cat_piano 0* That happened years ago when
+Fuck you%,*setanim cat_piano gesture_anger 1 idle* that doesn't*setanim cat_bar gesture_foldarms 1 idle* count.%%*setskin cat_piano 0* That happened years ago when
 *setanim cat_piano gesture_shrug 1 idle*we had barely any idea how this shitty game engine works.
 &begin12
 
 begin12:
-*setspeaker cat_cello**setskin cat_cello 2*
+*setspeaker cat_cello 2*
 *setcam setpos -13559.854492 -2171.333984 1040.833496;setang -1.757542 -41.924026 0.000000*
 you*setanim cat_cello gesture_exchange 1 idle* tore a dude in half trying to get him out of danger
 he was not in because the cars% *setskin cat_cello 0*were ghosts%%%
@@ -95,7 +94,7 @@ Okay fine,% but you somehow managed*setanim cat_piano gesture_disagree 1 idle* t
 &begin15
 
 begin15:
-*setspeaker cat_cello**setskin cat_cello 0*
+*setspeaker cat_cello 0*
 *setanim cat_bar idle*
 *setcam setpos -13561.711914 -2139.091064 1040.501587;setang 4.441590 -94.009224 0.000000*
 in my*setanim cat_cello gesture_shrug 1 idle* defense i was sober at the time
@@ -163,7 +162,7 @@ Or competition.%%*setskin cat_piano 1*% You want me to...?
 &begin26
 
 begin26:
-*setspeaker cat_bar**setskin cat_bar 1*
+*setspeaker cat_bar 1*
 *setanim cat_bar gesture_disagree 1 idle*No,% no%*setskin cat_bar 0* I've a*setskin cat_piano 0* better idea.%%*setanim cat_bar gesture_jab 1 idle*% You there!%% Through the window!%%
 We've a proposition to make.%%%*setcam setpos -13634.369141 -1805.863525 1055.647705;setang 2.375210 -82.293320 0.000000* The end of these tunnels is just*setanim cat_bar gesture_sweep 1 idle*
 a little ways ahead -% if you'll meet us there,%*setskin cat_bar 1* we'll give you the details.

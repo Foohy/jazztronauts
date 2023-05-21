@@ -23,3 +23,17 @@ spawnsinger() *spawn cat_singer models/andy/singer/cat_singer.mdl**setnpcid cat_
 spawnnarrator() *spawn narrator models/npc/cat.mdl**setnpcid narrator npc_narrator*
 
 spawngang() spawncellist()spawnbartender()spawnpianist()spawnsinger()spawnnarrator()
+
+
+# setskin/expressions documentation
+# the textures are located in /materials/models/andy
+# placing one of these numbers after setspeaker will also work
+#
+# 0 is the default expression
+# 1 is happy
+# 2 is angry
+# 3 changes per character. Bartender is surprised, Cellist is high, Pianist is embarassed, Singer is mischevious (angry eyes with a grin)
+# 4 is blinking/eyes closed
+# 5 changes per character. Bartender has none, Cellist is empty/sad, Pianist is relieved, Singer is embarassed
+# 6 is Singer exclusive, for crying
+# 7 is Singer exclusive, for depressed

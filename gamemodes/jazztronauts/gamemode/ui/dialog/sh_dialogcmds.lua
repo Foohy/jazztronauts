@@ -289,6 +289,7 @@ dialog.RegisterFunc("tweenposang", function(d, name, time, ...)
 	prop.tweenlen = time
 end )
 
+-- Facial expressions documented in macros.txt
 dialog.RegisterFunc("setanim", function(d, name, anim, speed, finishIdleAnim)
 	local prop = FindByName(name)
 	if not IsValid(prop) then return end

@@ -281,7 +281,7 @@ DialogCallbacks.Paint = function(_dialog)
 	-- If we're waiting on input, slam that down
 	if dialog.ReadyToContinue() then
 		surface.SetFont( "JazzDialogFontHint" )
-		local contstr = "Click to continue...	"
+		local contstr = jazzloc.Localize("jazz.dialog.continue")
 		local tw,th = surface.GetTextSize(contstr)
 		local contX = x + w/2 - tw // * (localspeaker and 0.2 or 1)
 		if localspeaker then

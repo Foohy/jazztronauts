@@ -145,12 +145,21 @@ You've definitely been spotted!
 begin23:
 *setspeaker cat_bar*
 Ah.*setanim cat_bar gesture_clap 1 idle*% Would*setskin cat_bar 1* you look at what we have here? *setcam setpos -13597.536133 -1903.968750 1056.031250;setang 2.475661 96.035400 0.000000*
-&begin24
+	condition:
+		&begin24multi:
+			return multiplayer()
+		&begin24single:
+			return true
 
-begin24:
-*setcam setpos -13689.892578 -2052.613770 1055.993286;setang 2.525014 -122.990868 0.000000*
-Guests!
-&begin25
+begin24single:
+	*setcam setpos -13689.892578 -2052.613770 1055.993286;setang 2.525014 -122.990868 0.000000*
+	A guest!
+	&begin25
+
+begin24multi:
+	*setcam setpos -13689.892578 -2052.613770 1055.993286;setang 2.525014 -122.990868 0.000000*
+	Guests!
+	&begin25
 
 begin25:
 *setspeaker cat_piano*

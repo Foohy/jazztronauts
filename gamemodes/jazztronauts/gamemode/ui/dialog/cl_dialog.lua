@@ -219,6 +219,14 @@ local function QueueWait(cmd, data)
 	end
 end
 
+local isMulti = function()
+	if player.GetCount() > 1 then
+		return true
+	else
+		return false
+	end
+end
+
 local conditionEnv =
 {
 	print = print,
@@ -231,6 +239,7 @@ local conditionEnv =
 	money = jazzmoney,
 	time = os.time,
 	date = os.date,
+	multiplayer = isMulti,
 	maybe = function(odds, test) return math.Round(util.SharedRandom("shared", 1, odds, FrameNumber())) == test end
 }
 
@@ -324,7 +333,7 @@ function StartGraph(cmd, skipOpen, options, delay)
 		_dialog.nodeiter = buildIterator( cmd, ScriptCallback, EnterNode )
 	elseif t == "string" then
 
-		if IsScriptValid(cmd) then	
+		if IsScriptValid(cmd) then
 			_dialog.nodeiter = buildIterator( cmd, ScriptCallback, EnterGraph )
 			_dialog.entrypoint = cmd
 			_dialog.seen = false
@@ -339,7 +348,7 @@ function StartGraph(cmd, skipOpen, options, delay)
 				DialogQueued = true
 				hook.Add("JazzDialogReady", "JazzQueueDialog", function()
 					hook.Remove("JazzDialogReady", "JazzQueueDialog")
-					StartGraph(cmd, skipOpen, options, delay)	
+					StartGraph(cmd, skipOpen, options, delay)
 				end )
 			end
 
@@ -498,7 +507,7 @@ hook.Add("HUDPaint", "JazzDialogThrobber", function()
 
 	local nDots = math.floor(math.fmod(CurTime()*2, 3))
 	local str = "LOADING DIALOG"
-	
+
 	surface.SetFont("JazzDialogLoading")
 	local w, h = surface.GetTextSize(str)
 

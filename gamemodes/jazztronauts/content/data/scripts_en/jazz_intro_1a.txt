@@ -59,6 +59,7 @@ begin6:
 
 begin7:
 	*setspeaker narrator*
+	*setskin cat_bar 0*
 	*setskin cat_singer 1*
 	*setanim cat_singer gesture_embarass 1 idle*
 	> The cat bashfully looks down and starts fidgeting.%*setskin cat_singer 0*
@@ -149,5 +150,5 @@ begin18:
 
 begin19:
 	> You hear a latch unlocking, near the back of the room!%
-	.%.%.%and you're pretty sure that event wasn't a normal part of this map%.%.%.
+	.%.%.%and you're pretty sure that event wasn't a normal part of the map%.%.%.
 	&exit

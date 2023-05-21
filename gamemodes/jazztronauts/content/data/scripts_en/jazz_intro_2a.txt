@@ -63,8 +63,8 @@ begin6:
 begin7:
 	*setspeaker cat_cello*
 	*setcam setpos -13559.854492 -2171.333984 1040.833496;setang -1.757542 -41.924026 0.000000*
-	ohhhh hell *setanim cat_cello gesture_laugh 1 idle*yeah some motherfuckers trying to serve up a
-	plate of beef carpaccio in my house%%*setskin cat_cello 2*, better*setanim cat_cello gesture_jab 1 idle* saddle up
+	ohhhh hell *setanim cat_cello gesture_laugh 1 idle*yeah some motherfuckers trying to serve up
+	a plate of beef carpaccio in my house%%*setskin cat_cello 2*, better*setanim cat_cello gesture_jab 1 idle* saddle up
 	cause its about to get real salty in here
 	&begin8
 
@@ -94,7 +94,8 @@ begin14:
 	*setspeaker cat_piano*
 	*setanim cat_bar bartender_search 1 idle*
 	*setcam setpos -13571.149414 -2157.019287 1052.542480;setang 9.023558 -135.240448 0.000000*
-	Okay fine,% but you somehow managed*setanim cat_piano gesture_disagree 1 idle* to lose a guest in fucking% flatgrass.
+	Okay fine,% but you somehow managed*setanim cat_piano gesture_disagree 1 idle* to
+	lose a guest in fucking% flatgrass.
 	&begin15
 
 begin15:
@@ -115,7 +116,8 @@ begin17:
 	*setanim cat_bar bartender_search 1 idle*
 	*setposang cat_singer setpos -13497.522461 -2040.211182 995.031250;setang -90 120.066315 0.000000*
 	*setcam setpos -13634.369141 -1805.863525 1055.647705;setang 2.375210 -82.293320 0.000000*
-	> The two*setanim cat_singer singer_survey* cats start shouting wild insults and accusations at each other.%%%
+	> The two*setanim cat_singer singer_survey* cats start shouting wild insults
+	and accusations at each other.%%%
 	> The Singer looks around%% and looks right at the window...
 	&begin19
 
@@ -178,9 +180,7 @@ begin26:
 
 begin27:
 	*setspeaker narrator*
-	> The*setskin cat_bar 0* Bartender turns*tweencam 3 setpos -13732.34 -1890.02 1087.96;setang 17.98 61.52 0* and walks out of view%,
-	the other cats following after with only a moment's confusion.%%%
-
-	Well, that was weird.%%% Might as well hear what they have to say though.%%
-	...Right?
+	> The*setskin cat_bar 0* Bartender turns*tweencam 3 setpos -13732.34 -1890.02 1087.96;setang 17.98 61.52 0* and walks out of view%, the other cats
+	following after with only a moment's confusion.%%% That was weird.%%%
+	Might as well hear what they have to say though.%.%.%right?
 	&exit

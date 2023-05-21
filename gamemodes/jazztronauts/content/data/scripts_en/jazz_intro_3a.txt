@@ -66,7 +66,8 @@ hotfix:
 m1:
 	*setspeaker cat_bar 1*
 	*setanim cat_bar gesture_clap 1 idle*
-	Excellent!%%%*setskin cat_bar 0* Climb aboard our trolley,% and take a seat wherever you like.
+	Excellent!%%%*setskin cat_bar 0* Climb aboard our trolley,%
+	and take a seat wherever you like.
 	&m2
 
 m2:
@@ -81,7 +82,8 @@ m2:
 	*txin*
 	*wait .15*
 	*show*
-	You'll want to fasten yourself securely in your seat,% and brace yourself.%%
+	You'll want to fasten yourself securely
+	in your seat,% and brace yourself.%%
 	The first few trips through the Void can be*setskin cat_bar 4*%.%.%.% *setskin cat_bar 1*disorienting.
 	&m3
 

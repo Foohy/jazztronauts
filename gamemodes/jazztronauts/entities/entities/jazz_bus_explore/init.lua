@@ -90,6 +90,9 @@ function ENT:Initialize()
 	end )
 
 	if SERVER then
+		
+		self.RadioEnt:DeleteOnRemove(self.Radio)
+
 		hook.Add("PlayerEnteredVehicle", self, function(self, ply, veh, role)
 			self:CheckLaunch()
 		end)

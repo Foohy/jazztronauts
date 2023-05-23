@@ -15,7 +15,7 @@ local includeExternalHost = CreateConVar("jazz_include_external_host", defaultMa
 	.. "Can be either a URL to a text file, listing each workshop addon by id\n"
 	.. "Or a workshop collection ID itself.")
 
-local hubmap = CreateConVar("jazz_hub", "jazz_bar",FCVAR_PRINTABLEONLY,"Name of the map to use as a hub.")
+local hubmap = CreateConVar("jazz_hub", "jazz_bar",bit.bor(FCVAR_ARCHIVE,FCVAR_PRINTABLEONLY),"Name of the map to use as a hub.")
 
 concommand.Add("jazz_clear_cache", function()
 	ClearCache()

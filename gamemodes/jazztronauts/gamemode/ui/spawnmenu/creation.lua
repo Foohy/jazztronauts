@@ -102,7 +102,7 @@ function PANEL:Populate()
 
 	-- Go through every registered jazz weapon and try to add them
 	for k, v in pairs(list.Get("Weapon")) do
-		if v.Category == "Jazztronauts" and GAMEMODE:JazzCanSpawnWeapon(LocalPlayer(), k) then
+		if v.Category == "#jazz.weapon.category" and GAMEMODE:JazzCanSpawnWeapon(LocalPlayer(), k) then
 			self:AddUnlockedWeapon( k )
 		end
 	end

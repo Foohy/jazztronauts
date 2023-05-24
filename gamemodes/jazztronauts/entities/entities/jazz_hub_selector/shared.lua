@@ -22,7 +22,9 @@ local outputs =
 {
 	"OnMapSelected",
 	"OnMapDownloaded",
-	"OnMapAnalyzed"
+	"OnMapAnalyzed",
+	"OnMapDeselected",
+	"OnMapFailure"
 }
 
 function ENT:Initialize()
@@ -84,6 +86,7 @@ function ENT:CancelAddon()
 	self:SelectDestination(nil)
 	self:SetPortalSequence("Close")
 	self:StopSound(IDLE_HUM_SOUND)
+	self:TriggerOutput("OnMapDeselected",self)
 
 	/*
 	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
@@ -111,6 +114,7 @@ function ENT:MapFinishedEffects(success, ermsg)
 	else
 		factgen.SetFailure(self:GetScanStateString() .. (ermsg and ("\n\n" .. ermsg) or ""))
 		self:EmitSound(FAIL_SOUND)
+		self:TriggerOutput("OnMapFailure",self)
 	end
 end
 

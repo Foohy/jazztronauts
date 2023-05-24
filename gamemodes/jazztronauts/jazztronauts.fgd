@@ -231,5 +231,12 @@
 	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 ]
 
-@PointClass base(Targetname, Angles) studioprop("models/matt/jazz_trolley.mdl") = info_busstop : "Marker for summoned trolley to travel to" []
+@PointClass base(Targetname, Angles) studioprop("models/matt/jazz_trolley.mdl") = info_busstop : "Marker for summoned trolley to travel to"
+[
+	traveltime(float) : "Exit Time" : "2.5" : "How long the trolley takes to travel to the end of its path."
+	leadup(integer) : "Entrance Distance" : 2000 : "How far the trolley travels after spawning to reach its idle position. Can be negative to go backwards!"
+	traveldist(integer) : "Exit Distance" : 4500 : "How far the trolley travels when exiting the hub. Can be negative to go backwards!"
+]
+
+
 @PointClass base(Weapon) studioprop("models/weapons/w_stunbaton.mdl") = weapon_propsnatcher : "Prop Snatcher" []

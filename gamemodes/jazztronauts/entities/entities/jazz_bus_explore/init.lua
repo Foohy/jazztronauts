@@ -41,6 +41,14 @@ ENT.BrakeSounds =
 	"jazztronauts/trolley/brake_2.wav",
 }
 
+local shockingisntit = {
+	"npc/roller/mine/rmine_explode_shock1.wav",
+	"npc/roller/mine/rmine_shockvehicle1.wav",
+	"npc/roller/mine/rmine_shockvehicle2.wav",
+	"npc/scanner/scanner_pain1.wav",
+	"npc/scanner/scanner_pain2.wav"
+}
+
 ENT.TravelTime = 1.5
 
 util.AddNetworkString("jazz_bus_explore_voideffects")
@@ -54,6 +62,21 @@ function ENT:Initialize()
 	self:SetTrigger(true) -- So we get 'touch' callbacks that fuck shit up
 	self:SetNoDraw(true)
 
+	hook.Add( "CanTool", "NoBusRemoval", function( ply, tr, toolname, tool )
+		if toolname ~= "remover" then return end
+		if !IsValid( tr.Entity ) then return end
+		if tr.Entity:GetClass() ~= "jazz_bus_explore" then return end
+
+		ply:Freeze(true)
+		ply:DropWeapon()
+		ply:EmitSound(table.Random(shockingisntit), 50)
+		util.ScreenShake(ply:GetPos(), 20, 5, 2, 50)
+
+		timer.Create( "BusRemovalUnfreeze", 1.5, 1, function()
+			ply:Freeze(false)
+		end )
+		return false
+	end )
 
 	-- Setup seat offsets
 	for i=1, 8 do
@@ -161,7 +184,7 @@ function ENT:Arrive()
 			v:SetNoDraw(false)
 		end
 	end
-	
+
 	self.BrakeSound:Play()
 
 	self.StartTime = CurTime()
@@ -172,7 +195,7 @@ function ENT:Arrive()
 		local MoveDistance = math.Clamp(self.ExitPortal:DistanceToVoid(self:GetFront(), true), 50, self.HalfLength*2)
 		self.GoalPos = self:GetPos() + self:GetAngles():Right() * MoveDistance
 	end
-	
+
 end
 
 function ENT:Leave()

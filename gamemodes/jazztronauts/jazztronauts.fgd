@@ -229,5 +229,5 @@
 	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 ]
 
-@PointClass base(Targetname, Angles) iconsprite("editor/busstop.vmt") = info_busstop : "Marker for summoned trolley to travel to" []
+@PointClass base(Targetname, Angles) studioprop("models/matt/jazz_trolley.mdl") = info_busstop : "Marker for summoned trolley to travel to" []
 @PointClass base(Weapon) studioprop("models/weapons/w_stunbaton.mdl") = weapon_propsnatcher : "Prop Snatcher" []

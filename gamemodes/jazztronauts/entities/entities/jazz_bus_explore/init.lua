@@ -161,7 +161,7 @@ function ENT:Arrive()
 			v:SetNoDraw(false)
 		end
 	end
-	
+
 	self.BrakeSound:Play()
 
 	self.StartTime = CurTime()
@@ -172,7 +172,7 @@ function ENT:Arrive()
 		local MoveDistance = math.Clamp(self.ExitPortal:DistanceToVoid(self:GetFront(), true), 50, self.HalfLength*2)
 		self.GoalPos = self:GetPos() + self:GetAngles():Right() * MoveDistance
 	end
-	
+
 end
 
 function ENT:Leave()
@@ -182,11 +182,34 @@ function ENT:Leave()
 
 	self.StartTime = CurTime()
 	self.StartPos = self:GetPos()
-	self.GoalPos = self.GoalPos + self:GetAngles():Right() * 2000
+	local BusAngle = self:GetAngles():Right()
+	self.GoalPos = self.GoalPos + BusAngle * 2000
 
 	self.MoveState = MOVE_LEAVING
 	self:GetPhysicsObject():EnableMotion(true)
 	self:GetPhysicsObject():Wake()
+
+	hook.Add( "PlayerLeaveVehicle", "VoidEjection", function( ply )
+		timer.Create( "VoidEjectTimer", 0, 1, function() -- timer prevents crash
+			local repcount = 0
+			local BehindBus = self:GetPos() + Vector(0, 0, 50) + BusAngle * -150
+			repeat
+				repcount = repcount + 1
+				BehindBus = BehindBus + BusAngle * -100
+				ply:SetPos(BehindBus)
+			until ( ply:IsInWorld( BehindBus ) or repcount > 20 )
+
+			local EjectSpeed = Vector(0, 0, 0) + BusAngle * -2000
+			ply:SetVelocity(EjectSpeed)
+
+			ply:Kill()
+			ply:Spectate(OBS_MODE_DEATHCAM)
+			hook.Add( "PlayerSpawn", "VoidEjectedRespawn", function()
+				self:SitPlayer(ply)
+			end )
+		end )
+	end )
+
 end
 
 function ENT:AttachRadio(pos, ang)

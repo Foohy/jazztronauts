@@ -9,9 +9,9 @@ ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.Editable = true
 ENT.Model = "models/Combine_Helicopter/helicopter_bomb01.mdl"
 
-ENT.ScreenHeight = 640
-ENT.ScreenWidth = ENT.ScreenHeight * 1.30
-ENT.ScreenScale = .1
+ENT.ScreenHeight = 1500
+ENT.ScreenWidth = 1100
+ENT.ScreenScale = .12
 
 ENT.DefaultLeaderboard = 1
 
@@ -52,14 +52,14 @@ end
 if SERVER then return end
 
 surface.CreateFont( "JazzLeaderboardEntryFont", {
-	font	  = "Impact",
+	font	  = "KG Red Hands",
 	size	  = 60,
 	weight	= 700,
 	antialias = true
 })
 
 surface.CreateFont( "JazzLeaderboardTitleFont", {
-	font	  = "Impact",
+	font	  = "KG Red Hands",
 	size	  = 100,
 	weight	= 700,
 	antialias = true
@@ -103,14 +103,14 @@ function ENT:RebuildPanel()
 	end
 
 	local lst = vgui.Create("DListLayout")
-	lst:SetSize(self.ScreenWidth, 200)
+	lst:SetSize(self.ScreenWidth, self.ScreenHeight)
 	lst:SetPaintedManually(true)
 
 	local titleLabel = vgui.Create("DLabel", lst)
 	titleLabel:SetText(jazzloc.Localize(jazzboards.Boards[id].title))
 	titleLabel:SetFont("JazzLeaderboardTitleFont")
 	titleLabel:SetContentAlignment(8)
-	titleLabel:DockMargin(0, 0, 0, 80.0)
+	titleLabel:DockMargin(0, 0, 0, 100)
 
 	for k, v in ipairs(jazzboards.Leaderboards[id]) do
 		lst:Add(self:AddPlayerPanel(v.steamid, v.name, v.count))
@@ -142,7 +142,7 @@ function ENT:Draw()
 	if not IsValid(self.Panel) then return end
 
 	local ang = self:GetAngles()
-	local pos = self:GetPos() + ang:Right() * 0.01
+	local pos = (self:GetPos() + ang:Right() * 0.01) - Vector(0, 15, 10)
 
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 90 )

@@ -73,6 +73,7 @@ function ENT:Initialize()
 		util.ScreenShake(ply:GetPos(), 20, 5, 2, 50)
 
 		timer.Create( "BusRemovalUnfreeze", 1.5, 1, function()
+			if !IsValid( ply ) then return end
 			ply:Freeze(false)
 		end )
 		return false

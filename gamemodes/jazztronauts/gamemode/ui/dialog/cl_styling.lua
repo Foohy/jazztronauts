@@ -134,10 +134,17 @@ local function drawPlayer(ply)
 		return
 	end
 
+	--sort of a bandaid, but prevents error spam from PAC outfits.
+	local play = ply
+	if type(play) == "table" then 
+		play = pac.LocalPlayer
+	end
+
 	pac.ForceRendering(true)
 	pac.ShowEntityParts(ply)
-	pac.RenderOverride(ply, "opaque")
-	pac.RenderOverride(ply, "translucent", true)
+	--switching these to the localplayer rids us of the error, while still letting dialog selections render when size has been adjusted
+	pac.RenderOverride(play, "opaque")
+	pac.RenderOverride(play, "translucent", true)
 	ply:DrawModel()
 	pac.ForceRendering(false)
 end

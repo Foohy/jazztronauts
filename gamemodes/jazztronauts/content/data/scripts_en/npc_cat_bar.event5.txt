@@ -293,6 +293,8 @@ a32:
 	*setcam setpos -2696.399658 6934.754395 33.405151;setang 3.416752 -101.995712 0.000000*
     *setspeaker narrator*
 	*BAR_SURPRISE*
+    *emitsound physics/metal/sawblade_stick2.wav .5*
+    *shake .5*
     > A harpoon lands between*BAR_NEUTRAL* you and the Bartender,% puncturing the 
     blanket.%%% Hell of a throw.
     &a33

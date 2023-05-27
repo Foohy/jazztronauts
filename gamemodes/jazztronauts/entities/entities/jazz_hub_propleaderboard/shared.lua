@@ -142,7 +142,7 @@ function ENT:Draw()
 	if not IsValid(self.Panel) then return end
 
 	local ang = self:GetAngles()
-	local pos = (self:GetPos() + ang:Right() * 0.01) - Vector(0, 15, 10)
+	local pos = self:GetPos() + ang:Right() * 0.01
 
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 90 )

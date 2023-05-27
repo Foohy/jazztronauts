@@ -91,7 +91,7 @@ function ENT:RenderCountMarker(scrpos, visible, pos)
 	local dist2 = (EyePos() - pos):LengthSqr()
 	local left = self.ShardsRequired - self.ShardsCollected
 	visible = visible - dist2 * 0.00000005
-	local text = left .. " ◼ Remain" .. (left == 1 and "s" or "")
+	local text = jazzloc.Localize((left == 1 and "jazz.blacksharddoor.one" or "jazz.blacksharddoor.remain"),left)
 	draw.SimpleText(text, "BlackShardDoorCount", scrpos.x, scrpos.y, Color(200, 50, 50, visible * 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 

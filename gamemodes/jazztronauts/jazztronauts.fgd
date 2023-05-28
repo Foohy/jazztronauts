@@ -47,8 +47,10 @@
 @PointClass base(Targetname, Angles) studioprop("models/props_c17/gravestone_coffinpiece001a.mdl") = jazz_door_eclipse : "False door that acts as a waypoint for eclipse cat encounters" []
 
 
-@PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter : "Prop Poop Chute"
+@PointClass base(Targetname) origin(marker) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter : "Prop Poop Chute"
 [
+	marker(vector) : "Marker" : : "Where the marker for this vomiter should be (typically above its activator)"
+
 	output OnVomitEnd(void) : "Fires when props are finished vomiting"
 	output OnVomitStart(void) : "Fires when there has been a successful pull of the lever. "
 	output OnVomitStartEmpty(void) : "Fires when there has been a successful pull of the lever, but the player had no props."
@@ -58,8 +60,10 @@
 	input SetConstipateOdds(integer) : "1 out of n chance to constipate (0 always constipate)"
 ]
 
-@PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter_dummy : "Prop Poop Chute - Ending 1"
+@PointClass base(Targetname) origin(marker) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter_dummy : "Prop Poop Chute - Ending 1"
 [
+	marker(vector) : "Marker" : : "Where the marker for this vomiter should be (typically above its activator)"
+
 	output OnVomitEnd(void) : "Fires when props are finished vomiting"
 	output OnVomitStart(void) : "Fires when there has been a successful pull of the lever. "
 	output OnVomitStartEmpty(void) : "Fires when there has been a successful pull of the lever, but the player had no props."
@@ -134,6 +138,8 @@
 [
 
 ]
+
+@PointClass base(Targetname, Angles) studioprop("models/sunabouzu/jazzblackshard.mdl") = jazz_shard_black : "Black Shard" []
 
 @PointClass base(Targetname) iconsprite("editor/jazz_checkpoint.vmt") = jazz_checkpoint : "Jazz Player Checkpoint"
 [

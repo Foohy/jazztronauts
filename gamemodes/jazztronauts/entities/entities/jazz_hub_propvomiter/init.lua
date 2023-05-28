@@ -54,6 +54,11 @@ local outputs =
 	"OnVomitStartEmpty"
 }
 
+
+function ENT:SetupDataTables()
+	self:NetworkVar("Vector", 0, "Marker")
+end
+
 -- Task for precaching models over a few frames so we dont destroy everyone
 local function PrecacheProps(props)
 	for _, v in pairs(props) do
@@ -72,10 +77,11 @@ local function CreatePrecacheTask(props, callback)
 	end
 end
 
-local function UpdatePlayerPropMarker(ply, enabled)
+local function UpdatePlayerPropMarker(ply, enabled, marker)
 
 	net.Start("jazz_propvom_propsavailable")
 		net.WriteBool(enabled)
+		net.WriteVector(marker)
 	net.Send(ply)
 end
 
@@ -84,6 +90,10 @@ function ENT:Initialize()
 end
 
 function ENT:KeyValue( key, value )
+	if key == "marker" then
+		local marker = Vector(value) or Vector(self:GetPos())
+		self:SetMarker(marker)
+	end
 
 	if table.HasValue(outputs, key) then
 		self:StoreOutput(key, value)
@@ -171,7 +181,7 @@ function ENT:VomitNewProps(ply)
 		jazzboards.AddSessionProps(self.CurrentUser:SteamID64(), self.TotalCount)
 	end
 
-	UpdatePlayerPropMarker(self.CurrentUser, false)
+	UpdatePlayerPropMarker(self.CurrentUser, false, self:GetMarker())
 
 	-- Precache all the props first, then start the show
 	self.StartAt = math.huge
@@ -346,7 +356,9 @@ end
 if mapcontrol.IsInHub() then
 	hook.Add("PlayerInitialSpawn", "JazzInformPropsAvailable", function(ply)
 		local counts = snatch.GetPlayerPropCounts(ply, true)
-
-		UpdatePlayerPropMarker(ply, next(counts) ~= nil)
+		local vomiter = ents.FindByClass("jazz_hub_propvomiter")[1]
+		if IsValid(vomiter) then
+			UpdatePlayerPropMarker(ply, next(counts) ~= nil,vomiter:GetMarker())
+		end
 	end )
 end

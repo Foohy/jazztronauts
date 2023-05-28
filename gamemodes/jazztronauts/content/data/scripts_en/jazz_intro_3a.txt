@@ -78,6 +78,19 @@ m2:
 *txin*
 *wait .15*
 *show*
+	condition:
+		&m2multi:
+			return multiplayer()
+		&m2single:
+			return true
+
+&m2multi:
+	You'll want to fasten yourselves securely in your seat and brace yourselves.%% 
+	The first few trips through the Void can be*setskin cat_bar 4*%.%.%.%
+	*setskin cat_bar 1*...disorienting.
+	&m3
+
+&m2single:
 	You'll want to fasten yourself securely in your seat and brace yourself.%% 
 	The first few trips through the Void can be*setskin cat_bar 4*%.%.%.%
 	*setskin cat_bar 1*...disorienting.

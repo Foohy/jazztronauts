@@ -96,13 +96,3 @@ m4:
 dont worry about it%
 HIT IT, PIPES
 &exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

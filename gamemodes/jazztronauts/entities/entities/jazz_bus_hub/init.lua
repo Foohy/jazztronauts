@@ -85,7 +85,12 @@ function ENT:Initialize()
 
 	-- Hook into when the map is changed so this bus knows to leave
 	hook.Add("JazzMapRandomized", "JazzHubBusChange_" .. self:GetCreationID(), function(newmap)
-		if IsValid(self) and self:GetDestination() != newmap then self:LeaveStation() end
+		if IsValid(self) and self:GetDestination() != newmap then
+			for i, v in ipairs( player.GetAll() ) do
+				print( v:ExitVehicle() )
+			end
+			self:LeaveStation()
+		end
 	end )
 
 	-- Hook into when a player leaves so we can double check launch conditions

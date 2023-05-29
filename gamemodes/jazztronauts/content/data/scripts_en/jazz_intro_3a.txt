@@ -24,12 +24,12 @@ begin2:
 	*hide*
 	*txout*
 	*setcam setpos -13086.006836 -2470.082764 1070.884399;setang 14.594378 -110.203735 0.000000*
-*setspeaker cat_bar*
+	*setspeaker cat_bar*
 	*txin*
 	*wait .15*
 	*show*
-*BAR_HAPPY*
-Greetings.%%*BAR_NEUTRAL* As you can see,% this place does*setanim cat_bar gesture_sweep 1 idle* not seem to have an exit.%%
+	*BAR_HAPPY*
+	Greetings.%%*BAR_NEUTRAL* As you can see,% this place does*setanim cat_bar gesture_sweep 1 idle* not seem to have an exit.%%
 	While I'm sure you can leave through whatever way you came in,%%
 	we prefer a different method of travel.
 	&begin3
@@ -49,25 +49,27 @@ begin4:
 	&begin5
 
 begin5:
-	*setspeaker cat_bar 1*
+	*setspeaker cat_bar*
+	*BAR_HAPPY*
 	*setcam setpos -13109.759766 -2500.667969 1047.233032;setang 5.670034 -70.822716 0.000000*
-	We*setanim cat_bar gesture_agree 1 idle* certainly do!%%*setskin cat_bar 0* Our offer is simple\:%% you may come with us
+	We*setanim cat_bar gesture_agree 1 idle* certainly do!%%*BAR_NEUTRAL* Our offer is simple\:%% you may come with us
 	back to our abode,% and entertain a job offer from our cohort.%%
 	If you aren't interested upon hearing it, %you'll be free to go.%%
-	*setanim cat_bar gesture_confused 1 idle*%*setskin cat_bar 1*Are you willing to hear us out?
+	*setanim cat_bar gesture_confused 1 idle*%*BAR_HAPPY*Are you willing to hear us out?
 	&hotfix
 
 hotfix:
 	*setspeaker player*
-	*setskin cat_bar 0*
+	*BAR_NEUTRAL*
 	Yeah, sure.
 	&m1
 
 m1:
-	*setspeaker cat_bar 1*
+	*setspeaker cat_bar*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_clap 1 idle*
 	Excellent!%%%*BAR_NEUTRAL* Climb aboard our trolley,% and take a seat wherever you like.
-		&m2
+	&m2
 
 m2:
 	*hide*
@@ -88,14 +90,14 @@ m2:
 
 m3:
 	*setspeaker player*
-*BAR_NEUTRAL*
-Wait,% what?%% 
-What do you mean “the Void”-?
+	*BAR_NEUTRAL*
+	Wait,% what?%% 
+	What do you mean “the Void”-?
 	&m4
 
 m4:
 	*setspeaker cat_cello*
-*CELLO_GRIN*
+	*CELLO_GRIN*
 	dont worry about it%
 	HIT IT, PIPES
 	&exit

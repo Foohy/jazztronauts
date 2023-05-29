@@ -26,9 +26,10 @@ begin2:
 	*setcam setpos -13086.006836 -2470.082764 1070.884399;setang 14.594378 -110.203735 0.000000*
 	*txin*
 	*wait .15*
-	*show**setspeaker cat_bar 1*
+	*show*
+	*setspeaker cat_bar*
 	*BAR_HAPPY*
-	Greetings.%%*setskin cat_bar 0* As you can see,% this place does*setanim cat_bar gesture_sweep 1 idle* not seem to have an exit.%%
+	Greetings.%%*BAR_NEUTRAL* As you can see,% this place does*setanim cat_bar gesture_sweep 1 idle* not seem to have an exit.%%
 	While I'm sure you can leave through whatever way you came in,%%
 	we prefer a different method of travel.
 	&begin3
@@ -73,7 +74,6 @@ m1:
 m2:
 	*hide*
 	*txout*
-	*setspeaker narrator*
 	*setposang cat_bar setpos -13101.092773 -2689.411621 1025.5532715;setang -90 270 0.000000*
 	*setposang cat_cello setpos setpos -13140.460938 -2728.007324 1025.520874;setang -90 280 0.000000*
 	*setposang cat_piano setpos -13194.700195 -2656.432129 1025.534790;setang -90 175.826767 0.000000*
@@ -82,8 +82,7 @@ m2:
 	*txin*
 	*wait .15*
 	*show*
-	> You sit down in a surprisingly comfortable seat,
-	as the cats are preparing to start the trolley.
+	*setauto 0*
 	condition:
 		&m2multi:
 			return multiplayer()
@@ -91,17 +90,19 @@ m2:
 			return true
 
 m2multi:
+	*setauto*
 	*setspeaker cat_bar*
-	You'll want to fasten yourselves securely
-	in your seat,% and brace yourselves.%%
-	The first few trips through the Void can be*setskin cat_bar 4*%.%.%.% *setskin cat_bar 1*disorienting.
+	You'll want to fasten yourselves securely in your seat,% and brace yourselves.%%
+	The first few trips through the Void can be*BAR_BLINK*%.%.%.%
+	*setanim cat_bar gesture_confused 1 idle**BAR_HAPPY*...disorienting.
 	&m3
 
 m2single:
+	*setauto*
 	*setspeaker cat_bar*
-	You'll want to fasten yourself securely
-	in your seat,% and brace yourself.%%
-	The first few trips through the Void can be*setskin cat_bar 4*%.%.%.% *setskin cat_bar 1*disorienting.
+	You'll want to fasten yourself securely in your seat,% and brace yourself.%%
+	The first few trips through the Void can be*BAR_BLINK*%.%.%.%
+	*setanim cat_bar gesture_confused 1 idle**BAR_HAPPY*...disorienting.
 	&m3
 
 m3:

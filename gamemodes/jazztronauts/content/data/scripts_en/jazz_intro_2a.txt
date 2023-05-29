@@ -158,7 +158,7 @@ begin22:
 
 begin23:
 	*setspeaker cat_bar*
-	Ah.*setanim cat_bar gesture_clap 1 idle*% Would*setskin cat_bar 1* you look at what we have here? *setcam setpos -13669.89 -2033.84 1056.03;setang 2.67 81.38 0*
+	Ah.*setanim cat_bar gesture_clap 1 idle*% Would*BAR_HAPPY* you look at what we have here? *setcam setpos -13669.89 -2033.84 1056.03;setang 2.67 81.38 0*
 	condition:
 		&begin24multi:
 			return multiplayer()

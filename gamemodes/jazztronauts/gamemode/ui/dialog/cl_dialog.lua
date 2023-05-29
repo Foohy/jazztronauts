@@ -219,14 +219,6 @@ local function QueueWait(cmd, data)
 	end
 end
 
-local isMulti = function()
-	if player.GetCount() > 1 then
-		return true
-	else
-		return false
-	end
-end
-
 local conditionEnv =
 {
 	print = print,
@@ -239,7 +231,7 @@ local conditionEnv =
 	money = jazzmoney,
 	time = os.time,
 	date = os.date,
-	multiplayer = isMulti,
+	multiplayer = function() return tobool(player.GetCount() - 1) end,
 	maybe = function(odds, test) return math.Round(util.SharedRandom("shared", 1, odds, FrameNumber())) == test end
 }
 

@@ -386,7 +386,6 @@ function DownloadGMA(wsid, func, decompress_func)
 
 	local subscribed = engine.GetAddons()
 	for _, v in pairs(subscribed) do
-		print(type(v.wsid), type(wsid), v.wsid == wsid)
 		if v.wsid == wsid then
 			if v.mounted then
 				-- It's mounted!! just return that instead

@@ -265,6 +265,11 @@ function ENT:AttachRadio(pos, ang)
 
 	-- Attach a looping audiozone
 	self.RadioMusic = CreateSound(ent, self.RadioMusicName)
+	hook.Add("EntityRemoved", "JazzBusRadioCheck", function(removed)
+		if removed ~= radio_ent then return end
+		self.RadioMusic:Stop()
+		ent:Remove()
+	end)
 end
 
 function ENT:AttachSeat(pos, ang)

@@ -331,8 +331,8 @@ function SetSkinFunc(d, name, skinid)
 end
 
 local view = {}
-dialog.RegisterFunc("setcam", function(d, ...)
-	local posang = parsePosAng(...)
+dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, fov)
+	local posang = parsePosAng(setpos, px, py, pzsetang, ax, ay, az)
 
 	if !posang.pos or !posang.ang then
 		view = nil
@@ -344,6 +344,11 @@ dialog.RegisterFunc("setcam", function(d, ...)
 	view.endtime = nil
 	view.curpos = posang.pos
 	view.curang = posang.ang
+
+	if fov then
+		local fov = tonumber(fov)
+		view.fov = fov
+	end
 
 	-- Only create the player proxy if we modify the camera
 	FindByName("player")

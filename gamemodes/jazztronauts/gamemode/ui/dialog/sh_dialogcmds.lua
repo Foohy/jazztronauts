@@ -346,7 +346,7 @@ dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, 
 	view.curang = posang.ang
 
 	if fov then
-		local fov = tonumber(fov)
+		local fov = tonumber(string.Replace(fov,"fov",""))
 		view.fov = fov
 	end
 

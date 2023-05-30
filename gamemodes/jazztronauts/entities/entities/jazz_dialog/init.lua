@@ -74,13 +74,13 @@ function ENT:StartDialog( activator, caller, data )
 	local targets = { activator }
 
 	if self.sendToAllPlayers then
-		targets = player.GetAll()
+		targets = player.GetHumans()
 	end
 
 	print("SV_Dispatch_Ent: " .. self:GetScript())
 
 	self.ActivePlayers = self.ActivePlayers or {}
-	for _, v in pairs(targets) do
+	for _, v in ipairs(targets) do
 		if v:IsBot() then continue end
 		if self:IsDialogActive(v) then continue end
 		

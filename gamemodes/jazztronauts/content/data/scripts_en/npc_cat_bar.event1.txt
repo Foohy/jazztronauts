@@ -1,32 +1,17 @@
 SKIP_OPEN = true
 
 begin:
-    # Scene setup
-    *txout*
-    *setfov 70*
-
-	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
-	*setnpcid cat_bar npc_cat_bar*
-
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
-	*setnpcid cat_piano npc_cat_piano*
+	# Scene setup
+	*txout*
+	spawngang()
 	*setposang player setpos -1492.517822 2994.995850 0;setang 0 87.726311 0.000000*
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
-	*setnpcid cat_cello npc_cat_cello*
-	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1.0 2.0*
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
-	*setnpcid cat_singer npc_cat_sing*
-
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-
 	*setposang cat_bar -1456.906494 3002.029785 0;setang -90 15 0.000000*
 	*setposang cat_cello -1550.800171 3010.119873 0;setang -90 345 0.000000*
 	*setposang cat_piano -1413.009766 3020.624512 0;setang -90 60 0.000000*
-    *setposang cat_singer -1470.034180 3146.505859 0;setang -90 180 0.000000*
-	*setfov 70*
+	*setposang cat_singer -1470.034180 3146.505859 0;setang -90 180 0.000000*
+	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1.0 2.0*
 	*wait .1*
-	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
+	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000 fov70*
 
 
 
@@ -47,7 +32,7 @@ begin2:
 	&begin3
 begin3:
 	*setspeaker cat_cello*
-	*CELLO_GRIN*
+	*CELLO_NEUTRAL*
 	*setcam setpos -1480.707764 3117.885986 56.487091;setang 7.240627 -137.106567 0.000000*
 	*setanim cat_cello gesture_disagree 1 idle*
 	ok no see,% brown-nosing the gods don't work. 
@@ -58,12 +43,12 @@ begin4:
 	*setanim cat_cello gesture_shock 1 idle*
 	CONFUSING them?%% now we're getting somewhere
 	player:
-	&resp1a:
-		That wouldn't fly with Zeus.
-	&resp2a:
-		The Cellist makes a lot of sense.
-    &resp3a:
-        Y'know what? I'm not in the mood to gamble. (exit)
+		&resp1a:
+			That wouldn't fly with Zeus.
+		&resp2a:
+			The Cellist makes a lot of sense.
+		&resp3a:
+			Y'know what? I'm not in the mood to gamble. (exit)
 
 ###### Branch 1
 resp1a:
@@ -73,7 +58,7 @@ resp1a:
 	Yeah they're right.% Zeus would throw you into nerd prison 
 	with his dad,% or marry you off to his brother,% or turn
 	into a swarm of bees and fuck a goat.
-    &resp1b
+	&resp1b
 
 resp1b:
 	.%.%.%or something weird like that.%%*setanim cat_piano gesture_confused 1 idle* 
@@ -94,7 +79,7 @@ resp1d:
 	*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
 	*setanim cat_bar gesture_disagree 1 idle*
 	There's a reason I don't carry it anymore.
-    &resp1e
+	&resp1e
 
 resp1e:
 	*setspeaker cat_cello*
@@ -108,49 +93,51 @@ resp1f:
 	*setspeaker cat_piano*
 	*setanim cat_piano gesture_anger 2 idle*
 	Shuddup.% Cards're coming.
-    &merge1a
+	*CELLO_NEUTRAL*
+	&merge1a
 
 ###### Branch 2
 resp2a:
-    *setspeaker cat_bar*
+	*setspeaker cat_bar*
 	*BAR_SURPRISE*
 	*setanim cat_bar gesture_shock 1 idle*
 	*setcam setpos -1448.301880 3127.986084 63.884083;setang 4.685096 -79.021828 0.000000*
 	Oh dear.% Agreeing with the Cellist?%%*BAR_NEUTRAL*%*setanim cat_bar gesture_confused 1 idle* 
 	Have you developed a fever?
-    &resp2b
+	&resp2b
 
 resp2b:
-    *setspeaker cat_cello*
+	*setspeaker cat_cello*
 	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
 	*setanim cat_cello gesture_jab 1 idle*
 	only fever they're getting is% fuckin,% truth-bola.%% 
 	t-bola.% no cure known% they're screwed.%%%%%*setanim cat_cello gesture_confused 1 idle* 
 	symptoms are waking the fuck up,% sheeple
-    &resp2c
+	&resp2c
 
 resp2c:
-    *setspeaker cat_piano*
+	*setspeaker cat_piano*
 	*setcam setpos -1495.497559 3173.718506 86.646301;setang 8.891073 -59.375931 0.000000*
 	*setanim cat_piano gesture_laugh 1 idle*
 	Thanks,% Banksy.
-    &resp2d
+	&resp2d
 	
 resp2d:
-    *setspeaker cat_cello*
+	*setspeaker cat_cello*
+	*CELLO_MAD*
 	*setanim cat_cello gesture_anger 2 idle*
 	WE AGREED YOU WOULDN'T SAY THAT PIECE OF 
 	SHITS NAME IN HERE AGAIN
-    &resp2e
-    
+	&resp2e
+	
 resp2e:
-    *setspeaker cat_piano*
+	*setspeaker cat_piano*
 	*setanim cat_piano gesture_clap 1 idle*
 	Thanksy
-    &resp2f
+	&resp2f
 	
 resp2f:
-    *setspeaker cat_cello*
+	*setspeaker cat_cello*
 	*setanim cat_cello gesture_anger 2 idle*
 	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
 	biTCH
@@ -170,49 +157,50 @@ resp2h:
 	*setcam setpos -1396.263062 3081.129639 50.612041;setang 1.330953 152.403229 0.000000*
 	*show*
 	*setspeaker cat_cello*
+	*CELLO_NEUTRAL*
 	.%.%.%sorry.%% go ahead pipes,% do your thing.	
-    &merge1a
+	&merge1a
 
 ###### Branch 3
 resp3a:
-    *setspeaker cat_piano*
+	*setspeaker cat_piano*
 	*setanim cat_piano gesture_agree 1 idle*
 	I don't blame you.%%% 
 	We'll be out in a little while.
-    &exit
+	&exit
 
 ###### Merge point
 merge1a:	
 	*hide*
 	*txout*
-    *setspeaker narrator*
+	*setspeaker narrator*
 	*show*
 	> A Few Rounds Later%.%.%.
-    &merge1b
+	&merge1b
 
 merge1b:
 	*hide .1*
 	*setcam setpos -1564.555542 3152.012207 87.040466;setang 18.527466 -35.418659 0.000000*
-    *txin .2*
+	*txin .2*
 	*show .1*
 	> Apparently,%%% the cats play some sort of strange variant of 
 	blackjack called 'flavor blasted blackjack.' 
-    &merge1c
+	&merge1c
 merge1c:
-    > It seems more or less identical to regular blackjack except 
+	> It seems more or less identical to regular blackjack except 
 	players can steal money from each other through rules that 
 	nobody's bothered explaining to you.
-    &merge1d
+	&merge1d
 merge1d:
 	*setspeaker cat_cello*
 	*setcam setpos -1541.477417 3069.246826 49.034027;setang 2.378531 -68.391594 0.000000*
 	*setanim cat_cello gesture_laugh 1 idle*
-    goddamn%% i'm a strategic genius.%*setanim cat_cello gesture_exchange 1.4 idle* call me scipio africanus cause 
+	goddamn%% i'm a strategic genius.%*setanim cat_cello gesture_exchange 1.4 idle* call me scipio africanus cause 
 	i'mma ride elephants over the alps of this game and 
 	steal all your lunch money
-    &merge1e
+	&merge1e
 merge1e:
-    *setspeaker cat_piano*
+	*setspeaker cat_piano*
 	*setanim cat_piano gesture_confused 1 idle*
 	I know you're getting warfare history wrong to try 
 	and make me mad.%%*setanim cat_piano gesture_disagree 1 idle* It doesn't work anymore.
@@ -252,14 +240,14 @@ merge1i:
 decision2:
 	*setspeaker player*
 	> .%.%.%You have two eights in your hand,% totaling 16. 
-		Should you hit,% or stand?
+	Should you hit,% or stand?
 	player:
-	&resp4a:
-		Hit
-	&resp5a:
-		Stand
-	&resp6a:
-		Fold (exit)
+		&resp4a:
+			Hit
+		&resp5a:
+			Stand
+		&resp6a:
+			Fold (exit)
 		
 ###### Branch 4
 resp4a:

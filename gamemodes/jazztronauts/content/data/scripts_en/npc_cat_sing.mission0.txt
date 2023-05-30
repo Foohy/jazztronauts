@@ -1,7 +1,6 @@
 accept:
-*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-*setspeaker narrator*
+	spawnnarrator()
+	*setspeaker narrator*
 	> Oh, it's the cat who spotted you in the first place and 
 	landed you in this.. job?? They were the Singer, you think.
 	&a1

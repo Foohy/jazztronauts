@@ -70,18 +70,14 @@ i3:
 	&exit
 
 turnin:
-
 	*hide*
 	*txout*
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
-	*setnpcid cat_piano npc_cat_piano*
+	spawnnarrator()
+	spawnpianist()
+	spawnsinger()
 	*setposang cat_piano setpos 119.712593 3120.789307 24;setang -90 140 0.000000
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
-	*setnpcid cat_singer npc_cat_sing*
 	*spawn metrocop_model models/police.mdl*
 	*setname metrocop_model Metrocop*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
 	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 1 2.0*
 	*setposang metrocop_model setpos 105.750031 2986.230957 0;setang -0.922405 84.788383 0.000000*
 	*setposang player setpos 6.328891 2987.953613 0;setang 5.732626 21.565920 0.000000*
@@ -107,7 +103,7 @@ t2:
 	*setcam setpos -114.676605 2833.304443 75.460381;setang 4.348427 46.162735 0.000000*
 	*setposang metrocop_model setpos 105.750031 2986.230957 0;setang 4.667794 168.321960 0.000000*
 	*setspeaker narrator*
-	The metrocop gives you a wave while the Pianist puts a briefcase
+	> The metrocop gives you a wave while the Pianist puts a briefcase
 	on the table.%%%%
 	*finish 5*
 	%.%.%.%Looks like your pay is 30,000 this time!

@@ -3,18 +3,11 @@ begin:
 ###### SCENE SETUP
 	*hide*
 	*txout*
-	*setfov 70*
-	
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-
-	*setcam setpos -3082.286865 2792.481445 64.031250;setang -1.321731 46.910137 0.000000* ###### SAMSARA ESTABLISH	
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
+	spawnnarrator()
+	spawnsinger()
+	*setcam setpos -3082.286865 2792.481445 64.031250;setang -1.321731 46.910137 0.000000 fov70* ###### SAMSARA ESTABLISH	
 	*setposang cat_singer setpos -2609.358398 2753.060059 0;setang -90 75 0.000000*
-	*setnpcid cat_singer npc_cat_sing*
-	
 	*bgmplay sound/jazztronauts/music/events/allspice.mp3 1 2.0*
-	*spawn player_dummy playerboy*
 	*setposang player setpos -2943.505615 2900.457520 0;setang -3.318230 68.020081 0.000000*
 	*txin*
 	*show*
@@ -48,20 +41,20 @@ b2:
 	*SINGER_FLUSTERED*
 	> They seem very interested in the floor suddenly.
 	player:
-	&r1a1:
-		*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
-		*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
-		If you don't want me to see it,% that's cool.%%%
-		See you later, yeah? (exit)
-	&r2a1:
-		*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
-		*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
-		Oh shit was that a brontosaurus? 
-		I love brontos.
-	&r3a1:
-		*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
-		*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
-		It's okay,%% I'm not gonna give you shit or anything.
+		&r1a1:
+			*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
+			*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
+			If you don't want me to see it,% that's cool.%%%
+			See you later, yeah? (exit)
+		&r2a1:
+			*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
+			*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
+			Oh shit was that a brontosaurus? 
+			I love brontos.
+		&r3a1:
+			*setposang player setpos -2943.505615 2900.457520 0;setang 0 -40 0.000000*
+			*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
+			It's okay,%% I'm not gonna give you shit or anything.
 		
 ###### BRANCH 1 EARLY EXIT
 r1a1:
@@ -118,13 +111,13 @@ r2a4:
 r2a5:
 	> They seem a little less self-conscious now.
 	player:
-	&r1a1:
-		*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
-		If you don't want me to see it,% that's cool.%%%
-		See you later, yeah? (exit)
-	&r3a1:
-		*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
-		It's okay,%% I'm not gonna give you shit or anything.
+		&r1a1:
+			*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
+			If you don't want me to see it,% that's cool.%%%
+			See you later, yeah? (exit)
+		&r3a1:
+			*setcam setpos -2852.954102 2775.367432 45.094448;setang -0.123793 97.088692 0.000000*
+			It's okay,%% I'm not gonna give you shit or anything.
 	
 ###### BRANCH 3
 r3a1:

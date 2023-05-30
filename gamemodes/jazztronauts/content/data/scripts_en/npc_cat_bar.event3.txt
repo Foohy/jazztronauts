@@ -36,8 +36,8 @@ a3:
 	> The Mewseum door is kicked open!%% Intruder alert!!%%%%*setcam setpos -2654.359619 2872.613281 45.377167;setang 4.667855 -47.210667 0.000000*
 	%.%.%.%Oh,% it's just the Cellist.
 	player:
-		 &a4: This ought to be good.
-		 &leave: ha ha nope i'm out (exit)
+		&a4: This ought to be good.
+		&leave: ha ha nope i'm out (exit)
 
 ###EARLY EXIT
 

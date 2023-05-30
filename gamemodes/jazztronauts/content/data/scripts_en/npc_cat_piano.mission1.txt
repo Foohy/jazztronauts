@@ -6,7 +6,7 @@ accept:
 a1:
 	> The Pianist points at the Mewseum NPC displays.
 	&a2
-	
+
 a2:
 	This is where I put those who have wronged me.%%
 	My Prison.%%% Beware you do not incur my wrath.
@@ -28,7 +28,7 @@ a4:
 	
 a5:
 	I'd like it to look quite a bit more dead.%%% Which is why you're gonna get
-	me ten headcrabs.%%%% *start 1* I'm going to unleash them in the halls and
+	me ten headcrabs.%%%%*start 1* I'm going to unleash them in the halls and
 	kick back with a martini.%% Spectate.
 	&exit
 	

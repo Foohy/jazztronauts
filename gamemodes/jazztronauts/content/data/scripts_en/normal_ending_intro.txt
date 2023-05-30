@@ -6,31 +6,34 @@ CMD_DELAY = 0
 SKIP_OPEN = true
 
 begin:
-    spawngang()
+	spawnnarrator()
+	spawnbartender()
+	spawncellist()
+	spawnpianist()
 	*setposang cat_bar setpos 5795.780762 141.141571 3584.031250;setang -90	-91.249092 0.000000*
 	*setposang cat_cello setpos setpos 6608.233398 -486.078217 3584.031250;setang -90 163.122925 0.000000*
 	*setposang cat_piano setpos 6518.995117 403.150879 3584.031250;setang -90 -65.329979 0.000000*
-     *setspeaker cat_bar*
-     *show 0.5*
-     Now the last step to get to the festival.%%%
-     &a1
+	*setspeaker cat_bar*
+	*show 0.5*
+	Now the last step to get to the festival.%%%
+	&a1
 
 a1:
-     It's time to-%
-     &a2
+	It's time to-%
+	&a2
 
 a2:
-     *setspeaker cat_cello*
-     IT'S TIME TO TEAR THIS PLACE UP%%%
+	*setspeaker cat_cello*
+	IT'S TIME TO TEAR THIS PLACE UP%%%
+	&a3
 
-    &a3
 a3:
-     *setspeaker cat_bar*
-     ...Yes.%
-     The only thing separating us from the festival are these pesky walls.%%%
+	*setspeaker cat_bar*
+	...Yes.%
+	The only thing separating us from the festival are these pesky walls.%%%
+	&a4
 
-     &a4
 a4:
-    *setspeaker cat_piano*
-     *slam Tear* %*slam Them* %*slam Down*%%%
-     &exit
+	*setspeaker cat_piano*
+	*slam Tear* %*slam Them* %*slam Down*%%%
+	&exit

@@ -1,8 +1,7 @@
 ###### the accept phase of this mission requires camera work
 
 accept:
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
+	spawnnarrator()
 	*setspeaker cat_singer*
 	> The Singer signals for you to keep your voice down as you approach.
 	The Cellist is snoring loudly next to them. They pat him on the head
@@ -60,8 +59,7 @@ i1:
 	&exit
 
 turnin:
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
+	spawnnarrator()
 	spawncellist()
 	*setposang cat_cello setpos -1481.363159 2962.733887 0;setang 0.479202 92.407959 0.000000*
 	*setspeaker cat_cello*

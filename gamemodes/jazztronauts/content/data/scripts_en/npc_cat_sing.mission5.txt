@@ -17,7 +17,6 @@ a1:
 	&a1b
 	
 a1b:
-	
 	"Hey so this is the last thing I need to finally test a theory 
 	I've been developing for actual years!!!! If you can get me 
 	10 radios, I should be able to make some motherfucking
@@ -39,8 +38,7 @@ a3:
 	
 	
 idle:
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
+	spawnnarrator()
 	*setspeaker narrator*
 	> When you approach the Singer, the Pianist raises a paw.
 	&i1
@@ -74,11 +72,9 @@ i4:
 turnin:
 	*hide*
 	*txout*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
+	spawnnarrator()
+	spawnsinger()
 	*setcam setpos 2950.531006 7512.884277 60.556206;setang 3.656331 71.344948 0.000000*
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
-	*setnpcid cat_singer npc_cat_sing*
 	*setposang cat_singer setpos 3093.010498 7924.259277 0;setang -90 165 0.000000*
 	*spawn combine01 models/Combine_Soldier.mdl*
 	*setposang combine01 setpos 2946.030518 7790.783691 0;setang 0.807915 89.579773 0.000000*

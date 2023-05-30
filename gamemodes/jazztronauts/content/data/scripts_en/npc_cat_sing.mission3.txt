@@ -1,8 +1,7 @@
 ###### the accept phase of this mission requires camera work
 
 accept:
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
+	spawnnarrator()
 	*setspeaker narrator*
 	> The Singer and Bartender are here...
 	there is a terracotta pot on the table.
@@ -78,13 +77,13 @@ turnin:
 	&turnin2
 	
 turnin2:
-	Apparently they went out on an expedition of their own to find 
+	> Apparently they went out on an expedition of their own to find 
 	some seeds, and are very excited to try growing three different 
 	varieties of tomatoes for their experiment. 
 	&turnin3
 	
 turnin3:
-	At least. They think they're tomatoes. 
+	> At least. They think they're tomatoes. 
 	Heirloom names get weird. *finish 3*
 	&t1
 	

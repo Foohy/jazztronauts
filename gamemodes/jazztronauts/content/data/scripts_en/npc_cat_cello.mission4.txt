@@ -1,64 +1,63 @@
 accept:
-    ah good you're here. in order to get something consistent 
-    and possibly marketable out of all this biochemical pachinko 
-    going on in my assorted organs i've realized i need a proper 
-    lab partner, somebody with a proper degree in
-	    &a2
+	ah good you're here. in order to get something consistent 
+	and possibly marketable out of all this biochemical pachinko 
+	going on in my assorted organs i've realized i need a proper 
+	lab partner, somebody with a proper degree in
+	&a2
 a2:
-    uh
-    &a3
+	uh
+	&a3
 a3:
-   i mean anything works now that i think about it, just the word 
-   doctor is the important part, people trust your advice about 
-   snorting things when you've got a doctorate
-    &a4
+	i mean anything works now that i think about it, just the word 
+	doctor is the important part, people trust your advice about 
+	snorting things when you've got a doctorate
+	&a4
 a4:
-    anyway if there's one doctor i can guaran-fucking-tee the 
-    universe isn't gonna miss a copy of it's that Kleiner dude 
-    there must be four hundred thousand of him out there even 
-    accounting for however many you've blown up at this point
-    &a5
+	anyway if there's one doctor i can guaran-fucking-tee the 
+	universe isn't gonna miss a copy of it's that Kleiner dude 
+	there must be four hundred thousand of him out there even 
+	accounting for however many you've blown up at this point
+	&a5
 a5:
-   just bring one of him back to me and we'll see what we 
-   can't accomplish when we put our heads together
-   *start 4*
-   &exit
+	just bring one of him back to me and we'll see what we 
+	can't accomplish when we put our heads together
+	*start 4*
+	&exit
 
 idle:
-   do you mind i'm busy performing internal alchemy
-   &i2
+	do you mind i'm busy performing internal alchemy
+	&i2
 i2:
-   by which i mean i am only barely capable of stringing together
-   a coherent sentence and when I am saying that you probably 
-   understand the ass-blastingly incomprehensible qualia
-   i am attempting to parse right now
-   &i3
+	by which i mean i am only barely capable of stringing together
+	a coherent sentence and when I am saying that you probably 
+	understand the ass-blastingly incomprehensible qualia
+	i am attempting to parse right now
+	&i3
 i3: 
-   what i'm saying is fuck off until you get me that lab partner
-   &exit
+	what i'm saying is fuck off until you get me that lab partner
+	&exit
 
 turnin:
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-   you've got one,%% good%%%
-   here's your cut%%%
-   now,% CHECK THIS SHIT OUT
-   &t1
+	spawnnarrator()
+	you've got one,%% good%%%
+	here's your cut%%%
+	now,% CHECK THIS SHIT OUT
+	&t1
 
 t1: 
-   *setspeaker narrator*
-   > The Kleiner's wireframe is smashed into a horrifying 
-   nightmare blunt that the Cellist rips in one go.
-   &t2
+	*setspeaker narrator*
+	> The Kleiner's wireframe is smashed into a horrifying 
+	nightmare blunt that the Cellist rips in one go.
+	&t2
 
 t2:
-   *setspeaker cat_cello*
-   %.%.%.%%i take it from your look of abject horror that you 
-   weren't aware that doctorates worked on Highlander rules
-   &t3
+	*setspeaker cat_cello*
+	%.%.%.%%i take it from your look of abject horror that you 
+	weren't aware that doctorates worked on Highlander rules
+	&t3
 t3:
-   well% now you know%%%
-   and knowing is half the battle%%%
-   g%% i%% joooo%o%o%o%o%o%o%oooooooe
-   *finish 4*
-   &exit
+	well% now you know%%%
+	and knowing is half the battle%%%
+	g%% i%% joooo%o%o%o%o%o%o%oooooooe
+	*finish 4*
+	&exit

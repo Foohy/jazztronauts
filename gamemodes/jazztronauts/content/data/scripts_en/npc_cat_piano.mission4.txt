@@ -62,8 +62,7 @@ i2:
 	&exit
 
 turnin:
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
+	spawnnarrator()
 	*setspeaker cat_piano*
 	I see that you have,% the horse.%%%
 	I'm gonna go brain him with the Bartender's frying pan,% and while 
@@ -79,8 +78,8 @@ t1:
 t2:
 	%.%.%.%.%.%%If you have a better idea, go ahead.
 	player:
-	&t3:
-		Hey,% Cellist.%%% Come over here a sec.
+		&t3:
+			Hey,% Cellist.%%% Come over here a sec.
 	
 t3:
 	*setspeaker npc_cat_cello*

@@ -1,15 +1,13 @@
 SKIP_OPEN = true
 
 begin:
-    # Scene setup
-    *txout*
-    *setfov 70*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	# Scene setup
+	*txout*
+	*setfov 70*
+	spawnnarrator()
+	spawncellist()
 	*setposang cat_cello setpos -883 3862 70;setang 0 270 0* ###So this angle puts the Cellist's light origin in the wall to start. This makes him very dark, which actually kinda works here, like he was covered in soot.
 	*setanim cat_cello pose_passedout*
-	*setnpcid cat_cello npc_cat_cello*
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1.0 2.0*
 	*setposang player setpos -705.046448 3488.125977 0;setang 0 82.384605 0.000000*
 	*setcam setpos -562.419739 3412.193115 91.602287;setang 8.332038 137.274857 0.000000*
@@ -56,19 +54,19 @@ b4:
 	tempered glass acupuncture of the face counted as getting high
 	though so I'm gonna chalk that one down as something to revisit.
 	player:
-	&r1a1:
-		*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
-		*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
-		You seem remarkably unfazed by being blown up.
-	&r1a1:
-		*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
-		*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
-		Is this a regular occurrence?
-	&r2a1:
-		*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
-		*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
-		Y'know that feels like something you could have figured out
-		with common sense.
+		&r1a1:
+			*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
+			*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
+			You seem remarkably unfazed by being blown up.
+		&r1a1:
+			*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
+			*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
+			Is this a regular occurrence?
+		&r2a1:
+			*setposang player setpos -714.635681 3504.432373 0;setang 5.164247 65.622467 0.000000*
+			*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
+			Y'know that feels like something you could have figured out
+			with common sense.
 		
 ###### BRANCH 1 
 r1a1:
@@ -131,15 +129,15 @@ m1:
 	to accept a job offer*setanim cat_cello gesture_agree 1 idle* from a pack of weird cat gremlins from beyond
 	time and space.%%*setanim cat_cello gesture_confused 1 idle* why'd you agree to this arrangement?
 	player:
-	&exploration:
-		*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
-		To see the sights,% explore all these places people made.
-	&comraderie:
-		*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
-		I kinda wanted to get to know the four of you more.
-	&agoodtime:
-		*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
-		I'mma get rich and mess with all your weird guns.
+		&exploration:
+			*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
+			To see the sights,% explore all these places people made.
+		&comraderie:
+			*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
+			I kinda wanted to get to know the four of you more.
+		&agoodtime:
+			*setcam setpos -656.865234 3607.643555 78.188354;setang 5.137630 -111.098778 0.000000*
+			I'mma get rich and mess with all your weird guns.
 		
 ###### THE PLAYER WANTS TO EXPLORE AND SEE SIGHTS
 exploration:

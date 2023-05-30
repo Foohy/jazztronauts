@@ -1,6 +1,6 @@
 accept:
-Oh. Right. 
-    &a1
+	Oh. Right. 
+	&a1
 
 a1:
 	I didn't really consider the need for introductions when we nabbed y'all,
@@ -9,7 +9,7 @@ a1:
 	
 a2:
 	Not feeling that at this juncture though, so let's talk about what you
-	can get for me\:*c 255 0 0*       Chairs.
+	can get for me\:*c 255 0 0*       Chairs*c*.
 	&a3
 
 a3:
@@ -25,7 +25,7 @@ a4:
 a5:
 	People out there have too much stuff; time on their hands; 
 	and no sense of aesthetics. It's shameful. 
-	You're gonna redistribute that wealthy to where it belongs\:
+	You're gonna redistribute that wealth to where it belongs\:
 	under my fluffy ass.
 	&a6
 	

@@ -23,12 +23,12 @@ begin1:
 	&begin2
 
 begin2:
-*setspeaker cat_piano*
-*PIANO_BLINK*
-Yes%, it happens.%%
-And each time*setcam setpos -13561.711914 -2139.091064 1050.501587;setang 4.441590 -96.009224 0.000000* it's Cellist who loses them.*PIANO_NEUTRAL*%*setanim cat_piano gesture_facepalm 1 idle*%%
-I wonder why.
-&begin3
+	*setspeaker cat_piano*
+	*PIANO_BLINK*
+	Yes%, it happens.%%
+	And each time*setcam setpos -13561.711914 -2139.091064 1050.501587;setang 4.441590 -96.009224 0.000000* it's Cellist who loses them.*PIANO_NEUTRAL*%*setanim cat_piano gesture_facepalm 1 idle*%%
+	I wonder why.
+	&begin3
 
 begin3:
 	*setspeaker cat_cello*
@@ -39,10 +39,10 @@ begin3:
 	&begin4
 
 begin4:
-*setspeaker cat_piano*
-*setcam setpos -13571.149414 -2157.019287 1042.542480;setang 9.023558 -135.240448 0.000000*
-*PIANO_ANGRY*That*setanim cat_piano gesture_anger 1 idle* was rhet-
-&begin5
+	*setspeaker cat_piano*
+	*setcam setpos -13571.149414 -2157.019287 1042.542480;setang 9.023558 -135.240448 0.000000*
+	*PIANO_ANGRY*That*setanim cat_piano gesture_anger 1 idle* was rhet-
+	&begin5
 
 begin5:
 	*setspeaker narrator*
@@ -70,11 +70,11 @@ begin7:
 	&begin8
 
 begin8:
-*setspeaker cat_cello*
-*CELLO_NEUTRAL*%hey%% remember that*setanim cat_cello gesture_jab 1 idle* time you accidentally tore a player in
-half trying to save them from a combine apc that didnt even
-have player collision enabled
-&begin11
+	*setspeaker cat_cello*
+	*CELLO_NEUTRAL*%hey%% remember that*setanim cat_cello gesture_jab 1 idle* time you accidentally tore a player in
+	half trying to save them from a combine apc that didnt even
+	have player collision enabled
+	&begin11
 
 begin11:
 	*setspeaker cat_piano*
@@ -110,9 +110,9 @@ begin15:
 	&begin16
 
 begin16:
-*setspeaker cat_piano*
-*setanim cat_piano gesture_anger 1 idle*Oh*PIANO_ANGRY* mY GOD
-&begin17
+	*setspeaker cat_piano*
+	*setanim cat_piano gesture_anger 1 idle*Oh*PIANO_ANGRY* mY GOD
+	&begin17
 
 begin17:
 	*setspeaker narrator*

@@ -1,4 +1,4 @@
-﻿###### the accept phase of this mission requires camera work
+###### the accept phase of this mission requires camera work
 
 accept:
 	> The Singer seems agitated, and the moment they spot you they 
@@ -22,8 +22,7 @@ a2:
 	
 	
 idle:
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
+	spawnnarrator()
 	*setspeaker narrator*
 	> You find the Singer slumped over the bar, passed out.
 	The Bartender gives you a nod when you approach.
@@ -54,7 +53,7 @@ turnin:
 turnin2:
 	> But the Singer is happy, and you receive $15000 for your efforts!*finish 2*
 	&t1
-	
+
 t1:
 	> They know it might sound silly, but they take great pride 
 	in making sure they take care of the Mewseum residents. 

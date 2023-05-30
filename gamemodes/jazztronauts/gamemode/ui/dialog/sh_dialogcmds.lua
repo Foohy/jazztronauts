@@ -243,7 +243,12 @@ end)
 dialog.RegisterFunc("setspeaker", function(d, name, skinid)
 	skinid = skinid or nil
 	if skinid ~= nil then SetSkinFunc(d, name, skinid) end
-	dialog.SetFocusProxy(FindByName(name))
+	local ent = FindByName(name)
+	if name == "player" and (pac or not IsValid(ent)) then
+		dialog.SetFocusProxy(LocalPlayer()) --TODO: remove this PAC conditional if/when PAC is supported nicely on the player proxy.
+	else
+		dialog.SetFocusProxy(ent)
+	end
 end)
 
 dialog.RegisterFunc("setnpcid", function(d, name, npc)
@@ -274,6 +279,12 @@ dialog.RegisterFunc("setposang", function(d, name, ...)
 	if posang.ang then
 		prop:SetAngles(posang.ang)
 	end
+end)
+
+dialog.RegisterFunc("setsceneroot", function(d, name, ...)
+	local root = ents.FindByName(name) --let's just pretend that this works clientside for now
+	if not IsValid(root) then return end
+	
 end)
 
 dialog.RegisterFunc("tweenposang", function(d, name, time, ...)

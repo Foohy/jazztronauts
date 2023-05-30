@@ -357,8 +357,10 @@ DialogCallbacks.ListOptions = function(data)
 			end
 		end
 
-		btn.DoClick = function()	
-			dialog.SetFocusProxy(LocalPlayer())
+		btn.DoClick = function()
+			local prop = LocalPlayer().JazzDialogProxy
+			if pac or not IsValid(prop) then prop = LocalPlayer() end --TODO: remove this PAC conditional if/when PAC is supported nicely on the player proxy.
+			dialog.SetFocusProxy(prop)
 			dialog.StartGraph(v.data[1], true)
 			frame:Close()
 		end

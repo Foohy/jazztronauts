@@ -3,9 +3,8 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	*setfov 70*
 	*bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0*
-	*setcam setpos 161.692474 78.846161 67.458260;setang 2.528261 101.374802 0.000000*
+	*setcam setpos 161.692474 78.846161 67.458260;setang 2.528261 101.374802 0.000000 fov70*
 	spawnnarrator()
 	spawnpianist()
 	spawnsinger()

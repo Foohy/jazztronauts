@@ -7,8 +7,7 @@ CMD_DELAY = 0
 
 begin:
      *txout*
-	*setcam setpos -872.680725 1362.695435 -144.442261;setang 21.668753 36.270027 0.000000*
-     *setfov 70*
+	*setcam setpos -872.680725 1362.695435 -144.442261;setang 21.668753 36.270027 0.000000 fov70*
 	*tweencam 40 setpos -642.280945 1531.755371 -257.983307;setang 21.668753 36.270027 0.000000*
 	*spawn cat_void models/andy/basecat/cat_all.mdl*
 	*setposang cat_void setpos -1257.714111 554.822266 0;setang -90 90 0.000000*

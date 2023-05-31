@@ -3,9 +3,8 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	*setfov 70*
 	spawngang()
-	*setcam setpos -1610.460571 2861.699707 133.112427;setang 20.506798 53.800053 0.000000* ###### ESTABLISH SHOT
+	*setcam setpos -1610.460571 2861.699707 133.112427;setang 20.506798 53.800053 0.000000 fov70* ###### ESTABLISH SHOT
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1.0 2.0*
 	*setposang cat_cello setpos -1534.931519 3016.726074 25;setang -90 315 0.000000*
 	*setposang cat_bar setpos -1426.450195 3154.211670 0;setang -90 165 0.000000*

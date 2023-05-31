@@ -2,10 +2,8 @@ SKIP_OPEN = true
 
 begin:
 	*txout*
-	*setfov 70*
 	spawngang()
-	
-	*setcam setpos -2579.370361 2721.580811 64.031250;setang 3.736192 140.947372 0.000000*
+	*setcam setpos -2579.370361 2721.580811 64.031250;setang 3.736192 140.947372 0.000000 fov70*
 	*setposang cat_bar setpos -2880.668457 2908.302490 0;setang -90 210 0.000000*
 	*setposang cat_cello setpos -2189.791260 6927.904785 0;setang -90 30 0.000000*
 	*setposang cat_piano setpos -2069.482910 7009.310547 0;setang -90 30 0.000000*

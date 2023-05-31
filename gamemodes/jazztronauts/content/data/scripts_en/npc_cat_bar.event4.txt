@@ -6,7 +6,6 @@ begin:
 ###and Cellist, Bartender sat in front of them, closest to player
 
 	*txout*
-	*setfov 70*
 	spawngang()
 	*setposang cat_singer setpos -2094.381348 519.835144 -64;setang -90 90 0.000000*
 	*setposang cat_cello setpos -2118.969971 573.165955 -64;setang -90 105.0 0.00000*
@@ -22,7 +21,7 @@ begin:
 	*BAR_BLINK*
 	*CELLO_BLINK*
 	*setspeaker cat_bar*
-	*setcam setpos -2478.000977 372.681641 16.944340;setang 7.223375 22.772840 0.000000*
+	*setcam setpos -2478.000977 372.681641 16.944340;setang 7.223375 22.772840 0.000000 fov70*
 	*tweencam 40 setpos -2690.671875 283.400543 46.178429;setang 7.223375 22.772840 0.000000*
 	*bgmplay sound/jazztronauts/music/events/pariah.mp3 .75 2.0*
 	*txin*

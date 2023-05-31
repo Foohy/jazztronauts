@@ -3,8 +3,7 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	*setfov 70*
-
+	
 	# Spawn the cat we'll be conversing with
 	# Note this sets the cat as the 'proxy', meaning that's the model that'll show up in the bottom left dialog corner
 	spawnbartender()
@@ -21,7 +20,7 @@ begin:
 		##shot5 - player shot setpos -2881.998047 3002.636719 71.382820;setang 1.064988 -54.895622 0.000000
 
 	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
-	*setcam setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000*
+	*setcam setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000 fov70*
 	*txin*
 	*wait .5*
 	*setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000*

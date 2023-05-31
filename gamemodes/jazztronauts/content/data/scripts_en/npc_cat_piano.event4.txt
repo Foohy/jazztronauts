@@ -3,11 +3,10 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	*setfov 70*
 	spawnnarrator()
 	spawnpianist()
 	spawnbartender()
-	*setcam setpos -2690.889648 2740.012939 80.011696;setang 1.074717 118.223206 0.000000*
+	*setcam setpos -2690.889648 2740.012939 80.011696;setang 1.074717 118.223206 0.000000 fov70*
 	*setposang cat_piano setpos -2912 2954 36;setang -90 0 0.000000*
 	*setanim cat_piano pianist_drunk_idle*
 	*setposang player setpos -2842.145020 2940.937744 0;setang 0 136.715897 0.000000*

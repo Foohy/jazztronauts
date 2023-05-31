@@ -3,10 +3,9 @@
 begin:
 	# Scene setup
 	*txout*
-	*setfov 70*
 	spawngang()
 	*setposang cat_bar setpos -2889.937988 2926.586670 0;setang -90 180 0.000000*
-	*setcam setpos -2595.013428 2744.007568 85.509125;setang 6.983787 148.065491 0.000000*
+	*setcam setpos -2595.013428 2744.007568 85.509125;setang 6.983787 148.065491 0.000000 fov70*
 	*setposang cat_piano setpos -2927.378174 2883.511963 0;setang -90 300 0.000000*
 	*setposang cat_singer setpos -2856.525635 2876.622559 0;setang -90 51 0.000000*
 	*setposang player setpos -2726.948975 2782.044189 0;setang 3.300901 140.335999 0.000000*

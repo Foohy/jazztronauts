@@ -7,16 +7,11 @@ begin:
 	spawngang()
 	*bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0*
 	*setposang cat_bar setpos -2038.926880 3016.902588 0;setang -90 90 0.000000*
-	*setanim cat_bar bartender_search*
-
-	*setcam setpos -1828.895630 3177.182617 44.253838;setang 3.336848 -144.710831 0.000000* ###### ESTABLISHING SHOT
 	*setposang cat_piano setpos -1988.379272 2886.988525 0;setang -90 321 0.000000*
-
 	*setposang cat_cello setpos -1946.280029 2917.553955 16;setang -90 336 0.000000*
 	*setposang cat_singer setpos -1985.466431 2938.500244 16;setang -90 290 0.000000*
-
-
-	*setfov 70*
+	*setanim cat_bar bartender_search*
+	*setcam setpos -1828.895630 3177.182617 44.253838;setang 3.336848 -144.710831 0.000000 fov70* ###### ESTABLISHING SHOT
 	*SINGER_HAPPY*
 	*setposang player setpos -2012.907837 2954.654785 16;setang 0 30 0.000000*
 	*setanim player sit*

@@ -3,14 +3,13 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	*setfov 70*
 	spawnnarrator()
 	spawncellist()
 	spawnpianist()
 	*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 81 0.000000*
 	*bgmplay sound/jazztronauts/music/events/allspice.mp3 1.0 2.0*
 	*setposang cat_piano setpos -1492.101563 2928.706543 0;setang -90 290 0.000000*
-	*setcam setpos -1696.551025 3192.797119 110.058128;setang 12.839911 -41.301598 0.000000*
+	*setcam setpos -1696.551025 3192.797119 110.058128;setang 12.839911 -41.301598 0.000000 fov70*
 	*setposang player setpos -1572.479248 3135.348145 0;setang 0 -54.699417 0.000000*
 	*txin*
 	

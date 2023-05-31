@@ -3,7 +3,6 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	*setfov 70*
 	*bgmplay sound/jazztronauts/music/events/allspice.mp3 .75 2.0*
 	spawnnarrator()
 	spawnpianist()
@@ -13,7 +12,7 @@ begin:
 	*spawn good_shit models/sierra/good_shit.mdl*
 	*setposang good_shit setpos -2867 4266 32;setang 0 75 0.000000*
 	*setposang player setpos -1069.755615 521.588379 -64;setang 0 -165.918091 0.000000*
-	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
+	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000 fov70*
 	*txin*
 
 ###### START	

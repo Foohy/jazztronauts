@@ -3,14 +3,13 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	*setfov 70*
 	spawnnarrator()
 	spawncellist()
 	*setposang cat_cello setpos -883 3862 70;setang 0 270 0* ###So this angle puts the Cellist's light origin in the wall to start. This makes him very dark, which actually kinda works here, like he was covered in soot.
 	*setanim cat_cello pose_passedout*
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1.0 2.0*
 	*setposang player setpos -705.046448 3488.125977 0;setang 0 82.384605 0.000000*
-	*setcam setpos -562.419739 3412.193115 91.602287;setang 8.332038 137.274857 0.000000*
+	*setcam setpos -562.419739 3412.193115 91.602287;setang 8.332038 137.274857 0.000000 fov70*
 	*txin*
 	
 ###### START

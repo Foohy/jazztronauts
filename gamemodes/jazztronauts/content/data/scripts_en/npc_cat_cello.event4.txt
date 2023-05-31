@@ -3,7 +3,6 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	*setfov 70*
 	spawnnarrator()
 	spawncellist()
 	spawnsinger()
@@ -13,7 +12,7 @@ begin:
 	*CELLO_MAD*
 	*setanim cat_cello pose_sit02*
 	*SINGER_MAD*
-	*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000*
+	*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000 fov70*
 	*setposang player setpos 122.167236 3117.539795 24;setang 0 -177.779892 0.000000*
 	*setanim player sit*
 	*txin*
@@ -150,7 +149,7 @@ a13:
 	at this point it's starting to feel more like you're just doing this
 	because you know what seeing*setanim cat_cello gesture_anger 2 idle* those fucking things does to me and 
 	this is revenge on behalf of that %‘friend'%% you clearly care about 
-	so much more than me you heartless piece of shi-*setcam setpos -2911.438721 2963.478271 83.287720;setang 25.644358 -47.431377 0.000000**setfov 70*
+	so much more than me you heartless piece of shi-*setcam setpos -2911.438721 2963.478271 83.287720;setang 25.644358 -47.431377 0.000000 fov70*
 	&a14
 
 a14:

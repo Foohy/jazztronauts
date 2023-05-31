@@ -39,6 +39,7 @@ a5:
 	&exit
 	
 idle:
+	spawnnarrator()
 	Any luck?%% I know it's a big ask but I'd really appreciate it if 
 	you could do me this solid.
 	&idle1
@@ -50,11 +51,13 @@ idle1:
 	&i1
 	
 i1:
+	*setspeaker narrator*
 	> The Pianist stares off into the distance,%% eyes unfocusing.%%%
 	She frowns.
 	&i2
 	
 i2:
+	*setspeaker npc_cat_piano*
 	Fuck.%%%%
 	I don't really know what to do in that situation other than 
 	stab a motherfucker.%% Look,% you handle acquisition and I'll figure 
@@ -63,14 +66,12 @@ i2:
 
 turnin:
 	spawnnarrator()
-	*setspeaker cat_piano*
 	I see that you have,% the horse.%%%
 	I'm gonna go brain him with the Bartender's frying pan,% and while 
 	he's knocked out,%% you drag the statue over.
 	&t1
 	
 t1:
-	*setspeaker cat_piano*
 	He'll be so confused,% he'll forget what was in those bottles.%%%% 
 	If he doesn't I'll hit him with the pan again.
 	&t2
@@ -136,23 +137,3 @@ t11:
 	Wordlessly,% you are given $25,000 by the Pianist.%%%*finish 4*
 	Looks like everything's just fine,% somehow.
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

@@ -1,7 +1,8 @@
 ###### singer and pianist are sitting together
 
 accept:
-	*setspeaker npc_cat_sing*
+	spawnnarrator()
+	*setspeaker narrator*
 	> The Singer waves you over as usual and the Pianist cracks open an 
 	eye to look you up and down before returning to her meditation. 
 	&accept1
@@ -17,6 +18,7 @@ a1:
 	&a1b
 	
 a1b:
+	*setspeaker npc_cat_sing*
 	"Hey so this is the last thing I need to finally test a theory 
 	I've been developing for actual years!!!! If you can get me 
 	10 radios, I should be able to make some motherfucking
@@ -163,12 +165,3 @@ t9:
 	fulfill a promise to an old friend.%%%% 
 	They'd like to talk later, if you have the time.
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	

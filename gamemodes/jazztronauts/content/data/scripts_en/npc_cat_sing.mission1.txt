@@ -2,7 +2,6 @@
 
 accept:
 	spawnnarrator()
-	*setspeaker cat_singer*
 	> The Singer signals for you to keep your voice down as you approach.
 	The Cellist is snoring loudly next to them. They pat him on the head
 	and the snoring settles down into vaguely disgruntled mumbling.
@@ -34,20 +33,19 @@ a3:
 	&a4
 	
 a4:
-	*setspeaker narrator*
+	*setspeaker npc_cat_sing*
 	> The Singer waves goodbye as you hand back the tablet and leave.
 	&exit
 	
 	
 idle:
-	*setspeaker cat_singer*
 	> The Singer waves you over. Their tablet appears to be playing 
 	a recording of a light rainstorm. They explain the Cellist was 
 	having a nightmare, so they're helping.
 	&idle2
 	
 idle2:
-	He appears to be sleeping relatively soundly, albeit on his 
+	> He appears to be sleeping relatively soundly, albeit on his 
 	face in a puddle of his own drool, so you guess it's working.
 	&i1
 	
@@ -60,9 +58,7 @@ i1:
 
 turnin:
 	spawnnarrator()
-	spawncellist()
-	*setposang cat_cello setpos -1481.363159 2962.733887 0;setang 0.479202 92.407959 0.000000*
-	*setspeaker cat_cello*
+	*setspeaker npc_cat_cello*
 	oh hey you're back with what pipes wanted
 	what was it this time, nice pillow for our tenants or someth-
 	&t1
@@ -74,51 +70,37 @@ t1:
 	&t2
 	
 t2:
-	*setspeaker cat_cello*
-	what the fUCK did you have our minion bring back to us i will not stand 
+	*setspeaker npc_cat_cello*
+	what the f*setskin 2*UCK did you have our minion bring back to us i will not stand 
 	for these busted ass cursed as fuck haunted doll watch worthy held by 
 	a creepy little girl lookin watches	your ass while you sleep type 
 	offsceen teleporting jumpscares in my house, fuckin-
 	&t3
 	
 t3:
-	*setspeaker cat_singer*
+	*setspeaker npc_cat_sing*
 	> Ignoring the Cellist's babbling at the sight of your sack full of 
 	probably-not-haunted children's toys, the Singer takes them off 
 	your hands in exchange for the promised payment of $10000. *finish 1*
 	&t4
 	
 t4:
-	*setspeaker cat_cello*
+	*setspeaker npc_cat_cello*
 	-if one of those fucking things put a bespoke artisanal swedish death 
 	curse on me or some shit i swear to the little i find sacred that i 
 	will come back from the grave and haunt your ass so badly you won't be 
-	able to sit down without it going ooOooOOoOOo
+	able to sit down without it going ooOooOOoOOo*setskin 0*
 	&t5
 	
 t5:
-	*setspeaker cat_singer*
+	*setspeaker npc_cat_sing*
 	> They pat him on the arm and the Cellist squints in continued 
 	suspicion at the sack, but stops rambling about ancient curses. 
 	&t6
 	
 t6:
+	*setspeaker narrator*
 	> The Singer thanks you for your assistance and tells
 	you to find them later, if you feel like giving them a hand 
 	entering the haul into the Mewseum's systems.
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

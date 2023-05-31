@@ -1,14 +1,17 @@
 accept:
+	spawnnarrator()
 	Hey.%% Sorry if I was.%%%
 	You know.%
 	Weird.%% Earlier.
 	&a1
 	
 a1:
+	*setspeaker narrator*
 	> She rubs the back of her head,% avoiding eye contact.
 	&a2
 	
 a2:
+	*setspeaker npc_cat_piano*
 	I don't really remember much other than rambling about not killing you.%%%
 	I'm a bit of a lightweight and I drank about uhhh sixty percent more 
 	than it needs to get me goddamn plastered.
@@ -268,19 +271,3 @@ t22:
 	*setspeaker cat_piano*
 	%.%.%.%Thanks.
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

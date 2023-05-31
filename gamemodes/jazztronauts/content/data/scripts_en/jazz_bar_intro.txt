@@ -10,19 +10,19 @@ begin:
 	*setposang cat_singer setpos -4168.232910 3361.957520 0;setang -90 180 0.000000*
 	*setposang cat_piano setpos -4002.919189 3416.686279 0;setang -90 165 0.00000*
 	*bgmplay sound/jazztronauts/music/events/warm_song.mp3 .6 3*
-	*setcam setpos -4611.800781 2450.187500 80.884155;setang 3.842618 59.837494 0.000000* ####### ESTABLISH
-     *setspeaker cat_bar*
-	 *txin*
-     *show 0.5*
+	*setcam setpos -4611.800781 2450.187500 80.884155;setang 3.842618 59.837494 0.000000 fov70* ####### ESTABLISH
+	*setspeaker cat_bar*
+	*txin*
+	*show 0.5*
 	*BAR_HAPPY*
 	*setanim cat_bar gesture_exchange 1 idle*
-     Greetings honored guest!%%% It's time for the much-awaited explanation 
-	 that we promised you!
-     condition:
-     &saidnobefore:
-        return unlocked("scripts", "said_no")
-     &a1:
-        return true
+	Greetings honoured guest!%%% It's time for the much-awaited explanation 
+	that we promised you!
+	condition:
+		&saidnobefore:
+			return unlocked("scripts", "said_no")
+		&a1:
+			return true
 
 # They rejoined after saying no, but never finished this cutscene
 saidnobefore:
@@ -45,15 +45,15 @@ no3:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
     *setspeaker cat_bar*
 	*setanim cat_bar gesture_disagree 1 idle*
-    Now now,%% *player* just needed more time to think.
+    Now now,%%*CELLO_NEUTRAL* *player* just needed more time to think.
     &aask
 
 a1:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*BAR_HAPPY*
 	*setanim cat_bar gesture_laugh 1 idle*
-     Allow me to formally welcome you to the Bar Samsara!
-     &a2
+	Allow me to formally welcome you to the Bar Samsara!
+	&a2
 
 ##Production note:
 ##This line is accompanied with an establishing shot of the stage. 
@@ -64,126 +64,126 @@ a1:
 
 a2:
 	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
-     *setspeaker narrator*
-     > The stage lights up!%%%% The other 3 cats are here too it appears.
-     &a3
+	*setspeaker narrator*
+	> The stage lights up!%%%% The other three cats are here too it appears.
+	&a3
 
 a3:
-     *setspeaker cat_bar*
-	 *BAR_BLINK*
-	 *setanim cat_bar gesture_shrug 1 idle*
-     We've done this a few times so let me*BAR_NEUTRAL* preemptively answer a few of 
-     the more immediate concerns I'm sure you have.
-     &a4
+	*setspeaker cat_bar*
+	*BAR_BLINK*
+	*setanim cat_bar gesture_shrug 1 idle*
+	We've done this a few times so let me*BAR_NEUTRAL* preemptively answer a few of 
+	the more immediate concerns I'm sure you have.
+	&a4
 
 a4:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setanim cat_bar gesture_sweep 1*
-     You are currently inside the Bar Samsara.%%% I am the Bartender 
-     here.%%*setanim cat_bar gesture_agree 1 idle* It is an establishment we run where beings from all dimensions
-     can stop in for a visit to relax and refresh.
-     &a5
+	You are currently inside the Bar Samsara.%%% I am the Bartender 
+	here.%%*setanim cat_bar gesture_agree 1 idle* It is an establishment we run where beings from all dimensions
+	can stop in for a visit to relax and refresh.
+	&a5
 
 a5:
-     *setspeaker cat_cello*
-	 *CELLO_GRIN*
-	 *setanim cat_cello gesture_laugh 1 idle*
-     also its a front for a notorious gang of omnidimensional thieves 
-     that break into concepts and narratives rather than just physical 
-     places in conventional space-time
-     &a6
+	*setspeaker cat_cello*
+	*CELLO_GRIN*
+	*setanim cat_cello gesture_laugh 1 idle*
+	also its a front for a notorious gang of omnidimensional thieves 
+	that break into concepts and narratives rather than just physical 
+	places in conventional space-time
+	&a6
 
 a6:
-     *setspeaker cat_piano*
-	 *setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
-	 *CELLO_NEUTRAL*
-	 *setanim cat_piano gesture_facepalm 1 idle*
-	 *PIANO_BLINK*
-     He's talking about us,%%*PIANO_NEUTRAL* just in case that went over your head.
-     &a7
+	*setspeaker cat_piano*
+	*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
+	*CELLO_NEUTRAL*
+	*setanim cat_piano gesture_facepalm 1 idle*
+	*PIANO_BLINK*
+	He's talking about us,%%*PIANO_NEUTRAL* just in case that went over your head.
+	&a7
 
 a7:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
-     *setspeaker cat_bar*
-	 *BAR_HAPPY*
-     And you as well,% hopefully.%%%*BAR_NEUTRAL* But*setanim cat_bar gesture_confused 1 idle* we'll get to that in a minute.
-     &a8
+	*setspeaker cat_bar*
+	*BAR_HAPPY*
+	And you as well,% hopefully.%%%*BAR_NEUTRAL* But*setanim cat_bar gesture_confused 1 idle* we'll get to that in a minute.
+	&a8
 
 a8:
 	*setanim cat_bar gesture_sweep 1 idle*
-     The Bar Samsara is a hub,% of sorts.%%% A plethora of dimensions and 
-     worlds have free access to this spot in local space-time.%%*BAR_HAPPY* Naturally,%
-     that access goes both ways.%%%*BAR_NEUTRAL* We*setanim cat_bar gesture_agree 1 idle* can enter those other worlds from 
-     here.%%%% Which is where you come in.
-     &a9
+	The Bar Samsara is a hub,% of sorts.%%% A plethora of dimensions and 
+	worlds have free access to this spot in local space-time.%%*BAR_HAPPY* 
+	Naturally,% that access goes both ways.%%%*BAR_NEUTRAL* We*setanim cat_bar gesture_agree 1 idle* can enter 
+	those other worlds from here.%%%% Which is where you come in.
+	&a9
 
 a9: 
 	*setanim cat_bar gesture_shrug*
 	*BAR_BLINK*
-     Let's cut to the chase.%%*BAR_NEUTRAL* We would like to hire you to forcibly break 
-     into dimensions that you do not belong to,% steal everything you can,%%
-     and then give it to us.
-     &a10
+	Let's cut to the chase.%%*BAR_NEUTRAL* We would like to hire you to forcibly break 
+	into dimensions that you do not belong to,% steal everything you can,%%
+	and then give it to us.
+	&a10
 
 a10:
 	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
 	*setanim cat_bar gesture_confused 1 idle*
-     You get a cut of the take,% of course.%%% We will also give you free 
-     room and board for the duration of your stay,%*setanim cat_bar gesture_confused 1 idle* and access to special
-     tools developed by us.
-     &a11
+	You get a cut of the take,% of course.%%% 
+	We will also give you free room and board for the duration of your stay,%*setanim cat_bar gesture_confused 1 idle* 
+	and access to special tools developed by us.
+	&a11
 
 a11:
 	*setanim cat_bar gesture_sweep 1 idle*
-     There is danger involved,% but the results of failure are a lot less
-     complicated for players than they are for us.%%% Suffice to say,%% we're 
-     incentivized to have help.%%% That said%.%.%.%%
-     &a12
+	There is danger involved,% but the results of failure are a lot less
+	complicated for players than they are for us.%%% Suffice to say,%% we're 
+	incentivized to have help.%%% That said%.%.%.%%
+	&a12
 
 a12:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setanim cat_bar gesture_shrug 1 idle*
-     As I said earlier,% you may absolutely refuse.%%% We will immediately 
-     return you to the main menu,%% and you'll be free to go on with your
-     day.%%%% This is an agreement between two parties,% not a hostage 
-     situation.
-     &aask
+	As I said earlier,% you may absolutely refuse.%%% We will immediately 
+	return you to the main menu,%% and you'll be free to go on with your
+	day.%%%% This is an agreement between two parties,% 
+	not a hostage situation.
+	&aask
 
 #If they rejoined, Bartender will re-ask this question
 aask:
 	*setanim cat_bar gesture_confused 1 idle*
-     So%.%.%.%%%what do you say?
-     player:
-          &a14:
-		  *setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
-		  Yeah okay, that sounds good.
-          &lisaneedsbraces: 
-		  *setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
-		  Give me benefits, and yes.
-		  &skiptutorial:
-*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*		  
-		  Yeah, yeah, sure. Can we skip the meet and greet?
-		  I learn better through experience. (Skip Tutorial)
-          &why:
-*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*		  
-		  No.
+	So%.%.%.%%%what do you say?
+	player:
+		&a14:
+			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+			Yeah okay, that sounds good.
+		&lisaneedsbraces: 
+			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+			Give me benefits, and yes.
+		&skiptutorial:
+			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+			Yeah, yeah, sure. Can we skip the meet and greet?
+			I learn better through experience. (Skip Tutorial)
+		&why:
+			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+			No.
 
 
 ### VIDEO GAMES SUCK ACTUALLY
 why:
-     *setspeaker cat_bar*
+	*setspeaker cat_bar*
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
     *run jazz_say_no*
-     Ah,% well.%%%% It's not the sort of job for everyone.%% Still,% though,% you
-     heard us out,%% and I appreciate that.
-     &why2
+	Ah,% well.%%%% It's not the sort of job for everyone.%% Still,% though,% you
+	heard us out,%% and I appreciate that.
+	&why2
 
 why2:
-     As agreed, you'll be sent back to the main menu. Goodbye.%%
-     *run disconnect*
-     &exit
+	As agreed, you'll be sent back to the main menu. Goodbye.%%%%
+	*run disconnect*
+	&exit
 
-     
+	
 
 
 ### DENTAL PLAN 
@@ -192,466 +192,467 @@ lisaneedsbraces:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setanim cat_bar gesture_shock 1 idle*
 	*BAR_SURPRISE*
-     Benefits%.%.%.%%?%%*BAR_NEUTRAL* You're the first one to think of asking for that.%%%% 
-     I don't see why we couldn't set that up,%% though I'm not sure 
-     how often you'll need a dental plan in this world.
-     &a14
+	Benefits%.%.%.%%?%%*BAR_NEUTRAL* You're the first one to think of asking for that.%%%% 
+	I don't see why we couldn't set that up,%% though I'm not sure 
+	how often you'll need a dental plan in this world.
+	&a14
 
 ### MAIN BRANCH
 
 a14:
 	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
-     *setspeaker cat_cello*
-	 *setanim cat_cello gesture_sigh 1 idle*
-     oh thank god finally we can stop almost dying in shitty roleplaying
-     maps
-     &a15
+	*setspeaker cat_cello*
+	*setanim cat_cello gesture_sigh 1 idle*
+	oh thank god finally we can stop almost dying in shitty roleplaying
+	maps
+	&a15
 
 a15:
-	 *setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
+	*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
 	*PIANO_SMIRK*
 	*setanim cat_piano gesture_laugh 1 idle*
-     *setspeaker cat_piano*
-     Gonna have to find some other way to kill you.
-     &a16
+	*setspeaker cat_piano*
+	Gonna have to find some other way to kill you.
+	&a16
 
 a16:
-     *setspeaker cat_cello*
-	 *CELLO_GRIN*
-	 *PIANO_NEUTRAL*
-     ur never gonna wake up early enough in the day my dude
-     &a17
+	*setspeaker cat_cello*
+	*CELLO_GRIN*
+	*PIANO_NEUTRAL*
+	ur never gonna wake up early enough in the day my dude
+	&a17
 
 a17:
 	*setposang cat_singer setpos -4155.891602 3234.318604 0;setang -90 165 0.000000*
 	*setcam setpos -4156.926270 3135.155518 22.527199;setang -5.341276 90.104485 0.000000* ####### SINGER
-     *setspeaker narrator*
-	 *SINGER_HAPPY*
-	 *setanim cat_singer gesture_clap 1 idle*
-     > The Singer runs over to the edge of the stage and starts jumping 
-     up and down.
-     &a18
+	*setspeaker narrator*
+	*SINGER_HAPPY*
+	*setanim cat_singer gesture_clap 1 idle*
+	> The Singer runs over to the edge of the stage and starts jumping 
+	up and down.
+	&a18
 
 a18:
 	*SINGER_MISCHIEF*
 	*setanim cat_singer gesture_exchange 1 idle*
-     > They stop for second,%% and take out a tablet.%%%% They type on it 
-     furiously.
-     &a19
+	> They stop for second,%% and take out a tablet.%%%% They type on it 
+	furiously.
+	&a19
 
 a19:
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_laugh 1 idle*
-     > The tablet says 'HI IM THE SINGER NICE TO MEET YOU \:D'.%%% 
-	 They're holding it above their head,% 
-	 and jumping up and down now.
-     &a20
+	> The tablet says 'HI IM THE SINGER NICE TO MEET YOU \:D'.%%% 
+	They're holding it above their head,% 
+	and jumping up and down now.
+	&a20
 
 a20:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
-     *setspeaker cat_bar*
-	 *BAR_NEUTRAL*
-	 *setanim cat_bar gesture_sigh 1 idle*
-     They can't read it if you keep moving it,%% but I think they get the 
-     picture.%%% At any rate,% welcome aboard!%% It's good to have you all 
-     with us.
-     &a22
+	*setspeaker cat_bar*
+	*BAR_NEUTRAL*
+	*setanim cat_bar gesture_sigh 1 idle*
+	They can't read it if you keep moving it,%% but I think they get the 
+	picture.%%% At any rate,% welcome aboard!%% It's good to have you all 
+	with us.
+	&a22
 
 a21:
-     *setspeaker narrator*
-     > The Pianist hops off her box and walks onto the stage.
-     &a23
+	*setspeaker narrator*
+	> The Pianist hops off her box and walks onto the stage.
+	&a23
 
 a22:
-	 *setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
-     *setspeaker cat_piano*
-	 *PIANO_SMIRK*
-	 *setanim cat_piano gesture_confused 1 idle*
-     We should get 'em up to speed,%% Boss.%%%%*setanim cat_piano gesture_disagree 1 idle* Shard tank's not gonna fill 
-     itself.
-     &a23
+	*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
+	*setspeaker cat_piano*
+	*PIANO_SMIRK*
+	*setanim cat_piano gesture_confused 1 idle*
+	We should get 'em up to speed,%% Boss.%%%%*setanim cat_piano gesture_disagree 1 idle* 
+	Shard tank's not gonna fill itself.
+	&a23
 
 a23:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
-     *setspeaker cat_bar*
-	 *BAR_SURPRISE*
-	 *setanim cat_bar gesture_shock 1 idle*
-     Of course.%%%*BAR_NEUTRAL*  Now then,% how would you like a rundown of the 
-     operation we have here?%%%% I recommend it.
-     player:
-          &a24:
-		*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*		  
-		  Yeah sure,% clue me in. (View Tutorial)
-          &skiptutorial: 
-		  *setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
-		  No thanks,% I'm good. (Skip Tutorial)
+	*setspeaker cat_bar*
+	*BAR_SURPRISE*
+	*setanim cat_bar gesture_shock 1 idle*
+	Of course.%%%*BAR_NEUTRAL* Now then,% how would you like a rundown of the 
+	operation we have here?%%%% I recommend it.
+	player:
+		&a24:
+			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+			Yeah sure,% clue me in. (View Tutorial)
+		&skiptutorial:
+			*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+			No thanks,% I'm good. (Skip Tutorial)
 
 ### I'M GOOD SEEN THIS BEFORE
 skiptutorial:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
-     *setspeaker cat_bar*
-	 *BAR_NEUTRAL*
-	 *setanim cat_bar gesture_agree 1 idle*
-     As you wish,% I'm sure you'll be able to figure it all out.%%%% Let's 
-     get to work, gang.
-     &b2
+	*setspeaker cat_bar*
+	*BAR_NEUTRAL*
+	*setanim cat_bar gesture_agree 1 idle*
+	As you wish,% I'm sure you'll be able to figure it all out.%%%% Let's 
+	get to work, gang.
+	&b2
 
 b2:
-	 *setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
-     *setspeaker cat_piano*
-	 *PIANO_SMIRK*
-	 *setanim cat_piano gesture_laugh 1 idle*
-     No nonsense eh?%% We'll get along just fine.%%% Swing by the store and 
-     we'll get you some gear.% Be bustin' skulls before you know it.
-     &b3
+	*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
+	*setspeaker cat_piano*
+	*PIANO_SMIRK*
+	*setanim cat_piano gesture_laugh 1 idle*
+	No nonsense eh?%% We'll get along just fine.%%% Swing by the store and 
+	we'll get you some gear.% Be bustin' skulls before you know it.
+	&b3
 
 b3:
 	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
-     *setspeaker cat_cello*
-	 *setanim cat_cello gesture_sweep 1 idle*
-     just to make sure,% your job is to look out for shards.%%%% they look 
-     like someone made crack rocks out of rainbows,% you'll know em when 
-     you see em.%%%% get a lot of them.
-     &ending
+	*setspeaker cat_cello*
+	*setanim cat_cello gesture_sweep 1 idle*
+	just to make sure,% your job is to look out for shards.%%%% they look 
+	like someone made crack rocks out of rainbows,% you'll know em when 
+	you see em.%%%% get a lot of them.
+	&ending
 
 ### PREPARE YOUR ASS FOR TEXT
 
 a24:
 	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
-     *setspeaker cat_bar*
-	 *BAR_HAPPY*
-	 *setanim cat_bar gesture_agree 1 idle*
-     Certainly.%%%*BAR_NEUTRAL* We've got a number of facilities here in the Bar Samsara.%
-     The most important one is the trolley depot.%% The trolley is how you 
-     visit a map once you've selected it.%%%*setanim cat_bar gesture_confused 1 idle* Once all players have taken a 
-     seat, it'll take care of the rest.
-     &a25
+	*setspeaker cat_bar*
+	*BAR_HAPPY*
+	*setanim cat_bar gesture_agree 1 idle*
+	Certainly.%%%*BAR_NEUTRAL* We've got a number of facilities here in the Bar Samsara.%
+	The most important one is the trolley depot.%% The trolley is how you 
+	visit a map once you've selected it.%%%*setanim cat_bar gesture_confused 1 idle* Once all players have taken a 
+	seat, it'll take care of the rest.
+	&a25
 
 a25:
 	*setanim cat_bar gesture_sweep 1 idle*
-     You've also been provided with some car keys that act as a
-     beacon for the trolley's dimensional navigating systems.%%*setanim cat_bar gesture_agree 1 idle* If enough
-     players target the same spot with them,% it will break into the map 
-     from that spot.%%%*setanim cat_bar gesture_confused 1 idle* I suggest you take care to not stand in its way.
-     &a26
+	You've also been provided with some car keys that act as a
+	beacon for the trolley's dimensional navigating systems.%%*setanim cat_bar gesture_agree 1 idle* If enough
+	players target the same spot with them,% it will break into the map 
+	from that spot.%%%*setanim cat_bar gesture_confused 1 idle* I suggest you take care to not stand in its way.
+	&a26
 
 a26:
 	*setanim cat_bar gesture_sweep 1 idle*
-     Once it's arrived,%% it will leave the same way it arrived,% once all
-     players are sitting inside.
-     &a27
+	Once it's arrived,%% it will leave the same way it arrived,% 
+	once all players are sitting inside.
+	&a27
 
 a27:
 	*setcam setpos 1401.635864 413.537872 34.458557;setang -4.835499 155.988861 0.000000*
 	*tweencam 40 setpos 1128.569458 535.177490 59.747105;setang -4.835499 155.988861 0.00000*
-     *setspeaker cat_piano*
-	 *setanim cat_piano gesture_jab 1 idle*
-     A little past the depot is the camp you'll be living in,% and the 
-     machine that lets you find new worlds to break into.%%%*setanim cat_piano gesture_disagree 1 idle* Don't worry, 
-     it's pretty simple to operate.
-     &a28
+	*setspeaker cat_piano*
+	*setanim cat_piano gesture_jab 1 idle*
+	A little past the depot is the camp you'll be living in,% and the 
+	machine that lets you find new worlds to break into.%%%*setanim cat_piano gesture_disagree 1 idle* Don't worry, 
+	it's pretty simple to operate.
+	&a28
 
 a28:
 	*setanim cat_piano gesture_laugh 1 idle*
-     There are only two buttons worth a damn on it after all.%%%%%*setcam setpos 695.222534 589.373840 148.941605;setang 12.653843 59.704308 0.000000* 
-     The big clunky lookin' tv is what you use to look for new levels,%*setanim cat_piano gesture_jab 1 idle*
-     and the weird thing in the center is what you use to select one.
-     &a29
+	There are only two buttons worth a damn on it after all.%%%%%*setcam setpos 695.222534 589.373840 148.941605;setang 12.653843 59.704308 0.000000* 
+	The big clunky lookin' tv is what you use to look for new levels,%*setanim cat_piano gesture_jab 1 idle*
+	and the weird thing in the center is what you use to select one.
+	&a29
 
 a29:
-     *setspeaker cat_bar*
-	 *setanim cat_bar gesture_shrug 1 idle*
-     It looks complicated,% though,%% so to make it even simpler, we've 
-     marked the consoles you need to use with a Green or Red light.%%%%*setanim cat_bar gesture_agree 1 idle* 
-     Look for that,%% and you'll get it in no time.
-     &a30
+	*setspeaker cat_bar*
+	*setanim cat_bar gesture_shrug 1 idle*
+	It looks complicated,% though,%% so to make it even simpler, we've 
+	marked the consoles you need to use with a Green or Red light.%%%%*setanim cat_bar gesture_agree 1 idle* 
+	Look for that,%% and you'll get it in no time.
+	&a30
 
 a30:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
 	*setanim cat_bar gesture_laugh 1 idle*
-     Just remember,% Browse on the tv and Select the Level on the center 
-     basin.%%%%
-	 Moving on,% let's talk about the prop snatcher.
-     &a32
+	Just remember,% Browse on the tv% and 
+	Select the Level on the center basin.%%%%
+	Moving on,% let's talk about the prop snatcher.
+	&a32
 
 a31:
-     Moving on,% let's talk about the prop snatcher.
-     &a32
+	Moving on,% let's talk about the prop snatcher.
+	&a32
 
 a32:
 	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
-     *setspeaker cat_cello*
-	 *setanim cat_cello gesture_confused 1 idle*
-     y'know that jury-rigged stun baton I selflessly donated to you all 
-     in bonezone.bsp or wherever
-     &a33
+	*setspeaker cat_cello*
+	*setanim cat_cello gesture_confused 1 idle*
+	y'know that jury-rigged stun baton I selflessly donated to you all 
+	in bonezone.bsp or wherever
+	&a33
 
 a33:
 	*setcam setpos -4357.167969 3159.641846 37.272663;setang 0.728068 45.994724 0.000000*
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_facepalm 1 idle*
-     *setspeaker cat_piano*
-     You dropped it down a vent.
-     &a34
+	*setspeaker cat_piano*
+	You dropped it down a vent.
+	&a34
 
 a34:
 	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
-     *setspeaker cat_bar*
+	*setspeaker cat_bar*
 	*setanim cat_bar gesture_sweep 1 idle*
-     The prop snatcher allows you to steal any prop from a map.%%%*setcam setpos -101.743752 -80.739571 75.311615;setang -1.268438 -161.198425 0.000000*%*setanim cat_bar gesture_shrug 1 idle* Once you 
-     come back to the bar,% you can exchange the props you've stolen for
-     money.%%% All you need do is pull the lever in the money den,% and we'll
-     handle the rest.
-     &a35
+	The prop snatcher allows you to steal any prop from a map.%%%*setcam setpos -101.743752 -80.739571 75.311615;setang -1.268438 -161.198425 0.000000*%*setanim cat_bar gesture_shrug 1 idle* Once you 
+	come back to the bar,% you can exchange the props you've stolen for
+	money.%%% All you need do is pull the lever in the money den,% 
+	and we'll handle the rest.
+	&a35
 
 a35:
 	*setanim cat_bar gesture_confused 1 idle*
-     We should note,% that the money gained from stealing props is shared
-     between you and your friends.%%%% Every player receives their own
-     individual share of money based on the total cash value of all 
-     props stolen on the server,% regardless of who stole it.
-     &a36
+	We should note,% that the money gained from stealing props is shared
+	between you and your friends.%%%% Every player receives their own
+	individual share of money based on the total cash value of all 
+	props stolen on the server,% regardless of who stole it.
+	&a36
 
 a36:
-     This means you don't have to worry about falling behind!%%% You should
-     feel free to spend money when you get it,% as you're not hogging it
-     from any other player.%% Players who join late or only every so often 
-     will receive money based on the server's progress,% too.
-     &a37
+	This means you don't have to worry about falling behind!%%% You should
+	feel free to spend money when you get it,% as you're not hogging it
+	from any other player.%% Players who join late or only every so often 
+	will receive money based on the server's progress,% too.
+	&a37
 
 a37:
-     Of course,%% we also know that it's common for friends to compete with
-     each other to see who can steal the most,% so we've implemented a few
-     ways to check on those statistics, with a leaderboard in the money
-     den. You'll always be on an even playing field, so it's all skill!
-     &a38
+	Of course,%% we also know that it's common for friends to compete with
+	each other to see who can steal the most,% so we've implemented a few
+	ways to check on those statistics, with a leaderboard in the money den. 
+	You'll always be on an even playing field, so it's all skill!
+	&a38
 
 a38:
-     There are two other ways to make money.%% The first is a flat cash 
-     reward to all players for each shard acquired,% and the second is 
-     talking to us around the Bar Samsara when we have requests for you.%%%%
-     We'll make sure you're compensated fairly for your work.
-     &a40
+	There are two other ways to make money.%% The first is a flat cash 
+	reward to all players for each shard acquired,% and the second is 
+	talking to us around the Bar Samsara when we have requests for you.%%%%
+	We'll make sure you're compensated fairly for your work.
+	&a40
 
 a39:
-     Eventually you'll find a way to ransack that's unique to you,%% 
-     and that's when it gets good.%%% On that subject,% let's talk about the
-     Store in the bar next.
-     &a40
+	Eventually you'll find a way to ransack that's unique to you,%% 
+	and that's when it gets good.%%% On that subject,% let's talk about the
+	Store in the bar next.
+	&a40
 
 a40:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
-     I am the Bartender.%%% As my name suggests,% I am the one who tends 
-     the bar.%%%% You can spend the money you've gained here for new 
-     equipment,%% or to level up your tools and allow you to explore and 
-     steal more freely and easily.
-     &a45
+	I am the Bartender.%%% As my name suggests,% I am the one who tends 
+	the bar.%%%% You can spend the money you've gained here for new equipment,%% 
+	or to level up your tools and allow you to explore and steal 
+	more freely and easily.
+	&a45
 
 a41:
-     Speaking of,% you should have a few props stolen already,%% yes?%%%% 
-     I recommend the first thing you do is exchange those for money. 
-     &a42
+	Speaking of,% you should have a few props stolen already,%% yes?%%%% 
+	I recommend the first thing you do is exchange those for money. 
+	&a42
 
 a42:
-     *setspeaker cat_piano*
-     You should buy the prop snatcher upgrades first,%% by the way.%%%%  
-     Shit'll let you steal the walls and floors of levels an' stuff.
-     &a43
+	*setspeaker cat_piano*
+	You should buy the prop snatcher upgrades first,%% by the way.%%%%  
+	Shit'll let you steal the walls and floors of levels an' stuff.
+	&a43
 
 a43:
-     *setspeaker cat_singer*
-     > The Singer is holding up their tablet,%% where a bedazzled message 
-     informs you that no, seriously, you need those. They are trying 
-     really hard not to bounce, it seems.
-     &a44
+	*setspeaker cat_singer*
+	> The Singer is holding up their tablet,%% where a bedazzled message 
+	informs you that no, seriously, you need those. They are trying 
+	really hard not to bounce, it seems.
+	&a44
 
 a44:
-     *setspeaker cat_cello*
-     having the short-term memory of a trash can full of betamax tapes
-     i realize that it can be easy to forget to upgrade your shit but
-     if you make a habit of hitting up the shop every time you turn in
-     props that helps a lot
-     &a45
+	*setspeaker cat_cello*
+	having the short-term memory of a trash can full of betamax tapes
+	i realize that it can be easy to forget to upgrade your shit but
+	if you make a habit of hitting up the shop every time you turn in
+	props that helps a lot
+	&a45
 
 a45:
 	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
-     *setspeaker cat_bar*
-	 *BAR_HAPPY*
-	 *setanim cat_bar gesture_clap 1 idle*
-     Well I think that covers everything doesn't it? Lets ge-
-     &a46
+	*setspeaker cat_bar*
+	*BAR_HAPPY*
+	*setanim cat_bar gesture_clap 1 idle*
+	Well I think that covers everything doesn't it? Lets ge-
+	&a46
 
 a46:
 	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
 	*BAR_NEUTRAL*
-     *setspeaker cat_cello*
-	 *CELLO_NEUTRAL*
-	 *setanim cat_cello gesture_jab 1 idle*
-     hey wait up,%%% tell em about the shards 
-     &a47
+	*setspeaker cat_cello*
+	*CELLO_NEUTRAL*
+	*setanim cat_cello gesture_jab 1 idle*
+	hey wait up,%%% tell em about the shards 
+	&a47
 
 a47:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
-     *setspeaker cat_bar*
-	 *BAR_SURPRISE*
-	 *setanim cat_bar gesture_shock 1 idle*
-     Ah of course!%%%%*BAR_NEUTRAL* Right,% we ought to explain the number one reason 
-     we brought you here.%%%*setanim cat_bar gesture_sweep 1 idle* It's also linked to the period of employment
-     you'll have with us.
-     &a48
+	*setspeaker cat_bar*
+	*BAR_SURPRISE*
+	*setanim cat_bar gesture_shock 1 idle*
+	Ah of course!%%%%*BAR_NEUTRAL* Right,% we ought to explain the number one reason 
+	we brought you here.%%%*setanim cat_bar gesture_sweep 1 idle* It's also linked to the period of employment
+	you'll have with us.
+	&a48
 
 a48:
 	*setcam setpos 941.718323 668.771240 128.230713;setang 12.733686 -68.356812 0.000000*
 	*tweencam 40 setpos 992.983765 539.574951 96.820892;setang 12.733686 -68.356812 0.000000*
 	*setanim cat_bar gesture_agree 1 idle*
-     We need you to hunt for objects we call shards in each level you 
-     visit.%%% They are naturally occurring spacetime phenomena that can be 
-     harvested and we want them,% for reasons.
-     &a49
+	We need you to hunt for objects we call shards in each level you 
+	visit.%%% They are naturally occurring spacetime phenomena that can be 
+	harvested and we want them,% for reasons.
+	&a49
 
 a49:
-     *setspeaker cat_cello*
-	 *setanim cat_cello gesture_agree 1 idle*
-     yep,% reasons
-     &a50
+	*setspeaker cat_cello*
+	*setanim cat_cello gesture_agree 1 idle*
+	yep,% reasons
+	&a50
 
 a50:
-     *setspeaker cat_piano*
-	 *setanim cat_piano gesture_agree 1 idle*
-     Mmmm,% reasons.
-     &a51
+	*setspeaker cat_piano*
+	*setanim cat_piano gesture_agree 1 idle*
+	Mmmm,% reasons.
+	&a51
 
 a51:
-     *setspeaker cat_singer*
+	*setspeaker cat_singer*
 	*setanim cat_singer gesture_agree 1 idle*
-     > The Singer nods sagaciously.
-     &a52
+	> The Singer nods sagaciously.
+	&a52
 
 a52:
 	*setcam setpos -4225.937988 3110.115479 36.273689;setang -1.827444 89.545418 0.000000* #### GANG
-     *setspeaker cat_bar*
-     Again,%% we'll pay you and whoever you're working with a flat rate 
-     for each one found. It doesn't matter who found it. We need a 
-     minimum of 100, but will pay you the same rate for each shard you 
-     find after 100.
-     &a53
+	*setspeaker cat_bar*
+	Again,%% we'll pay you and whoever you're working with a flat rate 
+	for each one found. It doesn't matter who found it. We need a 
+	minimum of 100, but will pay you the same rate for each shard you 
+	find after 100.
+	&a53
 
 a53:
-     Once we've got the amount we need,%% you'll be free to go whenever you
-     wish!%%% No strings,% no stipulations.%% Just an amicable parting on your 
-     terms.
-	 player:
-          &areyouawizard:
-		*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*		  
-		  Wait do you need these shards for like, evil stuff?
-          &business: 
-		  *setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
-		  Fair enough, can I get started? 
-          &clownshoes: 
-		*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
-		  Do I get a cool costume?	 
+	Once we've got the amount we need,%% you'll be free to go whenever you
+	wish!%%% No strings,% no stipulations.%% Just an amicable parting on your 
+	terms.
+		player:
+			&areyouawizard:
+				*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+				Wait do you need these shards for like, evil stuff?
+			&business: 
+				*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+				Fair enough, can I get started? 
+			&clownshoes: 
+				*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
+				Do I get a cool costume?
 
 ### YO YOU ARENT GONNA BETRAY ME RIGHT
 areyouawizard:
 	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
-     *setspeaker cat_cello*
-	 *CELLO_GRIN*
-	 *setanim cat_cello gesture_laugh 1 idle*
-     naw holmes we grew out of doing evil shit for goofs a long time ago,%%*CELLO_NEUTRAL*
-     the writing was always garbage anyway
-     &wiz2
+	*setspeaker cat_cello*
+	*CELLO_GRIN*
+	*setanim cat_cello gesture_laugh 1 idle*
+	naw holmes we grew out of doing evil shit for goofs a long time ago,%%*CELLO_NEUTRAL*
+	the writing was always garbage anyway
+	&wiz2
 
 wiz2:
-	 *setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
-     *setspeaker cat_piano*
-	 *PIANO_SMIRK*
-	 *setanim cat_piano gesture_disagree 1 idle*
-     The shards themselves are completely harmless anyways.%%%*BAR_NEUTRAL* You'll see 
-     why when you spot one - they make a really warm sound,%% and are 
-     generally just calming to be near.
-     &wiz3
+	*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
+	*setspeaker cat_piano*
+	*PIANO_SMIRK*
+	*setanim cat_piano gesture_disagree 1 idle*
+	The shards themselves are completely harmless anyways.%%%*BAR_NEUTRAL* 
+	You'll see why when you spot one - they make a really warm sound,%% 
+	and are generally just calming to be near.
+	&wiz3
 
 wiz3:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
-     *setspeaker cat_bar*
-	 *BAR_HAPPY*
-	 *setanim cat_bar gesture_agree 1 idle*
-     It's still a fair question to ask,%%*BAR_NEUTRAL* it's rare to acquire strange and 
-     mystical wizard gewgaws for anything benevolent.%%%*setanim cat_bar gesture_laugh 1 idle* But yes,% our 
-     intentions are not malicious.%% That said,% shall we get started?
-     &ending
+	*setspeaker cat_bar*
+	*BAR_HAPPY*
+	*setanim cat_bar gesture_agree 1 idle*
+	It's still a fair question to ask,%%*BAR_NEUTRAL* it's rare to acquire strange and 
+	mystical wizard gewgaws for anything benevolent.%%%*setanim cat_bar gesture_laugh 1 idle* 
+	But yes,% our intentions are not malicious.%% 
+	That said,% shall we get started?
+	&ending
 
 ### I'M HERE FOR BUSINESS
 business:
 	*setcam setpos -4197.815918 3247.113037 43.896427;setang 6.398133 111.746498 0.000000* ###### BAR
-     *setspeaker cat_bar*
-	 *BAR_HAPPY*
-	 *setanim cat_bar gesture_agree 1 idle*
-     Of course!%%%*BAR_NEUTRAL* Let's get to work gang.
-     &biz2
-     
+	*setspeaker cat_bar*
+	*BAR_HAPPY*
+	*setanim cat_bar gesture_agree 1 idle*
+	Of course!%%%*BAR_NEUTRAL* Let's get to work gang.
+	&biz2
+	
 biz2:
-	 *setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
-     *setspeaker cat_piano*
-	 *PIANO_SMIRK*
-	 *setanim cat_piano gesture_clap 1 idle*
-     Good hustle,% I like that.%%%%*setanim cat_piano gesture_sweep 1 idle* Make sure you drop by the boss and get 
-     some gear before you go out there. 
-     &biz3
+	*setcam setpos -4030.469971 3325.654053 42.122913;setang 2.484991 87.336029 0.000000* ####### PIANO
+	*setspeaker cat_piano*
+	*PIANO_SMIRK*
+	*setanim cat_piano gesture_clap 1 idle*
+	Good hustle,% I like that.%%%%*setanim cat_piano gesture_sweep 1 idle* Make sure you drop by the boss and get 
+	some gear before you go out there. 
+	&biz3
 
-biz3:      
-     *setspeaker narrator*
-	 *setanim cat_piano gesture_agree 1 idle8
-     > The Pianist gives a firm nod in your direction,% and heads out.
-     &ending
+biz3:
+	*setspeaker narrator*
+	*setanim cat_piano gesture_agree 1 idle*
+	> The Pianist gives a firm nod in your direction,% and heads out.
+	&ending
 
 ### I'M HERE TO MEME
 clownshoes:
 	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
-     *setspeaker cat_cello*
-	 *CELLO_GRIN*
-	 *setanim cat_cello gesture_laugh 1 idle*
-     aw hell yea this dude gets it.%%%*CELLO_NEUTRAL* nothin more important than how dope 
-     you look while you tear out all the copper wire in someone's kitchen
-     and loot their drug stash
-     &honk2
+	*setspeaker cat_cello*
+	*CELLO_GRIN*
+	*setanim cat_cello gesture_laugh 1 idle*
+	aw hell yea this dude gets it.%%%*CELLO_NEUTRAL* nothin more important than how dope 
+	you look while you tear out all the copper wire in someone's kitchen
+	and loot their drug stash
+	&honk2
 
 honk2:
 	*setcam setpos -4357.167969 3159.641846 37.272663;setang 0.728068 45.994724 0.000000*
-     *setspeaker cat_piano*
-	 *PIANO_BLINK*
-	 *setanim cat_piano gesture_facepalm 1 idle*
-     You look like the Platonic form of a used car salesman got caught in
-     an explosion at a tweed factory.%%*PIANO_NEUTRAL* It might be illegal for you to give 
-     advice about style to anyone.
-     &honk3
+	*setspeaker cat_piano*
+	*PIANO_BLINK*
+	*setanim cat_piano gesture_facepalm 1 idle*
+	You look like the Platonic form of a used car salesman got caught in
+	an explosion at a tweed factory.%%*PIANO_NEUTRAL* It might be illegal for you to give 
+	advice about style to anyone.
+	&honk3
 
 honk3:
 	*setcam setpos -4283.793945 3310.579102 42.825569;setang -2.413082 104.905144 0.000000* #### CELLO
-     *setspeaker cat_cello*
+	*setspeaker cat_cello*
 	*CELLO_MAD*
 	*setanim cat_cello gesture_disagree 1 idle*
-     philistine.%%%%*CELLO_NEUTRAL* don't listen to her,% *player*.%%% 
-	 come find me and we will discuss the finer things in life.
-     &honk4
+	philistine.%%%%*CELLO_NEUTRAL* don't listen to her,% *player*.%%% 
+	come find me and we will discuss the finer things in life.
+	&honk4
 
 honk4:
-     *setspeaker narrator*
-     > The Cellist yawns and staggers out of the room.
-     &ending
+	*setspeaker narrator*
+	> The Cellist yawns and staggers out of the room.
+	&ending
 
 ### THANK GOD ITS OVER
 
 ending:
 	*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
-     *setspeaker narrator*
-     > The rest of the cats begin to file out of the room.%%% Soon it's just 
-     you in the theater.
-     &ending2
+	*setspeaker narrator*
+	> The rest of the cats begin to file out of the room.%%% Soon it's just 
+	you in the theater.
+	&ending2
 
 ending2:
 	*setcam setpos -4170.315430 3489.042725 97.455170;setang 22.476595 -100.539093 0.000000*
-     > Working for a group of thieves%.%.%.%%%oh well.%%%% Might as well just go 
-     with the flow,% right?%%% Let's see what we've got to work with. 
-     *mark_seen*
-     &exit
+	> Working for a group of thieves%.%.%.%%%oh well.%%%% Might as well just go 
+	with the flow,% right?%%% Let's see what we've got to work with. 
+	*mark_seen*
+	&exit

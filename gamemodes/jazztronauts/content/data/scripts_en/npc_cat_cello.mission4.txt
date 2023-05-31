@@ -51,7 +51,7 @@ t1:
 	&t2
 
 t2:
-	*setspeaker cat_cello*
+	*setspeaker npc_cat_cello*
 	%.%.%.%%i take it from your look of abject horror that you 
 	weren't aware that doctorates worked on Highlander rules
 	&t3

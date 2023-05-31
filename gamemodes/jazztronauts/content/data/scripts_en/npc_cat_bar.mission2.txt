@@ -24,7 +24,7 @@ idle:
 	&a3
 
 a3:
-	*setspeaker cat_bar*
+	*setspeaker npc_cat_bar*
 	Hm. No need to restock the sugar cider yet, we have an ample supply 
 	of void gin, and- 
 	&a4
@@ -46,7 +46,7 @@ turnin:
 	&a6
 
 a6:
-	*setspeaker cat_bar*
+	*setspeaker npc_cat_bar*
 	Excellent, excellent! Oh, I'm almost giddy. I haven't had the chance 
 	to make one of these in about fifty years. Here, your payment. 
 	&a7
@@ -78,7 +78,7 @@ a10:
 	&a11
  
 a11:
-	*setspeaker cat_bar*
+	*setspeaker npc_cat_bar*
 	It's an acquired taste, but one I'm partial to. Thank you for your 
 	help, *player*. *finish 2*
 	&exit

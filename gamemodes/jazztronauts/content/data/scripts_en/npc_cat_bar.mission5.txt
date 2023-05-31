@@ -75,7 +75,7 @@ a11:
 	&a12
 
 a12:
-	*setspeaker cat_bar*
+	*setspeaker npc_cat_bar*
 	Catch up with me later, won't you? You've been a true friend, and I 
 	have a surprise I'd like to give you.
 	&exit

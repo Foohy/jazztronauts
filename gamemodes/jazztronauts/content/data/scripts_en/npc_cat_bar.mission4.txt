@@ -34,6 +34,7 @@ a4:
 	&exit
 
 turnin:
+	spawnnarrator()
 	*player*, you are a balm to my weary soul. 
 	&a5
 
@@ -47,10 +48,12 @@ a6:
 	&a7
 
 a7:
+	*setspeaker narrator*
 	> The Bartender hands you an envelope. There's $25,000 inside!
 	&a8
 
 a8:
+	*setspeaker npc_cat_bar*
 	If you'll kindly excuse me, I need to go put my own suits through 
 	the wash and then take a much-needed nap. *finish 4*
 	&exit

@@ -54,15 +54,18 @@ i2:
 	&exit
 
 turnin:
+	spawnnarrator()
 	oh shit the paint, %%nice,%% now I can continue my project
 	here's your cut.%% now if you'll excuse me
 	&t1
 t1:
 	*finish 3*
+	*setspeaker narrator*
 	> The Cellist pops the lid and huffs deeply.
 	&t2
 	
 t2:
+	*setspeaker npc_cat_cello*
 	what
 	%%%%%%
 	you thought i was going to paint with this? %%%

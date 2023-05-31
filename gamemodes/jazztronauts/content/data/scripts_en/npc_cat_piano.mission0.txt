@@ -71,17 +71,20 @@ i2:
 	&exit
 
 turnin:
+	spawnnarrator()
 	Sweet. You can follow basic instructions, 
 	so you're already ahead of the curve. *finish 0*
 	Here, try not to spend it all at once.
 	&t1
 	
 t1:
+	*setspeaker narrator*
 	> The cat hands you a wad of cash. 
 	You've been rewarded $2500 for your efforts!
 	&t2
 	
 t2:
+	*setspeaker npc_cat_piano*
 	What? Did you think I was actually broke? 
 	I'm morally bankrupt, not destitute. 
 	&t2b

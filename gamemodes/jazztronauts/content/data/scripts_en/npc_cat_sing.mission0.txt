@@ -6,7 +6,6 @@ accept:
 	&a1
 	
 a1:
-	*setspeaker cat_singer*
 	> They wave you over and pat the seat next to them.
 	Bringing out the tablet they used when you first spoke
 	with the group, they tap away on it for a minute or so.
@@ -34,6 +33,7 @@ a4:
 	&a5
 	
 a5:
+	*setspeaker npc_cat_sing*
 	> “I would super appreciate it if you could track down 10 document
 	binders for me!!! I really need to reorganize my filing system...
 	(\=ㅇ༝ㅇ\=)”
@@ -68,8 +68,7 @@ i1b:
 	&exit
 
 turnin:
-*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
+	spawnnarrator()
 	> The Singer jumps out of their seat and bounces in delight as you put 
 	the binders down in front of them. With a flourish, they present to you 
 	a wad of cash! $5000 in total. *finish 0*
@@ -96,18 +95,3 @@ t4:
 	> You leave the Singer clapping over the binders you deliver, 
 	and they wave to you as you go.
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

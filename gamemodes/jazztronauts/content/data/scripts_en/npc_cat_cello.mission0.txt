@@ -33,7 +33,7 @@ a4:
 	&a5
 
 a5:
-	%%%what were we talking about again? %%oh% right, %% drugs. %%%
+	%%%what were we talking about again? %%oh% right,%% drugs. %%%
 	my stash of the Good Shit is getting dangerously low. %
 	go get me like,% 15 exploding barrels. %%%
 	trust me%% i'm a professional% it'll be fine

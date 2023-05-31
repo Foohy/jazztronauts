@@ -41,7 +41,6 @@ a5:
 	&a6
 	
 a6:
-	*setspeaker npc_cat_sing*
 	> The Singer stops nodding and instead beams at you. They write up 
 	your mission brief and slide the tablet across the table\:
 	&a7
@@ -57,6 +56,7 @@ a7b:
 	&a8
 	
 a8:
+	*setspeaker narrator*
 	> Both cats thank you in advance. Time to get to work. *start 3*
 	&exit
 	
@@ -102,17 +102,3 @@ t3:
 	> They thank you for your assistance and roll up their sleeves
 	to get started on the daunting task of agriculture fraud.
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

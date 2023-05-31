@@ -37,25 +37,30 @@ a5:
 	&exit
 
 turnin:
+	spawnnarrator()
 	Excellent! Let me just compress those into one of the Mewseum's 
 	extradimensional storage containers for you. 
 	&a6
 
 a6:
+	*setspeaker narrator*
 	> The air feels tight and tense for a moment, followed by a loud 
 	popping sound as you find yourself relieved of your automobile 
 	burdens. 
 	&a7
 
 a7:
+	*setspeaker npc_cat_bar*
 	As agreed, your payment. 
 	&a8
 
 a8:
+	*setspeaker narrator*
 	> The Bartender hands you $10,000!
 	&a9
 
 a9:
+	*setspeaker npc_cat_bar*
 	Thank you kindly for your help. We should be able to keep the 
 	trolley in service for at least the next century!
 	&a10

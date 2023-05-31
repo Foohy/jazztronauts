@@ -50,11 +50,13 @@ turnin:
 
 	&t2
 t2:
+	*setspeaker narrator*
 	> The Bartender slides a red envelope to you over the counter.*finish 0*
 	There's $5000 inside!
 
 	&t3
 t3:
+	*setspeaker npc_cat_bar*
 	Stop by again soon. I very much enjoy listening to our guests 
 	recount their adventures over a glass of something refreshing. 
 	You'll be no exception, I hope?

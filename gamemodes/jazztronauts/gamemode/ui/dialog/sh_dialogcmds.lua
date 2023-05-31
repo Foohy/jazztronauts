@@ -322,7 +322,12 @@ dialog.RegisterFunc("setskin", function(d, name, skinid)
 end)
 -- Abstracted out for use in both setskin and setspeaker
 function SetSkinFunc(d, name, skinid)
-	local skinid = tonumber(skinid) or 0
+	local skinid = skinid
+	if not skinid and tonumber(name) then -- just a skinid, so setskin on the current speaker 
+		skinid = name
+		name = "focus"
+	end
+	skinid = tonumber(skinid) or 0
 	local prop = FindByName(name)
 
 	if IsValid(prop) then

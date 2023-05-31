@@ -130,7 +130,8 @@ function FindOwningAddon(mapname)
 	-- First, try to see if we've cached the mapname/workshop association
 	if progress then
 		local res = progress.GetMap(mapname)
-		if res and res.wsid != 0 then return tostring(res.wsid) end
+		local wsid = tonumber(res.wsid) or 0
+		if res and wsid > 0 then return tostring(res.wsid) end
 	end
 
 	local addons = engine.GetAddons()
@@ -276,6 +277,8 @@ end )
 local function DownloadGMA_Listen(wsid, func, decompress_func, hostply)
 	if active_downloadgma then return func(nil, "Only one call to DownloadGMA_Listen is allowed at a time") end -- Whatever
 	if not IsValid(hostply) or not hostply:IsPlayer() then return func(nil, "Provided host player is nil or invalid") end
+	local wsidnum = tonumber(wsid) or 0
+	if wsidnum <= 0 then return func(nil, "Invalid wsid") end
 
 	active_downloadgma = {
 		wsid = tostring(wsid),

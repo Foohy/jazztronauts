@@ -117,7 +117,7 @@ function ENT:MapFinishedEffects(success, ermsg)
 		self:EmitSound(SUCCESS_SOUND)
 		util.ScreenShake(self:GetPos(), 2, 10, 1, 1500)
 	else
-		factgen.SetFailure(self:GetScanStateString() .. (ermsg and ("\n\n" .. ermsg) or ""))
+		factgen.SetFailure(self:GetScanStateString() .. (ermsg and ("," .. ermsg) or ""))
 		self:EmitSound(FAIL_SOUND)
 		self:TriggerOutput("OnMapFailure",self)
 	end

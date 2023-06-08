@@ -1,6 +1,6 @@
 "LightmappedGeneric"
 {
-	"$basetexture" "sunabouzu/jazzwallpaper02_A"
+	"$basetexture" "sunabouzu/jazzwallpaper01_A"
 	"$envmapmask" "sunabouzu/jazzwallpaper02_S"
 	"$surfaceprop" "plaster"
         "$detail" "sunabouzu/jazznoise"
@@ -11,4 +11,5 @@
 	"$envmaptint" "[ .05 .09 .075 ]"
 	"$envmapcontrast" .75
 	"$envmapsaturation" 2
+	"%keywords" "jazz"
 }

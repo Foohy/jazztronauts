@@ -2,12 +2,12 @@ $modelname "sunabouzu/jazzivy04.mdl"
 $scale 2.0
 $body "jazzivy03" "jazzivy03.dmx"
 
-$lod 20
+$lod 30
 {
 	replacemodel "jazzivy03.dmx" "jazzivy03_lod1.dmx"
 	nofacial
 }
-$lod 40
+$lod 60
 {
 	replacemodel "jazzivy03.dmx" "jazzivy03_lod2.dmx"
 	nofacial

@@ -31,3 +31,7 @@ function GM:HUDShouldDraw( name )
 	end
 	return true
 end
+
+function GM:HUDDrawTargetID()
+	return false
+end

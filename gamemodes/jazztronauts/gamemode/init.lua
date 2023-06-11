@@ -429,6 +429,13 @@ function GM:PlayerInitialSpawn( ply )
 		end )
 	end
 
+	ply:SuppressHint( "Annoy1" )
+	ply:SuppressHint( "Annoy2" )
+	if mapcontrol.IsInGamemodeMap() then
+		ply:SuppressHint( "OpeningMenu" )
+	end
+	ply:SendHint( "OpeningContext", 30 )
+
 	-- Hey. Don't play this in singleplayer
 	if game.SinglePlayer() then
 		timer.Simple(5, function()

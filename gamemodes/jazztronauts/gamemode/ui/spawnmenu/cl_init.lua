@@ -8,7 +8,10 @@ function GM:SpawnMenuOpen()
 	if mapcontrol.IsInGamemodeMap() then return false end
 
 	GAMEMODE:SuppressHint( "OpeningMenu" )
-	GAMEMODE:AddHint( "OpeningContext", 20 )
 
 	return true
+end
+
+function GM:ContextMenuOpened()
+	GAMEMODE:SuppressHint( "OpeningContext" )
 end

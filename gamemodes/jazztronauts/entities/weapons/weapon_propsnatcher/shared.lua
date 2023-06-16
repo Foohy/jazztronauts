@@ -10,6 +10,7 @@ SWEP.Slot					= 0
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.snatcher.desc"
 SWEP.WepSelectIcon			= Material( "entities/weapon_propsnatcher.png" )
+SWEP.AutoSwitchFrom			= false
 
 SWEP.ViewModel				= "models/weapons/c_stunstick.mdl"
 SWEP.WorldModel				= "models/weapons/w_stunbaton.mdl"

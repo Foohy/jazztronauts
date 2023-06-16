@@ -8,6 +8,7 @@ SWEP.Slot					= 5
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.buscaller.desc"
 SWEP.WepSelectIcon			= Material( "entities/weapon_buscaller.png" )
+SWEP.AutoSwitchFrom			= false
 
 SWEP.ViewModel				= "models/weapons/c_bus_summoner.mdl"
 SWEP.WorldModel				= "models/weapons/w_bus_summoner.mdl"

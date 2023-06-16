@@ -8,6 +8,7 @@ SWEP.Slot					= 4
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.hacker.desc"
 SWEP.WepSelectIcon			= Material( "entities/weapon_hacker.png" )
+SWEP.AutoSwitchFrom			= false
 
 SWEP.ViewModel				= "models/weapons/c_hackergoggles.mdl"
 SWEP.WorldModel				= "models/weapons/w_hackergoggles.mdl"

@@ -137,11 +137,11 @@ end
 -- Draw spectate stuff
 if CLIENT then
 	local function GetSpectateName(ent)
-		if ent == LocalPlayer() then return "Map Spawnpoint" end
+		if ent == LocalPlayer() then return jazzloc.Localize("jazz.respawn.playerstart") end
 		if ent:IsPlayer() then return ent:GetName() end
 
 		local class = ent:GetClass()
-		if class == "jazz_bus_explore" then return "The Trolley" end
+		if class == "jazz_bus_explore" then return jazzloc.Localize("jazz_bus_explore") end
 		return class
 	end
 
@@ -150,7 +150,7 @@ if CLIENT then
 		local obstarget = LocalPlayer():GetObserverTarget()
 		if not IsValid(obstarget) then return end
 		local name = GetSpectateName(obstarget)
-		local hintText = "Right click to switch"
+		local hintText = jazzloc.Localize("jazz.respawn.switch",language.GetPhrase(input.LookupBinding("+attack2")))
 
 		surface.SetFont("DermaDefault")
 		local wn, hn = surface.GetTextSize(name)

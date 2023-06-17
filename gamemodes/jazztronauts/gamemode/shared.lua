@@ -216,7 +216,7 @@ else
 				killedby = jazzloc.Localize("jazz.death.weapon",jazzloc.Localize(attackclass),jazzloc.Localize(weapon:GetClass()))
 			end
 			--put it all together, with picking a random damage type from the list
-			ev:Title(jazzloc.Localize("jazz.death.killer","%name",jazzloc.Localize("dmg." .. damtab[ math.random( #damtab ) ] ),"%killer"), 
+			ev:Title(jazzloc.Localize("jazz.death.killer","%name",jazzloc.Localize("jazz.dmg." .. damtab[ math.random( #damtab ) ] ),"%killer"), 
 				{ name = name, killer = killedby },
 				{ killer = "red_name" }
 			)

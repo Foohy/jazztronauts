@@ -15,13 +15,21 @@ if CLIENT then
 		local strang = ""
 		local strtable = arg
 		if isstring(arg[1]) then
-			strang = language.GetPhrase(tostring(table.remove(strtable,1)))
+			strang = tostring(table.remove(strtable,1))
 		elseif istable(arg[1]) then
 			strtable = arg[1]
-			strang = language.GetPhrase(tostring(table.remove(strtable,1)))
+			strang = tostring(table.remove(strtable,1))
 		else
 			error("jazzloc.Localize needs strings or a table of strings, recieved " .. type(arg) )
 		end
+
+		--see if we have a Jazztronauts specific override for a default localization string
+		--(also technically lets us leave the "jazz." off of our strings in the code if we wanted to)
+		local jazzitup = "jazz."..strang
+		if not (jazzitup == language.GetPhrase(jazzitup)) then
+			strang = jazzitup
+		end
+		strang = language.GetPhrase(strang)
 		
 		for i,v in ipairs(strtable) do
 			strang = string.Replace(strang,"%"..i.."%",language.GetPhrase(tostring(v)))

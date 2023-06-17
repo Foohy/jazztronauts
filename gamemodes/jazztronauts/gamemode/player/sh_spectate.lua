@@ -150,7 +150,7 @@ if CLIENT then
 		local obstarget = LocalPlayer():GetObserverTarget()
 		if not IsValid(obstarget) then return end
 		local name = GetSpectateName(obstarget)
-		local hintText = jazzloc.Localize("jazz.respawn.switch",language.GetPhrase(input.LookupBinding("+attack2")))
+		local hintText = jazzloc.Localize("jazz.respawn.switch",jazzloc.Localize(input.LookupBinding("+attack2")))
 
 		surface.SetFont("DermaDefault")
 		local wn, hn = surface.GetTextSize(name)

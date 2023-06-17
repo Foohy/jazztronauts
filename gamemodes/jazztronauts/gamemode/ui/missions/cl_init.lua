@@ -49,7 +49,9 @@ local function drawProgressBar(m, x, y, width, height, prog, max, animclip)
 		draw.RoundedBox(4, x, y, width, height, Color(55, 164, 44))
 	else
 		draw.RoundedBox(4, x, y, width, height, Color(80, 0, 80))
-		draw.RoundedBox(4, x, y, width * perc, height, Color(255, 200, flash2*255))
+		if perc > 0 then
+			draw.RoundedBox(4, x, y, width * perc, height, Color(255, 200, flash2*255))
+		end
 	end
 
 	local subclip = Rect(x,y,width,height)

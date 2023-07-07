@@ -3,12 +3,11 @@
 # Jazztronauts
 Videogames are the poison, Jazztronauts is the cure.
 
-
 ### What is this
 Jazztronauts is a cooperative theft-em-up for Garry's Mod, also known as prop hunt 2.
 Go to random maps on the workshop, pillage its trash for money, and converse with your higher-dimensional cat overlords.
 
-- If you want instructions on installing it the normal way, follow this link for the official FAQ.
+- If you want instructions on installing it the normal way, [follow this link for the official FAQ.](https://github.com/Foohy/jazztronauts/wiki/FAQ)
 - Else, this repo can just be smashed into your addons folder, it is a self-contained jazztronauts installation
 
 ### Features
@@ -20,7 +19,9 @@ Go to random maps on the workshop, pillage its trash for money, and converse wit
 - Lots of pretty pretty art
 
 ### Contributions
-This repository is hooked up to build and upload directly to the [Steam Workshop addon](https://steamcommunity.com/sharedfiles/filedetails/?id=1452613192) "whenever™". 
+This repository is hooked up to build and upload directly to the [Steam Workshop addon](https://steamcommunity.com/sharedfiles/filedetails/?id=1452613192) "whenever™".
 Contributions are always welcome, and can be done through the normal github pull request avenue, and I'll try to update the workshop version as soon as I can after that.
+
+If you want to edit the dialogue, the files can be found at [/gamemodes/jazztronauts/content/data/](/gamemodes/jazztronauts/content/data/). If you use VSCode, you can also install the extension at [/other/vscode-ext/jazz-scripts/](/other/vscode-ext/jazz-scripts/) for syntax highlighting!
 
 ### [INSTALLATION AND PLAY FAQ](https://github.com/Foohy/jazztronauts/wiki/FAQ)

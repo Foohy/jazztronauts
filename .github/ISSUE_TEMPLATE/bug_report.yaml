@@ -1,0 +1,80 @@
+name: Bug report
+description: Report an problem with Jazztronauts
+labels: ["type: bug"]
+
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for creating a report! Please be sure to add a short and simple title above, with no tagging like [BUG].
+
+  - type: dropdown
+    id: addons
+    attributes:
+      label: How many addons were enabled when you tried this?
+      description: |
+        If you don't understand, please disable all your addons except Jazztronauts and test the problem again.
+        If doing that stops the problem, gradually enable addons until the issue reappears, then mention the last addon enabled later in the report.
+      options:
+        - I did not disable my addons before reporting this bug
+        - A specific addon(s) that causes the problem
+        - Nothing except Jazztronauts itself
+    validations:
+      required: true
+
+  - type: dropdown
+    id: system
+    attributes:
+      label: Which operating system were you using?
+      description: |
+        If you don't understand, pick Windows.
+        If you've tested multiple, pick the higher one on the list.
+        If you pick Linux, please state the distro and version later in the report.
+      options:
+        - Windows
+        - SteamOS / Steam Deck
+        - Linux
+        - macOS
+        - Something else
+    validations:
+      required: true
+
+  - type: dropdown
+    id: gmodversion
+    attributes:
+      label: Which branch of Garry's Mod were you on?
+      description: |
+        If you don't understand, pick Stable.
+        If you've tested multiple, pick the higher one on the list.
+      options:
+        - Stable
+        - x86-64 / Chromium
+        - prerelease
+        - dev
+    validations:
+      required: true
+
+  - type: dropdown
+    id: jazzversion
+    attributes:
+      label: What version of Jazztronauts were you running?
+      description: |
+        If you don't understand, pick Workshop addon.
+        If you've tested multiple, pick the higher one on the list.
+      options:
+        - Workshop addon
+        - Main/Master branch
+        - An unmerged branch
+    validations:
+      required: true
+
+  - type: textarea
+    id: whathappened
+    attributes:
+      label: What happened?
+      description: |
+        Please provide a clear and concise description of what the bug is.
+        You may want to give steps detailing how to make the problem appear.
+        Add any other context or screenshots that may be helpful.
+      placeholder: Say what you see!
+    validations:
+      required: true

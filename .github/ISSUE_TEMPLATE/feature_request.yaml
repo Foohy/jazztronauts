@@ -1,0 +1,20 @@
+name: Feature request
+description: Suggest an addition to Jazztronauts
+labels: ["type: enhancement"]
+
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for making a request! Please be sure to add a short and simple title above, with no tagging like [FEATURE].
+
+  - type: textarea
+    id: whathappened
+    attributes:
+      label: What's your request?
+      description: |
+        Please provide a clear and concise description of what you want to happen.
+        If it's related to another issue, you should mention that.
+        Add any other context or screenshots that may be helpful.
+      placeholder: Say what you want to see!
+    validations:
+      required: true

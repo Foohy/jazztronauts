@@ -1,0 +1,15 @@
+name: Something else
+description: Anything else you might wanna say about Jazztronauts
+
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for making an issue! Please be sure to add a short and simple title above, with no tagging like [QUESTION].
+
+  - type: textarea
+    id: whathappened
+    attributes:
+      label: What would you like to say?
+      placeholder: Say what you want to say!
+    validations:
+      required: true

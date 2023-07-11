@@ -26,15 +26,17 @@ body:
     attributes:
       label: Which operating system were you using?
       description: |
-        If you don't understand, pick Windows.
+        If you don't understand, go to https://whatsmyos.com and look at the top.
         If you've tested multiple, pick the higher one on the list.
-        If you pick Linux, please state the distro and version later in the report.
+        If you're on a Steam Deck and switched Garry's Mod to run in Proton, select Linux through Proton.
+        If you choose Linux, state the distro and version later in the report.
       options:
         - Windows
-        - SteamOS / Steam Deck
+        - Linux through Proton
+        - SteamOS (Steam Deck) # yes i know steamos is linux, but this lets us target steam deck specific compatibility
         - Linux
         - macOS
-        - Something else
+        - Something else (specify later)
     validations:
       required: true
 

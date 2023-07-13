@@ -136,13 +136,13 @@ local function drawTransition()
 
 end
 
-hook.Add("PostRenderVGUI", "jazzCatTransitionLate", function()
+hook.Add("PostDrawHUD", "jazzCatTransition", function()
 	if drawearly then return end
 
 	drawTransition()
 end)
 
-hook.Add("PreDrawHUD", "jazzCatTransition", function()
+hook.Add("PreDrawHUD", "jazzCatTransitionEarly", function()
 	if not drawearly then return end
 
 	cam.Start2D()

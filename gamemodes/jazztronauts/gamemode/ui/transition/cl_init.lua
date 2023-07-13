@@ -10,11 +10,20 @@ local rate = .75
 local drawearly = false
 local fadeout = false -- happy transition horse or just a boring fade
 
+local convar_drawtransition = CreateClientConVar("jazz_transition", "1", true, false,
+	"How to render transitions. 0 will never render them. 1 will render them normally as intended. 2 will only render a simple fade.", 0, 2)
+
 -- use global functions In and Out below this
 local function transition(delay, soundfile, early, fade)
-	if GAMEMODE && GAMEMODE:GetDevMode() >= 2 then
+	if not convar_drawtransition:GetBool()
+	or GAMEMODE && GAMEMODE:GetDevMode() >= 2 then
 		transitioning = 0
 		return false
+	end
+
+	if convar_drawtransition:GetInt() == 2 then
+		soundfile = false
+		fade = true
 	end
 
 	if delay == nil then delay = 0 end
@@ -49,6 +58,12 @@ function transitionOut(delay, nosound, early, fade)
 	if passed == true then transitioning = -1 end
 end
 
+local function txParse(args)
+	return tonumber(args[1]), tobool(args[2]), tobool(args[3]), tobool(args[4])
+end
+concommand.Add("txin", function(_,_,args) transitionIn(txParse(args)) end )
+concommand.Add("txout", function(_,_,args) transitionOut(txParse(args)) end )
+
 local function getTransitionAmount()
 	return ( CurTime() - starttime ) * rate
 end
@@ -58,15 +73,9 @@ function isTransitioning()
 	return transitioning != 0 and (amount >= 0 and amount <= 1)
 end
 
-concommand.Add("txin", function() transitionIn() end )
-concommand.Add("txout", function() transitionOut() end )
 
-local convar_drawtransition = CreateClientConVar("jazz_transition", "1", true, false, "Roll that beautiful bean footage.")
-
-if convar_drawtransition:GetBool() then
-	if mapcontrol.IsInHub() then
-		transitionIn(2)
-	end
+if mapcontrol.IsInHub() then
+	transitionIn(2)
 end
 
 local function drawHorse(amount)
@@ -104,6 +113,7 @@ local function drawFade(amount)
 end
 
 local function drawTransition()
+	if not convar_drawtransition:GetBool() then return end
 
 	local amount = getTransitionAmount()
 

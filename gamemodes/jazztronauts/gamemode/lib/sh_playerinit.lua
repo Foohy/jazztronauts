@@ -16,5 +16,9 @@ else
 
 		net.Start("JazzPlayerClientStartup")
 		net.SendToServer()
+
+		timer.Simple(0, function()
+			hook.Run("OnClientInitialized", ply)
+		end )
 	end )
 end

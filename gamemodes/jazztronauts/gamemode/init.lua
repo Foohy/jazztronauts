@@ -428,14 +428,17 @@ function GM:PlayerInitialSpawn( ply )
 			end
 		end )
 	end
+end
 
+-- PlayerInitialSpawn runs before player is fully loaded and can see, for visible stuff use this hook
+hook.Add("OnClientInitialized", "JazzTransitionIntoBar", function(ply)
 	-- Hey. Don't play this in singleplayer
 	if game.SinglePlayer() then
-		timer.Simple(5, function()
+		timer.Simple(3, function()
 			dialog.Dispatch("no_singleplayer_allowed.begin", ply)
 		end )
 	end
-end
+end )
 
 function GM:PlayerSpawn( ply )
 	local class = mapcontrol.IsInGamemodeMap() and "player_hub" or "player_explore"

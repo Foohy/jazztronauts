@@ -7,41 +7,46 @@ local horse = CreateMaterial( "horse2", "UnlitGeneric",
 local starttime = CurTime()
 local transitioning = 0
 local rate = .75
-local shoulddrawlate = true
-local fadeonly = false -- happy transition horse or just a boring fade
+local drawearly = false
+local fadeout = false -- happy transition horse or just a boring fade
 
-function transitionOut(delay, nosound, drawearly, fade)
-	if not nosound then
-		if delay ~= nil then
-			timer.Simple( delay, function() surface.PlaySound( "jazztronauts/slide.wav" ) end )
-		else
-			surface.PlaySound( "jazztronauts/slide.wav" )
-		end
-	end
-
-	transitioning = -1
-	starttime = CurTime() + (delay or 0)
-	shoulddrawlate = not drawearly
-	fadeonly = fade
-end
-
-function transitionIn(delay, nosound, drawearly, fade)
+-- use global functions In and Out below this
+local function transition(delay, soundfile, early, fade)
 	if GAMEMODE && GAMEMODE:GetDevMode() >= 2 then
 		transitioning = 0
-		return 
-	end
-	if not nosound then
-		if delay ~= nil then
-			timer.Simple( delay, function() surface.PlaySound( "jazztronauts/slide_reverse.wav" ) end )
-		else
-			surface.PlaySound( "jazztronauts/slide_reverse.wav" )
-		end
+		return false
 	end
 
-	transitioning = 1
-	starttime = CurTime() + (delay or 0)
-	shoulddrawlate = not drawearly
-	fadeonly = fade
+	if delay == nil then delay = 0 end
+	starttime = CurTime() + delay
+
+	if soundfile then
+		timer.Simple( delay, function() surface.PlaySound( soundfile ) end )
+	end
+
+	drawearly = early
+	fadeout = fade
+	return true
+end
+
+function transitionIn(delay, nosound, early, fade)
+	local soundfile = false
+	if not nosound then
+		soundfile = "jazztronauts/slide_reverse.wav"
+	end
+
+	local passed = transition(delay, soundfile, early, fade)
+	if passed == true then transitioning = 1 end
+end
+
+function transitionOut(delay, nosound, early, fade)
+	local soundfile = false
+	if not nosound then
+		soundfile = "jazztronauts/slide.wav"
+	end
+
+	local passed = transition(delay, soundfile, early, fade)
+	if passed == true then transitioning = -1 end
 end
 
 local function getTransitionAmount()
@@ -55,13 +60,6 @@ end
 
 concommand.Add("txin", function() transitionIn() end )
 concommand.Add("txout", function() transitionOut() end )
-
---[[timer.Simple(1,function()
-	transitionOut()
-end)
-timer.Simple(3,function()
-	transitionIn()
-end)]]
 
 local convar_drawtransition = CreateClientConVar("jazz_transition", "1", true, false, "Roll that beautiful bean footage.")
 
@@ -123,16 +121,14 @@ local function drawTransition()
 		end
 	end
 
-	if transitioning == 1 then
-		if amount > 1 then
-			return
-		end
+	if transitioning == 1 and amount > 1 then
+		return
 	end
 
 	amount = math.max(amount, 0)
 	amount = amount * amount
 
-	if fadeonly then
+	if fadeout then
 		drawFade(amount)
 	else
 		drawHorse(amount)
@@ -141,13 +137,13 @@ local function drawTransition()
 end
 
 hook.Add("PostRenderVGUI", "jazzCatTransitionLate", function()
-	if not shoulddrawlate then return end
+	if drawearly then return end
 
 	drawTransition()
 end)
 
 hook.Add("PreDrawHUD", "jazzCatTransition", function()
-	if shoulddrawlate then return end
+	if not drawearly then return end
 
 	cam.Start2D()
 	drawTransition()

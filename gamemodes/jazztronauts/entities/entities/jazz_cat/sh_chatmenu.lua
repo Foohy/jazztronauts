@@ -2,7 +2,10 @@ local chatmenu = {}
 
 ENT.ScreenWidth = 500
 ENT.ScreenHeight = 340
-ENT.ScreenScale = 0.05
+
+-- Base values multiplied with distance
+chatmenu.ScreenScale = 0.05
+chatmenu.verticalOffset = 30
 
 -- Center offset ofthe radial menu in 3d2d screen space
 ENT.RadialOffset = 0
@@ -27,27 +30,36 @@ chatmenu.flipChat = false
 chatmenu.showperc = 1.0
 
 function ENT:GetMenuPosAng(ply)
+	local pos = self:GetPos()
+	local playpos = ply:EyePos()
+
+	local dist = pos:Distance(playpos)
+	self.ScreenScale = chatmenu.ScreenScale * (dist / 30)
+
 	local ang = self:GetAngles()
 	ang:RotateAroundAxis(ang:Forward(), -90)
 	ang:RotateAroundAxis(ang:Right(), -90)
 
-
-	local offset = ang:Up() * (chatmenu.flipChat and 65 or 30)
-	local right = ang:Right()
-	offset = offset + ang:Forward() * 0
+	local offset
+	if chatmenu.flipChat then
+		offset = (chatmenu.verticalOffset + ((dist-50) / 6 )) * 2.3
+	else
+		offset = chatmenu.verticalOffset - ((dist-50) / 2 )
+	end
+	offset = ang:Up() * offset
 	if not chatmenu.flipChat then
-		local fwdAng = (self:GetPos() - ply:EyePos()):Angle()
+		local fwdAng = (pos - playpos):Angle()
 		fwdAng.p = 0
 		fwdAng.r = 0
 		offset = offset + fwdAng:Forward() * -10
 	end
+	pos = pos + offset
 
-	local pos = self:GetPos() + offset
-	ang = (pos - ply:EyePos()):Angle()
+	ang = (pos - playpos):Angle()
 	ang:RotateAroundAxis(ang:Forward(), 90)
 	ang:RotateAroundAxis(ang:Right(), 90)
 
-	return pos, ang
+	return pos, ang, dist
 end
 
 function ENT:IsWithinScreen(x, y)
@@ -58,17 +70,17 @@ function ENT:IsWithinScreen(x, y)
 end
 
 function ENT:GetSelectedOption(ply, choices)
-	local pos, ang = self:GetMenuPosAng(ply)
+	local pos, ang, dist = self:GetMenuPosAng(ply)
+
+	-- If physically too far away before offset, nothing is selected
+	if dist > self.ChatFadeDistance then
+		return nil, nil
+	end
 
 	-- Calculate the world position of the center of the dialog
 	local dialogCenter = pos +
 		self:GetAngles():Up() * self.ScreenScale * -self.RadialOffset
 	local eye = ply:GetEyeTrace()
-
-	-- If physically too far away, nothing is selected
-	if dialogCenter:Distance(ply:EyePos()) > self.ChatFadeDistance then
-		return nil, nil
-	end
 
 	-- Intersect with dialog plane so we can see which option they're looking at
 	local hitpos = util.IntersectRayWithPlane(eye.StartPos, eye.Normal, dialogCenter, ang:Up())

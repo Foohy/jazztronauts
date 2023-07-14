@@ -52,7 +52,7 @@ end
 
 function ENT:ShouldDrawChat()
 	local _,_,dist = self:GetMenuPosAng(LocalPlayer())
-	return dist < self.ChatFadeDistance
+	return (dist < self.ChatFadeDistance) and !dialog.IsInDialog()
 end
 
 function ENT:UpdateChatFade()

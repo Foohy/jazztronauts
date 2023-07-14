@@ -1,6 +1,6 @@
 name: Bug report
 description: Report an problem with Jazztronauts
-labels: ["type: bug"]
+labels: ["bug"]
 
 body:
   - type: markdown

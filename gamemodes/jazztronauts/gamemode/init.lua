@@ -461,9 +461,13 @@ function GM:IsSpawnpointSuitable(ply, spawnent, makesuitable)
 	return true
 end
 
--- Don't allow pvp damage
+-- Don't allow pvp by default, except self-damage cause rocketjumping fun
 function GM:PlayerShouldTakeDamage(ply, attacker)
-	return not (attacker:IsValid() and attacker:IsPlayer())
+	if attacker:IsValid() and attacker:IsPlayer() and ply != attacker then
+		return cvars.Bool("jazz_player_pvp")
+	end
+
+	return true
 end
 
 -- no fall damange with Run

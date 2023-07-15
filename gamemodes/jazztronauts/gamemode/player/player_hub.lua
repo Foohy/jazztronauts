@@ -68,13 +68,82 @@ if CLIENT then
 end
 
 
+local convarCollide = CreateConVar("jazz_player_collide", "0", { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_NOTIFY },
+	"Toggles players colliding with each other. Default is 0. Should be enabled when jazz_player_pvp enabled, or hitscan weapons won't function.")
+cvars.AddChangeCallback("jazz_player_collide", function(_, old, new)
+	if tobool(new) == false and cvars.Bool("jazz_player_pvp") then
+		print("WARNING: Disabling jazz_player_collide will break jazz_player_pvp, as hitscan weapons won't function!")
+	end
+end )
+
 -- Turns out TeammateNoCollide is really funky. Zombies can't attack you (among other oddities)
 -- So just manually check collision here for players
-hook.Add("ShouldCollide", "PlayerNoCollide", function(ent1, ent2)
-	if not ent1:IsPlayer() or not ent2:IsPlayer() then return end
-
-	-- TODO: This might actually be useful to turn on. In-game tool?
+hook.Add("ShouldCollide", "JazzPlayerCollide", function(ent1, ent2)
+	if not (ent1:IsPlayer() and ent2:IsPlayer()) then return end
+	if convarCollide:GetBool() then return end
 	return false
 end )
+
+-- Called from JazzPlayerSpawnLogic
+-- By now we're certain ply1 is really a player, and player_collide is on
+hook.Add("JazzPlayerOnPlayer", "JazzPlayerCollideUnstuck", function(ply1, spawn)
+	local function checkPlayer()
+		local pos = ply1:GetPos()
+		local min,max = ply1:GetCollisionBounds()
+		return util.TraceHull({
+			start = pos,
+			endpos = pos,
+			mins = min,
+			maxs = max,
+			filter = ply1,
+			ignoreworld = true,
+			mask = MASK_PLAYERSOLID
+		})
+	end
+
+	-- determine who we could be stuck on
+	local ply2 = false
+	if spawn:IsPlayer() then ply2 = spawn end
+	-- it's possible they didn't spawn *on* a player, but one happened to be standing there
+	if !ply2 then
+		local initTrace = checkPlayer()
+		if initTrace.Hit then ply2 = initTrace.Entity end
+	end
+	-- if we've got nothing, probably safe to check out
+	if !ply2 then return end
+
+	-- stops everything and lets them collide again
+	local function WrapItUp()
+		hook.Remove("ShouldCollide", "JazzUnstuckCollision")
+		hook.Remove("Think", "JazzUnstuckLoop")
+	end
+
+	-- make sure everyone's still here, stop if not
+	local function StillValid()
+		if ply1:IsValid() and ply2:IsValid() then
+			return true
+		end
+
+		WrapItUp()
+		return false
+	end
+
+	-- constantly checks if they're still in each other, stop once they aren't
+	hook.Add("Think", "JazzUnstuckLoop", function()
+		if not StillValid() then return end
+		if not checkPlayer().Hit then WrapItUp() end
+	end)
+
+	-- stop them from colliding
+	hook.Add("ShouldCollide", "JazzUnstuckCollision", function(ent1, ent2)
+		if not StillValid() then return end
+
+		-- both ents should equal one of the players
+		if not (ent1 == ply1 or ent2 == ply1) then return end
+		if not (ent1 == ply2 or ent2 == ply2) then return end
+
+		return false
+	end)
+end)
 
 player_manager.RegisterClass( "player_hub", PLAYER, "player_default" )

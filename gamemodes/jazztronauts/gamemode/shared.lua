@@ -9,6 +9,14 @@ GM.Website = "https://steamcommunity.com/sharedfiles/filedetails/?id=1452613192"
 
 team.SetUp( 1, "Jazztronauts", Color( 255, 128, 0, 255 ) )
 
+-- Defined here for users to see, functionality is in init.lua
+CreateConVar("jazz_player_pvp", "0", { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_NOTIFY },
+	"Allow players to damage each other. Default is 0. When enabled, also enables jazz_player_collide, as hitscan weapons won't function otherwise.")
+cvars.AddChangeCallback("jazz_player_pvp", function(_, old, new)
+	if tobool(new) == true then
+		GetConVar("jazz_player_collide"):SetBool(true)
+	end
+end )
 
 CreateConVar("jazz_override_noclip", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY }, "Allow jazztronauts to override when players can noclip. If 0, it is determined by sandbox + whatever other mods you've got.")
 
@@ -146,26 +154,26 @@ else
 
 		if dmg == DMG_FALL then
 
-			ev:Title(jazzloc.Localize("jazz.death.fall","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.fall","%name"),
 				{ name = name }
 			)
 
 		elseif attacker == ply then
 
-			ev:Title(jazzloc.Localize("jazz.death.self","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.self","%name"),
 				{ name = name }
 			)
 
 		elseif IsValid(attacker) then
 
-			ev:Title(jazzloc.Localize("jazz.death.killer","%name","%killer"), 
+			ev:Title(jazzloc.Localize("jazz.death.killer","%name","%killer"),
 				{ name = name, killer = attacker:GetClass() },
 				{ killer = "red_name" }
 			)
 
 		else
 
-			ev:Title(jazzloc.Localize("jazz.death.generic","%name"), 
+			ev:Title(jazzloc.Localize("jazz.death.generic","%name"),
 				{ name = name }
 			)
 

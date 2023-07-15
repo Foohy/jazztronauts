@@ -45,6 +45,13 @@ if SERVER then
 		-- Sit em' down
 		if IsValid(bus) then
 			bus:SitPlayer(ply)
+			return
+		end
+
+		-- Activate anti-stuck code when players are allowed to collide
+		-- Prob doesn't need to be a hook, but makes sense keeping it with the other collision stuff
+		if cvars.Bool("jazz_player_collide") then
+			hook.Run("JazzPlayerOnPlayer", ply, ent)
 		end
 	end )
 

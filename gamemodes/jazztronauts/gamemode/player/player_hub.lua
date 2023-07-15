@@ -67,25 +67,16 @@ if CLIENT then
 	end )
 end
 
-
-local convarCollide = CreateConVar("jazz_player_collide", "0", { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_NOTIFY },
-	"Toggles players colliding with each other. Default is 0. Should be enabled when jazz_player_pvp enabled, or hitscan weapons won't function.")
-cvars.AddChangeCallback("jazz_player_collide", function(_, old, new)
-	if tobool(new) == false and cvars.Bool("jazz_player_pvp") then
-		print("WARNING: Disabling jazz_player_collide will break jazz_player_pvp, as hitscan weapons won't function!")
-	end
-end )
-
 -- Turns out TeammateNoCollide is really funky. Zombies can't attack you (among other oddities)
 -- So just manually check collision here for players
 hook.Add("ShouldCollide", "JazzPlayerCollide", function(ent1, ent2)
 	if not (ent1:IsPlayer() and ent2:IsPlayer()) then return end
-	if convarCollide:GetBool() then return end
+	if cvars.Bool("jazz_player_pvp") then return end
 	return false
 end )
 
--- Called from JazzPlayerSpawnLogic
--- By now we're certain ply1 is really a player, and player_collide is on
+-- Called from JazzPlayerSpawnLogic and player_pvp callback
+-- By now we're certain ply1 is really a player, and player collision is on
 hook.Add("JazzPlayerOnPlayer", "JazzPlayerCollideUnstuck", function(ply1, spawn)
 	local function checkPlayer()
 		local pos = ply1:GetPos()
@@ -103,7 +94,7 @@ hook.Add("JazzPlayerOnPlayer", "JazzPlayerCollideUnstuck", function(ply1, spawn)
 
 	-- determine who we could be stuck on
 	local ply2 = false
-	if spawn:IsPlayer() then ply2 = spawn end
+	if IsValid(spawn) and spawn:IsPlayer() then ply2 = spawn end
 	-- it's possible they didn't spawn *on* a player, but one happened to be standing there
 	if !ply2 then
 		local initTrace = checkPlayer()

@@ -11,10 +11,13 @@ team.SetUp( 1, "Jazztronauts", Color( 255, 128, 0, 255 ) )
 
 -- Defined here for users to see, functionality is in init.lua
 CreateConVar("jazz_player_pvp", "0", { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_NOTIFY },
-	"Allow players to damage each other. Default is 0. When enabled, also enables jazz_player_collide, as hitscan weapons won't function otherwise.")
+	"Allow players to damage each other. Default is 0. When enabled, players will collide, as hitscan weapons won't function otherwise.")
+
 cvars.AddChangeCallback("jazz_player_pvp", function(_, old, new)
 	if tobool(new) == true then
-		GetConVar("jazz_player_collide"):SetBool(true)
+		for i, ply in ipairs( player.GetAll() ) do
+			hook.Run("JazzPlayerOnPlayer", ply)
+		end
 	end
 end )
 

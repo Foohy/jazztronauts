@@ -20,7 +20,9 @@ function ENT:Initialize()
 	self:DrawShadow( false )
 
 	if CLIENT then
-		//self:SetRenderBoundsWS( Vector(0,0,0), Vector(self.ScreenWidth, self.ScreenWidth, self.ScreenHeight))
+		-- Reduces sudden popout when looking away, but still happens at some angles even if this is set to max coords (32768^3)
+		self:SetRenderBounds( Vector(0,0,0), Vector(self.ScreenWidth, self.ScreenWidth, self.ScreenHeight))
+
 		self:RebuildPanel()
 		self.LastLeaderboardID = self:GetLeaderboardID()
 
@@ -68,6 +70,7 @@ surface.CreateFont( "JazzLeaderboardTitleFont", {
 function ENT:AddPlayerPanel(id, name, count)
 	local panel = vgui.Create("DPanel")
 	panel:SetPaintBackground(false)
+	panel:DockMargin(0, 5, 0, 5)
 
 	local avatar = vgui.Create("AvatarImage", panel)
 	avatar:SetSize(128, 128)
@@ -77,7 +80,7 @@ function ENT:AddPlayerPanel(id, name, count)
 	local nameLabel = vgui.Create("DLabel", panel)
 	nameLabel:SetText(name)
 	nameLabel:SetFont("JazzLeaderboardEntryFont")
-	nameLabel:DockMargin(10, 0, 0, 0)
+	nameLabel:DockMargin(25, 0, 25, 0)
 	nameLabel:Dock(FILL)
 
 	local countLabel = vgui.Create("DLabel", panel)

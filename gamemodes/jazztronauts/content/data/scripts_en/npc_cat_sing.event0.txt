@@ -3,17 +3,14 @@ begin:
 ###### SCENE SETUP
 	*hide*
 	*txout*
-	*setfov 70*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
+	spawnnarrator()
+	spawnsinger()
 	*bgmplay sound/jazztronauts/music/events/loveaffair.mp3 .8 2.0*
-	*setcam setpos 3538.873779 7408.384277 97.349792;setang 2.355879 148.264664 0.000000*
+	*setcam setpos 3538.873779 7408.384277 97.349792;setang 2.355879 148.264664 0.000000 fov70*
 	*spawn metro_idiot models/combine_soldier.mdl*
 	*setposang metro_idiot setpos 4370.006836 6327.892578 0;setang 0 -91.389297 0.000000*
 	*setanim metro_idiot Walk_all*
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos 2793.226563 7960.495117 0;setang -90 225 0.000000*
-	*setnpcid cat_singer npc_cat_sing*
 	*setposang player setpos 2911.817383 7921.412109 0;setang 2 166.505203 0.000000*
 	*txin*
 	*show*
@@ -61,15 +58,15 @@ b5:
 	ex*SINGER_NEUTRAL*plain anything\:%%%*setanim cat_singer gesture_exchange 1.3 idle*
 	“This is where I archive a copy of everything you steal for us!!!”
 	player:
-	&r1a1:
-		*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
-		Sorry,% I hate learning.%%% I have somewhere else to be. (Exit)
-	&r2a1:
-		*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
-		I'm guessing you named it.
-	&r3a1:
-		*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
-		%.%.%.%%%Why?
+		&r1a1:
+			*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
+			Sorry,% I hate learning.%%% I have somewhere else to be. (Exit)
+		&r2a1:
+			*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
+			I'm guessing you named it.
+		&r3a1:
+			*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
+			%.%.%.%%%Why?
 		
 ###### BRANCH 1 EARLY Exit
 r1a1:
@@ -115,12 +112,12 @@ r2a4:
 	> They then tell you that “snitches get stitches” so it appears that 
 	they were entirely serious.
 	player:
-	&r1a1:
-		*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
-		Sorry,% I hate learning.%% I have somewhere else to be. (Exit)
-	&r3a1:
-		*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
-		%.%.%.%%%Why?
+		&r1a1:
+			*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
+			Sorry,% I hate learning.%% I have somewhere else to be. (Exit)
+		&r3a1:
+			*setcam setpos 2810.013184 7934.865723 59.572662;setang -4.090199 -19.630844 0.000000*
+			%.%.%.%%%Why?
 	
 	
 r3a1:
@@ -157,25 +154,22 @@ m1:
 ###### CAMERA SHOULD IMPLY A FIRST PERSON PERSPECTIVE FOR NEXT BIT
 	
 m2:
-	*setcam setpos 4177.395996 6357.103027 64.031250;setang 16.806452 -90.218063 0.000000*
+	*setcam setpos 4177.395996 6357.103027 64.031250;setang 16.806452 -90.218063 0.000000 fov90*
 	*setspeaker cat_singer*
-	> They tell you to look at the things behind the glass.%%%%*tweencam 1 setpos 4177.395996 6357.103027 64.031250;setang 0.035854 -44.271908 0.000000*%%%
+	> They tell you to look at the things behind the glass.%%%%*tweencam 1.5 setpos 4177.395996 6357.103027 64.031250;setang 0.035854 -24.271908 0.000000*%%%%%%*setfov 80*
 	> Closer.%%%%
 	*setfov 70*
 	> Closer.
 	&m3
 	
 m3:
-	*setfov 50* 
-	*emitsound physics/glass/glass_sheet_impact_hard3.wav .75* %%% 
-	*setfov 60* %%%%
-	> Not that close.
+	*setfov 50**emitsound physics/glass/glass_sheet_impact_hard3.wav .75**shake .25*%%%*setfov 60* %%%%> Not that close.
 	&m4
 	
 ###### Back to third person perspective here.
 	
 m4:
-	*setcam setpos 3965.816895 6339.972168 64.046211;setang -0.363447 7.983169 0.000000*
+	*setcam setpos 3965.816895 6339.972168 64.046211;setang -0.363447 7.983169 0.000000 fov70*
 	*setanim cat_singer gesture_laugh 1 idle*
 	> The Singer beams at you.*SINGER_HAPPY* “Aren't they amazing???” 
 	they ask via tablet,%% as you watch one of the NPCs fall 

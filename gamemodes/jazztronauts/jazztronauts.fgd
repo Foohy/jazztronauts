@@ -44,11 +44,13 @@
 	input Skin(integer) : "Changes the model skin to the specified number."
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop("models/props_c17/gravestone_coffinpiece001a.mdl") = jazz_door_eclipse : "False door that acts as a waypoint for eclipse cat encounters" []
+@PointClass base(Targetname, Angles) studioprop("models/props_c17/gravestone_coffinpiece001a.mdl") = jazz_door_eclipse : "False door that acts as a waypoint for eclipse cat encounters" []
 
 
-@PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter : "Prop Poop Chute"
+@PointClass base(Targetname) origin(marker) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter : "Prop Poop Chute"
 [
+	marker(vector) : "Marker" : : "Where the marker for this vomiter should be (typically above its activator)"
+
 	output OnVomitEnd(void) : "Fires when props are finished vomiting"
 	output OnVomitStart(void) : "Fires when there has been a successful pull of the lever. "
 	output OnVomitStartEmpty(void) : "Fires when there has been a successful pull of the lever, but the player had no props."
@@ -58,8 +60,10 @@
 	input SetConstipateOdds(integer) : "1 out of n chance to constipate (0 always constipate)"
 ]
 
-@PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter_dummy : "Prop Poop Chute - Ending 1"
+@PointClass base(Targetname) origin(marker) iconsprite("editor/env_shooter.vmt") = jazz_hub_propvomiter_dummy : "Prop Poop Chute - Ending 1"
 [
+	marker(vector) : "Marker" : : "Where the marker for this vomiter should be (typically above its activator)"
+
 	output OnVomitEnd(void) : "Fires when props are finished vomiting"
 	output OnVomitStart(void) : "Fires when there has been a successful pull of the lever. "
 	output OnVomitStartEmpty(void) : "Fires when there has been a successful pull of the lever, but the player had no props."
@@ -69,7 +73,7 @@
 ]
 
 
-@PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazzbigtv.mdl") = jazz_hub_browser : "Jazz Addon Browser"
+@PointClass base(Targetname, Angles) studioprop("models/sunabouzu/jazzbigtv.mdl") = jazz_hub_browser : "Jazz Addon Browser"
 [
 	output OnMapRolled(void) : "Fires when a map has been successfully rolled"
 	output OnAddonSelected(void) : "Fires when an addon has been selected and we should switch modes"
@@ -88,17 +92,26 @@
 	input HistoryDown(void)			: "Shift items in history down one slot"
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazzportal.mdl") = jazz_hub_selector : "Jazz Map Selector"
+@PointClass base(Targetname, Angles) studioprop("models/sunabouzu/jazzportal.mdl") = jazz_hub_selector : "Jazz Map Selector"
 [
+	facing(choices) : "Facing Axis" : 2 : "Should we rotate to face the player?" = 
+	[
+		0 : "No rotation"
+		1 : "Rotate Pitch"
+		2 : "Rotate Yaw"
+		3 : "Rotate Roll"
+	]
 	output OnMapSelected(void) : "Fires when a map has been selected and is starting the download process."
 	output OnMapDownloaded(integer) : "Fires when a map has finished downloading and is ready to be analyzed. 1 means successful, 0 means failure."
 	output OnMapAnalyzed(void) : "Fires when a map has finished being analyzed and facts have been extracted."
+	output OnMapDeselected(void) : "Fires when a map has been deselected."
+	output OnMapFailure(void) : "Fires when a map has failed to load."
 
 	input SelectAddon(void)  : "Select the currently-browsed addon. Begins downloading and mounting the map"
 	input CancelAddon(void)  : "Turn off the selector, switching off all the fact screens."
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop("models/editor/cat_start.mdl") = jazz_cat : "Jazz Cat"
+@PointClass base(Targetname, Angles) studioprop("models/editor/cat_start.mdl") = jazz_cat : "Jazz Cat"
 [
     npcid(choices) : "Cat Character" : "1" =
     [
@@ -117,9 +130,9 @@
 	DefaultAnim(string) : "Idle Animation" : : "Overrides the default idle animation"
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop("models/props_combine/combine_interface001.mdl") = jazz_bus_selector : "Custom Workshop ID Loader" []
+@PointClass base(Targetname, Angles) studioprop("models/props_combine/combine_interface001.mdl") = jazz_bus_selector : "Custom Workshop ID Loader" []
 
-@PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_hub_propleaderboard : "Prop Leaderboard"
+@PointClass base(Targetname, Angles) iconsprite("editor/env_shooter.vmt") = jazz_hub_propleaderboard : "Prop Leaderboard"
 [
 	leaderboardid(choices) : "Leaderboard Type" : "1" =
     [
@@ -129,10 +142,12 @@
     ]
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/shard_tank.mdl") = jazz_shardtank : "Jazz Shard Tank"
+@PointClass base(Targetname, Angles) studioprop("models/sunabouzu/shard_tank.mdl") = jazz_shardtank : "Jazz Shard Tank"
 [
 
 ]
+
+@PointClass base(Targetname, Angles) studioprop("models/sunabouzu/jazzblackshard.mdl") = jazz_shard_black : "Black Shard" []
 
 @PointClass base(Targetname) iconsprite("editor/jazz_checkpoint.vmt") = jazz_checkpoint : "Jazz Player Checkpoint"
 [
@@ -141,7 +156,7 @@
 	input MovePlayers(void)  : "Moves players to this entity's origin"
 ]
 
-@SolidClass base(Targetname, Origin, Angles) = jazz_trigger_group : "Jazz Group Trigger"
+@SolidClass base(Targetname, Angles) = jazz_trigger_group : "Jazz Group Trigger"
 [
 	output OnEveryoneInside(void) : "Fires when everybody is within the trigger."
 	output OnEveryoneNotInside(void) : "Fires when no longer everybody is in the trigger"
@@ -153,7 +168,7 @@
 	output OnPlayerLeave(void) : "Fires when a single player has left the trigger"
 ]
 
-@SolidClass base(Targetname, Origin, Angles) = jazz_trigger_theft : "Jazz Brush Theft Trigger"
+@SolidClass base(Targetname, Angles) = jazz_trigger_theft : "Jazz Brush Theft Trigger"
 [
 	output OnInitialBrushStolen(void) : "Fires the first brush within this trigger has been stolen."
 	output OnBrushStolen(void) : "Fires every single time a brush has been stolen."
@@ -163,24 +178,44 @@
 ]
 
 
-@PointClass base(Targetname, Origin, Angles) iconsprite("editor/env_shooter.vmt") = jazz_concommand : "Jazz Console Command Executer"
+@PointClass base(Targetname, Angles) iconsprite("editor/env_shooter.vmt") = jazz_concommand : "Jazz Console Command Executer"
 [
 	Concommand(string)	: "Console Command" : "" : "Command to run on the server."
 	
 	input RunCommand(void)  : "Executes the console command on the server."
 ]
 
-@PointClass base(Targetname, Origin, Angles) iconsprite("editor/env_shooter.vmt") = jazz_changelevel : "Jazz Level Changer"
+@PointClass base(Targetname, Angles) iconsprite("editor/env_shooter.vmt") = jazz_changelevel : "Jazz Level Changer"
 [
 	level(string)	: "Level Name" : "" : "Which level to change to"
 	
 	input ChangeLevel(void)  : "Changes the current level"
 ]
 
-@PointClass base(Targetname, Origin, Angles) studioprop() = jazz_factscreen : "Jazz Random Fact Screen"
+@PointClass base(Targetname, Angles) studioprop() = jazz_factscreen : "Jazz Random Fact Screen"
 [
 	model(studio) : "World Model" : "models/sunabouzu/jazz_tv01.mdl"
-	factname(string) : "Fact Name" : : "Override what fact this will display. Optional"
+	factname(choices) : "Fact Name" : "" : "What fact this screen will display." = 
+	[
+		"" : "Random"
+		"ws_owner" : "Workshop Owner"
+		"ws_views" : "Views on Workshop"
+		"ws_filesize" : "File Size"
+		"ws_favorites" : "Current Favorites"
+		"ws_subscriptions" : "Current Subscriptions"
+		"ws_upload_date" : "Workshop Upload Date"
+		"ws_update_date" : "Date of Last Update"
+		"ws_screenshots" : "Screenshots"
+		"ws_tags" : "Workshop Tags"
+		"comment" : "Random Comment"
+		"map_size" : "Map Dimensions"
+		"skybox" : "Skybox Name"
+		"map_comment" : "Map Metadata Comment"
+		"brush_count" : "World Brush Count"
+		"static_props" : "prop_static Count"
+		"entity_count" : "Entity Count"
+		"map_name" : "Map Name"
+	]
 ]
 
 @PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_vote_podiums : "Jazz Vote Podium Circle"
@@ -237,5 +272,12 @@
 	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 ]
 
-@PointClass base(Targetname, Angles) iconsprite("editor/busstop.vmt") = info_busstop : "Marker for summoned trolley to travel to" []
+@PointClass base(Targetname, Angles) studioprop("models/matt/jazz_trolley.mdl") = info_busstop : "Marker for summoned trolley to travel to"
+[
+	traveltime(float) : "Exit Time" : "2.5" : "How long the trolley takes to travel to the end of its path."
+	leadup(integer) : "Entrance Distance" : 2000 : "How far the trolley travels after spawning to reach its idle position. Can be negative to go backwards!"
+	traveldist(integer) : "Exit Distance" : 4500 : "How far the trolley travels when exiting the hub. Can be negative to go backwards!"
+]
+
+
 @PointClass base(Weapon) studioprop("models/weapons/w_stunbaton.mdl") = weapon_propsnatcher : "Prop Snatcher" []

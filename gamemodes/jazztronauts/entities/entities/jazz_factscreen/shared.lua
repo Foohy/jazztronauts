@@ -22,7 +22,7 @@ if SERVER then
 		self:SetSelector(ents.FindByClass("jazz_hub_selector")[1])
 
 		local id = math.random(1, 1000)
-		if self.FactName then
+		if self.FactName and self.FactName ~= "" then
 			id = factgen.GetFactIDByName(self.FactName, true)
 		else
 			id = self:EntIndex()

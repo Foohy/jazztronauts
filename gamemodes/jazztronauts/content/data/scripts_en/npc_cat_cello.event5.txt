@@ -3,27 +3,15 @@
 begin:
 	# Scene setup
 	*txout*
-	*setfov 70*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
+	spawngang()
 	*setposang cat_bar setpos -2889.937988 2926.586670 0;setang -90 180 0.000000*
-	*setnpcid cat_bar npc_cat_bar*
-	*setcam setpos -2595.013428 2744.007568 85.509125;setang 6.983787 148.065491 0.000000*
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setcam setpos -2595.013428 2744.007568 85.509125;setang 6.983787 148.065491 0.000000 fov70*
 	*setposang cat_piano setpos -2927.378174 2883.511963 0;setang -90 300 0.000000*
-	*setnpcid cat_piano npc_cat_piano*
+	*setposang cat_singer setpos -2856.525635 2876.622559 0;setang -90 51 0.000000*
 	*setposang player setpos -2726.948975 2782.044189 0;setang 3.300901 140.335999 0.000000*
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos 3586.341309 522.965698 0;setang -90 270 0.000000*
 	*setanim cat_cello pose_sit01*
 	*CELLO_EMPTY*
-	*setnpcid cat_cello npc_cat_cello*
-
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
-	*setposang cat_singer setpos -2856.525635 2876.622559 0;setang -90 51 0.000000*
-	*setnpcid cat_singer npc_cat_sing*
-
 	*txin*
 	
 ###### START
@@ -108,13 +96,13 @@ b9:
 	provided below to skip it and read a summary instead,% if you
 	would prefer to avoid playing through it.
 	player:
-	&m1:
-		Point me where I need to go.
-	&r1a1:
-		I'll go make sure he's alright. (Read Summary)
-	&r2a1:
-		I need some time before that kind of talk. 
-		I'll be back when I'm ready. (exit)
+		&m1:
+			Point me where I need to go.
+		&r1a1:
+			I'll go make sure he's alright. (Read Summary)
+		&r2a1:
+			I need some time before that kind of talk. 
+			I'll be back when I'm ready. (exit)
 
 
 ###### OPTIONAL SUMMARY. Y'know the one we have in case someone who has these same issues plays our game.
@@ -244,16 +232,16 @@ m9:
 	I'm sorry,% *player*.%%%%
 	I'm just so tired% of being so tired.
 	player:
-	&concern:
-		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
-		Look,% if you need space right now,%% I'll give it to you,%%%% but I'm
-		concerned about you.
-	&others:
-		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000*
-		The others are all worried sick about you.
-	&yoga:
-		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000*
-		I know everybody suggests it,%%% but have you tried-
+		&concern:
+			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			Look,% if you need space right now,%% I'll give it to you,%%%% but I'm
+			concerned about you.
+		&others:
+			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000*
+			The others are all worried sick about you.
+		&yoga:
+			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000*
+			I know everybody suggests it,%%% but have you tried-
 
 ###### RESPONSE 1		
 concern:
@@ -415,20 +403,20 @@ n13:
 	*CELLO_EMPTY*
 	that's all I can hope for anymore.
 	player:
-	&n14:
-		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
-		Are you trying to convince me of that,% or yourself?
+		&n14:
+			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			Are you trying to convince me of that,% or yourself?
 		
 n14:
 	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
 	*setspeaker cat_cello*
 	%.%.%.%
 	player:
-	&n15:
-		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
-		I don't pretend to know what you're going through, 
-		but I can tell you you're wrong about your friends. 
-		They see you hurting, and want to help.
+		&n15:
+			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			I don't pretend to know what you're going through, 
+			but I can tell you you're wrong about your friends. 
+			They see you hurting, and want to help.
 		
 n15:
 	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
@@ -440,21 +428,21 @@ n15:
 	None of them do.%%%%% I care about them too much 
 	to see them go through that.
 	player:
-	&n16:
-		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
-		So you think that hurting them on purpose makes up for hurting 
-		them on accident?
+		&n16:
+			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			So you think that hurting them on purpose makes up for hurting 
+			them on accident?
 	
 n16:
 	*setcam setpos 3264.319092 433.748749 34.417999;setang 2.165646 34.744156 0.000000* ###### PLAYER AND CELLO CELLO DOMINANT
 	*setspeaker cat_cello*
 	%.%.%.%.%.%.%
 	player:
-	&n16b:
-		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
-		Shutting them out only hurts them more, not less. 
-		They keep holding their hands out for you even when 
-		they get burned sometimes. 
+		&n16b:
+			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			Shutting them out only hurts them more, not less. 
+			They keep holding their hands out for you even when 
+			they get burned sometimes. 
 
 n16b:
 		*setspeaker player*
@@ -468,9 +456,9 @@ n17:
 	*setspeaker cat_cello*
 	%.%.%.%.%.%.%.%.%.%
 	player:
-	&n18:
-		*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
-		It's not too late to take their hands.
+		&n18:
+			*setcam setpos 3574.678711 368.897400 48.877308;setang 3.336928 125.092468 0.000000* ###### PLAYER AND CELLO PLAYER DOMINANT
+			It's not too late to take their hands.
 		
 n18:
 	*setcam setpos 3204.602783 514.840210 76.961311;setang 5.706127 -0.074771 0.000000*

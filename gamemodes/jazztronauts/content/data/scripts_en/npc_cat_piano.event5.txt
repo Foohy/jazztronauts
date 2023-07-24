@@ -2,10 +2,8 @@ SKIP_OPEN = true
 
 
 begin:
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*	
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
-	*setnpcid cat_piano npc_cat_piano*
+	spawnnarrator()	
+	spawnpianist()
 	*setposang cat_piano setpos -4009.657715 4751.496094 34.134026;setang -90 30 0.000000*
 	*setspeaker cat_piano*
 	*setanim cat_piano idle*
@@ -15,21 +13,21 @@ begin:
 	I really.%%%% Want to talk.%
 	I need a personal favour.
 	&b1
-	
+
 b1:
 	*setspeaker narrator*
 	> This is the last Event in the Pianist's quest line.%%%
 	It may take a while to watch,% you can come back to it
 	without penalty if you are in a hurry.
 	player:
-	&r1a1:
-		Hey,% sorry this is a bad time.%% I'll be back later. (Exit)
-	&r2a1:
-		Maaaybe. If I'm not getting paid in hard cash though I'm gonna
-		need to be paid in kind and that means you need to steal me like
-		five trays of snickerdoodles.
-	&r3a1:
-		Sure.
+		&r1a1:
+			Hey,% sorry this is a bad time.%% I'll be back later. (Exit)
+		&r2a1:
+			Maaaybe. If I'm not getting paid in hard cash though I'm gonna
+			need to be paid in kind and that means you need to steal me like
+			five trays of snickerdoodles.
+		&r3a1:
+			Sure.
 
 ###### Branch 1 EARLY EXIT		
 r1a1:
@@ -63,10 +61,10 @@ r2a3:
 	I'll throw in the drink of your choice instead.%*setanim cat_piano gesture_confused 1 idle*
 	So, are you in?
 	player:
-	&r1a1:
-		Actually, this is a bad time. I'll be back later. (Exit)
-	&r3a1:
-		Sure.
+		&r1a1:
+			Actually, this is a bad time. I'll be back later. (Exit)
+		&r3a1:
+			Sure.
 	
 		
 ###### BRANCH 3		
@@ -81,10 +79,9 @@ r3a1:
 
 m1:		
 ###### SCENE SETUP
-    *txout*
+	*txout*
 	*hide*
-    *setfov 70*
-	*setcam setpos -3951.872314 4698.228516 116.168732;setang 8.676914 109.575012 0.000000*
+	*setcam setpos -3951.872314 4698.228516 116.168732;setang 8.676914 109.575012 0.000000 fov70*
 	*setposang player setpos -3863.479248 4857.957520 28;setang 0 134.195984 0.000000*
 	*txin*
 	*wait .15*
@@ -116,12 +113,12 @@ m3:
 	What do you think?%%%
 	I made this place myself.
 	player:
-	&r4a1:
-		That thing in the ground. Is that a jellyfish or Art?
-	&r5a1:
-		It's uh. It's. Uh. Yeah.
-	&r5a1:
-		I can tell.
+		&r4a1:
+			That thing in the ground. Is that a jellyfish or Art?
+		&r5a1:
+			It's uh. It's. Uh. Yeah.
+		&r5a1:
+			I can tell.
 	
 ###### BRANCH 4 
 r4a1:
@@ -138,7 +135,7 @@ r4a2:
 	*setanim cat_piano gesture_disagree 1 idle*
 	What?% No.%%% It's a piano.%%%%*setanim cat_piano gesture_foldarms 1 idle*
 	I mean,% it's fucking terrible,%% been meaning to steal a better one.*setanim cat_piano gesture_sweep 1 idle*%%%%
-	     ######make pianist gesture in a direction that has real piano. maybe camera hold on it.
+	######make pianist gesture in a direction that has real piano. maybe camera hold on it.
 	&r4a3
 	
 r4a3:
@@ -148,10 +145,10 @@ r4a3:
 	God.%%*PIANO_NEUTRAL* Fuck.%%%*setanim cat_piano gesture_confused 1 idle*
 	What do you think of the rest?
 	player:
-	&r5a1:
-		It's uh. It's. Uh. Yeah.
-	&r5a1:
-		I can definitely tell that you made all this.
+		&r5a1:
+			It's uh. It's. Uh. Yeah.
+		&r5a1:
+			I can definitely tell that you made all this.
 		
 ###### BRANCH 5
 r5a1:
@@ -160,7 +157,7 @@ r5a1:
 	*PIANO_FLUSTERED*
 	*setanim cat_piano gesture_sigh 1 idle*
 	> She crumples.%%%*PIANO_ANGRY* Anger, frustration, and despair*PIANO_SMIRK* flash over her face 
-        before*PIANO_FLUSTERED* s*setanim cat_piano gesture_facepalm 1 idle*he buries it in her paws.
+	before*PIANO_FLUSTERED* s*setanim cat_piano gesture_facepalm 1 idle*he buries it in her paws.
 	&r5a2
 	
 r5a2:
@@ -237,16 +234,16 @@ r5a10:
 	This is what*setanim cat_piano gesture_sweep 1 idle* happens when I don't plan shit.%%%%%%%*PIANO_FLUSTERED*
 	It's worthless.
 	player:
-	&n1:
-		*setcam setpos -4085.967773 5018.938477 101.646179;setang 18.004377 -56.135139 0.000000*
-		*setposang cat_piano setpos -4094.908691 5182.930176 78;setang -90 180 0.000000*
-		*setanim cat_piano pose_sit01*
-		I'm glad you showed it to me anyway.
-	&n1:
-		*setcam setpos -4085.967773 5018.938477 101.646179;setang 18.004377 -56.135139 0.000000*
-		*setposang cat_piano setpos -4094.908691 5182.930176 78;setang -90 180 0.000000*
-		*setanim cat_piano pose_sit01*
-		The important thing is that you haven't stopped trying.
+		&n1:
+			*setcam setpos -4085.967773 5018.938477 101.646179;setang 18.004377 -56.135139 0.000000*
+			*setposang cat_piano setpos -4094.908691 5182.930176 78;setang -90 180 0.000000*
+			*setanim cat_piano pose_sit01*
+			I'm glad you showed it to me anyway.
+		&n1:
+			*setcam setpos -4085.967773 5018.938477 101.646179;setang 18.004377 -56.135139 0.000000*
+			*setposang cat_piano setpos -4094.908691 5182.930176 78;setang -90 180 0.000000*
+			*setanim cat_piano pose_sit01*
+			The important thing is that you haven't stopped trying.
 		
 n1:
 	*setcam setpos -3963.776123 5319.008789 125.757370;setang 11.855209 -114.379578 0.000000*
@@ -309,9 +306,9 @@ n7:
 	*player*%.%.%.%.%%%
 	T*setanim cat_piano gesture_confused 1 idle*h*PIANO_BLINK*ank you for being my friend.*PIANO_RELIEF*
 	player:
-	&pianistconclude:
-		*setcam setpos -3991.188721 5261.389648 139.028748;setang 14.171123 -103.678741 0.000000*
-		Thanks for being mine.
+		&pianistconclude:
+			*setcam setpos -3991.188721 5261.389648 139.028748;setang 14.171123 -103.678741 0.000000*
+			Thanks for being mine.
 		
 pianistconclude:
 	*setcam setpos -3659.845703 5146.500488 49.834221;setang -5.021893 -156.280075 0.000000*

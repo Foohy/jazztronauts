@@ -8,6 +8,7 @@ SWEP.Slot					= 2
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.run.desc"
 SWEP.WepSelectIcon			= Material( "entities/weapon_run.png" )
+SWEP.AutoSwitchFrom			= false
 
 SWEP.ViewModel				= "models/weapons/c_run.mdl"
 SWEP.WorldModel				= "models/weapons/w_run.mdl"

@@ -2,13 +2,10 @@ SKIP_OPEN = true
 
 begin:
 	*txout*
-	*setfov 70*
-
 	spawngang()
-
 	*setspeaker narrator*
 	*setposang cat_bar -2864.620361 3044.558594 32;setang -90 180 0*
-	*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000* ######## ESTABLISHING SHOT
+	*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000 fov70* ######## ESTABLISHING SHOT
 	*setanim cat_bar gesture_washing*
 	*setposang cat_cello setpos -2578.243896 2791.908447 0;setang -90 45 0.000000*
 	*setanim cat_cello idle*
@@ -36,8 +33,8 @@ a3:
 	> The Mewseum door is kicked open!%% Intruder alert!!%%%%*setcam setpos -2654.359619 2872.613281 45.377167;setang 4.667855 -47.210667 0.000000*
 	%.%.%.%Oh,% it's just the Cellist.
 	player:
-		 &a4: This ought to be good.
-		 &leave: ha ha nope i'm out (exit)
+		&a4: This ought to be good.
+		&leave: ha ha nope i'm out (exit)
 
 ###EARLY EXIT
 

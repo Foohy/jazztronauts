@@ -1,19 +1,15 @@
 SKIP_OPEN = true
 
 begin:
-    # Scene setup
-    *txout*
-    *setfov 70*
-		*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	# Scene setup
+	*txout*
+	spawnnarrator()
+	spawncellist()
+	spawnpianist()
 	*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 81 0.000000*
-	*setnpcid cat_cello npc_cat_cello*
-		*bgmplay sound/jazztronauts/music/events/allspice.mp3 1.0 2.0*
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*bgmplay sound/jazztronauts/music/events/allspice.mp3 1.0 2.0*
 	*setposang cat_piano setpos -1492.101563 2928.706543 0;setang -90 290 0.000000*
-	*setnpcid cat_piano npc_cat_piano*
-	*setcam setpos -1696.551025 3192.797119 110.058128;setang 12.839911 -41.301598 0.000000*
+	*setcam setpos -1696.551025 3192.797119 110.058128;setang 12.839911 -41.301598 0.000000 fov70*
 	*setposang player setpos -1572.479248 3135.348145 0;setang 0 -54.699417 0.000000*
 	*txin*
 	
@@ -56,15 +52,15 @@ b3:
 	*setspeaker narrator*
 	> The Pianist notices you gawking, and senses her chance to escape.
 	player:
-	&b4:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		Wait, wha-
-	&b4:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		No wait I was just passing by-
-	&b4:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		Don't you leave me alone with him you rat fu-
+		&b4:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			Wait, wha-
+		&b4:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			No wait I was just passing by-
+		&b4:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			Don't you leave me alone with him you rat fu-
 		
 b4:
 	*setspeaker cat_piano*
@@ -82,13 +78,13 @@ b5:
 	leaving you and Cellist.%%%*CELLO_GRIN* He watches her run off 
 	with a stoned,% smug smile before turning to look at you.
 	player:
-	&r1a1:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		Alright,% alright.%% What's on your mind this time?
-	&r2a1:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		Oh man uh, look at the time, I've got to, see a man, about a horse,
-		that I left in my oven, that I left on?? (Exit)
+		&r1a1:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			Alright,% alright.%% What's on your mind this time?
+		&r2a1:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			Oh man uh, look at the time, I've got to, see a man, about a horse,
+			that I left in my oven, that I left on?? (Exit)
 
 ###### BRANCH 2 EARLY EXIT		
 r2a1:
@@ -148,18 +144,18 @@ r1a4:
 	painted a picture of a critic burning in hell so 
 	sick it became a world-renowned tourist attraction
 	player:
-	&owntheplayer:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		I'm assuming you mean the Tomb of Pope Julius II.
-	&actualanswer:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		I'm assuming you mean the Sistine Chapel.
-	&owntheplayer:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		I'm assuming you mean the Cappella Paolina.
-	&fairenough:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		I have no earthly idea what you're talking about.
+		&owntheplayer:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			I'm assuming you mean the Tomb of Pope Julius II.
+		&actualanswer:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			I'm assuming you mean the Sistine Chapel.
+		&owntheplayer:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			I'm assuming you mean the Cappella Paolina.
+		&fairenough:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			I have no earthly idea what you're talking about.
 		
 ###### INCORRECT ANSWER GET DUNKED
 owntheplayer:
@@ -292,16 +288,16 @@ m8:
 	gave him donkey ears to show he was a dumb jackass,%%%*setanim cat_cello gesture_clap 1 idle* and 
 	graciously covered his nudity with a snake chewing on his dick
 	player:
-	&r3a1:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		That rules.
-	&r4a1:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		How did Michelangelo get away with that?
-	&r5a1:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		So why did nobody get mad at 
-		Adam being naked on the ceiling?
+		&r3a1:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			That rules.
+		&r4a1:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			How did Michelangelo get away with that?
+		&r5a1:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			So why did nobody get mad at 
+			Adam being naked on the ceiling?
 		
 ###### BRANCH 3: AGREED
 r3a1:
@@ -310,13 +306,13 @@ r3a1:
 	*setanim cat_cello gesture_agree 1 idle*
 	hell yeah it does.
 	player:
-	&r4a1:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		How did Michelangelo get away with that?
-	&r5a1:
-	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
-		So why did nobody get mad at 
-		Adam being naked on the ceiling?
+		&r4a1:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			How did Michelangelo get away with that?
+		&r5a1:
+			*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+			So why did nobody get mad at 
+			Adam being naked on the ceiling?
 
 ###### BRANCH 4: I JUST WANTED AN EXCUSE TO CALL HIM BIGGIE
 r4a1:

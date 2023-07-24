@@ -3,16 +3,12 @@ begin:
 ###### SCENE SETUP
 	*hide*
 	*txout*
-	*setfov 70*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
+	spawnnarrator()
+	spawnsinger()
 	*spawn hulacrate models/items/item_item_crate.mdl*
 	*setposang hulacrate setpos -2892.274414 2812.868652 16;setang 5.839129 -0.567616 0.000000*
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos -2609.358398 2753.060059 0;setang -90 75 0.000000*
-	*setnpcid cat_singer npc_cat_sing*
-	*setcam setpos -2754.079590 2807.214111 87.238869;setang 18.919519 171.730621 0.000000*
-	*spawn player_dummy playerboy*
+	*setcam setpos -2754.079590 2807.214111 87.238869;setang 18.919519 171.730621 0.000000 fov70*
 	*setposang player setpos -2926.215576 2855.541748 0;setang 0 -25.057766 0.000000*
 	*txin*
 	*show*
@@ -84,17 +80,17 @@ b6:
 	It may take a while to watch,% you can come back to it
 	without penalty if you are in a hurry.
 	player:
-	&r1a1:
-		*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
-		Hey, hey it'll be okay. I need to finish something, 
-		and then we'll get some supplies and fix 'em up. (exit)
-	&r2a1:
-		*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
-		Sure, it looks rough. 
-		But it's gonna make a bitching scar.
-	&r3a1:
-		*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
-		C'mon. It's okay, I'll help you fix it.
+		&r1a1:
+			*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
+			Hey, hey it'll be okay. I need to finish something, 
+			and then we'll get some supplies and fix 'er up. (exit)
+		&r2a1:
+			*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
+			Sure, it looks rough. 
+			But it's gonna make a bitching scar.
+		&r3a1:
+			*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
+			C'mon. It's okay, I'll help you fix it.
 		
 ###### BRANCH 1 EARLY EXIT
 r1a1:
@@ -132,13 +128,13 @@ r2a3:
 	> Their next message is even shorter as tears threaten again\:%%%
 	"dont know what 2 do"
 	player:
-	&r1a1:
-		*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
-		Hey, hey it'll be okay. I need to finish something, 
-		and then we'll get some supplies and fix 'em up. (exit)
-	&r3a1:
-		*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
-		C'mon. It's okay, I'll help you fix it.
+		&r1a1:
+			*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
+			Hey, hey it'll be okay. I need to finish something, 
+			and then we'll get some supplies and fix 'em up. (exit)
+		&r3a1:
+			*setcam setpos -2861.892090 2789.874023 77.781456;setang 13.186233 74.106201 0.000000*
+			C'mon. It's okay, I'll help you fix it.
 		
 ###### BRANCH 3
 r3a1:
@@ -320,10 +316,10 @@ m15:
 	> "And for listening and letting me be myself!%%%% 
 	Maybe I can start finding where I lost my words again now!!!!"
 	player:
-	&end:
-		*setcam setpos -2138.828613 512.549500 -58.184036;setang -13.859795 179.033356 0.000000*
-		I'll help you look. But it's okay if you don't. 
-		Those words look just fine.
+		&end:
+			*setcam setpos -2138.828613 512.549500 -58.184036;setang -13.859795 179.033356 0.000000*
+			I'll help you look. But it's okay if you don't. 
+			Those words look just fine.
 		
 end:
 	*setspeaker narrator*

@@ -1,29 +1,16 @@
 SKIP_OPEN = true
 
 begin:
-    # Scene setup
-    *txout*
-    *setfov 70*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*setcam setpos -1610.460571 2861.699707 133.112427;setang 20.506798 53.800053 0.000000* ###### ESTABLISH SHOT
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
-	*setposang cat_cello setpos -1534.931519 3016.726074 25;setang -90 315 0.000000*
-	*setnpcid cat_cello npc_cat_cello*
+	# Scene setup
+	*txout*
+	spawngang()
+	*setcam setpos -1610.460571 2861.699707 133.112427;setang 20.506798 53.800053 0.000000 fov70* ###### ESTABLISH SHOT
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1.0 2.0*
-	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
+	*setposang cat_cello setpos -1534.931519 3016.726074 25;setang -90 315 0.000000*
 	*setposang cat_bar setpos -1426.450195 3154.211670 0;setang -90 165 0.000000*
-	*setnpcid cat_bar npc_cat_bar*
 	*setposang player setpos -1491.653442 2987.384766 0;setang 0 86.527588 0.000000*
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
 	*setposang cat_piano setpos -1524.946167 3146.739746 0;setang -90 210 0.000000*
-	*setnpcid cat_piano npc_cat_piano*
-
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos -1390.301392 3026.863281 32;setang -90 45 0.000000*
-	*setnpcid cat_singer npc_cat_sing*
-	
-	*spawn player_dummy playerboy*
 	*txin*
 	
 	
@@ -49,17 +36,17 @@ b1:
 	So I set a place.
 	
 	player:
-	&r1a1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		Thanks, but I'll take mine to go. I've got stuff to do. (Exit)
-	&r2a1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		I don't actually know how old that stuff is, you know. 
-		I mean, I sniffed it, but.
-		Are you sure you want to eat that?
-	&r3a1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		I will literally never turn down free food.
+		&r1a1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			Thanks, but I'll take mine to go. I've got stuff to do. (Exit)
+		&r2a1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			I don't actually know how old that stuff is, you know. 
+			I mean, I sniffed it, but.
+			Are you sure you want to eat that?
+		&r3a1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			I will literally never turn down free food.
 		
 ###### Branch 1 Early Exit
 r1a1:
@@ -108,12 +95,12 @@ r2a2:
 	How else do you think we fuckin' eat?
 	
 	player:
-	&r1a1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		Thanks, but I'll take mine to go. I've got stuff to do. (Exit)
-	&r3a1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		I will literally never turn down free food.
+		&r1a1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			Thanks, but I'll take mine to go. I've got stuff to do. (Exit)
+		&r3a1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			I will literally never turn down free food.
 		
 ###### Branch 3
 r3a1:
@@ -265,15 +252,15 @@ r3a18:
 	across the room and storms out!
 	
 	player:
-	&m1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		That was awful.
-	&m1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		That was great.
-	&m1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		I really wish I'd taken my food to go.
+		&m1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			That was awful.
+		&m1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			That was great.
+		&m1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			I really wish I'd taken my food to go.
 		
 ###### MERGE
 m1:
@@ -305,7 +292,7 @@ m3:
 m4:
 	*setcam setpos -1450.820923 3049.278076 66.423630;setang 10.594172 112.317444 0.000000* ###### BAR AND PIANO
 	*setspeaker cat_bar*
-	*setskin 2*
+	*BAR_PISSED*
 	*setanim cat_bar gesture_anger 2.4 idle*
 	> The Bartender stands up.*BAR_NEUTRAL*
 	&m5

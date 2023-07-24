@@ -1,25 +1,18 @@
 SKIP_OPEN = true
 
 begin:
-    # Scene setup
-    *txout*
-    *setfov 70*
+	# Scene setup
+	*txout*
 	*bgmplay sound/jazztronauts/music/events/allspice.mp3 .75 2.0*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	spawnnarrator()
+	spawnpianist()
+	spawncellist()
 	*setposang cat_piano setpos -1187.520996 467.479309 -64;setang -90 294.221405 0.000000*
-	*setnpcid cat_piano npc_cat_piano*
-
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos -2907.271484 2958.740967 -64;setang -90 10.601639 0.000000*
-	*setnpcid cat_cello npc_cat_cello*
-
 	*spawn good_shit models/sierra/good_shit.mdl*
 	*setposang good_shit setpos -2867 4266 32;setang 0 75 0.000000*
-	
 	*setposang player setpos -1069.755615 521.588379 -64;setang 0 -165.918091 0.000000*
-	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000*
+	*setcam setpos -788.870239 600.943054 23.847630;setang 5.117703 -166.131042 0.000000 fov70*
 	*txin*
 
 ###### START	
@@ -65,18 +58,18 @@ b4:
 	W*PIANO_SMIRK*hich is a very fancy and roundabout way of me telling you that we're 
 	gonna steal more shit for me.
 	player:
-	&r1a1:
-		*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
-		I don't like the look in your eye and I don't want to cause 
-		another incident with the Singer. So I'm gonna have to 
-		pass on whatever you've got planned here. (exit and complete)
-	&r2a1:
-		*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
-		Or, and hear me out here - we could sit down, have a drink, 
-		and talk about our feelings and shared interests?
-	&r3a1:
-		*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
-		I fucking live to steal.
+		&r1a1:
+			*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
+			I don't like the look in your eye and I don't want to cause 
+			another incident with the Singer. So I'm gonna have to 
+			pass on whatever you've got planned here. (exit and complete)
+		&r2a1:
+			*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
+			Or, and hear me out here - we could sit down, have a drink, 
+			and talk about our feelings and shared interests?
+		&r3a1:
+			*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
+			I fucking live to steal.
 		
 		
 ###### BRANCH 1 (early exit)
@@ -108,14 +101,14 @@ r2a2:
 	Our relationship is based on a different kind of give and take.%*setcam setpos -1117.362671 507.229401 -2.390579;setang 8.584972 -162.514069 0.000000*
 	The kind where*setanim cat_piano gesture_jab 1 idle* you take shit from other people and give it to me.
 	player:
-	&r1a1:
-	*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
-		I don't like the look in your eye and I don't want to cause 
-		another incident with the Singer. So i'm gonna have to 
-		pass on whatever you've got planned here. (exit and complete)
-	&r3a1:
-	*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
-		I fucking live to steal.
+		&r1a1:
+			*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
+			I don't like the look in your eye and I don't want to cause 
+			another incident with the Singer. So i'm gonna have to 
+			pass on whatever you've got planned here. (exit and complete)
+		&r3a1:
+			*setcam setpos -1280.686523 502.198822 4.809135;setang 6.335543 -15.807698 0.000000*
+			I fucking live to steal.
 		
 ###### BRANCH 3 (Also merge point)
 r3a1:
@@ -206,12 +199,12 @@ m7:
 	I don't wanna be able to think for a week and I want to make really 
 	stupid life choices.%%*setanim cat_piano gesture_jab 1 idle* You just watch for him twitching.
 	player:
-	&m8:
-		Why don't you just ask h-
-	&m8:
-		This is a really bad id-
-	&m8:
-		You're gonna go blind you kn-
+		&m8:
+			Why don't you just ask h-
+		&m8:
+			This is a really bad id-
+		&m8:
+			You're gonna go blind you kn-
 		
 m8:
 	*setposang cat_piano setpos -2860.124023 4046.866211 0;setang -90 6.9 0.000000*

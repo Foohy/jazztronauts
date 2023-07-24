@@ -51,8 +51,10 @@ local function getWorkshopFacts(wsid, addFact)
 		addFact("ws_filesize", "jazz.fact.filesize,"..string.NiceSize(tonumber(info.file_size) or 0))
 		addFact("ws_favorites", "jazz.fact.favs,"..tostring(info.favorited))
 		addFact("ws_subscriptions", "jazz.fact.subs,"..tostring(info.subscriptions))
-		addFact("ws_upload_date", "jazz.fact.uploaded,"..tostring(os.date("%H:%M:%S - %d/%m/%Y", tonumber(info.time_created) or 0)))
-		addFact("ws_update_date", "jazz.fact.modified,"..tostring(os.date("%H:%M:%S - %d/%m/%Y", tonumber(info.time_updated) or 0)))
+		--[[The info going out for these dates/times is 1 Year (full), 2 Month (number), 3 Day, 4 Hour, 5 Minute, 6 Second,
+		7 Year (two-digit), 8 Month (Name), 9 Month (Abbreviated), 10 Hour (12hr), 11 AM/PM]]
+		addFact("ws_upload_date", "jazz.fact.uploaded,"..tostring(os.date("%Y,%m,%d,%H,%M,%S,%y,%B,%b,%I,%p", tonumber(info.time_created) or 0)))
+		addFact("ws_update_date", "jazz.fact.modified,"..tostring(os.date("%Y,%m,%d,%H,%M,%S,%y,%B,%b,%I,%p", tonumber(info.time_updated) or 0)))
 		addFact("ws_screenshots", info.preview_url) --#TODO: How to grab ALL preview images?
 		addFact("ws_tags", "jazz.fact.tags,"..tostring(getAddonTags(info)))
 
@@ -63,9 +65,8 @@ local function getWorkshopFacts(wsid, addFact)
 
 		local comments = task.Await(commentTask)
 		if #comments > 0 then
-			local comm = table.Random(comments)
-			comm.message = string.Replace(comm.message,",","‚") --replaces comma with U+201A "Single Low-9 Quotation Mark" (commas in comments break running through screen localization)
-			addFact("comment", "\"" .. comm.message .. "\"\n-" .. comm.author)
+			local comm = table.remove(comments,math.random(#comments))
+			addFact("comment", string.Replace("“" .. comm.message .. "”\n-" .. comm.author,",","‚"))--replaces comma with U+201A "Single Low-9 Quotation Mark" (commas in comments break running through screen localization)
 		end
 	end
 end

@@ -22,7 +22,9 @@ local outputs =
 {
 	"OnMapSelected",
 	"OnMapDownloaded",
-	"OnMapAnalyzed"
+	"OnMapAnalyzed",
+	"OnMapDeselected",
+	"OnMapFailure"
 }
 
 function ENT:Initialize()
@@ -55,11 +57,16 @@ end
 
 function ENT:SetupDataTables()
 	self:NetworkVar("String", 0, "SelectedDestinationID")
-	self:NetworkVar("Int", 1, "ScanState")
-	self:NetworkVar("Int", 2, "FreezeTime")
+	self:NetworkVar("Int", 0, "ScanState")
+	self:NetworkVar("Int", 1, "FreezeTime")
+	self:NetworkVar("Int", 2, "Facing")
 end
 
 function ENT:KeyValue( key, value )
+
+	if key == "facing" then
+		self:SetFacing(tonumber(value) or 0)
+	end
 
 	if table.HasValue(outputs, key) then
 		self:StoreOutput(key, value)
@@ -84,6 +91,7 @@ function ENT:CancelAddon()
 	self:SelectDestination(nil)
 	self:SetPortalSequence("Close")
 	self:StopSound(IDLE_HUM_SOUND)
+	self:TriggerOutput("OnMapDeselected",self)
 
 	/*
 	for _, v in pairs(ents.FindByClass("jazz_hub_browser")) do
@@ -109,8 +117,9 @@ function ENT:MapFinishedEffects(success, ermsg)
 		self:EmitSound(SUCCESS_SOUND)
 		util.ScreenShake(self:GetPos(), 2, 10, 1, 1500)
 	else
-		factgen.SetFailure(self:GetScanStateString() .. (ermsg and ("\n\n" .. ermsg) or ""))
+		factgen.SetFailure(self:GetScanStateString() .. (ermsg and ("," .. ermsg) or ""))
 		self:EmitSound(FAIL_SOUND)
+		self:TriggerOutput("OnMapFailure",self)
 	end
 end
 
@@ -276,7 +285,7 @@ function ENT:IntermissionThink()
 	if time < 2.5 then
 		if not self.PlayedSpinup then
 			self.PlayedSpinup = true
-			LocalPlayer():EmitSound("/ambient/levels/labs/teleport_preblast_suckin1.wav")
+			LocalPlayer():EmitSound("ambient/levels/labs/teleport_preblast_suckin1.wav")
 		end
 	end
 
@@ -310,17 +319,25 @@ function ENT:Think()
 		self:RefreshThumbnail(dest)
 	end
 
-	local rGoal = (EyePos() - self:GetPos()):Angle()
-	if not self.LastRot then self.LastRot = rGoal end
-	local r = LerpAngle(FrameTime(), self.LastRot, rGoal)
-	self.LastRot = r
+	local facing = self:GetFacing()
+	if facing >= 1 and facing <= 3 then
+		local rGoal = (EyePos() - self:GetPos()):Angle()
+		if not self.LastRot then self.LastRot = rGoal end
+		local r = LerpAngle(FrameTime(), self.LastRot, rGoal)
+		self.LastRot = r
 
-	local m = Matrix()
-	m:Scale(Vector(1, 1, 1))
-	m:Rotate(Angle(0, r.y + 90, 0))
-	self:EnableMatrix("RenderMultiply", m)
+		--todo: work on getting these rotations okay.
+		--[[local target = self:GetAngles()
+		target[facing] = r[facing] + target[facing]
+		self:SetAngles(target)]]
 
-	self:UpdateRenderTarget()
+		local m = Matrix()
+		m:Scale(Vector(1, 1, 1))
+		m:Rotate(Angle(0, r.y - self:GetAngles().y, 0))
+		self:EnableMatrix("RenderMultiply", m)
+
+		self:UpdateRenderTarget()
+	end
 end
 
 function ENT:RefreshThumbnail(dest)

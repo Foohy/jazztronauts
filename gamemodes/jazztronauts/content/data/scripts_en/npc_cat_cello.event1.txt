@@ -3,16 +3,13 @@ SKIP_OPEN = true
 begin:
 	# Scene setup
 	*txout*
-	*setfov 70*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	spawnnarrator()
+	spawncellist()
 	*setposang cat_cello setpos 4.526166 3119.696289 25;setang -90 270 0.000000*
-	*setnpcid cat_cello npc_cat_cello*
 	*CELLO_HIGH*
 	*setanim cat_cello pianist_drunk_idle*
 	*setposang player setpos 182.677567 2925.838623 0;setang 0 133.148224 0.000000*
-	*setcam setpos 245.356094 2850.929688 109.212921;setang 14.996230 126.555443 0.000000*
+	*setcam setpos 245.356094 2850.929688 109.212921;setang 14.996230 126.555443 0.000000 fov70*
 	*bgmplay sound/jazztronauts/music/events/54321.mp3 1.0 2.0*
 	*txin*
 	
@@ -97,24 +94,24 @@ b8:
 	*setanim cat_cello gesture_clap 1 idle*
 	if you're interested you can take a sip of the fruit of your labor.
 	player:
-	&r1a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		What else is in there,%% exactly?
-	&r2a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		What does it do?
-	&r3a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		(SLAM THAT SHIT)
-	&r4a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		I'm going to need to come back considerably 
-		more prepared to handle that stuff. (exit)
-	&r5a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		Listen,%% I appreciate the offer,%%%% 
-		but I don't go for that sort of thing. 
-		(exit and complete)
+		&r1a1:
+			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			What else is in there,%% exactly?
+		&r2a1:
+			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			What does it do?
+		&r3a1:
+			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			(SLAM THAT SHIT)
+		&r4a1:
+			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			I'm going to need to come back considerably 
+			more prepared to handle that stuff. (exit)
+		&r5a1:
+			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			Listen,%% I appreciate the offer,%%%% 
+			but I don't go for that sort of thing. 
+			(exit and complete)
 
 ###### BRANCH 4
 
@@ -197,21 +194,21 @@ r2a2:
 
 	maybe.
 	player:
-	&r1a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		What else is in there, exactly?
-	&r3a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		(SLAM THAT SHIT)
-	&r4a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		I'm going to need to come back considerably 
-		more prepared to handle that stuff. (exit)
-	&r5a1:
-		*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
-		Listen,% I appreciate the offer,% 
-		but I don't go for that sort of thing. 
-		(exit and complete)
+		&r1a1:
+			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			What else is in there, exactly?
+		&r3a1:
+			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			(SLAM THAT SHIT)
+		&r4a1:
+			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			I'm going to need to come back considerably 
+			more prepared to handle that stuff. (exit)
+		&r5a1:
+			*setcam setpos -40.167027 3033.547363 118.539520;setang 18.935936 -16.109974 0.000000*
+			Listen,% I appreciate the offer,% 
+			but I don't go for that sort of thing. 
+			(exit and complete)
 		
 ###### BRANCH 3
 r3a1:
@@ -221,10 +218,10 @@ r3a1:
 	or any other condition triggered similarly,%%% 
 	you may safely skip it.
 	player:
-	&m5:
-		Yes,% I would like to skip the trippy visuals.
-	&m1:
-		No, I'm here to get FUCKED UP responsibly.
+		&m5:
+			Yes,% I would like to skip the trippy visuals.
+		&m1:
+			No, I'm here to get FUCKED UP responsibly.
 	
 ###### MERGE POINT
 
@@ -236,15 +233,14 @@ m1:
 	
 	%.%.%.%nothing's happened yet.
 	player:
-	&m2:
-		So how long does this take to do anything?
+		&m2:
+			So how long does this take to do anything?
 		
 m2:
 	*fadeblind 1*
 	*hide*
 	*bgmplay sound/jazztronauts/music/events/pariah.mp3 1.0 2.0*
-	*setfov 140*
-	*setcam setpos 1675.229614 -2281.119141 87.158875;setang -0.576421 -89.705780 0.000000*
+	*setcam setpos 1675.229614 -2281.119141 87.158875;setang -0.576421 -89.705780 0.000000 fov140*
 	*tweencam 40 setpos 1676.401123 -8968.332031 94.523621;setang -359 -90.424515 0.000000*
 	*setspeaker cat_cello*
 	*wait 1*
@@ -252,12 +248,12 @@ m2:
 	*drugson*
 	wbk bmh've fhljy goagfgbys gvdr'f ynpcpkbr  
 	player:
-	&m3:
-		oh god what the fuck
-	&m3:
-		(literally just constant screaming)
-	&m3:
-		LIBERATE TUTEMET EX INFERIS
+		&m3:
+			oh god what the fuck
+		&m3:
+			(literally just constant screaming)
+		&m3:
+			LIBERATE TUTEMET EX INFERIS
 m3:
 	*setspeaker cat_cello*
 	auvk dhgk usuc ji gb klru xhr gfpremvbj quyt hd ecssrr 
@@ -274,10 +270,9 @@ m4:
 	
 m5:
 	*drugsoff*
-	*setfov 70*
 	*fadeblind 1*
 	*setposang cat_cello setpos 43.167946 3032.861572 0;setang -90 230 0.000000*
-	*setcam setpos 75.970108 2957.786377 1.469858;setang -27.489294 113.511642 0.000000*
+	*setcam setpos 75.970108 2957.786377 1.469858;setang -27.489294 113.511642 0.000000 fov70*
 	*setspeaker cat_cello*
 	holy fuck you came out of that faster than i expected
 	&m6
@@ -293,12 +288,12 @@ m7:
 	with relative impunity.%%% sit at my feet,%% and i will show you a world that
 	you should never visit,%%% because i am not an example for anybody.
 	player:
-	&m8:
-		Hrrgblh?
-	&m8:
-		Grblghreb.
-	&m8:
-		hhrrrghhhhh
+		&m8:
+			Hrrgblh?
+		&m8:
+			Grblghreb.
+		&m8:
+			hhrrrghhhhh
 		
 m8:
 	*setspeaker cat_cello*

@@ -1,18 +1,15 @@
 SKIP_OPEN = true
 
 begin:
-    # Scene setup
-    *txout*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-    *setfov 70*
-	*setcam setpos -768.565674 411.305878 128.419617;setang 9.938671 170.311523 0.000000*
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	# Scene setup
+	*txout*
+	spawnnarrator()
+	spawncellist()
+	*setcam setpos -768.565674 411.305878 128.419617;setang 9.938671 170.311523 0.000000 fov70*
 	*setposang cat_cello setpos -1591.417236 545.902283 -64;setang -90 216 0.000000*
 	*setposang player setpos -1543.828735 493.394104 -64;setang 0 148.702667 0.000000*
 	*CELLO_NEUTRAL*
-		*bgmplay sound/jazztronauts/music/events/plumskinzz.mp3 1.0 2.0*
-	*setnpcid cat_cello npc_cat_cello*
+	*bgmplay sound/jazztronauts/music/events/plumskinzz.mp3 1.0 2.0*
 	*txin*
 	
 ###### START
@@ -45,14 +42,14 @@ b3:
 	old memories.%%*setanim cat_cello gesture_confused 1 idle*
 	what can i do for you?
 	player:
-	&m1:
-	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
-		I was thinking of coming to take you up on that 
-		offer to hang out and bullshit.
-	&r2a1:
-	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
-		I was gonna chat, but if you're not up for it,
-		I can just sit with you for a while.
+		&m1:
+			*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
+			I was thinking of coming to take you up on that 
+			offer to hang out and bullshit.
+		&r2a1:
+			*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
+			I was gonna chat, but if you're not up for it,
+			I can just sit with you for a while.
 		
 ###### BRANCH 2
 r2a1:
@@ -73,13 +70,13 @@ r2a2:
 	starin' at somebody.%%%%*setanim cat_cello gesture_shrug 1 idle* you wanna hang out it's gonna be easier for me if
 	we talk,%% capiche?
 	player:
-	&r1a1:
-	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
-		Sure, no problem. So long as you're cool with it.
-	&leave:
-	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
-		Sure, I got some errands to take care of first though.
-		Be back later. (EXIT)
+		&r1a1:
+			*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
+			Sure, no problem. So long as you're cool with it.
+		&leave:
+			*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
+			Sure, I got some errands to take care of first though.
+			Be back later. (EXIT)
 
 ###### NESTED EARLY EXIT		
 leave:
@@ -152,9 +149,9 @@ m6:
 	triangle where the other two corners were a prostitute and her pimp%%
 	so it's not hard to believe he was a bit of a character.
 	player:
-	&m7:
-	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
-		What else was on the guy's rap sheet?
+		&m7:
+			*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
+			What else was on the guy's rap sheet?
 		
 m7:
 	*setcam setpos -1559.578613 519.134888 -19.041733;setang -0.549607 147.054596 0.000000* #### CELLO HEADSHOT
@@ -210,9 +207,9 @@ m12:
 	got thrown out of the order after busting out of their prison,%%
 	got arrested for forged papers,%% and died mysteriously after that.
 	player:
-	&m13:
-	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
-		Holy shit.
+		&m13:
+			*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
+			Holy shit.
 		
 m13:
 	*setcam setpos -1613.223511 416.222168 -23.443874;setang -0.283464 66.821823 0.000000* ###### PLAYER AND CELLO
@@ -220,12 +217,12 @@ m13:
 	*setanim cat_cello gesture_laugh 1 idle*
 	i consider him to be hashtag goals tbh
 	player:
-	&r3a1:
-	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
-		What's up with that "died mysteriously" part?
-	&r4a1:
-	*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
-		How did this guy have any time to do art?
+		&r3a1:
+			*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
+			What's up with that "died mysteriously" part?
+		&r4a1:
+			*setcam setpos -1676.265869 552.101685 -19.479355;setang 3.390164 -19.959322 0.000000* #### PLAYER OTS
+			How did this guy have any time to do art?
 		
 ###### honestly the better question is how he managed to last that long, the way he lived.
 r3a1:

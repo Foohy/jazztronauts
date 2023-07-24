@@ -3,18 +3,13 @@ begin:
 ###### SCENE SETUP
 	*hide*
 	*txout*
-		*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*setcam setpos -3153.723877 2730.842041 40.888985;setang -1.321713 43.303810 0.000000*	
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
+	spawnnarrator()
+	spawnsinger()
+	spawnbartender()
+	*setcam setpos -3153.723877 2730.842041 40.888985;setang -1.321713 43.303810 0.000000 fov70*	
 	*setposang cat_singer setpos -2863.950439 2954.573730 38;setang -90 0 0.000000*
-	*setnpcid cat_singer npc_cat_sing*
-	*setfov 70*
-	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
 	*setposang cat_bar -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
-	*setnpcid cat_bar npc_cat_bar*
 	*bgmplay sound/jazztronauts/music/events/allspice.mp3 1 2.0*
-	*spawn player_dummy playerboy*
 	*txin*
 	*show*
 	
@@ -53,18 +48,18 @@ b3:
 	something up.%% Free of charge,% since you've been such an 
 	invaluable research assistant for the Singer.
 	player:
-	&r1a1:
-		*setcam setpos -2827.137939 2962.743408 73.351692;setang 3.443354 -46.724812 0.000000*
-		Sorry, I just wanted to say hi. 
-		I'll take a rain check on that, though. (exit)
-	&r2a1:
-		*setcam setpos -2827.137939 2962.743408 73.351692;setang 3.443354 -46.724812 0.000000*
-		If I'm a research assistant I expect to be credited 
-		on the paper when you release your findings to 
-		CATScan or something.
-	&r3a1:
-		*setcam setpos -2827.137939 2962.743408 73.351692;setang 3.443354 -46.724812 0.000000*
-		Cheers. So what's up?
+		&r1a1:
+			*setcam setpos -2827.137939 2962.743408 73.351692;setang 3.443354 -46.724812 0.000000*
+			Sorry, I just wanted to say hi. 
+			I'll take a rain check on that, though. (exit)
+		&r2a1:
+			*setcam setpos -2827.137939 2962.743408 73.351692;setang 3.443354 -46.724812 0.000000*
+			If I'm a research assistant I expect to be credited 
+			on the paper when you release your findings to 
+			CATScan or something.
+		&r3a1:
+			*setcam setpos -2827.137939 2962.743408 73.351692;setang 3.443354 -46.724812 0.000000*
+			Cheers. So what's up?
 		
 ###### BRANCH 1 EARLY EXIT
 r1a1:
@@ -96,11 +91,11 @@ r2a1:
 	thesis-in-progress to show that you*setanim cat_singer gesture_agree 1 idle* have in fact already been 
 	credited in full as a research partner.
 	player:
-	&r1a1:
-		Sorry,% I just wanted to say hi.%%%% 
-		I'll take a rain check on that drink,% though. (exit)
-	&r3a1:
-		Cheers.%% So what's up?
+		&r1a1:
+			Sorry,% I just wanted to say hi.%%%% 
+			I'll take a rain check on that drink,% though. (exit)
+		&r3a1:
+			Cheers.%% So what's up?
 	
 ###### BRANCH 3
 r3a1:
@@ -172,7 +167,7 @@ m3:
 	*SINGER_HAPPY*
 	*setanim cat_singer gesture_agree 1 idle*
 	> They preen as you read this,%% as it was a 
-        correct hypothesis.*SINGER_NEUTRAL*
+	correct hypothesis.*SINGER_NEUTRAL*
 	&m4
 	
 m4:

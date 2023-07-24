@@ -22,8 +22,7 @@ a2:
 	
 	
 idle:
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
+	spawnnarrator()
 	*setspeaker narrator*
 	> You find the Singer slumped over the bar, passed out.
 	The Bartender gives you a nod when you approach.
@@ -38,12 +37,12 @@ i1:
 	&i2
 	
 i2:
-	*setspeaker npc_cat_bar*
 	While they do not feel the temperature, or anything else by any 
 	metric the Singer has been able to check via tests, they worry.
 	&exit
 
 turnin:
+	spawnnarrator()
 	*setspeaker npc_cat_sing*
 	> The Singer looks incredibly relieved. You help them wheel the 
 	radiators into the Mewseum and set up alongside the NPCs, 
@@ -52,26 +51,13 @@ turnin:
 	&turnin2
 	
 turnin2:
+	*setspeaker narrator*
 	> But the Singer is happy, and you receive $15000 for your efforts!*finish 2*
 	&t1
-	
+
 t1:
+	*setspeaker npc_cat_sing*
 	> They know it might sound silly, but they take great pride 
 	in making sure they take care of the Mewseum residents. 
 	You leave them to it.
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

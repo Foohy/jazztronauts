@@ -58,7 +58,7 @@ end
 
 function GetMap(mapname)
 	local chkstr = "SELECT * FROM jazz_mapgen WHERE " ..
-		string.format("filename='%s'", mapname)
+		string.format("filename='%s'", string.Replace(mapname,"'","''"))
 
 	local res = Query(chkstr)
 
@@ -85,11 +85,11 @@ function StoreMap(mapname, wsid, seed)
 	wsid = wsid or 0
 
 	local insrt = "INSERT INTO jazz_mapgen (filename, wsid, seed)" ..
-		string.format("VALUES ( '%s', %s, %s) ", mapname, wsid, seed)
+		string.format("VALUES ( '%s', %s, %s) ", string.Replace(mapname,"'","''"), wsid, seed)
 
 	local update = "UPDATE jazz_mapgen " ..
 		string.format("SET wsid=%s, seed=%s ", wsid, seed) ..
-		string.format("WHERE filename='%s'", mapname)
+		string.format("WHERE filename='%s'", string.Replace(mapname,"'","''"))
 
 	local map = GetMap(mapname)
 	return Query(map != nil and update or insrt) != false
@@ -176,7 +176,7 @@ function GetMapShards(mapname)
 	mapname = mapname and string.lower(mapname)
 	local chkstr = "SELECT * FROM jazz_mapgen " ..
 		"INNER JOIN jazz_mapshards ON jazz_mapgen.id = jazz_mapshards.mapid " ..
-		(mapname and "WHERE " .. string.format("filename='%s' ", mapname) or "") ..
+		(mapname and "WHERE " .. string.format("filename='%s' ", string.Replace(mapname,"'","''")) or "") ..
 		"ORDER BY jazz_mapshards.id ASC"
 
 	return Query(chkstr) or {}
@@ -188,7 +188,7 @@ function GetMapShardCount(mapname)
 
 	local chkstr = "SELECT SUM(collected) as collected, COUNT(*) as total FROM jazz_mapgen " ..
 		"INNER JOIN jazz_mapshards ON jazz_mapgen.id = jazz_mapshards.mapid " ..
-		(mapname and "WHERE " .. string.format("filename='%s' ", mapname) or "") ..
+		(mapname and "WHERE " .. string.format("filename='%s' ", string.Replace(mapname,"'","''")) or "") ..
 		"ORDER BY jazz_mapshards.id ASC"
 
 	local res = Query(chkstr)
@@ -237,7 +237,7 @@ function SetCorrupted(mapname, state)
 
 	local update = "UPDATE jazz_mapgen " ..
 		string.format("SET corrupt=%d ", state) ..
-		string.format("WHERE filename='%s'", mapname)
+		string.format("WHERE filename='%s'", string.Replace(mapname,"'","''"))
 
 	return Query(update) != false
 end

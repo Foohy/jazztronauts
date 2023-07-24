@@ -3,27 +3,20 @@ begin:
 ###### SCENE SETUP
 	*hide*
 	*txout*
-	*setfov 70*
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
+	spawnnarrator()
+	spawnsinger()
+	spawnpianist()
+	spawncellist()
 	*setposang cat_singer -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
-	*setnpcid cat_singer npc_cat_sing*
-	*setcam setpos 1161.969727 182.516861 201.877747;setang 13.789205 120.113113 0.000000*
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setcam setpos 1161.969727 182.516861 201.877747;setang 13.789205 120.113113 0.000000 fov70*
 	*setposang cat_piano setpos -1182.562256 445.995911 -640;setang -90 270 0.000000*
-	*setnpcid cat_piano npc_cat_piano*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
 	*setposang cat_cello setpos -1182.562256 445.995911 -640;setang -90 270 0.000000*
-	*setnpcid cat_cello npc_cat_cello*
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1 2.0*
 	*setposang player setpos 980.507080 632.255981 0;setang 0 -121.321289 0.000000*
-	*setanim cat_piano idle*
-	*setanim cat_singer idle*
 	*setanim cat_cello pose_passedout*
 	*txin*
 	*show*
-	
+
 ###### START
 	*setspeaker narrator*
 	> The Home Base%.%.%.%%% 
@@ -31,7 +24,7 @@ begin:
 	the hum of the shard tank%.%.%.%% Might not be a bad chance 
 	to sneak in a nap- *emitsound weapons/mortar/mortar_shell_incomming1.wav*%% -?%%% Fuck was that sound?
 	&b1
-	
+
 b1:
 	*shake 3* 
 	*emitsound weapons/mortar/mortar_explode3.wav* 
@@ -39,7 +32,7 @@ b1:
 	It came in the direction of the Performance Hall%.%.%.%%% 
 	You decide to check it out.
 	&b2
-	
+
 b2:
 	*hide*
 	*txout*
@@ -52,7 +45,7 @@ b2:
 	%.%.%.%wait did the Cellist fly past you just now?%%%%*setcam setpos -748.055054 591.843384 25.641350;setang 12.760325 -141.553528 0.000000* You turn around to see
 	what launched him and see the Pianist charging after the Cellist!
 	&b3
-	
+
 b3:
 	*setposang cat_piano setpos -600.322693 473.704559 0;setang -90 225 0.000000*
 	*setanim cat_cello idle*
@@ -64,7 +57,7 @@ b3:
 	1 and 1 together.%% This must be pretty common if they
 	aren't freaking out.
 	&b4
-	
+
 b4:
 	*setcam setpos -485.277374 706.210449 47.077591;setang 3.123764 -118.935883 0.000000*
 	*setspeaker cat_piano*
@@ -73,17 +66,17 @@ b4:
 	I wasn't done talking,% so get back here you 
 	clay-brained asshead and apologize!
 	player:
-	&r1a1:
-		*setcam setpos -747.462769 531.110840 8.914688;setang 6.850556 167.220184 0.000000*
-		Uh.%% I'll just be,% leaving,%% now. (Exit)
-	&m1:
-		*setcam setpos -747.462769 531.110840 8.914688;setang 6.850556 167.220184 0.000000*
-		That was creative.
-	&m1:
-		*setcam setpos -747.462769 531.110840 8.914688;setang 6.850556 167.220184 0.000000*
-		You nearly hit me,%% you know.
-	
-	
+		&r1a1:
+			*setcam setpos -747.462769 531.110840 8.914688;setang 6.850556 167.220184 0.000000*
+			Uh.%% I'll just be,% leaving,%% now. (Exit)
+		&m1:
+			*setcam setpos -747.462769 531.110840 8.914688;setang 6.850556 167.220184 0.000000*
+			That was creative.
+		&m1:
+			*setcam setpos -747.462769 531.110840 8.914688;setang 6.850556 167.220184 0.000000*
+			You nearly hit me,%% you know.
+
+
 ###### BRANCH 1 EARLY Exit
 r1a1:
 	*setcam setpos -1011.191650 352.133423 40.894859;setang 5.838996 24.918577 0.000000*
@@ -92,10 +85,10 @@ r1a1:
 	*setanim cat_cello gesture_agree 1 idle*
 	good idea you probably don't recover from injuries incompatible with 
 	life nearly as fast as i do 
-	
+
 	or at all come to think of it
 	&r1a2
-	
+
 r1a2:
 	*setspeaker cat_singer*
 	*SINGER_NEUTRAL*
@@ -103,7 +96,7 @@ r1a2:
 	> The Singer tells you not to worry about it as you pass by.%%
 	They have this under control.
 	&exit
-	
+
 ###### BRANCH 2 
 m1:
 	*setcam setpos -657.169128 422.007141 22.553951;setang -10.026518 -0.849591 0.000000*
@@ -114,7 +107,7 @@ m1:
 	the Truth%%%*CELLO_GRIN* and the Truth is that*setanim cat_cello gesture_confused 1 idle* the limp bizkit cover of 
 	behind blue eyes is the objectively superior version
 	&m2
-	
+
 m2:
 	*setcam setpos -525.289612 452.051880 53.441364;setang 7.808877 162.490768 0.000000*
 	*setspeaker cat_piano*
@@ -122,7 +115,7 @@ m2:
 	*setanim cat_piano gesture_anger 1 idle*
 	> The Pianist*PIANO_ANGRY* is pretty obviously pissed about this.
 	&m3
-	
+
 m3:
 	*setcam setpos -733.564758 546.807739 12.591496;setang 17.232361 159.775696 0.000000*
 	*setspeaker cat_singer*
@@ -131,7 +124,7 @@ m3:
 	> Blithely ignoring the crackling tension in the air,%% 
 	the Singer starts tapping away on their tablet.
 	&m4
-	
+
 m4:
 	*tweencam .4 setpos -758.958557 500.870209 12.591496;setang -6.885358 -20.494925 0.000000*
 	*setposang cat_piano setpos -600.322693 473.704559 0;setang -90 52 0.000000*
@@ -143,7 +136,7 @@ m4:
 	> Surprisingly enough,%% this act alone is enough to make the 
 	Pianist AND Cellist look visibly mortified.
 	&m5
-	
+
 m5:
 	*setcam setpos -872.429260 605.757629 -62.233330;setang -19.716215 -27.096756 0.000000*
 	*setspeaker cat_singer*
@@ -154,7 +147,7 @@ m5:
 	"I was sleeping motherfuckers so now we're going to have a 
 	Talk about healthy conflict resolution (￣ー￣) "
 	&m6
-	
+
 m6:
 	*setcam setpos -612.601013 425.067505 46.485138;setang 3.443330 -2.979022 0.000000*
 	*setspeaker cat_cello*
@@ -164,7 +157,7 @@ m6:
 	consider the fact that you only compound my emotional and 
 	physical pain with your use of shit like (￣ー￣)
 	&m7
-	
+
 m7:
 	*setposang cat_piano setpos -600.322693 473.704559 0;setang -90 225 0.000000*
 	*setcam setpos -492.200043 416.384613 56.998779;setang 9.885373 159.296570 0.000000*
@@ -172,10 +165,10 @@ m7:
 	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_shock 1.6 idle*
 	How the fuck did you say-%%%%%*setanim cat_piano gesture_sigh 1 idle*
-	
+
 	Nevermind.
 	&m8
-	
+
 m8:
 	*setposang cat_piano setpos -600.322693 473.704559 0;setang -90 52 0.000000*
 	*setcam setpos -503.415955 692.833801 77.207428;setang 15.315855 -134.366486 0.000000*
@@ -185,7 +178,7 @@ m8:
 	Cellist does something stupid and I did.%%%%*setanim cat_piano gesture_shrug 1 idle* 
 	He*PIANO_NEUTRAL* didn't give it.
 	&m9
-	
+
 m9:
 	*setcam setpos -612.601013 425.067505 46.485138;setang 3.443330 -2.979022 0.000000*
 	*setspeaker cat_cello*
@@ -196,7 +189,7 @@ m9:
 	remember the fancy*setanim cat_cello gesture_confused 1 idle* latin name for whatever*CELLO_NEUTRAL* logical fallacy 
 	involves throwing explosives at the other debater
 	&m10
-	
+
 m10:
 	*setcam setpos -872.429260 605.757629 -62.233330;setang -19.716215 -27.096756 0.000000*
 	*setspeaker cat_singer*
@@ -205,7 +198,7 @@ m10:
 	> The Singer sighs.%%%%%*SINGER_MAD*
 	The other two immediately avert their eyes.
 	&m11
-	
+
 m11:
 	*setposang cat_singer setpos -610.360046 406.558807 0;setang -90 315 0.000000*
 	*setposang cat_piano setpos -600.322693 473.704559 0;setang -90 180 0.000000*
@@ -215,7 +208,7 @@ m11:
 	> They give the Cellist and Pianist a reassuring pat on 
 	the arm before typing out a longer message\: 
 	&m12
-	
+
 m12:
 	*setcam setpos -76.639259 712.453308 608.491882;setang 51.226170 -151.509552 0.000000*
 	*SINGER_HAPPY*
@@ -225,7 +218,7 @@ m12:
 	about the merits of the things you*SINGER_MAD* like*setanim cat_singer gesture_anger 1.5 idle* but noooooo straight to 
 	property damage.%%*SINGER_BLINK*%%*SINGER_NEUTRAL*%%%%*setcam setpos -547.753540 500.597992 51.454922;setang 6.344849 -119.885254 0.000000* Why are you Like This."
 	&m13
-	
+
 m13:
 	*setcam setpos -587.402649 449.707855 44.048653;setang -5.208236 -50.832954 0.000000*
 	*setspeaker cat_cello*
@@ -233,7 +226,7 @@ m13:
 	*setanim cat_cello gesture_laugh 1 idle*
 	i for one blame socie-
 	&m14
-	
+
 m14:
 	*setcam setpos -587.402649 449.707855 44.048653;setang -1.161997 -115.093628 0.000000*
 	*setspeaker cat_singer*
@@ -246,7 +239,7 @@ m14:
 	The Pianist with inflammatory statements,%*setanim cat_singer gesture_disagree 1.4 idle* and should cut it the
 	fuck out. 
 	&m14b
-	
+
 m14b:
 	*setcam setpos -76.639259 712.453308 608.491882;setang 51.226170 -151.509552 0.000000*
 	*SINGER_BLINK*
@@ -254,13 +247,13 @@ m14b:
 	> Frankly,%%% it's the kind of*SINGER_MAD* behaviour they'd 
 	expect from kittens.
 	&m15
-	
+
 m15:
 	*setspeaker cat_cello*
 	*CELLO_BLINK*
 	%%.%.%.%*setcam setpos -685.135925 356.221497 74.338165;setang 12.627143 36.693645 0.000000*%*CELLO_MAD*i'm sorry.
 	&m16
-	
+
 m16:
 	*setspeaker cat_piano*
 	*PIANO_FLUSTERED*
@@ -268,7 +261,7 @@ m16:
 	Yeah,% uh.%%%% 
 	Sorry.
 	&m17
-	
+
 m17:
 	*setcam setpos -463.367126 692.843445 26.781639;setang 1.979157 -116.681984 0.000000*
 	*setspeaker narrator*
@@ -278,45 +271,8 @@ m17:
 	later for another job before hopping up on top of the booth*tweenposang cat_singer .5 setpos -416 427 228.5;setang 0 0 -90*
 	and curling up to resume their nap.*SINGER_NEUTRAL*
 	&m17b
-		
+	
 m17b:
 	> The Cellist and Pianist go their separate ways,%% 
 	each looking thoroughly chastised. *mark_seen*
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

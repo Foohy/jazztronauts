@@ -130,9 +130,10 @@ end )
 
 local AttentionMarker = Material("materials/ui/jazztronauts/yes.png", "smooth")
 local markerName = "vomiter"
-local markerpos = mapcontrol.IsInHub() and Vector(-318.156342, -164.963669, 80.268784) or Vector(8.709225, -161.498169, -1798.873169)
-net.Receive("jazz_propvom_propsavailable", function(len, ply)
+
+net.Receive("jazz_propvom_propsavailable", function(len, ply, marker)
 	local hasProps = net.ReadBool()
+	local markerpos = net.ReadVector()
 
 	if hasProps then
 		worldmarker.Register(markerName, AttentionMarker, 20)

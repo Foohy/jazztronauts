@@ -1,22 +1,16 @@
 SKIP_OPEN = true
 
 begin:
-    # Scene setup
-    *txout*
-    *setfov 70*
+	# Scene setup
+	*txout*
 	*bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0*
-	*setcam setpos 161.692474 78.846161 67.458260;setang 2.528261 101.374802 0.000000*
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setcam setpos 161.692474 78.846161 67.458260;setang 2.528261 101.374802 0.000000 fov70*
+	spawnnarrator()
+	spawnpianist()
+	spawnsinger()
 	*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 150 0.000000*
-	*setnpcid cat_piano npc_cat_piano*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos 301.032990 230.946976 -256;setang -90 240 0.000000*
-	*setnpcid cat_singer npc_cat_sing*
-
 	*setposang player 164.076263 208.491150 0;setang 9.295440 49.176609 0.000000*
-
 	*txin*
 	
 ###### START
@@ -49,12 +43,12 @@ b3:
 	
 	
 	player:
-	&resp1a:
-		Whatever this is, I'm not getting involved. (Exit)
-	&resp2a:
-		Wow. You look like shit.
-	&resp3a:
-		Why exactly are we hiding from the Singer?
+		&resp1a:
+			Whatever this is, I'm not getting involved. (Exit)
+		&resp2a:
+			Wow. You look like shit.
+		&resp3a:
+			Why exactly are we hiding from the Singer?
 		
 ###### Branch 1 (early exit)
 resp1a:
@@ -97,12 +91,12 @@ resp3a:
 	before the fifth nap.%%%%*setanim cat_piano gesture_sigh 1.5 idle* They saw everything.
 	
 	player:
-	&resp4a:
-		Fifth nap?
-	&resp5a:
-		Gee, it's almost like your idea was... bad.
-	&resp1a:
-		Have fun with that. (exit)
+		&resp4a:
+			Fifth nap?
+		&resp5a:
+			Gee, it's almost like your idea was... bad.
+		&resp1a:
+			Have fun with that. (exit)
 		
 ###### Branch 4
 resp4a:
@@ -129,10 +123,10 @@ resp4c:
 	They have designated spots for each.
 	
 	player:
-	&resp5a:
-		Gee, it's almost like your idea was... bad.
-	&resp1a:
-		Have fun with that. (exit)
+		&resp5a:
+			Gee, it's almost like your idea was... bad.
+		&resp1a:
+			Have fun with that. (exit)
 		
 ###### Branch 5
 
@@ -171,12 +165,12 @@ resp5d:
 	> The Singer appears to have drifted into view behind the Pianist.
 	
 	player:
-	&merge1:
-		Uh-
-	&merge1:
-		Hey, Pi-
-	&merge1:
-		Shut the fuc-
+		&merge1:
+			Uh-
+		&merge1:
+			Hey, Pi-
+		&merge1:
+			Shut the fuc-
 		
 merge1:
 	*setposang cat_piano setpos 343.834717 230.990540 0;setang -90 112 0.000000*

@@ -57,10 +57,11 @@ local outputs =
 	"OnVomitStartEmpty"
 }
 
-local function UpdatePlayerPropMarker(ply, enabled)
+local function UpdatePlayerPropMarker(ply, enabled, marker)
 
 	net.Start("jazz_propvom_propsavailable")
 		net.WriteBool(enabled)
+		net.WriteVector(marker)
 	net.Send(ply)
 end
 
@@ -90,6 +91,11 @@ function ENT:Initialize()
 end
 
 function ENT:KeyValue( key, value )
+	if key == "marker" then
+		local marker = Vector(value) or Vector(self:GetPos())
+		self:SetMarker(marker)
+	end
+
 	if table.HasValue(outputs, key) then
 		self:StoreOutput(key, value)
 	end
@@ -116,7 +122,7 @@ end
 
 function ENT:OnPlayerJoined(ply)
 	if not self:IsActive() then
-		UpdatePlayerPropMarker(ply, true)
+		UpdatePlayerPropMarker(ply, true, self:GetMarker())
 	else
 		self:GivePlayerSuperSnatch(ply)
 	end
@@ -235,7 +241,7 @@ function ENT:VomitNewProps()
 
 	-- Stop showing the dialog for everyone
 	for _, v in pairs(player.GetAll()) do
-		UpdatePlayerPropMarker(v, false)
+		UpdatePlayerPropMarker(v, false, self:GetMarker())
 		self:GivePlayerSuperSnatch(v)
 	end
 

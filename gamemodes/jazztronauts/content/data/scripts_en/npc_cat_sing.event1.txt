@@ -5,18 +5,12 @@ begin:
 ###### SCENE SETUP
 	*hide*
 	*txout*
+	spawnnarrator()
+	spawnsinger()
 	*bgmplay sound/jazztronauts/music/events/pocket.mp3 1 2.0*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos 3259.499512 7881.131348 0;setang -90 180 0.000000*
-	*setnpcid cat_singer npc_cat_sing*
-	*setcam setpos 1903.887451 6713.939941 349.839935;setang 20.373602 45.286469 0.000000*
-	*spawn player_dummy playerboy*
+	*setcam setpos 1903.887451 6713.939941 349.839935;setang 20.373602 45.286469 0.000000 fov70*
 	*setspeaker narrator*
-	*SINGER_NEUTRAL*
-	*setfov 70*
 	*txin*
 	*show*
 	
@@ -63,17 +57,17 @@ b3b:
 	I thought after your hard work helping me get these you*setanim cat_singer gesture_confused 1 idle* might like to 
 	help me enter their descriptions for my archives,% maybe. "
 	player:
-	&r1a1:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		That sounds suspiciously like a nerd activity and 
-		I don't want to have to seal myself inside a 
-		locker sarcophagus of shame,%% sorry. (exit)
-	&r2a1:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		Can I name them?
-	&r3a1:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		Sure,% happy to help.
+		&r1a1:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			That sounds suspiciously like a nerd activity and 
+			I don't want to have to seal myself inside a 
+			locker sarcophagus of shame,%% sorry. (exit)
+		&r2a1:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			Can I name them?
+		&r3a1:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			Sure,% happy to help.
 		
 
 ###### BRANCH 1 EARLY EXIT
@@ -117,15 +111,15 @@ r2a2:
 	*setanim cat_singer gesture_exchange 1.5 idle*
 	> They are absolutely going to go back and name the other ones.%%%*SINGER_NEUTRAL*
 	Fuck yeah.
-		player:
-	&r1a1:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		That sounds suspiciously like a nerd activity and 
-		I don't want to have to seal myself inside a 
-		locker sarcophagus of shame,%% sorry. (exit)
-	&r3a1:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		Sure,% happy to help.
+	player:
+		&r1a1:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			That sounds suspiciously like a nerd activity and 
+			I don't want to have to seal myself inside a 
+			locker sarcophagus of shame,%% sorry. (exit)
+		&r3a1:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			Sure,% happy to help.
 		
 ###### BRANCH 3
 r3a1:
@@ -144,22 +138,22 @@ r3a2:
 	In case it ever gets lost,%% or a disabled*setanim cat_singer gesture_confused .8 idle* guest 
 	wants to know what's on display.
 	player:
-	&goodanswer:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		Cursed Seer Camilla,%% a heavily damaged and dirt crusted 
-		porcelain baby doll missing its left arm and both eyes,%%% 
-		wearing a white nappy.%%%% Camilla has a serene expression.
-	&decentanswer:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		A haunted ass doll named Sweet Baby Babbette that looks like 
-		it literally cried its eyes out and is responsible for at 
-		least six movies and a tv show reboot.
-	&ananswer:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		Nannette was a cheerful child with a perpetual smile but one day she died in mysterious
-		circumstances.%%%%% Soon after her parents noticed that her doll began to rattle and shake in the
-		middle of the night, and even knock things off shelves! Despite this, she has a healing energy
-		and can cure most diseases if she likes you but be careful not to-
+		&goodanswer:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			Cursed Seer Camilla,%% a heavily damaged and dirt crusted 
+			porcelain baby doll missing its left arm and both eyes,%%% 
+			wearing a white nappy.%%%% Camilla has a serene expression.
+		&decentanswer:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			A haunted ass doll named Sweet Baby Babbette that looks like 
+			it literally cried its eyes out and is responsible for at 
+			least six movies and a tv show reboot.
+		&ananswer:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			Nannette was a cheerful child with a perpetual smile but one day she died in mysterious
+			circumstances.%%%%% Soon after her parents noticed that her doll began to rattle and shake in the
+			middle of the night, and even knock things off shelves! Despite this, she has a healing energy
+			and can cure most diseases if she likes you but be careful not to-
 
 ###### GOOD ANSWER
 goodanswer:

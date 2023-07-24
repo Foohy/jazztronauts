@@ -1,22 +1,18 @@
 SKIP_OPEN = true
 
 begin:
-     # Scene setup
-     *txout*
-     *setfov 70*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	# Scene setup
+	*txout*
+	spawnnarrator()
+	spawncellist()
+	spawnsinger()
 	*setposang cat_cello setpos -2912.563965 2959.992920 36;setang -90 0 0.000000*
+	*bgmplay sound/jazztronauts/music/events/allspice.mp3 .5 2.0*
+	*setposang cat_singer setpos -2681.986572 2795.670410 0;setang -90 51 0.000000*
 	*CELLO_MAD*
 	*setanim cat_cello pose_sit02*
-	*setnpcid cat_cello npc_cat_cello*
-	*bgmplay sound/jazztronauts/music/events/allspice.mp3 .5 2.0*
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
-	*setposang cat_singer setpos -2681.986572 2795.670410 0;setang -90 51 0.000000*
 	*SINGER_MAD*
-	*setnpcid cat_singer npc_cat_sing*
-	*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000*
+	*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000 fov70*
 	*setposang player setpos 122.167236 3117.539795 24;setang 0 -177.779892 0.000000*
 	*setanim player sit*
 	*txin*
@@ -37,11 +33,11 @@ a2:
 	oh god here we go huh
 	player:
 		&a3: 
-*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000*
-		[watch silently]
+			*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000*
+			[watch silently]
 		&cheeseit: 
 			*setcam setpos -2801.732178 2749.402588 65.024940;setang -1.082185 105.084007 0.000000* 
-		I feel like I should be anywhere else right now. (exit)
+			I feel like I should be anywhere else right now. (exit)
 
 
 ### EARLY EXIT
@@ -153,7 +149,7 @@ a13:
 	at this point it's starting to feel more like you're just doing this
 	because you know what seeing*setanim cat_cello gesture_anger 2 idle* those fucking things does to me and 
 	this is revenge on behalf of that %‘friend'%% you clearly care about 
-	so much more than me you heartless piece of shi-*setcam setpos -2911.438721 2963.478271 83.287720;setang 25.644358 -47.431377 0.000000**setfov 70*
+	so much more than me you heartless piece of shi-*setcam setpos -2911.438721 2963.478271 83.287720;setang 25.644358 -47.431377 0.000000 fov70*
 	&a14
 
 a14:

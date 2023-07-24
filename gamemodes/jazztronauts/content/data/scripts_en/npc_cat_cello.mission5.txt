@@ -1,52 +1,51 @@
 accept:
-    *setskin 2*
-    don't-%% just,% don't say it.%%% i know.%% i get it.%% i fucked up.
-    &a2
+	*setskin 2*
+	don't-%% just,% don't say it.%%% i know.%% i get it.%% i fucked up.
+	&a2
 a2:
-    and keep your mouth shut because i've got one last request for you.% 
-    i'm staking what's left of my liquid cash until we hit up our fence 
-    again on this working so you better not fuck this up.
-    &a3
+	and keep your mouth shut because i've got one last request for you.% 
+	i'm staking what's left of my liquid cash until we hit up our fence 
+	again on this working so you better not fuck this up.
+	&a3
 a3:
-   i need you to go out there and find me milk cartons.%% a lot of milk 
-   cartons.%% i don't care if they've been left out and gotten all gross 
-   and nasty and starting to like congeal and shit,% in fact that's ideal.
-   &a4
+	i need you to go out there and find me milk cartons.%% a lot of milk 
+	cartons.%% i don't care if they've been left out and gotten all gross 
+	and nasty and starting to like congeal and shit,% in fact that's ideal.
+	&a4
 a4:
-    
-   i can't go to the bartender for this because that would require 
-   explaining what i want to do with it and i do not have the capacity 
-   to lie to her convincingly at this juncture so just do me a solid here 
-   okay
-   &a5
+	i can't go to the bartender for this because that would require 
+	explaining what i want to do with it and i do not have the capacity 
+	to lie to her convincingly at this juncture so just do me a solid here 
+	okay
+	&a5
 a5:
-   i promise it's not for anything nefarious or self-destructive.%% i just 
-   need this one last thing for something i'm testing.%% if it works,
-   i should be considerably less of an asshole to you all from then on.
-   *start 5*
-   &exit
+	i promise it's not for anything nefarious or self-destructive.%% i just 
+	need this one last thing for something i'm testing.%% if it works,
+	i should be considerably less of an asshole to you all from then on.
+	*start 5*
+	&exit
 
 idle:
-   *setskin 2*
-   go away.%% don't come back until you have what i want.
-   &exit
+	*setskin 2*
+	go away.%% don't come back until you have what i want.
+	&exit
 
 turnin:
-   you've got it?% good.%% here's the money,% like i promised.    
-   *finish 5*
-   &t1
+	you've got it?% good.%% here's the money,% like i promised.
+	*finish 5*
+	&t1
 
 t1:
-   i've been meaning to test out a theoretical compound for a long time 
-   but i've never managed to have all the ingredients on hand at the same 
-   time because my impulse control is% as you probably know by now% 
-   a complete myth
-   &t2
+	i've been meaning to test out a theoretical compound for a long time 
+	but i've never managed to have all the ingredients on hand at the same 
+	time because my impulse control is% as you probably know by now% 
+	a complete myth
+	&t2
 	
 t2:
-   *setskin 0*
-   you've helped me keep sufficiently motivated to do it this time,% though.%% 
-   so thanks for that,% from the bottom of my crusty black arrhythmic heart.%% 
-   if all goes well,% by the next time you see me i'll have my shit sorted out 
-   properly.%% wish me luck,% eh?
-   &exit
+	*setskin 0*
+	you've helped me keep sufficiently motivated to do it this time,% though.%% 
+	so thanks for that,% from the bottom of my crusty black arrhythmic heart.%% 
+	if all goes well,% by the next time you see me i'll have my shit sorted out 
+	properly.%% wish me luck,% eh?
+	&exit

@@ -134,10 +134,17 @@ local function drawPlayer(ply)
 		return
 	end
 
+	--sort of a bandaid, but prevents error spam from PAC outfits.
+	local play = ply
+	if type(play) == "table" then 
+		play = pac.LocalPlayer
+	end
+
 	pac.ForceRendering(true)
 	pac.ShowEntityParts(ply)
-	pac.RenderOverride(ply, "opaque")
-	pac.RenderOverride(ply, "translucent", true)
+	--switching these to the localplayer rids us of the error, while still letting dialog selections render when size has been adjusted
+	pac.RenderOverride(play, "opaque")
+	pac.RenderOverride(play, "translucent", true)
 	ply:DrawModel()
 	pac.ForceRendering(false)
 end
@@ -350,8 +357,10 @@ DialogCallbacks.ListOptions = function(data)
 			end
 		end
 
-		btn.DoClick = function()	
-			dialog.SetFocusProxy(LocalPlayer())
+		btn.DoClick = function()
+			local prop = LocalPlayer().JazzDialogProxy
+			if pac or not IsValid(prop) then prop = LocalPlayer() end --TODO: remove this PAC conditional if/when PAC is supported nicely on the player proxy.
+			dialog.SetFocusProxy(prop)
 			dialog.StartGraph(v.data[1], true)
 			frame:Close()
 		end

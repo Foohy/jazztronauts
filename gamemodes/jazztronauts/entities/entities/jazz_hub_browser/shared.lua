@@ -7,6 +7,10 @@ ENT.Model			= "models/sunabouzu/jazzbigtv.mdl"
 
 ENT.OnSound = Sound("jazztronauts/tv_on.wav")
 ENT.OffSound = Sound("buttons/lightswitch2.wav")
+ENT.History = {}
+
+local historyslots = 5 --the number of previously rolled addons we'll remember/be able to access
+
 local outputs =
 {
 	"OnMapRolled",
@@ -46,8 +50,10 @@ function ENT:Initialize()
 			local m = progress.GetLastMapSession()
 			if m then
 				local wsid = workshop.FindOwningAddon(m.filename)
-				if wsid then
+				if wsid and tonumber(wsid) and tonumber(wsid) > 0 then
 					self:BrowseToDestination(wsid)
+				else
+					self:BrowseToDestination(m.filename)
 				end
 			end
 		end )
@@ -78,6 +84,27 @@ function ENT:BrowseToDestination(dest)
 	self:SetDestinationID("")
 	self:EmitSound("buttons/lever7.wav", 75, 200)
 	print(dest)
+
+
+	--put the currently selected map in our history, if it isn't already (history is current map + last historyslots)
+	if (dest ~= "" and not tonumber(dest)) or (tonumber(dest) and tonumber(dest) > 0) then
+		local inlist = false
+		for _, v in ipairs(self.History) do
+			if string.lower(tostring(v)) == string.lower(tostring(dest)) then
+				inlist = true
+				break
+			end
+		end
+		if not inlist then
+			table.insert(self.History,1,tostring(dest))
+			while #self.History > historyslots + 1 do table.remove(self.History) end
+		end
+
+		--print("History:")
+		--PrintTable(self.History)
+	end
+
+
 	local function setBrowsedTo(dest)
 		self:TriggerOutput("OnMapRolled", self)
 		self:SetDestinationID(dest or "-1")
@@ -116,6 +143,38 @@ function ENT:AcceptInput( name, activator, caller, data )
 		return true
 	elseif name == "SelectCurrentAddon" then
 		self:SelectCurrentAddon()
+		return true
+	elseif string.find(name,"SwitchToHistory%d") then
+		if not self:GetIsOn() then return false end
+		--[[ Note: our first slot in History is whatever is currently selected, so always add 1 from here
+		(i.e. if we're looking to SwitchToHistory1, that'll be at History[2], etc.) ]]
+
+		local historynum = tonumber(string.match(name,"%d"))
+
+		--make sure the number provided is both within our range, and our table is currently that big
+		if historynum and historynum >= 1 and historynum <= historyslots and historynum + 1 <= #self.History then
+			local pick = tostring(self.History[historynum + 1])
+			--remove this from our history (it'll be re-added to the top of the list when we browse to it)
+			table.remove(self.History,historynum + 1)
+
+			self:BrowseToDestination(pick)
+			return true
+		end
+	elseif name == "HistoryUp" then
+		if not self:GetIsOn() then return false end
+		local move = tostring(self.History[1])
+		table.insert(self.History,move)
+		table.remove(self.History,1)
+		self:BrowseToDestination(self.History[1])
+		--print("UP ^")
+		return true
+	elseif name == "HistoryDown" then
+		if not self:GetIsOn() then return false end
+		local move = tostring(self.History[#self.History])
+		table.insert(self.History,1,move)
+		table.remove(self.History,#self.History)
+		self:BrowseToDestination(self.History[1])
+		--print("DOWN v")
 		return true
 	elseif name == "TurnOn" then
 		self:SetOn(true)

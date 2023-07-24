@@ -82,6 +82,14 @@
 	input SelectCurrentAddon(void)  : "Select the current addon, switching modes."
 	input TurnOn(void) 	   : "Turn on the tv, allowing it to receive input to change the channel"
 	input TurnOff(void)    : "Turn off the tv, blocking any channel change inputs."
+
+	input SwitchToHistory1(void)	: "Switch to the first entry in our History"
+	input SwitchToHistory2(void)	: "Switch to the second entry in our History"
+	input SwitchToHistory3(void)	: "Switch to the third entry in our History"
+	input SwitchToHistory4(void)	: "Switch to the fourth entry in our History"
+	input SwitchToHistory5(void)	: "Switch to the fifth entry in our History"
+	input HistoryUp(void)			: "Shift items in history up one slot"
+	input HistoryDown(void)			: "Shift items in history down one slot"
 ]
 
 @PointClass base(Targetname, Angles) studioprop("models/sunabouzu/jazzportal.mdl") = jazz_hub_selector : "Jazz Map Selector"

@@ -3,7 +3,7 @@
 	"base"			"sandbox"
 	"title"			"Jazztronauts"
 	"menusystem" 	"1"
-	"maps" 			"jazz_bar"
+	"maps" 			"^jazz_"
 	"category"		"pve"
 	"workshopid"	"1452613192"
 

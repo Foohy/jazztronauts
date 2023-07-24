@@ -100,7 +100,7 @@ function ENT:BrowseToDestination(dest)
 			while #self.History > historyslots + 1 do table.remove(self.History) end
 		end
 
-		--("History:")
+		--print("History:")
 		--PrintTable(self.History)
 	end
 
@@ -160,7 +160,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 			self:BrowseToDestination(pick)
 			return true
 		end
-	elseif name== "HistoryUp" then
+	elseif name == "HistoryUp" then
 		if not self:GetIsOn() then return false end
 		local move = tostring(self.History[1])
 		table.insert(self.History,move)
@@ -168,7 +168,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 		self:BrowseToDestination(self.History[1])
 		--print("UP ^")
 		return true
-	elseif name== "HistoryDown" then
+	elseif name == "HistoryDown" then
 		if not self:GetIsOn() then return false end
 		local move = tostring(self.History[#self.History])
 		table.insert(self.History,1,move)

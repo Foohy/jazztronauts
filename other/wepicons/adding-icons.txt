@@ -1,0 +1,9 @@
+If you're trying to add a weapon icon, here's some advice.
+
+1. If it isn't obvious, it needs to be vector art. No, throwing a bitmap into an SVG doesn't count. You need real lines and shapes and stuff. Try to keep in mind it'll be translated into a monochrome font that gets blurred, avoid filters and fancy stuff. Simple paths and shapes. Also keep in mind it will be rendered at both very high and very low resolutions. See how your icon looks when playing the game at not just your native res, but also at 800x600 or even lower. Keep it all the same color, you can set the color in code with SWEP.WepSelectColor.
+
+2. I've included the spacing guide I used. It's not a hard limit or restriction, just a guide. If you compare all of the icons, you'll notice they flirt with the guiding a lot, putting things right against the edges or having things *just* poke into the yellow. You can compare all the icons to the guide and get an idea of how spacing was considered. Essentially, try to stay within the green, but go outside as needed and even for effect. Above all, every icon should look consistent with each other on the default HUD. If yours looks too small, start breaking the rules a bit. The bus is a good example of this.
+
+3. When making the icon font, I used FontForge. You can just import an SVG directly into it, which I made mine in Inkscape. Keep an eye out for things broken upon importing. One issue I had was rounded rectangles becoming unrounded. You can likely fix a lot of issues by converting shapes/objects to paths, which your editor should have an option for. Don't modify the icon in the font itself, re-import it.
+
+4. When exporting the font, you might get some errors about "extremas" or "non integral coordinates" or "self intersecting". Ignore them. Even Valve's official icons say the exact same thing.

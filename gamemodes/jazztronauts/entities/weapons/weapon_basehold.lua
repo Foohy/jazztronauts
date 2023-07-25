@@ -196,18 +196,6 @@ function SWEP:Reload() return false end
 function SWEP:CanPrimaryAttack() return true end
 function SWEP:CanSecondaryAttack() return false end
 
-function SWEP:DrawWeaponSelection(x, y, w, h, alpha)
-	surface.SetDrawColor(255, 255, 255, alpha)
-	if self.WepSelectIcon then
-		surface.SetMaterial(self.WepSelectIcon)
-	else
-		surface.SetTexture("weapons/swep")
-	end
-
-	surface.DrawTexturedRect(x + w / 2 - 128, y + h / 2 - 64, 256, 128)
-	self:PrintWeaponInfo(x + w + 20, y + h, alpha)
-end
-
 hook.Add("KeyRelease", "ReleaseTriggerOnGunsWhatCanBeHeldDown", function(ply, key)
 	if not IsFirstTimePredicted() then return end
 	if key != WEAPON_PRIMARY and key != WEAPON_SECONDARY then return end
@@ -219,3 +207,66 @@ hook.Add("KeyRelease", "ReleaseTriggerOnGunsWhatCanBeHeldDown", function(ply, ke
 		wep:AnyStopAttack(key)
 	end
 end )
+
+
+-- All clientside from here
+if SERVER then return end
+
+local function ScreenScaleH(size)
+	return size * (ScrH() / 480)
+end
+
+local function UpdateFont()
+	local fontsize = ScreenScaleH(85)
+
+	-- Font stored at jazztronauts/resource/fonts/jazzwep.ttf
+	-- Icon assets in jazztronauts/other/wepicons (git repo only)
+	surface.CreateFont("JazzWep",{
+		font = "jazzicons",
+		size = fontsize,
+		weight = 500,
+		antialias = true,
+		additive = true
+	})
+	surface.CreateFont("JazzWepBlur",{
+		blursize = 8,
+		scanlines = 3,
+		font = "jazzicons",
+		size = fontsize,
+		weight = 500,
+		antialias = true,
+		additive = true
+	})
+end
+
+local oldtall = 0
+function SWEP:DrawWeaponSelection(x, y, wide, tall, alpha)
+	-- This is in case the user changed resolution
+	if tall != oldtall then UpdateFont() end
+	oldtall = tall
+
+	x2 = x + ScreenScaleH(8)
+	y2 = y + ScreenScaleH(6)
+
+	if self.WepSelectColor then
+		local color = self.WepSelectColor
+		color.a = alpha
+		surface.SetTextColor(color:Unpack())
+	else
+		surface.SetTextColor( 179, 83, 177, alpha )
+	end
+
+	surface.SetTextPos( x2, y2 )
+	surface.SetFont("JazzWepBlur")
+	surface.DrawText(self.WepSelectIcon)
+
+	surface.SetTextPos( x2, y2 )
+	surface.SetFont("JazzWep")
+	surface.DrawText(self.WepSelectIcon)
+
+	-- Draw weapon info box like standard Gmod
+	x = x + 10
+	y = y + 10
+	wide = wide - 20
+	self:PrintWeaponInfo( x + wide + 20, y + tall * 0.95, alpha )
+end

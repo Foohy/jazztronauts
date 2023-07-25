@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 256 256"
+   fill="none"
+   stroke="#ffffff"
+   stroke-width="3"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="weapon_stan-icon.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs12">
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter3072"
+       x="-0.053988652"
+       y="-0.053988652"
+       width="1.1079773"
+       height="1.1079773">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="2.6957082"
+         id="feGaussianBlur3074" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter3108"
+       x="-0.29925031"
+       y="-0.24892077"
+       width="1.5986917"
+       height="1.4978415">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="9.7144378"
+         id="feGaussianBlur3110" />
+    </filter>
+    <filter
+       inkscape:label="Black Hole"
+       inkscape:menu="Morphology"
+       inkscape:menu-tooltip="Creates a black light inside and outside"
+       height="1.2783071"
+       width="1.334841"
+       y="-0.13915354"
+       x="-0.16732499"
+       style="color-interpolation-filters:sRGB;"
+       id="filter4162">
+      <feGaussianBlur
+         stdDeviation="5"
+         in="SourceAlpha"
+         result="result1"
+         id="feGaussianBlur4150" />
+      <feComposite
+         operator="arithmetic"
+         k2="3.2"
+         k1="-1"
+         k4="-2"
+         result="result3"
+         in2="result1"
+         id="feComposite4152" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 10 0 "
+         result="result2"
+         id="feColorMatrix4154" />
+      <feComposite
+         result="fbSourceGraphic"
+         in="SourceGraphic"
+         operator="out"
+         in2="result2"
+         id="feComposite4156" />
+      <feBlend
+         mode="multiply"
+         in="result1"
+         in2="fbSourceGraphic"
+         result="result91"
+         id="feBlend4158" />
+      <feBlend
+         mode="screen"
+         in="fbSourceGraphic"
+         in2="result91"
+         id="feBlend4160" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:menu-tooltip="Basic noise fill texture; adjust color in Flood"
+       inkscape:label="Colorize Turbulent"
+       inkscape:menu="Overlays"
+       id="filter5468"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         type="saturate"
+         result="result5"
+         values="1"
+         id="feColorMatrix5444" />
+      <feFlood
+         result="result1"
+         flood-color="rgb(255,0,0)"
+         id="feFlood5446"
+         flood-opacity="0.13911862003780717" />
+      <feComposite
+         result="fbSourceGraphic"
+         operator="in"
+         in2="SourceGraphic"
+         id="feComposite5448" />
+      <feTurbulence
+         type="fractalNoise"
+         baseFrequency="0.035"
+         numOctaves="5"
+         id="feTurbulence5450" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 3 -1"
+         result="result0"
+         id="feColorMatrix5452" />
+      <feFlood
+         result="result1"
+         flood-color="rgb(0,0,0)"
+         flood-opacity="1"
+         id="feFlood5454" />
+      <feBlend
+         result="result2"
+         in="result1"
+         mode="normal"
+         in2="fbSourceGraphic"
+         id="feBlend5456" />
+      <feComposite
+         result="result3"
+         operator="out"
+         in2="result0"
+         id="feComposite5458" />
+      <feComposite
+         operator="atop"
+         in2="fbSourceGraphic"
+         id="feComposite5460" />
+      <feColorMatrix
+         result="result4"
+         type="hueRotate"
+         values="0"
+         id="feColorMatrix5462" />
+      <feBlend
+         mode="lighten"
+         in2="result5"
+         id="feBlend5464" />
+      <feColorMatrix
+         type="hueRotate"
+         values="0"
+         id="feColorMatrix5466" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     showgrid="false"
+     inkscape:zoom="10.584505"
+     inkscape:cx="242.42986"
+     inkscape:cy="16.297409"
+     inkscape:window-width="1920"
+     inkscape:window-height="1019"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg8" />
+  <rect
+     style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;stroke-miterlimit:3.7;filter:url(#filter5468)"
+     id="rect933"
+     width="256"
+     height="256"
+     x="0"
+     y="0"
+     ry="0"
+     inkscape:label="bg" />
+  <g
+     id="g990"
+     inkscape:label="pentaglow"
+     style="fill:none;fill-opacity:1;stroke:#ff0909;stroke-opacity:1;filter:url(#filter3072)">
+    <circle
+       cx="128"
+       cy="128"
+       r="96.093758"
+       stroke-width="7.81249"
+       id="circle2"
+       inkscape:label="circle"
+       style="fill:none;fill-opacity:1;stroke:#ff0909;stroke-opacity:1" />
+    <path
+       id="star"
+       stroke-width="6.24999"
+       d="M 176.4929,60.956984 128.00625,210.158 79.519935,60.956984 206.44706,153.17153 49.562635,153.16121 176.47962,60.947296 128.00641,210.158"
+       style="fill:none;fill-opacity:1;stroke:#ff0909;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3080"
+     inkscape:label="penta"
+     style="fill:none;fill-opacity:1;stroke:#ff0909;stroke-opacity:1">
+    <circle
+       cx="128"
+       cy="128"
+       r="96.093758"
+       stroke-width="7.81249"
+       id="circle3076"
+       inkscape:label="circle"
+       style="fill:none;fill-opacity:1;stroke:#ff0909;stroke-opacity:1" />
+    <path
+       id="path3078"
+       stroke-width="6.24999"
+       d="M 176.4929,60.956984 128.00625,210.158 79.519935,60.956984 206.44706,153.17153 49.562635,153.16121 176.47962,60.947296 128.00641,210.158"
+       style="fill:none;fill-opacity:1;stroke:#ff0909;stroke-opacity:1"
+       inkscape:label="star" />
+  </g>
+  <g
+     id="g3102"
+     inkscape:label="headglow"
+     style="display:inline;filter:url(#filter3108)">
+    <path
+       id="path3096"
+       d="m 128,74.268837 c -19.45684,0 -38.503055,11.983731 -42.382895,39.288533 -1.12937,14.60607 2.3589,34.59901 7.42171,46.13227 l 12.465905,6.32437 3.68625,11.33341 h 37.6165 l 3.78391,-11.33341 12.44248,-6.32437 c 4.42796,-14.2906 10.552,-33.24682 7.14545,-48.47289 C 167.58838,91.445215 147.25857,74.268837 128,74.268837 Z"
+       style="stroke-width:4.6875"
+       inkscape:label="skull" />
+    <ellipse
+       id="ellipse3098"
+       cx="108.1877"
+       cy="135.18326"
+       rx="13.977166"
+       ry="11.336701"
+       style="stroke-width:4.6875"
+       inkscape:label="left" />
+    <ellipse
+       id="ellipse3100"
+       cx="148.59201"
+       cy="135.18326"
+       rx="13.977166"
+       ry="11.336701"
+       style="stroke-width:4.6875"
+       inkscape:label="right" />
+  </g>
+  <g
+     id="g3094"
+     inkscape:label="head"
+     style="filter:url(#filter4162)">
+    <path
+       id="skull"
+       d="m 128,74.268837 c -19.45684,0 -38.503055,11.983731 -42.382895,39.288533 -1.12937,14.60607 2.3589,34.59901 7.42171,46.13227 l 12.465905,6.32437 3.68625,11.33341 h 37.6165 l 3.78391,-11.33341 12.44248,-6.32437 c 4.42796,-14.2906 10.552,-33.24682 7.14545,-48.47289 C 167.58838,91.445215 147.25857,74.268837 128,74.268837 Z"
+       style="stroke-width:4.6875"
+       inkscape:label="skull" />
+    <ellipse
+       id="left"
+       cx="108.1877"
+       cy="135.18326"
+       rx="13.977166"
+       ry="11.336701"
+       style="stroke-width:4.6875" />
+    <ellipse
+       id="right"
+       cx="148.59201"
+       cy="135.18326"
+       rx="13.977166"
+       ry="11.336701"
+       style="stroke-width:4.6875" />
+  </g>
+</svg>

@@ -6,11 +6,14 @@ SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= jazzloc.Localize("jazz.weapon.stan")
 SWEP.Slot					= 2
 SWEP.Category				= "#jazz.weapon.category"
-SWEP.Purpose				= "#jazz.weapon.stan.desc"
-SWEP.WepSelectIcon			= Material( "weapons/weapon_stan.png" )
+SWEP.Purpose				= jazzloc.Localize("jazz.weapon.stan.desc.short")
+
+SWEP.WepSelectIcon = "s"
+SWEP.WepSelectColor = Color(196,0,0)
+SWEP.AutoIconAngle = Angle(45, 90, 0)
 
 SWEP.ViewModel				= "models/weapons/c_stan.mdl"
-SWEP.WorldModel				= ""
+SWEP.WorldModel				= "models/Gibs/HGIBS.mdl"
 
 SWEP.UseHands		= true
 

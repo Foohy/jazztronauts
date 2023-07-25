@@ -1,3 +1,13 @@
+--[[
+2023-07-24: For documentation purposes, putting this here. When asked about why this wasn't added to the final game, Zak said:
+
+it just wasn't fun iirc
+I originally made it for a fort building gamemode I was working on at the time
+and I made the fx purple and it was like... a vibe, so we tried it
+]]
+
+
+
 -- Variables that are used on both client and server
 
 AddCSLuaFile()
@@ -12,6 +22,7 @@ SWEP.UseHands			= true
 
 SWEP.ViewModel			= "models/weapons/c_physcannon.mdl"
 SWEP.WorldModel			= "models/weapons/w_physics.mdl"
+SWEP.IconOverride		= "materials/entities/weapon_physcannon.png"
 
 SWEP.Primary.ClipSize		= -1
 SWEP.Primary.DefaultClip	= -1

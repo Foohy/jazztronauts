@@ -54,7 +54,7 @@ function Register(unlockName, price, props)
 		local classname = unlockName.ClassName or (unlockName.Folder and string.GetFileFromFilename(unlockName.Folder))
 		props.name = props.name or unlockName.PrintName or classname
 		props.desc = props.desc or unlockName.Purpose
-		props.icon = props.icon or "vgui/entities/" .. classname
+		props.icon = props.icon or "entities/" .. classname .. ".png"
 
 		unlockName = classname
 	end

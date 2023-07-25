@@ -44,11 +44,16 @@ function PANEL:AddUnlockedWeapon( weapon )
 	local wepinfo = list.Get("Weapon")[weapon]
 	if not wepinfo then return false end
 
+	local spawnmenuicon
+	if wepinfo.IconOverride then
+		spawnmenuicon = string.Replace(wepinfo.IconOverride, "materials/", "")
+	end
+
 	local icon = spawnmenu.CreateContentIcon( wepinfo.ScriptedEntityType or "weapon", self.content,
 		{
 			nicename = wepinfo.PrintName or wepinfo.ClassName or weapon,
 			spawnname = wepinfo.ClassName or weapon,
-			material = "entities/" .. (wepinfo.ClassName or weapon) .. ".png",
+			material = spawnmenuicon or "entities/" .. (wepinfo.ClassName or weapon) .. ".png",
 			admin = wepinfo.AdminOnly
 		} )
 

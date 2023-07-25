@@ -53,8 +53,13 @@ function Register(unlockName, price, props)
 	if type(unlockName) == "table" then
 		local classname = unlockName.ClassName or (unlockName.Folder and string.GetFileFromFilename(unlockName.Folder))
 		props.name = props.name or unlockName.PrintName or classname
-		props.desc = props.desc or unlockName.Purpose
-		props.icon = props.icon or "entities/" .. classname .. ".png"
+		props.desc = props.desc or unlockName.Purpose or unlockName.Instructions
+
+		local spawnmenuicon
+		if unlockName.IconOverride then
+			spawnmenuicon = string.Replace(unlockName.IconOverride, "materials/", "")
+		end
+		props.icon = props.icon or spawnmenuicon or "entities/" .. classname .. ".png"
 
 		unlockName = classname
 	end

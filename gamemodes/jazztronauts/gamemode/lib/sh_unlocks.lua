@@ -29,7 +29,8 @@ function ClearAll()
 	end
 end
 
-function ClearPlayer( list_name, ply )
+function ClearPlayer( list_name, steamid64 )
+	if not list_name or not steamid64 then return false end
 
 	if CLIENT then
 		local list = unlock_lists[list_name]
@@ -37,18 +38,17 @@ function ClearPlayer( list_name, ply )
 		return true
 	end
 
-	local steam_id = ply:SteamID64()
 	local result = sql.Query( ("DELETE FROM %s WHERE steamid = '%s'"):format(
 		unlock_lists[list_name],
-		steam_id ) )
+		steamid64 ) )
 
-	if false == result then
+	if result == false then
 		print("ERROR: " .. tostring( sql.LastError() ) )
 		return false
 	end
 
+	print("Successfully wiped " .. list_name .. " for " .. steamid64)
 	return true
-
 end
 
 function Register( list_name )
@@ -319,25 +319,38 @@ end )
 local ResetHelpMsg = "Resets your collected props. This does not affect the sandbox spawnmenu, only snatched props."
 	.. "\nDoing this can possibly reduce lag when opening the spawnmenu or claiming props in the hub."
 	.. '\nTo clear yourself, type "jazz_reset_props self". As an admin, to clear it for everyone, type "all" instead.'
+	.. "\nAdmins can also enter a player's SteamID64. They don't need to be online."
 concommand.Add( "jazz_reset_props", function( ply, _, args )
-	if not args[1] then
+	local arg = args[1]
+
+	if not arg then
 		print(ResetHelpMsg)
 		return
 	end
 
-	if args[1] == "all" and ply:IsAdmin() then
+	if arg == "all" and ply:IsAdmin() then
 		Clear("props")
 		return
 	end
 
-	if args[1] != "self" then
+	local steamid64 = false
+
+	if tonumber(arg) and ply:IsAdmin() then
+		steamid64 = tostring(arg)
+	end
+
+	if arg == "self" then
+		steamid64 = ply:SteamID64()
+	end
+
+	if not steamid64 then
 		print("Invalid argument!")
 		return
 	end
 
-	local result = ClearPlayer("props", ply)
-	if result then
-		print("Successfully wiped collected props!")
+	local result = ClearPlayer("props", steamid64)
+	if CLIENT and result then
+		print("Props list successfully reset for " .. arg)
 	else
 		print("Something went wrong!")
 	end

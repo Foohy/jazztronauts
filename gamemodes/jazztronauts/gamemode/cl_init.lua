@@ -15,19 +15,33 @@ include( "cl_jazzphysgun.lua")
 include( "cl_texturelocs.lua" )
 include( "cl_hud.lua" )
 
-GM.HideHUD = {
-	"CHudHealth",
-	"CHudBattery",
-	"CHudAmmo",
-	"CHudSecondaryAmmo",
-	"CHudCrosshair",
+local shouldHide = {
+	["CHudHealth"] = true,
+	["CHudBattery"] = true,
+	["CHudAmmo"] = true,
+	["CHudSecondaryAmmo"] = true,
+	["CHudCrosshair"] = true,
 }
 
 local isInSpecialMap = mapcontrol.IsInHub() or mapcontrol.IsInEncounter()
 
+jazzHideHUD = false
+hook.Add( "PreDrawHUD", "JazzCheckToHideHUD", function()
+	local playerwep = LocalPlayer():GetActiveWeapon()
+
+	if (IsValid(playerwep) and playerwep:GetClass() == "gmod_camera")
+	or !GetConVar("cl_drawhud"):GetBool()
+	or GAMEMODE:IsWaitingForPlayers() then
+		jazzHideHUD = true
+	else
+		jazzHideHUD = false
+	end
+end )
+
 function GM:HUDShouldDraw( name )
 	if isInSpecialMap or dialog.IsInDialog() then
-		return !table.HasValue(self.HideHUD, name)
+		if shouldHide[name] then return false end
 	end
-	return true
+
+	return self.BaseClass.HUDShouldDraw(self, name)
 end

@@ -154,7 +154,7 @@ function ENT:Draw()
 	pos = pos - ang:Right() * self.ScreenScale * self.ScreenHeight / 2
 
 	cam.Start3D2D(pos, ang, self.ScreenScale)
-		self.Panel:PaintManual()
+		self.Panel:PaintManual(true)
 	cam.End3D2D()
 
 	--self:DrawModel()

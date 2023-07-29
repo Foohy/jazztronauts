@@ -371,25 +371,35 @@ elseif CLIENT then
 			prog[mid] = num
 		end
 
-		-- Build a mission history table that matches what sql would give us
+		-- Build a mission history table that matches what sql would give us, separate tables for ui
 		ClientMissionHistory = {}
+		local CompletedList = {}
+		local ActiveList = {}
 		for k, v in SortedPairs(MissionList) do
 			local completed = hist[k] != nil
 			local active = prog[k] != nil
 
 			if not completed and not active then continue end
 
-			ClientMissionHistory[k] =
-			{
+			local missiontable = {
 				missionid = k,
 				completed = completed,
 				progress = prog[k] or v.Count
 			}
+
+			if completed then
+				table.insert(CompletedList, missiontable)
+			else
+				table.insert(ActiveList, missiontable)
+			end
+
+			ClientMissionHistory[k] = missiontable
 		end
 
 		Active = prog
 		Finished = hist
 
-		hook.Call("JazzMissionsUpdated", GAMEMODE, hist, prog)
+		hook.Run("JazzMissionsUpdated", hist, prog)
+		hook.Run("JazzMissionsUpdateUI", ActiveList, CompletedList)
 	end )
 end

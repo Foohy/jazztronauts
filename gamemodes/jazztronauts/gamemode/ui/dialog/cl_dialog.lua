@@ -438,6 +438,12 @@ function IsInDialog()
 	return _dialog.nodeiter != nil
 end
 
+-- 0 is not open, 1 is fully open, decimals for transitioning between
+-- Use this to make things do smooth animations during dialog open and close
+function GetOpen()
+	return _dialog.open
+end
+
 function GetParam(name)
 	if not _dialog.curCmd or not _dialog.curCmd.env or not _dialog.curCmd.env.params then return nil end
 	return _dialog.curCmd.env.params[name]

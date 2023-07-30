@@ -26,6 +26,7 @@ local shouldHide = {
 local isInSpecialMap = mapcontrol.IsInHub() or mapcontrol.IsInEncounter()
 
 jazzHideHUD = false
+jazzHideHUDSpecial = false
 hook.Add( "PreDrawHUD", "JazzCheckToHideHUD", function()
 	local playerwep = LocalPlayer():GetActiveWeapon()
 
@@ -36,10 +37,16 @@ hook.Add( "PreDrawHUD", "JazzCheckToHideHUD", function()
 	else
 		jazzHideHUD = false
 	end
+
+	if isInSpecialMap or dialog.IsInDialog() then
+		jazzHideHUDSpecial = true
+	else
+		jazzHideHUDSpecial = false
+	end
 end )
 
 function GM:HUDShouldDraw( name )
-	if isInSpecialMap or dialog.IsInDialog() then
+	if jazzHideHUDSpecial then
 		if shouldHide[name] then return false end
 	end
 

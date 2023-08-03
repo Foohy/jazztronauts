@@ -131,7 +131,7 @@ end
 
 local ShowFinishedMissions = false
 hook.Add("HUDPaint", "JazzDrawMissions", function()
-	if !GetConVar("cl_drawhud"):GetBool() then return end
+	if jazzHideHUD then return end
 
 	local spacing = ScreenScale(2)
 	local offset = ScreenScale(40)

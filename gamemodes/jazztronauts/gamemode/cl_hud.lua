@@ -168,9 +168,6 @@ local function DrawNoteCount()
 end
 
 local function DrawBlackShardCount()
-	if mapcontrol.IsInGamemodeMap() then return end
-	if GAMEMODE:IsWaitingForPlayers() then return end
-
 	local bshard = IsValid(bshard) and bshard or ents.FindByClass("jazz_shard_black")[1]
 	if not IsValid(bshard) or not bshard.GetStartSuckTime then return end
 
@@ -190,9 +187,6 @@ local function DrawBlackShardCount()
 end
 
 local function DrawShardCount()
-	if mapcontrol.IsInGamemodeMap() then return end
-	if GAMEMODE:IsWaitingForPlayers() then return end
-
 	local left, total = mapgen.GetShardCount()
 	local str = jazzloc.Localize("jazz.shards.partialcollected",total - left,total)
 	local color = Color(143, 0, 255, 100)
@@ -205,12 +199,14 @@ local function DrawShardCount()
 	local offset = surface.GetTextSize(str) / 2
 	offset = offset + 5
 	draw.WordBox( 5, ScrW() / 2 - offset, 5, str, "JazzNote", color, color_white )
-
 end
 
 hook.Add("HUDPaint", "JazzDrawHUD", function()
-	if !GetConVar("cl_drawhud"):GetBool() then return end
+	if jazzHideHUD then return end
+
 	DrawNoteCount()
+
+	if mapcontrol.IsInGamemodeMap() then return end
 
 	local isCommitted = mapgen.GetTotalCollectedBlackShards() > mapgen.GetTotalRequiredBlackShards() / 2
 	if isCommitted then
@@ -219,18 +215,18 @@ hook.Add("HUDPaint", "JazzDrawHUD", function()
 		DrawShardCount()
 	end
 
-	-- Always show the moneybux in the hub
-	if mapcontrol.IsInHub() then
-		HideTime = math.huge
-	end
-
 end )
+
+-- Always show the moneybux in the hub, skip the scoreboard stuff below
+if mapcontrol.IsInHub() then
+	HideTime = math.huge
+	return
+end
 
 //Show the money count when pressing tab
 hook.Add( "ScoreboardShow", "jazz_scoreboardShow", function()
 	HideTime = math.huge
 end )
 hook.Add("ScoreboardHide", "jazz_scoreboardHide", function()
-	if mapcontrol.IsInHub() then return end
 	HideTime = CurTime()
 end )

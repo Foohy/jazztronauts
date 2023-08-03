@@ -519,7 +519,7 @@ SWEP.EquipFade = 0
 function SWEP:DrawHUD()
 	local owner = self:GetOwner()
 	if not IsValid(owner) or IsValid(owner:GetVehicle()) then return end -- Don't draw while in vehicle
-	if dialog.IsInDialog() then return end -- Also don't draw while in a dialog
+	if jazzHideHUD or dialog.IsInDialog() then return end -- Also don't draw while in a dialog
 
 	local pfov = LocalPlayer():GetFOV()
 	local aimradius = (ScrW() / 2) * math.tan(math.rad(90 - pfov/2)) * math.tan(math.rad(self.AutoAimCone))

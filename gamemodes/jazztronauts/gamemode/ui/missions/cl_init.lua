@@ -118,7 +118,7 @@ end)
 
 local ShowFinishedMissions = false
 hook.Add("HUDPaint", "JazzDrawMissions", function()
-	if !GetConVar("cl_drawhud"):GetBool() then return end
+	if jazzHideHUD then return end
 
 	local dialogopen = dialog.GetOpen()
 	if dialogopen == 1 then return end

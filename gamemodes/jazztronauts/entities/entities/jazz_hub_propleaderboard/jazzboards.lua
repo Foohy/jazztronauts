@@ -10,7 +10,7 @@ BOARD_RECENTS		   = 3 -- Most props not claimed yet (recently collected props)
 BOARD_TOTALPROPS_SINGLE = 4 -- Most props of a single type collected of all time
 
 -- How many top entries we should care about
-BoardEntryCount = 5
+BoardEntryCount = 10
 
 Boards = Boards or {}
 
@@ -50,7 +50,7 @@ if SERVER then
 			tallied[pid].count = tallied[pid].count + offset
 		end
 
-		-- Send the top three down the wire
+		-- Send the top players down the wire
 		local num = math.min(table.Count(tallied), BoardEntryCount)
 		net.Start("jazz_leaderboards_update")
 			net.WriteUInt(id, 4)
@@ -83,12 +83,13 @@ if CLIENT then
 	net.Receive("jazz_leaderboards_update", function(len, ply)
 		local id = net.ReadUInt(4)
 		local num = net.ReadUInt(4)
-		--print("Received " .. num .. " entries for leaderboard " .. id)
+		--print(jazzboards.Boards[id].title .. " received " .. num .. " entries")
 		Leaderboards[id] = {}
 
 		for i=1, num do
 			local plyID = net.ReadString()
 			local num = net.ReadUInt(32)
+			--print("- entry " .. plyID .. " with value " .. num)
 			local entry = {
 				steamid = plyID,
 				count = num,

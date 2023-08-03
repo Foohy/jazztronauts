@@ -242,10 +242,21 @@ count = 10
 AddMission(5, NPC_CAT_CELLO, {
 	Instructions = jazzloc.Localize("jazz.mission.milk",count),
 	Filter = function(mdl)
-		return mdl == "models/props_2fort/cow001_reference.mdl" or
-			string.match(mdl, "milk") and 
-			not string.match(mdl, "hat") and 
-			not string.match(mdl, "crate")
+		return (string.match(mdl, "milk") and 
+				not string.match(mdl, "hat") and 
+				not string.match(mdl, "crate")) or
+			(string.match(mdl,"cow") and 
+				not string.match(mdl,"cowboy") and 
+				not string.match(mdl,"cowl") and 
+				not string.match(mdl,"moscow") and 
+				not string.match(mdl,"cowmangler")) or
+			--these composite props have milk cartons/jugs in them, and are a lot more likely to show up than the individual models
+			MatchesAny(mdl, {
+				"models/props_junk/garbage128_composite001a.mdl",
+				"models/props_junk/garbage128_composite001c.mdl",
+				"models/props_junk/garbage128_composite001d.mdl",
+				"models/props_junk/garbage256_composite001b.mdl"
+			})
 	end,
 	Count = count,
 	Prerequisites = { IndexToMID(4, NPC_CAT_CELLO)  },
@@ -378,11 +389,11 @@ AddMission(4, NPC_CAT_BAR, {
 		}) or ]]
 		--wash, without dishwasher or washington
 		(string.match(mdl, "wash") and 
-			not mdl == "models/props_street/window_washer_button.mdl" and 
+			mdl ~= "models/props_street/window_washer_button.mdl" and 
 			not string.match(mdl, "dish") and
 			not string.match(mdl, "washington")) or
 		(string.match(mdl, "dryer") and 
-			not mdl == "models/props_pipes/brick_dryer_pipes.mdl")
+			mdl ~= "models/props_pipes/brick_dryer_pipes.mdl")
 	end,
 	Count = count,
 	Prerequisites = { IndexToMID(3, NPC_CAT_BAR)  },

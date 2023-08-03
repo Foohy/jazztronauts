@@ -15,19 +15,19 @@ begin:
     *txin*
     *show 0.5*
 	*bgmplay sound/jazztronauts/blackshard_hum.wav .35 10*
-     You can’t tell me anything new.
+     You can't tell me anything new.
      &a1
 	
 a1:
-     There’s nothing new to learn.
+     There's nothing new to learn.
      &a2
 	
 a2:
-     I’m tired of looking.
+     I'm tired of looking.
      &a3
 	
 a3:
-     I’m so tired of looking.
+     I'm so tired of looking.
      &exit
 	
 	

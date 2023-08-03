@@ -64,8 +64,29 @@ local AcceptEntClass = {
 	["prop_physics_multiplayer"] = true,
 	["prop_physics_respawnable"] = true,
 	["prop_dynamic"] = true,
+	["prop_dynamic_override"] = true,
 	["prop_ragdoll"] = true,
 	["prop_door_rotating"] = true,
+	--let's get esoteric wee
+	["gmod_tool"] = true,
+	["gmod_camera"] = true,
+	["simple_physics_prop"] = true, --created by phys_convert
+	["helicopter_chunk"] = true,
+	["grenade_helicopter"] = true,
+	["gib"] = true,
+	["rpg_missile"] = true,
+	["apc_missile"] = true,
+	["npc_grenade_bugbait"] = true;
+	["phys_magnet"] = true,
+	["prop_ragdoll_attached"] = true,
+	["gmod_wire_hoverdrivecontroler"] = true,
+	["weapon_striderbuster"] = true,
+	["npc_satchel"] = true, --SLAM
+	["npc_tripmine"] = true, --SLAM
+	["grenade_ar2"] = true,
+	["combine_mine"] = true,
+	["env_headcrabcanister"] = true,
+	["prop_thumper"] = true,
 }
 
 local IgnoreEntClass = {
@@ -83,7 +104,7 @@ function CanSnatch(ent)
 	if IgnoreEntClass[ent_class] then return false end
 
 	-- Assume this flag on this flag becomes a thing
-	if ent.IgnoreForSnatch then return true end
+	if ent.IgnoreForSnatch then return false end
 
 	-- Weapons held by players
 	if ent:IsWeapon() and IsValid(ent:GetParent()) and ent:GetParent():IsPlayer() then return false end
@@ -104,6 +125,9 @@ function CanSnatch(ent)
 	if string.find(ent_class, "weapon_") ~= nil then return true end
 	if string.find(ent_class, "prop_vehicle") ~= nil then return true end
 	if string.find(ent_class, "item_") ~= nil then return true end
+
+	--Weapons not using "weapon_" in their name
+	if ent:IsWeapon() then return true end
 
 	-- ???
 	-- if string.find(ent_class, "jazz_bus_") ~= nil then return true end

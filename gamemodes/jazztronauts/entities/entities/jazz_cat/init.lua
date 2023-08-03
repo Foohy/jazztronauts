@@ -13,14 +13,10 @@ local outputs =
 	"OnNotPicked",
 }
 
-function ENT:Initialize()
-
-	-- Lookup corresponding npc model
-	local npcinfo = missions.GetNPCInfo(self.NPCID)
-	self:SetModel(npcinfo and npcinfo.model or self.Model)
-
+local updateCollision = function(self)
 	-- The cats don't actually have a physics model so just make a box around em
-	local mins, maxs = self:GetModelBounds()
+	local mins, maxs = self:AdjustBounds()
+
 	self:SetCollisionBounds(mins, maxs)
 	mins:Rotate(self:GetAngles())
 	maxs:Rotate(self:GetAngles())
@@ -28,6 +24,15 @@ function ENT:Initialize()
 
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_BBOX)
+end
+
+function ENT:Initialize()
+
+	-- Lookup corresponding npc model
+	local npcinfo = missions.GetNPCInfo(self.NPCID)
+	self:SetModel(npcinfo and npcinfo.model or self.Model)
+
+	self:SetIdleAnim(self.IdleAnim)
 
 	self:SetUseType(SIMPLE_USE)
 
@@ -36,7 +41,6 @@ function ENT:Initialize()
 		phys:EnableMotion(false)
 	end
 
-	self:SetIdleAnim(self.IdleAnim)
 	self:SetNPCID(self.NPCID)
 
 	self:SetupChatTables()
@@ -48,7 +52,7 @@ function ENT:KeyValue( key, value )
 		self:StoreOutput(key, value)
 	end
 
-	if key == "idleanim" then
+	if key == "DefaultAnim" or key == "idleanim" then
 		self.IdleAnim = value
 	end
 
@@ -75,6 +79,9 @@ function ENT:SetIdleAnim(anim)
 	self.IdleAnim = anim
 
 	self:ResetSequence(self:LookupSequence(self.IdleAnim))
+
+	updateCollision(self)
+
 	self:SetPlaybackRate(1.0)
 end
 

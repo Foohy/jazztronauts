@@ -16,6 +16,7 @@ if SERVER then
 		end
 		local entName = net.ReadString()
 		local inp = net.ReadString()
+		local delay = net.ReadFloat()
 		local param = net.ReadString()
 
 		if string.sub(entName, 0, #mapTriggerPrefix) != mapTriggerPrefix then
@@ -25,7 +26,7 @@ if SERVER then
 
 		local entities = ents.FindByName(entName)
 		for _, v in pairs(entities) do
-			v:Fire(inp, param)
+			v:Fire(inp, param, delay)
 		end
 	end )
 
@@ -40,7 +41,8 @@ if SERVER then
 	end )
 
 	hook.Add("JazzDialogFinished", "JazzRemoveDialogPVS", function(ply, script, mark)
-		ply.JazzDialogPVS = nil
+		--delay by a bit so we can transition out
+		timer.Simple(2, function() if IsValid(ply) then ply.JazzDialogPVS = nil end end)
 	end)
 
 	hook.Add("SetupPlayerVisibility", "JazzAddDialogPVS", function(ply, view)
@@ -55,15 +57,16 @@ if not CLIENT then return end
 
 -- Fires an output on a named entity on the server
 -- Try to avoid using this unless specifically needed for something
-dialog.RegisterFunc("fire", function(d, entityName, inputName, fireParams)
+dialog.RegisterFunc("fire", function(d, entityName, inputName, delay, fireParams)
 	if not entityName or not inputName then
-		ErrorNoHalt("*fire <entityName> <inputName> [fireParams]* requires an entity name and input name!")
+		ErrorNoHalt("*fire <entityName> <inputName> [delay] [fireParams]* requires an entity name and input name!")
 		return
 	end
 
 	net.Start("dialog_requestcommand")
 		net.WriteString(entityName)
 		net.WriteString(inputName)
+		net.WriteFloat(delay or 0)
 		net.WriteString(fireParams or "")
 	net.SendToServer()
 end)
@@ -240,7 +243,12 @@ end)
 dialog.RegisterFunc("setspeaker", function(d, name, skinid)
 	skinid = skinid or nil
 	if skinid ~= nil then SetSkinFunc(d, name, skinid) end
-	dialog.SetFocusProxy(FindByName(name))
+	local ent = FindByName(name)
+	if name == "player" and (pac or not IsValid(ent)) then
+		dialog.SetFocusProxy(LocalPlayer()) --TODO: remove this PAC conditional if/when PAC is supported nicely on the player proxy.
+	else
+		dialog.SetFocusProxy(ent)
+	end
 end)
 
 dialog.RegisterFunc("setnpcid", function(d, name, npc)
@@ -271,6 +279,12 @@ dialog.RegisterFunc("setposang", function(d, name, ...)
 	if posang.ang then
 		prop:SetAngles(posang.ang)
 	end
+end)
+
+dialog.RegisterFunc("setsceneroot", function(d, name, ...)
+	local root = ents.FindByName(name) --let's just pretend that this works clientside for now
+	if not IsValid(root) then return end
+	
 end)
 
 dialog.RegisterFunc("tweenposang", function(d, name, time, ...)
@@ -308,7 +322,12 @@ dialog.RegisterFunc("setskin", function(d, name, skinid)
 end)
 -- Abstracted out for use in both setskin and setspeaker
 function SetSkinFunc(d, name, skinid)
-	local skinid = tonumber(skinid) or 0
+	local skinid = skinid
+	if not skinid and tonumber(name) then -- just a skinid, so setskin on the current speaker 
+		skinid = name
+		name = "focus"
+	end
+	skinid = tonumber(skinid) or 0
 	local prop = FindByName(name)
 
 	if IsValid(prop) then
@@ -317,8 +336,8 @@ function SetSkinFunc(d, name, skinid)
 end
 
 local view = {}
-dialog.RegisterFunc("setcam", function(d, ...)
-	local posang = parsePosAng(...)
+dialog.RegisterFunc("setcam", function(d, setpos, px, py, pzsetang, ax, ay, az, fov)
+	local posang = parsePosAng(setpos, px, py, pzsetang, ax, ay, az)
 
 	if !posang.pos or !posang.ang then
 		view = nil
@@ -330,6 +349,11 @@ dialog.RegisterFunc("setcam", function(d, ...)
 	view.endtime = nil
 	view.curpos = posang.pos
 	view.curang = posang.ang
+
+	if fov then
+		local fov = tonumber(string.Replace(fov,"fov",""))
+		view.fov = fov
+	end
 
 	-- Only create the player proxy if we modify the camera
 	FindByName("player")
@@ -402,6 +426,24 @@ end )
 
 dialog.RegisterFunc("stopsound", function(d)
 	RunConsoleCommand("stopsound")
+end )
+
+dialog.RegisterFunc("ignite", function(d, name, attach)
+	local prop = FindByName(name)
+
+	if IsValid(prop) then
+		game.AddParticles( "particles/fire_01.pcf" )
+		PrecacheParticleSystem( "env_fire_small" )
+		prop.burnfx = prop:CreateParticleEffect( "env_fire_small", attach or 0)
+	end
+end )
+
+dialog.RegisterFunc("extinguish", function(d, name)
+	local prop = FindByName(name)
+
+	if IsValid(prop) and IsValid(prop.burnfx) then
+		prop.burnfx:StopEmission()
+	end
 end )
 
 function ResetScene()

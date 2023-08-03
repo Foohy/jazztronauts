@@ -1,6 +1,6 @@
 "LightmappedGeneric"
 {
-	"$basetexture" "sunabouzu/crowbar_card"
+	"$basetexture" "sierra/crowbar_card"
 
 	"$surfaceprop" "Wood"
 	"%keywords" "jazz"

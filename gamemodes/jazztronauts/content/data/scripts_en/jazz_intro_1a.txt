@@ -18,7 +18,7 @@ begin1:
 	*show 0.5*
 
 ###### START
-	holy shit%*setskin cat_cello 1**bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0* look at this garbage%%%*setskin cat_cello 0*
+	holy shit%*CELLO_GRIN**bgmplay sound/jazztronauts/music/events/pocket.mp3 1.0 2.0* look at this garbage%%%*CELLO_NEUTRAL*
 	whoever made this place really phoned it in% huh
 	&begin2
 
@@ -32,14 +32,15 @@ begin3:
 	*setspeaker cat_piano*
 	*setcam setpos -4621.874512 -296.848511 1561.714600;setang 1.014253 106.313759 0.000000*
 	Dunno what you expected,% it's pretty dead around here at this point.%%
-	*setskin cat_piano 1*The last place we looked?*setanim cat_piano gesture_foldarms 1 idle*% Could barely even call that a map.
+	*PIANO_SMIRK*The last place we looked?*setanim cat_piano gesture_foldarms 1 idle*% Could barely even call that a map.
 	&begin4
 
 begin4:
-	*setspeaker cat_cello 2*
+	*setspeaker cat_cello* 
 	*tweencam .75 setpos -4599.150879 -306.177002 1561.454712;setang 4.308485 45.520340 0.000000*
-	dont *setanim cat_cello gesture_jab 1 idle*you fuckin dare blaspheme dm_juicyasszone%%%%
-	*setskin cat_cello 0*it had a vision
+	*CELLO_MAD* 
+	dont you fuckin*setanim cat_cello gesture_jab 1 idle* dare blaspheme dm_juicyasszone.bsp%%%*CELLO_NEUTRAL*%
+	it had a vision
 	&begin5
 
 begin5:
@@ -53,41 +54,42 @@ begin5:
 	&begin6
 
 begin6:
-	*setspeaker cat_bar 3*
-	Ah, a shard!%% *setanim cat_bar gesture_clap 1**setskin cat_bar 1*Keen eyes as always.
+	*setspeaker cat_bar*
+	*BAR_SURPRISE* 
+	Ah, a shard!*setanim cat_bar gesture_clap 1**BAR_HAPPY*%% Keen eyes as always.
 	&begin7
 
 begin7:
 	*setspeaker narrator*
-	*setskin cat_bar 0*
-	*setskin cat_singer 1*
+	*BAR_NEUTRAL*
 	*setanim cat_singer gesture_embarass 1 idle*
-	> The cat bashfully looks down and starts fidgeting.%*setskin cat_singer 0*
+	*SINGER_HAPPY*
+	> The cat bashfully looks down and starts fidgeting.
 	&begin8
 
 begin8:
-	*setspeaker cat_piano 0*
-	*setanim cat_piano gesture_foldarms 1 idle*
+	*SINGER_NEUTRAL*
+	*setspeaker cat_piano*
 	*setanim cat_singer singer_survey 0.7 idle*
 	*setcam setpos -4673.240723 -489.003113 1565.306396;setang 4.847563 49.533478 0.000000*
-	Tch.%% I can't believe we're doing grunt work.
+	*PIANO_NEUTRAL**setanim cat_piano gesture_foldarms 1 idle*Tch.%% I can't believe we're doing grunt work.
 	&begin9
 
 begin9:
-	*setspeaker cat_cello 2*
-	*setanim cat_cello gesture_shrug 1 idle*
+	*setspeaker cat_cello*
+	*CELLO_MAD*
 	*setcam setpos -4585.696289 -314.744690 1560.782227;setang 0.714805 54.894096 0.000000*
+	*setanim cat_cello gesture_shrug 1 idle*
 	*setposang cat_singer setpos -4510.350098 -597.766235 1518.031250;setang -90.592359 -76.098587 0.000000* # not visible after cam change
 	yea this is peasant shit%%
 	why are we even bothering with this again
 	&begin10
 
 begin10:
-	*setspeaker cat_bar 0*
-	*setanim cat_bar gesture_jab 1 idle*
+	*setspeaker cat_bar* 
 	*setcam setpos -4618.435059 -439.372253 1552.954712;setang 2.212179 -56.899910 0.000000*
-	Well, as I recall,% you were the one
-	so very insistent on making our last guests leave.
+	*BAR_NEUTRAL*Well, as I recall,*setanim cat_bar gesture_jab 1 idle* you were the one so very insistent on making
+	our last guests leave.
 	&begin11
 
 begin11:
@@ -107,7 +109,8 @@ begin12:
 	&begin13
 
 begin13:
-	*setspeaker cat_bar 0*
+	*setspeaker cat_bar*
+	*BAR_NEUTRAL*
 	*setcam setpos -4791.147461 -371.753510 1557.132446;setang -3.537738 3.532947 0.000000*
 	Oh come now, *setanim cat_bar gesture_sweep 1 idle*they were perfectly fine.%%
 	Besides we got a bargain on them, didn't we?%%
@@ -118,7 +121,7 @@ begin14:
 	*setspeaker narrator*
 	> They both turn from scowling at each other, to glaring
 	at the orange cat.%% Before the argument can go anywhere,
-	the silent cat starts waving their arms around. *setanim cat_singer singer_whistle 1 idle*
+	the silent cat starts waving their arms around. *setanim cat_singer singer_whistle 1 idle* *BAR_NEUTRAL*
 	&begin15
 
 begin15:
@@ -129,26 +132,29 @@ begin15:
 	&begin16
 
 begin16:
-	*setspeaker cat_piano 2*
-	Oh, sure,%*setanim cat_piano gesture_anger 1 idle* just remove yourself from the equation!%%*setskin cat_piano 3**setanim cat_piano gesture_sigh 1 idle*
-	%.%.%.%*setskin cat_piano 0*Fine,%*setskin cat_cello 0*% let's go.
+	*setspeaker cat_piano*
+	*PIANO_ANGRY*Oh, sure,%*setanim cat_piano gesture_anger 1 idle* just remove yourself from the equation!%%*PIANO_FLUSTERED**setanim cat_piano gesture_sigh 1 idle*
+	%.%.%.%*PIANO_NEUTRAL*Fine,%*CELLO_NEUTRAL*% let's go.
 	&begin17
 
 begin17:
-	*setspeaker cat_bar 1*
+	*setspeaker cat_bar*
 	*setcam setpos -4609.066406 -413.291779 1559.213867;setang 2.152310 -58.040230 0.000000*
-	Onward!
+	*BAR_HAPPY*Onward!
 	&begin18
 
 begin18:
 	*setspeaker narrator*
 	*setcam setpos -4920.419922 -261.465637 1606.207642;setang -0.662756 -29.560171 0.000000*
-	*setskin cat_bar 0*
+	*BAR_NEUTRAL*
 	> The cats all point what looks like car keys at the wall.%.%.%% *clear**emitsound beamstart7.wav 0.25 1.0*
 	A few seconds later they disappear!
 	&begin19
 
 begin19:
 	> You hear a latch unlocking, near the back of the room!%
-	.%.%.%and you're pretty sure that event wasn't a normal part of the map%.%.%.
+	.%.%.%and you're pretty sure that event wasn't a normal part
+	of this map%.%.%.
 	&exit
+
+###### END OF EVENT

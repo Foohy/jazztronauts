@@ -16,6 +16,8 @@ ENT.ShadowControl.teleportdistance = 2
 ENT.ShadowControl.deltatime = deltatime
 
 ENT.TravelTime = 2.5
+ENT.LeadUp = 2000
+ENT.TravelDist = 4500
 ENT.SkidPlayed = false
 ENT.EngineOffPlayed = false
 
@@ -69,7 +71,7 @@ function ENT:Initialize()
 		self:AttachSeat(Vector(-40, i * 40 - 180, 80), Angle(0, 180, 0))
 	end
 
-	self.StartPos = self:GetPos() + self:GetAngles():Right() * -2000 + Vector(0, 0, 40)
+	self.StartPos = self:GetPos() + self:GetAngles():Right() * -1 * self.LeadUp + Vector(0, 0, 40)
 	self.GoalPos = self:GetPos()
 	self.StartTime = CurTime()
 	self.StartAngles = self:GetAngles()
@@ -173,7 +175,7 @@ function ENT:Touch( other )
 	d:SetDamage((velocity - other:GetVelocity()):Length() )
 	d:SetAttacker(self)
 	d:SetInflictor(self)
-	d:SetDamageType(DMG_CRUSH)
+	d:SetDamageType(bit.bor(DMG_VEHICLE,DMG_CRUSH))
 	d:SetDamageForce(self:GetAngles():Right() * velocity:Length() * 10000) -- Just fuck them up
 
 	other:TakeDamageInfo( d )
@@ -186,7 +188,7 @@ function ENT:LeaveStation()
 
 	self.StartTime = CurTime()
 	self.StartPos = self:GetPos()
-	self.GoalPos = self.GoalPos + self:GetAngles():Right() * 4500
+	self.GoalPos = self.GoalPos + self:GetAngles():Right() * self.TravelDist
 
 	self.Leaving = true
 	self:ResetTrigger("arrived")

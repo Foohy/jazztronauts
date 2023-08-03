@@ -136,6 +136,7 @@ function ENT:StartLoading( ply )
 			if IsValid(ent) then
 				ply:SetPos( ent:GetPos() )
 				ply:SetEyeAngles( ent:GetAngles() )
+				self:TriggerOutput("OnTeleport", ply)
 			end
 		end
 

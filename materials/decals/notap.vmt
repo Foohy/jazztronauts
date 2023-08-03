@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "decals/notap"
+	$decal 1
+	"%keywords" "jazz"
+	"$alphatest" 1
+}

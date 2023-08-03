@@ -1,7 +1,7 @@
 ENT.Type = "anim"
 ENT.Base = "base_entity"
 
-ENT.PrintName		= "The Bus - World"
+ENT.PrintName		= "#jazz_bus_explore"
 ENT.Author			= ""
 ENT.Information	= ""
 ENT.Category		= ""

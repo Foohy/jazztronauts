@@ -1,143 +1,139 @@
-﻿SKIP_OPEN = true
+SKIP_OPEN = true
 ###### technically 7th bartender event?
 begin:
 	*hide*
 	*txout*
-    *spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
+	spawnnarrator()
+	spawnpianist()
+	spawncellist()
+	spawnsinger()
 	*bgmplay sound/jazztronauts/music/events/warm_song.mp3 .75 3*
 	*setposang npc_cat_bar setpos 2.762444 693.325500 32;setang -90 180 0.000000*
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
-	*setnpcid cat_piano npc_cat_piano*
 	*setposang cat_piano setpos 48.296669 612.397583 36;setang -90 0 0.000000*
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
-	*setnpcid cat_cello npc_cat_cello*
 	*setposang cat_cello setpos 98.372551 608.679138 36;setang -90 0 0.000000*
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
-	*setnpcid cat_singer npc_cat_sing*
 	*setposang cat_singer setpos -47.646004 603.924561 36;setang -90 0 0.000000*
 	*setposang player setpos -95.336090 612.937744 36;setang 8.394650 88.524963 0.000000*
 	*setanim player sit*
-    *setspeaker npc_cat_bar*
+	*setspeaker npc_cat_bar*
 	*txin*
 	*show*
-	*setskin npc_cat_bar 1*
+	*BAR_HAPPY*
 	*setanim npc_cat_bar gesture_confused 1 idle*
-    I do so adore visiting the Center.*setskin npc_cat_bar 0* 
-    &a1
+	I do so adore visiting the Center.*BAR_NEUTRAL* 
+	&a1
 
 a1:
 	*setcam setpos -88.607697 734.805664 73.845703;setang 3.762802 -56.225506 0.000000*
-    *setspeaker cat_singer*
+	*setspeaker cat_singer*
 	*setanim cat_singer gesture_shrug 1 idle*
-    > The Singer thinks they should all go more often, the band 
-    seemed a little lonely this time. 
-    &a2
+	> The Singer thinks they should all go more often, 
+	the band seemed a little lonely this time. 
+	&a2
 
 a2:
 	*setcam setpos 64.112801 698.983398 68.279556;setang -8.162957 -100.041962 0.000000*
-    *setspeaker cat_piano*
+	*setspeaker cat_piano*
 	*setanim cat_piano gesture_agree 1 idle*
-    Agreed. Signed and sealed. 
-    &a3
+	Agreed. Signed and sealed. 
+	&a3
 
 a3:
 	*setcam setpos 106.320221 682.876343 71.643219;setang -8.056485 -96.261955 0.000000*
-    *setspeaker cat_cello*
+	*setspeaker cat_cello*
 	*setanim cat_cello gesture_shrug 1 idle*
-    yeah i could do with sandblasting the crust of existential
-    despair off my brain more often 
-    player:
-        &a4: 
-		*setcam setpos -185.023544 678.457520 65.429253;setang -0.230201 -31.948051 0.000000*
-		How is the bar so pristine?
-        Because I distinctly remember royally fucking it up.
+	yeah i could do with sandblasting the crust of existential
+	despair off my brain more often 
+	player:
+		&a4:
+			*setcam setpos -185.023544 678.457520 65.429253;setang -0.230201 -31.948051 0.000000*
+			How is the bar so pristine?
+			Because I distinctly remember royally fucking it up.
 
 a4:
 	*setcam setpos 6.081810 423.574524 67.019852;setang 0.568399 89.705330 0.000000*
-    *setspeaker npc_cat_bar*
+	*setspeaker npc_cat_bar*
 	*setanim npc_cat_bar gesture_sweep 1 idle*
-    To reach the Center, you must discard all earthly %- or Voidly -%%
-    attachments.%%%*setanim npc_cat_bar gesture_jab 1 idle* Including your attachments to yourself,%% which is 
-    what the shard juice is for. 
-    &a5
+	To reach the Center, you must discard all earthly %- or Voidly -%%
+	attachments.%%%*setanim npc_cat_bar gesture_jab 1 idle* Including your attachments to yourself,%% 
+	which is what the shard juice is for. 
+	&a5
 
 a5:
 	*setcam setpos 167.714569 698.494568 69.958344;setang 0.461915 -155.030075 0.000000*
-    *setspeaker cat_cello*
+	*setspeaker cat_cello*
 	*setanim cat_cello gesture_laugh 1 idle*
-    turns out that the distilled essence of creativity can overload your 
-    neurons and temporarily render you a transcendent being that can 
-    see through time and space
-    &a6
+	turns out that the distilled essence of creativity can overload your 
+	neurons and temporarily render you a transcendent being that can 
+	see through time and space
+	&a6
 
 a6:
 	*setanim cat_cello gesture_shrug 1 idle*
-    if you can’t use your own creative drive,%% a stolen one is fine
-    &a7
+	if you can't use your own creative drive,%% a stolen one is fine
+	&a7
 
 a7:
 	*setanim cat_cello gesture_agree 1 idle*
-    long story short we didn’t actually go anywhere physical we just sat 
-    in the bus and went on a profound mental journey powered by all
-    those shards you've been stealing
-    &a8
+	long story short we didn't actually go anywhere physical we just sat 
+	in the bus and went on a profound mental journey powered by all
+	those shards you've been stealing
+	&a8
 
 a8:
-    *setspeaker cat_piano*
+	*setspeaker cat_piano*
 	*setanim cat_piano gesture_confused 1 idle*
-    Should have enough for twenty more visits, easy, thanks to your help 
-    gettin’ all that shard goop ready. 
-    &a9
+	Should have enough for twenty more visits, easy, thanks to your help 
+	gettin' all that shard goop ready. 
+	&a9
 
 a9:
 	*setcam setpos 6.081810 423.574524 67.019852;setang 0.568399 89.705330 0.000000*
-    *setspeaker npc_cat_bar*
-	*setskin npc_cat_bar 2*
-    Which I will be placing in the Singer's Mewseum vaults for safekeeping,%%*setskin npc_cat_bar 0* before you 
-    two get any ideas.
-    &a10
+	*setspeaker npc_cat_bar*
+	*BAR_PISSED*
+	Which I will be placing in the Singer's Mewseum vaults for safekeeping,%%*BAR_NEUTRAL*
+	before you two get any ideas.
+	&a10
 
 a10:
 	*setcam setpos -63.723694 670.468201 68.035347;setang -1.188524 -42.587250 0.000000*
-    *setspeaker cat_singer*
+	*setspeaker cat_singer*
 	*setanim cat_singer gesture_agree 1.3 idle*
-    > The Singer nods firmly and narrows their eyes when both the Cellist 
-    and Pianist start to object.%%% They shut up immediately. 
-    &a11
+	> The Singer nods firmly and narrows their eyes when both the Cellist 
+	and Pianist start to object.%%% They shut up immediately. 
+	&a11
 
 a11:
 	*setcam setpos -185.023544 678.457520 65.429253;setang -0.230201 -31.948051 0.000000*
-    *setspeaker npc_cat_bar*
+	*setspeaker npc_cat_bar*
 	*setanim npc_cat_bar gesture_agree 1 idle*
-    We are deeply grateful for your help,%% *player*.%%%% It’s been such a long time 
-    since our last proper vacation.
-    condition:
-    &complete1:
-        return finishedmissions()
-    &incomplete1:
-        return true	
+	We are deeply grateful for your help,%% *player*.%%%% It's been such a 
+	long time since our last proper vacation.
+	condition:
+		&complete1:
+			return finishedmissions()
+		&incomplete1:
+			return true	
 
 incomplete1:
 	*setanim npc_cat_bar gesture_confused 1 idle*
-    We have more work for you if you’re interested. 
-    &a12
+	We have more work for you, if you're interested. 
+	&a12
 
 complete1:
 	*setanim npc_cat_bar gesture_laugh 1 idle*
-    It’s been a pleasure having you around, and you are of course welcome to stay 
-    at the Bar Samsara as long as you like.
-    &a12
+	It's been a pleasure having you around, and you are of course welcome 
+	to stay at the Bar Samsara as long as you like.
+	&a12
 
 a12:
-    *setspeaker narrator*
-    You have unlocked *c 0 200 0*New Game Plus*c*! This mode will allow you to start 
-    the game fresh with a multiplier to cash earned.
-    It may have some bonus story content too...
-    &a13
+	*setspeaker narrator*
+	You have unlocked *c 0 200 0*New Game Plus*c*! This mode will allow you to start 
+	the game fresh with a multiplier to cash earned.
+	It may have some bonus story content too...
+	&a13
 
 a13:
-    To begin anew, have your group summon the shard tank one more 
-    time, resetting your progress and beginning your *c 0 200 0*NG+*c* adventure.
-    *mark_seen*
-    &exit
+	To begin anew, have your group summon the shard tank one more 
+	time, resetting your progress and beginning your *c 0 200 0*NG+*c* adventure.
+	*mark_seen*
+	&exit

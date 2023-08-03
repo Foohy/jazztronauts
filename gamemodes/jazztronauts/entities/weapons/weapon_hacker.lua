@@ -7,7 +7,8 @@ SWEP.PrintName				= jazzloc.Localize("jazz.weapon.hacker")
 SWEP.Slot					= 4
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.hacker.desc"
-SWEP.WepSelectIcon			= Material( "weapons/weapon_hacker.png" )
+SWEP.WepSelectIcon			= Material( "entities/weapon_hacker.png" )
+SWEP.AutoSwitchFrom			= false
 
 SWEP.ViewModel				= "models/weapons/c_hackergoggles.mdl"
 SWEP.WorldModel				= "models/weapons/w_hackergoggles.mdl"
@@ -108,11 +109,6 @@ function SWEP:Deploy()
 	self:CalcGlitch()
 	self.Glitch = self.GlitchIdeal
 	return true
-end
-
-
-function SWEP:DrawWorldModel()
-
 end
 
 function SWEP:PreDrawViewModel(viewmodel, weapon, ply)

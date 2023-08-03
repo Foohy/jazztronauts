@@ -2,15 +2,13 @@ SKIP_OPEN = true
 
 begin:
 	*txout*
-	*setfov 70*
-
 	spawngang()
-
 	*setspeaker narrator*
 	*setposang cat_bar -2864.620361 3044.558594 32;setang -90 180 0*
-	*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000* ######## ESTABLISHING SHOT
+	*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000 fov70* ######## ESTABLISHING SHOT
 	*setanim cat_bar gesture_washing*
 	*setposang cat_cello setpos -2578.243896 2791.908447 0;setang -90 45 0.000000*
+	*setanim cat_cello idle*
 	*setposang player setpos -2911.472656 2960.678223 36;setang 14.517221 62.446011 0.000000*
 	*setanim player sit*
 	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
@@ -24,19 +22,19 @@ begin:
 a2:
 	*setspeaker cat_bar*
 	*setcam setpos -2825.425781 2948.380615 69.888466;setang 4.348406 143.379730 0.000000* ###### BAR AND PLAYER SANS CELLIST
-	*setskin cat_bar 3*
-	-shockingly,% yes,%%*setskin cat_bar 1* you CAN make a soup stock out of crystallized bone 
-	marrow.%%%*setskin cat_bar 4* The sheer richness%.%.%.%%%*setskin cat_bar 0*I wish I could offer you a-
+	*BAR_SURPRISE*
+	-shockingly,% yes,%%*BAR_HAPPY* you CAN make a soup stock out of crystallized bone 
+	marrow.%%%*BAR_BLINK* The sheer richness%.%.%.%%%*BAR_NEUTRAL*I wish I could offer you a-
 	&a3
 
 a3:
 	*setspeaker narrator*
-	*setcam setpos -2935.495605 3060.559570 90.541382;setang 8.554376 -39.650562 0.000000* 
+	*setcam setpos -2935.495605 3060.559570 90.541382;setang 8.554376 -39.650562 0.000000**emitsound physics/wood/wood_panel_impact_hard1.wav 0.45*
 	> The Mewseum door is kicked open!%% Intruder alert!!%%%%*setcam setpos -2654.359619 2872.613281 45.377167;setang 4.667855 -47.210667 0.000000*
 	%.%.%.%Oh,% it's just the Cellist.
 	player:
-		 &a4: This ought to be good.
-		 &leave: ha ha nope i'm out (exit)
+		&a4: This ought to be good.
+		&leave: ha ha nope i'm out (exit)
 
 ###EARLY EXIT
 
@@ -49,16 +47,16 @@ a4:
 	*setspeaker narrator*
 	*setposang cat_cello setpos -2815.800049 2956.580811 37;setang -90 15 0.000000*
 	*setcam setpos -2808.541992 2802.302002 31.416151;setang -4.755620 103.405174 0.000000* 
-	*setskin cat_bar 0*
-	*setskin cat_bar 3*
-	> He staggers over to the bar and heaves himself down onto a stool.%%%%*setskin cat_bar 1*
+	*BAR_NEUTRAL*
+	*BAR_SURPRISE*
+	> He staggers over to the bar and heaves himself down onto a stool.%%%%*BAR_HAPPY*
 	The Bartender smiles.
 	&a5
 
 a5:
 	*setspeaker cat_bar*
 	*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
-	*setskin cat_bar 0*
+	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_dryhands 1 idle*
 	Welcome.%% Would you like something to dri-
 	&a6
@@ -70,15 +68,15 @@ a6:
 	*shake 1*
 	> The Cellist slams a paw down on the counter,% his head cast 
 	dramatically towards the earth.%%%*setanim cat_cello pose_sit01* He snaps his head back and takes 
-	a drag off a%.%.%.%%%yep,%%% yep that's a vape he's holding.%%%% It smells 
+	a drag off a%.%.%.%%%yep,%%% that's a vape he's holding.%%%% It smells 
 	threateningly like strawberry.
 	&a7
 
 a7:
 	*setspeaker cat_cello*
 	*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
-	*setskin cat_cello 4*
-	Bartender.%%%%%*setskin cat_cello 0* i have a powerful thirst.%% give me%.%.%.%%%*setskin cat_cello 1*
+	*CELLO_BLINK*
+	Bartender.%%%%%*CELLO_NEUTRAL* i have a powerful thirst.%% give me%.%.%.%%%*CELLO_GRIN*
  
 	%.%.%.%%a hot water on the rocks.
 	&a8
@@ -86,7 +84,7 @@ a7:
 a8:
 	*setspeaker cat_bar*
 	*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
-	*setskin cat_bar 1*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_agree 1 idle*
 	Ah,% of course!%%% Right away.
 	&a9
@@ -94,14 +92,14 @@ a8:
 a9:
 	*setspeaker narrator*
 	*setcam setpos -2797.841553 2803.250244 44.586651;setang -3.850489 108.143600 0.000000*
-	*setskin cat_bar 0*
+	*BAR_NEUTRAL*
 	> The Bartender doesn't seem to show any sign of any opinion about 
 	being told to serve up a drink made entirely of hot water and ice. 
 	&a10
 
 a10:
 	*setspeaker narrator*
-	*setskin cat_bar 0*
+	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_washing 1.6 idle*
 	> Actually,% she's somehow decanting steaming tap water from a faucet 
 	into a normal drinking glass*setanim cat_bar gesture_dryhands 1 idle* full of ice that stubbornly refuses to melt.%%%% 
@@ -111,7 +109,7 @@ a10:
 a11:
 	*setspeaker cat_bar*
 	*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
-	*setskin cat_bar 0*
+	*BAR_NEUTRAL*
 	*setanim cat_bar gesture_exchange 1.4 idle*
 	Your hot water on the rocks,%% sir.
 	&a12
@@ -119,10 +117,10 @@ a11:
 a12:
 	*setspeaker narrator*
 	*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	*setanim cat_cello pose_sit01*
 	> The Cellist stares at the glass of normal hot water with ice in it,%*setanim cat_cello pose_sit02* 
-	momentarily looking annoyed,%%%*setanim cat_cello pianist_drunk_idle* before*setskin cat_cello 1* regaining*setanim cat_cello pose_sit02* his smug expression 
+	momentarily looking annoyed,%%%*setanim cat_cello pianist_drunk_idle* before*CELLO_GRIN* regaining*setanim cat_cello pose_sit02* his smug expression 
 	and chugging it in one go.
 	&a13
 
@@ -131,7 +129,7 @@ a13:
 	*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
 	*setanim cat_cello pose_sit01*
 	hm that's funny i remember ordering a hot water on the rocks and 
-	appear to have gotten a*setanim cat_cello pose_sit01* tepid water on the pebbles instead.%%%%*setskin cat_cello 2* 
+	appear to have gotten a*setanim cat_cello pose_sit01* tepid water on the pebbles instead.%%%%*CELLO_MAD* 
 	i ain't leaving til you give me that real shit you got
 	&c1 ###look i'm lazy and i copied another event
 
@@ -140,14 +138,14 @@ c1:
 	*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
 	*setanim cat_bar gesture_confused 1 idle*
 	> The Bartender cocks her head.%%%% 
-	%.%.%.%*setskin cat_bar 3*after*setanim cat_bar gesture_shock 1 idle* a few seconds of dead silence she gasps.
+	%.%.%.%*BAR_SURPRISE*after*setanim cat_bar gesture_shock 1 idle* a few seconds of dead silence she gasps.
 	&c2
 
 c2:
 	*setspeaker cat_bar*
-	*setskin cat_bar 4*
+	*BAR_BLINK*
 	*setanim cat_bar gesture_facepalm 1 idle*
-	Ah,% of course!%%%*setskin cat_bar 0* You meant to order it at a danger rating of Double Black 
+	Ah,% of course!%%%*BAR_NEUTRAL* You meant to order it at a danger rating of Double Black 
 	Diamond.%%%%*setanim cat_bar gesture_confused 1 idle* I do warn you it may be beyond even your remarkable ability 
 	to tolerate. 
 	&c3
@@ -155,7 +153,7 @@ c2:
 c3:
 	*setspeaker cat_cello*
 	*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	excuse me
 	&c4
 
@@ -174,9 +172,9 @@ c6:
 	*emitsound physics/metal/metal_sheet_impact_hard6.wav .75*
 	*shake 1*
 	*setcam setpos -2797.841553 2803.250244 44.586651;setang -3.850489 108.143600 0.000000*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	> The Cellist is cut off by the sound of the Bartender slamming a pot 
-	of hot water onto the Bar's stove.%%%*setskin cat_bar 1* 
+	of hot water onto the Bar's stove.%%%*BAR_HAPPY* 
 	&c6b
 	
 c6b:
@@ -200,14 +198,14 @@ c8:
 	&c9
 
 c9:
-	*setskin cat_cello 4*
-	> He manages to gather up the*setskin cat_cello 2* courage to open his mouth and speak,%%% 
-	but is cut off by*setskin cat_cello 0* the Bartender serving a glass in front of him.
+	*CELLO_BLINK*
+	> He manages to gather up the*CELLO_MAD* courage to open his mouth and speak,%%% 
+	but is cut off by*CELLO_NEUTRAL* the Bartender serving a glass in front of him.
 	&c10
 
 c10:
 	*setcam setpos -2755.242432 3053.066895 85.446762;setang 9.140029 -147.408585 0.000000* #### GROUP
-	*setskin cat_cello 2*
+	*CELLO_MAD*
 	> Just putting your hand near it makes it feel so cold that it feels 
 	almost identical to being on fire.%%%% Or maybe more like that weird 
 	moment your feet feel cold right before you realize you drew your 
@@ -231,7 +229,7 @@ c12:
 c13:
 	*setspeaker cat_bar*
 	*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
-	*setskin cat_bar 3*
+	*BAR_SURPRISE*
 	*setanim cat_bar gesture_confused 1 idle*
 	What are you%.%.%.%%?
 	&c14
@@ -239,14 +237,14 @@ c13:
 c14:
 	*setspeaker cat_cello*
 	*setcam setpos -2819.462646 3031.606934 72.801796;setang 10.950210 -87.779800 0.000000* ###### CELLO
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	a scar on the back is a swordsman's greatest shame.
 	&c15
 
 c15:
 	*setspeaker cat_bar*
 	*setcam setpos -2871.273193 2983.027832 75.699509;setang 0.941066 86.794304 0.000000* ###### BAR HEADSHOT
-	*setskin cat_bar 4*
+	*BAR_BLINK*
 	*setanim cat_bar gesture_agree 1 idle*
 	Admirable.
 	&c16
@@ -254,11 +252,12 @@ c15:
 c16:
 	*setspeaker narrator*
 	*setcam setpos -2609.130859 2757.310791 95.365982;setang 3.869236 133.104462 0.000000* ######## ESTABLISHING SHOT
-	*setskin cat_bar 0*
-	> The Cellist downs the drink in one gulp,%%%*setposang cat_cello setpos -2815.444336 2903.284912 0;setang -90 45 0.000000*%*setanim cat_cello pose_passedout* and immediately falls off the 
-	chair and bursts into flames.%%%*setanim cat_bar gesture_clap 1 idle* The Bartender is clapping.
+	*BAR_NEUTRAL*
+	> The Cellist downs the drink in one gulp,%%%*setposang cat_cello setpos -2815.444336 2903.284912 0;setang -90 45 0.000000*%*setanim cat_cello pose_passedout**ignite cat_cello* immediately falls off the 
+	chair, and bursts into flames.%%%*setanim cat_bar gesture_clap 1 idle* the Bartender is clapping.
 	&c16b
 
 c16b:
 	%.%.%.%you decide to leave.*mark_seen*
+	*extinguish cat_cello* ###we *could* leave him burning through the end of the scene but it doesn't clean up properly, might be an issue if another scene wants to play in here
 	&exit

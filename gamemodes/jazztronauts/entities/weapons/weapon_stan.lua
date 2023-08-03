@@ -4,10 +4,11 @@ end
 
 SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= jazzloc.Localize("jazz.weapon.stan")
-SWEP.Slot					= 2
+SWEP.Slot					= 3
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.stan.desc"
-SWEP.WepSelectIcon			= Material( "weapons/weapon_stan.png" )
+SWEP.WepSelectIcon			= Material( "entities/weapon_stan.png" )
+SWEP.AutoSwitchFrom			= false
 
 SWEP.ViewModel				= "models/weapons/c_stan.mdl"
 SWEP.WorldModel				= ""

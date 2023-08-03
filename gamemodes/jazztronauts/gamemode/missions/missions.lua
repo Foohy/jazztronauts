@@ -95,6 +95,7 @@ local function isAvailable(mission, history)
 end
 
 local function isReadyToTurnIn(mdata)
+	if not IsValid(mdata) then return false end
 	local minfo = GetMissionInfo(mdata.missionid)
 
 	-- They must have started the mission and not already completed it

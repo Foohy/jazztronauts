@@ -84,7 +84,7 @@ function GM:JazzCanSpawnWeapon(ply, wep)
 
 	-- Weapon is not in the store, they must have unlocked spawnmenu
 	-- OR it's a default jazz weapon
-	return wepinfo.Category == "Jazztronauts" or unlocks.IsUnlocked("store", ply, "spawnmenu")
+	return wepinfo.Category == "#jazz.weapon.category" or unlocks.IsUnlocked("store", ply, "spawnmenu")
 end
 
 if SERVER then
@@ -92,11 +92,15 @@ if SERVER then
 	util.AddNetworkString("death_notice")
 
 	function GM:DoPlayerDeath( ply, attacker, dmg )
-
+		local weapon = nil
+		if attacker:IsNPC() then weapon = attacker:GetWeapons()[1] end
 		net.Start("death_notice")
 		net.WriteEntity( ply )
 		net.WriteEntity( attacker )
+		net.WriteString( attacker:GetClass()) --sending attacker class separately lets us still get it if it's a server-only entity
+		net.WriteString( attacker:GetName()) --name is only available on server, so grab it now
 		net.WriteEntity( dmg:GetInflictor() )
+		net.WriteEntity( weapon )
 		net.WriteUInt( dmg:GetDamageType(), 32 )
 		net.Broadcast()
 
@@ -122,7 +126,7 @@ else
 		)
 
 		ev:Body("%total",
-			{ total = jazzloc.Localize("jazz.hud.money",jazzloc.AddSeperators(1000)) } --TODO: does this get affected by NG+ multiplier?
+			{ total = jazzloc.Localize("jazz.hud.money",jazzloc.AddSeperators(1000 * newgame.GetMultiplier())) }
 		)
 
 		ev:SetHue("rainbow")
@@ -132,34 +136,88 @@ else
 
 	end )
 
+	--get a table of all the damage types that made up this damage
+	local function getDamageTypes(dmg)
+		
+		local damtab = {}
+		if dmg == DMG_GENERIC then
+			table.insert(damtab,"0")
+		else
+			--loop through our options. Damage types are stored bitwise, so we're going 2^loopcount to compare
+			for var = 0, 31 do
+				local dmgtype = math.pow(2,var)
+				if bit.band(dmg,dmgtype) > 0 then
+					table.insert(damtab,tostring(dmgtype))
+				end
+			end
+		end
+
+		return damtab
+	end
+
 	net.Receive( "death_notice", function()
 
 		print("DEATH NOTICE MESSAGE!")
 
 		local ply = net.ReadEntity()
 		local attacker = net.ReadEntity()
+		local attackclass = net.ReadString()
+		if attackclass == "" and IsValid(attacker) then attackclass = attacker:GetClass() end
+		local attackname = net.ReadString() or "" --namely for specific Jazztronauts entities
 		local inflictor = net.ReadEntity()
+		local weapon = net.ReadEntity()
 		local dmg = net.ReadUInt(32)
 
 		local name = IsValid(ply) and ply:Nick() or "<Player>"
 		local ev = eventfeed.Create()
 
+		--tripped on a cloud and fell eight miles high
 		if dmg == DMG_FALL then
 
 			ev:Title(jazzloc.Localize("jazz.death.fall","%name"), 
 				{ name = name }
 			)
+		--not likely to show up unless HL2 suit is on
+		elseif dmg == DMG_DROWN then
 
+			ev:Title(jazzloc.Localize("jazz.death.drown","%name"), 
+				{ name = name }
+			)
+		--trust no one, not even yourself
 		elseif attacker == ply then
 
 			ev:Title(jazzloc.Localize("jazz.death.self","%name"), 
 				{ name = name }
 			)
+		--jazztronauts specific
+		elseif attackname == "prop_killer" then
 
-		elseif IsValid(attacker) then
+			ev:Title(jazzloc.Localize("jazz.death.propchute","%name"), 
+				{ name = name }
+			)
 
-			ev:Title(jazzloc.Localize("jazz.death.killer","%name","%killer"), 
-				{ name = name, killer = attacker:GetClass() },
+		elseif attackname == "lasermurder" then
+
+			ev:Title(jazzloc.Localize("jazz.death.selector","%name"), 
+				{ name = name }
+			)
+
+		--agh, you've killed me!
+		elseif IsValid(attacker) or attackclass ~= "" then
+
+			local damtab = getDamageTypes(dmg)
+			local killedby = jazzloc.Localize(attackclass)
+
+			--projectiles
+			if IsValid(inflictor) and inflictor ~= attacker then
+				killedby = jazzloc.Localize("jazz.death.weapon",jazzloc.Localize(attackclass),jazzloc.Localize(inflictor:GetClass()))
+			--weapons
+			elseif IsValid(weapon) then
+				killedby = jazzloc.Localize("jazz.death.weapon",jazzloc.Localize(attackclass),jazzloc.Localize(weapon:GetClass()))
+			end
+			--put it all together, with picking a random damage type from the list
+			ev:Title(jazzloc.Localize("jazz.death.killer","%name",jazzloc.Localize("jazz.dmg." .. damtab[ math.random( #damtab ) ] ),"%killer"), 
+				{ name = name, killer = killedby },
 				{ killer = "red_name" }
 			)
 

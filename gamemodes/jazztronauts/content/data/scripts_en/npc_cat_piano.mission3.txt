@@ -1,4 +1,5 @@
 accept:
+	spawnnarrator()
 	What do you want?%%%
 
 	Don't answer that.% It was a rhetorical question.
@@ -22,14 +23,18 @@ a2:
 	&a2b
 
 a2b:
-	>She waves you away and resumes napping.
+	*setspeaker narrator*
+	> She waves you away and resumes napping.
 	&exit
 	
 idle:
-	>The Pianist opens one eye and glares at you.
+	spawnnarrator()
+	*setspeaker narrator*
+	> The Pianist opens one eye and glares at you.
 	&i1
 
 i1:
+	*setspeaker npc_cat_piano*
 	You know I don't think I could have made it more 
 	obvious I was trying to sleep unless I put up a sign.%%%% 
 	Can't a girl have an ennui-driven depression nap in peace?
@@ -46,54 +51,35 @@ i3:
 	&exit
 
 turnin:
+	spawnnarrator()
 	Hell yeah,%% now we're talking.%%% Some of those look fully stocked.
 	Booze is all well and good but sometimes you just get a 
 	hankering for a run-of-the-mill sugar rush y'know?
 	&t1
 	
 t1:
-	>The Pianist smashes open the front of one of the machines with 
+	*setspeaker narrator*
+	> The Pianist smashes open the front of one of the machines with 
 	a baseball bat and cracks open a can of soda.%%%% 
 	After draining it dry in one go,%% she crushes the can on her 
 	forehead and sets it aside on the table.
 	&t2
 	
 t2:
+	*setspeaker npc_cat_piano*
 	That's the stuff.%%%%
 	Here,%% your payment.%%% You're probably gonna need it for 
 	chiropractic fees after lugging those things in here.
 	&t3
 	
 t3:
-	>The Pianist hands you $20,000!
+	*setspeaker narrator*
+	> The Pianist hands you $20,000!
 	Certainly enough for a nice spa weekend,% at least. *finish 3*
 	&t4
 	
 t4:
+	*setspeaker npc_cat_piano*
 	And,% thanks.%%%
 	For not giving me any hassle about the dinner thing.
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

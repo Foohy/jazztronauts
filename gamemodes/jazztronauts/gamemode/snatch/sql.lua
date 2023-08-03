@@ -93,10 +93,10 @@ function AddProp(ply, model, worth, type)
 		.. "recent = recent + 1 "
 		.. string.format("WHERE propname='%s' AND ", model)
 		.. string.format("steamid='%s' AND ", id)
-		.. string.format("mapname='%s' AND ", map)
+		.. string.format("mapname='%s' AND ", string.Replace(map,"'","''"))
 		.. string.format("type='%s' ", type)
 	local insert = "INSERT OR IGNORE INTO jazz_propdata (steamid, mapname, propname, type, worth) "
-		.. string.format("VALUES ('%s', '%s', '%s', '%s', '%d')", id, map, model, type, worth)
+		.. string.format("VALUES ('%s', '%s', '%s', '%s', '%d')", id, string.Replace(map,"'","''"), model, type, worth)
 
 	-- Try an update, then an insert
 	if Query(altr) == false then return nil end
@@ -114,7 +114,7 @@ end
 
 function ClearMapProps(mapname)
 	local altr = "DELETE FROM jazz_propdata WHERE "
-		.. string.format("mapname='%s' ", mapname)
+		.. string.format("mapname='%s' ", string.Replace(mapname,"'","''"))
 	return Query(altr) != false
 end
 

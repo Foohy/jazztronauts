@@ -45,7 +45,9 @@ local function Handle( scene )
 	scene.duration = bigTake and 5 or 4
 	scene.breaktime = bigTake and 1.8 or 0
 	scene.startpos = scene:GetRealEntity():GetPos()
-	scene.startvel = (LocalPlayer():EyePos() - scene.startpos):GetNormalized() * 100 + Vector(0, 0, 100)
+	local eyes = vector_origin
+	if IsValid(LocalPlayer()) then eyes = LocalPlayer():EyePos() end
+	scene.startvel = (eyes - scene.startpos):GetNormalized() * 100 + Vector(0, 0, 100)
 	scene.angvel = AngleRand() * 0.25
 	scene:GetEntity():SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
 

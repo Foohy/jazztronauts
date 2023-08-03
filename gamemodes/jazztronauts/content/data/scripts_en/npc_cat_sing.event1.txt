@@ -5,18 +5,12 @@ begin:
 ###### SCENE SETUP
 	*hide*
 	*txout*
+	spawnnarrator()
+	spawnsinger()
 	*bgmplay sound/jazztronauts/music/events/pocket.mp3 1 2.0*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos 3259.499512 7881.131348 0;setang -90 180 0.000000*
-	*setnpcid cat_singer npc_cat_sing*
-	*setcam setpos 1903.887451 6713.939941 349.839935;setang 20.373602 45.286469 0.000000*
-	*spawn player_dummy playerboy*
+	*setcam setpos 1903.887451 6713.939941 349.839935;setang 20.373602 45.286469 0.000000 fov70*
 	*setspeaker narrator*
-	*setskin cat_singer 0*
-	*setfov 70*
 	*txin*
 	*show*
 	
@@ -38,58 +32,58 @@ b1:
 	
 b2:
 	*setcam setpos 3197.595215 7817.761719 67.368042;setang 11.935067 41.932495 0.000000*
-	*setskin cat_singer 5*
+	*SINGER_FLUSTERED*
 	*setanim cat_singer gesture_shock 2 idle*
-	> The Singer startles and nearly drops their tablet.%%%*setskin cat_singer 0* 
-	After fumbling to catch it,%*setanim cat_singer gesture_exchange 1 idle* they*setskin cat_singer 1* beam at you and wave back.
+	> The Singer startles and nearly drops their tablet.%%%*SINGER_NEUTRAL* 
+	After fumbling to catch it,%*setanim cat_singer gesture_exchange 1 idle* they*SINGER_HAPPY* beam at you and wave back.
 	&b3
 	
 b3:
 	*setspeaker cat_singer*
-	*setcam setpos 3059.472168 7854.973145 78.634224;setang 10.018432 18.054348 0.000000*
-	*setposang cat_singer setpos 3259.499512 7881.131348 0;setang -90 60 0.000000*
 	*setposang player setpos 3196.539063 7929.435547 0;setang 5 -41.255119 0.000000*
-	*setskin cat_singer 0*
+	*setcam setpos 3059.472168 7854.973145 78.634224;setang 10.018432 18.054348 0.000000*
+	*tweenposang cat_singer .5 setpos 3259.499512 7881.131348 0;setang -90 60 0.000000*
+	*SINGER_NEUTRAL*
 	*setanim cat_singer gesture_sweep 1 idle*
 	
-	> A hurried message is presented\:%%%*setskin cat_singer 1* "Hi sorry I get super fucking 
-	out of it when I'm cataloging!!!
+	> A hurried message is presented\:%%%*SINGER_HAPPY* "Hi sorry I get super fucking 
+	out of it when I'm catalouging!!!
 	&b3b
 	
 b3b:	
-	*setskin cat_singer 0*
+	*SINGER_NEUTRAL*
 	*setcam setpos 3210.891113 7908.113281 38.489910;setang 2.671340 -13.117636 0.000000* ####### SINGER HEADSHOT
 	> It'*setanim cat_singer gesture_sigh 1 idle*s really relaxing%.%.%.%%% 
 	I thought after your hard work helping me get these you*setanim cat_singer gesture_confused 1 idle* might like to 
 	help me enter their descriptions for my archives,% maybe. "
 	player:
-	&r1a1:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		That sounds suspiciously like a nerd activity and 
-		I don't want to have to seal myself inside a 
-		locker sarcophagus of shame,%% sorry. (exit)
-	&r2a1:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		Can I name them?
-	&r3a1:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		Sure,% happy to help.
+		&r1a1:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			That sounds suspiciously like a nerd activity and 
+			I don't want to have to seal myself inside a 
+			locker sarcophagus of shame,%% sorry. (exit)
+		&r2a1:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			Can I name them?
+		&r3a1:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			Sure,% happy to help.
 		
 
 ###### BRANCH 1 EARLY EXIT
 r1a1:
 	*setcam setpos 3210.891113 7908.113281 38.489910;setang 2.671340 -13.117636 0.000000* ####### SINGER HEADSHOT
 	*setspeaker cat_singer*
-	*setskin cat_singer 3*
+	*SINGER_MISCHIEF*
 	*setanim cat_singer gesture_disagree 1 idle*
 	> The Singer grins and shakes their head.%%% 
 	They don't blame you for being uninterested,% but hope 
-	you'll*setskin cat_singer 0* drop by some other 
+	you'll*SINGER_NEUTRAL* drop by some other 
 	time and open your heart to the concept of learning.
 	&r1a2
 	
 r1a2:
-	*setskin cat_singer 3*
+	*SINGER_MISCHIEF*
 	*setanim cat_singer gesture_jab 1 idle*
 	> Only cops don't read,%% they tell you.
 	&exit
@@ -98,7 +92,7 @@ r1a2:
 r2a1:
 	*setcam setpos 3210.891113 7908.113281 38.489910;setang 2.671340 -13.117636 0.000000* ####### SINGER HEADSHOT
 	*setspeaker cat_singer*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setanim cat_singer gesture_clap 1.5 idle*
 	> The Singer claps,% eyes shining with delight.%%% 
 	Of course you*setanim cat_singer gesture_agree 1.5 idle* can name them.
@@ -106,34 +100,34 @@ r2a1:
 
 r2a1b:
 	*setcam setpos 3118.949463 7878.477539 48.878284;setang 4.268490 16.217495 0.000000* ###### SINGER AND PLAYER
-	*setskin cat_singer 0*
-	>They don't know why they didn't think of doing this*setanim cat_singer gesture_confused 1.6 idle* before.%% 
+	*SINGER_NEUTRAL*
+	> They don't know why they didn't think of doing this*setanim cat_singer gesture_confused 1.6 idle* before.%% 
 	They congratulate you on having the natural knack 
 	for Good Life Choices.
 	&r2a2
 	
 r2a2:
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setanim cat_singer gesture_exchange 1.5 idle*
-	> They are absolutely going to go back and name the other ones.%%%*setskin cat_singer 0*
+	> They are absolutely going to go back and name the other ones.%%%*SINGER_NEUTRAL*
 	Fuck yeah.
-		player:
-	&r1a1:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		That sounds suspiciously like a nerd activity and 
-		I don't want to have to seal myself inside a 
-		locker sarcophagus of shame,%% sorry. (exit)
-	&r3a1:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		Sure,% happy to help.
+	player:
+		&r1a1:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			That sounds suspiciously like a nerd activity and 
+			I don't want to have to seal myself inside a 
+			locker sarcophagus of shame,%% sorry. (exit)
+		&r3a1:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			Sure,% happy to help.
 		
 ###### BRANCH 3
 r3a1:
 	*setcam setpos 3210.891113 7908.113281 38.489910;setang 2.671340 -13.117636 0.000000* ####### SINGER HEADSHOT
 	*setspeaker cat_singer*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setanim cat_singer gesture_exchange 2.6 idle*
-	> The Singer fist pumps the air with delight.%%%*setskin cat_singer 0* 
+	> The Singer fist pumps the air with delight.%%%*SINGER_NEUTRAL* 
 	They pat the floor next to them and invite you to*setanim cat_singer gesture_sweep .6 idle*%*setcam setpos 3242.063232 7953.595215 46.101959;setang 5.998821 -112.188446 0.000000* 
 	consider the doll in front of you.
 	&r3a2
@@ -144,37 +138,37 @@ r3a2:
 	In case it ever gets lost,%% or a disabled*setanim cat_singer gesture_confused .8 idle* guest 
 	wants to know what's on display.
 	player:
-	&goodanswer:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		Cursed Seer Camilla,%% a heavily damaged and dirt crusted 
-		porcelain baby doll missing its left arm and both eyes,%%% 
-		wearing a white nappy.%%%% Camilla has a serene expression.
-	&decentanswer:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		A haunted ass doll named Sweet Baby Babbette that looks like 
-		it literally cried its eyes out and is responsible for at 
-		least six movies and a tv show reboot.
-	&ananswer:
-		*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
-		Nannette was a cheerful child with a perpetual smile but one day she died in mysterious
-		circumstances.%%%%% Soon after her parents noticed that her doll began to rattle and shake in the
-		middle of the night, and even knock things off shelves! Despite this, she has a healing energy
-		and can cure most diseases if she likes you but be careful not to-
+		&goodanswer:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			Cursed Seer Camilla,%% a heavily damaged and dirt crusted 
+			porcelain baby doll missing its left arm and both eyes,%%% 
+			wearing a white nappy.%%%% Camilla has a serene expression.
+		&decentanswer:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			A haunted ass doll named Sweet Baby Babbette that looks like 
+			it literally cried its eyes out and is responsible for at 
+			least six movies and a tv show reboot.
+		&ananswer:
+			*setcam setpos 3243.605713 7845.653809 70.418037;setang 9.672383 117.559921 0.000000*
+			Nannette was a cheerful child with a perpetual smile but one day she died in mysterious
+			circumstances.%%%%% Soon after her parents noticed that her doll began to rattle and shake in the
+			middle of the night, and even knock things off shelves! Despite this, she has a healing energy
+			and can cure most diseases if she likes you but be careful not to-
 
 ###### GOOD ANSWER
 goodanswer:
 	*setcam setpos 3210.891113 7908.113281 38.489910;setang 2.671340 -13.117636 0.000000* ####### SINGER HEADSHOT
 	*setspeaker cat_singer*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setanim cat_singer gesture_clap 1 idle*
 	> The Singer claps their paws together and bounces.%%% 
-	You're apparently a natural at this.%%*setskin cat_singer 0*
+	You're apparently a natural at this.%%*SINGER_NEUTRAL*
 	That's almost exactly what they would*setanim cat_singer gesture_laugh 1 idle* have entered!%%% 
 	&gab
 	
 gab:
 	*setcam setpos 3118.949463 7878.477539 48.878284;setang 4.268490 16.217495 0.000000* ###### SINGER AND PLAYER
-	>Except the name,% they think the doll
+	> Except the name,% they think the doll
 	looks*setanim cat_singer gesture_confused 1 idle* more like an Amelia Cobbler,%%%*setanim cat_singer gesture_agree 1 idle* 
 	but they enjoy your choice too!
 	&m1
@@ -183,9 +177,9 @@ gab:
 decentanswer:
 	*setcam setpos 3210.891113 7908.113281 38.489910;setang 2.671340 -13.117636 0.000000* ####### SINGER HEADSHOT
 	*setspeaker cat_singer*
-	*setskin cat_singer 0*
-	> While not exactly what they had in mind,%*setskin cat_singer 1* it's*setanim cat_singer gesture_clap 1 idle* a very good start!%%%
-	They make*setskin cat_singer 0* some adjustments to your entry that describe the 
+	*SINGER_NEUTRAL*
+	> While not exactly what they had in mind,%*SINGER_HAPPY* it's*setanim cat_singer gesture_clap 1 idle* a very good start!%%%
+	They make*SINGER_NEUTRAL* some adjustments to your entry that describe the 
 	physical appearance of the doll,% and give you a paws up*setanim cat_singer gesture_exchange 1.6 idle* 
 	for the description of its demeanor.
 	&m1
@@ -194,20 +188,20 @@ decentanswer:
 ananswer:
 	*setcam setpos 3118.949463 7878.477539 48.878284;setang 4.268490 16.217495 0.000000* ###### SINGER AND PLAYER
 	*setspeaker cat_singer*
-	*setskin cat_singer 2*
-	>The Singer stares at you.
+	*SINGER_MAD*
+	> The Singer stares at you.
 	&an1
 	
 an1:
 	*setcam setpos 3210.891113 7908.113281 38.489910;setang 2.671340 -13.117636 0.000000* ####### SINGER HEADSHOT
-	*setskin cat_singer 4*
+	*SINGER_BLINK*
 	*setanim cat_singer gesture_foldarms 1 idle*
 	> They seem to be heavily considering what to write in response,% 
 	eventually settling on\:
 	&an1b
 	
 an1b:
-	*setskin cat_singer 0*
+	*SINGER_NEUTRAL*
 	"While that's creative and very engaging!!!%%% It doesn't really.%% Say.%%% 
 	Anything.%% About what the doll looks like.% And also is claiming it's 
 	a medical device????%%% Which,% it's super not.%%% BUT!!!!!!!%% 
@@ -216,8 +210,8 @@ an1b:
 	
 an2:
 	*setcam setpos 3118.949463 7878.477539 48.878284;setang 4.268490 16.217495 0.000000* ###### SINGER AND PLAYER
-	*setposang cat_singer setpos 3259.499512 7881.131348 0;setang -90 180 0.000000*
-	>They erase the part about Nannette being able to cure diseases and 
+	*tweenposang cat_singer .5 setpos 3259.499512 7881.131348 0;setang -90 180 0.000000*
+	> They erase the part about Nannette being able to cure diseases and 
 	adds a description of the physical appearance of the doll.%%%% 
 	They compliment your vivid imagination and
 	world-building.
@@ -226,12 +220,12 @@ an2:
 ###### MERGE POINT
 m1:
 	*setcam setpos 3118.949463 7878.477539 48.878284;setang 4.268490 16.217495 0.000000* ###### SINGER AND PLAYER
-	*setposang cat_singer setpos 3259.499512 7881.131348 0;setang -90 60 0.000000*
+	*tweenposang cat_singer .5 setpos 3259.499512 7881.131348 0;setang -90 60 0.000000*
 	*setspeaker cat_singer*
-	*setskin cat_singer 1*
+	*SINGER_HAPPY*
 	*setanim cat_singer gesture_clap 1 idle*
 	> The Singer thanks you for your help.%%% you've given them 
-	some good ideas on*setskin cat_singer 0* how*setanim cat_singer gesture_agree 1 idle* to make each entry individual,% 
+	some good ideas on*SINGER_NEUTRAL* how*setanim cat_singer gesture_agree 1 idle* to make each entry individual,% 
 	even if the item is virtually identical.
 	&m2
 	

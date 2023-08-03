@@ -1,0 +1,12 @@
+"VertexLitGeneric"
+{
+	"$basetexture"			"models/sierra/good_shit"
+	"$bumpmap"				"dev/flat_normal"
+	
+	"$selfillum" 			1
+
+	"$phong"				"1"
+	"$phongboost"			".5"
+	"$phongexponent"		"20"
+	"$phongfresnelranges"	"[.5 1 2]"
+}

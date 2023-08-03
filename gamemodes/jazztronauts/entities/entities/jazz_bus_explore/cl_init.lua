@@ -18,7 +18,7 @@ function ENT:Initialize()
 end
 
 function ENT:UpdateDestinationMaterial()
-	JazzRenderDestinationMaterial(self, "the bar")
+	JazzRenderDestinationMaterial(self, jazzloc.Localize("jazz.bus.bar"))
 end
 
 function ENT:StartLaunchEffects()

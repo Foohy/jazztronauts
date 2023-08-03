@@ -532,7 +532,7 @@ function meta:StartProp( prop, owner, kill, delay )
 end
 
 function meta:RunProp( prop )
-
+	
 	if SERVER then return end
 
 	self.real = prop
@@ -663,6 +663,7 @@ function meta:RunStaticProp( propid, propproxy )
 		if IsValid(propproxy) then
 			propproxy:SetPos( pdata.origin )
 			propproxy:SetAngles( pdata.angles )
+			propproxy:SetSkin( pdata.skin )
 			me.vel = Vector()
 			me.avel = Vector()
 			me:RunProp(propproxy)

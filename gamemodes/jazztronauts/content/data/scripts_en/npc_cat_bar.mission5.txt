@@ -1,80 +1,81 @@
 accept:
-     Always a pleasure to see my favorite customer. 
-     &a1
+	Always a pleasure to see my favorite customer. 
+	&a1
 
 a1:
-     Do take a seat, and make sure you maintain a neutral facial 
-     expression and an even tone. We may be being watched. 
-     &a2
+	Do take a seat, and make sure you maintain a neutral facial 
+	expression and an even tone. We may be being watched. 
+	&a2
 
 a2:
-     I have a final job for you. A special order. I require antlions. 
-     Ten antlions, to be exact. *start 5*
-     &a3
+	I have a final job for you. A special order. I require.%.%.% antlions. 
+	Ten antlions, to be exact. *start 5*
+	&a3
 
 a3:
-     I have a friend who has promised me a regular supply of their eggs. 
-     For some of the more...dubious secret menu offerings.
-     &a4
+	I have a friend who has promised me a regular supply of their eggs. 
+	For some of the more...dubious secret menu offerings.
+	&a4
 
 a4:
-     This will be the last job I can offer you, as arranging this deal 
-     and covering your payment quite effectively drains my personal 
-     coffers, but I assure you the payment will be worth the effort. 
-     &exit
-     
+	This will be the last job I can offer you, as arranging this deal 
+	and covering your payment quite effectively drains my personal 
+	coffers, but I assure you the payment will be worth the effort. 
+	&exit
+	
 idle:
-     
-     Keep your voice down, please. While I just finished removing two 
-     bugging devices from beneath barstools, I expect to find at least  
-     four more. 
-     &a5
+	
+	Keep your voice down, please. While I just finished removing two 
+	bugging devices from beneath barstools, I expect to find at least  
+	four more. 
+	&a5
 
 a5:
-     Who put them there? Oh, that doesn't matter. I will take care of it,
-     I assure you. 
-     &a6
+	Who put them there? Oh, that doesn't matter. I will take care of it,
+	I assure you. 
+	&a6
 
 a6:
-     To further reward you when you have finished this job, I have 
-     arranged an event for everyone to partake in. 
-     &a7
+	To further reward you when you have finished this job, I have 
+	arranged an event for everyone to partake in. 
+	&a7
 
 a7:
-     Feel free to take your time on this one, I have a lot to do on my 
-     end. If you're having trouble finding them, look for arena maps,
-     or the Half-Life 2 maps that feature them.
-     &exit
+	Feel free to take your time on this one, I have a lot to do on my 
+	end. If you're having trouble finding them, look for arena maps,
+	or the Half-Life 2 maps that feature them.
+	&exit
 
 
 turnin:
-     Delightful. Thank you kindly for your service. In a few years, I'll 
-     be able to put scrambled antlion eggs back on the secret menu.
-     &a8
+	spawnnarrator()
+	Delightful. Thank you kindly for your service. In a few years, I'll 
+	be able to put scrambled antlion eggs back on the secret menu.
+	&a8
 
 a8:
-     Don't worry, I did a full sweep of the Bar Samsara and removed all 
-     remaining surveillance devices. I traced the signal to its source 
-     and sent a gift basket along to the address. 
-     &a9
+	Don't worry, I did a full sweep of the Bar Samsara and removed all 
+	remaining surveillance devices. I traced the signal to its source 
+	and sent a gift basket along to the address. 
+	&a9
 
 a9:
-     I don't have much time for subterfuge these days. I do so hope they 
-     enjoy the grenades.
-     &a10
+	I don't have much time for subterfuge these days. I do so hope they 
+	enjoy the grenades.
+	&a10
 
 a10:
-     Now! The matter of payment.
-     &a11
+	Now! The matter of payment.
+	&a11
 
 a11:
-     *setspeaker narrator*
-     > The Bartender places a briefcase in your hands. It contains 
-     $30,000! *finish 5*
-     &a12
+	*setspeaker narrator*
+	> The Bartender places a briefcase in your hands. It contains 
+	$30,000! *finish 5*
+	&a12
 
 a12:
-     *setspeaker cat_bar*
-     Catch up with me later, won't you? You've been a true friend, and I 
-     have a surprise I'd like to give you.
-     &exit
+	*setspeaker npc_cat_bar*
+	Catch up with me later, won't you? You've been a true friend, and I 
+	have a surprise I'd like to give you.
+	&exit

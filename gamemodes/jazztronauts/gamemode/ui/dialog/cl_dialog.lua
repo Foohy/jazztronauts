@@ -391,7 +391,7 @@ function GetSpeedScale()
 end
 
 function GetDialogAdvanceTime()
-	return tonumber(GetParam("AUTO_ADVANCE")) or AutoAdvanceTime
+	return AutoAdvanceTime or tonumber(GetParam("AUTO_ADVANCE"))
 end
 
 -- Continue onto the next page of dialog

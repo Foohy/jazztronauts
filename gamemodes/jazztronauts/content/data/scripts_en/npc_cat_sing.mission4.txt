@@ -6,7 +6,7 @@ accept:
 	&a1
 	
 a1:
-	> They thank you again for the help with the pots earlier and inform you
+	> They thank you again for the help with the pots earlier, and inform you
 	that the early experiments are promising. 
 	&a1b
 	
@@ -17,7 +17,7 @@ a1b:
 	
 a2:
 	> They also apologize for your having to witness the tiff between the 
-	Pianist and the Cellist. The squabbles have been less frequent since you 
+	Pianist and Cellist. The squabbles have been less frequent since you 
 	arrived, and involved less wanton destruction, but they 
 	know how sound can carry through the bar.
 	&a3
@@ -84,7 +84,7 @@ t1:
 	&t2
 	
 t2:
-	> They thank you for your work and their tablet dings. 
+	> They thank you for your work, and their tablet dings. 
 	&t2b
 	
 t2b:
@@ -97,14 +97,3 @@ t3:
 	> They encourage you to just call their name the next 
 	time you need to wake them up.
 	&exit
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

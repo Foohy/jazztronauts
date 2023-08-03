@@ -15,6 +15,8 @@ local includeExternalHost = CreateConVar("jazz_include_external_host", defaultMa
 	.. "Can be either a URL to a text file, listing each workshop addon by id\n"
 	.. "Or a workshop collection ID itself.")
 
+local hubmap = CreateConVar("jazz_hub", "jazz_bar",bit.bor(FCVAR_ARCHIVE,FCVAR_PRINTABLEONLY),"Name of the map to use as a hub.")
+
 concommand.Add("jazz_clear_cache", function()
 	ClearCache()
 end,
@@ -94,7 +96,10 @@ function GetNextEncounter()
 end
 
 function GetHubMap()
-	return "jazz_bar"
+	local hub = hubmap:GetString()
+	if hub == nil or hub == "" then return "jazz_bar" end
+	hub = string.StripExtension(hub) --in case they put .bsp on the end
+	return hub
 end
 
 function GetMapID(mapname)
@@ -354,35 +359,59 @@ if SERVER then
 		ang2:RotateAroundAxis(ang2:Up(), 90)
 		pos2 = pos2 - ang2:Up() * 184/2
 
-		local bus = ents.Create("jazz_bus_explore")
-		bus:SetPos(spawnpos)
-		bus:SetAngles(spawnang)
-		bus:Spawn()
-		bus:Activate()
+		--if we're summoning the bus towards the edges of the map grid, crazy physics detection could dick us over
 
-		local ent = ents.Create("jazz_bus_portal")
-		ent:SetPos(spawnpos)
-		ent:SetAngles(spawnang)
-		ent:SetBus(bus)
-		ent:Spawn()
-		ent:Activate()
+		--check our entrance
+		local crazycheck = Vector(spawnpos)
+		crazycheck:Add(ang:Forward() * -1024) -- TODO: 1024 back is just a rough estimate for leadup, figure out how much the trolley actually needs!
 
-		local exit = ents.Create("jazz_bus_portal")
-		exit:SetPos(pos2)
-		exit:SetAngles(ang2)
-		exit:SetBus(bus)
-		exit:SetIsExit(true)
-		exit:Spawn()
-		exit:Activate()
+		--check our exit
+		local crazy2 = Vector(pos2)
+		crazy2:Add(ang:Forward() * 1024) -- TODO: 1024 forward is just a rough estimate for exit bore, figure out how much the trolley actually needs!
 
-		bus.ExitPortal = exit -- So bus knows when to stop
+		--figure out if any of these are cray-zay
+		--print("Am I crazy? ",crazycheck,crazy2)
+		local craycray = math.max(math.abs(crazycheck.x),math.abs(crazycheck.y),math.abs(crazycheck.z),math.abs(crazy2.x),math.abs(crazy2.y),math.abs(crazy2.z))
 
-		-- Remove last ones
-		for _, v in pairs(lastBusEnts) do SafeRemoveEntityDelayed(v, 5) end
+		if craycray >= 16000 then
+			GetConVar("crazyfix"):SetBool(true)
+			RunConsoleCommand("sv_crazyphysics_warning","0")
+			RunConsoleCommand("sv_crazyphysics_defuse","0")
+			RunConsoleCommand("sv_crazyphysics_remove","0")
+			print("Spawning or exiting too close to edge, disabling crazy physics protection!")
+		end
+ 		--delay the bus so crazy physics has a chance to turn off before it spawns in and just gets removed anyway
+		timer.Simple(0, function()
+			local bus = ents.Create("jazz_bus_explore")
+			bus:SetPos(spawnpos)
+			bus:SetAngles(spawnang)
+			bus:Spawn()
+			bus:Activate()
 
-		table.insert(lastBusEnts, bus)
-		table.insert(lastBusEnts, ent)
-		table.insert(lastBusEnts, exit)
+			local ent = ents.Create("jazz_bus_portal")
+			ent:SetPos(spawnpos)
+			ent:SetAngles(spawnang)
+			ent:SetBus(bus)
+			ent:Spawn()
+			ent:Activate()
+
+			local exit = ents.Create("jazz_bus_portal")
+			exit:SetPos(pos2)
+			exit:SetAngles(ang2)
+			exit:SetBus(bus)
+			exit:SetIsExit(true)
+			exit:Spawn()
+			exit:Activate()
+
+			bus.ExitPortal = exit -- So bus knows when to stop
+
+			-- Remove last ones
+			for _, v in pairs(lastBusEnts) do SafeRemoveEntityDelayed(v, 5) end
+
+			table.insert(lastBusEnts, bus)
+			table.insert(lastBusEnts, ent)
+			table.insert(lastBusEnts, exit)
+		end)
 	end
 
 else //CLIENT

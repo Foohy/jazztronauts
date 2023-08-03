@@ -1,42 +1,27 @@
 SKIP_OPEN = true
 
 begin:
-    # Scene setup
-    *txout*
-    *setfov 70*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*setcam setpos -1610.460571 2861.699707 133.112427;setang 20.506798 53.800053 0.000000* ###### ESTABLISH SHOT
-	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
-	*setposang cat_cello setpos -1534.931519 3016.726074 25;setang -90 315 0.000000*
-	*setnpcid cat_cello npc_cat_cello*
+	# Scene setup
+	*txout*
+	spawngang()
+	*setcam setpos -1610.460571 2861.699707 133.112427;setang 20.506798 53.800053 0.000000 fov70* ###### ESTABLISH SHOT
 	*bgmplay sound/jazztronauts/music/events/youdiditagain.mp3 1.0 2.0*
-	*spawn narrator dummy*
-	*setnpcid narrator npc_narrator*
-	*spawn cat_bar models/andy/bartender/cat_bartender.mdl*
+	*setposang cat_cello setpos -1534.931519 3016.726074 25;setang -90 315 0.000000*
 	*setposang cat_bar setpos -1426.450195 3154.211670 0;setang -90 165 0.000000*
-	*setnpcid cat_bar npc_cat_bar*
 	*setposang player setpos -1491.653442 2987.384766 0;setang 0 86.527588 0.000000*
-	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
 	*setposang cat_piano setpos -1524.946167 3146.739746 0;setang -90 210 0.000000*
-	*setnpcid cat_piano npc_cat_piano*
-
-	*spawn cat_singer models/andy/singer/cat_singer.mdl*
 	*setposang cat_singer setpos -1390.301392 3026.863281 32;setang -90 45 0.000000*
-	*setnpcid cat_singer npc_cat_sing*
-	
-	*spawn player_dummy playerboy*
 	*txin*
 	
 	
 ###### START
 	*setspeaker narrator*
-	*setskin cat_piano 0*
-	*setskin cat_bar 0*
-	*setskin cat_singer 0*
-	*setskin cat_cello 0*
+	*PIANO_NEUTRAL*
+	*BAR_NEUTRAL*
+	*SINGER_NEUTRAL*
+	*CELLO_NEUTRAL*
 	*show*
-	>This is where the Pianist said the party was.%%% You think.%%
+	> This is where the Pianist said the party was.%%% You think.%%
 	All of the cats are here,% seated around the table.%% 
 	%.%.%.%the rotten takeout you got is here too.
 	&b1
@@ -44,37 +29,37 @@ begin:
 b1:
 	*setcam setpos -1450.820923 3049.278076 66.423630;setang 10.594172 112.317444 0.000000* ###### BAR AND PIANO
 	*setspeaker cat_piano*
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_shock 1 idle*
-	Oh,% hey *player*.%% I wasn't sure if you were coming.%%%*setskin cat_piano 1* 
+	Oh,% hey *player*.%% I wasn't sure if you were coming.%%%*PIANO_SMIRK* 
 	But I figured,%*setanim cat_piano gesture_agree 1 idle* who turns down free food,% right?%%
 	So I set a place.
 	
 	player:
-	&r1a1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		Thanks, but I'll take mine to go. I've got stuff to do. (Exit)
-	&r2a1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		I don't actually know how old that stuff is, you know. 
-		I mean, I sniffed it, but.
-		Are you sure you want to eat that?
-	&r3a1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		I will literally never turn down free food.
+		&r1a1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			Thanks, but I'll take mine to go. I've got stuff to do. (Exit)
+		&r2a1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			I don't actually know how old that stuff is, you know. 
+			I mean, I sniffed it, but.
+			Are you sure you want to eat that?
+		&r3a1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			I will literally never turn down free food.
 		
 ###### Branch 1 Early Exit
 r1a1:
 	*setcam setpos -1498.261108 3115.454590 54.479294;setang 6.880691 127.231255 0.000000* ###PIANO CLOSEUP
 	*setspeaker cat_piano*
-	*setskin cat_piano 3*
+	*PIANO_FLUSTERED*
 	*setanim cat_piano gesture_embarass 1 idle*
-	>The Pianist looks,% momentarily,%% crestfallen.*setskin cat_piano 0*
+	> The Pianist looks,% momentarily,%% crestfallen.*PIANO_NEUTRAL*
 	&r1a2
 	
 r1a2:
 	*setspeaker cat_piano*
-	*setskin cat_piano 1*
+	*PIANO_SMIRK*
 	*setanim cat_piano gesture_agree 1 idle*
 	Oh.%%% Sure.% I know how it is,% being a busy interdimensional thief.%*setanim cat_piano gesture_exchange 1 idle*%*setcam setpos -1450.820923 3049.278076 66.423630;setang 10.594172 112.317444 0.000000* ###### BAR AND PIANO 
 	I saved some wonton soup for you,% try not to stain the trolley seat.
@@ -82,7 +67,7 @@ r1a2:
 	
 r1a3:
 	*setspeaker cat_bar*
-	*setskin cat_bar 1*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_agree 1 idle*
 	I do hope you'll be able to join us in our next little gathering.%%
 	Stay safe!
@@ -92,7 +77,7 @@ r1a3:
 r2a1:
 	*setcam setpos -1510.434570 3071.411865 67.185104;setang 2.777888 -119.207855 0.000000* ###### CELLO ONLY
 	*setspeaker cat_cello*
-	*setskin cat_cello 1*
+	*CELLO_GRIN*
 	*setanim cat_cello gesture_exchange 1 idle*
 	it's fiiiine.%%% what's the worst that could happen?%% it's not like life or death 
 	has any meaning beyond what you give it% so*setanim gesture_sweep cat_cello 1 idle* sit down% grab 
@@ -103,29 +88,29 @@ r2a1:
 r2a2:
 	*setcam setpos -1498.261108 3115.454590 54.479294;setang 6.880691 127.231255 0.000000* ###PIANO CLOSEUP
 	*setspeaker cat_piano*
-	*setskin cat_piano 2*
+	*PIANO_ANGRY*
 	*setanim cat_piano gesture_disagree 1 idle*
-	Thanks for the stirring speech,% Camus.%%%*setskin cat_piano 0*%*setcam setpos -1329.612915 3103.142334 94.227859;setang 14.996481 -171.855530 0.000000* But no legit,% it's cool.%%
+	Thanks for the stirring speech,% Camus.%%%*PIANO_NEUTRAL*%*setcam setpos -1329.612915 3103.142334 94.227859;setang 14.996481 -171.855530 0.000000* But no legit,% it's cool.%%
 	All of the foodstuffs we find are preserved in the state of their creation.%%%%*setanim cat_piano gesture_shrug 1 idle*
 	How else do you think we fuckin' eat?
 	
 	player:
-	&r1a1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		Thanks, but I'll take mine to go. I've got stuff to do. (Exit)
-	&r3a1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		I will literally never turn down free food.
+		&r1a1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			Thanks, but I'll take mine to go. I've got stuff to do. (Exit)
+		&r3a1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			I will literally never turn down free food.
 		
 ###### Branch 3
 r3a1:
 	*setcam setpos -1450.820923 3049.278076 66.423630;setang 10.594172 112.317444 0.000000* ###### BAR AND PIANO
 	*setspeaker narrator*
-	*setskin cat_piano 1*
-	*setskin cat_bar 1*
+	*PIANO_SMIRK*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_clap 1 idle*
 	*setanim cat_piano gesture_clap 1 idle*
-	>The Pianist and Singer clap their hands together.*setskin cat_piano 3* 
+	> The Pianist and Bartender clap their hands together.*PIANO_FLUSTERED* 
 	The Pianist looks*setanim cat_piano gesture_embarass 1 idle* embarrassed and
 	seems to be pretending she did that to kill a bug.%%%
 	You let her think it worked.
@@ -133,57 +118,57 @@ r3a1:
 	
 r3a2:
 	*setspeaker cat_piano*
-	*setskin cat_piano 1*
+	*PIANO_SMIRK*
 	Sweet.%%*setanim cat_piano gesture_exchange 1 idle* Here,% I saved you some wonton soup.
 	%
-	>She pushes one of the boxes over to you.
+	> She pushes one of the boxes over to you.
 	&r3a3
 	
 r3a3:
 	*setcam setpos -1329.612915 3103.142334 94.227859;setang 14.996481 -171.855530 0.000000* ####### ALL 4
 	*setspeaker narrator*
-	*setskin cat_cello 0*
-	*setskin cat_bar 0*
-	>Everyone in the room eats in silence.%%% It's only mildly awkward.
+	*CELLO_NEUTRAL*
+	*BAR_NEUTRAL*
+	> Everyone in the room eats in silence.%%% It's only mildly awkward.
 	&r3a4
 	
 r3a4:
 	*setspeaker cat_bar*
-	*setskin cat_bar 3*
-	Say, *player*.%%*setskin cat_bar 1* H*setanim cat_bar gesture_confused 1 idle*ave you ever played a round of G-
+	*BAR_SURPRISE*
+	Say, *player*.%%*BAR_HAPPY* H*setanim cat_bar gesture_confused 1 idle*ave you ever played a round of G-
 	&r3a5
 	
 r3a5:
 	*setcam setpos -1498.261108 3115.454590 54.479294;setang 6.880691 127.231255 0.000000* ###PIANO CLOSEUP
 	*setspeaker cat_piano*
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	*setanim cat_piano gesture_anger 2.5 idle*
 	SO ABOUT WHY I CALLED YOU ALL HERE TODAY.%%%%%
-	I found something.*setanim cat_piano gesture_agree 1.2 idle* S*setskin cat_piano 1*omething, cool.
+	I found something.*setanim cat_piano gesture_agree 1.2 idle* S*PIANO_SMIRK*omething, cool.
 	&r3a6
 	
 r3a6:
 	*setspeaker cat_bar*
-	*setskin cat_piano 0*
-	*setskin cat_bar 2*
-	Pianist.%%%*setcam setpos -1450.820923 3049.278076 66.423630;setang 10.594172 112.317444 0.000000* No chainsaws in the Bar Samsara.%%%%*setskin cat_bar 4*
-	We'v*setskin cat_bar 0*e talked about this.
+	*PIANO_NEUTRAL*
+	*BAR_PISSED*
+	Pianist.%%%*setcam setpos -1450.820923 3049.278076 66.423630;setang 10.594172 112.317444 0.000000* No chainsaws in the Bar Samsara.%%%%*BAR_BLINK*
+	We'v*BAR_NEUTRAL*e talked about this.
 	&r3a7
 	
 r3a7:
 	*setspeaker cat_piano*
 	*setanim cat_piano gesture_jab 1.7 idle*
 	Firstly,% you're repressing my free spirit with that rule and I resent it.%%%
-	Secondly,%%*setanim cat_piano gesture_disagree 1 idle* it's*setskin cat_piano 4* not a cha*setskin cat_piano 1*insaw.%%% 
+	Secondly,%%*setanim cat_piano gesture_disagree 1 idle* it's*PIANO_BLINK* not a cha*PIANO_SMIRK*insaw.%%% 
 	It's something better.
 	&r3a8
 
 r3a8:
 	*setcam setpos -1329.612915 3103.142334 94.227859;setang 14.996481 -171.855530 0.000000* ####### ALL 4
 	*setspeaker narrator*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_piano gesture_exchange 1 idle*
-	>The Pianist produces a recorder from her jacket pocket,%%
+	> The Pianist produces a recorder from her jacket pocket,%%
 	and places it on the table.
 	%%%%%
 	The Cellist quickly stands up from his seat.
@@ -201,35 +186,35 @@ r3a9:
 
 r3a10:
 	*setspeaker cat_bar*
-	*setskin cat_bar 1*
+	*BAR_HAPPY*
 	*setanim cat_bar gesture_confused 1 idle*
 	Come now,%% don't be like that.
 	&r3a11
 
 r3a11:
 	*setspeaker cat_cello*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_sigh 1 idle*
 	like we don't all know how this is gonna go you mean%%%%%%
-	no*setanim cat_cello gesture_disagree 1 idle* tha*setskin cat_cello 2*nks i'm out i am perfectly capable of destroying my 
+	no*setanim cat_cello gesture_disagree 1 idle* tha*CELLO_MAD*nks i'm out i am perfectly capable of destroying my 
 	inner,% middle,% and outer ears on my own
 	&r3a12	
 	
 r3a12:
 	*setcam setpos -1486.503418 3121.125000 84.735489;setang 12.840269 -81.533890 0.000000* ###### SING AND CELLO
 	*setspeaker cat_singer*
-	*setskin cat_singer 0*
-	>The Singer puts their tablet on the table.%%%%*setskin cat_singer 1*
+	*SINGER_NEUTRAL*
+	> The Singer puts their tablet on the table.%%%%*SINGER_HAPPY*
 	
 	They*setanim cat_singer gesture_exchange 2 idle* point at the Cellist's chair.
 	&r3a13	
 	
 r3a13:
 	*setspeaker cat_cello*
-	*setskin cat_cello 4*
+	*CELLO_BLINK*
 	*setanim cat_cello gesture_facepalm 1.3 idle*
 	c'mon pipes,%% really?%%%%
-	you're gonna*setskin cat_cello 2* let her do this to herself?
+	you're gonna*CELLO_MAD* let her do this to herself?
 	&r3a14
 
 r3a14:
@@ -241,12 +226,12 @@ r3a14:
 r3a15:
 	*setcam setpos -1329.612915 3103.142334 94.227859;setang 14.996481 -171.855530 0.000000* ####### ALL 4
 	*setspeaker cat_cello*
-	>%.%.%.%%the Cellist quietly sits down in his seat.
+	> %.%.%.%%The Cellist quietly sits down in his seat.
 	&r3a16
 	
 r3a16:
 	*setspeaker cat_piano*
-	*setskin cat_piano 0*
+	*PIANO_NEUTRAL*
 	Thank you.%%%% So,% I found this,% and I thought I'd give you a treat.%%
 	I've been practicing.%%%
 	Ahem.
@@ -255,27 +240,27 @@ r3a16:
 r3a17:
 	*setspeaker cat_piano*
 	*setcam setpos -1498.261108 3115.454590 54.479294;setang 6.880691 127.231255 0.000000* ###PIANO CLOSEUP
-	>The Pianist plays the recorder.%%%%%
+	> The Pianist plays the recorder.%%%%%
 	
-	%.%*setskin cat_piano 3*.%.%it's%.%.%.%.%%% something alright.
+	%.%*PIANO_FLUSTERED*.%.%it's%.%.%.%.%%% something alright.
 	&r3a18
 	
 r3a18:
 	*setposang cat_piano setpos -1524.946167 3146.739746 -128;setang -90 210 0.000000*
 	*setanim cat_piano gesture_exchange 2 idle*
-	>As soon as the song is over the Pianist hurls the recorder
+	> As soon as the song is over the Pianist hurls the recorder
 	across the room and storms out!
 	
 	player:
-	&m1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		That was awful.
-	&m1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		That was great.
-	&m1:
-		*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
-		I really wish I'd taken my food to go.
+		&m1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			That was awful.
+		&m1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			That was great.
+		&m1:
+			*setcam setpos -1476.077637 3092.489014 59.566158;setang -0.097153 -99.910004 0.000000*
+			I really wish I'd taken my food to go.
 		
 ###### MERGE
 m1:
@@ -290,14 +275,14 @@ m1:
 	
 m2:
 	*setspeaker cat_singer*
-	*setskin cat_singer 2*
+	*SINGER_MAD*
 	*setanim cat_singer gesture_disagree 1.3 idle*
-	>The Singer frowns.%%% They liked it.
+	> The Singer frowns.%%% They liked it.
 	&m3
 	
 m3:
 	*setspeaker cat_cello*
-	*setskin cat_cello 0*
+	*CELLO_NEUTRAL*
 	*setanim cat_cello gesture_jab 2.5 idle*
 	oh of course %you% liked it%%% you're a supportive friend%% which means as 
 	much as having your first*setanim cat_cello gesture_sigh 1 idle* ever crayon scribble hung 
@@ -307,9 +292,9 @@ m3:
 m4:
 	*setcam setpos -1450.820923 3049.278076 66.423630;setang 10.594172 112.317444 0.000000* ###### BAR AND PIANO
 	*setspeaker cat_bar*
-	*setskin 2*
+	*BAR_PISSED*
 	*setanim cat_bar gesture_anger 2.4 idle*
-	>The Bartender stands up.*setskin cat_bar 0*
+	> The Bartender stands up.*BAR_NEUTRAL*
 	&m5
 	
 m5:

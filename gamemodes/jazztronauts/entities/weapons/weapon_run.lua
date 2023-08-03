@@ -4,10 +4,11 @@ end
 
 SWEP.Base					= "weapon_basehold"
 SWEP.PrintName				= jazzloc.Localize("jazz.weapon.run")
-SWEP.Slot					= 3
+SWEP.Slot					= 2
 SWEP.Category				= "#jazz.weapon.category"
 SWEP.Purpose				= "#jazz.weapon.run.desc"
-SWEP.WepSelectIcon			= Material( "weapons/weapon_run.png" )
+SWEP.WepSelectIcon			= Material( "entities/weapon_run.png" )
+SWEP.AutoSwitchFrom			= false
 
 SWEP.ViewModel				= "models/weapons/c_run.mdl"
 SWEP.WorldModel				= "models/weapons/w_run.mdl"
@@ -150,17 +151,17 @@ function SWEP:Cleanup()
 		local spine = owner:LookupBone( "ValveBiped.Bip01_Spine1" )
 
 		if arm_left and arm_left2 then
-			owner:ManipulateBoneAngles( arm_left, Angle(0,0,0) )
-			owner:ManipulateBoneAngles( arm_left2, Angle(0,0,0) )
+			owner:ManipulateBoneAngles( arm_left, angle_zero )
+			owner:ManipulateBoneAngles( arm_left2, angle_zero )
 		end
 
 		if arm_right and arm_right2 then
-			owner:ManipulateBoneAngles( arm_right, Angle(0,0,0) )
-			owner:ManipulateBoneAngles( arm_right2, Angle(0,0,0) )
+			owner:ManipulateBoneAngles( arm_right, angle_zero )
+			owner:ManipulateBoneAngles( arm_right2, angle_zero )
 		end
 
 		if spine then
-			owner:ManipulateBoneAngles( spine, Angle(0,0,0) )
+			owner:ManipulateBoneAngles( spine, angle_zero )
 		end
 	end
 	self:StopChargeSound()

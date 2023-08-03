@@ -1,0 +1,8 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\sonador/sonador_sheet"
+	"$bumpmap" "models\sonador/sonador_normal"
+	"$model" "1"
+	"$surfaceprop" "flesh"
+	$halflambert 1
+}

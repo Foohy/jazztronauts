@@ -16,10 +16,42 @@ complex_name(v0,v1,v2) first:v0 second:v1 compound(v2): oncat(v2)
 
 
 
-spawnbartender() *spawn cat_bar models/andy/bartender/cat_bartender.mdl**setnpcid cat_bar npc_cat_bar*
-spawnpianist() *spawn cat_piano models/andy/pianist/cat_pianist.mdl**setnpcid cat_piano npc_cat_piano*
-spawncellist() *spawn cat_cello models/andy/cellist/cat_cellist.mdl**setnpcid cat_cello npc_cat_cello*
-spawnsinger() *spawn cat_singer models/andy/singer/cat_singer.mdl**setnpcid cat_singer npc_cat_sing*
-spawnnarrator() *spawn narrator models/npc/cat.mdl**setnpcid narrator npc_narrator*
+#emotion enums
+BAR_NEUTRAL setskin cat_bar 0
+BAR_BLINK setskin cat_bar 4
+BAR_HAPPY setskin cat_bar 1
+BAR_PISSED setskin cat_bar 2
+BAR_SURPRISE setskin cat_bar 3
+
+PIANO_NEUTRAL setskin cat_piano 0
+PIANO_BLINK setskin cat_piano 4
+PIANO_ANGRY setskin cat_piano 2
+PIANO_FLUSTERED setskin cat_piano 3
+PIANO_RELIEF setskin cat_piano 5
+PIANO_SMIRK setskin cat_piano 1
+
+CELLO_NEUTRAL setskin cat_cello 0
+CELLO_BLINK setskin cat_cello 4
+CELLO_MAD setskin cat_cello 2
+CELLO_EMPTY setskin cat_cello 5
+CELLO_GRIN setskin cat_cello 1
+CELLO_HIGH setskin cat_cello 3
+
+SINGER_NEUTRAL setskin cat_singer 0
+SINGER_BLINK setskin cat_singer 4
+SINGER_CRY setskin cat_singer 6
+SINGER_DEPRESSED setskin cat_singer 7
+SINGER_FLUSTERED setskin cat_singer 5
+SINGER_HAPPY setskin cat_singer 1
+SINGER_MAD setskin cat_singer 2
+SINGER_MISCHIEF setskin cat_singer 3
+
+
+
+spawnbartender() *spawn cat_bar models/andy/bartender/cat_bartender.mdl**setnpcid cat_bar npc_cat_bar**BAR_NEUTRAL**setanim cat_bar idle*
+spawnpianist() *spawn cat_piano models/andy/pianist/cat_pianist.mdl**setnpcid cat_piano npc_cat_piano**PIANO_NEUTRAL**setanim cat_piano idle*
+spawncellist() *spawn cat_cello models/andy/cellist/cat_cellist.mdl**setnpcid cat_cello npc_cat_cello**CELLO_NEUTRAL**setanim cat_cello idle*
+spawnsinger() *spawn cat_singer models/andy/singer/cat_singer.mdl**setnpcid cat_singer npc_cat_sing**SINGER_NEUTRAL**setanim cat_singer idle*
+spawnnarrator() *spawn narrator dummy**setnpcid narrator npc_narrator*
 
 spawngang() spawncellist()spawnbartender()spawnpianist()spawnsinger()spawnnarrator()

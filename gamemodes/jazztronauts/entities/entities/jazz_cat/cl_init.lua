@@ -8,6 +8,7 @@ ENT.HeadLookSpeed = 3
 ENT.HeadLookBone = "rig_cat:j_head"
 ENT.HeadLookDistance = 400
 ENT.HeadLookRange = math.cos(math.rad(80))
+ENT.LastChatFadeUpdate = 0
 
 ENT.ChatFade = 0
 ENT.AttentionMarker = Material("materials/ui/jazztronauts/yes.png", "smooth")
@@ -64,7 +65,8 @@ function ENT:UpdateChatFade()
 		change = -1
 	end
 
-	self.ChatFade = math.Clamp(self.ChatFade + FrameTime() * self.ChatFadeSpeed * change, 0, 1)
+	self.ChatFade = math.Clamp(self.ChatFade + (CurTime() - self.LastChatFadeUpdate) * self.ChatFadeSpeed * change, 0, 1)
+	self.LastChatFadeUpdate = CurTime()
 end
 
 function ENT:UpdateWorldMarker()
@@ -167,6 +169,10 @@ function ENT:Draw()
 	else
 		self:DrawModelFollow()
 	end
+
+	--[[ draw bounds (only meant for in-dev)
+	local mins, maxs = self:AdjustBounds()
+	render.DrawWireframeBox( self:GetPos(), self:GetAngles(), mins, maxs, color_white)--]]
 
 	-- Only the Bartender has multiple options, everyone else just chats
 	if self.ChatChoices and #self.ChatChoices > 0 then

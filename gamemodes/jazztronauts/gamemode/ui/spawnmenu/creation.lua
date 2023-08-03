@@ -1,8 +1,8 @@
 -- Register upgrade that allows them to buy back their spawn menu
 jstore.Register("spawnmenu", 100000, {
 	cat = "tools",
-	name = jazzloc.Localize("jazz.weapon.gmodspawnmenu"),
-	desc = jazzloc.Localize("jazz.weapon.gmodspawnmenu.desc"),
+	name = jazzloc.Localize("jazz.gmodspawn"),
+	desc = jazzloc.Localize("jazz.gmodspawn.desc"),
 	thirdparty = true
 })
 
@@ -68,7 +68,7 @@ function PANEL:Populate()
 
 	-- Prop Panel
 	local pnl = vgui.Create( "Panel", self )
-	self:AddSheet( "Props", pnl, "icon16/application_view_tile.png", nil, nil, "Spawn your props" )
+	self:AddSheet( "#jazz.gmodspawn.props", pnl, "icon16/application_view_tile.png", nil, nil, "#jazz.gmodspawn.props.desc" )
 
 	self.content = vgui.Create( "ContentContainer", pnl )
 	self.content:Dock( FILL )
@@ -89,12 +89,12 @@ function PANEL:Populate()
 	end)
 
 	//local pnl = vgui.Create( "DPanel" )
-	//self:AddSheet( "Tools", pnl, "icon16/exclamation.png", nil, nil, "Select tools" )
+	//self:AddSheet( "#spawnmenu.tools_tab", pnl, "icon16/exclamation.png", nil, nil, "Select tools" )
 
 
 	-- Weapons Panel
 	local pnl = vgui.Create( "DPanel" )
-	self:AddSheet( "Weapons", pnl, "icon16/gun.png", nil, nil, "Guns" )
+	self:AddSheet( "#spawnmenu.category.weapons", pnl, "icon16/gun.png", nil, nil, "#jazz.gmodspawn.weapons.desc" )
 
 	self.weapons = vgui.Create( "ContentContainer", pnl )
 	self.weapons:Dock( FILL )
@@ -102,7 +102,7 @@ function PANEL:Populate()
 
 	-- Go through every registered jazz weapon and try to add them
 	for k, v in pairs(list.Get("Weapon")) do
-		if v.Category == "Jazztronauts" and GAMEMODE:JazzCanSpawnWeapon(LocalPlayer(), k) then
+		if v.Category == "#jazz.weapon.category" and GAMEMODE:JazzCanSpawnWeapon(LocalPlayer(), k) then
 			self:AddUnlockedWeapon( k )
 		end
 	end
@@ -122,7 +122,7 @@ function PANEL:Populate()
 		if not IsValid(pnl) then return end
 
 		-- Add the entire spawnmenu as a sheet on the jazz spawnmenu
-		local sheet = self:AddSheet( "Sandbox Spawnmenu", pnl, "icon16/clock.png", nil, nil, "Dogs?" )
+		local sheet = self:AddSheet( "#jazz.gmodspawn.sandbox", pnl, "icon16/clock.png", nil, nil, "#jazz.gmodspawn.sandbox.desc" )
 
 		-- Hook into when it's removed so we can handle that gracefully
 		oldremove = pnl.OnRemove

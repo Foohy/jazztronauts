@@ -10,6 +10,8 @@ surface.CreateFont( "JazzMouseHint", {
 	antialias = true
 })
 
+local funnydraw = GetConVar("r_drawtranslucentworld")
+
 ENT.SpawnScale = 0
 function ENT:Initialize()
 
@@ -90,7 +92,7 @@ local function renderPlayerBeam(marker, ply)
 	return true
 end
 
-hook.Add("PostDrawOpaqueRenderables", "JazzDrawBusMarkerBeams", function()
+local function drawdembeams()
 	local markers = LocalPlayer().ActiveBusMarkers
 	if !markers or #markers == 0 then return end
 
@@ -103,6 +105,17 @@ hook.Add("PostDrawOpaqueRenderables", "JazzDrawBusMarkerBeams", function()
 			end
 		end
 	end
+end
+
+hook.Add("PostDrawOpaqueRenderables", "JazzDrawBusMarkerBeams", function()
+	--work around for a bug where translucent won't render
+	if funnydraw:GetBool() == false then
+		drawdembeams()
+	end
+end )
+
+hook.Add("PostDrawTranslucentRenderables", "JazzDrawBusMarkerBeams", function()
+	drawdembeams()
 end )
 
 hook.Add( "PostDrawHUD", "JazzDrawBusMarker", function()

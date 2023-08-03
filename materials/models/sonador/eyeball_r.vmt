@@ -1,0 +1,19 @@
+EyeRefract
+{
+$Iris "models/sonador/eye-iris-blue" 
+$AmbientOcclTexture "models/sonador/gambler_eye_ao" 
+$Envmap "Engine/eye-reflection-cubemap-" 
+$CorneaTexture "Engine/eye-cornea" 
+$EyeballRadius "1.3" 
+$glossiness "0.1"
+$AmbientOcclColor "[.4 .4 .4]" 
+$Dilation ".6" 
+$ParallaxStrength "0.25" 
+$CorneaBumpStrength ".1" 
+$halflambert 1
+$nodecal 1
+$ambientocclusion 1
+
+$RaytraceSphere 1 
+$SphereTexkillCombo 0 
+}

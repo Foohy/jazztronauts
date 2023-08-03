@@ -1,29 +1,29 @@
-﻿CMD_DELAY = 0
+CMD_DELAY = 0
 
 begin:
 	spawngang()
-	*setposang cat_bar setpos 5795.780762 141.141571 3584.031250;setang -90	-91.249092 0.000000*
+	*setposang cat_bar setpos 5795.780762 141.141571 3584.031250;setang -90 -91.249092 0.000000*
 	*setposang cat_cello setpos setpos 6608.233398 -486.078217 3584.031250;setang -90 163.122925 0.000000*
 	*setposang cat_piano setpos 6518.995117 403.150879 3584.031250;setang -90 -65.329979 0.000000*
 	*setanim cat_piano pose_passedout*
-		*spawn narrator dummy*
+	*spawn narrator dummy*
 	*setnpcid narrator npc_narrator*
 	*setposang cat_singer setpos 5897.477051 291.355804 3584.031250;setang -90 -15.488564 0.000000*
 	*setposang player setpos -7294.063965 -1565.545898 3584;setang 0.612256 90.094734 0.000000*
 	*setcam setpos -7283.202148 -1279.565552 3168.028809;setang 9.796160 -88.578621 0.000000*
 
 	*spawn podge dummy*
-     *setname podge Podge*
+	*setname podge Podge*
 
-     *spawn rungo dummy*
-     *setname rungo Rungo*
+	*spawn rungo dummy*
+	*setname rungo Rungo*
 
-     *spawn georff dummy*
-     *setname georff Georff*
+	*spawn georff dummy*
+	*setname georff Georff*
 
-     *spawn rob dummy*
-     *setname rob Rob*
-*tweencam 1.5 setpos -7285.830078 -1363.527954 3217.524658;setang -30.879200 -91.719673 0.000000*
+	*spawn rob dummy*
+	*setname rob Rob*
+	*tweencam 1.5 setpos -7285.830078 -1363.527954 3217.524658;setang -30.879200 -91.719673 0.000000*
 	*bgmplay sound/jazztronauts/music/events/bigbang_funk.mp3 .5 30*
 	*setspeaker narrator*
 	> %.%.%.%it's completely black%.%.%.%.%%*tweencam 10 setpos -7292.398438 5197.813965 3329.063965;setang -0.266206 90.840118 0.000000*
@@ -44,15 +44,15 @@ oops:
 a1:
 	*setposang player setpos 6315.488281 82.928795 3648.031250;setang -7.986032 -7.538742 0.000000*
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
-     *setspeaker podge*
-     ‘sup.%%% Welcome to the Center of the Universe.
-     &a2
+	*setspeaker podge*
+	‘sup.%%% Welcome to the Center of the Universe.
+	&a2
 
 a2:
 	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
-     *setspeaker georff*
-     Nice to see a new face.  
-     &a2b
+	*setspeaker georff*
+	Nice to see a new face.
+	&a2b
 
 a2b:
 	*setspeaker narrator*
@@ -61,200 +61,200 @@ a2b:
 	
 a3:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
-     *setspeaker rungo*
-     cheers,% take a load off yeah?
-     &a4
+	*setspeaker rungo*
+	cheers,% take a load off yeah?
+	&a4
 a4:
-     
-     *setspeaker narrator*
-     >This is not at all what you were expecting from any of this.
-     &a5
+	
+	*setspeaker narrator*
+	> This is not at all what you were expecting from any of this.
+	&a5
 
 a5:
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
-     *setspeaker podge*
-     Oh you with the cats?%% Cool.% Cool.%%% Yeah,% they come here once in 
+	*setspeaker podge*
+	Oh you with the cats?%% Cool.% Cool.%%% Yeah,% they come here once in 
 	 a while with a group of confused lookin' video game blokes like you.%%%% 
-	 We’re used to it.
-     &a6
+	 We're used to it.
+	&a6
 
 a6:
-     *setspeaker narrator*
-     >The other guitarist stops tuning and chimes in.
-     &a7
+	*setspeaker narrator*
+	> The other guitarist stops tuning and chimes in.
+	&a7
 
 a7:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
-     *setspeaker rob*
-     Hey as long as they’re enjoying themselves whatever,% y’know?%%% It’s 
-     basically why we’re here.
-     &a8
+	*setspeaker rob*
+	Hey as long as they're enjoying themselves whatever,% y'know?%%% 
+	It's basically why we're here.
+	&a8
 
 a8:
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
-     *setspeaker podge*
-     You want any existential-like questions answered while we set up?%%%
-     Figure it's the least we can do to give back to the community after
-     we've been subsumed by the fundamental forces of the cosmos.
-     &a9
+	*setspeaker podge*
+	You want any existential-like questions answered while we set up?%%%
+	Figure it's the least we can do to give back to the community after
+	we've been subsumed by the fundamental forces of the cosmos.
+	&a9
 
 a9:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
-     *setspeaker rungo*
-     yeah go ahead mate,% s’not a monkeys paw or anythin'.%%%% 
-	 anyone can know whatever they want,%% except space cops
-     &a10
+	*setspeaker rungo*
+	yeah go ahead mate,% s'not a monkeys paw or anythin'.%%%% 
+	anyone can know whatever they want,%% except space cops
+	&a10
 
 a10:
 	*setcam setpos 5898.999023 149.256104 3823.915039;setang 24.996138 -13.980748 0.000000* #### GROUP
-     *setspeaker podge*
-     So yeah,% whatcha got on your mind?
-     player:
-          &happiness:
-		*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
-		  What’s the key to a happy life?
-          &purpose: 
-		  *setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
-		  Is there a point to it all?
-          &stickybuns: 
-		  *setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
-		  Any 'a y’all got a bombass recipe?
+	*setspeaker podge*
+	So yeah,% whatcha got on your mind?
+	player:
+		&happiness:
+			*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
+			What's the key to a happy life?
+		&purpose: 
+			*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
+			Is there a point to it all?
+		&stickybuns: 
+			*setcam setpos 6633.360352 11.579720 3684.950439;setang 6.681584 179.750626 0.000000*
+			Any 'a y'all got a bombass recipe?
 
 #### HOW TO BE HAPPY
 
 happiness:
 	*setcam setpos 5898.999023 149.256104 3823.915039;setang 24.996138 -13.980748 0.000000* #### GROUP
-     *setspeaker podge*
-     Ah yeah we get this one a lot. 
-     &h1
+	*setspeaker podge*
+	Ah yeah we get this one a lot. 
+	&h1
 
 h1:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
-     *setspeaker rungo*
-     lesse it was u%h%h%%h%% rob’s turn i think.%% you want a beat?
-     &h2
+	*setspeaker rungo*
+	lesse it was u%h%h%%h%% rob's turn i think.%% you want a beat?
+	&h2
 
 h2:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
-     *setspeaker rob*
-     Yeah sure.
-     &h3
+	*setspeaker rob*
+	Yeah sure.
+	&h3
 
 h3:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
-     *setspeaker rungo*
-     cheers
-     &h4
+	*setspeaker rungo*
+	cheers
+	&h4
 h4:
-	*setcam setpos 5898.999023 149.256104 3823.915039;setang 24.996138 -13.980748 0.000000* #### GROUP    
-     *setspeaker narrator*
-     >Rungo starts a drum solo of some sort.%% It’s pretty restrained.
-     &h6
+	*setcam setpos 5898.999023 149.256104 3823.915039;setang 24.996138 -13.980748 0.000000* #### GROUP
+	*setspeaker narrator*
+	> Rungo starts a drum solo of some sort.%% It's pretty restrained.
+	&h6
 
 h6:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
-     *setspeaker rob*
-     Right,% so,%% you can’t be happy all the time.%%%% Gotta have the other side
-     of that coin or else it isn’t a coin right?%%*setcam setpos 6013.335449 268.352417 3622.178955;setang -8.198992 0.234206 0.000000*%*tweencam 20 setpos 6015.707520 -286.642578 3622.178955;setang -8.198992 0.287446 0.000000* It'd be some sorta 
-     mobius strip upon which any image is indistinguishable from own 
-     reflection,% thus making sadness and happiness identical experiences. 
-     &h7
+	*setspeaker rob*
+	Right,% so,%% you can't be happy all the time.%%%% Gotta have the other side
+	of that coin or else it isn't a coin right?%%*setcam setpos 6013.335449 268.352417 3622.178955;setang -8.198992 0.234206 0.000000*%*tweencam 20 setpos 6015.707520 -286.642578 3622.178955;setang -8.198992 0.287446 0.000000* It'd be some sorta 
+	mobius strip upon which any image is indistinguishable from own 
+	reflection,% thus making sadness and happiness identical experiences. 
+	&h7
 
-h7:     
-     Thing is,% ain’t one thing alone that validates a person,%% they’re big 
-     dumb complicated meat machines that have a million different bits all 
-     screaming for their attention.%%%% There ain't no one key to happiness
-     because each and every person has their own unique lock to pop open.
-     &h8
+h7:
+	Thing is,% ain't one thing alone that validates a person,%% they're big 
+	dumb complicated meat machines that have a million different bits all 
+	screaming for their attention.%%%% There ain't no one key to happiness
+	because each and every person has their own unique lock to pop open.
+	&h8
 
 h8:
-     That don't mean there aren't some general bits that help most people.%%%%
-     You need a spot that you feel safe in,%% you need something to do that 
-     you find meaning in,%% and you need a band,%% people who see your real value.%%% 
-     Last one’s the tricky bit.
-     &h9
+	That don't mean there aren't some general bits that help most people.%%%%
+	You need a spot that you feel safe in,%% you need something to do that 
+	you find meaning in,%% and you need a band,%% people who see your real value.%%% 
+	Last one's the tricky bit.
+	&h9
 
-h9:    
-     Take a little time to appreciate the world around you.% Try new things 
-     when you can,% even when it’s scary,% but don't forget to keep yourself 
-     safe neither.%% Don’t be a dick.%%% And remember that no matter how bad 
-     things might seem in the now,% one day it’ll just be a memory.
-     &h10
+h9:
+	Take a little time to appreciate the world around you.% Try new things 
+	when you can,% even when it's scary,% but don't forget to keep yourself 
+	safe neither.%% Don't be a dick.%%% And remember that no matter how bad 
+	things might seem in the now,% one day it'll just be a memory.
+	&h10
 
 h10:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
-     Man this always turns into a lecture don’t it? 
-     &h11
+	Man this always turns into a lecture don't it? 
+	&h11
 
 h11:
 	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
-     *setspeaker georff*
-     Yeah no worries Rob,%% we’ll figure out the perfect spiel for that 
-     question one of these days.
-     &finale
+	*setspeaker georff*
+	Yeah no worries Rob,%% we'll figure out the perfect spiel for that 
+	question one of these days.
+	&finale
 
 ### HUMANIST EXISTENTIALISM 101
 
 purpose:
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
-     *setspeaker podge*
-     Ah.%% Yeah,% we get this one every once in a while.%%% I’ll give it to 
-     you straight\:%% the only meaning is where you find it.%%% We’ve all of 
-     us only got so long,% and it’s up to us to find what we wanna do 
-     with that time.
-     &p1
+	*setspeaker podge*
+	Ah.%% Yeah,% we get this one every once in a while.%%% I'll give it to 
+	you straight\:%% the only meaning is where you find it.%%% We've all of 
+	us only got so long,% and it's up to us to find what we wanna do 
+	with that time.
+	&p1
 
 p1:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
-     *setspeaker rungo*
-     can take a while.%% be mighty frustratin’.%%% but it’s somethin’ we 
-     can’t tell you.
-     &p2
+	*setspeaker rungo*
+	can take a while.%% be mighty frustratin'.%%% but it's somethin' we 
+	can't tell you.
+	&p2
 
 p2:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
-     *setspeaker rob*
-     Doesn’t have to be something grand or mysterious.% Meanin’s 
-     different for everyone.%%% For some folk it’s dogs.
-     &p3
+	*setspeaker rob*
+	Doesn't have to be something grand or mysterious.% Meanin's 
+	different for everyone.%%% For some folk it's dogs.
+	&p3
 
 p3:
 	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
-     *setspeaker georff*
-     Bless ‘em.%% Cats,% too.%%% Animals are good, man.
-     &p4
+	*setspeaker georff*
+	Bless ‘em.%% Cats,% too.%%% Animals are good, man.
+	&p4
 
 p4:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
-     *setspeaker rob*
-     Now that’s a universal truth.
-     &p5
+	*setspeaker rob*
+	Now that's a universal truth.
+	&p5
 
 p5:
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
-     *setspeaker podge*
-     At the end of the day,% you gotta find what brings you joy.%%% It 
-     ain’t set in stone either.% Might change from day to day.
-     &p6
+	*setspeaker podge*
+	At the end of the day,% you gotta find what brings you joy.%%% It 
+	ain't set in stone either.% Might change from day to day.
+	&p6
 
 p6:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
-     *setspeaker rungo*
-     all I did was play drums for 20 years straight and look at me,%%% 
-     i’ve ascended as an enlightened being of raw light and warmth
-     &p7
+	*setspeaker rungo*
+	all I did was play drums for 20 years straight and look at me,%%% 
+	i've ascended as an enlightened being of raw light and warmth
+	&p7
 
 p7:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
-     *setspeaker rob*
-     It’s a good gig.
-     &p8
+	*setspeaker rob*
+	It's a good gig.
+	&p8
 
 p8:
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
-     *setspeaker podge*
-     Yeah,% can’t complain.
-     &finale
+	*setspeaker podge*
+	Yeah,% can't complain.
+	&finale
 
 ### BOMB ASS STICKY BUNS
 ### A note from Jared, the writer of this branch: 
@@ -280,177 +280,177 @@ p8:
 
 stickybuns:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
-     *setspeaker rungo*
-     you better believe we do mate
-     &s1
+	*setspeaker rungo*
+	you better believe we do mate
+	&s1
 
 s1:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
-     *setspeaker rob*
-     Alright,% so,%% this here may not be a recipe you’ll see in a 
-     restaurant with Michelin stars,% but that don’t matter, cause food 
-     doesn’t have to be fancy and unique to be special,% yeah? 
-     &s2
+	*setspeaker rob*
+	Alright,% so,%% this here may not be a recipe you'll see in a 
+	restaurant with Michelin stars,% but that don't matter, cause food 
+	doesn't have to be fancy and unique to be special,% yeah? 
+	&s2
 
 s2:
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
-     *setspeaker podge*
-     I can’t promise you these sticky buns will blow your mind,%% but I 
-     can tell you they mean a whole lot to someone,%%% and they’d like 
-     to share them with you as a way of saying thanks.
-     &s3
+	*setspeaker podge*
+	I can't promise you these sticky buns will blow your mind,%% but I 
+	can tell you they mean a whole lot to someone,%%% and they'd like 
+	to share them with you as a way of saying thanks.
+	&s3
 
 s3:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
-     *setspeaker rungo*
-     alright so first things first you’re gonna want to start the evening 
-     before the morning you want these.%% get a 9” by 13” baking pan,% or a 
-     bundt cake pan,%% or anything that can hold the ingredients and go 
-     in the oven really
-     &s4
+	*setspeaker rungo*
+	alright so first things first you're gonna want to start the evening 
+	before the morning you want these.%% get a 9” by 13” baking pan,% or a 
+	bundt cake pan,%% or anything that can hold the ingredients and go 
+	in the oven really
+	&s4
 
 s4:
 	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
-     *setspeaker georff*
-     You’ll wanna grease up the inside.%% The classic way’s with a pack 
-	 of butter, but margarine or cooking spray’ll do you fine too.%%%% 
-	 Then, take a pack of 18 frozen yeast rolls,% and put ‘em right in,%% 
-	 no need to defrost.% 
-	 &s4a
-	 
+	*setspeaker georff*
+	You'll wanna grease up the inside.%% The classic way's with a pack 
+	of butter, but margarine or cooking spray'll do you fine too.%%%% 
+	Then, take a pack of 18 frozen yeast rolls,% and put ‘em right in,%% 
+	no need to defrost.% 
+	&s4a
+	
 s4a:
-	 The original 
-     version used Rhodes brand if you can find 'em,% but pick what you like.
-     &s4b
+	The original 
+	version used Rhodes brand if you can find 'em,% but pick what you like.
+	&s4b
 
-s4b: 
-     This next part's a bit critical -%% you need a box of Jello Butterscotch mix.%%% 
-     I know,% I know,% but we told you this wasn't fancy.%%% The important bit is to 
-     NOT get the type that says "Instant." 
-	 &s4c
+s4b:
+	This next part's a bit critical -%% you need a box of Jello Butterscotch mix.%%% 
+	I know,% I know,% but we told you this wasn't fancy.%%% The important bit is to 
+	NOT get the type that says "Instant." 
+	&s4c
 
-s4c:	 
-	 You need the "Cook and Serve" one.%%% 
-     Trust me, the instant stuff turns the 
-	 whole thing into a cement block.
-     &s5
+s4c:
+	You need the "Cook and Serve" one.%%% 
+	Trust me, the instant stuff turns the 
+	whole thing into a cement block.
+	&s5
 
 s5:
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
-     *setspeaker podge*
-     Next,% take the pudding mix,%% a half cup of chopped pecans,%% 
-	 half a cup of brown sugar,%% and half a teaspoon of cinnamon,%% 
-	 then mix ‘em all up,% and cover the rolls with the mix.%%% 
-	 &s5a
+	*setspeaker podge*
+	Next,% take the pudding mix,%% a half cup of chopped pecans,%% 
+	half a cup of brown sugar,%% and half a teaspoon of cinnamon,%% 
+	then mix ‘em all up,% and cover the rolls with the mix.%%% 
+	&s5a
 
-s5a:	 
-	 Half a cup’s about 120ml for all of you who 
-     actually use the measuring system most of 
-	 the world does.
-     &s6
+s5a:
+	Half a cup's about 120ml for all of you who 
+	actually use the measuring system most of 
+	the world does.
+	&s6
 
 s6:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
-     *setspeaker rungo*
-     you can leave out the pecans if you’ve got an 
-	 allergy or don’t like ‘em it’s a 
-	 forgiving recipe really
-     &s7
+	*setspeaker rungo*
+	you can leave out the pecans if you've got an 
+	allergy or don't like ‘em it's a 
+	forgiving recipe really
+	&s7
 
 s7:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
-     *setspeaker rob*
-     Next thing you do is melt either a half stick or 
-	 a full stick of butter,%% or margarine if you prefer,% 
-	 and drizzle that all over the rolls.%%% Depends on how 
-	 much sauce you want on the buns.
-     &s8
+	*setspeaker rob*
+	Next thing you do is melt either a half stick or 
+	a full stick of butter,%% or margarine if you prefer,% 
+	and drizzle that all over the rolls.%%% Depends on how 
+	much sauce you want on the buns.
+	&s8
 
 s8:
 	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
-     *setspeaker georff*
-     The right answer’s the full stick,% by the way.%%% 
-	 Not that we’ll judge you if you go with half.%% 
-	 Maybe encourage you to live a little more though.
-     &s9
+	*setspeaker georff*
+	The right answer's the full stick,% by the way.%%% 
+	Not that we'll judge you if you go with half.%% 
+	Maybe encourage you to live a little more though.
+	&s9
 
 s9:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
-     *setspeaker rungo*
-     so next thing you do is put that pan in a cold oven and 
-	 let it sit overnight so the rolls can thaw and deep flavor 
-	 magic happens.%%% trust me they just don’t taste right if 
-	 you try speedrunning it
-     &s10
+	*setspeaker rungo*
+	so next thing you do is put that pan in a cold oven and 
+	let it sit overnight so the rolls can thaw and deep flavor 
+	magic happens.%%% trust me they just don't taste right if 
+	you try speedrunning it
+	&s10
 
 s10:
 	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
-     *setspeaker rob*
-     In the morning,% set the oven to 350 degrees fahrenheit 
-	 -% about 176 celsius -%%% and bake the rolls until they’re done to 
-	 your taste.%%% 
-	 &s10a
-	 
+	*setspeaker rob*
+	In the morning,% set the oven to 350 degrees fahrenheit 
+	-% about 176 celsius -%%% and bake the rolls until they're done to 
+	your taste.%%% 
+	&s10a
+	
 s10a:
-	 The window’s pretty wide,% really,%% depends on if you 
-	 like em a bit underdone and soft at 15 minutes,%% or 
-     a bit overdone and crunchy at 35.
-     &s11
+	The window's pretty wide,% really,%% depends on if you 
+	like em a bit underdone and soft at 15 minutes,%% or 
+	a bit overdone and crunchy at 35.
+	&s11
 
 s11:
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
-     *setspeaker podge*
-     If you don’t know,% try 20 minutes,%% with an extra 
-	 five if they don’t seem quite done.%%% 
-	 Ovens is finicky things.
-     &s12
+	*setspeaker podge*
+	If you don't know,% try 20 minutes,%% with an extra 
+	five if they don't seem quite done.%%% 
+	Ovens is finicky things.
+	&s12
 
 s12:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
-     *setspeaker rungo*
-     then you just take them out,% pop them on a tray,% 
-	 and bob’s your uncle
-     &s13
+	*setspeaker rungo*
+	then you just take them out,% pop them on a tray,% 
+	and bob's your uncle
+	&s13
 
 s13:
 	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
-     *setspeaker georff*
-     Bomb-ass sticky buns.
-     &s14
+	*setspeaker georff*
+	Bomb-ass sticky buns.
+	&s14
 
 s14:
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
-     *setspeaker podge*
-     And really,%% is there anything in life better?
-     &finale
+	*setspeaker podge*
+	And really,%% is there anything in life better?
+	&finale
 
-<Merge Point> 
+<Merge Point>
 
 finale:
 	*setcam setpos 7199.545410 70.301804 3701.847168;setang -8.385321 -11.744699 0.000000* ### RUNGO
-     *setspeaker rungo*
-     so now you got a little more wisdom than you might’a had before,% why 
-     don’t you settle down with your mates?
-     &f1
+	*setspeaker rungo*
+	so now you got a little more wisdom than you might'a had before,% why 
+	don't you settle down with your mates?
+	&f1
 f1:
 	*setcam setpos 6873.719238 -35.814331 3735.278564;setang -9.609843 -16.855732 0.000000* #### PODGE
-     *setspeaker podge*
-     S’not often we get the chance to perform for a crowd these days.
-     &f2
+	*setspeaker podge*
+	S'not often we get the chance to perform for a crowd these days.
+	&f2
 
 f2:
 	*setcam setpos 7041.580566 -320.709656 3703.062744;setang -6.122615 18.176189 0.000000* ###### GEORFF
-     *setspeaker georff*
-     Yeah,% kick back and take a load off.%% Time don’t pass here the same 
-     as it does outside the Center. 
-     &f3
+	*setspeaker georff*
+	Yeah,% kick back and take a load off.%% Time don't pass here the same 
+	as it does outside the Center. 
+	&f3
 
 f3:
-	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB   
-     *setspeaker rob*
-     Ay,% Georff. Give us a beat.
-	 &f4
-	 
+	*setcam setpos 6943.578613 121.801231 3686.578369;setang -16.956974 33.136612 0.000000* ### ROB
+	*setspeaker rob*
+	Ay,% Georff. Give us a beat.
+	&f4
+
 f4:
 	*hide*
 	*txout*
@@ -482,7 +482,7 @@ f4:
 	*show*
 	> You listened to The Bortles play a set%.%.%.%%%
 	&endplease
-	
+
 endplease:
 	*bgmplay sound/jazztronauts/music/events/band_outro.mp3 0 5*
 	*hide*
@@ -491,7 +491,4 @@ endplease:
 	*show*
 	> Eventually, the Cats come to collect you, and you all
 	return to the Bar.
-     &exit
-
-
-
+	&exit

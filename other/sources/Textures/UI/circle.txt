@@ -1,0 +1,6 @@
+alphatodistance 1
+reduce 8
+distancespread 4
+nomip 1
+nolod 1
+nocompress 1

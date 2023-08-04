@@ -38,7 +38,7 @@ hook.Add( "PreDrawHUD", "JazzCheckToHideHUD", function()
 		jazzHideHUD = false
 	end
 
-	if isInSpecialMap or dialog.IsInDialog() then
+	if isInSpecialMap or dialog.IsInDialog() or jazzHideHUD then
 		jazzHideHUDSpecial = true
 	else
 		jazzHideHUDSpecial = false

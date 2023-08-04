@@ -15,11 +15,11 @@ local bgWidth = 15
 local lastWidth = 1
 local CurAlpha = 200
 local VisualAmount = 0
-local HideTime = mapcontrol.IsInHub() and math.huge or 0
+local HideTime = 0
+local KeepShowing = mapcontrol.IsInHub() and true or false
 local moneyFillDelay = 0 //Delay before the money begin filling into the main dude
 local moneyFillVelocity = 1 //Amount of money to fill per frame. Adjusted based on how many money to fill
 local lastMoneyCount = -1
-local isFadingOut = false
 
 local catcoin = Material("materials/ui/jazztronauts/catcoin.png", "smooth")
 
@@ -70,6 +70,14 @@ local function drawTextRotated(text, font, x, y, color, rotation, maxWidth)
 	cam.PopModelMatrix()
 end
 
+local function FadeOutNotes()
+	return math.Clamp(CurAlpha - (FrameTime() * FadeSpeed ), 0, 255 )
+end
+
+local function FadeInNotes()
+	return math.Clamp(CurAlpha + (FrameTime() * FadeSpeed ), 0, 255 )
+end
+
 local function DrawNoteCount()
 	local amt = LocalPlayer() and LocalPlayer():GetNotes() or 0
 
@@ -79,6 +87,25 @@ local function DrawNoteCount()
 		VisualAmount = amt
 	end
 
+	-- Typical state is don't draw unless amount changing, dialog should override KeepShowing
+	if dialog.IsInDialog() or not KeepShowing then
+		if amt ~= VisualAmount then
+			HideTime = CurTime() + HideDelay
+		end
+
+		if CurTime() > HideTime and CurAlpha <= 0 then
+			return -- Don't draw if the alpha is 0
+		elseif CurTime() > HideTime then
+			CurAlpha = FadeOutNotes()
+		else
+			CurAlpha = 200
+		end
+	else
+		if CurAlpha < 200 then
+			CurAlpha = FadeInNotes()
+		end
+	end
+
 	if amt ~= lastMoneyCount then
 		-- Only delay if earning money
 		if amt > lastMoneyCount then
@@ -86,16 +113,6 @@ local function DrawNoteCount()
 		end
 
 		lastMoneyCount = amt
-	end
-	if amt ~= VisualAmount then
-		HideTime = CurTime() + HideDelay
-	end
-
-	if CurTime() > HideTime and CurAlpha <= 0 then return //Don't draw if the alpha is 0
-	elseif CurTime() > HideTime then
-		CurAlpha = math.Clamp(CurAlpha - (FrameTime() * FadeSpeed ), 0, 255 )
-	else
-		CurAlpha = 200
 	end
 
 	-- Current multiplier for all earned money
@@ -153,7 +170,7 @@ local function DrawNoteCount()
 	end
 
 	-- Draw Cat Coin
-	surface.SetDrawColor(255, 255, 255)
+	surface.SetDrawColor(255, 255, 255, CurAlpha)
 	surface.SetMaterial(catcoin)
 	surface.DrawTexturedRect(ScrW() - coinDistance, distFromTop, coinSize, coinSize)
 
@@ -217,16 +234,13 @@ hook.Add("HUDPaint", "JazzDrawHUD", function()
 
 end )
 
--- Always show the moneybux in the hub, skip the scoreboard stuff below
-if mapcontrol.IsInHub() then
-	HideTime = math.huge
-	return
-end
+-- If always showing the moneybux, skip the scoreboard stuff below
+if KeepShowing == true then return end
 
 //Show the money count when pressing tab
 hook.Add( "ScoreboardShow", "jazz_scoreboardShow", function()
-	HideTime = math.huge
+	KeepShowing = true
 end )
 hook.Add("ScoreboardHide", "jazz_scoreboardHide", function()
-	HideTime = CurTime()
+	KeepShowing = false
 end )

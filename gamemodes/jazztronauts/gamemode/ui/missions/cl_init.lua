@@ -116,30 +116,48 @@ hook.Add("JazzMissionsUpdateUI", "JazzMissionListsToRender", function(prog, hist
 	CompletedMissions = table.Reverse(hist) -- more recent missions towards the bottom (vaguely, it's separated by cat rather than order number)
 end)
 
+local MissionsXShow = ScreenScale(12)
+local MissionsXHide = -(metrics.width)
+local MissionsX = MissionsXShow
+local SlideSpeed = ScreenScale(450) -- needs to get faster the more pixels there are to travel
+local function SlideOutMissions()
+	local fraction = Lerp( (MissionsX - MissionsXHide) * 0.01, 0, 1)
+	local ease = math.ease.OutQuad(fraction)
+	return MissionsX - (FrameTime() * SlideSpeed) * ease
+end
+local function SlideInMissions()
+	local fraction = Lerp( (MissionsXShow - MissionsX) * 0.01, 0, 1)
+	local ease = math.ease.OutQuad(fraction)
+	return MissionsX + (FrameTime() * SlideSpeed) * ease
+end
+
 local ShowFinishedMissions = false
 hook.Add("HUDPaint", "JazzDrawMissions", function()
 	if jazzHideHUD then return end
 
-	local dialogopen = dialog.GetOpen()
-	if dialogopen == 1 then return end
+	if dialog.IsInDialog() then
+		if MissionsX <= MissionsXHide then
+			return -- Don't render if offscreen
+		else
+			MissionsX = SlideOutMissions()
+		end
+	else
+		if MissionsX < MissionsXShow then
+			MissionsX = SlideInMissions()
+		end
+	end
 
-	local x = ScreenScale(12)
 	local offset = ScreenScale(40)
 	local y = ScrH() - offset
 
-	if dialogopen != 0 then
-		local ease = math.EaseInOut(dialogopen, 0, 1)
-		x = x - (metrics.width * 1.2) * ease
-	end
-
 	for k, v in pairs(ActiveMissions) do
-		y = DrawMission(v, x, y)
+		y = DrawMission(v, MissionsX, y)
 	end
 
 	if not ShowFinishedMissions then return end
 
 	for k, v in pairs(CompletedMissions) do
-		y = DrawMission(v, x, y)
+		y = DrawMission(v, MissionsX, y)
 	end
 end )
 

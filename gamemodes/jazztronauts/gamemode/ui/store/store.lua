@@ -1,28 +1,34 @@
 module("jstore", package.seeall) -- Extend jstore module
 
+local function ScreenScale(size)
+	-- if it goes under 2 it looks stupid, it fits into 640x480 who cares
+	return size * math.max( ScrW() / 640.0, 2)
+end
+
 -- #TODO: Derma skin? Sanity check??? Don't ever let me make UI again.
 
 -- Background jazzy tile
 local bgmat = Material("materials/ui/jazz_grid.png", "noclamp")
-local newIcon = "materials/ui/jazztronauts/catcoin.png"
-local defaultIcon = "ui/transition_horse"
+local newIcon = Material("materials/ui/jazztronauts/catcoin.png")
+local defaultIcon =  Material("ui/transition_horse")
 
 -- Background for the layout panel
 local bgPanelColor = Color(73, 24, 71)
 
 -- Text color states for the button
-local textColor = Color(69, 25, 74)
+local textColor = bgPanelColor -- cool negative space effect
 local textColorDisabled = Color(25, 25, 25)
-local textColorHighlight = Color(202, 68, 217)
+local textColorHighlight = Color(244, 144, 255)
 
 -- Background color states for the button
 local bgColor = Color(217, 180, 102)
+local bgHoverColor = Color(255, 230, 175)
 local bgDisabledColor = Color(132, 112, 76)
 local bgPressedColor = Color(117, 75, 02)
 local bgPurchased = Color(189, 217, 102)
 
 -- Width of the upgrade item gradient
-local upGradWidth = ScreenScale(10)
+local upGradWidth = ScreenScale(20)
 local bgUpgradeColor = Color(17, 17, 17)
 local bgUpgradeColorHighlight = Color(88, 88, 88)
 local bgUpgradeColorPurchased = Color(105, 143, 85)
@@ -32,6 +38,10 @@ local bgUpgradePriceDisabledColor = Color(20, 65, 58)
 
 -- The color of the rounded bright border on the button
 local borderColor = Color(227, 210, 167)
+local borderColorDisabled = Color(157, 147, 122)
+
+-- Margin that universally looks nice for everything, multiply or divide as needed
+local uniPad = ScreenScale(4)
 
 local storeFilters =
 {
@@ -43,56 +53,84 @@ surface.CreateFont( "JazzStoreName", {
 	font	  = "KG Shake it Off Chunky",
 	size	  = ScreenScale(15),
 	weight	= 700,
-	antialias = true
+})
+surface.CreateFont( "JazzStoreDescription", {
+	font	  = "KG Red Hands",
+	size	  = ScreenScale(8.5),
 })
 surface.CreateFont( "JazzUpgradeName", {
 	font	  = "KG Shake it Off Chunky",
 	size	  = ScreenScale(12),
-	weight	= 500,
-	antialias = true
-})
-surface.CreateFont( "JazzStoreDescription", {
-	font	  = "KG Shake it Off Chunky",
-	size	  = ScreenScale(8),
-	weight	= 500,
-	antialias = true
 })
 surface.CreateFont( "JazzUpgradePrice", {
 	font	  = "KG Shake it Off Chunky",
 	size	  = ScreenScale(9),
-	weight	= 500,
-	antialias = true,
-	strikethrough = true
 })
+
+local function buttonPurchase(btn, item, parent)
+	jstore.PurchaseItem(item.unlock, function(success)
+		if success then
+			if IsValid(btn) then parent:RefreshButtons() end
+		else
+			surface.PlaySound("buttons/button10.wav")
+		end
+	end )
+end
+
+local function buttonRefresh(btn, item, thingtohide)
+	local tip = nil
+
+	-- Already purchased
+	if unlocks.IsUnlocked("store", LocalPlayer(), item.unlock) then
+		btn:SetEnabled(false)
+		btn.Purchased = true
+		tip = jazzloc.Localize("jazz.store.purchased")
+
+		if thingtohide then thingtohide:Hide() end
+
+	-- Locked, can't be purchased yet
+	elseif not jstore.IsAvailable(LocalPlayer(), item.unlock) then
+		btn:SetEnabled(false)
+
+		if item.requires then
+			tip = jazzloc.Localize("jazz.store.requires", GetItem(item.requires).name )
+		end
+
+	-- Ready to buy
+	else
+		btn:SetEnabled(true)
+	end
+
+	return tip
+end
 
 -- Adds a new styled button, hooked up for purchasin'
 local function addButton(parent, item)
-	local btnSize = ScreenScale(30)
+	local btnSize = ScreenScale(40)
 	local btn = vgui.Create( "DButton" )
 	btn:SetText("")
-	btn:SetIcon("icon16/lock.png")
 	btn:SetHeight(btnSize)
 
-	local margin = ScreenScale(2)
-	btn:DockMargin(0, margin, 0, margin)
+	btn:DockMargin(0, 0, 0, uniPad)
 	btn.Paint = function(self, w, h)
 		local thick = ScreenScale(1.25)
-		draw.RoundedBox(5, 0, 0, w, h, borderColor)
+		draw.RoundedBox(5, 0, 0, w, h, self.BorderColor or color_white)
 		draw.RoundedBox(5, thick, thick, w - thick*2, h - thick*2, self.BGColor or color_white)
 	end
 	btn.SetBackgroundColor = function(self, col) self.BGColor = col end
+	btn.SetBorderColor = function(self, col) self.BorderColor = col end
 
 	-- Create image thumbnail
 	local img = vgui.Create("DImage", btn)
-	img:SetImage(item.icon, defaultIcon)
+	img:SetMaterial(item.icon or defaultIcon)
 	img:Dock(LEFT)
-	img:DockMargin(margin, margin, margin, margin)
-	img:SetSize(btnSize, btnSize)
+	img:DockMargin(uniPad, uniPad, uniPad, uniPad)
 	img:SetKeepAspect(true)
+	img:SetWidth(ScreenScale(32))
 
 	-- Optional "NEW" informative marker
 	local newImg = vgui.Create("DImage", img)
-	newImg:SetImage(newIcon)
+	newImg:SetMaterial(newIcon)
 	newImg:NoClipping(true)
 	newImg:SetPos(ScreenScale(-8), ScreenScale(-8))
 	newImg:SetSize(ScreenScale(16), ScreenScale(16))
@@ -102,6 +140,7 @@ local function addButton(parent, item)
 	-- Wrap in a DListLayout so our name/description lays out correctly
 	local itemInfo = vgui.Create("DListLayout", btn)
 	itemInfo:Dock(FILL)
+	itemInfo:DockMargin(0, uniPad, uniPad, uniPad)
 	itemInfo:SetMouseInputEnabled(false)
 
 	-- Create the name text
@@ -125,57 +164,36 @@ local function addButton(parent, item)
 	desc:Dock(TOP)
 
 	-- Utility function to update the button's 'style'
-	btn.SetButtonStyle = function(self, textColor, bgColor)
-		desc:SetTextColor(textColor)
-		name:SetTextColor(textColor)
-		btn:SetBackgroundColor(bgColor)
+	btn.SetButtonStyle = function(self, text, bg, border)
+		desc:SetTextColor(text)
+		name:SetTextColor(text)
+		btn:SetBackgroundColor(bg)
+		if not border then border = borderColor end
+		btn:SetBorderColor(border)
 	end
 
 	-- Update button colors depending on current state
 	btn.UpdateColours = function(self, skin)
 		local purchCol = self.Purchased and bgPurchased or bgDisabledColor
-		if ( !self:IsEnabled() )					then self:SetButtonStyle(textColorDisabled, purchCol) return end
+		if ( !self:IsEnabled() )					then self:SetButtonStyle(textColorDisabled, purchCol, borderColorDisabled) return end
 		if ( self:IsDown() || self.m_bSelected )	then self:SetButtonStyle(textColorHighlight, bgPressedColor) return end
-		if ( self.Hovered )							then self:SetButtonStyle(textColorHighlight, bgColor) return end
+		if ( self.Hovered )							then self:SetButtonStyle(textColor, bgHoverColor) return end
 
 		self:SetButtonStyle(textColor, bgColor)
 	end
 
 	-- Update current button state with unlock status
 	btn.RefreshState = function()
-		local tooltip = item.desc or ""
+		local tip = buttonRefresh(btn, item)
 
-		-- Already purchased
-		if unlocks.IsUnlocked("store", LocalPlayer(), item.unlock) then
-			btn:SetIcon("icon16/accept.png")
-			btn:SetEnabled(false)
-			btn.Purchased = true
-		-- Locked, can't be purchased yet
-		elseif not jstore.IsAvailable(LocalPlayer(), item.unlock) then
-			btn:SetEnabled(false)
-
-			if item.requires then
-				tooltip = tooltip.."\n"..jazzloc.Localize("jazz.store.requires",string.upper(item.requires))
-			end
-
-		-- Ready to buy
-		else
-			btn:SetEnabled(true)
-		end
-
-		btn:SetTooltip(tooltip)
+		if tip then btn:SetTooltip(tip) end
 
 		-- Newly available
 		btn:SetIsNew(IsItemNewlyAffordable(item.unlock))
 	end
 
 	-- Purchase
-	btn.DoClick = function()
-		surface.PlaySound("ambient/materials/smallwire_pluck3.wav")
-		jstore.PurchaseItem(item.unlock, function(success)
-			if IsValid(btn) then parent:RefreshButtons() end
-		end )
-	end
+	btn.DoClick = function() buttonPurchase(btn, item, parent) end
 
 	function btn:Think()
 		if self:IsHovered() and IsItemNewlyAffordable(item.unlock) then
@@ -194,7 +212,7 @@ local function createHeader(category, item, first)
 	label:SetColor(textColor)
 	label:SetAutoStretchVertical(true)
 	label:SizeToChildren(false, true)
-	label:DockMargin(0, first and 0 or ScreenScale(7), 0, 0)
+	label:DockMargin(0, first and 0 or uniPad * 2, 0, uniPad / 2)
 
 	function label:Paint(w, h)
 		local thick = ScreenScale(1.25)
@@ -212,20 +230,14 @@ local alpha_stops = {
 CacheGradient( "upgrade_item_left", Rect(0, 0, 3, 1), 0, alpha_stops, 0 )
 CacheGradient( "upgrade_item_right", Rect(0, 0, 3, 1), 180, alpha_stops, 0 )
 local function createListButton(parent, item)
-	local vmargin = ScreenScale(1)
-	local hmargin = ScreenScale(11)
-
 	local btn = vgui.Create( "DButton" )
-	btn:SetText("   " .. item.name) -- please no bully
-	btn:SetFont("JazzUpgradeName")
-	btn:SetColor(bgColor)
-	btn:SetContentAlignment(4)
-	btn:DockMargin(hmargin, vmargin, hmargin, vmargin)
+	btn:SetText("")
+	btn:SetFont("JazzUpgradeName") -- needed for proper vertical size
 	btn:SetAutoStretchVertical(true)
-	btn:SizeToChildren(false, true)
+	btn:DockMargin(0, 0, 0, uniPad / 2)
+	btn:DockPadding(upGradWidth * 1.2, uniPad / 3, upGradWidth * 1.2, uniPad / 3)
 	btn.SetBackgroundColor = function(self, col) self.BGColor = col end
 
-	local newMat = Material(newIcon)
 	function btn:Paint(w, h)
 		-- Left gradient
 		local rect = Rect(0, 0, upGradWidth, h)
@@ -242,10 +254,10 @@ local function createListButton(parent, item)
 		-- "New" icon
 		if IsItemNewlyAffordable(item.unlock) then
 			surface.SetDrawColor(color_white)
-			surface.SetMaterial(newMat)
-			surface.DisableClipping(true)
-				surface.DrawTexturedRect(h * -0.4, 0, h, h)
-			surface.DisableClipping(false)
+			surface.SetMaterial(newIcon)
+			--surface.DisableClipping(true)
+				surface.DrawTexturedRect(h * 0.8, 0, h, h)
+			--surface.DisableClipping(false)
 
 			if self:IsHovered() then
 				MarkItemSeen(item.unlock)
@@ -262,16 +274,20 @@ local function createListButton(parent, item)
 		self:SetButtonStyle(bgColor, bgUpgradeColor, bgUpgradePriceColor)
 	end
 
-	-- Add price information to right side
-	local priceDock = ScreenScale(1)
+	local name = vgui.Create("DLabel", btn)
+	name:SetText(item.name)
+	name:SetFont("JazzUpgradeName")
+	name:SetColor(bgColor)
+	name:SetContentAlignment(4)
+	name:CenterVertical()
+	name:Dock(FILL)
+
 	local price = vgui.Create("DLabel", btn)
 	price:SetText(jazzloc.Localize("jazz.store.price",string.Comma(item.price)))
 	price:SetFont("JazzUpgradePrice")
 	price:SetColor(textColor)
 	price:SetContentAlignment(5)
-	price:SetAutoStretchVertical(true)
-	price:SizeToContentsX()
-	price:DockMargin(0, priceDock, upGradWidth, priceDock)
+	price:SizeToContentsX(uniPad)
 	price:Dock(RIGHT)
 	price.SetBackgroundColor = function(self, col) self.BGColor = col end
 
@@ -287,34 +303,20 @@ local function createListButton(parent, item)
 
 
 	btn.SetButtonStyle = function(self, textColor, bgColor, bgPriceCol)
-		btn:SetTextColor(textColor)
+		name:SetColor(textColor)
 		btn:SetBackgroundColor(bgColor)
 		price:SetBackgroundColor(bgPriceCol)
 	end
 
-	-- Set the state of the button given store unlock status
+	-- Update current button state with unlock status
 	function btn:RefreshState()
-		local tooltip = item.desc or ""
-		-- Already purchased
-		if unlocks.IsUnlocked("store", LocalPlayer(), item.unlock) then
-			self:SetEnabled(false)
-			price:Hide()
-			self.Purchased = true
+		local tip = buttonRefresh(btn, item, price)
 
-		-- Locked, can't be purchased yet
-		elseif not jstore.IsAvailable(LocalPlayer(), item.unlock) then
-			self:SetEnabled(false)
-
-			if item.requires then
-				tooltip = tooltip.."\n"..jazzloc.Localize("jazz.store.requires",string.upper(GetItem(item.requires).name))
-			end
-
-		-- Ready to buy
+		if tip then
+			self:SetTooltip(item.desc.."\n"..tip)
 		else
-			self:SetEnabled(true)
+			self:SetTooltip(item.desc)
 		end
-
-		self:SetTooltip(tooltip)
 
 		-- If upgrade, hide if already purchased and there's one after this
 		if item.baseseries then
@@ -331,12 +333,7 @@ local function createListButton(parent, item)
 	end
 
 	-- Purchase
-	function btn:DoClick()
-		surface.PlaySound("ambient/materials/smallwire_pluck3.wav")
-		jstore.PurchaseItem(item.unlock, function(success)
-			if IsValid(self) then parent:RefreshButtons() end
-		end )
-	end
+	btn.DoClick = function() buttonPurchase(btn, item, parent) end
 
 	return btn
 end
@@ -348,47 +345,50 @@ local function getHeaderName(item)
 	-- If no category specified, try to get an unlock this item requires
 	local reqs = jstore.GetRequirements(item)
 	local baseitem = #reqs > 0 and jstore.GetItem(reqs[1]) -- Grab top level requirement
+
 	if baseitem then
-		return baseitem.name
+		-- Don't return if it's a series upgrade
+		local baseitemsplit = string.Explode(" - ", baseitem.name)[1]
+		local itemsplit = string.Explode(" - ", item.name)[1]
+
+		if not string.match(baseitemsplit, itemsplit) then
+			return baseitem.name
+		end
 	end
 
-	return nil
+	return "uncat"
 end
 
-local function createSpacerPanel(parent)
+local function createSpacerPanel(pad)
 	local panel = vgui.Create("DPanel")
 	panel:SetBackgroundColor(bgColor)
-	panel:SetHeight(10)
+	panel:SetHeight( ScreenScale(2) )
+	panel:DockMargin(0, 0, 0, pad or 0)
 	panel:SetPaintBackground(true)
 
 	return panel
 end
 
-local function createCategoryButton(parent, item, createSpacer)
+local function createCategoryButton(parent, item, category, createSpacer)
 	if not parent.Categories then parent.Categories = {} end
-
-	-- #TODO: This probably doesn't handle enough cases.
-	-- This requires every upgrade requires a base item/unlock.
-	local category = getHeaderName(item)
-	if not category then
-		print("WARNING: Upgrade without a category/unlock item: ", item.name)
-		return
-	end
 
 	-- Create the category if it doesn't exist
 	local layout = parent.Categories[category]
 	if not layout then
-		layout = vgui.Create( "DListLayout", parent )
+		if category != "uncat" then
+			-- Create the header
+			local header = createHeader(category, item, table.Count(parent.Categories) == 0)
+			parent:Add(header)
+		end
 
-		-- Create the header
-		local header = createHeader(category, item, table.Count(parent.Categories) == 0)
-		layout:Add(header)
+		layout = vgui.Create( "DListLayout", parent )
+		layout:DockMargin(ScreenScale(11), 0, ScreenScale(11), 0)
 
 		parent.Categories[category] = layout
 	end
 
 	if createSpacer then
-		layout:Add(createSpacerPanel())
+		layout:Add(createSpacerPanel(uniPad / 2))
 	end
 
 	-- Add the button to purchase the item itself
@@ -400,7 +400,7 @@ end
 
 local function createStoreFrame(title)
 	local frame = vgui.Create( "DFrame" )
-	frame:SetSize( ScreenScale(300), ScreenScale(200) )
+	frame:SetSize( ScreenScale(300), ScreenScale(210) )
 	frame:Center()
 	frame:SetTitle(title )
 	frame:SetVisible( true )
@@ -421,18 +421,17 @@ local function createStoreFrame(title)
 	end
 
 	-- Make sure it can scroll
-	local pad = ScreenScale(2)
-	local framepad = ScreenScale(5)
+	local framepad = 10 -- title bar doesnt change size with resolution, so this should feel proportional to that
 	local scroll = vgui.Create("DScrollPanel", frame)
 	scroll:Dock(FILL)
-	scroll:DockMargin(framepad, framepad, pad, framepad)
+	scroll:DockMargin(framepad, 0, framepad, framepad)
 
 	-- Place each button in a vertical list
 	local layout = vgui.Create( "DListLayout", scroll )
 	layout:SetBackgroundColor(bgPanelColor)
-	layout:SetDrawBackground(true)
-	layout:DockPadding(pad, pad, pad, pad)
-	layout:DockMargin(0, 0, pad, 0)
+	layout:SetPaintBackground(true)
+	layout:DockPadding(uniPad, uniPad, uniPad, uniPad)
+	layout:DockMargin(0, 0, 0, 0)
 	layout:Dock(FILL)
 
 	-- Utility function to refresh the state of all buttons when a store change happens
@@ -463,14 +462,31 @@ function OpenStore()
 	-- Create a button for each store item
 	local items = GetStoreItems("tools")
 	table.sort(items, function(a, b)
-		if a.thirdparty != b.thirdparty then return b.thirdparty end
+		-- Keep thirdparty at bottom
+		if a.thirdparty != b.thirdparty then
+			return b.thirdparty
+		end
+
+		-- Keep purchased at bottom
+		local unlockedA = unlocks.IsUnlocked("store", LocalPlayer(), a.unlock)
+		local unlockedB = unlocks.IsUnlocked("store", LocalPlayer(), b.unlock)
+		if unlockedA != unlockedB then
+			return unlockedB
+		end
+
+		-- Sort by # of requirements, easily purchaseable up top
+		if a.numreqs < b.numreqs then return true end
+		if a.numreqs > b.numreqs then return false end
+
+		-- Sort by price
+		return a.price < b.price
 	end)
 
 	local hasspacer = false
 	for k, v in pairs(items) do
 		if not hasspacer and v.thirdparty then
 			hasspacer = true
-			layout:Add(createSpacerPanel())
+			layout:Add(createSpacerPanel(uniPad))
 		end
 
 		local btn = addButton(layout, v)
@@ -482,6 +498,9 @@ function OpenStore()
 
 	layout:InvalidateLayout(true)
 	layout:SizeToChildren(true, true)
+
+	-- Resize to the items plus (hardcoded) outer frame, max out to just enough to show default + a bit of another listing
+	frame:SetHeight( math.Min( layout:GetTall() + 44, ScreenScale(210) ) )
 
 end
 
@@ -511,21 +530,23 @@ function OpenUpgradeStore()
 		if ab.numreqs < bb.numreqs then return true end
 		if ab.numreqs > bb.numreqs then return false end
 
-		-- Sort by name
-		return ab.name > bb.name
+		-- Sort by name, not price since that changes and would be inconsistent and weird
+		return ab.name < bb.name
 	end )
 
-	local hasRecurringSpacer = false
+	local hasSpacer = {}
 	for k, v in pairs(items) do
 		-- Insert a small spacer element to separate recurring from non-recurring upgrades
 		-- Assumes that recurring upgrades are sorted after normal ones
 		local createSpacer = false
-		if not hasRecurringSpacer and k > 1 and v.baseseries then
-			hasRecurringSpacer = true
-			createSpacer = true
+		local category = getHeaderName(v)
+		if v.baseseries and not table.HasValue(hasSpacer, category) then
+			table.insert(hasSpacer, category)
+			-- only add spacer if at least one non-series upgrade
+			if layout.Categories[category] then createSpacer = true end
 		end
 
-		local btn = createCategoryButton(layout, v, createSpacer)
+		local btn = createCategoryButton(layout, v, category, createSpacer)
 
 		btn:RefreshState()
 		table.insert(layout.Buttons, btn)

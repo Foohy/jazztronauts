@@ -47,7 +47,10 @@ SWEP.TopSpeed				= 2000
 
 
 -- List this weapon in the store
-local storeStan = jstore.Register(SWEP, 4000, { type = "tool" })
+local storeStan = jstore.Register(SWEP, 4000, {
+	desc = jazzloc.Localize("jazz.weapon.stan.desc"), -- don't use the short one
+	type = "tool"
+})
 
 -- Create 3 items to be purchased one after the other that control range
 local storeRange = jstore.RegisterSeries("stan_range", 2000, 10, {

@@ -93,6 +93,7 @@ function SWEP:ShouldDrawHackerview()
 		return
 	end
 
+	if jazzHideHUD then return 0 end
 	if owner != LocalPlayer() or owner:GetActiveWeapon() != self then return 0 end
 	if !unlocks.IsUnlocked("store", owner, upgrade_enableWrites) then return 1 end
 	return 2 //Turbo

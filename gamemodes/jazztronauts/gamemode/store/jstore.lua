@@ -67,7 +67,10 @@ function Register(unlockName, price, props)
 	props = props or {}
 	props.price = math.max(0, math.Round(price))
 	props.unlock = unlockName -- For completeness
-	props.icon = props.icon or "scripted/breen_fakemonitor_1"
+
+	if props.icon then
+		props.icon = Material(props.icon, "mips smooth")
+	end
 
 	-- Calc the # of requisite items needed
 	-- Later on we'll sort by this
@@ -210,6 +213,7 @@ if SERVER then
 	-- Purchase a single item, given its full unlock name
 	-- Ensure the item is available, the player has enough money, and that
 	-- they haven't already purchased it
+	local HasPurchased = {}
 	function PurchaseItem(ply, unlockName)
 		if not IsValid(ply) or not unlockName then return false end
 
@@ -220,13 +224,28 @@ if SERVER then
 		-- Check the player has enough money
 		if ply:GetNotes() < item.price then return false end
 
-		-- On successful unlock, decrement money
-		if unlocks.Unlock(list_name, ply, unlockName) then
-			ply:ChangeNotes(-item.price)
-			return true
-		end
+		-- Try to unlock, return if unsuccessful
+		if not unlocks.Unlock(list_name, ply, unlockName) then return false end
 
-		return false
+		ply:ChangeNotes(-item.price)
+
+		-- Play a neat purchase sound for everyone to hear, varying in pitch after first purchase
+		local pitch = 100
+		if table.HasValue(HasPurchased, ply) then
+			pitch = math.random(90, 110) -- sounddata's supposed to randomize tables, but it just kinda doesn't
+		else
+			table.insert(HasPurchased, ply)
+		end
+		sound.Add( {
+			sound = "c25/buy.mp3",
+			name = "jazzbuysound",
+			channel = CHAN_STATIC,
+			level = 80,
+			pitch = pitch,
+		} )
+		ply:EmitSound("jazzbuysound")
+
+		return true
 	end
 
 	net.Receive("jazz_store_purchase", function(len, ply)

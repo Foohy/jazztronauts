@@ -114,12 +114,35 @@ function meta:SetDrawFunc( func, ... )
 
 end
 
+local anchors = {
+	["center"] = {1, 1},
+	["center-left"] = {2, 1},
+	["center-right"] = {0, 1},
+	["top"] = {1, 0},
+	["top-left"] = {2, 0},
+	["top-right"] = {0, 0},
+	["bottom"] = {1, 2},
+	["bottom-left"] = {2, 2},
+	["bottom-right"] = {0, 2},
+}
+
+function meta:Anchor( anchor )
+
+	if anchor == nil or not anchors[anchor] then return end
+	self.anchor = anchor
+
+end
+
 function meta:_UpdateMatrix()
 
 	local scale_x = self.width / self.xres
 	local scale_y = -self.height / self.yres
 	local off_x = -self.width / 2
 	local off_y = self.height / 2
+
+	local anchor = anchors[self.anchor]
+	off_x = off_x * anchor[1]
+	off_y = off_y * anchor[2]
 
 	self.screen_matrix = Matrix({
 		{0, 0, 1, 0},
@@ -174,6 +197,7 @@ function New( width, height, origin, angles )
 		height = height or 128,
 		xres = 1,
 		yres = 1,
+		anchor = "center",
 	}, meta)
 
 end

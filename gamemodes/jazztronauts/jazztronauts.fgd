@@ -132,6 +132,11 @@
 
 ]
 
+@PointClass base(Targetname, Origin, Angles) studioprop("models/sunabouzu/jazzdinnertable.mdl") = jazz_treat_table : "Jazz Treat Table"
+[
+	order(integer) : "Order" : 0 : "Order in which tables should be filled, lower ordered tables fill up first"
+]
+
 @PointClass base(Targetname) iconsprite("editor/env_shooter.vmt") = jazz_checkpoint : "Jazz Player Checkpoint"
 [
 	TeleportRadius(integer) : "Teleport Radius": 0 : "Radius around the origin to randomly pepper in players"

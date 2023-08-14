@@ -1,0 +1,54 @@
+OPEN_RATE = 1000000
+
+treat_cookie:
+	*setspeaker npc_cat_bar*
+	Please enjoy these freshly baked snickerdoodles.
+	They were made with "love". <3
+	&treat_cookie_01
+
+treat_cookie_01:
+	Ultra pasteurized industrial grade "love".
+	&exit
+
+
+treat_soda:
+	*setspeaker npc_cat_sing*
+	I know what you might be thinking.%%
+	"Why are they giving me the breen-juice?"
+	&treat_soda_01
+
+treat_soda_01:
+	Don't worry, it's actually <your favorite softdrink>.
+	&exit
+
+
+treat_bleach:
+	*setspeaker npc_cat_cello*
+	Uhh, that bleach you just drank will detoxify your body.
+	Flushing out all the junk in your system.
+	&treat_bleach_01
+
+treat_bleach_01:
+	...probably.
+	&exit
+
+treat_gun:
+	*setspeaker npc_cat_piano*
+	Did- %%Did you just eat that pistol?
+	&treat_gun_01
+
+treat_gun_01:
+	Cellist!
+	This one just ate a goddamn pistol!
+	&treat_gun_02
+
+treat_gun_02:
+	*setspeaker npc_cat_cello*
+	Don't worry about it.%%
+	We'll get you another one.
+	&exit
+
+treat_steal:
+	*setspeaker npc_cat_bar*
+	It isn't polite to take treats from others.
+	&exit

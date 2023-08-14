@@ -11,6 +11,33 @@ ENT.Models	=
     "models/props_junk/popcan01a.mdl",
 }
 
+ENT.Treats = {
+    {
+        model = "models/props_junk/garbage_takeoutcarton001a.mdl",
+        interact = "Eat Snickerdoodles",
+        script = "treats.treat_cookie",
+    },
+    {
+        model = "models/props_junk/popcan01a.mdl",
+        interact = "Drink Soda",
+        script = "treats.treat_soda",
+    },
+    {
+        model = "models/props_junk/garbage_plasticbottle002a.mdl",
+        interact = "Drink 'Health Potion'",
+        script = "treats.treat_bleach",
+    },
+    {
+        model = "models/weapons/w_pistol.mdl",
+        interact = "Eat... Gun?",
+        script = "treats.treat_gun",
+        angles = Angle(0,-40,90),
+        pos = Vector(-0.4,0,-5.4),
+    },
+}
+
+for k, v in ipairs(ENT.Treats) do v.index = k end
+
 local sprite_material
 local placard_material
 
@@ -35,15 +62,17 @@ if CLIENT then
 
 end
 
+local i_treat = 1
 function ENT:Initialize()
 
     if SERVER then
 
-        self:SetModel( table.Random(self.Models) )
+        self:SetTreat( self.Treats[1 + (i_treat % #self.Treats)] )
         self:PhysicsInitSphere( 8 )
         self:SetMoveType(MOVETYPE_NONE)
         self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
         self:PhysWake()
+        i_treat = i_treat + 1
 
     else
 
@@ -54,11 +83,40 @@ function ENT:Initialize()
 
         self.offset = Vector((maxs.x + mins.x),(maxs.y + mins.y),-mins.z)
         self.offset_mtx = Matrix()
+
+        local treat = self:GetTreat()
+        if treat then
+
+            if treat.angles then self.offset_mtx:SetAngles( treat.angles ) end
+            if treat.pos then self.offset:Add( treat.pos ) end
+        end
+
         self.offset_mtx:SetTranslation( self.offset.x * self:GetForward() + self.offset.y * self:GetRight() + self.offset.z * Vector(0,0,1) )
 
     end
 
     self:DrawShadow(false)
+
+end
+
+function ENT:SetupDataTables()
+
+    self:NetworkVar("Int", 0, "TreatIndex")
+
+end
+
+function ENT:SetTreat( treat )
+
+    self.treat = treat
+    if treat.model then self:SetModel( treat.model ) end
+    self:SetTreatIndex( treat.index )
+
+end
+
+function ENT:GetTreat()
+
+    if SERVER then return self.treat end
+    return self.Treats[ self:GetTreatIndex() ]
 
 end
 
@@ -73,8 +131,17 @@ function ENT:Use(activator, caller, useType, value)
     if not IsValid(activator) or not activator:IsPlayer() then return end
     if (activator.treat_use_debounce or 0) > CurTime() then return end
 
+    if activator ~= self:GetOwner() then
+        dialog.Dispatch("treats.treat_steal", activator)
+        return
+    end
+
     self:EmitSound(self:GetConsumeSound(), 150, 100, 1, CHAN_AUTO)
     self:Remove()
+
+    if self.treat.script then
+        dialog.Dispatch(self.treat.script, activator)
+    end
 
     activator.treat_use_debounce = CurTime() + 2
 

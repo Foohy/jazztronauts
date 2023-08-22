@@ -173,7 +173,8 @@ AddMission(2, NPC_CAT_CELLO, {
 				"models/props/de_train/biohazardtank.mdl",
 				"models/props/de_train/biohazardtank_dm_10.mdl"
 			}) or
-			string.match(mdl, "jar") or
+			(string.match(mdl, "jar") and
+				not (string.match(mdl, "_ajar")) or
 			(string.match(mdl, "bottle") and
 				(string.match(mdl, "plastic") or
 				 string.match(mdl, "flask") or

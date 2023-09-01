@@ -101,7 +101,7 @@ surface.CreateFont( "JazzDialogNameFont", {
 } )
 
 surface.CreateFont( "JazzDialogFont", {
-	font = "Arial",
+	font = "Anke",
 	extended = false,
 	size = ScreenScale(15),
 	weight = 500,
@@ -109,7 +109,7 @@ surface.CreateFont( "JazzDialogFont", {
 } )
 
 surface.CreateFont( "JazzDialogFontHint", {
-	font = "Arial",
+	font = "Anke",
 	extended = false,
 	size = ScreenScale(11),
 	weight = 500,

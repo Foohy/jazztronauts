@@ -1,24 +1,26 @@
 [![ko-fi](https://www.ko-fi.com/img/donate_sm.png)](https://ko-fi.com/N4N6H7ZH)
 
-(pls support the devs, they're very awesome.)
+# Jazztronauts
+Videogames are the poison, Jazztronauts is the cure.
 
-# what the hell is this
-basically i wanted to learn how to mess with github projects, so i chose this to poke around with.
-i especially wanted to mess with the game's UI, particulary the dialog section of the game.
-maybe even improve the dialog a little.
 
-here are some examples i've whipped up (concept).
+### What is this
+Jazztronauts is a cooperative theft-em-up for Garry's Mod, also known as prop hunt 2.
+Go to random maps on the workshop, pillage its trash for money, and converse with your higher-dimensional cat overlords.
 
-![chatbox_speech](http://img.simplebrian.live/SgMniSIa)
+- If you want instructions on installing it the normal way, follow this link for the official FAQ.
+- Else, this repo can just be smashed into your addons folder, it is a self-contained jazztronauts installation
 
-![chatbox-player_speech](http://img.simplebrian.live/dU37cVDZ)
+### Features
+- Dynamically download and mount workshop map addons
+- Load in BSP data for specific effects, such as stealing static props and world brushes
+- Dynamic dialog/mission system
+- Persistent player data, and newgame+ mode
+- Hammer I/O viewer gun, watch I/O events happen in real time
+- Lots of pretty pretty art
 
-![chatbox_narration](http://img.simplebrian.live/9jBt8IyB)
+### Contributions
+This repository is hooked up to build and upload directly to the [Steam Workshop addon](https://steamcommunity.com/sharedfiles/filedetails/?id=1452613192) "whenever™". 
+Contributions are always welcome, and can be done through the normal github pull request avenue, and I'll try to update the workshop version as soon as I can after that.
 
-now here's an in-game example.
-
-[![in-game example](https://img.youtube.com/vi/OMTLHcSLQXA/maxresdefault.jpg)](https://www.youtube.com/watch?v=OMTLHcSLQXA)
-
-# why
-absolutely love the game, wanted to contribute a little as thanks for allowing me
-to sink hours into gmod that i would've otherwise never found (shoutout to my friend).
+### [INSTALLATION AND PLAY FAQ](https://github.com/Foohy/jazztronauts/wiki/FAQ)

@@ -260,7 +260,7 @@ DialogCallbacks.Paint = function(_dialog)
 	local tw,th = surface.GetTextSize(speakername)
 
 	-- Draw current speaker's name
-	local nameX = localspeaker and ScreenScaleEx(113.5) - NameTextX or left
+	local nameX = localspeaker and w*.225 - NameTextX or left
 	surface.SetTextPos(nameX, top - th)
 	surface.DrawText(speakername)
 
@@ -283,11 +283,11 @@ DialogCallbacks.Paint = function(_dialog)
 	-- If we're waiting on input, slam that down
 	if dialog.ReadyToContinue() then
 		surface.SetFont( "JazzDialogFontHint" )
-		local contstr = "Click to continue..."
+		local contstr = ""
 		local tw,th = surface.GetTextSize(contstr)
-		local contX = x + w/2 - tw + ScreenScale(42.25) // * (localspeaker and 0.2 or 1)
+		local contX = x + w*.368 - tw // * (localspeaker and 0.2 or 1)
 		if localspeaker then
-			contX = contX - ScreenScale(61.75)
+			contX = contX - ScreenScale(48)
 		end
 		-- hiding the "Click to continue..." text temporarily.
 		surface.SetTextColor( 38, 38, 38, 0 * open )
@@ -295,50 +295,10 @@ DialogCallbacks.Paint = function(_dialog)
 		surface.DrawText(contstr)
 		_dialog.textpanel:SetCursor("hand")
 		
-		-- ScreenScale(448.25) for 4:3 is relatively consistent. 
-
-		-- ScreenScale(328) for 16:9 resolutions is same as above, but with less margin of error. 
-		-- Doesn't work on resolutions 720p and lower
-
-	-- making a variable related to screen res, because this code works only on 1366x768 and above	
-	-- anything that's 720p or below, even any aspect ratios that aren't 16:9, will have the cat icon in the wrong place. -- RDBomber
-	--[[
-
-		"WIP code by RDBomber, do not use. -Brian"
-
-		local aspectRatio = ScrW() / ScrH()
-	   		if aspectRatio == 4/3 then
-				local iconY = ScreenScale(448.25)
-			elseif aspectRatio == 16/10 then
-				local iconY = ScreenScale(368.25)
-			elseif aspectRatio == 16/9 then
-				if ScrH() <= 720 then
-				local iconY = ScreenScale(328.5)
-			else local iconY = ScreenScale(328)
-	   		end
-
-	--]]
-
-	-- tried to tidy up the code and mabye do something??? -Brian
-local aspectRatio = ScrW() / ScrH()
-local iconY
-if aspectRatio == 4/3 then
-    iconY = ScreenScale(448.25)
-elseif aspectRatio == 16/10 then
-    iconY = ScreenScale(368.25)
-elseif aspectRatio == 16/9 then
---[["THIS FUCKER BROKE THE CODE, NEED DIFFERENT CHECK. -Brian"
-		if ScrH() <= 720 then
-        iconY = ScreenScale(328.5)
-    else
---]]
-        iconY = ScreenScale(328)
-	end
-	
 	-- trying to hack in the cat icon. i am horrible at coding so please improve it if it's shit.
 	surface.SetMaterial(catIconMat)
 	surface.SetDrawColor( 255, 255, 255, 255 )
-	surface.DrawTexturedRect( contX, iconY, ScreenScale(17.2), ScreenScale(14.4), localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
+	surface.DrawTexturedRect( contX*1.075, y + h*.26, ScreenScale(17.2), ScreenScale(14.4), localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
 	end
 
 	-- Render whoever's talking

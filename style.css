@@ -1,46 +1,82 @@
-body {
-    background-image: url("bg.jpg");
+
+* {
+  box-sizing: border-box;
 }
-h1 {
-    color: #FFFFFF;
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 5%;
+  width: 100%;
+  color: white;
+  text-align: center;
 }
- 
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  -webkit-box-orient: vertical;
+  text-align: center;
+}
+
+.content {
+  width: 100%;
+}
+
+.social {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.social svg {
+  vertical-align: middle;
+}
+
 /* thanks https://www.quackit.com/css/codes/marquees/ */
+
 .marquee {
- height: 50px;	
- overflow: hidden;
- position: relative;
+  height: 50px;
+  overflow: hidden;
+  position: relative;
 }
+
 .marquee h1 {
- position: absolute;
- width: 100%;
- height: 100%;
- margin: 0;
- line-height: 50px;
- text-align: left;
- /* Apply animation to this element */	
- -moz-animation: marquee 5s linear infinite alternate;
- -webkit-animation: marquee 5s linear infinite alternate;
- animation: marquee 5s linear infinite alternate;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  line-height: 50px;
+  text-align: left;
+  -webkit-animation: marquee 5s linear infinite alternate;
+  animation: marquee 5s linear infinite alternate;
 }
-/* Move it (define the animation) */
-@-moz-keyframes marquee {
- 0%   { -moz-transform: translateX(70%); }
- 100% { -moz-transform: translateX(0%); }
+
+.spookytitle {
+  color: #bd0000;
+  text-shadow: 2px 2px 20px rgb(0, 0, 0);
 }
+
+footer {
+  text-align: center;
+}
+
 @-webkit-keyframes marquee {
- 0%   { -webkit-transform: translateX(70%); }
- 100% { -webkit-transform: translateX(0%); }
+  0% {
+    -webkit-transform: translateX(70%);
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+  }
 }
+
 @keyframes marquee {
- 0%   { 
- -moz-transform: translateX(70%); /* Firefox bug fix */
- -webkit-transform: translateX(70%); /* Firefox bug fix */
- transform: translateX(70%); 		
- }
- 100% { 
- -moz-transform: translateX(0%); /* Firefox bug fix */
- -webkit-transform: translateX(0%); /* Firefox bug fix */
- transform: translateX(0%); 
- }
+  0% {
+    -webkit-transform: translateX(70%);
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+  }
 }

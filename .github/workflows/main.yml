@@ -28,6 +28,6 @@ jobs:
           echo "$PRIVATE_KEY_ENV" > ~/.ssh/id_rsa
           echo StrictHostKeyChecking no > ~/.ssh/config
           chmod 600 ~/.ssh/id_rsa
-          sftp -P ${{ secrets.FILEHOST_PORT }} ${{ secrets.FILEHOST_USER }}@${{ secrets.FILEHOST_URL }} <<< $'cd {{ secrets.FILEHOST_PATH }} \nput other/scraper/addons.txt'
+          sftp -P ${{ secrets.FILEHOST_PORT }} ${{ secrets.FILEHOST_USER }}@${{ secrets.FILEHOST_URL }} <<< $'cd ${{ secrets.FILEHOST_PATH }} \nput other/scraper/addons.txt'
       env:
         PRIVATE_KEY_ENV: ${{ secrets.FILEHOST_PRIVKEY }}

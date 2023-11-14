@@ -20,13 +20,14 @@ jobs:
       working-directory: other/scraper
       run: |
         python scrape.py ${{secrets.STEAM_AUTH_KEY}}
-        
-    - name: SFTP deploy
-      uses: SamKirkland/FTP-Deploy-Action@2.0.0
+
+    - name: Deploy over SFTP
+      run: |
+          mkdir ~/.ssh
+          chmod 700 ~/.ssh
+          echo "$PRIVATE_KEY_ENV" > ~/.ssh/id_rsa
+          echo StrictHostKeyChecking no > ~/.ssh/config
+          chmod 600 ~/.ssh/id_rsa
+          sftp -P ${{ secrets.FILEHOST_PORT }} ${{ secrets.FILEHOST_USER }}@${{ secrets.FILEHOST_URL }} <<< $'cd {{ secrets.FILEHOST_PATH }} \nput other/scraper/addons.txt'
       env:
-        FTP_SERVER: host.foohy.net
-        FTP_USERNAME: jazz_user
-        FTP_PASSWORD: ${{ secrets.FILEHOST_PW }}
-        LOCAL_DIR: other/scraper
-        METHOD: sftp
-        ARGS: --include=addons.txt
+        PRIVATE_KEY_ENV: ${{ secrets.FILEHOST_PRIVKEY }}

@@ -1,6 +1,6 @@
 
 module( 'mapcontrol', package.seeall )
-local defaultMapHost = "http://host.foohy.net/jazz/data/addons.txt"
+local defaultMapHost = "http://jazz.foohy.net/addons.txt"
 local defaultAddonCache = "jazztronauts/addons.txt"
 local overrideAddonCache = "jazztronauts/addons_override.txt"
 
@@ -299,7 +299,7 @@ if SERVER then
 		end
 		if includeExternal:GetBool() and not fallbackLocalOnly then
 			local addonTask = task.NewCallback(function(done)
-				http.Fetch(includeExternalHost:GetString(), done, function(err) ErrorNoHalt(err .. "\n") done() end)
+				http.Fetch(includeExternalHost:GetString(), done, function(err) ErrorNoHalt("Failed to get latest addons.txt list!\n" .. err .. "\n") done() end)
 			end )
 			local addonsStr = task.Await(addonTask)
 

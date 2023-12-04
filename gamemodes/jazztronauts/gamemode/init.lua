@@ -30,7 +30,7 @@ AddCSLuaFile( "cl_hud.lua" )
 
 util.AddNetworkString("shard_notify")
 
-local LOADING_SCREEN_URL = "host.foohy.net/public/Documents/Jazz/"
+local LOADING_SCREEN_URL = "http://foohy.github.io/jazztronauts"
 
 concommand.Add( "jazz_test_lzma", function()
 
@@ -61,7 +61,6 @@ local autoSetMap = CreateConVar("jazz_debug_checkmap", "1", { FCVAR_ARCHIVE }, "
 local function SetIfDefault(convarstr, ...)
 	local convar = GetConVar(convarstr)
 	if not convar or convar:GetDefault() == convar:GetString() then
-		print("Setting " .. convarstr)
 		RunConsoleCommand(convarstr, ...)
 	end
 end

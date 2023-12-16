@@ -1,6 +1,13 @@
 # Initially add everything to the first addon
 addon_jazz.json:1452613192
-** #include everything
+data_static/**
+gamemodes/**
+lua/**
+maps/**
+materials/**
+models/**
+resource/**
+sound/**
 
 # GMod now supports larger resource packs, so just have everything in the first one
 # Addons can't be completely blank, so just include a single script that prints that it should be unsubscribed

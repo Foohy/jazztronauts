@@ -1,0 +1,61 @@
+﻿CHARACTER = Cellist
+NO_FREEZE = true
+HIDE_MOUSE = true
+PRINT_RATE = 0.7
+AUTO_ADVANCE = 1.5
+
+begin:
+    spawngang()
+    *setposang cat_bar setpos 2.762444 693.325500 32;setang -90 180 0.000000*
+	*setposang cat_piano setpos 48.296669 612.397583 36;setang -90 0 0.000000*
+	*setposang cat_cello setpos 98.372551 608.679138 36;setang -90 0 0.000000*
+	*setposang cat_singer setpos -47.646004 603.924561 36;setang -90 0 0.000000*
+     *setspeaker cat_bar*
+     Ah! 100 Shards! Fantastic work, everyone! Now we can begin the 
+     Festival.
+     &a1
+
+a1:
+     Now, this will require something of a leap of faith. 
+     &a2
+##[Cut to bar surface, glass full of shard goop]
+a2:
+     Drink this. Then we can call the trolley, and proceed to the 
+     Festival. 
+
+     It won’t harm you, I assure you. 
+     player:
+          &batcountry: 
+            Yo hold up no, I know what that stuff does to The Cellist.
+          &slammin:
+            Alright, let’s party. [Slam that shit]
+
+##### "FUCK NO I AINT GOING THROUGH THAT AGAIN"
+
+batcountry:
+    *setspeaker cat_bar*
+     Oh good heavens, this isn't his! This is specially treated shard
+     goop. It's been processed quite minimally as opposed to the, um,
+     decidedly elaborate methods and ingredients he uses to turn it
+     into his drug of choice.
+     &bats2
+
+bats2:     
+     Think of it as more of a potion. This is as close as any of us will
+     ever get to real magic. To reach the Festival, some preparation is 
+     required.
+     player:
+          &slammin: Well, alright then, if you're sure. [Slam that shit]
+
+slammin:
+    *setspeaker cat_bar*
+     Excellent! Bottoms up, everyone. 
+     &slammin2
+
+slammin2:
+     Ah. Refreshing. 
+     &jammin
+
+jammin:
+     Right, to the trolley!
+     &exit

@@ -1,0 +1,56 @@
+accept:
+     *player*, a delight to see you as always. I have a job for you, 
+     if you have the time.
+     &a1
+
+a1:
+     I will be frank. I adore my friends, truly, but The Cellist and 
+     Pianist both make such a mess. Neither empties their pockets before 
+     giving me their laundry and despite my best efforts, some detritus
+     always finds its way into our washing machines.
+     &a2
+
+a2:
+     Which are now broken, because fingerbones, bullets, conkers and 
+     glass vials full of battery acid really aren't supposed to get 
+     jammed in the drums, as you might imagine. 
+     &a3
+
+a3:
+     So, if you could fetch me five replacement washing machines, I would
+     be greatly appreciative. *start 4* 
+     &exit
+
+idle:
+     You might want to keep your distance. I have been unable to take 
+     care of the laundry for a week and I can only use our makeshift 
+     mangle on one suit at a time, so I'm afraid I'm a little ripe. 
+     &a4
+
+a4:
+     If you could get those machines for me soon, I'd be in your debt. 
+     Running the Bar Samsara and a manual laundry at the same time is 
+     quite difficult.
+     &exit
+
+turnin:
+     *player*, you are a balm to my weary soul. 
+     &a5
+
+a5:
+     I daren't consider the chaos that we'd have had to live through 
+     without your help with these jobs. 
+     &a6
+
+a6:
+     Your payment, as promised.
+     &a7
+
+a7:
+     > The Bartender hands you an envelope. There's $25,000 inside!
+     &a8
+
+a8:
+     If you'll kindly excuse me, I need to go put my own suits through 
+     the wash and then take a much-needed nap. *finish 4*
+     &exit

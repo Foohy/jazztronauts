@@ -1,0 +1,5 @@
+CHARACTER = UrMom
+
+fuck:
+	You've fucked up 10-fold
+	&exit

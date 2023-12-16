@@ -1,0 +1,152 @@
+SKIP_OPEN = true
+
+begin:
+    # Scene setup
+    *txout*
+    *setfov 70*
+
+    # Spawn the cat we'll be conversing with
+    # Note this sets the cat as the 'proxy', meaning that's the model that'll show up in the bottom left dialog corner
+    *spawn cat models/andy/bartender/cat_bartender.mdl*
+    *setnpcid cat npc_cat_bar*      # Set the cat 'proxy' model to imitate npc_cat_bar
+    *setposang cat -2864.620361 3044.558594 32.417419;setang -90 90.504135 90.000000*
+    *setanim cat gesture_washing*
+    *setspeaker cat*        # Set the proxy model to be the current speaker (bottom left dialog corner)
+	*setposang player setpos -2802.731934 2956.768555 0;setang 0 112.757095 0.000000*
+
+	#camera shots
+##Shot 1- bar and player setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000
+##shot 2 - bartender close up setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000
+##shot3 - bar profile setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000
+##shot4 - bar establish shot setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000
+
+##shot5 - player shot setpos -2881.998047 3002.636719 71.382820;setang 1.064988 -54.895622 0.000000
+	*bgmplay sound/jazztronauts/music/events/bartender_song.mp3 1.0 2.0*
+    *setcam setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000*
+	*txin*
+    *wait .5*
+    *setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000*
+
+    *wait .25*
+    *show 1.0*
+    So now that we have a moment,%%%*setskin cat 1* how are you settling in?%%
+    *setskin cat 0*We have very little idea of how to provide creature comforts,%
+    but I'm told that the camp has a %%"cozy"%% quality these days.
+    player:
+	&resp1a:
+		It's uh...yeah, cozy's one word for it.%%
+        Did you guys set up all the scrap metal walls and stuff?
+	&resp2a:
+		I'm more interested in that huge machine across from it.%
+        Can you tell me more about it?
+    &resp3a:
+        Fine, thanks. Is it ok if I just unwind and reflect by myself? (Exit)
+
+###### Branch 1
+resp1a:
+    *setspeaker cat*
+    *setskin cat 2*%%*setskin cat 0*No, that was not our handiwork.%
+    *setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000*The camp and the wash room next to it are %%*setskin cat 3*new additions%%%*setskin cat 0*. 
+    The last group before you,% actually.%%*setskin cat 1* Lovely bunch.
+    &resp1b
+
+resp1b:
+    *setspeaker cat*
+    Certainly raised a few*setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* eyebrows, %though.%% It's not often you see a-*setskin 3*%%%%
+    Well.*setskin cat 0*%%% Hm.*setskin cat 2*%%%%*setskin cat 0* *setanim cat gesture_dryhands* I'm not sure this is my story to tell,% honestly.%%
+    Forgive me,% I try not to gossip about my patrons.
+    player:
+    &resp1c:
+        C'mon, man, you can't just drop that and not follow through.
+    &resp1c:
+        You can tell me, I'm not a cop.
+    &resp1c:
+        Drama, then?
+
+resp1c:
+    *setspeaker cat*
+    *setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000**setanim cat idle**setskin cat 2*Like*setanim cat gesture_sweep 1.0 idle* I said, not my story to tell.%*setskin cat 0*
+    It's not anything particularly scandalous,% just a silly thing 
+    that I'd feel rather %%*setskin cat 1*catty%%*setskin cat 0* talking about behind their backs.
+    &resp1d
+
+resp1d:
+    *setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000**setskin cat 1**setanim cat gesture_foldarms*Honestly,% I don't think I've ever met such a cheery,% energetic bunch.
+    They %clearly loved just spending time with each other%.%.%.
+    didn't even seem to mind they were trapped here,%
+    so long as they were enjoying themselves. 
+    &resp1e
+
+resp1e:
+    *setskin cat 0*I admit,%% I have a great deal of respect for people like that.%%
+    I hope the six of them are doing well for themselves,%
+    wherever they are now.
+    &merge1a
+
+###### Branch 2
+resp2a:
+    *setspeaker cat* 
+    The jury-rigged Combine machinery with a giant CRT connected 
+    to it, I assume?%% *setskin cat 1*Yes,% it does stand out,%% doesn't it.
+    &resp2b
+
+resp2b:
+    *setcam setpos -2672.070801 2965.057861 66.930687;setang 3.939932 176.591919 0.000000* Sorry to say,*setskin cat 0*%*setanim cat gesture_dryhands* that was not our work.%%% In fact it wasn't any %ONE's%% work.%
+    That has been a %very% long project.
+    &resp2c
+
+resp2c:
+    *setskin cat 2**setanim cat gesture_sweep 1.0 idle* Back before we had it,%% we had to manually drive up and down 
+    Voidway 66 trying to find a place to salvage,% hoping any 
+    given wormhole would be worthwhile.
+    &resp2d
+resp2d:
+    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* It was not optimal,*setanim cat gesture_foldarms*% to say the least.%%*setskin cat 1* Eventually a guest 
+    had the idea to make a compass that pointed to the closest dimensional 
+    breach.%%%%*setskin cat 0* I think a piece of it is still in that machine somewhere.
+    &resp2e
+    
+resp2e:
+    Then another guest wired some gizmo they had to it,%
+    and then*setanim cat gesture_sweep 1.0 idle* another,%% and another,%% a little bit at a time%
+    until we were left with that hulking mass out there.%%
+    *setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000*To be honest,%*setskin cat 3* I would not know how to repair it if we needed to.
+    &resp2f
+resp2f:
+    So,*setskin cat 1*% try and be gentle with it.%%% It's got a long legacy.
+    &merge1a
+
+###### Branch 3
+resp3a:
+    *setspeaker cat*
+    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000* *setskin cat 1**setanim cat gesture_sweep 1.0 idle*Of course it is.%%% Please,% take as much time as you need,% 
+    and let me know when you'd like a new drink.
+    &exit
+
+###### Merge point
+merge1a:
+    *setspeaker cat*
+    *setcam setpos -2995.739502 2744.655029 24.768372;setang -8.039047 67.822502 0.000000**setskin cat 0**setanim cat gesture_sweep 1.0 idle*In any event,%% it's come a long way from the empty room that it once was.%%
+    I'll admit,% hearing laughter and commotion coming from 
+    the camp again does fill me with a sort of pride. 
+    &merge1b
+
+merge1b:
+    *setcam setpos -2917.238037 2928.200439 72.834885;setang 3.407556 58.931564 0.000000* *setskin cat 1**setanim cat gesture_foldarms*Perhaps it is the nature of my profession,% who can say?
+    &merge1c
+merge1c:
+    *setskin cat 0*I hope you will be comfortable here during your stay.%%
+    Please,%*setanim cat gesture_sweep 1.0 idle* don't hesitate to let me know if you need anything.
+    %%*setskin cat 3*Ah, one other*setskin cat 0* thing.%.%.
+    &merge1d
+merge1d:
+    *setcam setpos -2860.020508 2989.783691 75.185051;setang 2.449231 90.502884 0.000000*This isn't required of you,%*setanim cat gesture_jab 1.0 idle*  but can I ask you to spend some time 
+    with the rest of my peers?%%%*setskin cat 1* They won't admit it,% but they do 
+    enjoy the company%.%.%.*setskin cat 0*and exposure to different worldviews 
+    couldn't hurt them either.
+    &merge1e
+merge1e:
+    Well then,% I think it's time I let you go back to your business.%%
+    Thank you for coming,%*setskin cat 1* and I hope you drop by again soon.
+    *mark_seen*
+    &exit

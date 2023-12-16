@@ -1,0 +1,447 @@
+SKIP_OPEN = true
+
+begin:
+    # Scene setup
+    *txout*
+    *setfov 70*
+		*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
+	*spawn cat_cello models/andy/cellist/cat_cellist.mdl*
+	*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 81 0.000000*
+	*setnpcid cat_cello npc_cat_cello*
+		*bgmplay sound/jazztronauts/music/events/allspice.mp3 1.0 2.0*
+	*spawn cat_piano models/andy/pianist/cat_pianist.mdl*
+	*setposang cat_piano setpos -1492.101563 2928.706543 0;setang -90 290 0.000000*
+	*setnpcid cat_piano npc_cat_piano*
+	*setcam setpos -1696.551025 3192.797119 110.058128;setang 12.839911 -41.301598 0.000000*
+	*setposang player setpos -1572.479248 3135.348145 0;setang 0 -54.699417 0.000000*
+	*txin*
+	
+###### START
+	*setspeaker narrator*
+	*show*
+	>The Cellist appears to be ranting about something at The Pianist,
+	who appears to be enjoying this about as much as someone cornered
+	by Jehovah's Witnesses.
+	&b1
+	
+b1:
+	*setspeaker cat_cello*
+	*setskin cat_cello 1*
+	*setanim cat_cello gesture_agree 1 idle*
+	*setcam setpos -1464.040039 2978.969971 49.714104;setang 4.215045 -69.891418 0.000000*
+	in summary, when Meat Loaf sings about %%'that'%% in I Would Do Anything 
+	For Love (But I Won't Do That)-%%%*setanim cat_cello gesture_sweep 1 idle* 
+	&b1b
+	
+b1b:
+	-it should be readily apparent that he's referring to a set of statements 
+	that amount to being a callous or unfaithful lover,%*setskin cat_cello 2* you fool.%%%%*setanim cat_cello gesture_disagree 1 idle*
+	you imbecile.%%% you great ambulatory chode.
+	&b2
+	
+b2:
+	*setspeaker cat_piano*
+	*setskin cat_piano 2*
+	*setanim cat_piano gesture_anger 2*
+	That's fascinating,%%%*setskin cat_piano 0* Cellist,%% but oh*setposang cat_piano setpos -1492.101563 2928.706543 0;setang -90 50 0.000000* HEY *player* 
+	wants to talk to you,%*setcam setpos -1332.465942 2897.346680 78.478058;setang 5.066889 141.036346 0.000000*%*setanim cat_piano gesture_embarass 2 idle* and man,% 
+	I'm really into this conversation,*setanim cat_piano gesture_shock 1.3 idle* but I'd hate to be so rude as 
+	to take up all your time, so...
+	&b3
+	
+b3:
+	*setcam setpos -1302.162842 3144.007813 74.543724;setang 6.131691 -151.295532 0.000000*
+	*setskin cat_piano 1*
+	*setspeaker narrator*
+	>The Pianist notices you gawking and senses her chance to escape.
+	player:
+	&b4:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		Wait, wha-
+	&b4:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		No wait I was just passing by-
+	&b4:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		Don't you leave me alone with him you rat fu-
+		
+b4:
+	*setspeaker cat_piano*
+	*setanim cat_piano gesture_disagree 1 idle*
+	No need to thank me I'll be sure to petition Congress for 
+	a posthumous Medal of Honor,%%*setskin cat_piano 0*
+	now if you'll excuse me -
+	&b5
+	
+b5:
+	*setposang cat_piano setpos 0 0 0;setang -90 290 0.000000*
+	*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 48 0.000000*
+	*setspeaker narrator*
+	>The Pianist sprints out of the room past you,% 
+	leaving you and The Cellist.%%%*setskin cat_cello 1* He watches her run off 
+	with a stoned,% smug smile before turning to look at you.
+	player:
+	&r1a1:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		Alright,% alright.%% What's on your mind this time?
+	&r2a1:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		Oh man uh, look at the time, I've got to, see a man, about a horse,
+		that I left in my oven, that I left on?? (Exit)
+
+###### BRANCH 2 EARLY EXIT		
+r2a1:
+	*setcam setpos -1349.209839 3416.306396 93.879173;setang 7.090014 -119.032204 0.000000*
+	*setspeaker narrator*
+	>Trusting your flight or fight instincts,%% you adopt 
+	a runner's pose and dead sprint in any direction that will 
+	let you not have this conversation.
+	&exit
+	
+###BRANCH 1
+r1a1:
+	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	*setposang cat_cello setpos -1401.264526 2930.430420 0;setang -90 81 0.000000*
+	*setposang player setpos -1496.223877 2928.228027 0;setang 5.971942 -7.068141 0.000000*
+	*setspeaker cat_cello*
+	*setskin cat_cello 1*
+	*setanim cat_cello gesture_confused 1 idle*
+	did anyone ever tell you that michelangelo's 
+	david is made of garbage
+	&mikeyboy
+	
+mikeyboy:
+	*hide .1*
+	*setcam setpos -1380.977783 2895.147705 71.170029;setang 1.340097 173.352905 0.000000*
+	*wait 1*
+	*show .1*
+	*setanim cat_cello gesture_agree 1 idle*
+	*setskin cat_cello 0*
+	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	it's true look it up i'll wait
+	&r1a2
+	
+r1a2:
+	*setanim cat_cello gesture_foldarms .75 idle*
+	*setspeaker cat_cello*
+	%.%.%.%assuming you did you just saw that i'm right.%% assuming not,%%%*setcam setpos -1397.268188 3009.426758 56.634251;setang 3.842376 -118.766037 0.000000* 
+	the statue that damn near half the planet considers one of 
+	the pinnacles*setanim cat_cello gesture_laugh 1 idle* of an art form was made of a big-ass chunk of flawed 
+	marble that was just sorta laying around outside because it was shitty
+	&r1a3
+	
+r1a3:
+	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	*setskin cat_cello 1*
+	*setanim cat_cello gesture_shrug 1 idle*
+	there's something profound to say in there somewhere 
+	but i am too inebriated to bother trying.
+	&r1a4
+	
+r1a4:
+	*setcam setpos -1615.278809 3269.499023 156.285583;setang 16.726448 -68.347870 0.000000*
+	*setskin cat_cello 0*
+	*setanim cat_cello gesture_agree 1 idle*
+	michelangelo did way more interesting things than a jumbo size statue 
+	of a dude with big hands and a wee bepis though,%*setcam setpos -1534.614624 3062.087891 57.589897;setang 13.052918 -61.852760 0.000000*%*setanim cat_cello gesture_sweep 1 idle* like that time he 
+	painted a picture of a critic burning in hell so 
+	sick it became a world-renowned tourist attraction
+	player:
+	&owntheplayer:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		I'm assuming you mean the Tomb of Pope Julius II.
+	&actualanswer:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		I'm assuming you mean the Sistine Chapel.
+	&owntheplayer:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		I'm assuming you mean the Cappella Paolina.
+	&fairenough:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		I have no earthly idea what you're talking about.
+		
+###### INCORRECT ANSWER GET DUNKED
+owntheplayer:
+	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	*setspeaker cat_cello*
+	*setskin cat_cello 1*
+	*setanim cat_cello gesture_foldarms 1 idle*
+	>The Cellist looks smug.
+	&own1
+	
+own1:
+	*setanim cat_cello gesture_laugh 1 idle*
+	haha you were just picking one of those options*setskin cat_cello 0* at 
+	random and hoping you were right weren't you
+	&own2
+	
+own2:
+	*setcam setpos -1372.477295 2947.549072 43.110970;setang -7.604194 -163.381622 0.000000*
+	*setanim cat_cello gesture_shrug 1 idle*
+	or maybe you took an art history course one semester and were too 
+	busy doing rails of white lightning in the janitor's closet to 
+	remember the names of every frat house in italy that has some
+	sort of priceless cultural artifact or another
+	&m1
+	
+###### ACTUAL ANSWER
+actualanswer:
+	*setanim cat_cello gesture_shock 1 idle*
+	*setskin cat_cello 0*
+	*setspeaker cat_cello*
+	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	>The Cellist raises an eyebrow.
+	&actual1
+	
+actual1:
+	*setanim cat_cello gesture_confused 1 idle*
+	either you're an art history geek,%% surprisingly versed in 
+	bullshit-fu,%% or lucky,%%%*setanim cat_cello gesture_agree 1 idle* but yeah
+	&m1
+	
+###### YEAH FAIR ENOUGH DUDE
+fairenough:
+	*setanim cat_cello gesture_sigh 1 idle*
+	*setskin cat_cello 0*
+	*setspeaker cat_cello*
+	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	y'know what thank you,%% it's refreshing to have someone just fucking say 
+	that for once instead of trying to bullshit their way through a topic 
+	they know absolutely nothing about.
+	&fair1
+	
+fair1:
+	*setanim cat_cello gesture_laugh 1 idle*
+	*setskin cat_cello 1*
+	said the gigantic hypocritical asshole of course%%%
+	but hey% pobody's nerfect
+	&m1
+	
+	
+###### MERGE POINT
+m1:
+	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	*setskin cat_cello 0*
+	*setspeaker cat_cello*
+	*setanim cat_cello gesture_sweep .5 idle*
+	so anyone who's so much as seen a single meme knows what the big 
+	important paintings on the ceiling of the sistine chapel look like right,%%%*setanim cat_cello gesture_disagree 1 idle* 
+	but it takes a certain kind of dork to remember the other thing 
+	michelangelo did in there
+	&m2
+	
+m2:
+	*setanim cat_cello gesture_clap 1 idle*
+	big ol portrait of the end times with ya boy Jesus up top conducting the 
+	show with a torso built like a goddamn tree trunk,%%*setcam setpos -1444.636963 2919.147705 50.134186;setang 6.610850 -5.737509 0.000000* like*setanim cat_cello gesture_shurg 1 idle* homeboy skipped 
+	both arm and leg day and just did crunches 24/7 after 
+	blasting off into space on the 40th day
+	&m3
+	
+m3:
+	*setcam setpos -1627.743774 3042.347656 105.711868;setang 14.224164 -39.332272 0.000000*
+	*setanim cat_cello gesture_sweep 1 idle*
+	now it is entirely possible to go on a big ol diatribe about the 
+	composition and the use*setanim cat_cello gesture_foldarms .8 idle* of color and the narratives created by 
+	the way the figures are arranged and how they draw your 
+	eye around in a certain order
+	&m4
+	
+m4:
+	*setanim cat_cello gesture_disagree 1 idle*
+	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	but that's something you can get out of 
+	any given stolen college textbook
+	&m5
+	
+m5:
+	*setanim cat_cello gesture_agree 1 idle*
+	and is way less funny than talking about all the people who got 
+	super mad that mike drew a bunch of butts on a church wall%%%%%*setcam setpos -1293.066528 2985.755127 83.660019;setang 5.812237 -161.092316 0.000000*
+	&m5b
+	
+m5b:
+	*setspeaker narrator*
+	>The Cellist hits the blunt he's holding.*setskin cat_cello 3*
+	&m6
+	
+m6:
+	*setskin cat_cello 0*
+	*setspeaker cat_cello*
+	*setcam setpos -1528.275269 3026.799561 33.071369;setang -3.078806 -63.077377 0.000000* ###### CELLO AND PLAYER
+	*setanim cat_cello gesture_sweep 1 idle*
+	see this dude biagio da cesena,%% the emcee for the pope*setanim cat_cello gesture_agree 1 idle* (which may be 
+	the best job title to ever put on your resume),%%% saw that mike painted
+	everybody's immortal souls as naked*setskin cat_cello 2* people and got*setanim cat_cello gesture_shrug 1 idle* 
+	his jorts in a twist over it
+	&m7
+	
+m7:
+	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	*setanim cat_cello gesture_sweep 1 idle*
+	said it was the sort of thing that belonged in bathhouses and 
+	taverns rather than a church,%%%*setskin cat_cello 0* which reads like a 
+	ringing endorsement to me% but what do i know
+	&m8
+	
+m8:
+	*setskin cat_cello 1*
+	*setanim cat_cello gesture_laugh 1 idle*
+	in reponse mike painted him in as the pagan judge of the dead,%% 
+	gave him donkey ears to show he was a dumb jackass,%%%*setanim cat_cello gesture_clap 1 idle* and 
+	graciously covered his nudity with a snake chewing on his dick
+	player:
+	&r3a1:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		That rules.
+	&r4a1:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		How did Michelangelo get away with that?
+	&r5a1:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		So why did nobody get mad at 
+		Adam being naked on the ceiling?
+		
+###### BRANCH 3: AGREED
+r3a1:
+	*setcam setpos -1528.275269 3026.799561 33.071369;setang -3.078806 -63.077377 0.000000* ###### CELLO AND PLAYER
+	*setspeaker cat_cello*
+	*setanim cat_cello gesture_agree 1 idle*
+	hell yeah it does.
+	player:
+	&r4a1:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		How did Michelangelo get away with that?
+	&r5a1:
+	*setcam setpos -1454.958740 2996.376221 62.348984;setang 2.564611 133.316620 0.000000*
+		So why did nobody get mad at 
+		Adam being naked on the ceiling?
+
+###### BRANCH 4: I JUST WANTED AN EXCUSE TO CALL HIM BIGGIE
+r4a1:
+	*setskin cat_cello 2*
+	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	*setanim cat_cello gesture_shrug 1 idle*
+	well biggie bitched at the pope about it%% but the pope roasted*setskin cat_cello 1* 
+	his nuts by saying he didn't have the jurisdiction*setanim cat_cello gesture_laugh 1 idle* 
+	to bail souls out of hell so he'd have to 
+	stay there in the painting
+	&r4a2
+	
+r4a2:
+	*setskin cat_cello 2*
+	*setanim cat_cello gesture_disagree 1 idle*
+	they painted clothes on everybody after mike 
+	bit it though because they were cowards
+	&n1
+	
+	
+###### BRANCH 5: HOT TAKES ON PRUDES AND NUDES
+r5a1:
+	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	*setskin cat_cello 0*
+	*setspeaker cat_cello*
+	*setanim cat_cello gesture_sweep 1 idle*
+	well you need to understand that for a very long period of time 
+	european art had a strict divide between the concept of 'nude' 
+	and 'naked' and adam was nude
+	&r5a2
+	
+r5a2:
+	*setcam setpos -1396.545410 3003.127686 36.095726;setang -5.714046 -126.539261 0.000000*
+	*setskin cat_cello 4*
+	*setanim cat_cello gesture_foldarms .75 idle*
+	'nude' referred to people imitating the greco-roman style of 
+	the idealized human form presented*setskin cat_cello 0* without clothing for its 
+	aesthetic value,%% while 'naked' referred to actually portraying a 
+	real person like they were anything but a controlled object
+	&r5a3
+	
+r5a3:
+	*setanim cat_cello gesture_shrug 1 idle*
+	it thus was seen as a terrible horrible no good very bad thing that had 
+	nothing to do with the fact that it was usually done as a direct critique 
+	of contemporary art and society,%%*setcam setpos -1444.636963 2919.147705 50.134186;setang 6.610850 -5.737509 0.000000*%*setskin cat_cello 1* or that it gave a lot of people 
+        shameful boners.
+	&n1
+	
+###### MERGE POINT 2
+n1:
+	*setcam setpos -1528.275269 3026.799561 33.071369;setang -3.078806 -63.077377 0.000000* ###### CELLO AND PLAYER
+	*setskin cat_cello 0*
+	*setspeaker cat_cello*
+	*setanim cat_cello gesture_laugh 1 idle*
+	art is always most interesting when it's basically just extremely elaborate
+	high concept trolling is what im getting at.%%%%*setanim cat_cello gesture_agree .75 idle* the french mastered that shit.%%%
+	they had dudes ripping urinals off walls to display,%% painting prostitutes
+	as venus,% the works
+	&n2
+
+n2:
+	*setskin cat_cello 1*
+	*setanim cat_cello gesture_confused 1 idle*
+	the more elaborate and uptight and demanding a creative form is the 
+	more fun it is when someone uses those rules to make a gigantic 
+	middle finger to gatekeeping pricks.%%%%*setskin cat_cello 0*
+	or just throws a brick through their window.%%%% both work.
+	&n3
+	
+n3:
+	*setspeaker narrator*
+	*setcam setpos -1695.300415 3196.161377 114.466461;setang 10.364436 -48.542625 0.000000*
+	>The Cellist hits his blunt again.
+	&n4
+	
+n4:
+	*setspeaker cat_cello*
+	*setanim cat_cello gesture_laugh 1 idle*
+	i suppose i've trapped you in a corner and rambled at you about stupid 
+	shit long enough.%%%*setanim cat_cello gesture_agree 1 idle* you can knock off if you'd like.
+	&n5
+	
+n5:
+	*setanim cat_cello gesture_shrug 1 idle*
+	*setcam setpos -1475.910156 2944.431885 58.944317;setang 6.442042 0.155495 0.000000* ###### CELLO HEADSHOT
+	but,% hey,%% if you ever want to get high and talk about this sort of 
+	shit again?%%% you know where to find me. *mark_seen*
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

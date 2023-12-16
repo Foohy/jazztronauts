@@ -1,0 +1,159 @@
+accept:
+	I need your help.%%%
+	I promise nothing will go wrong.% 
+	I already handled that part myself.
+	&a1
+	
+a1:
+	You know me well enough by now to hazard a guess that I 
+	don't,% react well,%% when shit doesn't go according to plan. 
+	&a1b
+	
+a1b:
+	When I woke up from the first good night's sleep I'd 
+	had in uh,% ever,%% I was kinda pissed that I could 
+	string coherent thoughts together.
+	&a2
+	
+a2:
+	%.%.%.%This is a very roundabout way to say that I flushed fifteen bottles of 
+	what looked like the essence of mulched clowns and psychological issues 
+	down the can,%% panicked immediately%, and%.%.%.%%
+	&a3
+	
+a3:
+	%.%.%.%Refilled them with engine oil and paint to hide the evidence.%%%
+	While he'll drink that and get blasted no problem anyways,% 
+	I'm being plagued by this thing books tell me is 'guilt'.
+	&a4
+	
+a4:
+	It's been happening a lot recently and I'd like it to stop.
+	&a5
+	
+a5:
+	So!%% I'm going to pay you an exorbitant finders fee,% and you're going 
+	to get me something flashy enough to wipe my sins from The Cellist's 
+	barely functional short-term memory\:%%%% 
+	A Massive Horse Statue. *start 4*
+	&exit
+	
+idle:
+	Any luck?%% I know it's a big ask but I'd really appreciate it if 
+	you could do me this solid.
+	&idle1
+	
+idle1:
+	We're basically pulling a shitty reenactment of the siege of Troy here,%
+	except instead of killing him while he's busy gloating and 
+	his guard is down,% I'll%.%.%.%
+	&i1
+	
+i1:
+	>The Pianist stares off into the distance,%% eyes unfocusing.%%%
+	She frowns.
+	&i2
+	
+i2:
+	Fuck.%%%%
+	I don't really know what to do in that situation other than 
+	stab a motherfucker.%% Look,% you handle acquisition and I'll figure 
+	out if there's a step two to this plan.
+	&exit
+
+turnin:
+	*spawn narrator dummy*
+	*setnpcid narrator npc_narrator*
+	*setspeaker cat_piano*
+	I see that you have,% the horse.%%%
+	I'm gonna go brain him with The Bartender's frying pan,% and while 
+	he's knocked out,%% you drag the statue over.
+	&t1
+	
+t1:
+	*setspeaker cat_piano*
+	He'll be so confused,% he'll forget what was in those bottles.%%%% 
+	If he doesn't I'll hit him with the pan again.
+	&t2
+	
+t2:
+	%.%.%.%.%.%%If you have a better idea, go ahead.
+	player:
+	&t3:
+		Hey,% Cellist.%%% Come over here a sec.
+	
+t3:
+	*setspeaker npc_cat_cello*
+	sup.
+	player:
+	&t4:
+		Pianist fucked with your shit and felt bad so she got you a horse.
+		
+t4:
+	*setspeaker npc_cat_piano*
+	>The Pianist looks absolutely confused. 
+	&t5
+	
+t5:
+	Yeah.%%%
+	Uh.%%%
+	Sorry%.%.%.%%%
+	&t6
+	
+t6:
+	*setspeaker npc_cat_cello*
+	oh shit free stuff hell yeah
+	&t7
+	
+t7:
+	*setspeaker narrator*
+	>The Cellist immediately clambers onto the horse and assumes
+	The Napoleon Position.
+	&t8
+	
+t8:
+	*setspeaker npc_cat_cello*
+	yeah no this owns.%%% normally i'd be kinda miffed at you dumping like five
+	million dollars of drugs down the toilet but i can write that off as a 
+	charitable tax deduction if i spin it hard enough so whatever we cool
+	&t9
+	
+t9:
+	*setspeaker narrator*
+	>The Pianist is at a legitimate loss for words,% and is in shock.
+	&t10
+	
+t10:
+	*setspeaker npc_cat_piano*
+	oh.%
+	uh.%%
+	Okay.%%%
+	Cool.%%%%
+	&t11
+	
+t11:
+	*setspeaker narrator*
+	>The Cellist happily crawls around the horse statue.%%%%
+	Wordlessly,% you are given $25,000 by The Pianist.%%%*finish 4*
+	Looks like everything's just fine,% somehow.
+	&exit
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

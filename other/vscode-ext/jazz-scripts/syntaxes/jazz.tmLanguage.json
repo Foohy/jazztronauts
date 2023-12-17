@@ -1,0 +1,73 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Jazztronauts",
+	"patterns": [
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#sections"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#variables"
+		},
+		{
+			"include": "#pauses"
+		},
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#parameters"
+		}
+	],
+	"repository": {
+		"comments": {
+			"patterns": [{
+				"name": "comment.line.number-sign.jazz",
+				"begin": "#",
+				"end": "\\n"
+			}]
+		},
+		"sections": {
+			"patterns": [
+				{
+					"name": "markup.heading.jazz",
+					"match": ".+?(?<!\\\\):"
+				},
+				{
+					"name": "markup.heading.jazz",
+					"match": "(?<!\\\\)&.+?(?<!:)\\n"
+				},
+				{
+					"name": "markup.heading.jazz",
+					"match": "(?<!\\\\)&.+?(?<!:)"
+				}
+			]
+		},
+		"functions": {
+			"patterns": [{
+				"name": "entity.name.function.jazz",
+				"match": "\\w+\\(.*?\\)"
+			}]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.jazz",
+					"match": "(?<!\\\\)\\*.*?(?<!\\\\)\\*"
+				}
+			]
+		},
+		"pauses": {
+			"patterns": [{
+				"name": "comment.line.jazz",
+				"match": "(?<!\\\\)%"
+			}]
+		}
+	},
+	"scopeName": "text.jazz"
+}

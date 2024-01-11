@@ -6,6 +6,93 @@ if SERVER then
 	return
 end
 
+-- FAST READER
+local str_byte, ldexp = string.byte, math.ldexp
+local lshift, rshift, band, bor, bnot = bit.lshift, bit.rshift, bit.band, bit.bor, bit.bnot
+local m_ptr, m_size, m_data, m_stack
+
+local function init_fast_read(file_handle)
+	m_ptr, m_stack = 1, {}
+	m_size = file_handle:Size()
+	m_data = file_handle:Read( m_size )
+end
+
+local function finish_fast_read(file_handle)
+	file_handle:Close()
+end
+
+local function skip_data( n ) m_ptr = m_ptr + n end
+local function seek_data( pos ) m_ptr = pos + 1 end
+local function tell_data() return m_ptr - 1 end
+local function array_of( f, count )
+	local t = {} for i=1, count do t[#t+1] = f() end 
+	return t
+end
+
+local function float32()
+	local a,b,c,d = str_byte(m_data, m_ptr, m_ptr + 4) m_ptr = m_ptr + 4
+	local fr = bor( lshift( band(c, 0x7F), 16), lshift(b, 8), a )
+	local exp = bor( band( d, 0x7F ) * 2, rshift( c, 7 ) )
+	if exp == 0 then return 0 end
+	return ldexp( ( ldexp(fr, -23) + 1 ) * (d > 127 and -1 or 1), exp - 127 )
+end
+
+local function uint32()
+    local a,b,c,d = str_byte(m_data, m_ptr, m_ptr + 4) m_ptr = m_ptr + 4
+    local n = bor( lshift(d,24), lshift(c,16), lshift(b, 8), a )
+    if n < 0 then n = (0x1p32) - 1 - bnot(n) end
+    return n
+end
+
+local function uint16()
+    local a,b = str_byte(m_data, m_ptr, m_ptr + 2) m_ptr = m_ptr + 2
+    return bor( lshift(b, 8), a )
+end
+
+local function uint8()
+    local a = str_byte(m_data, m_ptr, m_ptr) m_ptr = m_ptr + 1
+    return a
+end
+
+local function int32()
+    local a,b,c,d = str_byte(m_data, m_ptr, m_ptr + 4) m_ptr = m_ptr + 4
+    local n = bor( lshift(d,24), lshift(c,16), lshift(b, 8), a )
+    return n
+end
+
+local function int16()
+    local a,b = str_byte(m_data, m_ptr, m_ptr + 2) m_ptr = m_ptr + 2
+    local n = bor( lshift(b, 8), a )
+    if band( b, 0x80 ) ~= 0 then n = -(0x1p16) + n end
+    return n
+end
+
+local function int8()
+    local a = str_byte(m_data, m_ptr, m_ptr) m_ptr = m_ptr + 1
+    if band( a, 0x80 ) ~= 0 then a = -(0x100) + a end
+    return a
+end
+
+local function push_data(addr) m_stack[#m_stack+1] = tell_data() seek_data(addr) end
+local function pop_data() seek_data(m_stack[#m_stack]) m_stack[#m_stack] = nil end
+local function indirect_array( dtype )
+    return { num = int32(), offset = int32(), dtype = dtype, }
+end
+
+local function load_indirect_array( tbl, base, field, aux, ... )
+    local arr = aux or tbl[field]
+    local num, offset, dtype = arr.num, arr.offset, arr.dtype
+	if not offset then return end
+    arr.num, arr.offset, arr.dtype = nil, nil, nil
+
+    if offset == 0 and num ~= 0 then return end
+    if num == 0 then return end
+
+    push_data(base + offset)
+    for i=1, num do arr[#arr+1] = dtype(...) end
+    pop_data()
+end
+-- END FAST READER
 
 local colors = {
 	Color(255,0,0),
@@ -22,11 +109,13 @@ local colors = {
 	Color(255,0,128),
 }
 
+local __mdl_version = nil -- currently loading version
 local MAX_NUM_LODS = 8
 local MAX_NUM_BONES_PER_VERT = 3
 
 local STRIP_IS_TRILIST = 1
 local STRIP_IS_TRISTRIP = 2
+local VTX_VERSION = 7
 
 local array = Struct({
 	INT32.num,
@@ -34,113 +123,160 @@ local array = Struct({
 })
 
 --VVD
-local vvd_boneweight = Struct({
-	FLOAT.weight[ MAX_NUM_BONES_PER_VERT ],
-	UINT8.bone[ MAX_NUM_BONES_PER_VERT ],
-	UINT8.numBones
-})
+local function vvd_vertex() --48 bytes
 
-local vvd_vertex = Struct({
-	vvd_boneweight.weights,
-	VECTOR.position,
-	VECTOR.normal,
-	VECTOR2D.texcoord,
-})
-
-local vvd_header = Struct({
-	INT32.id,
-	INT32.version,
-	INT32.checksum,
-	INT32.numLODs,
-	INT32.numLODVertices[ MAX_NUM_LODS ],
-	INT32.numFixups,
-	INT32.fixupTableStart,
-	INT32.vertexDataStart,
-	INT32.tangentDataStart,
-})
-
-local vvd_fixup = Struct({
-	INT32.lod,
-	INT32.sourceID,
-	INT32.numVertices
-})
+	skip_data(16) -- skip weights, we don't use them
+	return {
+		--[[weights = {
+			weight = array_of( float32, MAX_NUM_BONES_PER_VERT ),
+			bone = array_of( uint8, MAX_NUM_BONES_PER_VERT ),
+			numBones = uint8(),
+		},]]
+		position = Vector(float32(), float32(), float32()),
+		normal = Vector(float32(), float32(), float32()),
+		texcoord = {x = float32(), y = float32()},
+	}
+end
 
 --VTX
-local vtx_header = Struct({
-	INT32.version,
+local function vtx_bonestatechange()
 
-	INT32.vertCacheSize,
-	UINT16.maxBonesPerStrip,
-	UINT16.maxBonesPerTri,
-	INT32.maxBonesPerVert,
+    return {
+        hardwareID = int32(),
+        newBoneID = int32(),
+    }
 
-	INT32.checksum,
+end
 
-	INT32.numLODs,
-	INT32.materialReplacementListOffset,
+local function vtx_vertex()
 
-	INT32.numBodyParts,
-	INT32.bodyPartOffset,
-})
+    return {
+        boneWeightIndex = array_of(uint8, 3),
+        numBones = uint8(),
+        origMeshVertID = uint16(),
+        boneID = array_of(int8, 3),
+    }
 
-local vtx_bodypartheader = Struct({
-	INT32.numModels,
-	INT32.modelOffset,
-})
+end
 
-local vtx_modelheader = Struct({
-	INT32.numLODs,
-	INT32.lodOffset,
-})
+local function vtx_strip()
 
-local vtx_modelLODheader = Struct({
-	INT32.numMeshes,
-	INT32.meshOffset,
-	FLOAT.switchPoint,
-})
+    local base = tell_data()
+    local strip = {
+        numIndices = int32(),
+        indexOffset = int32(),
+        numVerts = int32(),
+        vertOffset = int32(),
+        numBones = int16(),
+        flags = uint8(),
+        boneStateChanges = indirect_array(vtx_bonestatechange),
+    }
 
-local vtx_meshheader = Struct({
-	INT32.numStripGroups,
-	INT32.stripGroupHeaderOffset,
-	UINT8.flags,
-})
+    assert(strip.flags <= 3, "Invalid flags on strip")
+    load_indirect_array(strip, base, "boneStateChanges")
 
-local vtx_stripgroupheader = Struct({
-	INT32.numVerts,
-	INT32.vertOffset,
+    if band(strip.flags, STRIP_IS_TRILIST) ~= 0 then
+        strip.isTriList = true
+    elseif band(strip.flags, STRIP_IS_TRISTRIP) ~= 0 then
+        strip.isTriStrip = true
+        error("Tri Strip not supported!")
+    end
+    strip.flags = nil
 
-	INT32.numIndices,
-	INT32.indexOffset,
+    return strip
 
-	INT32.numStrips,
-	INT32.stripOffset,
+end
 
-	UINT8.flags,
-})
+local function vtx_stripgroup()
 
-local vtx_stripheader = Struct({
-	INT32.numIndices,
-	INT32.indexOffset,
+    local base = tell_data()
+    local group = {
+        vertices = indirect_array(vtx_vertex),
+        indices = indirect_array(uint16),
+        strips = indirect_array(vtx_strip),
+        flags = uint8(),
+    }
 
-	INT32.numVerts,
-	INT32.vertOffset,
+    group.flags = nil
 
-	INT16.numBones,
+    load_indirect_array(group, base, "vertices")
+    load_indirect_array(group, base, "indices")
+    load_indirect_array(group, base, "strips")
 
-	UINT8.flags,
+    local vertices = group.vertices
+    local indices = group.indices
+    if __mdl_version >= 49 then uint32() uint32() end
 
-	INT32.numBoneStateChanges,
-	INT32.boneStateChangeOffset,
-})
+    return group
 
-local vtx_vertex = Struct({
-	UINT8.boneWeightIndex[3],
-	UINT8.numBones,
+end
 
-	UINT16.origMeshVertID,
+local function vtx_mesh()
 
-	INT8.boneID[3]
-})
+    local base = tell_data()
+    local mesh = {
+        stripgroups = indirect_array(vtx_stripgroup),
+        flags = uint8(),
+    }
+    load_indirect_array(mesh, base, "stripgroups")
+    return mesh
+
+end
+
+local function vtx_modellod()
+
+    local base = tell_data()
+    local lod = {
+        meshes = indirect_array(vtx_mesh),
+        switchPoint = float32(),
+    }
+    load_indirect_array(lod, base, "meshes")
+    return lod
+
+end
+
+local function vtx_model()
+
+    local base = tell_data()
+    local model = {
+        lods = indirect_array(vtx_modellod),
+    }
+    load_indirect_array(model, base, "lods")
+    return model
+
+end
+
+local function vtx_bodypart()
+
+    local base = tell_data()
+    local part = {
+        models = indirect_array(vtx_model),
+    }
+    load_indirect_array(part, base, "models")
+    return part
+
+end
+
+local function vtx_header()
+
+    local base = tell_data()
+    local header = {
+        version = int32(),
+        vertCacheSize = int32(),
+        maxBonesPerStrip = uint16(),
+        maxBonesPerTri = uint16(),
+        maxBonesPerVert = int32(),
+        checksum = int32(),
+        numLODs = int32(),
+        materialReplacementListOffset = int32(),
+        bodyParts = indirect_array( vtx_bodypart ),
+    }
+
+    assert(header.version == VTX_VERSION, "Version mismatch: " .. (header.version) .. " != " .. VTX_VERSION)
+    load_indirect_array(header, 0, "bodyParts")
+    return header
+
+end
 
 --MDL
 local mdl_header = Struct({
@@ -281,40 +417,6 @@ local mdl_mesh = Struct({
 	INT32.unused[8],
 })
 
-function PrintTable2( t, indent, done )
-
-	done = done or {}
-	indent = indent or 0
-	local keys = table.GetKeys( t )
-
-	table.sort( keys, function( a, b )
-		if ( isnumber( a ) && isnumber( b ) ) then return a < b end
-		return tostring( a ) < tostring( b )
-	end )
-
-	for i = 1, #keys do
-		local key = keys[ i ]
-		local value = t[ key ]
-		Msg( string.rep( " ", indent ) )
-
-		if  ( istable( value ) && !done[ value ] ) then
-
-			done[ value ] = true
-			Msg( tostring( key ) .. ":" .. "\n" )
-			PrintTable2 ( value, indent + 2, done )
-			done[ value ] = nil
-
-		else
-
-			Msg( tostring( key ) .. "\t=\t" )
-			Msg( tostring( value ) .. "\n" )
-
-		end
-
-	end
-
-end
-
 local function OffsetArray( ar, to )
 
 	ar.index = ar.index + to
@@ -344,6 +446,10 @@ end
 
 local function LoadMDL( mdl_path, fast )
 
+	print("LOADING MDL: " .. tostring(mdl_path))
+	
+	local t0 = SysTime()
+
 	local base = mdl_path:sub(1, -4)
 	local yield_rate = fast and 1000 or 200
 
@@ -361,7 +467,7 @@ local function LoadMDL( mdl_path, fast )
 			OffsetArray( l.meshes, at )
 			OffsetArray( l.attachments, at )
 			OffsetArray( l.eyeballs, at )
-			l.vertexindex = l.vertexindex / vvd_vertex.sizeof
+			l.vertexindex = l.vertexindex / 48 -- vvd_vertex
 		end )
 
 		for _, model in pairs( part.models ) do
@@ -373,9 +479,11 @@ local function LoadMDL( mdl_path, fast )
 		end
 	end
 
-	--PrintTable2( header )
+	__mdl_version = header.version
 
 	f_mdl:Close()
+
+	print("FINISHED LOADING MDL: " .. tostring(mdl_path) .. " (" .. (SysTime() - t0) * 1000 .. " ms)")
 
 	return {
 		header = header,
@@ -386,190 +494,126 @@ end
 
 local function LoadVTX( mdl_path, fast )
 
+	print("LOADING VTX: " .. tostring(mdl_path))
+
+	local t0 = SysTime()
+
 	local yield_rate = fast and 500 or 100
 	local base = mdl_path:sub(1, -4)
 
 	local f_vtx = file.Open( base .. "dx90.vtx", "rb", "GAME" )
 	if not f_vtx then return nil end
 
-	local header = vtx_header.read( f_vtx )
-	local bodyparts = {}
+	print("***MDL VERSION***: " .. __mdl_version)
 
-	f_vtx:Seek( header.bodyPartOffset )
-
-	for i=1, header.numBodyParts do
-
-		table.insert( bodyparts, vtx_bodypartheader.read( f_vtx ) )
-
-	end
-
-	for i, bodypart in pairs( bodyparts ) do
-
-		local model_base = bodypart.modelOffset + header.bodyPartOffset + vtx_bodypartheader.sizeof * (i-1)
-
-		bodypart.models = {}
-		f_vtx:Seek( model_base )
-
-		for x=1, bodypart.numModels do
-
-			table.insert( bodypart.models, vtx_modelheader.read( f_vtx ) )
-
-		end
-
-		for j, model in pairs( bodypart.models ) do
-
-			local lod_base = model_base + model.lodOffset + vtx_modelheader.sizeof * (j-1)
-
-			model.lods = {}
-			f_vtx:Seek( lod_base )
-
-			for x=1, model.numLODs do
-
-				table.insert( model.lods, vtx_modelLODheader.read( f_vtx ) )
-
-			end
-
-			for k, lod in pairs( model.lods ) do
-
-				local mesh_base = lod_base + lod.meshOffset + vtx_modelLODheader.sizeof * (k-1)
-
-				lod.meshes = {}
-				f_vtx:Seek( mesh_base )
-
-				for x=1, lod.numMeshes do
-
-					table.insert( lod.meshes, vtx_meshheader.read( f_vtx ) )
-
-				end
-
-				for l, msh in pairs( lod.meshes ) do
-
-					local group_base = mesh_base + msh.stripGroupHeaderOffset + vtx_meshheader.sizeof * (l-1)
-
-					msh.groups = {}
-					f_vtx:Seek( group_base )
-
-					for x=1, msh.numStripGroups do
-
-						table.insert( msh.groups, vtx_stripgroupheader.read( f_vtx ) )
-
-					end
-
-					for m, group in pairs( msh.groups ) do
-
-						local head_base = group_base + vtx_stripgroupheader.sizeof * (m-1)
-						local strip_base = head_base + group.stripOffset
-						local index_base = head_base + group.indexOffset
-						local vertex_base = head_base + group.vertOffset
-
-						--print("LOAD GROUP: ", i, j, k, l, m, group.stripOffset, group.indexOffset, group.vertOffset, group.numStrips )
-
-						group.strips = {}
-						group.indices = {}
-						group.vertices = {}
-
-						f_vtx:Seek( strip_base )
-						for x=1, group.numStrips do task.YieldPer(yield_rate, "progress") group.strips[#group.strips+1] = vtx_stripheader.read( f_vtx ) end
-
-						f_vtx:Seek( index_base )
-						for x=1, group.numIndices do task.YieldPer(yield_rate, "progress") group.indices[#group.indices+1] = UINT16.read( f_vtx ) end
-
-						f_vtx:Seek( vertex_base )
-						for x=1, group.numVerts do task.YieldPer(yield_rate, "progress") group.vertices[#group.vertices+1] = vtx_vertex.read( f_vtx ) end
-
-					end
-
-				end
-
-			end
-
-		end
-
-	end
-
-	--PrintTable2( bodyparts, 1 )
-
-	f_vtx:Close()
+	init_fast_read(f_vtx)
+	local header = vtx_header()
+	print("FINISHED LOADING VTX: " .. tostring(mdl_path) .. " (" .. (SysTime() - t0) * 1000 .. " ms)")
+	finish_fast_read(f_vtx)
 
 	return {
 		header = header,
-		bodyparts = bodyparts,
+		bodyparts = header.bodyParts,
 	}
 
 end
 
 local function LoadVVD( mdl_path, fast )
 
+	print("LOADING VVD: " .. tostring(mdl_path))
+
+	local t0 = SysTime()
+
 	local base = mdl_path:sub(1, -4)
 	local yield_rate_v = fast and 200 or 100
 	local yield_rate_f = fast and 1000 or 400
 
 	local f_vvd = file.Open( base .. "vvd", "rb", "GAME" )
-	if not f_vvd then return nil end
+	if not f_vvd then ErrorNoHalt("VVD NOT FOUND: " .. tostring(mdl_path)) return nil end
 
-	local header = vvd_header.read( f_vvd )
+	local t1 = SysTime()
+
+	init_fast_read(f_vvd)
+
+	print("---Read took : " .. (SysTime() - t1) * 1000 .. "ms " .. m_size .. " bytes")
+
+	local header = {
+		id = int32(),
+		version = int32(),
+		checksum = int32(),
+		numLODs = int32(),
+		numLODVertices = array_of( int32, MAX_NUM_LODS ),
+		numFixups = int32(),
+		fixupTableStart = int32(),
+		vertexDataStart = int32(),
+		tangentDataStart = int32(),
+	}
+
+	PrintTable(header)
+
 	local fixups = {}
 	local vertices = {}
 	local tangents = {}
 
-	--PrintTable( header )
+	print("LOAD " .. header.numLODVertices[1] .. " verts...")
+
+	local t1 = SysTime()
+
+	seek_data(header.vertexDataStart)
+	for i=1, header.numLODVertices[1] do
+
+		vertices[#vertices+1] = vvd_vertex()
+		--task.YieldPer(yield_rate_v, "progress")
+
+	end
+
+	print("---Verts took : " .. (SysTime() - t1) * 1000 .. "ms")
+
+	print("LOAD " .. header.numLODVertices[1] .. " tangents...")
+
+	local t1 = SysTime()
+
+	seek_data(header.tangentDataStart)
+	for i=1, header.numLODVertices[1] do
+
+		tangents[#tangents+1] = Vector4( float32(), float32(), float32(), float32() )
+		--task.YieldPer(yield_rate_v, "progress")
+
+	end
+
+	print("---Tangents took : " .. (SysTime() - t1) * 1000 .. "ms")
 
 	if header.numFixups > 0 then
 
-		f_vvd:Seek( header.fixupTableStart )
+		local corrected = {}
+		local target = 0
+		for i=1, #vertices do corrected[i] = vertices[i] end
 
+		print("LOAD " .. header.numFixups .. " fixups...")
+
+		seek_data(header.fixupTableStart)
 		for i=1, header.numFixups do
 
-			table.insert( fixups, vvd_fixup.read( f_vvd ) )
-			task.YieldPer(yield_rate_f, "progress")
-
-		end
-
-		--PrintTable( fixups )
-
-	end
-
-	f_vvd:Seek( header.vertexDataStart )
-
-	for i=1, header.numLODVertices[1] do
-
-		table.insert( vertices, vvd_vertex.read( f_vvd ) )
-		task.YieldPer(yield_rate_v, "progress")
-
-	end
-
-	f_vvd:Seek( header.tangentDataStart )
-
-	for i=1, header.numLODVertices[1] do
-
-		table.insert( tangents, VECTOR4.read( f_vvd ) )
-		task.YieldPer(yield_rate_v, "progress")
-
-	end
-
-	f_vvd:Close()
-
-
-	if #fixups > 0 then
-
-		local corrected = table.Copy( vertices )
-		local target = 0
-		for _, fixup in pairs( fixups ) do
-
-			if fixup.lod < 0 then continue end
-
-			for i=1, fixup.numVertices do
-				task.YieldPer(yield_rate_f, "progress")
-				corrected[ i + target ] = vertices[ i + fixup.sourceID ]
+			local lod = int32()
+			local sourceID = int32()
+			local numVertices = int32()
+			if lod < 0 then continue end
+			for i=1, numVertices do
+				--task.YieldPer(yield_rate_f, "progress")
+				corrected[ i + target ] = vertices[ i + sourceID ]
 			end
 
-			target = target + fixup.numVertices
+			target = target + numVertices
 
 		end
 
 		vertices = corrected
 
 	end
+
+	finish_fast_read(f_vvd)
+
+	print("FINISHED LOADING VVD: " .. tostring(mdl_path) .. " (" .. (SysTime() - t0) * 1000 .. " ms)")
 
 	return {
 		header = header,
@@ -581,9 +625,6 @@ local function LoadVVD( mdl_path, fast )
 end
 
 local white_color = Color(255,255,255,255)
-
---PrintTable2(mdl.bodyparts)
-
 local wire_boxes = {}
 local debug_gridding = false
 local debug_grid_time = 0
@@ -711,7 +752,7 @@ local function CreateMesh( vvd, vtx, mdl )
 	for i, body in pairs( vtx.bodyparts ) do local m_bodypart = mdl.bodyparts[i]
 	for j, model in pairs( body.models ) do local m_model = m_bodypart.models[j]
 	for k, msh in pairs( model.lods[ LOD ].meshes ) do local m_mesh = m_model.meshes[k]
-	for l, group in pairs( msh.groups ) do
+	for l, group in pairs( msh.stripgroups ) do
 	for m, strip in pairs( group.strips ) do
 
 	for x=0, strip.numIndices-3, 3 do
@@ -726,7 +767,7 @@ local function CreateMesh( vvd, vtx, mdl )
 		local v1 = vvd.vertices[ i1 + m_mesh.vertexoffset + m_model.vertexindex ]
 		local v2 = vvd.vertices[ i2 + m_mesh.vertexoffset + m_model.vertexindex ]
 
-		local index = v0.weights.bone[1] --math.floor( v0.texcoord.x * 10 + v0.texcoord.y * 10 ) --math.floor(x/24)
+		local index = 0 --v0.weights.bone[1] --math.floor( v0.texcoord.x * 10 + v0.texcoord.y * 10 ) --math.floor(x/24)
 		local col = colors[ index % #colors + 1 ]
 
 		local test = 14
@@ -809,6 +850,10 @@ end
 
 local function LoadModel( model, fast )
 
+	task.Yield("section", "MDL")
+	local mdl = LoadMDL( model, fast )
+	if not mdl then return end
+
 	task.Yield("section", "VTX")
 	local vtx = LoadVTX( model, fast )
 	if not vtx then return end
@@ -816,10 +861,6 @@ local function LoadModel( model, fast )
 	task.Yield("section", "VVD")
 	local vvd = LoadVVD( model, fast )
 	if not vvd then return end
-
-	task.Yield("section", "MDL")
-	local mdl = LoadMDL( model, fast )
-	if not mdl then return end
 
 	if not vtx then print("Failed to load .dx90.vtx for model: " .. tostring( model )) return end
 	if not vvd then print("Failed to load .vvd for model: " .. tostring( model )) return end
@@ -858,6 +899,10 @@ function MakeExpandedModel( model, material, fast )
 
 	return test_mesh
 
+end
+
+if CLIENT then
+	local vvd, vtx, mdl = LoadModel( "models/props_sharkbay/boat_hull_v2.mdl" )
 end
 
 --[[local ent = MakeExpandedModel( "models/props_vehicles/truck001a.mdl"  )

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sys
 import json
 import time
@@ -11,16 +13,24 @@ NUMPERPAGE = 100
 DELAY = 0.1 # How long to delay between requests
 FILENAME = "addons.txt"
 
-ignore_words = ["content", "server"]
+# Not a whole word search, so nav also gets navmesh
+ignore_words = [
+    "content",
+    "server",
+    "nav",
+    "node",
+    "icon"
+]
+
 ignore_reg = "(?<!_){0}(?!_)" # Allow ignore words to be a part of the map name (surrounding underscores)
 def containsIgnoreWord(str, word):
-    return re.search(ignore_reg.format(word), str) is not None
+    return re.search(ignore_reg.format(word), str, flags=re.IGNORECASE) is not None
 
 def containsIgnoreWords(str):
     for word in ignore_words:
         if containsIgnoreWord(str, word):
             return True
-        
+
     return False
 
 if __name__ == "__main__":
@@ -45,7 +55,9 @@ if __name__ == "__main__":
         total = resobj["response"]["total"]
 
         for addon in resobj["response"]["publishedfiledetails"]:
-            if "title" in addon and containsIgnoreWords(addon["title"]):
+            hasignorewords = "title" in addon and containsIgnoreWords(addon["title"])
+            sexyfuntimes = "maybe_inappropriate_sex" in addon and addon["maybe_inappropriate_sex"] == True
+            if hasignorewords or sexyfuntimes:
                 ign_str = u"Ignoring: " + addon["title"]
                 print(ign_str.encode('utf-8'))
                 continue
@@ -64,10 +76,10 @@ if __name__ == "__main__":
 
         if page * NUMPERPAGE > resobj["response"]["total"]:
             break
-        else:   
+        else:
             # so valve doesn't get angry at us
             time.sleep(DELAY)
-    
+
     # Results come back sorted, but reverse it so
     # newer entries are added at the end instead of shifting everything at the beginning
     workshopids.reverse()
@@ -78,4 +90,3 @@ if __name__ == "__main__":
 
     print("Finished!!")
     f.close()
-

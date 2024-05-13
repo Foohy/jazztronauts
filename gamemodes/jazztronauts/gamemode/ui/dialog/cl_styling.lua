@@ -3,6 +3,8 @@
 
 local chatboxMat = Material("materials/ui/chatbox.png")
 local chatboxNarrateMat = Material("materials/ui/chatbox_narrate.png")
+local chatboxPlayerMat = Material("materials/ui/chatbox_player.png")
+local catIconMat = Material("materials/ui/cat_icon-small.png")
 
 local catSounds =
 {
@@ -60,7 +62,7 @@ local function ScreenScaleEx(...)
 end
 
 -- Position of top left corner of text, relative to dialog background
-local TextX, TextY = ScreenScaleEx(70, 25)
+local TextX, TextY = ScreenScaleEx(75, 24.5)
 
 -- Position of top left corner for name text
 local NameTextX, NameTextY = ScreenScaleEx(75, 20)
@@ -101,7 +103,7 @@ surface.CreateFont( "JazzDialogNameFont", {
 } )
 
 surface.CreateFont( "JazzDialogFont", {
-	font = "Arial",
+	font = "Anke",
 	extended = false,
 	size = ScreenScale(15),
 	weight = 500,
@@ -109,7 +111,7 @@ surface.CreateFont( "JazzDialogFont", {
 } )
 
 surface.CreateFont( "JazzDialogFontHint", {
-	font = "Arial",
+	font = "Anke",
 	extended = false,
 	size = ScreenScale(11),
 	weight = 500,
@@ -245,10 +247,10 @@ DialogCallbacks.Paint = function(_dialog)
 	local x = ScrW() / 2 + BGOffX * (localspeaker and -1 or 1)
 	local y = ScrH() - h/2 - BGOffY
 
-	local chatbg = (IsValid(speaker) and not speaker.IsDummy and chatboxMat) or chatboxNarrateMat
+	local chatbg = (IsValid(speaker) and isPlayer(speaker) and chatboxPlayerMat) or (IsValid(speaker) and not speaker.IsDummy and chatboxMat) or (chatboxNarrateMat) 
 	surface.SetMaterial(chatbg)
 	surface.SetDrawColor( 255, 255, 255, 255 )
-	surface.DrawTexturedRectUV( x - w/2, y - h/2, w, h, localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
+	surface.DrawTexturedRect( x - w/2, y - h/2, w, h, localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
 
 	local left = x - w/2 + NameTextX
 	local top = y - h/2 + NameTextY
@@ -258,7 +260,7 @@ DialogCallbacks.Paint = function(_dialog)
 	local tw,th = surface.GetTextSize(speakername)
 
 	-- Draw current speaker's name
-	local nameX = localspeaker and x + w/2 - tw - NameTextX or left
+	local nameX = localspeaker and w*.225 - NameTextX or left
 	surface.SetTextPos(nameX, top - th)
 	surface.DrawText(speakername)
 
@@ -281,16 +283,22 @@ DialogCallbacks.Paint = function(_dialog)
 	-- If we're waiting on input, slam that down
 	if dialog.ReadyToContinue() then
 		surface.SetFont( "JazzDialogFontHint" )
-		local contstr = "Click to continue...	"
+		local contstr = ""
 		local tw,th = surface.GetTextSize(contstr)
-		local contX = x + w/2 - tw // * (localspeaker and 0.2 or 1)
+		local contX = x + w*.368 - tw // * (localspeaker and 0.2 or 1)
 		if localspeaker then
-			contX = contX - ScreenScale(65)
+			contX = contX - ScreenScale(48)
 		end
-		surface.SetTextColor( 38, 38, 38, 255 * open )
+		-- hiding the "Click to continue..." text temporarily.
+		surface.SetTextColor( 38, 38, 38, 0 * open )
 		surface.SetTextPos(contX, y + h/2 - th)
 		surface.DrawText(contstr)
 		_dialog.textpanel:SetCursor("hand")
+		
+	-- trying to hack in the cat icon. i am horrible at coding so please improve it if it's shit.
+	surface.SetMaterial(catIconMat)
+	surface.SetDrawColor( 255, 255, 255, 255 )
+	surface.DrawTexturedRect( contX*1.075, y + h*.26, ScreenScale(17.2), ScreenScale(14.4), localspeaker and 1 or 0, 0, localspeaker and 0 or 1, 1)
 	end
 
 	-- Render whoever's talking

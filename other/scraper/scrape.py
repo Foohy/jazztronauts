@@ -4,6 +4,7 @@ import sys
 import json
 import time
 import urllib.request
+import urllib.parse
 import re
 
 HOST = "http://api.steampowered.com"
@@ -48,13 +49,17 @@ if __name__ == "__main__":
 
     f = open(FILENAME, "w")
 
-    while True:
-        req = "{0}/{1}?key={2}&appid={3}&requiredtags[0]=map&numperpage={4}&page={5}&return_metadata=1&query_type=1".format(HOST, ENDPOINT, key, APPID, NUMPERPAGE, page)
-        response = urllib.request.urlopen(req).read()
-        resobj = json.loads(response.decode("utf-8", "ignore"))
-        total = resobj["response"]["total"]
+    cursor = "*"
+    last_cursor = None
+    while cursor != None and cursor != last_cursor:
+        req = "{0}/{1}?key={2}&appid={3}&requiredtags[0]=map&numperpage={4}&cursor={5}&return_metadata=1&query_type=1".format(HOST, ENDPOINT, key, APPID, NUMPERPAGE, urllib.parse.quote_plus(cursor))
+        response_data = urllib.request.urlopen(req).read()
+        response = json.loads(response_data.decode("utf-8", "ignore"))["response"]
+        total = response["total"]
+        last_cursor = cursor
+        cursor = response["next_cursor"]
 
-        for addon in resobj["response"]["publishedfiledetails"]:
+        for addon in response["publishedfiledetails"]:
             hasignorewords = "title" in addon and containsIgnoreWords(addon["title"])
             sexyfuntimes = "maybe_inappropriate_sex" in addon and addon["maybe_inappropriate_sex"] == True
             if hasignorewords or sexyfuntimes:
@@ -68,13 +73,13 @@ if __name__ == "__main__":
                 workshopids.append(wsid)
 
         # Informative output
-        finished = page * NUMPERPAGE + len(resobj["response"]["publishedfiledetails"])
+        finished = page * NUMPERPAGE + len(response["publishedfiledetails"])
         print("Finished {0} addons. ({1:.2f}% of {2})".format(finished, finished * 100.0 / total, total))
 
         # Move onto to the next page
         page += 1
 
-        if page * NUMPERPAGE > resobj["response"]["total"]:
+        if page * NUMPERPAGE > response["total"]:
             break
         else:
             # so valve doesn't get angry at us

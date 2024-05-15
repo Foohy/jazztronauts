@@ -1,0 +1,32 @@
+{
+	"name": "jazz-scripts",
+	"displayName": "Jazztronauts Scripts",
+	"description": "Syntax highlighting for Jazztronauts dialogue scripts",
+	"version": "1.0.0",
+	"publisher": "Commenter25",
+	"icon": "logo.png",
+	"homepage": "https://github.com/Foohy/jazztronauts",
+	"engines": {
+		"vscode": "^1.78.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"contributes": {
+		"languages": [{
+			"id": "jazz",
+			"aliases": ["Jazztronauts", "jazz"],
+			"extensions": [".txt"],
+			"configuration": "./language-configuration.json",
+			"icon": {
+				"light": "./icon-lightmode.png",
+				"dark": "./icon-darkmode.png"
+			}
+		}],
+		"grammars": [{
+			"language": "jazz",
+			"scopeName": "text.jazz",
+			"path": "./syntaxes/jazz.tmLanguage.json"
+		}]
+	}
+}

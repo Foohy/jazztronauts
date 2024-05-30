@@ -14,20 +14,43 @@ NUMPERPAGE = 100
 DELAY = 0.1 # How long to delay between requests
 FILENAME = "addons.txt"
 
-# Not a whole word search, so nav also gets navmesh
+# This regex nightmare is an attempt to avoid false positives
+# Words with letters or underscore before will be kept (like gm_navigation)
+# Words with letters after will be kept (like Navy), unless |(suffix) matches
+# Anything after a suffix will also be caught (like navmeshed)
+ignore_reg = "(?<![A-Z_]){0}(?=$|[^A-Z]|s{1})"
 ignore_words = [
-    "content",
-    "server",
-    "nav",
-    "node",
-    "icon"
+    "content|(pack)|(map)",
+    "server|(content)",
+    "nav|(mesh)|(igat)",
+    "node|(d)|(graph)",
+    "icon",
 ]
 
-ignore_reg = "(?<!_){0}(?!_)" # Allow ignore words to be a part of the map name (surrounding underscores)
+# Now forget allat, if these appear ANYWHERE except next to an underscore they go
+strict_reg = "(?<!_){0}(?!_)"
+ignore_strict = [
+    "content",
+    "server",
+    "mapicon",
+]
+
 def containsIgnoreWord(str, word):
-    return re.search(ignore_reg.format(word), str, flags=re.IGNORECASE) is not None
+    word = word.split('|', 1)
+    suffixes = ""
+    if len(word) == 2:
+        suffixes = "|" + word[1]
+
+    return re.search(ignore_reg.format(word[0], suffixes), str, flags=re.IGNORECASE) is not None
+
+def containsIgnoreStrict(str, word):
+    return re.search(strict_reg.format(word), str, flags=re.IGNORECASE) is not None
 
 def containsIgnoreWords(str):
+    for word in ignore_strict:
+        if containsIgnoreStrict(str, word):
+            return True
+
     for word in ignore_words:
         if containsIgnoreWord(str, word):
             return True

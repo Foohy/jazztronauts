@@ -49,11 +49,11 @@ def containsIgnoreStrict(str, word):
 def containsIgnoreWords(str):
     for word in ignore_strict:
         if containsIgnoreStrict(str, word):
-            return True
+            return word
 
     for word in ignore_words:
         if containsIgnoreWord(str, word):
-            return True
+            return word
 
     return False
 
@@ -83,15 +83,23 @@ if __name__ == "__main__":
         cursor = response["next_cursor"]
 
         for addon in response["publishedfiledetails"]:
-            hasignorewords = "title" in addon and containsIgnoreWords(addon["title"])
+            if not "publishedfileid" in addon or not "title" in addon:
+                continue
+            wsid = addon["publishedfileid"]
+            title = addon["title"]
+
+            hasignoreword = containsIgnoreWords(title)
             sexyfuntimes = "maybe_inappropriate_sex" in addon and addon["maybe_inappropriate_sex"] == True
-            if hasignorewords or sexyfuntimes:
-                ign_str = u"Ignoring: " + addon["title"]
+            if hasignoreword or sexyfuntimes:
+                ign_str = u"Ignoring: " + title + " (ID " + wsid + ")"
+                if hasignoreword:
+                    ign_str = ign_str + ' (has "' + hasignoreword.split('|', 1)[0] + '")'
+                if sexyfuntimes:
+                    ign_str = ign_str + " (has sex)"
                 print(ign_str.encode('utf-8'))
                 continue
 
             # Add if not already in (sometimes query will give us dupes?)
-            wsid = addon["publishedfileid"]
             if not wsid in workshopids:
                 workshopids.append(wsid)
 

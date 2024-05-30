@@ -18,10 +18,8 @@ FILENAME = "addons.txt"
 # Words with letters or underscore before will be kept (like gm_navigation)
 # Words with letters after will be kept (like Navy), unless |(suffix) matches
 # Anything after a suffix will also be caught (like navmeshed)
-ignore_reg = "(?<![A-Z_]){0}(?=$|[^A-Z]|s{1})"
+ignore_reg = "(?<![A-Z_]){0}(?=[^A-Z]|$|s{1})"
 ignore_words = [
-	"content|(pack)|(map)",
-	"server|(content)",
 	"nav|(mesh)|(igat)",
 	"node|(d)|(graph)",
 	"icon",

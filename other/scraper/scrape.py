@@ -25,8 +25,8 @@ ignore_words = [
 	"icon",
 ]
 
-# Now forget allat, if these appear ANYWHERE except next to an underscore they go
-strict_reg = "(?<!_){0}(?!_)"
+# Now forget allat, if these appear ANYWHERE they go
+strict_reg = "{0}"
 ignore_strict = [
 	"content",
 	"server",

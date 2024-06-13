@@ -31,6 +31,7 @@ ignore_strict = [
 	"content",
 	"server",
 	"mapicon",
+	"config",
 ]
 
 def containsIgnoreWord(str, word):
